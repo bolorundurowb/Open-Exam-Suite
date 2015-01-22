@@ -39,6 +39,7 @@ namespace OpenExam_Suite
                     dgv_exams.Rows.Add(Path.GetFileNameWithoutExtension(filename),filename);
                 }
             }
+            dgv_exams.Rows[0].Cells[0].Selected = false;
         }
 
         private void dgv_exams_SelectionChanged(object sender, EventArgs e)
@@ -70,10 +71,22 @@ namespace OpenExam_Suite
 
         private void btn_remove_Click(object sender, EventArgs e)
         {
-            if (dgv_exams.SelectedRows.Count == 1)
+            foreach (DataGridViewRow test in dgv_exams.SelectedRows)
             {
-                //
+                dgv_exams.Rows.RemoveAt(test.Index);
             }
+        }
+
+        private void btn_start_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_properties_Click(object sender, EventArgs e)
+        {
+            string fullFilePath = dgv_exams.SelectedRows[0].Cells[1].Value.ToString();
+            Exam_Properties prop = new Exam_Properties(fullFilePath);
+            prop.ShowDialog();
         }
     }
 }
