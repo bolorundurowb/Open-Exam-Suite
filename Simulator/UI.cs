@@ -66,7 +66,14 @@ namespace OpenExam_Suite
 
         private void dgv_exams_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            dgv_exams.Rows[e.RowIndex].Selected = true;
+            try
+            {
+                dgv_exams.Rows[e.RowIndex].Selected = true;
+            }
+            catch ( ArgumentException)
+            {
+
+            }
         }
 
         private void btn_remove_Click(object sender, EventArgs e)
@@ -79,7 +86,9 @@ namespace OpenExam_Suite
 
         private void btn_start_Click(object sender, EventArgs e)
         {
-
+            string fullFilePath = dgv_exams.SelectedRows[0].Cells[1].Value.ToString();
+            Exam_Settings sett = new Exam_Settings(fullFilePath);
+            sett.ShowDialog();
         }
 
         private void btn_properties_Click(object sender, EventArgs e)
