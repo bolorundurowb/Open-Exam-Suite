@@ -12,9 +12,12 @@ namespace OpenExam_Suite
 {
     public partial class Exam_UI : Form
     {
+        //Global Variables
+        int timeLeft;
         public Exam_UI()
         {
             InitializeComponent();
+            timeLeft = Properties.Settings.Default.TimerValue;
         }
 
         private void btn_pause_Click(object sender, EventArgs e)
@@ -54,10 +57,12 @@ namespace OpenExam_Suite
             lbl_elapsed_time.Enabled = true;
             label1.Enabled = true;
             label1.Visible = true;
-            Timer time = new Timer();
-            time.Interval = Properties.Settings.Default.TimerValue * 60000;
-            time.Start();
-            lbl_elapsed_time.Text = 
+            timer.Start();
+        }
+
+        private void timer_Tick(object sender, EventArgs e)
+        {
+
         }
     }
 }

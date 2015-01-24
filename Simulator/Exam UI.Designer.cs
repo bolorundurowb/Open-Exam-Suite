@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.lbl_elapsed_time = new System.Windows.Forms.Label();
             this.btn_begin = new System.Windows.Forms.Button();
@@ -38,6 +39,7 @@
             this.pan_display = new System.Windows.Forms.Panel();
             this.lbl_exam_instructions = new System.Windows.Forms.Label();
             this.lbl_exam_title = new System.Windows.Forms.Label();
+            this.timer = new System.Windows.Forms.Timer(this.components);
             this.pan_display.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -157,6 +159,11 @@
             this.lbl_exam_title.TabIndex = 0;
             this.lbl_exam_title.Text = "label3";
             // 
+            // timer
+            // 
+            this.timer.Interval = 1000;
+            this.timer.Tick += new System.EventHandler(this.timer_Tick);
+            // 
             // Exam_UI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -194,5 +201,6 @@
         private System.Windows.Forms.Panel pan_display;
         private System.Windows.Forms.Label lbl_exam_instructions;
         private System.Windows.Forms.Label lbl_exam_title;
+        private System.Windows.Forms.Timer timer;
     }
 }

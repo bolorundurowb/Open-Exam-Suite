@@ -106,5 +106,29 @@ namespace OpenExam_Suite.Properties {
                 this["ExamPath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ExamTitles {
+            get {
+                return ((string)(this["ExamTitles"]));
+            }
+            set {
+                this["ExamTitles"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ExamPaths {
+            get {
+                return ((string)(this["ExamPaths"]));
+            }
+            set {
+                this["ExamPaths"] = value;
+            }
+        }
     }
 }
