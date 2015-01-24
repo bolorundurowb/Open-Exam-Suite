@@ -97,5 +97,10 @@ namespace OpenExam_Suite
             Exam_Properties prop = new Exam_Properties(fullFilePath);
             prop.ShowDialog();
         }
+
+        private void UI_FormClosing(object sender, FormClosingEventArgs e)
+        {
+
+        }
     }
 }

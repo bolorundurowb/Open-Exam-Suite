@@ -1,4 +1,4 @@
-﻿namespace Designer
+﻿namespace Creator
 {
     partial class Form1
     {

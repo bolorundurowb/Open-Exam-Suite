@@ -213,6 +213,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "UI";
             this.Text = "SIMULATOR";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.UI_FormClosing);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_exams)).EndInit();

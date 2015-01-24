@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Designer.Properties
+namespace Creator.Properties
 {
 
 
