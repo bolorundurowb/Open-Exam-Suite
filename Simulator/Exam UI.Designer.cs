@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Exam_UI));
             this.label1 = new System.Windows.Forms.Label();
             this.lbl_elapsed_time = new System.Windows.Forms.Label();
             this.btn_begin = new System.Windows.Forms.Button();
@@ -177,10 +178,12 @@
             this.Controls.Add(this.btn_begin);
             this.Controls.Add(this.lbl_elapsed_time);
             this.Controls.Add(this.label1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Exam_UI";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Exam_UI";
+            this.Load += new System.EventHandler(this.Exam_UI_Load);
             this.Click += new System.EventHandler(this.btn_begin_Click);
             this.pan_display.ResumeLayout(false);
             this.pan_display.PerformLayout();

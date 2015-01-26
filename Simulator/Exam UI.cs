@@ -14,7 +14,13 @@ namespace OpenExam_Suite
     {
         //Global Variables
         int timeLeft;
+
         public Exam_UI()
+        {
+            InitializeComponent();
+        }
+
+        public Exam_UI(string filename)
         {
             InitializeComponent();
             timeLeft = Properties.Settings.Default.TimerValue;
@@ -57,10 +63,14 @@ namespace OpenExam_Suite
             lbl_elapsed_time.Enabled = true;
             label1.Enabled = true;
             label1.Visible = true;
-            timer.Start();
         }
 
         private void timer_Tick(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Exam_UI_Load(object sender, EventArgs e)
         {
 
         }

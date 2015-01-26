@@ -138,6 +138,7 @@
             // 
             this.dgv_exams.AllowUserToAddRows = false;
             this.dgv_exams.AllowUserToDeleteRows = false;
+            this.dgv_exams.AllowUserToResizeRows = false;
             this.dgv_exams.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -217,6 +218,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SIMULATOR";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.UI_FormClosing);
+            this.Load += new System.EventHandler(this.UI_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_exams)).EndInit();

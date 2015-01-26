@@ -34,9 +34,17 @@ namespace OpenExam_Suite
             opf_select.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             if (opf_select.ShowDialog() == DialogResult.OK)
             {
+                List<string> paths = new List<string>();
                 foreach (string filename in opf_select.FileNames)
                 {
-                    dgv_exams.Rows.Add(Path.GetFileNameWithoutExtension(filename),filename);
+                    for (int i = 0; i < dgv_exams.Rows.Count; i++)
+                    {
+                        paths.Add(dgv_exams.Rows[i].Cells[1].Value.ToString());
+                    }
+                    if (!(paths.Exists(p => p == filename)))
+                    {
+                        dgv_exams.Rows.Add(Path.GetFileNameWithoutExtension(filename), filename);
+                    }
                 }
             }
             dgv_exams.Rows[0].Cells[0].Selected = false;
@@ -87,20 +95,45 @@ namespace OpenExam_Suite
         private void btn_start_Click(object sender, EventArgs e)
         {
             string fullFilePath = dgv_exams.SelectedRows[0].Cells[1].Value.ToString();
-            Exam_Settings sett = new Exam_Settings(fullFilePath);
+            Exam_Settings sett = new Exam_Settings(fullFilePath, dgv_exams.SelectedRows[0].Cells[0].Value.ToString());
             sett.ShowDialog();
         }
 
         private void btn_properties_Click(object sender, EventArgs e)
         {
             string fullFilePath = dgv_exams.SelectedRows[0].Cells[1].Value.ToString();
-            Exam_Properties prop = new Exam_Properties(fullFilePath);
+            Exam_Properties prop = new Exam_Properties(fullFilePath, dgv_exams.SelectedRows[0].Cells[0].Value.ToString());
             prop.ShowDialog();
         }
 
         private void UI_FormClosing(object sender, FormClosingEventArgs e)
         {
+            Properties.Settings.Default.ExamTitles = "";
+            Properties.Settings.Default.ExamPaths = "";
+            for (int i = 0; i < dgv_exams.Rows.Count; i++)
+            {
+                Properties.Settings.Default.ExamTitles += ("," + dgv_exams.Rows[i].Cells[0].Value.ToString());
+                Properties.Settings.Default.ExamPaths += ("," + dgv_exams.Rows[i].Cells[1].Value.ToString());
+            }
+            Properties.Settings.Default.Save();
+        }
 
+        private void UI_Load(object sender, EventArgs e)
+        {
+            string[] paths = Properties.Settings.Default.ExamPaths.Split(',');
+            string[] titles = Properties.Settings.Default.ExamTitles.Split(',');
+            if (!((paths == null) || (titles == null)))
+            {
+                dgv_exams.Rows.Clear();
+                for (int i= 0; i < titles.Length; i++)
+                {
+                    if ((!(string.IsNullOrWhiteSpace(titles[i]))) && (!(string.IsNullOrWhiteSpace(paths[i]))))
+                    {
+                        dgv_exams.Rows.Add(titles[i], paths[i]);
+                    }
+                }
+            }
+            dgv_exams.Rows[0].Cells[0].Selected = false;
         }
     }
 }

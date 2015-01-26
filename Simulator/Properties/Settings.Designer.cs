@@ -38,36 +38,36 @@ namespace OpenExam_Suite.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int ExamChoice {
+        public int ExamType {
             get {
-                return ((int)(this["ExamChoice"]));
+                return ((int)(this["ExamType"]));
             }
             set {
-                this["ExamChoice"] = value;
+                this["ExamType"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int QuestionNumbers {
+        public int NumberOfQuestions {
             get {
-                return ((int)(this["QuestionNumbers"]));
+                return ((int)(this["NumberOfQuestions"]));
             }
             set {
-                this["QuestionNumbers"] = value;
+                this["NumberOfQuestions"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string SectionNumbers {
+        public string SelectedSections {
             get {
-                return ((string)(this["SectionNumbers"]));
+                return ((string)(this["SelectedSections"]));
             }
             set {
-                this["SectionNumbers"] = value;
+                this["SelectedSections"] = value;
             }
         }
         
