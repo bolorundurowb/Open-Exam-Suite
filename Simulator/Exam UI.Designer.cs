@@ -38,6 +38,7 @@
             this.btn_pause = new System.Windows.Forms.Button();
             this.btn_end = new System.Windows.Forms.Button();
             this.pan_display = new System.Windows.Forms.Panel();
+            this.lbl_exam_code = new System.Windows.Forms.Label();
             this.lbl_exam_instructions = new System.Windows.Forms.Label();
             this.lbl_exam_title = new System.Windows.Forms.Label();
             this.timer = new System.Windows.Forms.Timer(this.components);
@@ -48,11 +49,11 @@
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(1072, 9);
+            this.label1.Location = new System.Drawing.Point(1092, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(74, 13);
+            this.label1.Size = new System.Drawing.Size(54, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Time Elapsed:";
+            this.label1.Text = "Time Left:";
             this.label1.Visible = false;
             // 
             // lbl_elapsed_time
@@ -61,9 +62,8 @@
             this.lbl_elapsed_time.AutoSize = true;
             this.lbl_elapsed_time.Location = new System.Drawing.Point(1151, 9);
             this.lbl_elapsed_time.Name = "lbl_elapsed_time";
-            this.lbl_elapsed_time.Size = new System.Drawing.Size(35, 13);
+            this.lbl_elapsed_time.Size = new System.Drawing.Size(0, 13);
             this.lbl_elapsed_time.TabIndex = 1;
-            this.lbl_elapsed_time.Text = "label2";
             this.lbl_elapsed_time.Visible = false;
             // 
             // btn_begin
@@ -75,6 +75,7 @@
             this.btn_begin.TabIndex = 2;
             this.btn_begin.Text = "Begin";
             this.btn_begin.UseVisualStyleBackColor = true;
+            this.btn_begin.Click += new System.EventHandler(this.btn_begin_Click);
             // 
             // btn_previous
             // 
@@ -133,6 +134,8 @@
             this.pan_display.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.pan_display.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pan_display.Controls.Add(this.lbl_exam_code);
             this.pan_display.Controls.Add(this.lbl_exam_instructions);
             this.pan_display.Controls.Add(this.lbl_exam_title);
             this.pan_display.Location = new System.Drawing.Point(30, 34);
@@ -140,11 +143,21 @@
             this.pan_display.Size = new System.Drawing.Size(1175, 535);
             this.pan_display.TabIndex = 7;
             // 
+            // lbl_exam_code
+            // 
+            this.lbl_exam_code.AutoSize = true;
+            this.lbl_exam_code.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_exam_code.Location = new System.Drawing.Point(25, 54);
+            this.lbl_exam_code.Name = "lbl_exam_code";
+            this.lbl_exam_code.Size = new System.Drawing.Size(47, 15);
+            this.lbl_exam_code.TabIndex = 2;
+            this.lbl_exam_code.Text = "label4";
+            // 
             // lbl_exam_instructions
             // 
             this.lbl_exam_instructions.AutoSize = true;
             this.lbl_exam_instructions.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_exam_instructions.Location = new System.Drawing.Point(25, 51);
+            this.lbl_exam_instructions.Location = new System.Drawing.Point(25, 85);
             this.lbl_exam_instructions.Name = "lbl_exam_instructions";
             this.lbl_exam_instructions.Size = new System.Drawing.Size(41, 15);
             this.lbl_exam_instructions.TabIndex = 1;
@@ -182,7 +195,7 @@
             this.Name = "Exam_UI";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Exam_UI";
+            this.Text = "Open Exam Simulator";
             this.Load += new System.EventHandler(this.Exam_UI_Load);
             this.Click += new System.EventHandler(this.btn_begin_Click);
             this.pan_display.ResumeLayout(false);
@@ -205,5 +218,6 @@
         private System.Windows.Forms.Label lbl_exam_instructions;
         private System.Windows.Forms.Label lbl_exam_title;
         private System.Windows.Forms.Timer timer;
+        private System.Windows.Forms.Label lbl_exam_code;
     }
 }

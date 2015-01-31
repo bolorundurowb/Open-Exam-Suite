@@ -41,6 +41,10 @@ namespace OpenExam_Suite
         {
             string temp = "Open Exam Files\\Simulator\\" + filename;
             string outputPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), temp);
+            if (File.Exists(outputPath + Path.DirectorySeparatorChar + filename + ".xml.tmp"))
+            {
+                File.Delete(outputPath + Path.DirectorySeparatorChar + filename + ".xml.tmp");
+            }
             using (ZipFile zip = ZipFile.Read(fullFilePath))
             {
                 foreach (ZipEntry ent in zip)

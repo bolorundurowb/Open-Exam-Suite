@@ -69,6 +69,12 @@
     <Compile Include="About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
+    <Compile Include="DisplayControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DisplayControl.Designer.cs">
+      <DependentUpon>DisplayControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Exam Properties.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -87,6 +93,7 @@
     <Compile Include="Exam UI.Designer.cs">
       <DependentUpon>Exam UI.cs</DependentUpon>
     </Compile>
+    <Compile Include="Question.cs" />
     <Compile Include="Score Sheet.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -103,6 +110,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="About.resx">
       <DependentUpon>About.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DisplayControl.resx">
+      <DependentUpon>DisplayControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Exam Properties.resx">
       <DependentUpon>Exam Properties.cs</DependentUpon>
