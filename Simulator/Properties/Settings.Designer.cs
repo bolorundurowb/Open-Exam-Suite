@@ -130,5 +130,17 @@ namespace OpenExam_Suite.Properties {
                 this["ExamPaths"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int RequiredScore {
+            get {
+                return ((int)(this["RequiredScore"]));
+            }
+            set {
+                this["RequiredScore"] = value;
+            }
+        }
     }
 }

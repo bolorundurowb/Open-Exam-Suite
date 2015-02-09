@@ -19,6 +19,8 @@ namespace OpenExam_Suite
         string filename;
         string outputPath;
         List<Question> questions;
+        int questionIndex;
+        char[] givenAnswers;
 
         public Exam_UI()
         {
@@ -49,29 +51,76 @@ namespace OpenExam_Suite
 
         private void btn_end_Click(object sender, EventArgs e)
         {
-
+            foreach (Control ctrl in pan_display.Controls)
+            {
+                if (ctrl is RadioButton)
+                {
+                    if (((RadioButton)ctrl).Checked)
+                    {
+                        givenAnswers[questionIndex] = Convert.ToChar(ctrl.Name.Replace("rdb_", ""));
+                    }
+                }
+            }
+            //determine how many answers are correct and get section details
+            int numOfCorrect;
+            int total;
+            Dictionary<string, int> totalQuestionsPerSection = new Dictionary<string, int>();
+            Dictionary<string, int> rightQuestionsPerSection = new Dictionary<string, int>();
+            string temp = "";
+            for (int i = 0; i < questions.Count; i++)
+            {
+                if (totalQuestionsPerSection.ContainsKey(questions.ElementAt(i).SectionTitle))
+                {
+                    totalQuestionsPerSection[questions.ElementAt(i).SectionTitle] += 1;
+                    //if (totalQuestionsPerSection[questions.ElementAt(i).SectionTitle])
+                }
+                else
+                {
+                    totalQuestionsPerSection.Add(questions.ElementAt(i).SectionTitle, 1);
+                }
+            }
         }
 
         private void btn_next_Click(object sender, EventArgs e)
         {
-            pan_display.Controls.Clear();
+            //pan_display.Controls.Clear();
+            foreach (Control ctrl in pan_display.Controls)
+            {
+                if (ctrl is RadioButton)
+                {
+                    pan_display.Controls.Remove(ctrl);
+                }
+            }
+            DisplayQuestion("next");
         }
 
         private void btn_previous_Click(object sender, EventArgs e)
         {
-            pan_display.Controls.Clear();
+            //pan_display.Controls.Clear();
+            foreach (Control ctrl in pan_display.Controls)
+            {
+                if (ctrl is RadioButton)
+                {
+                    pan_display.Controls.Remove(ctrl);
+                }
+            }
+            DisplayQuestion("prev");
         }
 
         private void btn_begin_Click(object sender, EventArgs e)
         {
-            pan_display.Controls.Clear();
+            //pan_display.Controls.Clear();
+            lbl_exam_code.Visible = false;
+            lbl_exam_instructions.Visible = false;
+            lbl_exam_title.Visible = false;
+            //
             btn_begin.Enabled = false;
             btn_begin.Visible = false;
             btn_end.Enabled = true;
             btn_end.Visible = true;
             btn_pause.Enabled = true;
             btn_pause.Visible = true;
-            btn_previous.Enabled = true;
+            btn_previous.Enabled = false;
             btn_previous.Visible = true;
             btn_next.Enabled = true;
             btn_next.Visible = true;
@@ -80,7 +129,7 @@ namespace OpenExam_Suite
             label1.Enabled = true;
             label1.Visible = true;
             timer.Start();
-            //
+            DisplayQuestion("begin");
         }
 
         private void timer_Tick(object sender, EventArgs e)
@@ -95,7 +144,8 @@ namespace OpenExam_Suite
                 double y = (timeLeft % 3600) / 60;
                 double minutes = Math.Floor(y);
                 double seconds = timeLeft % 60;
-                lbl_elapsed_time.Text = hours.ToString() + ":" + minutes.ToString() + ":" + seconds.ToString();
+                string temp = String.Format("{0:0}:{1:00}:{2:00}", hours.ToString(), minutes.ToString(), seconds.ToString());
+                lbl_elapsed_time.Text = temp;
             }
             else
             {
@@ -142,6 +192,7 @@ namespace OpenExam_Suite
             }
             questions = new List<Question>();
             questions = Question.GetQuestions(outputPath);
+            givenAnswers = new char[questions.Count];
         }
 
         /// <summary>
@@ -173,6 +224,144 @@ namespace OpenExam_Suite
             }
             string[] returnValue = temp2.ToArray();
             return returnValue;
+        }
+
+        /// <summary>
+        /// Displays the question depending on the given option
+        /// </summary>
+        /// <param name="option">can be "begin", "next" or "prev" depending on situation</param>
+        public void DisplayQuestion (string option)
+        {
+            //display the controls
+            lbl_question_number.Visible = true;
+            lbl_section_title.Visible = true;
+            label2.Visible = true;
+            label3.Visible = true;
+            txt_question.Visible = true;
+            pic_image.Visible = true;
+            //
+            if (option == "begin")
+            {
+                this.questionIndex = 0;
+                Question temp = questions.ElementAt(questionIndex);
+                lbl_question_number.Text = temp.QuestionNumber.ToString();
+                lbl_section_title.Text = temp.SectionTitle;
+                txt_question.Text = temp.QuestionText;
+                if (!(string.IsNullOrWhiteSpace(temp.QuestionImagePath)))
+                {
+                    string imagePath = Path.Combine(outputPath, temp.QuestionImagePath);
+                    pic_image.ImageLocation = imagePath;
+                }
+                for (int i = 0; i < temp.QuestionOptions.Count; i++)
+                {
+                    RadioButton rdb = new RadioButton();
+                    rdb.Text = temp.QuestionOptions.ElementAt(i).Key + ". - " + temp.QuestionOptions.ElementAt(i).Value;
+                    rdb.Name = "rdb" + (" " + temp.QuestionOptions.ElementAt(i).Key).Replace(' ', '_');
+                    rdb.Location = new Point(51, 464 + (i * 18));
+                    pan_display.Controls.Add(rdb);
+                }
+            }
+
+            if (option == "prev")
+            {
+                if (questionIndex > 0)
+                {
+                    //btn_previous.Enabled = true;
+                    questionIndex -= 1;
+                    Question temp = questions.ElementAt(questionIndex);
+                    lbl_question_number.Text = temp.QuestionNumber.ToString();
+                    lbl_section_title.Text = temp.SectionTitle;
+                    txt_question.Text = temp.QuestionText;
+                    if (!(string.IsNullOrWhiteSpace(temp.QuestionImagePath)))
+                    {
+                        string imagePath = Path.Combine(outputPath, temp.QuestionImagePath);
+                        pic_image.ImageLocation = imagePath;
+                    }
+                    else
+                    {
+                        pic_image.ImageLocation = "";
+                    }
+                    for (int i = 0; i < temp.QuestionOptions.Count; i++)
+                    {
+                        RadioButton rdb = new RadioButton();
+                        rdb.Text = temp.QuestionOptions.ElementAt(i).Key + ". - " + temp.QuestionOptions.ElementAt(i).Value;
+                        rdb.Name = "rdb" + (" " + temp.QuestionOptions.ElementAt(i).Key).Replace(' ', '_');
+                        rdb.Location = new Point(51, 464 + (i * 18));
+                        if (temp.QuestionOptions.ElementAt(questionIndex).Key == givenAnswers[questionIndex])
+                            rdb.Checked = true;
+                        pan_display.Controls.Add(rdb);
+                    }
+                    if (questionIndex == 0)
+                    {
+                        btn_previous.Enabled = false;
+                    }
+                }
+            }
+
+            if (option == "next")
+            {
+                //check the selected answer
+                foreach (Control ctrl in pan_display.Controls)
+                {
+                    if (ctrl is RadioButton)
+                    {
+                        if (((RadioButton)ctrl).Checked)
+                        {
+                            givenAnswers[questionIndex] = Convert.ToChar(ctrl.Name.Replace("rdb_", ""));
+                        }
+                    }
+                }
+                //
+                if ((Properties.Settings.Default.ExamType == 1 && questionIndex < questions.Count) || (Properties.Settings.Default.ExamType == 2 && questionIndex < Properties.Settings.Default.NumberOfQuestions))
+                {
+                    questionIndex += 1;
+                    Question temp = questions.ElementAt(questionIndex);
+                    lbl_question_number.Text = temp.QuestionNumber.ToString();
+                    lbl_section_title.Text = temp.SectionTitle;
+                    txt_question.Text = temp.QuestionText;
+                    if (!(string.IsNullOrWhiteSpace(temp.QuestionImagePath)))
+                    {
+                        string imagePath = Path.Combine(outputPath, temp.QuestionImagePath);
+                        pic_image.ImageLocation = imagePath;
+                    }
+                    else
+                    {
+                        pic_image.ImageLocation = "";
+                    }
+                    for (int i = 0; i < temp.QuestionOptions.Count; i++)
+                    {
+                        RadioButton rdb = new RadioButton();
+                        rdb.Text = temp.QuestionOptions.ElementAt(i).Key + ". - " + temp.QuestionOptions.ElementAt(i).Value;
+                        rdb.Name = "rdb" + (" " + temp.QuestionOptions.ElementAt(i).Key).Replace(' ', '_');
+                        rdb.Location = new Point(51, 464 + (i * 18));
+                        pan_display.Controls.Add(rdb);
+                    }
+                    btn_previous.Enabled = true;
+                    if ((Properties.Settings.Default.ExamType == 1 && questionIndex == questions.Count) || (Properties.Settings.Default.ExamType == 2 && questionIndex == Properties.Settings.Default.NumberOfQuestions))
+                    {
+                        btn_next.Enabled = false;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Returns the index of the given key in the dictionary
+        /// </summary>
+        /// <param name="key">The string key for the dictionary</param>
+        /// <param name="dictionary">The dictionary to check</param>
+        /// <returns></returns>
+        public int GetIndex(Dictionary<string, int> dictionary, string key)
+        {
+            int index = 0;
+            for (int i = 0; i < dictionary.Count; i++)
+            {
+                if (dictionary.ElementAt(i).Key == key)
+                {
+                    index = 1;
+                }
+            }
+            return index;
         }
     }
 }

@@ -17,14 +17,25 @@ namespace OpenExam_Suite
             InitializeComponent();
         }
 
-        public Score_Sheet(string candidateName, int time, int elapsedTime, string examNumber, int score, int requiredScore, List<string[]> sections)
+        /// <summary>
+        /// The Constructor that displays result details
+        /// </summary>
+        /// <param name="candidateName">The name of the candidate</param>
+        /// <param name="time">the total allocatable time</param>
+        /// <param name="elapsedTime">the time used</param>
+        /// <param name="examNumber">the exam code, gotten from the exam file</param>
+        /// <param name="score">the candidates score</param>
+        /// <param name="requiredScore">the score required to pass</param>
+        /// <param name="sectionQuestionNumbers">the number of questions per section</param>
+        /// <param name="rightSectionQuestionNumbers">the number of correct questions per section</param>
+        public Score_Sheet(string candidateName, int time, int elapsedTime, string examNumber, int score, int requiredScore, Dictionary<string, int> sectionQuestionNumbers, Dictionary<string, int> rightSectionQuestionNumbers)
         {
             InitializeComponent();
             lbl_date.Text = DateTime.Now.Date.ToShortDateString();
             if (score >= requiredScore)
             {
                 lbl_status.Text = "Passed";
-                lbl_status.Font = new Font("Microsoft Sans Serif",8.25F);
+                lbl_status.Font = new Font("Microsoft Sans Serif", 8.25F);
                 lbl_status.ForeColor = Color.Green;
             }
             else
@@ -38,10 +49,12 @@ namespace OpenExam_Suite
             lbl_exam_number.Text = examNumber;
             lbl_time.Text = time.ToString();
             dgv_show_breakdown.Rows.Clear();
-            foreach(string[] section in sections)
+            //
+            for (int i = 0; i < sectionQuestionNumbers.Count; i++)
             {
-                dgv_show_breakdown.Rows.Add(section[0], section[1], section[2]);
+                dgv_show_breakdown.Rows.Add(sectionQuestionNumbers.ElementAt(i).Key, sectionQuestionNumbers.ElementAt(i).Value, rightSectionQuestionNumbers.ElementAt(i).Value);
             }
+            //
             chr_display_score.Series["Required Score"].Points.AddXY(1, requiredScore);
             chr_display_score.Series["Score"].Points.AddXY(0, score);
         }

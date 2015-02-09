@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -43,14 +43,14 @@
             this.btn_exit = new System.Windows.Forms.Button();
             this.chr_display_score = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.dgv_show_breakdown = new System.Windows.Forms.DataGridView();
+            this.section = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.number = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.accuracy = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lbl_candidate_name = new System.Windows.Forms.Label();
             this.lbl_date = new System.Windows.Forms.Label();
             this.lbl_exam_number = new System.Windows.Forms.Label();
             this.lbl_elapsed_time = new System.Windows.Forms.Label();
             this.lbl_time = new System.Windows.Forms.Label();
-            this.section = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.number = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.accuracy = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label7 = new System.Windows.Forms.Label();
             this.lbl_status = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.chr_display_score)).BeginInit();
@@ -94,9 +94,9 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(294, 157);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(90, 13);
+            this.label4.Size = new System.Drawing.Size(73, 13);
             this.label4.TabIndex = 3;
-            this.label4.Text = "EXAM NUMBER:";
+            this.label4.Text = "EXAM CODE:";
             // 
             // label5
             // 
@@ -144,26 +144,26 @@
             // 
             this.chr_display_score.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chr_display_score.BackColor = System.Drawing.SystemColors.Control;
-            chartArea2.Name = "ChartArea1";
-            this.chr_display_score.ChartAreas.Add(chartArea2);
-            legend2.Name = "Legend1";
-            this.chr_display_score.Legends.Add(legend2);
+            chartArea1.Name = "ChartArea1";
+            this.chr_display_score.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chr_display_score.Legends.Add(legend1);
             this.chr_display_score.Location = new System.Drawing.Point(271, 192);
             this.chr_display_score.Name = "chr_display_score";
             this.chr_display_score.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.None;
             this.chr_display_score.PaletteCustomColors = new System.Drawing.Color[] {
         System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192))))),
         System.Drawing.Color.Green};
-            series3.ChartArea = "ChartArea1";
-            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bar;
-            series3.Legend = "Legend1";
-            series3.Name = "Required Score";
-            series4.ChartArea = "ChartArea1";
-            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bar;
-            series4.Legend = "Legend1";
-            series4.Name = "Score";
-            this.chr_display_score.Series.Add(series3);
-            this.chr_display_score.Series.Add(series4);
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bar;
+            series1.Legend = "Legend1";
+            series1.Name = "Required Score";
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bar;
+            series2.Legend = "Legend1";
+            series2.Name = "Score";
+            this.chr_display_score.Series.Add(series1);
+            this.chr_display_score.Series.Add(series2);
             this.chr_display_score.Size = new System.Drawing.Size(509, 171);
             this.chr_display_score.TabIndex = 10;
             this.chr_display_score.Text = "chart1";
@@ -177,14 +177,14 @@
             this.dgv_show_breakdown.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgv_show_breakdown.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.dgv_show_breakdown.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_show_breakdown.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_show_breakdown.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgv_show_breakdown.ColumnHeadersHeight = 25;
             this.dgv_show_breakdown.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgv_show_breakdown.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -197,6 +197,28 @@
             this.dgv_show_breakdown.RowHeadersVisible = false;
             this.dgv_show_breakdown.Size = new System.Drawing.Size(495, 233);
             this.dgv_show_breakdown.TabIndex = 11;
+            // 
+            // section
+            // 
+            this.section.HeaderText = "Section";
+            this.section.Name = "section";
+            this.section.ReadOnly = true;
+            this.section.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.section.Width = 345;
+            // 
+            // number
+            // 
+            this.number.HeaderText = "Number";
+            this.number.Name = "number";
+            this.number.ReadOnly = true;
+            this.number.Width = 75;
+            // 
+            // accuracy
+            // 
+            this.accuracy.HeaderText = "Accuracy";
+            this.accuracy.Name = "accuracy";
+            this.accuracy.ReadOnly = true;
+            this.accuracy.Width = 75;
             // 
             // lbl_candidate_name
             // 
@@ -222,7 +244,7 @@
             // 
             this.lbl_exam_number.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lbl_exam_number.AutoSize = true;
-            this.lbl_exam_number.Location = new System.Drawing.Point(390, 157);
+            this.lbl_exam_number.Location = new System.Drawing.Point(373, 157);
             this.lbl_exam_number.Name = "lbl_exam_number";
             this.lbl_exam_number.Size = new System.Drawing.Size(35, 13);
             this.lbl_exam_number.TabIndex = 14;
@@ -247,28 +269,6 @@
             this.lbl_time.Size = new System.Drawing.Size(41, 13);
             this.lbl_time.TabIndex = 15;
             this.lbl_time.Text = "label12";
-            // 
-            // section
-            // 
-            this.section.HeaderText = "Section";
-            this.section.Name = "section";
-            this.section.ReadOnly = true;
-            this.section.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.section.Width = 345;
-            // 
-            // number
-            // 
-            this.number.HeaderText = "Number";
-            this.number.Name = "number";
-            this.number.ReadOnly = true;
-            this.number.Width = 75;
-            // 
-            // accuracy
-            // 
-            this.accuracy.HeaderText = "Accuracy";
-            this.accuracy.Name = "accuracy";
-            this.accuracy.ReadOnly = true;
-            this.accuracy.Width = 75;
             // 
             // label7
             // 
