@@ -23,12 +23,12 @@ namespace OpenExam_Suite
         /// <param name="candidateName">The name of the candidate</param>
         /// <param name="time">the total allocatable time</param>
         /// <param name="elapsedTime">the time used</param>
-        /// <param name="examNumber">the exam code, gotten from the exam file</param>
+        /// <param name="examCode">the exam code, gotten from the exam file</param>
         /// <param name="score">the candidates score</param>
         /// <param name="requiredScore">the score required to pass</param>
         /// <param name="sectionQuestionNumbers">the number of questions per section</param>
         /// <param name="rightSectionQuestionNumbers">the number of correct questions per section</param>
-        public Score_Sheet(string candidateName, int time, int elapsedTime, string examNumber, int score, int requiredScore, Dictionary<string, int> sectionQuestionNumbers, Dictionary<string, int> rightSectionQuestionNumbers)
+        public Score_Sheet(string candidateName, int time, int elapsedTime, string examCode, int score, int requiredScore, Dictionary<string, int> sectionQuestionNumbers, Dictionary<string, int> rightSectionQuestionNumbers)
         {
             InitializeComponent();
             lbl_date.Text = DateTime.Now.Date.ToShortDateString();
@@ -46,7 +46,7 @@ namespace OpenExam_Suite
             }
             lbl_candidate_name.Text = candidateName;
             lbl_elapsed_time.Text = elapsedTime.ToString();
-            lbl_exam_number.Text = examNumber;
+            lbl_exam_number.Text = examCode;
             lbl_time.Text = time.ToString();
             dgv_show_breakdown.Rows.Clear();
             //

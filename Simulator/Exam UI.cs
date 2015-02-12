@@ -21,6 +21,8 @@ namespace OpenExam_Suite
         List<Question> questions;
         int questionIndex;
         char[] givenAnswers;
+        int totalSeconds;
+        string examCode;
 
         public Exam_UI()
         {
@@ -61,6 +63,7 @@ namespace OpenExam_Suite
                     }
                 }
             }
+            timer.Stop();
             //determine how many answers are correct and get section details
             int numOfCorrect;
             int total;
@@ -72,7 +75,10 @@ namespace OpenExam_Suite
                 if (totalQuestionsPerSection.ContainsKey(questions.ElementAt(i).SectionTitle))
                 {
                     totalQuestionsPerSection[questions.ElementAt(i).SectionTitle] += 1;
-                    //if (totalQuestionsPerSection[questions.ElementAt(i).SectionTitle])
+                    if (!(rightQuestionsPerSection.ContainsKey(questions.ElementAt(i).SectionTitle)))
+                        rightQuestionsPerSection.Add(questions.ElementAt(i).SectionTitle, 0);
+                    if (questions.ElementAt(i).QuestionAnswer == givenAnswers[i])
+                        rightQuestionsPerSection[questions.ElementAt(i).SectionTitle] += 1;
                 }
                 else
                 {
@@ -89,6 +95,7 @@ namespace OpenExam_Suite
                 if (ctrl is RadioButton)
                 {
                     pan_display.Controls.Remove(ctrl);
+                    ctrl.Dispose();
                 }
             }
             DisplayQuestion("next");
@@ -102,6 +109,7 @@ namespace OpenExam_Suite
                 if (ctrl is RadioButton)
                 {
                     pan_display.Controls.Remove(ctrl);
+                    ctrl.Dispose();
                 }
             }
             DisplayQuestion("prev");
@@ -146,6 +154,7 @@ namespace OpenExam_Suite
                 double seconds = timeLeft % 60;
                 string temp = String.Format("{0:0}:{1:00}:{2:00}", hours.ToString(), minutes.ToString(), seconds.ToString());
                 lbl_elapsed_time.Text = temp;
+                this.totalSeconds += 1;
             }
             else
             {
@@ -177,6 +186,7 @@ namespace OpenExam_Suite
                 while (iterator.MoveNext())
                 {
                     lbl_exam_code.Text = iterator.Current.Value;
+                    this.examCode = iterator.Current.Value;
                 }
                 expr = nav.Compile("//ExamInstructions");
                 iterator = nav.Select(expr);

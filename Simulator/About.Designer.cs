@@ -92,10 +92,10 @@
             this.lnk_web.AutoSize = true;
             this.lnk_web.Location = new System.Drawing.Point(64, 49);
             this.lnk_web.Name = "lnk_web";
-            this.lnk_web.Size = new System.Drawing.Size(230, 13);
+            this.lnk_web.Size = new System.Drawing.Size(257, 13);
             this.lnk_web.TabIndex = 5;
             this.lnk_web.TabStop = true;
-            this.lnk_web.Text = "https://github.com/ogatimon/Open-Exam-Suite";
+            this.lnk_web.Text = "https://github.com/bolorundurowb/Open-Exam-Suite";
             this.lnk_web.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnk_web_LinkClicked);
             // 
             // lnk_issues
@@ -103,10 +103,10 @@
             this.lnk_issues.AutoSize = true;
             this.lnk_issues.Location = new System.Drawing.Point(64, 78);
             this.lnk_issues.Name = "lnk_issues";
-            this.lnk_issues.Size = new System.Drawing.Size(264, 13);
+            this.lnk_issues.Size = new System.Drawing.Size(291, 13);
             this.lnk_issues.TabIndex = 6;
             this.lnk_issues.TabStop = true;
-            this.lnk_issues.Text = "https://github.com/ogatimon/Open-Exam-Suite/issues";
+            this.lnk_issues.Text = "https://github.com/bolorundurowb/Open-Exam-Suite/issues";
             this.lnk_issues.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnk_issues_LinkClicked);
             // 
             // lnk_wiki
@@ -114,10 +114,10 @@
             this.lnk_wiki.AutoSize = true;
             this.lnk_wiki.Location = new System.Drawing.Point(64, 110);
             this.lnk_wiki.Name = "lnk_wiki";
-            this.lnk_wiki.Size = new System.Drawing.Size(253, 13);
+            this.lnk_wiki.Size = new System.Drawing.Size(280, 13);
             this.lnk_wiki.TabIndex = 7;
             this.lnk_wiki.TabStop = true;
-            this.lnk_wiki.Text = "https://github.com/ogatimon/Open-Exam-Suite/wiki";
+            this.lnk_wiki.Text = "https://github.com/bolorundurowb/Open-Exam-Suite/wiki";
             this.lnk_wiki.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnk_wiki_LinkClicked);
             // 
             // lnk_email
@@ -125,10 +125,10 @@
             this.lnk_email.AutoSize = true;
             this.lnk_email.Location = new System.Drawing.Point(64, 143);
             this.lnk_email.Name = "lnk_email";
-            this.lnk_email.Size = new System.Drawing.Size(102, 13);
+            this.lnk_email.Size = new System.Drawing.Size(146, 13);
             this.lnk_email.TabIndex = 8;
             this.lnk_email.TabStop = true;
-            this.lnk_email.Text = "ogatimo@gmail.com";
+            this.lnk_email.Text = "bolorundurowb@outlook.com";
             this.lnk_email.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnk_email_LinkClicked);
             // 
             // richTextBox1

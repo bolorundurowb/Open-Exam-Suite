@@ -38,7 +38,7 @@ namespace OpenExam_Suite
 
         private void lnk_email_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start("mailto:ogatimo@gmail.com");
+            Process.Start("mailto:bolorundurowb@outlook.com");
         }
     }
 }

@@ -110,6 +110,7 @@ namespace OpenExam_Suite
                                         if (reader.NodeType == XmlNodeType.Text)
                                         {
                                             lbl_passing_score.Text = reader.Value;
+                                            Properties.Settings.Default.RequiredScore = Convert.ToInt32(reader.Value);
                                         }
                                     }
                                     reader.Read();
@@ -120,6 +121,9 @@ namespace OpenExam_Suite
                     }
                 }
             }
+
+            //save the property changes
+            Properties.Settings.Default.Save();
 
             //New try
             try
