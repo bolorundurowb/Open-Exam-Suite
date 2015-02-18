@@ -45,11 +45,14 @@ namespace OpenExam_Suite
             {
                 File.Delete(outputPath + Path.DirectorySeparatorChar + filename + ".xml.tmp");
             }
-            using (ZipFile zip = ZipFile.Read(fullFilePath))
+            if (!(File.Exists(outputPath + Path.DirectorySeparatorChar + filename + ".xml")))
             {
-                foreach (ZipEntry ent in zip)
+                using (ZipFile zip = ZipFile.Read(fullFilePath))
                 {
-                    ent.Extract(outputPath, ExtractExistingFileAction.OverwriteSilently);
+                    foreach (ZipEntry ent in zip)
+                    {
+                        ent.Extract(outputPath, ExtractExistingFileAction.OverwriteSilently);
+                    }
                 }
             }
 

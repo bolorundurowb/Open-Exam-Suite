@@ -93,10 +93,15 @@ namespace OpenExam_Suite
                 else
                 {
                     rightQuestionsPerSection.Add(questions.ElementAt(i).SectionTitle, 0);
+                    if (questions.ElementAt(i).QuestionAnswer == givenAnswers[i])
+                    {
+                        rightQuestionsPerSection[questions.ElementAt(i).SectionTitle] += 1;
+                        numOfCorrect += 1;
+                    }
                 }
             }
             total = questions.Count;
-            Score_Sheet scs = new Score_Sheet(Properties.Settings.Default.CandidatesName, Properties.Settings.Default.TimerValue, totalSeconds / 60, examCode, ((numOfCorrect / total) * 1000), passingScore, totalQuestionsPerSection, rightQuestionsPerSection);
+            Score_Sheet scs = new Score_Sheet(Properties.Settings.Default.CandidatesName, Properties.Settings.Default.TimerValue, totalSeconds / 60, examCode, ((numOfCorrect * 1000)/ total), passingScore, totalQuestionsPerSection, rightQuestionsPerSection);
             this.Hide();
             scs.ShowDialog();
             this.Close();
@@ -161,6 +166,8 @@ namespace OpenExam_Suite
                 // a MessageBox, and fill in the answers.
                 timer.Stop();
                 lbl_elapsed_time.Text = "Time's up!";
+                MessageBox.Show("Your time ran out!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                btn_end_Click(btn_end, null);
             }
         }
 
@@ -276,6 +283,11 @@ namespace OpenExam_Suite
                     rdb.Location = new Point(51, 464 + (i * 18));
                     pan_display.Controls.Add(rdb);
                 }
+                int type = Properties.Settings.Default.ExamType;
+                if ((type == 1 && questions.Count == 1) || (type == 2 && Properties.Settings.Default.NumberOfQuestions == 1))
+                {
+                    btn_next.Enabled = false;
+                }
             }
 
             if (option == "prev")
@@ -374,7 +386,7 @@ namespace OpenExam_Suite
                 }
                 btn_previous.Enabled = true;
                 int type = Properties.Settings.Default.ExamType;
-                if ((type == 1 && questionIndex == questions.Count - 1) || (type == 2 && questionIndex == Properties.Settings.Default.NumberOfQuestions -1))
+                if ((type == 1 && questionIndex == questions.Count - 1) || (type == 2 && questionIndex == Properties.Settings.Default.NumberOfQuestions))
                 {
                     btn_next.Enabled = false;
                 }

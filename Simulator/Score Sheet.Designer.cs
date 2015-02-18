@@ -28,11 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.CustomLabel customLabel3 = new System.Windows.Forms.DataVisualization.Charting.CustomLabel();
+            System.Windows.Forms.DataVisualization.Charting.CustomLabel customLabel4 = new System.Windows.Forms.DataVisualization.Charting.CustomLabel();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -53,6 +54,8 @@
             this.lbl_time = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.lbl_status = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.chr_display_score)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_show_breakdown)).BeginInit();
             this.SuspendLayout();
@@ -104,9 +107,9 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(574, 92);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(36, 13);
+            this.label5.Size = new System.Drawing.Size(92, 13);
             this.label5.TabIndex = 4;
-            this.label5.Text = "TIME:";
+            this.label5.Text = "TIME ALLOWED:";
             // 
             // label6
             // 
@@ -144,26 +147,28 @@
             // 
             this.chr_display_score.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chr_display_score.BackColor = System.Drawing.SystemColors.Control;
-            chartArea1.Name = "ChartArea1";
-            this.chr_display_score.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.chr_display_score.Legends.Add(legend1);
+            customLabel3.Text = "Required Score";
+            customLabel4.Text = "Your Score";
+            chartArea2.AxisX.CustomLabels.Add(customLabel3);
+            chartArea2.AxisX.CustomLabels.Add(customLabel4);
+            chartArea2.AxisX.Maximum = 2D;
+            chartArea2.AxisY.Maximum = 1000D;
+            chartArea2.Name = "ChartArea1";
+            this.chr_display_score.ChartAreas.Add(chartArea2);
             this.chr_display_score.Location = new System.Drawing.Point(271, 192);
             this.chr_display_score.Name = "chr_display_score";
             this.chr_display_score.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.None;
             this.chr_display_score.PaletteCustomColors = new System.Drawing.Color[] {
         System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192))))),
         System.Drawing.Color.Green};
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bar;
-            series1.Legend = "Legend1";
-            series1.Name = "Required Score";
-            series2.ChartArea = "ChartArea1";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bar;
-            series2.Legend = "Legend1";
-            series2.Name = "Score";
-            this.chr_display_score.Series.Add(series1);
-            this.chr_display_score.Series.Add(series2);
+            series3.ChartArea = "ChartArea1";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bar;
+            series3.Name = "Required Score";
+            series4.ChartArea = "ChartArea1";
+            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bar;
+            series4.Name = "Score";
+            this.chr_display_score.Series.Add(series3);
+            this.chr_display_score.Series.Add(series4);
             this.chr_display_score.Size = new System.Drawing.Size(509, 171);
             this.chr_display_score.TabIndex = 10;
             this.chr_display_score.Text = "chart1";
@@ -177,14 +182,14 @@
             this.dgv_show_breakdown.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgv_show_breakdown.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.dgv_show_breakdown.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_show_breakdown.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_show_breakdown.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dgv_show_breakdown.ColumnHeadersHeight = 25;
             this.dgv_show_breakdown.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgv_show_breakdown.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -259,16 +264,18 @@
             this.lbl_elapsed_time.Size = new System.Drawing.Size(41, 13);
             this.lbl_elapsed_time.TabIndex = 16;
             this.lbl_elapsed_time.Text = "label11";
+            this.lbl_elapsed_time.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lbl_time
             // 
             this.lbl_time.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lbl_time.AutoSize = true;
-            this.lbl_time.Location = new System.Drawing.Point(616, 92);
+            this.lbl_time.Location = new System.Drawing.Point(666, 92);
             this.lbl_time.Name = "lbl_time";
             this.lbl_time.Size = new System.Drawing.Size(41, 13);
             this.lbl_time.TabIndex = 15;
             this.lbl_time.Text = "label12";
+            this.lbl_time.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label7
             // 
@@ -290,11 +297,31 @@
             this.lbl_status.TabIndex = 18;
             this.lbl_status.Text = "label8";
             // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(698, 92);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(34, 13);
+            this.label8.TabIndex = 19;
+            this.label8.Text = "min(s)";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(699, 125);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(34, 13);
+            this.label9.TabIndex = 20;
+            this.label9.Text = "min(s)";
+            // 
             // Score_Sheet
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1058, 727);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.label8);
             this.Controls.Add(this.lbl_status);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.lbl_elapsed_time);
@@ -345,5 +372,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn accuracy;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label lbl_status;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
     }
 }

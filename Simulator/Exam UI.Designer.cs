@@ -271,7 +271,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Exam_UI";
             this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Open Exam Simulator";
             this.Load += new System.EventHandler(this.Exam_UI_Load);
             this.Click += new System.EventHandler(this.btn_begin_Click);
