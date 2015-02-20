@@ -47,9 +47,9 @@
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(94, 13);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(171, 15);
+            this.label1.Size = new System.Drawing.Size(156, 15);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Open Exam Simulator 1.0";
+            this.label1.Text = "Open Exam Creator 1.0";
             // 
             // label2
             // 
@@ -125,10 +125,10 @@
             this.lnk_email.AutoSize = true;
             this.lnk_email.Location = new System.Drawing.Point(64, 143);
             this.lnk_email.Name = "lnk_email";
-            this.lnk_email.Size = new System.Drawing.Size(146, 13);
+            this.lnk_email.Size = new System.Drawing.Size(102, 13);
             this.lnk_email.TabIndex = 8;
             this.lnk_email.TabStop = true;
-            this.lnk_email.Text = "bolorundurowb@outlook.com";
+            this.lnk_email.Text = "ogatimo@gmail.com";
             this.lnk_email.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnk_email_LinkClicked);
             // 
             // richTextBox1

@@ -16,5 +16,10 @@ namespace Creator
         {
             InitializeComponent();
         }
+
+        private void btn_next_Click(object sender, EventArgs e)
+        {
+            tabControl1.SelectedIndex = 1;
+        }
     }
 }
