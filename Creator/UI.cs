@@ -16,5 +16,11 @@ namespace Creator
         {
             InitializeComponent();
         }
+
+        private void btn_new_exam_Click(object sender, EventArgs e)
+        {
+            Exam_and_Sections exsec = new Exam_and_Sections();
+            exsec.ShowDialog();
+        }
     }
 }

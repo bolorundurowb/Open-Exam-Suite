@@ -28,36 +28,37 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.rdb_option = new System.Windows.Forms.RadioButton();
+            this.txt_option = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
-            // radioButton1
+            // rdb_option
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(8, 8);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(85, 17);
-            this.radioButton1.TabIndex = 0;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "radioButton1";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.rdb_option.AutoCheck = false;
+            this.rdb_option.AutoSize = true;
+            this.rdb_option.Location = new System.Drawing.Point(8, 8);
+            this.rdb_option.Name = "rdb_option";
+            this.rdb_option.Size = new System.Drawing.Size(32, 17);
+            this.rdb_option.TabIndex = 0;
+            this.rdb_option.TabStop = true;
+            this.rdb_option.Text = "Z";
+            this.rdb_option.UseVisualStyleBackColor = true;
             // 
-            // textBox1
+            // txt_option
             // 
-            this.textBox1.Location = new System.Drawing.Point(98, 7);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(188, 20);
-            this.textBox1.TabIndex = 1;
+            this.txt_option.Location = new System.Drawing.Point(46, 7);
+            this.txt_option.Name = "txt_option";
+            this.txt_option.Size = new System.Drawing.Size(254, 20);
+            this.txt_option.TabIndex = 1;
             // 
             // OptionControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.radioButton1);
+            this.Controls.Add(this.txt_option);
+            this.Controls.Add(this.rdb_option);
             this.Name = "OptionControl";
-            this.Size = new System.Drawing.Size(303, 35);
+            this.Size = new System.Drawing.Size(316, 35);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -65,7 +66,7 @@
 
         #endregion
 
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.RadioButton rdb_option;
+        private System.Windows.Forms.TextBox txt_option;
     }
 }

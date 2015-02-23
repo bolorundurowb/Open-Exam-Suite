@@ -28,38 +28,41 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.lbl_file_version = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.txt_exam_title = new System.Windows.Forms.TextBox();
-            this.txt_exam_code = new System.Windows.Forms.TextBox();
-            this.txt_exam_instructions = new System.Windows.Forms.TextBox();
-            this.btn_next = new System.Windows.Forms.Button();
-            this.label8 = new System.Windows.Forms.Label();
-            this.num_passing_score = new System.Windows.Forms.NumericUpDown();
-            this.num_time_limit = new System.Windows.Forms.NumericUpDown();
             this.label9 = new System.Windows.Forms.Label();
-            this.dgv_section_titles = new System.Windows.Forms.DataGridView();
-            this.btn_new = new System.Windows.Forms.Button();
-            this.btn_rename = new System.Windows.Forms.Button();
-            this.btn_remove = new System.Windows.Forms.Button();
-            this.btn_move_up = new System.Windows.Forms.Button();
-            this.btn_move_down = new System.Windows.Forms.Button();
+            this.num_time_limit = new System.Windows.Forms.NumericUpDown();
+            this.num_passing_score = new System.Windows.Forms.NumericUpDown();
+            this.label8 = new System.Windows.Forms.Label();
+            this.btn_next = new System.Windows.Forms.Button();
+            this.txt_exam_instructions = new System.Windows.Forms.TextBox();
+            this.txt_exam_code = new System.Windows.Forms.TextBox();
+            this.txt_exam_title = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.lbl_file_version = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.btn_save = new System.Windows.Forms.Button();
+            this.btn_move_down = new System.Windows.Forms.Button();
+            this.btn_move_up = new System.Windows.Forms.Button();
+            this.btn_remove = new System.Windows.Forms.Button();
+            this.btn_rename = new System.Windows.Forms.Button();
+            this.btn_new = new System.Windows.Forms.Button();
+            this.dgv_section_titles = new System.Windows.Forms.DataGridView();
             this.sectionTitile = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.err_exam_wizard = new System.Windows.Forms.ErrorProvider(this.components);
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.num_passing_score)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_time_limit)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_passing_score)).BeginInit();
+            this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_section_titles)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.err_exam_wizard)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -98,143 +101,14 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Exam Properties";
             // 
-            // tabPage2
+            // label9
             // 
-            this.tabPage2.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPage2.Controls.Add(this.btn_save);
-            this.tabPage2.Controls.Add(this.btn_move_down);
-            this.tabPage2.Controls.Add(this.btn_move_up);
-            this.tabPage2.Controls.Add(this.btn_remove);
-            this.tabPage2.Controls.Add(this.btn_rename);
-            this.tabPage2.Controls.Add(this.btn_new);
-            this.tabPage2.Controls.Add(this.dgv_section_titles);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(505, 474);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Sections";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(32, 31);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(30, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Title:";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(32, 62);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(64, 13);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Exam Code:";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(32, 93);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(64, 13);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "File Version:";
-            // 
-            // lbl_file_version
-            // 
-            this.lbl_file_version.AutoSize = true;
-            this.lbl_file_version.Location = new System.Drawing.Point(95, 93);
-            this.lbl_file_version.Name = "lbl_file_version";
-            this.lbl_file_version.Size = new System.Drawing.Size(22, 13);
-            this.lbl_file_version.TabIndex = 3;
-            this.lbl_file_version.Text = "1.0";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(32, 122);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(78, 13);
-            this.label5.TabIndex = 4;
-            this.label5.Text = "Passing Score:";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(32, 153);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(57, 13);
-            this.label6.TabIndex = 5;
-            this.label6.Text = "Time Limit:";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(32, 186);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(122, 13);
-            this.label7.TabIndex = 6;
-            this.label7.Text = "Description/Instructions:";
-            // 
-            // txt_exam_title
-            // 
-            this.txt_exam_title.Location = new System.Drawing.Point(94, 28);
-            this.txt_exam_title.Name = "txt_exam_title";
-            this.txt_exam_title.Size = new System.Drawing.Size(374, 20);
-            this.txt_exam_title.TabIndex = 7;
-            // 
-            // txt_exam_code
-            // 
-            this.txt_exam_code.Location = new System.Drawing.Point(98, 59);
-            this.txt_exam_code.Name = "txt_exam_code";
-            this.txt_exam_code.Size = new System.Drawing.Size(164, 20);
-            this.txt_exam_code.TabIndex = 8;
-            // 
-            // txt_exam_instructions
-            // 
-            this.txt_exam_instructions.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txt_exam_instructions.Location = new System.Drawing.Point(35, 213);
-            this.txt_exam_instructions.Multiline = true;
-            this.txt_exam_instructions.Name = "txt_exam_instructions";
-            this.txt_exam_instructions.Size = new System.Drawing.Size(433, 195);
-            this.txt_exam_instructions.TabIndex = 11;
-            // 
-            // btn_next
-            // 
-            this.btn_next.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_next.Location = new System.Drawing.Point(410, 430);
-            this.btn_next.Name = "btn_next";
-            this.btn_next.Size = new System.Drawing.Size(75, 23);
-            this.btn_next.TabIndex = 12;
-            this.btn_next.Text = "NEXT";
-            this.btn_next.UseVisualStyleBackColor = true;
-            this.btn_next.Click += new System.EventHandler(this.btn_next_Click);
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(186, 122);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(101, 13);
-            this.label8.TabIndex = 13;
-            this.label8.Text = "(on a scale of 1000)";
-            // 
-            // num_passing_score
-            // 
-            this.num_passing_score.Location = new System.Drawing.Point(112, 119);
-            this.num_passing_score.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.num_passing_score.Name = "num_passing_score";
-            this.num_passing_score.Size = new System.Drawing.Size(71, 20);
-            this.num_passing_score.TabIndex = 14;
-            this.num_passing_score.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(169, 154);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(49, 13);
+            this.label9.TabIndex = 16;
+            this.label9.Text = "minute(s)";
             // 
             // num_time_limit
             // 
@@ -254,14 +128,211 @@
             0,
             0});
             // 
-            // label9
+            // num_passing_score
             // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(169, 154);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(49, 13);
-            this.label9.TabIndex = 16;
-            this.label9.Text = "minute(s)";
+            this.num_passing_score.Location = new System.Drawing.Point(112, 119);
+            this.num_passing_score.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.num_passing_score.Name = "num_passing_score";
+            this.num_passing_score.Size = new System.Drawing.Size(71, 20);
+            this.num_passing_score.TabIndex = 14;
+            this.num_passing_score.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(186, 122);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(101, 13);
+            this.label8.TabIndex = 13;
+            this.label8.Text = "(on a scale of 1000)";
+            // 
+            // btn_next
+            // 
+            this.btn_next.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_next.Location = new System.Drawing.Point(410, 430);
+            this.btn_next.Name = "btn_next";
+            this.btn_next.Size = new System.Drawing.Size(75, 23);
+            this.btn_next.TabIndex = 12;
+            this.btn_next.Text = "NEXT";
+            this.btn_next.UseVisualStyleBackColor = true;
+            this.btn_next.Click += new System.EventHandler(this.btn_next_Click);
+            // 
+            // txt_exam_instructions
+            // 
+            this.txt_exam_instructions.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txt_exam_instructions.Location = new System.Drawing.Point(35, 213);
+            this.txt_exam_instructions.Multiline = true;
+            this.txt_exam_instructions.Name = "txt_exam_instructions";
+            this.txt_exam_instructions.Size = new System.Drawing.Size(433, 195);
+            this.txt_exam_instructions.TabIndex = 11;
+            this.txt_exam_instructions.TextChanged += new System.EventHandler(this.TextChanged);
+            // 
+            // txt_exam_code
+            // 
+            this.txt_exam_code.Location = new System.Drawing.Point(98, 59);
+            this.txt_exam_code.Name = "txt_exam_code";
+            this.txt_exam_code.Size = new System.Drawing.Size(164, 20);
+            this.txt_exam_code.TabIndex = 8;
+            this.txt_exam_code.TextChanged += new System.EventHandler(this.TextChanged);
+            // 
+            // txt_exam_title
+            // 
+            this.txt_exam_title.Location = new System.Drawing.Point(94, 28);
+            this.txt_exam_title.Name = "txt_exam_title";
+            this.txt_exam_title.Size = new System.Drawing.Size(374, 20);
+            this.txt_exam_title.TabIndex = 7;
+            this.txt_exam_title.TextChanged += new System.EventHandler(this.TextChanged);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(32, 186);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(122, 13);
+            this.label7.TabIndex = 6;
+            this.label7.Text = "Description/Instructions:";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(32, 153);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(57, 13);
+            this.label6.TabIndex = 5;
+            this.label6.Text = "Time Limit:";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(32, 122);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(78, 13);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "Passing Score:";
+            // 
+            // lbl_file_version
+            // 
+            this.lbl_file_version.AutoSize = true;
+            this.lbl_file_version.Location = new System.Drawing.Point(95, 93);
+            this.lbl_file_version.Name = "lbl_file_version";
+            this.lbl_file_version.Size = new System.Drawing.Size(22, 13);
+            this.lbl_file_version.TabIndex = 3;
+            this.lbl_file_version.Text = "1.0";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(32, 93);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(64, 13);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "File Version:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(32, 62);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(64, 13);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Exam Code:";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(32, 31);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(30, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Title:";
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage2.Controls.Add(this.btn_save);
+            this.tabPage2.Controls.Add(this.btn_move_down);
+            this.tabPage2.Controls.Add(this.btn_move_up);
+            this.tabPage2.Controls.Add(this.btn_remove);
+            this.tabPage2.Controls.Add(this.btn_rename);
+            this.tabPage2.Controls.Add(this.btn_new);
+            this.tabPage2.Controls.Add(this.dgv_section_titles);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(505, 474);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Sections";
+            // 
+            // btn_save
+            // 
+            this.btn_save.Enabled = false;
+            this.btn_save.Location = new System.Drawing.Point(412, 438);
+            this.btn_save.Name = "btn_save";
+            this.btn_save.Size = new System.Drawing.Size(75, 23);
+            this.btn_save.TabIndex = 6;
+            this.btn_save.Text = "SAVE";
+            this.btn_save.UseVisualStyleBackColor = true;
+            this.btn_save.Click += new System.EventHandler(this.btn_save_Click);
+            // 
+            // btn_move_down
+            // 
+            this.btn_move_down.Enabled = false;
+            this.btn_move_down.Location = new System.Drawing.Point(407, 134);
+            this.btn_move_down.Name = "btn_move_down";
+            this.btn_move_down.Size = new System.Drawing.Size(75, 23);
+            this.btn_move_down.TabIndex = 5;
+            this.btn_move_down.Text = "Move Down";
+            this.btn_move_down.UseVisualStyleBackColor = true;
+            this.btn_move_down.Click += new System.EventHandler(this.btn_move_down_Click);
+            // 
+            // btn_move_up
+            // 
+            this.btn_move_up.Enabled = false;
+            this.btn_move_up.Location = new System.Drawing.Point(407, 105);
+            this.btn_move_up.Name = "btn_move_up";
+            this.btn_move_up.Size = new System.Drawing.Size(75, 23);
+            this.btn_move_up.TabIndex = 4;
+            this.btn_move_up.Text = "Move Up";
+            this.btn_move_up.UseVisualStyleBackColor = true;
+            this.btn_move_up.Click += new System.EventHandler(this.btn_move_up_Click);
+            // 
+            // btn_remove
+            // 
+            this.btn_remove.Enabled = false;
+            this.btn_remove.Location = new System.Drawing.Point(407, 76);
+            this.btn_remove.Name = "btn_remove";
+            this.btn_remove.Size = new System.Drawing.Size(75, 23);
+            this.btn_remove.TabIndex = 3;
+            this.btn_remove.Text = "Remove";
+            this.btn_remove.UseVisualStyleBackColor = true;
+            this.btn_remove.Click += new System.EventHandler(this.btn_remove_Click);
+            // 
+            // btn_rename
+            // 
+            this.btn_rename.Enabled = false;
+            this.btn_rename.Location = new System.Drawing.Point(407, 46);
+            this.btn_rename.Name = "btn_rename";
+            this.btn_rename.Size = new System.Drawing.Size(75, 23);
+            this.btn_rename.TabIndex = 2;
+            this.btn_rename.Text = "Rename";
+            this.btn_rename.UseVisualStyleBackColor = true;
+            this.btn_rename.Click += new System.EventHandler(this.btn_rename_Click);
+            // 
+            // btn_new
+            // 
+            this.btn_new.Location = new System.Drawing.Point(407, 16);
+            this.btn_new.Name = "btn_new";
+            this.btn_new.Size = new System.Drawing.Size(75, 23);
+            this.btn_new.TabIndex = 1;
+            this.btn_new.Text = "New";
+            this.btn_new.UseVisualStyleBackColor = true;
+            this.btn_new.Click += new System.EventHandler(this.btn_new_Click);
             // 
             // dgv_section_titles
             // 
@@ -279,71 +350,17 @@
             this.dgv_section_titles.RowHeadersVisible = false;
             this.dgv_section_titles.Size = new System.Drawing.Size(385, 447);
             this.dgv_section_titles.TabIndex = 0;
-            // 
-            // btn_new
-            // 
-            this.btn_new.Location = new System.Drawing.Point(407, 16);
-            this.btn_new.Name = "btn_new";
-            this.btn_new.Size = new System.Drawing.Size(75, 23);
-            this.btn_new.TabIndex = 1;
-            this.btn_new.Text = "New";
-            this.btn_new.UseVisualStyleBackColor = true;
-            // 
-            // btn_rename
-            // 
-            this.btn_rename.Enabled = false;
-            this.btn_rename.Location = new System.Drawing.Point(407, 46);
-            this.btn_rename.Name = "btn_rename";
-            this.btn_rename.Size = new System.Drawing.Size(75, 23);
-            this.btn_rename.TabIndex = 2;
-            this.btn_rename.Text = "Rename";
-            this.btn_rename.UseVisualStyleBackColor = true;
-            // 
-            // btn_remove
-            // 
-            this.btn_remove.Enabled = false;
-            this.btn_remove.Location = new System.Drawing.Point(407, 76);
-            this.btn_remove.Name = "btn_remove";
-            this.btn_remove.Size = new System.Drawing.Size(75, 23);
-            this.btn_remove.TabIndex = 3;
-            this.btn_remove.Text = "Remove";
-            this.btn_remove.UseVisualStyleBackColor = true;
-            // 
-            // btn_move_up
-            // 
-            this.btn_move_up.Enabled = false;
-            this.btn_move_up.Location = new System.Drawing.Point(407, 105);
-            this.btn_move_up.Name = "btn_move_up";
-            this.btn_move_up.Size = new System.Drawing.Size(75, 23);
-            this.btn_move_up.TabIndex = 4;
-            this.btn_move_up.Text = "Move Up";
-            this.btn_move_up.UseVisualStyleBackColor = true;
-            // 
-            // btn_move_down
-            // 
-            this.btn_move_down.Enabled = false;
-            this.btn_move_down.Location = new System.Drawing.Point(407, 134);
-            this.btn_move_down.Name = "btn_move_down";
-            this.btn_move_down.Size = new System.Drawing.Size(75, 23);
-            this.btn_move_down.TabIndex = 5;
-            this.btn_move_down.Text = "Move Down";
-            this.btn_move_down.UseVisualStyleBackColor = true;
-            // 
-            // btn_save
-            // 
-            this.btn_save.Enabled = false;
-            this.btn_save.Location = new System.Drawing.Point(412, 438);
-            this.btn_save.Name = "btn_save";
-            this.btn_save.Size = new System.Drawing.Size(75, 23);
-            this.btn_save.TabIndex = 6;
-            this.btn_save.Text = "SAVE";
-            this.btn_save.UseVisualStyleBackColor = true;
+            this.dgv_section_titles.SelectionChanged += new System.EventHandler(this.dgv_section_titles_SelectionChanged);
             // 
             // sectionTitile
             // 
             this.sectionTitile.HeaderText = "Section Title";
             this.sectionTitile.Name = "sectionTitile";
             this.sectionTitile.ReadOnly = true;
+            // 
+            // err_exam_wizard
+            // 
+            this.err_exam_wizard.ContainerControl = this;
             // 
             // Exam_and_Sections
             // 
@@ -360,10 +377,11 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
-            this.tabPage2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.num_passing_score)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_time_limit)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_passing_score)).EndInit();
+            this.tabPage2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_section_titles)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.err_exam_wizard)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -396,5 +414,6 @@
         private System.Windows.Forms.Button btn_new;
         private System.Windows.Forms.DataGridView dgv_section_titles;
         private System.Windows.Forms.DataGridViewTextBoxColumn sectionTitile;
+        private System.Windows.Forms.ErrorProvider err_exam_wizard;
     }
 }

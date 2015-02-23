@@ -94,5 +94,16 @@ namespace Creator.Properties {
                 this["ExamInstructions"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection SectionTitles {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["SectionTitles"]));
+            }
+            set {
+                this["SectionTitles"] = value;
+            }
+        }
     }
 }

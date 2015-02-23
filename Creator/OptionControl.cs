@@ -12,9 +12,37 @@ namespace Creator
 {
     public partial class OptionControl : UserControl
     {
+        private char optionLetter;
+        private string optionText;
+
         public OptionControl()
         {
             InitializeComponent();
+        }
+
+        //Properties
+        public char OptionLetter
+        {
+            get 
+            {
+                return Convert.ToChar(rdb_option.Text);
+            }
+            set
+            { 
+                rdb_option.Text = value.ToString();
+            }
+        }
+
+        public string OptionText
+        {
+            get
+            {
+                return txt_option.Text;
+            }
+            set
+            {
+                txt_option.Text = value.ToString();
+            }
         }
     }
 }

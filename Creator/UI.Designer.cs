@@ -66,11 +66,11 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.trv_explorer = new System.Windows.Forms.TreeView();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -171,21 +171,21 @@
             // 
             this.undoToolStripMenuItem.Enabled = false;
             this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
-            this.undoToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.undoToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.undoToolStripMenuItem.Text = "Undo";
             // 
             // redoToolStripMenuItem
             // 
             this.redoToolStripMenuItem.Enabled = false;
             this.redoToolStripMenuItem.Name = "redoToolStripMenuItem";
-            this.redoToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.redoToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.redoToolStripMenuItem.Text = "Redo";
             // 
             // insertPictureToolStripMenuItem
             // 
             this.insertPictureToolStripMenuItem.Enabled = false;
             this.insertPictureToolStripMenuItem.Name = "insertPictureToolStripMenuItem";
-            this.insertPictureToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.insertPictureToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.insertPictureToolStripMenuItem.Text = "Insert Picture";
             // 
             // examToolStripMenuItem
@@ -204,35 +204,35 @@
             // 
             this.addOptionToolStripMenuItem.Enabled = false;
             this.addOptionToolStripMenuItem.Name = "addOptionToolStripMenuItem";
-            this.addOptionToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.addOptionToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.addOptionToolStripMenuItem.Text = "Add Option";
             // 
             // newQuestionToolStripMenuItem
             // 
             this.newQuestionToolStripMenuItem.Enabled = false;
             this.newQuestionToolStripMenuItem.Name = "newQuestionToolStripMenuItem";
-            this.newQuestionToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.newQuestionToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.newQuestionToolStripMenuItem.Text = "New Question";
             // 
             // newSectionToolStripMenuItem
             // 
             this.newSectionToolStripMenuItem.Enabled = false;
             this.newSectionToolStripMenuItem.Name = "newSectionToolStripMenuItem";
-            this.newSectionToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.newSectionToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.newSectionToolStripMenuItem.Text = "New Section";
             // 
             // previousItemToolStripMenuItem
             // 
             this.previousItemToolStripMenuItem.Enabled = false;
             this.previousItemToolStripMenuItem.Name = "previousItemToolStripMenuItem";
-            this.previousItemToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.previousItemToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.previousItemToolStripMenuItem.Text = "Previous Item";
             // 
             // nextItemToolStripMenuItem
             // 
             this.nextItemToolStripMenuItem.Enabled = false;
             this.nextItemToolStripMenuItem.Name = "nextItemToolStripMenuItem";
-            this.nextItemToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.nextItemToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.nextItemToolStripMenuItem.Text = "Next Item";
             // 
             // helpToolStripMenuItem
@@ -276,6 +276,7 @@
             this.btn_new_exam.Name = "btn_new_exam";
             this.btn_new_exam.Size = new System.Drawing.Size(23, 22);
             this.btn_new_exam.Text = "toolStripButton1";
+            this.btn_new_exam.Click += new System.EventHandler(this.btn_new_exam_Click);
             // 
             // btn_open_exam
             // 
@@ -369,7 +370,7 @@
             this.splitContainer1.Panel2.Controls.Add(this.label1);
             this.splitContainer1.Panel2MinSize = 500;
             this.splitContainer1.Size = new System.Drawing.Size(1241, 696);
-            this.splitContainer1.SplitterDistance = 230;
+            this.splitContainer1.SplitterDistance = 240;
             this.splitContainer1.TabIndex = 2;
             // 
             // splitContainer2
@@ -389,8 +390,8 @@
             // 
             this.splitContainer2.Panel2.Controls.Add(this.groupBox2);
             this.splitContainer2.Panel2MinSize = 250;
-            this.splitContainer2.Size = new System.Drawing.Size(230, 696);
-            this.splitContainer2.SplitterDistance = 336;
+            this.splitContainer2.Size = new System.Drawing.Size(240, 696);
+            this.splitContainer2.SplitterDistance = 322;
             this.splitContainer2.TabIndex = 3;
             // 
             // groupBox1
@@ -400,7 +401,7 @@
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(228, 334);
+            this.groupBox1.Size = new System.Drawing.Size(238, 320);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Explorer";
@@ -411,7 +412,7 @@
             this.trv_explorer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.trv_explorer.Location = new System.Drawing.Point(3, 19);
             this.trv_explorer.Name = "trv_explorer";
-            this.trv_explorer.Size = new System.Drawing.Size(222, 312);
+            this.trv_explorer.Size = new System.Drawing.Size(232, 298);
             this.trv_explorer.TabIndex = 0;
             // 
             // groupBox2
@@ -420,51 +421,51 @@
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(228, 354);
+            this.groupBox2.Size = new System.Drawing.Size(238, 368);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Properties";
             // 
-            // label1
+            // button2
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(18, 19);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(35, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "label1";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(37, 44);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
-            this.textBox1.TabIndex = 1;
-            // 
-            // panel1
-            // 
-            this.panel1.Location = new System.Drawing.Point(111, 181);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(200, 100);
-            this.panel1.TabIndex = 2;
+            this.button2.Location = new System.Drawing.Point(523, 218);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 4;
+            this.button2.Text = "button2";
+            this.button2.UseVisualStyleBackColor = true;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(472, 181);
+            this.button1.Location = new System.Drawing.Point(523, 188);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 3;
             this.button1.Text = "button1";
             this.button1.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // panel1
             // 
-            this.button2.Location = new System.Drawing.Point(472, 211);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 4;
-            this.button2.Text = "button2";
-            this.button2.UseVisualStyleBackColor = true;
+            this.panel1.Location = new System.Drawing.Point(162, 188);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(200, 100);
+            this.panel1.TabIndex = 2;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(88, 51);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(100, 20);
+            this.textBox1.TabIndex = 1;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(69, 26);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(35, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "label1";
             // 
             // UI
             // 
