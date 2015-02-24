@@ -12,7 +12,7 @@ using Ionic.Zip;
 using System.Xml;
 using System.Xml.XPath;
 
-namespace OpenExam_Suite
+namespace Simulator
 {
     public partial class Exam_Properties : Form
     {

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
 
-namespace OpenExam_Suite
+namespace Creator
 {
     public partial class About : Form
     {
@@ -38,7 +38,7 @@ namespace OpenExam_Suite
 
         private void lnk_email_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start("mailto:bolorundurowb@outlook.com");
+            Process.Start("mailto:ogatimo@gmail.com");
         }
     }
 }

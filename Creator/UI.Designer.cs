@@ -262,6 +262,7 @@
             this.aboutCreatorToolStripMenuItem.Name = "aboutCreatorToolStripMenuItem";
             this.aboutCreatorToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.aboutCreatorToolStripMenuItem.Text = "About Creator";
+            this.aboutCreatorToolStripMenuItem.Click += new System.EventHandler(this.aboutCreatorToolStripMenuItem_Click);
             // 
             // toolStrip1
             // 
@@ -289,7 +290,7 @@
             this.btn_new_exam.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btn_new_exam.Name = "btn_new_exam";
             this.btn_new_exam.Size = new System.Drawing.Size(23, 22);
-            this.btn_new_exam.Text = "toolStripButton1";
+            this.btn_new_exam.Text = "New Exam";
             this.btn_new_exam.Click += new System.EventHandler(this.btn_new_exam_Click);
             // 
             // btn_open_exam
@@ -299,7 +300,7 @@
             this.btn_open_exam.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btn_open_exam.Name = "btn_open_exam";
             this.btn_open_exam.Size = new System.Drawing.Size(23, 22);
-            this.btn_open_exam.Text = "toolStripButton2";
+            this.btn_open_exam.Text = "Open Existing Exam";
             // 
             // btn_save_exam
             // 
@@ -308,7 +309,7 @@
             this.btn_save_exam.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btn_save_exam.Name = "btn_save_exam";
             this.btn_save_exam.Size = new System.Drawing.Size(23, 22);
-            this.btn_save_exam.Text = "toolStripButton3";
+            this.btn_save_exam.Text = "Save";
             // 
             // toolStripSeparator1
             // 
@@ -323,7 +324,7 @@
             this.btn_print_exam.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btn_print_exam.Name = "btn_print_exam";
             this.btn_print_exam.Size = new System.Drawing.Size(23, 22);
-            this.btn_print_exam.Text = "toolStripButton4";
+            this.btn_print_exam.Text = "Print";
             // 
             // btn_print_preview
             // 
@@ -333,7 +334,7 @@
             this.btn_print_preview.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btn_print_preview.Name = "btn_print_preview";
             this.btn_print_preview.Size = new System.Drawing.Size(23, 22);
-            this.btn_print_preview.Text = "toolStripButton5";
+            this.btn_print_preview.Text = "Print Preview";
             // 
             // toolStripSeparator2
             // 
@@ -347,7 +348,7 @@
             this.btn_undo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btn_undo.Name = "btn_undo";
             this.btn_undo.Size = new System.Drawing.Size(23, 22);
-            this.btn_undo.Text = "toolStripButton6";
+            this.btn_undo.Text = "Undo";
             // 
             // btn_redo
             // 
@@ -356,7 +357,7 @@
             this.btn_redo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btn_redo.Name = "btn_redo";
             this.btn_redo.Size = new System.Drawing.Size(23, 22);
-            this.btn_redo.Text = "toolStripButton7";
+            this.btn_redo.Text = "Redo";
             // 
             // toolStripSeparator3
             // 

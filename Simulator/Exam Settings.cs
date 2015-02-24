@@ -12,7 +12,7 @@ using System.Xml;
 using System.Xml.XPath;
 using System.IO;
 
-namespace OpenExam_Suite
+namespace Simulator
 {
     public partial class Exam_Settings : Form
     {

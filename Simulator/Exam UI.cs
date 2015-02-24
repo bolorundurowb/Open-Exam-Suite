@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using System.Xml.XPath;
 using System.IO;
 
-namespace OpenExam_Suite
+namespace Simulator
 {
     public partial class Exam_UI : Form
     {

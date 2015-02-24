@@ -1,4 +1,4 @@
-﻿namespace OpenExam_Suite
+﻿namespace Creator
 {
     partial class About
     {

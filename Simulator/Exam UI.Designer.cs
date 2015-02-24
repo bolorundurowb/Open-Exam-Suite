@@ -1,4 +1,4 @@
-﻿namespace OpenExam_Suite
+﻿namespace Simulator
 {
     partial class Exam_UI
     {

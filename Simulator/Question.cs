@@ -7,7 +7,7 @@ using System.Xml.XPath;
 using System.IO;
 using System.Xml;
 
-namespace OpenExam_Suite
+namespace Simulator
 {
     /// <summary>
     /// The question object class that enables the interaction with questions from the xml.

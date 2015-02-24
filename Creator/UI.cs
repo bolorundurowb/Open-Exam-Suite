@@ -27,5 +27,11 @@ namespace Creator
         {
 
         }
+
+        private void aboutCreatorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            About about = new About();
+            about.ShowDialog();
+        }
     }
 }

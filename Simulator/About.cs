@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
 
-namespace OpenExam_Suite
+namespace Simulator
 {
     public partial class About : Form
     {

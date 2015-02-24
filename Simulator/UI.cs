@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 
-namespace OpenExam_Suite
+namespace Simulator
 {
     public partial class UI : Form
     {
@@ -133,7 +133,10 @@ namespace OpenExam_Suite
                     }
                 }
             }
-            dgv_exams.Rows[0].Cells[0].Selected = false;
+            if (dgv_exams.Rows.Count > 0)
+            {
+                dgv_exams.Rows[0].Cells[0].Selected = false;
+            }
         }
     }
 }

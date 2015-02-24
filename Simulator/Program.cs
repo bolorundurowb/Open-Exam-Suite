@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace OpenExam_Suite
+namespace Simulator
 {
     static class Program
     {

@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace OpenExam_Suite
+namespace Simulator
 {
     public partial class Score_Sheet : Form
     {
