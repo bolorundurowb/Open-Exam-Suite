@@ -96,6 +96,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="UI.resx">
       <DependentUpon>UI.cs</DependentUpon>
@@ -112,6 +113,51 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Add Option Logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Exit Logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Import Logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Insert Logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\New Logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\New Question Logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\New Section Logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Next Logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Open Logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Previous Logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Print Logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Print Preview Logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Redo logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Save Logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Undo Logo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
