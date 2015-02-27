@@ -73,6 +73,26 @@ namespace Creator.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Copy_Logo {
+            get {
+                object obj = ResourceManager.GetObject("Copy Logo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Cut_Logo {
+            get {
+                object obj = ResourceManager.GetObject("Cut Logo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Exit_Logo {
             get {
                 object obj = ResourceManager.GetObject("Exit Logo", resourceCulture);
@@ -146,6 +166,16 @@ namespace Creator.Properties {
         internal static System.Drawing.Bitmap Open_Logo {
             get {
                 object obj = ResourceManager.GetObject("Open Logo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Paste_Logo {
+            get {
+                object obj = ResourceManager.GetObject("Paste Logo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

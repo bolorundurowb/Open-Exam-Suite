@@ -118,49 +118,58 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Add Option Logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Add Option Logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Exit Logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Exit Logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Import Logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Import Logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="Insert Logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Insert Logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="New Logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\New Logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="New Question Logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\New Question Logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="New Section Logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\New Section Logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Next Logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Next Logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Open Logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Open Logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Previous Logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Previous Logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Print Logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Print Logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Print Preview Logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Print Preview Logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Redo logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Redo logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Add Option Logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Add Option Logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Print Logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Print Logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Copy Logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Copy Logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="New Question Logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\New Question Logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="New Logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\New Logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Save Logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Save Logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Open Logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Open Logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Import Logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Import Logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="New Section Logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\New Section Logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Redo logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Redo logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Undo Logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Undo Logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Previous Logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Previous Logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Next Logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Next Logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Exit Logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Exit Logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Cut Logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Cut Logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Paste Logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Paste Logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

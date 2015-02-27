@@ -149,10 +149,11 @@ namespace Creator
             Properties.Settings.Default.ExamTitle = txt_exam_title.Text;
             Properties.Settings.Default.FileVersion = lbl_file_version.Text;
             Properties.Settings.Default.PassingScore = Convert.ToInt32(num_passing_score.Value);
-            Properties.Settings.Default.TimeAllowed = Convert.ToInt32(num_time_limit.Value);            
-            foreach(DataGridViewRow row in dgv_section_titles.Rows)
+            Properties.Settings.Default.TimeAllowed = Convert.ToInt32(num_time_limit.Value);
+            Properties.Settings.Default.SectionTitles = new System.Collections.Specialized.StringCollection();
+            for (int i = 0; i < dgv_section_titles.Rows.Count; i++)
             {
-                Properties.Settings.Default.SectionTitles.Add(row.Cells[0].Value.ToString());
+                Properties.Settings.Default.SectionTitles.Add(dgv_section_titles.Rows[i].Cells[0].Value.ToString());
             }
             Properties.Settings.Default.Save();
             this.Close();

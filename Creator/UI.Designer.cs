@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UI));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -61,6 +62,10 @@
             this.btn_undo = new System.Windows.Forms.ToolStripButton();
             this.btn_redo = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.btn_cut = new System.Windows.Forms.ToolStripButton();
+            this.btn_copy = new System.Windows.Forms.ToolStripButton();
+            this.btn_paste = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -72,7 +77,11 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.opf_get_files = new System.Windows.Forms.OpenFileDialog();
+            this.ilst_images = new System.Windows.Forms.ImageList(this.components);
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -84,6 +93,7 @@
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -117,14 +127,15 @@
             // 
             this.newToolStripMenuItem.Image = global::Creator.Properties.Resources.New_Logo;
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
             this.newToolStripMenuItem.Text = "New";
+            this.newToolStripMenuItem.Click += new System.EventHandler(this.btn_new_exam_Click);
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Image = global::Creator.Properties.Resources.Open_Logo;
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
             this.openToolStripMenuItem.Text = "Open";
             // 
             // importToolStripMenuItem
@@ -132,14 +143,14 @@
             this.importToolStripMenuItem.Enabled = false;
             this.importToolStripMenuItem.Image = global::Creator.Properties.Resources.Import_Logo;
             this.importToolStripMenuItem.Name = "importToolStripMenuItem";
-            this.importToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.importToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
             this.importToolStripMenuItem.Text = "Import";
             // 
             // closeToolStripMenuItem
             // 
             this.closeToolStripMenuItem.Enabled = false;
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
             this.closeToolStripMenuItem.Text = "Close";
             // 
             // saveToolStripMenuItem
@@ -147,7 +158,7 @@
             this.saveToolStripMenuItem.Enabled = false;
             this.saveToolStripMenuItem.Image = global::Creator.Properties.Resources.Save_Logo;
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
             this.saveToolStripMenuItem.Text = "Save";
             // 
             // printToolStripMenuItem
@@ -155,14 +166,14 @@
             this.printToolStripMenuItem.Enabled = false;
             this.printToolStripMenuItem.Image = global::Creator.Properties.Resources.Print_Logo;
             this.printToolStripMenuItem.Name = "printToolStripMenuItem";
-            this.printToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.printToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
             this.printToolStripMenuItem.Text = "Print";
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Image = global::Creator.Properties.Resources.Exit_Logo;
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             // 
             // editToolStripMenuItem
@@ -180,7 +191,7 @@
             this.undoToolStripMenuItem.Enabled = false;
             this.undoToolStripMenuItem.Image = global::Creator.Properties.Resources.Undo_Logo;
             this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
-            this.undoToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.undoToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.undoToolStripMenuItem.Text = "Undo";
             // 
             // redoToolStripMenuItem
@@ -188,14 +199,14 @@
             this.redoToolStripMenuItem.Enabled = false;
             this.redoToolStripMenuItem.Image = global::Creator.Properties.Resources.Redo_logo;
             this.redoToolStripMenuItem.Name = "redoToolStripMenuItem";
-            this.redoToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.redoToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.redoToolStripMenuItem.Text = "Redo";
             // 
             // insertPictureToolStripMenuItem
             // 
             this.insertPictureToolStripMenuItem.Enabled = false;
             this.insertPictureToolStripMenuItem.Name = "insertPictureToolStripMenuItem";
-            this.insertPictureToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.insertPictureToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.insertPictureToolStripMenuItem.Text = "Insert Picture";
             // 
             // examToolStripMenuItem
@@ -214,7 +225,7 @@
             // 
             this.addOptionToolStripMenuItem.Enabled = false;
             this.addOptionToolStripMenuItem.Name = "addOptionToolStripMenuItem";
-            this.addOptionToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.addOptionToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.addOptionToolStripMenuItem.Text = "Add Option";
             // 
             // newQuestionToolStripMenuItem
@@ -222,7 +233,7 @@
             this.newQuestionToolStripMenuItem.Enabled = false;
             this.newQuestionToolStripMenuItem.Image = global::Creator.Properties.Resources.New_Question_Logo;
             this.newQuestionToolStripMenuItem.Name = "newQuestionToolStripMenuItem";
-            this.newQuestionToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.newQuestionToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.newQuestionToolStripMenuItem.Text = "New Question";
             // 
             // newSectionToolStripMenuItem
@@ -230,7 +241,7 @@
             this.newSectionToolStripMenuItem.Enabled = false;
             this.newSectionToolStripMenuItem.Image = global::Creator.Properties.Resources.New_Section_Logo;
             this.newSectionToolStripMenuItem.Name = "newSectionToolStripMenuItem";
-            this.newSectionToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.newSectionToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.newSectionToolStripMenuItem.Text = "New Section";
             // 
             // previousItemToolStripMenuItem
@@ -238,7 +249,7 @@
             this.previousItemToolStripMenuItem.Enabled = false;
             this.previousItemToolStripMenuItem.Image = global::Creator.Properties.Resources.Previous_Logo;
             this.previousItemToolStripMenuItem.Name = "previousItemToolStripMenuItem";
-            this.previousItemToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.previousItemToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.previousItemToolStripMenuItem.Text = "Previous Item";
             // 
             // nextItemToolStripMenuItem
@@ -246,7 +257,7 @@
             this.nextItemToolStripMenuItem.Enabled = false;
             this.nextItemToolStripMenuItem.Image = global::Creator.Properties.Resources.Next_Logo;
             this.nextItemToolStripMenuItem.Name = "nextItemToolStripMenuItem";
-            this.nextItemToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.nextItemToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.nextItemToolStripMenuItem.Text = "Next Item";
             // 
             // helpToolStripMenuItem
@@ -260,7 +271,7 @@
             // aboutCreatorToolStripMenuItem
             // 
             this.aboutCreatorToolStripMenuItem.Name = "aboutCreatorToolStripMenuItem";
-            this.aboutCreatorToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.aboutCreatorToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.aboutCreatorToolStripMenuItem.Text = "About Creator";
             this.aboutCreatorToolStripMenuItem.Click += new System.EventHandler(this.aboutCreatorToolStripMenuItem_Click);
             // 
@@ -276,7 +287,11 @@
             this.toolStripSeparator2,
             this.btn_undo,
             this.btn_redo,
-            this.toolStripSeparator3});
+            this.toolStripSeparator3,
+            this.btn_cut,
+            this.btn_copy,
+            this.btn_paste,
+            this.toolStripSeparator4});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(1241, 25);
@@ -305,6 +320,7 @@
             // btn_save_exam
             // 
             this.btn_save_exam.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btn_save_exam.Enabled = false;
             this.btn_save_exam.Image = global::Creator.Properties.Resources.Save_Logo;
             this.btn_save_exam.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btn_save_exam.Name = "btn_save_exam";
@@ -344,6 +360,7 @@
             // btn_undo
             // 
             this.btn_undo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btn_undo.Enabled = false;
             this.btn_undo.Image = global::Creator.Properties.Resources.Undo_Logo;
             this.btn_undo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btn_undo.Name = "btn_undo";
@@ -353,6 +370,7 @@
             // btn_redo
             // 
             this.btn_redo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btn_redo.Enabled = false;
             this.btn_redo.Image = global::Creator.Properties.Resources.Redo_logo;
             this.btn_redo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btn_redo.Name = "btn_redo";
@@ -363,6 +381,41 @@
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            // 
+            // btn_cut
+            // 
+            this.btn_cut.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btn_cut.Enabled = false;
+            this.btn_cut.Image = global::Creator.Properties.Resources.Cut_Logo;
+            this.btn_cut.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btn_cut.Name = "btn_cut";
+            this.btn_cut.Size = new System.Drawing.Size(23, 22);
+            this.btn_cut.Text = "toolStripButton1";
+            // 
+            // btn_copy
+            // 
+            this.btn_copy.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btn_copy.Enabled = false;
+            this.btn_copy.Image = global::Creator.Properties.Resources.Copy_Logo;
+            this.btn_copy.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btn_copy.Name = "btn_copy";
+            this.btn_copy.Size = new System.Drawing.Size(23, 22);
+            this.btn_copy.Text = "toolStripButton2";
+            // 
+            // btn_paste
+            // 
+            this.btn_paste.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btn_paste.Enabled = false;
+            this.btn_paste.Image = global::Creator.Properties.Resources.Paste_Logo;
+            this.btn_paste.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btn_paste.Name = "btn_paste";
+            this.btn_paste.Size = new System.Drawing.Size(23, 22);
+            this.btn_paste.Text = "toolStripButton3";
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
             // 
             // splitContainer1
             // 
@@ -378,12 +431,14 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.button4);
+            this.splitContainer1.Panel2.Controls.Add(this.button3);
+            this.splitContainer1.Panel2.Controls.Add(this.pictureBox1);
             this.splitContainer1.Panel2.Controls.Add(this.button2);
             this.splitContainer1.Panel2.Controls.Add(this.button1);
             this.splitContainer1.Panel2.Controls.Add(this.panel1);
             this.splitContainer1.Panel2.Controls.Add(this.textBox1);
             this.splitContainer1.Panel2.Controls.Add(this.label1);
-            this.splitContainer1.Panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.splitContainer1_Panel2_Paint);
             this.splitContainer1.Panel2MinSize = 500;
             this.splitContainer1.Size = new System.Drawing.Size(1241, 696);
             this.splitContainer1.SplitterDistance = 240;
@@ -407,7 +462,7 @@
             this.splitContainer2.Panel2.Controls.Add(this.groupBox2);
             this.splitContainer2.Panel2MinSize = 250;
             this.splitContainer2.Size = new System.Drawing.Size(240, 696);
-            this.splitContainer2.SplitterDistance = 343;
+            this.splitContainer2.SplitterDistance = 300;
             this.splitContainer2.TabIndex = 3;
             // 
             // groupBox1
@@ -417,7 +472,7 @@
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(238, 341);
+            this.groupBox1.Size = new System.Drawing.Size(238, 298);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Explorer";
@@ -426,9 +481,13 @@
             // 
             this.trv_explorer.BackColor = System.Drawing.SystemColors.Control;
             this.trv_explorer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.trv_explorer.HideSelection = false;
+            this.trv_explorer.ImageIndex = 0;
+            this.trv_explorer.ImageList = this.ilst_images;
             this.trv_explorer.Location = new System.Drawing.Point(3, 19);
             this.trv_explorer.Name = "trv_explorer";
-            this.trv_explorer.Size = new System.Drawing.Size(232, 319);
+            this.trv_explorer.SelectedImageIndex = 0;
+            this.trv_explorer.Size = new System.Drawing.Size(232, 276);
             this.trv_explorer.TabIndex = 0;
             // 
             // groupBox2
@@ -437,14 +496,14 @@
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(238, 347);
+            this.groupBox2.Size = new System.Drawing.Size(238, 390);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Properties";
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(523, 218);
+            this.button2.Location = new System.Drawing.Point(419, 452);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 4;
@@ -453,7 +512,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(523, 188);
+            this.button1.Location = new System.Drawing.Point(419, 422);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 3;
@@ -462,14 +521,14 @@
             // 
             // panel1
             // 
-            this.panel1.Location = new System.Drawing.Point(162, 188);
+            this.panel1.Location = new System.Drawing.Point(49, 413);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(200, 100);
+            this.panel1.Size = new System.Drawing.Size(349, 252);
             this.panel1.TabIndex = 2;
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(88, 51);
+            this.textBox1.Location = new System.Drawing.Point(49, 43);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(100, 20);
             this.textBox1.TabIndex = 1;
@@ -477,15 +536,45 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(69, 26);
+            this.label1.Location = new System.Drawing.Point(16, 19);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(35, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "label1";
             // 
-            // openFileDialog1
+            // ilst_images
             // 
-            this.openFileDialog1.FileName = "openFileDialog1";
+            this.ilst_images.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ilst_images.ImageStream")));
+            this.ilst_images.TransparentColor = System.Drawing.Color.Transparent;
+            this.ilst_images.Images.SetKeyName(0, "New Section Logo.png");
+            this.ilst_images.Images.SetKeyName(1, "New Question Logo.png");
+            this.ilst_images.Images.SetKeyName(2, "Blank.fw.png");
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(127, 145);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(226, 150);
+            this.pictureBox1.TabIndex = 5;
+            this.pictureBox1.TabStop = false;
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(19, 145);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 6;
+            this.button3.Text = "button3";
+            this.button3.UseVisualStyleBackColor = true;
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(19, 175);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(75, 23);
+            this.button4.TabIndex = 7;
+            this.button4.Text = "button4";
+            this.button4.UseVisualStyleBackColor = true;
             // 
             // UI
             // 
@@ -514,6 +603,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -564,7 +654,15 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.OpenFileDialog opf_get_files;
+        private System.Windows.Forms.ToolStripButton btn_cut;
+        private System.Windows.Forms.ToolStripButton btn_copy;
+        private System.Windows.Forms.ToolStripButton btn_paste;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ImageList ilst_images;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button button3;
     }
 }
 

@@ -33,6 +33,7 @@
             this.txt_section_title = new System.Windows.Forms.TextBox();
             this.btn_add = new System.Windows.Forms.Button();
             this.err_new_section = new System.Windows.Forms.ErrorProvider(this.components);
+            this.textBox1 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.err_new_section)).BeginInit();
             this.SuspendLayout();
             // 
@@ -68,11 +69,27 @@
             // 
             this.err_new_section.ContainerControl = this;
             // 
+            // textBox1
+            // 
+            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox1.Cursor = System.Windows.Forms.Cursors.Default;
+            this.textBox1.ForeColor = System.Drawing.Color.Red;
+            this.textBox1.Location = new System.Drawing.Point(15, 56);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.ReadOnly = true;
+            this.textBox1.Size = new System.Drawing.Size(381, 38);
+            this.textBox1.TabIndex = 3;
+            this.textBox1.TabStop = false;
+            this.textBox1.Text = "NOTE: Once done adding sections, please close this window. Added sections would b" +
+    "e automatically reflected.";
+            // 
             // New_Section
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(408, 65);
+            this.ClientSize = new System.Drawing.Size(408, 105);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.btn_add);
             this.Controls.Add(this.txt_section_title);
             this.Controls.Add(this.label1);
@@ -97,5 +114,6 @@
         private System.Windows.Forms.TextBox txt_section_title;
         private System.Windows.Forms.Button btn_add;
         private System.Windows.Forms.ErrorProvider err_new_section;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
