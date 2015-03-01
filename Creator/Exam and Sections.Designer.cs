@@ -171,7 +171,7 @@
             this.txt_exam_instructions.Name = "txt_exam_instructions";
             this.txt_exam_instructions.Size = new System.Drawing.Size(433, 195);
             this.txt_exam_instructions.TabIndex = 11;
-            this.txt_exam_instructions.TextChanged += new System.EventHandler(this.TextChanged);
+            this.txt_exam_instructions.TextChanged += new System.EventHandler(this._TextChanged);
             // 
             // txt_exam_code
             // 
@@ -179,7 +179,7 @@
             this.txt_exam_code.Name = "txt_exam_code";
             this.txt_exam_code.Size = new System.Drawing.Size(164, 20);
             this.txt_exam_code.TabIndex = 8;
-            this.txt_exam_code.TextChanged += new System.EventHandler(this.TextChanged);
+            this.txt_exam_code.TextChanged += new System.EventHandler(this._TextChanged);
             // 
             // txt_exam_title
             // 
@@ -187,7 +187,7 @@
             this.txt_exam_title.Name = "txt_exam_title";
             this.txt_exam_title.Size = new System.Drawing.Size(374, 20);
             this.txt_exam_title.TabIndex = 7;
-            this.txt_exam_title.TextChanged += new System.EventHandler(this.TextChanged);
+            this.txt_exam_title.TextChanged += new System.EventHandler(this._TextChanged);
             // 
             // label7
             // 

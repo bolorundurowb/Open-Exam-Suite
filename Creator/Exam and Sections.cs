@@ -128,7 +128,7 @@ namespace Creator
             catch { }
         }
 
-        private void TextChanged(object sender, EventArgs e)
+        private void _TextChanged(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(((TextBox)sender).Text))
             {

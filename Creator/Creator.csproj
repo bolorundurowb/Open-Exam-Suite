@@ -68,6 +68,7 @@
     <Compile Include="OptionControl.Designer.cs">
       <DependentUpon>OptionControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Question.cs" />
     <Compile Include="UI.cs">
       <SubType>Form</SubType>
     </Compile>

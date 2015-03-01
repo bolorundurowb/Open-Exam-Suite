@@ -66,34 +66,36 @@
             this.btn_copy = new System.Windows.Forms.ToolStripButton();
             this.btn_paste = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.btn_new_section = new System.Windows.Forms.ToolStripButton();
+            this.btn_new_question = new System.Windows.Forms.ToolStripButton();
+            this.splcn_main_view = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.trv_explorer = new System.Windows.Forms.TreeView();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.opf_get_files = new System.Windows.Forms.OpenFileDialog();
             this.ilst_images = new System.Windows.Forms.ImageList(this.components);
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btn_clear_picture = new System.Windows.Forms.Button();
+            this.btn_select_picture = new System.Windows.Forms.Button();
+            this.pct_question_picture = new System.Windows.Forms.PictureBox();
+            this.btn_remove_option = new System.Windows.Forms.Button();
+            this.btn_add_option = new System.Windows.Forms.Button();
+            this.pan_options = new System.Windows.Forms.Panel();
+            this.txt_question_text = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.svf_save_exam = new System.Windows.Forms.SaveFileDialog();
+            this.opf_get_files = new System.Windows.Forms.OpenFileDialog();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-            this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splcn_main_view)).BeginInit();
+            this.splcn_main_view.Panel1.SuspendLayout();
+            this.splcn_main_view.Panel2.SuspendLayout();
+            this.splcn_main_view.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pct_question_picture)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -208,6 +210,7 @@
             this.insertPictureToolStripMenuItem.Name = "insertPictureToolStripMenuItem";
             this.insertPictureToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.insertPictureToolStripMenuItem.Text = "Insert Picture";
+            this.insertPictureToolStripMenuItem.Click += new System.EventHandler(this.insertPictureToolStripMenuItem_Click);
             // 
             // examToolStripMenuItem
             // 
@@ -227,14 +230,16 @@
             this.addOptionToolStripMenuItem.Name = "addOptionToolStripMenuItem";
             this.addOptionToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.addOptionToolStripMenuItem.Text = "Add Option";
+            this.addOptionToolStripMenuItem.Click += new System.EventHandler(this.addOptionToolStripMenuItem_Click);
             // 
             // newQuestionToolStripMenuItem
             // 
             this.newQuestionToolStripMenuItem.Enabled = false;
             this.newQuestionToolStripMenuItem.Image = global::Creator.Properties.Resources.New_Question_Logo;
             this.newQuestionToolStripMenuItem.Name = "newQuestionToolStripMenuItem";
-            this.newQuestionToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.newQuestionToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.newQuestionToolStripMenuItem.Text = "New Question";
+            this.newQuestionToolStripMenuItem.Click += new System.EventHandler(this.AddQuestion);
             // 
             // newSectionToolStripMenuItem
             // 
@@ -291,7 +296,9 @@
             this.btn_cut,
             this.btn_copy,
             this.btn_paste,
-            this.toolStripSeparator4});
+            this.toolStripSeparator4,
+            this.btn_new_section,
+            this.btn_new_question});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(1241, 25);
@@ -417,32 +424,54 @@
             this.toolStripSeparator4.Name = "toolStripSeparator4";
             this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
             // 
-            // splitContainer1
+            // btn_new_section
             // 
-            this.splitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 49);
-            this.splitContainer1.Name = "splitContainer1";
+            this.btn_new_section.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btn_new_section.Enabled = false;
+            this.btn_new_section.Image = global::Creator.Properties.Resources.New_Section_Logo;
+            this.btn_new_section.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btn_new_section.Name = "btn_new_section";
+            this.btn_new_section.Size = new System.Drawing.Size(23, 22);
+            this.btn_new_section.Text = "Add Section";
             // 
-            // splitContainer1.Panel1
+            // btn_new_question
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.splitContainer2);
-            this.splitContainer1.Panel1MinSize = 200;
+            this.btn_new_question.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btn_new_question.Enabled = false;
+            this.btn_new_question.Image = global::Creator.Properties.Resources.New_Question_Logo;
+            this.btn_new_question.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btn_new_question.Name = "btn_new_question";
+            this.btn_new_question.Size = new System.Drawing.Size(23, 22);
+            this.btn_new_question.Text = "Add Question";
+            this.btn_new_question.Click += new System.EventHandler(this.AddQuestion);
             // 
-            // splitContainer1.Panel2
+            // splcn_main_view
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.button4);
-            this.splitContainer1.Panel2.Controls.Add(this.button3);
-            this.splitContainer1.Panel2.Controls.Add(this.pictureBox1);
-            this.splitContainer1.Panel2.Controls.Add(this.button2);
-            this.splitContainer1.Panel2.Controls.Add(this.button1);
-            this.splitContainer1.Panel2.Controls.Add(this.panel1);
-            this.splitContainer1.Panel2.Controls.Add(this.textBox1);
-            this.splitContainer1.Panel2.Controls.Add(this.label1);
-            this.splitContainer1.Panel2MinSize = 500;
-            this.splitContainer1.Size = new System.Drawing.Size(1241, 696);
-            this.splitContainer1.SplitterDistance = 240;
-            this.splitContainer1.TabIndex = 2;
+            this.splcn_main_view.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.splcn_main_view.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splcn_main_view.Location = new System.Drawing.Point(0, 49);
+            this.splcn_main_view.Name = "splcn_main_view";
+            // 
+            // splcn_main_view.Panel1
+            // 
+            this.splcn_main_view.Panel1.Controls.Add(this.splitContainer2);
+            this.splcn_main_view.Panel1MinSize = 200;
+            // 
+            // splcn_main_view.Panel2
+            // 
+            this.splcn_main_view.Panel2.Controls.Add(this.btn_clear_picture);
+            this.splcn_main_view.Panel2.Controls.Add(this.btn_select_picture);
+            this.splcn_main_view.Panel2.Controls.Add(this.pct_question_picture);
+            this.splcn_main_view.Panel2.Controls.Add(this.btn_remove_option);
+            this.splcn_main_view.Panel2.Controls.Add(this.btn_add_option);
+            this.splcn_main_view.Panel2.Controls.Add(this.pan_options);
+            this.splcn_main_view.Panel2.Controls.Add(this.txt_question_text);
+            this.splcn_main_view.Panel2.Controls.Add(this.label1);
+            this.splcn_main_view.Panel2.Enabled = false;
+            this.splcn_main_view.Panel2MinSize = 500;
+            this.splcn_main_view.Size = new System.Drawing.Size(1241, 712);
+            this.splcn_main_view.SplitterDistance = 240;
+            this.splcn_main_view.TabIndex = 2;
             // 
             // splitContainer2
             // 
@@ -461,8 +490,8 @@
             // 
             this.splitContainer2.Panel2.Controls.Add(this.groupBox2);
             this.splitContainer2.Panel2MinSize = 250;
-            this.splitContainer2.Size = new System.Drawing.Size(240, 696);
-            this.splitContainer2.SplitterDistance = 300;
+            this.splitContainer2.Size = new System.Drawing.Size(240, 712);
+            this.splitContainer2.SplitterDistance = 306;
             this.splitContainer2.TabIndex = 3;
             // 
             // groupBox1
@@ -472,7 +501,7 @@
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(238, 298);
+            this.groupBox1.Size = new System.Drawing.Size(238, 304);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Explorer";
@@ -487,60 +516,9 @@
             this.trv_explorer.Location = new System.Drawing.Point(3, 19);
             this.trv_explorer.Name = "trv_explorer";
             this.trv_explorer.SelectedImageIndex = 0;
-            this.trv_explorer.Size = new System.Drawing.Size(232, 276);
+            this.trv_explorer.Size = new System.Drawing.Size(232, 282);
             this.trv_explorer.TabIndex = 0;
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox2.Location = new System.Drawing.Point(0, 0);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(238, 390);
-            this.groupBox2.TabIndex = 0;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Properties";
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(419, 452);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 4;
-            this.button2.Text = "button2";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(419, 422);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // panel1
-            // 
-            this.panel1.Location = new System.Drawing.Point(49, 413);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(349, 252);
-            this.panel1.TabIndex = 2;
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(49, 43);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
-            this.textBox1.TabIndex = 1;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(16, 19);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(35, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "label1";
+            this.trv_explorer.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trv_explorer_AfterSelect);
             // 
             // ilst_images
             // 
@@ -550,60 +528,136 @@
             this.ilst_images.Images.SetKeyName(1, "New Question Logo.png");
             this.ilst_images.Images.SetKeyName(2, "Blank.fw.png");
             // 
-            // pictureBox1
+            // groupBox2
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(127, 145);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(226, 150);
-            this.pictureBox1.TabIndex = 5;
-            this.pictureBox1.TabStop = false;
+            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox2.Location = new System.Drawing.Point(0, 0);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(238, 400);
+            this.groupBox2.TabIndex = 0;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Properties";
             // 
-            // button3
+            // btn_clear_picture
             // 
-            this.button3.Location = new System.Drawing.Point(19, 145);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 6;
-            this.button3.Text = "button3";
-            this.button3.UseVisualStyleBackColor = true;
+            this.btn_clear_picture.Location = new System.Drawing.Point(101, 224);
+            this.btn_clear_picture.Name = "btn_clear_picture";
+            this.btn_clear_picture.Size = new System.Drawing.Size(75, 23);
+            this.btn_clear_picture.TabIndex = 7;
+            this.btn_clear_picture.Text = "Clear";
+            this.btn_clear_picture.UseVisualStyleBackColor = true;
+            this.btn_clear_picture.Visible = false;
+            this.btn_clear_picture.Click += new System.EventHandler(this.btn_clear_picture_Click);
             // 
-            // button4
+            // btn_select_picture
             // 
-            this.button4.Location = new System.Drawing.Point(19, 175);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 23);
-            this.button4.TabIndex = 7;
-            this.button4.Text = "button4";
-            this.button4.UseVisualStyleBackColor = true;
+            this.btn_select_picture.Location = new System.Drawing.Point(101, 194);
+            this.btn_select_picture.Name = "btn_select_picture";
+            this.btn_select_picture.Size = new System.Drawing.Size(75, 23);
+            this.btn_select_picture.TabIndex = 6;
+            this.btn_select_picture.Text = "Select";
+            this.btn_select_picture.UseVisualStyleBackColor = true;
+            this.btn_select_picture.Visible = false;
+            // 
+            // pct_question_picture
+            // 
+            this.pct_question_picture.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pct_question_picture.Location = new System.Drawing.Point(182, 194);
+            this.pct_question_picture.Name = "pct_question_picture";
+            this.pct_question_picture.Size = new System.Drawing.Size(285, 169);
+            this.pct_question_picture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pct_question_picture.TabIndex = 5;
+            this.pct_question_picture.TabStop = false;
+            this.pct_question_picture.Visible = false;
+            // 
+            // btn_remove_option
+            // 
+            this.btn_remove_option.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.btn_remove_option.Enabled = false;
+            this.btn_remove_option.Location = new System.Drawing.Point(636, 465);
+            this.btn_remove_option.Name = "btn_remove_option";
+            this.btn_remove_option.Size = new System.Drawing.Size(75, 23);
+            this.btn_remove_option.TabIndex = 4;
+            this.btn_remove_option.Text = "Remove";
+            this.btn_remove_option.UseVisualStyleBackColor = true;
+            this.btn_remove_option.Click += new System.EventHandler(this.btn_remove_option_Click);
+            // 
+            // btn_add_option
+            // 
+            this.btn_add_option.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.btn_add_option.Location = new System.Drawing.Point(636, 435);
+            this.btn_add_option.Name = "btn_add_option";
+            this.btn_add_option.Size = new System.Drawing.Size(75, 23);
+            this.btn_add_option.TabIndex = 3;
+            this.btn_add_option.Text = "Add";
+            this.btn_add_option.UseVisualStyleBackColor = true;
+            this.btn_add_option.Click += new System.EventHandler(this.addOptionToolStripMenuItem_Click);
+            // 
+            // pan_options
+            // 
+            this.pan_options.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.pan_options.AutoScroll = true;
+            this.pan_options.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pan_options.Location = new System.Drawing.Point(269, 435);
+            this.pan_options.Name = "pan_options";
+            this.pan_options.Size = new System.Drawing.Size(352, 252);
+            this.pan_options.TabIndex = 2;
+            this.pan_options.ControlAdded += new System.Windows.Forms.ControlEventHandler(this.pan_options_ControlChanged);
+            this.pan_options.ControlRemoved += new System.Windows.Forms.ControlEventHandler(this.pan_options_ControlChanged);
+            // 
+            // txt_question_text
+            // 
+            this.txt_question_text.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txt_question_text.Location = new System.Drawing.Point(49, 43);
+            this.txt_question_text.Multiline = true;
+            this.txt_question_text.Name = "txt_question_text";
+            this.txt_question_text.Size = new System.Drawing.Size(895, 118);
+            this.txt_question_text.TabIndex = 1;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(16, 19);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(111, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Enter question details:";
             // 
             // UI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1241, 745);
-            this.Controls.Add(this.splitContainer1);
+            this.ClientSize = new System.Drawing.Size(1241, 761);
+            this.Controls.Add(this.splcn_main_view);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
+            this.MinimumSize = new System.Drawing.Size(900, 600);
             this.Name = "UI";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "CREATOR";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.UI_FormClosing);
+            this.Load += new System.EventHandler(this.UI_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel2.ResumeLayout(false);
-            this.splitContainer1.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-            this.splitContainer1.ResumeLayout(false);
+            this.splcn_main_view.Panel1.ResumeLayout(false);
+            this.splcn_main_view.Panel2.ResumeLayout(false);
+            this.splcn_main_view.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splcn_main_view)).EndInit();
+            this.splcn_main_view.ResumeLayout(false);
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pct_question_picture)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -643,26 +697,28 @@
         private System.Windows.Forms.ToolStripButton btn_undo;
         private System.Windows.Forms.ToolStripButton btn_redo;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.SplitContainer splcn_main_view;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TreeView trv_explorer;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button btn_remove_option;
+        private System.Windows.Forms.Button btn_add_option;
+        private System.Windows.Forms.Panel pan_options;
+        private System.Windows.Forms.TextBox txt_question_text;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.SaveFileDialog svf_save_exam;
         private System.Windows.Forms.OpenFileDialog opf_get_files;
         private System.Windows.Forms.ToolStripButton btn_cut;
         private System.Windows.Forms.ToolStripButton btn_copy;
         private System.Windows.Forms.ToolStripButton btn_paste;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ImageList ilst_images;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.PictureBox pct_question_picture;
+        private System.Windows.Forms.Button btn_clear_picture;
+        private System.Windows.Forms.Button btn_select_picture;
+        private System.Windows.Forms.ToolStripButton btn_new_section;
+        private System.Windows.Forms.ToolStripButton btn_new_question;
     }
 }
 
