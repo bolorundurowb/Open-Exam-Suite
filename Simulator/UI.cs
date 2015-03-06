@@ -78,7 +78,7 @@ namespace Simulator
             {
                 dgv_exams.Rows[e.RowIndex].Selected = true;
             }
-            catch ( ArgumentException)
+            catch (ArgumentException)
             {
 
             }
@@ -137,6 +137,19 @@ namespace Simulator
             {
                 dgv_exams.Rows[0].Cells[0].Selected = false;
             }
+        }
+
+        private void dgv_exams_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                dgv_exams.Rows[e.RowIndex].Selected = true;
+            }
+            catch (ArgumentException)
+            {
+
+            }
+            btn_start_Click(dgv_exams, e);
         }
     }
 }

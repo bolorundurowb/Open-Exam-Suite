@@ -34,15 +34,14 @@
             // 
             // rdb_option
             // 
-            this.rdb_option.AutoCheck = false;
             this.rdb_option.AutoSize = true;
             this.rdb_option.Location = new System.Drawing.Point(8, 8);
             this.rdb_option.Name = "rdb_option";
             this.rdb_option.Size = new System.Drawing.Size(32, 17);
             this.rdb_option.TabIndex = 0;
-            this.rdb_option.TabStop = true;
             this.rdb_option.Text = "Z";
             this.rdb_option.UseVisualStyleBackColor = true;
+            this.rdb_option.CheckedChanged += new System.EventHandler(this.rdb_option_CheckedChanged);
             // 
             // txt_option
             // 

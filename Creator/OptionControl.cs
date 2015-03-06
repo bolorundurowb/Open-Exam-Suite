@@ -12,8 +12,7 @@ namespace Creator
 {
     public partial class OptionControl : UserControl
     {
-        private char optionLetter;
-        private string optionText;
+        bool isChecked;
 
         public OptionControl()
         {
@@ -43,6 +42,23 @@ namespace Creator
             {
                 txt_option.Text = value.ToString();
             }
+        }
+
+        public bool IsChecked
+        {
+            get
+            {
+                return isChecked;
+            }
+            set
+            {
+                isChecked = value;
+            }
+        }
+
+        private void rdb_option_CheckedChanged(object sender, EventArgs e)
+        {
+            isChecked = rdb_option.Checked;
         }
     }
 }

@@ -14,6 +14,7 @@ namespace Creator
     {
         List<string> enteredText = new List<string>();
         string[] sections;
+
         /// <summary>
         /// The default constructor
         /// </summary>

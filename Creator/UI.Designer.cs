@@ -237,7 +237,7 @@
             this.newQuestionToolStripMenuItem.Enabled = false;
             this.newQuestionToolStripMenuItem.Image = global::Creator.Properties.Resources.New_Question_Logo;
             this.newQuestionToolStripMenuItem.Name = "newQuestionToolStripMenuItem";
-            this.newQuestionToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.newQuestionToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.newQuestionToolStripMenuItem.Text = "New Question";
             this.newQuestionToolStripMenuItem.Click += new System.EventHandler(this.AddQuestion);
             // 
@@ -248,6 +248,7 @@
             this.newSectionToolStripMenuItem.Name = "newSectionToolStripMenuItem";
             this.newSectionToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.newSectionToolStripMenuItem.Text = "New Section";
+            this.newSectionToolStripMenuItem.Click += new System.EventHandler(this.AddSection);
             // 
             // previousItemToolStripMenuItem
             // 
@@ -433,6 +434,7 @@
             this.btn_new_section.Name = "btn_new_section";
             this.btn_new_section.Size = new System.Drawing.Size(23, 22);
             this.btn_new_section.Text = "Add Section";
+            this.btn_new_section.Click += new System.EventHandler(this.AddSection);
             // 
             // btn_new_question
             // 
@@ -491,7 +493,7 @@
             this.splitContainer2.Panel2.Controls.Add(this.groupBox2);
             this.splitContainer2.Panel2MinSize = 250;
             this.splitContainer2.Size = new System.Drawing.Size(240, 712);
-            this.splitContainer2.SplitterDistance = 306;
+            this.splitContainer2.SplitterDistance = 300;
             this.splitContainer2.TabIndex = 3;
             // 
             // groupBox1
@@ -501,7 +503,7 @@
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(238, 304);
+            this.groupBox1.Size = new System.Drawing.Size(238, 298);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Explorer";
@@ -516,8 +518,9 @@
             this.trv_explorer.Location = new System.Drawing.Point(3, 19);
             this.trv_explorer.Name = "trv_explorer";
             this.trv_explorer.SelectedImageIndex = 0;
-            this.trv_explorer.Size = new System.Drawing.Size(232, 282);
+            this.trv_explorer.Size = new System.Drawing.Size(232, 276);
             this.trv_explorer.TabIndex = 0;
+            this.trv_explorer.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.trv_explorer_BeforeSelect);
             this.trv_explorer.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trv_explorer_AfterSelect);
             // 
             // ilst_images
@@ -534,7 +537,7 @@
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(238, 400);
+            this.groupBox2.Size = new System.Drawing.Size(238, 406);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Properties";

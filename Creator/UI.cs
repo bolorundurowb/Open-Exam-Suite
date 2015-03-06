@@ -13,7 +13,8 @@ namespace Creator
     public partial class UI : Form
     {
         //Class variables
-        Dictionary<string, Dictionary<int, Question>> examQuestions;
+        Dictionary<Dictionary<int, Question>, string> examQuestions;
+        List<Question> tempExamStore;
         public UI()
         {
             InitializeComponent();
@@ -66,7 +67,8 @@ namespace Creator
                 trv_explorer.ExpandAll();
                 trv_explorer.SelectedNode = QuestionNode;
                 //Initialize store for Questions
-                this.examQuestions = new Dictionary<string, Dictionary<int, Question>>();
+                this.examQuestions = new Dictionary<Dictionary<int, Question>, string>();
+                this.tempExamStore = new List<Question>();
                 //Enable Question fillout mode
                 splcn_main_view.Panel2.Enabled = true;
             }
@@ -117,10 +119,12 @@ namespace Creator
                 btn_new_question.Enabled = false;
                 newSectionToolStripMenuItem.Enabled = false;
                 btn_new_section.Enabled = false;
+                splcn_main_view.Panel2.Enabled = true;
             }
             //enable add questions
             else if (((TreeView)sender).SelectedNode.Name.Contains("secNode"))
             {
+                splcn_main_view.Panel2.Enabled = false;
                 newQuestionToolStripMenuItem.Enabled = true;
                 btn_new_question.Enabled = true;
                 newSectionToolStripMenuItem.Enabled = false;
@@ -129,6 +133,7 @@ namespace Creator
             //enable add sections
             else if (((TreeView)sender).SelectedNode.Name.Contains("examNode"))
             {
+                splcn_main_view.Panel2.Enabled = false;
                 newSectionToolStripMenuItem.Enabled = true;
                 btn_new_section.Enabled = true;
                 newQuestionToolStripMenuItem.Enabled = false;
@@ -136,6 +141,7 @@ namespace Creator
             }
             else
             {
+                splcn_main_view.Panel2.Enabled = false;
                 addOptionToolStripMenuItem.Enabled = false;
                 newQuestionToolStripMenuItem.Enabled = false;
                 btn_new_question.Enabled = false;
@@ -211,7 +217,111 @@ namespace Creator
 
         private void AddQuestion(object sender, EventArgs e)
         {
-
+            TreeNode node = new TreeNode();
+            node.Name = "quesNode" + (trv_explorer.SelectedNode.Nodes.Count);
+            node.Text = "Question " + (trv_explorer.SelectedNode.Nodes.Count + 1);
+            node.ImageIndex = 1;
+            node.SelectedImageIndex = 1;
+            trv_explorer.SelectedNode.Nodes.Add(node);
+            trv_explorer.ExpandAll();
         }
+
+        private void AddSection(object sender, EventArgs e)
+        {
+            New_Section ns = new New_Section();
+            ns.ShowDialog();
+            string[] newSections = ns.Sections;
+            foreach (string section in newSections)
+            {
+                TreeNode node = new TreeNode();
+                node.Name = "secNode" + (trv_explorer.SelectedNode.Nodes.Count);
+                node.Text = section;
+                node.ImageIndex = 0;
+                node.SelectedImageIndex = 0;
+                trv_explorer.SelectedNode.Nodes.Add(node);
+            }
+        }
+
+        private void trv_explorer_BeforeSelect(object sender, TreeViewCancelEventArgs e)
+        {
+            try
+            {
+                if (((TreeView)sender).SelectedNode.Name.Contains("ques"))
+                {
+                    Func<Question, bool> predicate1 = s => s.SectionTitle == ((TreeView)sender).SelectedNode.Parent.Text;
+                    Func<Question, bool> predicate2 = s => s.QuestionNumber == Convert.ToInt32(((TreeView)sender).SelectedNode.Text.Replace("Question ", ""));
+                    Func<Question, bool> combinedPredicate = s => (predicate1(s) || predicate2(s));
+                    try
+                    {
+                        Question present = new Question();
+                        present = tempExamStore.Single(combinedPredicate);
+                        if (tempExamStore.Contains(present))
+                        {
+                            txt_question_text.Text = present.QuestionText;
+                            pct_question_picture.Image = new Bitmap(present.QuestionImagePath);
+                            foreach (var item in present.QuestionOptions)
+                            {
+                                OptionControl ctrl = new OptionControl();
+                                ctrl.OptionLetter = item.Key;
+                                ctrl.OptionText = item.Value;
+                                if (item.Key == present.QuestionAnswer)
+                                {
+                                    ctrl.IsChecked = true;
+                                }
+                                if (pan_options.Controls.Count != 0)
+                                {
+                                    OptionControl info = (OptionControl)pan_options.Controls[pan_options.Controls.OfType<OptionControl>().Count() - 1];
+                                    ctrl.Location = new Point(info.Location.X, info.Location.Y + 35);
+                                    int num = Convert.ToInt32(info.Name.Replace("optionControl", ""));
+                                    ctrl.Name = "optionControl" + (num + 1);
+                                }
+                                else
+                                {
+                                    ctrl.Location = new Point(0, 0);
+                                    ctrl.Name = "optionControl1";
+                                }
+                                pan_options_ControlChanged(btn_add_option, null);
+                                pan_options.Controls.Add(ctrl);
+                            }
+                        }
+                    }
+                    catch (InvalidOperationException ex)
+                    {
+                        MessageBox.Show(ex.Message + Environment.NewLine + ex.InnerException);
+                    }
+                }
+                else
+                {
+                    //save the previous question
+
+                    Question ques = new Question();
+                    ques.QuestionAnswer = Convert.ToChar(((OptionControl)pan_options.Controls.OfType<OptionControl>().First<OptionControl>(p => p.IsChecked == true)).OptionLetter);
+                    ques.QuestionImagePath = pct_question_picture.ImageLocation;
+                    ques.QuestionNumber = Convert.ToInt32(((TreeView)sender).SelectedNode.Name.Replace("quesNode", ""));
+                    Dictionary<char, string> tempDic = new Dictionary<char, string>();
+                    foreach (var ctrl in pan_options.Controls.OfType<OptionControl>())
+                    {
+                        tempDic.Add(Convert.ToChar(ctrl.OptionLetter), ctrl.OptionText);
+                    }
+                    ques.QuestionOptions = tempDic;
+                    ques.QuestionText = txt_question_text.Text;
+                    ques.SectionTitle = ((TreeView)sender).SelectedNode.Parent.Text;
+                    //clear the boxes
+                    txt_question_text.Clear();
+                    pct_question_picture.Image = null;
+                    pan_options.Controls.Clear();
+                    //add question to store
+                    this.tempExamStore.Add(ques);
+                }
+            }    
+            catch (NullReferenceException ex)
+            {
+                MessageBox.Show(ex.Message + Environment.NewLine + ex.InnerException);
+            }
+            catch (ArgumentNullException ex)
+            {
+                MessageBox.Show(ex.Message + Environment.NewLine + ex.InnerException);
+            }
+        }        
     }
 }
