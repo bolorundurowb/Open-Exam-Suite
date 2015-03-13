@@ -71,7 +71,6 @@ namespace Simulator
             int total;
             Dictionary<string, int> totalQuestionsPerSection = new Dictionary<string, int>();
             Dictionary<string, int> rightQuestionsPerSection = new Dictionary<string, int>();
-            string temp = "";
             for (int i = 0; i < questions.Count; i++)
             {
                 if (totalQuestionsPerSection.ContainsKey(questions.ElementAt(i).SectionTitle))

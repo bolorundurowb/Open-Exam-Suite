@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Linq.Expressions;
+using System.Diagnostics;
 
 namespace Creator
 {
@@ -120,6 +122,76 @@ namespace Creator
                 newSectionToolStripMenuItem.Enabled = false;
                 btn_new_section.Enabled = false;
                 splcn_main_view.Panel2.Enabled = true;
+                try
+                {
+                    bool exists = false;
+                    Question present = new Question();
+                    try
+                    {
+                        present = tempExamStore.FindAll(s => s.SectionTitle == ((TreeView)sender).SelectedNode.Parent.Text).SingleOrDefault(c => c.QuestionNumber == Convert.ToInt32(((TreeView)sender).SelectedNode.Text.Replace("Question ", "")));
+                        exists = tempExamStore.Contains(present);
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        //MessageBox.Show(ex.Message + Environment.NewLine + ex.InnerException);
+                        Debug.Print("Error: " + ex.Message + ", Inner Exception: " + ex.InnerException);
+                    }
+                    finally
+                    {
+                        if (exists)
+                        {
+                            txt_question_text.Text = present.QuestionText;
+                            try
+                            {
+                                pct_question_picture.Image = new Bitmap(present.QuestionImagePath);
+                            }
+                            catch (ArgumentNullException)
+                            {
+                                pct_question_picture.Image = null;
+                            }
+                            foreach (var item in present.QuestionOptions)
+                            {
+                                OptionControl ctrl = new OptionControl();
+                                ctrl.OptionLetter = item.Key;
+                                ctrl.OptionText = item.Value;
+                                if (item.Key == present.QuestionAnswer)
+                                {
+                                    ctrl.IsChecked = true;
+                                }
+                                if (pan_options.Controls.Count != 0)
+                                {
+                                    OptionControl info = (OptionControl)pan_options.Controls[pan_options.Controls.OfType<OptionControl>().Count() - 1];
+                                    ctrl.Location = new Point(info.Location.X, info.Location.Y + 35);
+                                    int num = Convert.ToInt32(info.Name.Replace("optionControl", ""));
+                                    ctrl.Name = "optionControl" + (num + 1);
+                                }
+                                else
+                                {
+                                    ctrl.Location = new Point(0, 0);
+                                    ctrl.Name = "optionControl1";
+                                }
+                                pan_options_ControlChanged(btn_add_option, null);
+                                pan_options.Controls.Add(ctrl);
+                            }
+                        }
+                        else
+                        { }
+                    }
+                }
+                /*catch (NullReferenceException ex)
+                {
+                    //MessageBox.Show(ex.Message + " " + ex.InnerException + Environment.NewLine + ex.Source);
+                    Debug.Print("Error: " + ex.Message + ", Inner Exception: " + ex.InnerException);
+                }
+                catch (ArgumentNullException ex)
+                {
+                    //MessageBox.Show(ex.Message + " " + ex.InnerException + Environment.NewLine + ex.Source);
+                    Debug.Print("Error: " + ex.Message + ", Inner Exception: " + ex.InnerException);
+                }*/
+                finally
+                {
+
+                }
             }
             //enable add questions
             else if (((TreeView)sender).SelectedNode.Name.Contains("secNode"))
@@ -165,7 +237,7 @@ namespace Creator
             {
                 ctrl.Location = new Point(0, 0);
                 ctrl.Name = "optionControl1";
-                ctrl.OptionLetter = 'A';
+                ctrl.OptionLetter = '\0';
             }
             pan_options_ControlChanged(btn_add_option, null);
             pan_options.Controls.Add(ctrl);
@@ -248,80 +320,86 @@ namespace Creator
             {
                 if (((TreeView)sender).SelectedNode.Name.Contains("ques"))
                 {
-                    Func<Question, bool> predicate1 = s => s.SectionTitle == ((TreeView)sender).SelectedNode.Parent.Text;
-                    Func<Question, bool> predicate2 = s => s.QuestionNumber == Convert.ToInt32(((TreeView)sender).SelectedNode.Text.Replace("Question ", ""));
-                    Func<Question, bool> combinedPredicate = s => (predicate1(s) || predicate2(s));
+                    Func<Question, bool> predicate1 = new Func<Question, bool>(s => s.SectionTitle == ((TreeView)sender).SelectedNode.Parent.Text);
+                    Func<Question, bool> predicate2 = new Func<Question, bool>(s => s.QuestionNumber == Convert.ToInt32(((TreeView)sender).SelectedNode.Text.Replace("Question ", "")));
+                    Func<Question, bool> combinedPredicate = new Func<Question, bool>(s => (predicate1(s) || predicate2(s)));
+                    Question present = new Question();
                     try
                     {
-                        Question present = new Question();
                         present = tempExamStore.Single(combinedPredicate);
-                        if (tempExamStore.Contains(present))
-                        {
-                            txt_question_text.Text = present.QuestionText;
-                            pct_question_picture.Image = new Bitmap(present.QuestionImagePath);
-                            foreach (var item in present.QuestionOptions)
-                            {
-                                OptionControl ctrl = new OptionControl();
-                                ctrl.OptionLetter = item.Key;
-                                ctrl.OptionText = item.Value;
-                                if (item.Key == present.QuestionAnswer)
-                                {
-                                    ctrl.IsChecked = true;
-                                }
-                                if (pan_options.Controls.Count != 0)
-                                {
-                                    OptionControl info = (OptionControl)pan_options.Controls[pan_options.Controls.OfType<OptionControl>().Count() - 1];
-                                    ctrl.Location = new Point(info.Location.X, info.Location.Y + 35);
-                                    int num = Convert.ToInt32(info.Name.Replace("optionControl", ""));
-                                    ctrl.Name = "optionControl" + (num + 1);
-                                }
-                                else
-                                {
-                                    ctrl.Location = new Point(0, 0);
-                                    ctrl.Name = "optionControl1";
-                                }
-                                pan_options_ControlChanged(btn_add_option, null);
-                                pan_options.Controls.Add(ctrl);
-                            }
-                        }
                     }
                     catch (InvalidOperationException ex)
                     {
                         MessageBox.Show(ex.Message + Environment.NewLine + ex.InnerException);
                     }
-                }
-                else
-                {
-                    //save the previous question
-
-                    Question ques = new Question();
-                    ques.QuestionAnswer = Convert.ToChar(((OptionControl)pan_options.Controls.OfType<OptionControl>().First<OptionControl>(p => p.IsChecked == true)).OptionLetter);
-                    ques.QuestionImagePath = pct_question_picture.ImageLocation;
-                    ques.QuestionNumber = Convert.ToInt32(((TreeView)sender).SelectedNode.Name.Replace("quesNode", ""));
-                    Dictionary<char, string> tempDic = new Dictionary<char, string>();
-                    foreach (var ctrl in pan_options.Controls.OfType<OptionControl>())
+                    finally
                     {
-                        tempDic.Add(Convert.ToChar(ctrl.OptionLetter), ctrl.OptionText);
+                        if (tempExamStore.Contains(present))
+                        {
+                            int index = tempExamStore.IndexOf(present);
+                            tempExamStore[index].QuestionText = txt_question_text.Text;
+                            tempExamStore[index].QuestionImagePath = pct_question_picture.ImageLocation;
+                            try
+                            {
+                                tempExamStore[index].QuestionAnswer = Convert.ToChar(((OptionControl)pan_options.Controls.OfType<OptionControl>().First<OptionControl>(p => p.IsChecked == true)).OptionLetter);
+                            }
+                            catch (InvalidOperationException)
+                            {
+                                tempExamStore[index].QuestionAnswer = '\0';
+                            }
+                            tempExamStore[index].QuestionNumber = Convert.ToInt32(((TreeView)sender).SelectedNode.Text.Replace("Question ", ""));
+                            Dictionary<char, string> tempDic = new Dictionary<char, string>();
+                            foreach (var ctrl in pan_options.Controls.OfType<OptionControl>())
+                            {
+                                tempDic.Add(Convert.ToChar(ctrl.OptionLetter), ctrl.OptionText);
+                            }
+                            tempExamStore[index].QuestionOptions = tempDic;
+                            tempExamStore[index].SectionTitle = ((TreeView)sender).SelectedNode.Parent.Text;
+                            //clear the boxes
+                            txt_question_text.Clear();
+                            pct_question_picture.Image = null;
+                            pan_options.Controls.Clear();
+                        }
+                        else
+                        {
+                            //save the previous question
+                            Question ques = new Question();
+                            try
+                            {
+                                ques.QuestionAnswer = Convert.ToChar(((OptionControl)pan_options.Controls.OfType<OptionControl>().First<OptionControl>(p => p.IsChecked == true)).OptionLetter);
+                            }
+                            catch (InvalidOperationException)
+                            {
+                                ques.QuestionAnswer = 'A';
+                            }
+                            ques.QuestionImagePath = pct_question_picture.ImageLocation;
+                            ques.QuestionNumber = Convert.ToInt32(((TreeView)sender).SelectedNode.Text.Replace("Question ", ""));
+                            Dictionary<char, string> tempDic = new Dictionary<char, string>();
+                            foreach (var ctrl in pan_options.Controls.OfType<OptionControl>())
+                            {
+                                tempDic.Add(Convert.ToChar(ctrl.OptionLetter), ctrl.OptionText);
+                            }
+                            ques.QuestionOptions = tempDic;
+                            ques.QuestionText = txt_question_text.Text;
+                            ques.SectionTitle = ((TreeView)sender).SelectedNode.Parent.Text;
+                            //clear the boxes
+                            txt_question_text.Clear();
+                            pct_question_picture.Image = null;
+                            pan_options.Controls.Clear();
+                            //add question to store
+                            this.tempExamStore.Add(ques);
+                        }
                     }
-                    ques.QuestionOptions = tempDic;
-                    ques.QuestionText = txt_question_text.Text;
-                    ques.SectionTitle = ((TreeView)sender).SelectedNode.Parent.Text;
-                    //clear the boxes
-                    txt_question_text.Clear();
-                    pct_question_picture.Image = null;
-                    pan_options.Controls.Clear();
-                    //add question to store
-                    this.tempExamStore.Add(ques);
                 }
-            }    
+            }
             catch (NullReferenceException ex)
             {
-                MessageBox.Show(ex.Message + Environment.NewLine + ex.InnerException);
+                Debug.Print("Error: " + ex.Message + ", Inner Exception: " + ex.InnerException);
             }
             catch (ArgumentNullException ex)
             {
-                MessageBox.Show(ex.Message + Environment.NewLine + ex.InnerException);
+                Debug.Print("Error: " + ex.Message + ", Inner Exception: " + ex.InnerException);
             }
-        }        
+        }       
     }
 }
