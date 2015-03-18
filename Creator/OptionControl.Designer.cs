@@ -34,6 +34,7 @@
             // 
             // rdb_option
             // 
+            this.rdb_option.AutoCheck = false;
             this.rdb_option.AutoSize = true;
             this.rdb_option.Location = new System.Drawing.Point(8, 8);
             this.rdb_option.Name = "rdb_option";
@@ -42,6 +43,7 @@
             this.rdb_option.Text = "Z";
             this.rdb_option.UseVisualStyleBackColor = true;
             this.rdb_option.CheckedChanged += new System.EventHandler(this.rdb_option_CheckedChanged);
+            this.rdb_option.Click += new System.EventHandler(this.rdb_option_Click);
             // 
             // txt_option
             // 

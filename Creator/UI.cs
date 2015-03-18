@@ -128,7 +128,8 @@ namespace Creator
                     Question present = new Question();
                     try
                     {
-                        present = tempExamStore.FindAll(s => s.SectionTitle == ((TreeView)sender).SelectedNode.Parent.Text).SingleOrDefault(c => c.QuestionNumber == Convert.ToInt32(((TreeView)sender).SelectedNode.Text.Replace("Question ", "")));
+                        var temp = tempExamStore.FindAll(s => s.SectionTitle == ((TreeView)sender).SelectedNode.Parent.Text);
+                        present = temp.SingleOrDefault(c => c.QuestionNumber == Convert.ToInt32(((TreeView)sender).SelectedNode.Text.Replace("Question ", "")));
                         exists = tempExamStore.Contains(present);
                     }
                     catch (NullReferenceException ex)
@@ -178,7 +179,7 @@ namespace Creator
                         { }
                     }
                 }
-                /*catch (NullReferenceException ex)
+                catch (NullReferenceException ex)
                 {
                     //MessageBox.Show(ex.Message + " " + ex.InnerException + Environment.NewLine + ex.Source);
                     Debug.Print("Error: " + ex.Message + ", Inner Exception: " + ex.InnerException);
@@ -187,10 +188,6 @@ namespace Creator
                 {
                     //MessageBox.Show(ex.Message + " " + ex.InnerException + Environment.NewLine + ex.Source);
                     Debug.Print("Error: " + ex.Message + ", Inner Exception: " + ex.InnerException);
-                }*/
-                finally
-                {
-
                 }
             }
             //enable add questions
@@ -237,7 +234,7 @@ namespace Creator
             {
                 ctrl.Location = new Point(0, 0);
                 ctrl.Name = "optionControl1";
-                ctrl.OptionLetter = '\0';
+                ctrl.OptionLetter = 'A';
             }
             pan_options_ControlChanged(btn_add_option, null);
             pan_options.Controls.Add(ctrl);
@@ -320,17 +317,17 @@ namespace Creator
             {
                 if (((TreeView)sender).SelectedNode.Name.Contains("ques"))
                 {
-                    Func<Question, bool> predicate1 = new Func<Question, bool>(s => s.SectionTitle == ((TreeView)sender).SelectedNode.Parent.Text);
-                    Func<Question, bool> predicate2 = new Func<Question, bool>(s => s.QuestionNumber == Convert.ToInt32(((TreeView)sender).SelectedNode.Text.Replace("Question ", "")));
-                    Func<Question, bool> combinedPredicate = new Func<Question, bool>(s => (predicate1(s) || predicate2(s)));
+                    bool exists = false;
                     Question present = new Question();
                     try
                     {
-                        present = tempExamStore.Single(combinedPredicate);
+                        var temp = tempExamStore.FindAll(s => s.SectionTitle == ((TreeView)sender).SelectedNode.Parent.Text);
+                        present = temp.SingleOrDefault(c => c.QuestionNumber == Convert.ToInt32(((TreeView)sender).SelectedNode.Text.Replace("Question ", "")));
+                        exists = tempExamStore.Contains(present);
                     }
                     catch (InvalidOperationException ex)
                     {
-                        MessageBox.Show(ex.Message + Environment.NewLine + ex.InnerException);
+                       Debug.Print(ex.Message + Environment.NewLine + ex.InnerException);
                     }
                     finally
                     {
@@ -345,7 +342,7 @@ namespace Creator
                             }
                             catch (InvalidOperationException)
                             {
-                                tempExamStore[index].QuestionAnswer = '\0';
+                                tempExamStore[index].QuestionAnswer = 'A';
                             }
                             tempExamStore[index].QuestionNumber = Convert.ToInt32(((TreeView)sender).SelectedNode.Text.Replace("Question ", ""));
                             Dictionary<char, string> tempDic = new Dictionary<char, string>();

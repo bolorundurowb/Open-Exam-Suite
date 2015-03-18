@@ -60,5 +60,17 @@ namespace Creator
         {
             isChecked = rdb_option.Checked;
         }
+
+        private void rdb_option_Click(object sender, EventArgs e)
+        {
+            if (rdb_option.Checked)
+            {
+                rdb_option.Checked = false;
+            }
+            else
+            {
+                rdb_option.Checked = true;
+            }
+        }
     }
 }
