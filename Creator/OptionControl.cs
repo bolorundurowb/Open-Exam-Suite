@@ -12,8 +12,6 @@ namespace Creator
 {
     public partial class OptionControl : UserControl
     {
-        bool isChecked;
-
         public OptionControl()
         {
             InitializeComponent();
@@ -48,17 +46,12 @@ namespace Creator
         {
             get
             {
-                return isChecked;
+                return rdb_option.Checked;
             }
             set
             {
-                isChecked = value;
+                rdb_option.Checked = value;
             }
-        }
-
-        private void rdb_option_CheckedChanged(object sender, EventArgs e)
-        {
-            isChecked = rdb_option.Checked;
         }
 
         private void rdb_option_Click(object sender, EventArgs e)

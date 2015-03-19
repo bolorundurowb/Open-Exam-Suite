@@ -74,6 +74,7 @@
             this.trv_explorer = new System.Windows.Forms.TreeView();
             this.ilst_images = new System.Windows.Forms.ImageList(this.components);
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.btn_clear_picture = new System.Windows.Forms.Button();
             this.btn_select_picture = new System.Windows.Forms.Button();
             this.pct_question_picture = new System.Windows.Forms.PictureBox();
@@ -84,7 +85,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.svf_save_exam = new System.Windows.Forms.SaveFileDialog();
             this.opf_get_files = new System.Windows.Forms.OpenFileDialog();
-            this.label2 = new System.Windows.Forms.Label();
+            this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.lbl_question_and_section = new System.Windows.Forms.ToolStripStatusLabel();
+            this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.editToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splcn_main_view)).BeginInit();
@@ -97,6 +101,8 @@
             this.splitContainer2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pct_question_picture)).BeginInit();
+            this.statusStrip.SuspendLayout();
+            this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -462,6 +468,7 @@
             // 
             // splcn_main_view.Panel2
             // 
+            this.splcn_main_view.Panel2.Controls.Add(this.statusStrip);
             this.splcn_main_view.Panel2.Controls.Add(this.label2);
             this.splcn_main_view.Panel2.Controls.Add(this.btn_clear_picture);
             this.splcn_main_view.Panel2.Controls.Add(this.btn_select_picture);
@@ -495,7 +502,7 @@
             this.splitContainer2.Panel2.Controls.Add(this.groupBox2);
             this.splitContainer2.Panel2MinSize = 250;
             this.splitContainer2.Size = new System.Drawing.Size(240, 731);
-            this.splitContainer2.SplitterDistance = 308;
+            this.splitContainer2.SplitterDistance = 300;
             this.splitContainer2.TabIndex = 3;
             // 
             // groupBox1
@@ -505,7 +512,7 @@
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(238, 306);
+            this.groupBox1.Size = new System.Drawing.Size(238, 298);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Explorer";
@@ -513,6 +520,7 @@
             // trv_explorer
             // 
             this.trv_explorer.BackColor = System.Drawing.SystemColors.Control;
+            this.trv_explorer.ContextMenuStrip = this.contextMenuStrip;
             this.trv_explorer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.trv_explorer.HideSelection = false;
             this.trv_explorer.ImageIndex = 0;
@@ -520,7 +528,7 @@
             this.trv_explorer.Location = new System.Drawing.Point(3, 19);
             this.trv_explorer.Name = "trv_explorer";
             this.trv_explorer.SelectedImageIndex = 0;
-            this.trv_explorer.Size = new System.Drawing.Size(232, 284);
+            this.trv_explorer.Size = new System.Drawing.Size(232, 276);
             this.trv_explorer.TabIndex = 0;
             this.trv_explorer.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.trv_explorer_BeforeSelect);
             this.trv_explorer.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trv_explorer_AfterSelect);
@@ -539,14 +547,26 @@
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(238, 417);
+            this.groupBox2.Size = new System.Drawing.Size(238, 425);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Properties";
             // 
+            // label2
+            // 
+            this.label2.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.label2.AutoSize = true;
+            this.label2.ForeColor = System.Drawing.Color.Red;
+            this.label2.Location = new System.Drawing.Point(244, 708);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(399, 13);
+            this.label2.TabIndex = 8;
+            this.label2.Text = "Ensure only one option is selected, else the first selected option would be recor" +
+    "ded!";
+            // 
             // btn_clear_picture
             // 
-            this.btn_clear_picture.Location = new System.Drawing.Point(101, 224);
+            this.btn_clear_picture.Location = new System.Drawing.Point(101, 241);
             this.btn_clear_picture.Name = "btn_clear_picture";
             this.btn_clear_picture.Size = new System.Drawing.Size(75, 23);
             this.btn_clear_picture.TabIndex = 7;
@@ -557,7 +577,7 @@
             // 
             // btn_select_picture
             // 
-            this.btn_select_picture.Location = new System.Drawing.Point(101, 194);
+            this.btn_select_picture.Location = new System.Drawing.Point(101, 211);
             this.btn_select_picture.Name = "btn_select_picture";
             this.btn_select_picture.Size = new System.Drawing.Size(75, 23);
             this.btn_select_picture.TabIndex = 6;
@@ -570,7 +590,7 @@
             this.pct_question_picture.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.pct_question_picture.Location = new System.Drawing.Point(182, 194);
+            this.pct_question_picture.Location = new System.Drawing.Point(182, 211);
             this.pct_question_picture.Name = "pct_question_picture";
             this.pct_question_picture.Size = new System.Drawing.Size(285, 188);
             this.pct_question_picture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -617,7 +637,7 @@
             // 
             this.txt_question_text.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txt_question_text.Location = new System.Drawing.Point(49, 43);
+            this.txt_question_text.Location = new System.Drawing.Point(49, 60);
             this.txt_question_text.Multiline = true;
             this.txt_question_text.Name = "txt_question_text";
             this.txt_question_text.Size = new System.Drawing.Size(895, 118);
@@ -626,23 +646,42 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(16, 19);
+            this.label1.Location = new System.Drawing.Point(16, 36);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(111, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Enter question details:";
             // 
-            // label2
+            // statusStrip
             // 
-            this.label2.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.label2.AutoSize = true;
-            this.label2.ForeColor = System.Drawing.Color.Red;
-            this.label2.Location = new System.Drawing.Point(244, 708);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(399, 13);
-            this.label2.TabIndex = 8;
-            this.label2.Text = "Ensure only one option is selected, else the first selected option would be recor" +
-    "ded!";
+            this.statusStrip.Dock = System.Windows.Forms.DockStyle.Top;
+            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.lbl_question_and_section});
+            this.statusStrip.Location = new System.Drawing.Point(0, 0);
+            this.statusStrip.Name = "statusStrip";
+            this.statusStrip.Size = new System.Drawing.Size(995, 22);
+            this.statusStrip.TabIndex = 9;
+            this.statusStrip.Text = "statusStrip1";
+            // 
+            // lbl_question_and_section
+            // 
+            this.lbl_question_and_section.Name = "lbl_question_and_section";
+            this.lbl_question_and_section.Size = new System.Drawing.Size(0, 17);
+            // 
+            // contextMenuStrip
+            // 
+            this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.editToolStripMenuItem1});
+            this.contextMenuStrip.Name = "contextMenuStrip";
+            this.contextMenuStrip.ShowImageMargin = false;
+            this.contextMenuStrip.Size = new System.Drawing.Size(128, 48);
+            // 
+            // editToolStripMenuItem1
+            // 
+            this.editToolStripMenuItem1.Name = "editToolStripMenuItem1";
+            this.editToolStripMenuItem1.Size = new System.Drawing.Size(127, 22);
+            this.editToolStripMenuItem1.Text = "Edit";
+            this.editToolStripMenuItem1.Click += new System.EventHandler(this.editToolStripMenuItem1_Click);
             // 
             // UI
             // 
@@ -675,6 +714,9 @@
             this.splitContainer2.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pct_question_picture)).EndInit();
+            this.statusStrip.ResumeLayout(false);
+            this.statusStrip.PerformLayout();
+            this.contextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -737,6 +779,10 @@
         private System.Windows.Forms.ToolStripButton btn_new_section;
         private System.Windows.Forms.ToolStripButton btn_new_question;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.StatusStrip statusStrip;
+        private System.Windows.Forms.ToolStripStatusLabel lbl_question_and_section;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem1;
     }
 }
 

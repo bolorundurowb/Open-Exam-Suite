@@ -15,7 +15,7 @@ namespace Creator
     public partial class UI : Form
     {
         //Class variables
-        Dictionary<Dictionary<int, Question>, string> examQuestions;
+        Dictionary<string, List<Question>> examQuestions;
         List<Question> tempExamStore;
         public UI()
         {
@@ -69,7 +69,7 @@ namespace Creator
                 trv_explorer.ExpandAll();
                 trv_explorer.SelectedNode = QuestionNode;
                 //Initialize store for Questions
-                this.examQuestions = new Dictionary<Dictionary<int, Question>, string>();
+                this.examQuestions = new Dictionary<string, List<Question>>();
                 this.tempExamStore = new List<Question>();
                 //Enable Question fillout mode
                 splcn_main_view.Panel2.Enabled = true;
@@ -122,6 +122,8 @@ namespace Creator
                 newSectionToolStripMenuItem.Enabled = false;
                 btn_new_section.Enabled = false;
                 splcn_main_view.Panel2.Enabled = true;
+                //display question 
+                lbl_question_and_section.Text = "Section: " + ((TreeView)sender).SelectedNode.Parent.Text + ", " + ((TreeView)sender).SelectedNode.Text;
                 try
                 {
                     bool exists = false;
@@ -198,6 +200,8 @@ namespace Creator
                 btn_new_question.Enabled = true;
                 newSectionToolStripMenuItem.Enabled = false;
                 btn_new_section.Enabled = false;
+                //clear status text
+                lbl_question_and_section.Text = "";
             }
             //enable add sections
             else if (((TreeView)sender).SelectedNode.Name.Contains("examNode"))
@@ -397,6 +401,11 @@ namespace Creator
             {
                 Debug.Print("Error: " + ex.Message + ", Inner Exception: " + ex.InnerException);
             }
-        }       
+        }
+
+        private void editToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

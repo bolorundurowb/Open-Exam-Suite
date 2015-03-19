@@ -42,7 +42,6 @@
             this.rdb_option.TabIndex = 0;
             this.rdb_option.Text = "Z";
             this.rdb_option.UseVisualStyleBackColor = true;
-            this.rdb_option.CheckedChanged += new System.EventHandler(this.rdb_option_CheckedChanged);
             this.rdb_option.Click += new System.EventHandler(this.rdb_option_Click);
             // 
             // txt_option
