@@ -50,6 +50,12 @@
     <Compile Include="About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
+    <Compile Include="EditSectionTitle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditSectionTitle.Designer.cs">
+      <DependentUpon>EditSectionTitle.cs</DependentUpon>
+    </Compile>
     <Compile Include="Exam and Sections.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -80,6 +86,9 @@
     <Compile Include="WriteXML.cs" />
     <EmbeddedResource Include="About.resx">
       <DependentUpon>About.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditSectionTitle.resx">
+      <DependentUpon>EditSectionTitle.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Exam and Sections.resx">
       <DependentUpon>Exam and Sections.cs</DependentUpon>
@@ -169,6 +178,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Paste Logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Save As Logo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

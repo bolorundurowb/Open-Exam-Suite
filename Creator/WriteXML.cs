@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Creator
 {
@@ -25,5 +22,9 @@ namespace Creator
             return result;
         }
 
+        public static void WriteDictionaryToXML(Dictionary<string, List<Question>> questionList, string filePath)
+        {
+
+        }
     }
 }

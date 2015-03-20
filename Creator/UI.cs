@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Linq.Expressions;
 using System.Diagnostics;
 
 namespace Creator
@@ -34,7 +29,7 @@ namespace Creator
                 btn_open_exam.Enabled = false;
                 openToolStripMenuItem.Enabled = false;
                 //enable some others
-                btn_save_exam.Enabled = true;
+                btn_save_as.Enabled = true;
                 saveToolStripMenuItem.Enabled = true;
                 closeToolStripMenuItem.Enabled = true;
                 insertPictureToolStripMenuItem.Enabled = true;
@@ -56,6 +51,7 @@ namespace Creator
                     SectionNode.Text = Properties.Settings.Default.SectionTitles[i];
                     SectionNode.ImageIndex = 0;
                     SectionNode.SelectedImageIndex = 0;
+                    SectionNode.ContextMenuStrip = contextMenuStrip;
                     examNode.Nodes.Add(SectionNode);        //Section Nodes
                 }
 
@@ -69,8 +65,8 @@ namespace Creator
                 trv_explorer.ExpandAll();
                 trv_explorer.SelectedNode = QuestionNode;
                 //Initialize store for Questions
-                this.examQuestions = new Dictionary<string, List<Question>>();
-                this.tempExamStore = new List<Question>();
+                examQuestions = new Dictionary<string, List<Question>>();
+                tempExamStore = new List<Question>();
                 //Enable Question fillout mode
                 splcn_main_view.Panel2.Enabled = true;
             }
@@ -124,6 +120,8 @@ namespace Creator
                 splcn_main_view.Panel2.Enabled = true;
                 //display question 
                 lbl_question_and_section.Text = "Section: " + ((TreeView)sender).SelectedNode.Parent.Text + ", " + ((TreeView)sender).SelectedNode.Text;
+                //display edit option
+                editToolStripMenuItem.Enabled = false;
                 try
                 {
                     bool exists = false;
@@ -202,6 +200,8 @@ namespace Creator
                 btn_new_section.Enabled = false;
                 //clear status text
                 lbl_question_and_section.Text = "";
+                //dislplay edit option
+                editToolStripMenuItem.Enabled = true;
             }
             //enable add sections
             else if (((TreeView)sender).SelectedNode.Name.Contains("examNode"))
@@ -211,6 +211,8 @@ namespace Creator
                 btn_new_section.Enabled = true;
                 newQuestionToolStripMenuItem.Enabled = false;
                 btn_new_question.Enabled = false;
+                //display edit option
+                editToolStripMenuItem.Enabled = false;
             }
             else
             {
@@ -311,6 +313,7 @@ namespace Creator
                 node.Text = section;
                 node.ImageIndex = 0;
                 node.SelectedImageIndex = 0;
+                node.ContextMenuStrip = contextMenuStrip;
                 trv_explorer.SelectedNode.Nodes.Add(node);
             }
         }
@@ -405,7 +408,19 @@ namespace Creator
 
         private void editToolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            EditSectionTitle edsec = new EditSectionTitle();
+            edsec.ShowDialog();
+            string newName = edsec.NewName;
+            trv_explorer.SelectedNode.Text = newName;
+        }
 
+        private void SaveAs(object sender, EventArgs e)
+        {
+            var result = svf_save_exam.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+
+            }
         }
     }
 }
