@@ -308,13 +308,24 @@ namespace Creator
             string[] newSections = ns.Sections;
             foreach (string section in newSections)
             {
-                TreeNode node = new TreeNode();
-                node.Name = "secNode" + (trv_explorer.SelectedNode.Nodes.Count);
-                node.Text = section;
-                node.ImageIndex = 0;
-                node.SelectedImageIndex = 0;
-                node.ContextMenuStrip = contextMenuStrip;
-                trv_explorer.SelectedNode.Nodes.Add(node);
+                bool exists = false;
+                for (int i = 0; i < trv_explorer.Nodes[0].Nodes.Count; i++)
+                {
+                    if (trv_explorer.Nodes[0].Nodes[i].Text == section)
+                    {
+                        exists = true;
+                    }
+                }
+                if (!exists)
+                {
+                    TreeNode node = new TreeNode();
+                    node.Name = "secNode" + (trv_explorer.SelectedNode.Nodes.Count);
+                    node.Text = section;
+                    node.ImageIndex = 0;
+                    node.SelectedImageIndex = 0;
+                    node.ContextMenuStrip = contextMenuStrip;
+                    trv_explorer.SelectedNode.Nodes.Add(node);
+                }
             }
         }
 
