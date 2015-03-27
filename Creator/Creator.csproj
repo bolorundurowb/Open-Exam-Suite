@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ionic.Zip">
+      <HintPath>..\Simulator\bin\Debug\Ionic.Zip.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -62,6 +65,7 @@
     <Compile Include="Exam and Sections.Designer.cs">
       <DependentUpon>Exam and Sections.cs</DependentUpon>
     </Compile>
+    <Compile Include="GlobalPathVariables.cs" />
     <Compile Include="New Section.cs">
       <SubType>Form</SubType>
     </Compile>

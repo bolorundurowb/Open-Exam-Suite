@@ -4,6 +4,9 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.Xml;
+using System.IO;
+using Ionic.Zip;
 
 namespace Creator
 {
@@ -65,7 +68,6 @@ namespace Creator
                 trv_explorer.ExpandAll();
                 trv_explorer.SelectedNode = QuestionNode;
                 //Initialize store for Questions
-                examQuestions = new Dictionary<string, List<Question>>();
                 tempExamStore = new List<Question>();
                 //Enable Question fillout mode
                 splcn_main_view.Panel2.Enabled = true;
@@ -427,10 +429,66 @@ namespace Creator
 
         private void SaveAs(object sender, EventArgs e)
         {
-            var result = svf_save_exam.ShowDialog();
+            svf_save_exam.FileName = Properties.Settings.Default.ExamTitle;
+            svf_save_exam.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            var result = svf_save_exam.ShowDialog();    
             if (result == DialogResult.OK)
             {
+                string filename = svf_save_exam.FileName;
+                Save(filename);
+            }
+        }
 
+        /// <summary>
+        /// Does the job of creating and working on the temp exam files and compiling the final exam file
+        /// </summary>
+        /// <param name="filePath">The full file path (including the file extension) the file should be saved to</param>
+        private void Save(string filePath)
+        {
+            //create the creator temp folder if it doesnt exist
+            if (!Directory.Exists(GlobalPathVariables.creatorFolderPath))
+            {
+                Directory.CreateDirectory(GlobalPathVariables.creatorFolderPath);
+            }
+            List<string> tempSections = new List<string>();
+            
+            //create temp folder for this exam file
+            string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(filePath);            
+            string tempFolderPath = Path.Combine(GlobalPathVariables.creatorFolderPath, fileNameWithoutExtension);
+            if (!Directory.Exists(tempFolderPath))
+            {
+                Directory.CreateDirectory(tempFolderPath);
+            }
+            foreach (TreeNode node in trv_explorer.Nodes[0].Nodes)
+            {
+                tempSections.Add(node.Text);
+            }
+            string[] sections = tempSections.ToArray();
+
+            //Get the dictionary of questions
+            examQuestions = new Dictionary<string, List<Question>>();
+            examQuestions = XML_Handler.ConvertListToFormat(sections, tempExamStore);
+            XmlDocument docToBeSaved = XML_Handler.WriteDictionaryToXMLDocument(examQuestions);
+            //Save XML
+            docToBeSaved.Save(Path.Combine(tempFolderPath, fileNameWithoutExtension + ".xml"));
+            //copy requisite images to folder
+            foreach (Question ques in tempExamStore)
+            {
+                File.Copy(ques.QuestionImagePath, Path.Combine(tempFolderPath, Path.GetFileName(ques.QuestionImagePath)), true);
+            }
+
+            //compile the final *.oef file
+            using(ZipFile oefFile = new ZipFile())
+            {
+                foreach (string file in Directory.GetFiles(tempFolderPath))
+                {
+                    oefFile.AddFile(file);
+                }
+                if (File.Exists(filePath))
+                {
+                    File.Delete(filePath);
+                }
+                oefFile.Save(filePath);
             }
         }
     }

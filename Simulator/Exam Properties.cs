@@ -41,10 +41,12 @@ namespace Simulator
         {
             string temp = "Open Exam Files\\Simulator\\" + filename;
             string outputPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), temp);
+
             if (File.Exists(outputPath + Path.DirectorySeparatorChar + filename + ".xml.tmp"))
             {
                 File.Delete(outputPath + Path.DirectorySeparatorChar + filename + ".xml.tmp");
             }
+
             if (!(File.Exists(outputPath + Path.DirectorySeparatorChar + filename + ".xml")))
             {
                 using (ZipFile zip = ZipFile.Read(fullFilePath))

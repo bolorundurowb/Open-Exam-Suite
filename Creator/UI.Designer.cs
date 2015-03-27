@@ -546,7 +546,7 @@
             this.splcn_main_view.Panel2.Controls.Add(this.label1);
             this.splcn_main_view.Panel2.Enabled = false;
             this.splcn_main_view.Panel2MinSize = 500;
-            this.splcn_main_view.Size = new System.Drawing.Size(1241, 731);
+            this.splcn_main_view.Size = new System.Drawing.Size(1241, 650);
             this.splcn_main_view.SplitterDistance = 240;
             this.splcn_main_view.TabIndex = 2;
             // 
@@ -567,7 +567,7 @@
             // 
             this.splitContainer2.Panel2.Controls.Add(this.groupBox2);
             this.splitContainer2.Panel2MinSize = 250;
-            this.splitContainer2.Size = new System.Drawing.Size(240, 731);
+            this.splitContainer2.Size = new System.Drawing.Size(240, 650);
             this.splitContainer2.SplitterDistance = 300;
             this.splitContainer2.TabIndex = 3;
             // 
@@ -613,7 +613,7 @@
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(238, 425);
+            this.groupBox2.Size = new System.Drawing.Size(238, 344);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Properties";
@@ -639,7 +639,7 @@
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.label2.AutoSize = true;
             this.label2.ForeColor = System.Drawing.Color.Red;
-            this.label2.Location = new System.Drawing.Point(244, 708);
+            this.label2.Location = new System.Drawing.Point(245, 624);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(399, 13);
             this.label2.TabIndex = 8;
@@ -648,7 +648,7 @@
             // 
             // btn_clear_picture
             // 
-            this.btn_clear_picture.Location = new System.Drawing.Point(101, 241);
+            this.btn_clear_picture.Location = new System.Drawing.Point(101, 198);
             this.btn_clear_picture.Name = "btn_clear_picture";
             this.btn_clear_picture.Size = new System.Drawing.Size(75, 23);
             this.btn_clear_picture.TabIndex = 7;
@@ -659,7 +659,7 @@
             // 
             // btn_select_picture
             // 
-            this.btn_select_picture.Location = new System.Drawing.Point(101, 211);
+            this.btn_select_picture.Location = new System.Drawing.Point(101, 168);
             this.btn_select_picture.Name = "btn_select_picture";
             this.btn_select_picture.Size = new System.Drawing.Size(75, 23);
             this.btn_select_picture.TabIndex = 6;
@@ -672,7 +672,7 @@
             this.pct_question_picture.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.pct_question_picture.Location = new System.Drawing.Point(182, 211);
+            this.pct_question_picture.Location = new System.Drawing.Point(182, 168);
             this.pct_question_picture.Name = "pct_question_picture";
             this.pct_question_picture.Size = new System.Drawing.Size(285, 188);
             this.pct_question_picture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -684,7 +684,7 @@
             // 
             this.btn_remove_option.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btn_remove_option.Enabled = false;
-            this.btn_remove_option.Location = new System.Drawing.Point(636, 484);
+            this.btn_remove_option.Location = new System.Drawing.Point(637, 400);
             this.btn_remove_option.Name = "btn_remove_option";
             this.btn_remove_option.Size = new System.Drawing.Size(75, 23);
             this.btn_remove_option.TabIndex = 4;
@@ -695,7 +695,7 @@
             // btn_add_option
             // 
             this.btn_add_option.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.btn_add_option.Location = new System.Drawing.Point(636, 454);
+            this.btn_add_option.Location = new System.Drawing.Point(637, 370);
             this.btn_add_option.Name = "btn_add_option";
             this.btn_add_option.Size = new System.Drawing.Size(75, 23);
             this.btn_add_option.TabIndex = 3;
@@ -708,7 +708,7 @@
             this.pan_options.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.pan_options.AutoScroll = true;
             this.pan_options.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pan_options.Location = new System.Drawing.Point(269, 446);
+            this.pan_options.Location = new System.Drawing.Point(270, 362);
             this.pan_options.Name = "pan_options";
             this.pan_options.Size = new System.Drawing.Size(352, 252);
             this.pan_options.TabIndex = 2;
@@ -722,7 +722,7 @@
             this.txt_question_text.Location = new System.Drawing.Point(49, 60);
             this.txt_question_text.Multiline = true;
             this.txt_question_text.Name = "txt_question_text";
-            this.txt_question_text.Size = new System.Drawing.Size(895, 118);
+            this.txt_question_text.Size = new System.Drawing.Size(895, 85);
             this.txt_question_text.TabIndex = 1;
             // 
             // label1
@@ -751,13 +751,15 @@
             // 
             // svf_save_exam
             // 
+            this.svf_save_exam.DefaultExt = "oef";
             this.svf_save_exam.Filter = "Open Exam Files (*.oef)|*.oef";
+            this.svf_save_exam.Title = "Open Exam Creator";
             // 
             // UI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1241, 780);
+            this.ClientSize = new System.Drawing.Size(1241, 699);
             this.Controls.Add(this.splcn_main_view);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.menuStrip1);
