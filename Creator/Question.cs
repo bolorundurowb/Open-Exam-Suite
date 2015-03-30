@@ -25,7 +25,15 @@ namespace Creator
         /// <summary>
         /// The default constructor to the question class
         /// </summary>
-        public Question() { }
+        public Question()
+        {
+            sectionTitle = null;
+            questionAnswer = 'A';
+            questionImagePath = null;
+            questionNumber = 0;
+            questionOptions = new Dictionary<char, string>();
+            questionText = null;
+        }
 
 
         //Properties

@@ -15,9 +15,11 @@ namespace Creator
         //Class variables
         Dictionary<string, List<Question>> examQuestions;
         List<Question> tempExamStore;
+        string fileNameWithExtension;
+
         public UI()
         {
-            InitializeComponent();
+            InitializeComponent();            
         }
 
         private void btn_new_exam_Click(object sender, EventArgs e)
@@ -111,19 +113,21 @@ namespace Creator
 
         private void trv_explorer_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            //enable add options
             if (((TreeView)sender).SelectedNode.Name.Contains("ques"))
             {
+                //enable relevant options
                 addOptionToolStripMenuItem.Enabled = true;
                 newQuestionToolStripMenuItem.Enabled = false;
                 btn_new_question.Enabled = false;
                 newSectionToolStripMenuItem.Enabled = false;
                 btn_new_section.Enabled = false;
                 splcn_main_view.Panel2.Enabled = true;
+                editToolStripMenuItem1.Enabled = false;
                 //display question 
                 lbl_question_and_section.Text = "Section: " + ((TreeView)sender).SelectedNode.Parent.Text + ", " + ((TreeView)sender).SelectedNode.Text;
-                //display edit option
-                editToolStripMenuItem.Enabled = false;
+
+                //RefreshInputControls();
+
                 try
                 {
                     bool exists = false;
@@ -136,7 +140,6 @@ namespace Creator
                     }
                     catch (NullReferenceException ex)
                     {
-                        //MessageBox.Show(ex.Message + Environment.NewLine + ex.InnerException);
                         Debug.Print("Error: " + ex.Message + ", Inner Exception: " + ex.InnerException);
                     }
                     finally
@@ -144,13 +147,21 @@ namespace Creator
                         if (exists)
                         {
                             txt_question_text.Text = present.QuestionText;
-                            try
-                            {
-                                pct_question_picture.Image = new Bitmap(present.QuestionImagePath);
-                            }
-                            catch (ArgumentNullException)
+                            if (string.IsNullOrWhiteSpace(present.QuestionImagePath))
                             {
                                 pct_question_picture.Image = null;
+                                pct_question_picture.ImageLocation = null;
+                                btn_clear_picture.Visible = false;
+                                btn_select_picture.Visible = false;
+                                pct_question_picture.Visible = false;
+                            }
+                            else
+                            {
+                                pct_question_picture.Image = new Bitmap(present.QuestionImagePath);
+                                pct_question_picture.ImageLocation = present.QuestionImagePath;
+                                btn_clear_picture.Visible = true;
+                                btn_select_picture.Visible = true;
+                                pct_question_picture.Visible = true;
                             }
                             foreach (var item in present.QuestionOptions)
                             {
@@ -178,7 +189,11 @@ namespace Creator
                             }
                         }
                         else
-                        { }
+                        {
+                            btn_select_picture.Visible = false;
+                            btn_clear_picture.Visible = false;
+                            pct_question_picture.Visible = false;
+                        }
                     }
                 }
                 catch (NullReferenceException ex)
@@ -203,7 +218,7 @@ namespace Creator
                 //clear status text
                 lbl_question_and_section.Text = "";
                 //dislplay edit option
-                editToolStripMenuItem.Enabled = true;
+                editToolStripMenuItem1.Enabled = true;
             }
             //enable add sections
             else if (((TreeView)sender).SelectedNode.Name.Contains("examNode"))
@@ -214,7 +229,7 @@ namespace Creator
                 newQuestionToolStripMenuItem.Enabled = false;
                 btn_new_question.Enabled = false;
                 //display edit option
-                editToolStripMenuItem.Enabled = false;
+                editToolStripMenuItem1.Enabled = false;
             }
             else
             {
@@ -225,6 +240,18 @@ namespace Creator
                 newSectionToolStripMenuItem.Enabled = false;
                 btn_new_section.Enabled = false;
             }
+        }
+
+        /// <summary>
+        /// This method removes any data in the input controls
+        /// </summary>
+        private void RefreshInputControls()
+        {
+            txt_question_text.Clear();
+            pan_options.Controls.Clear();
+            pct_question_picture.ImageLocation = null;
+            lbl_question_and_section.Text = "";
+            lbl_save_status.Text = "";
         }
 
         private void addOptionToolStripMenuItem_Click(object sender, EventArgs e)
@@ -345,9 +372,9 @@ namespace Creator
                         present = temp.SingleOrDefault(c => c.QuestionNumber == Convert.ToInt32(((TreeView)sender).SelectedNode.Text.Replace("Question ", "")));
                         exists = tempExamStore.Contains(present);
                     }
-                    catch (InvalidOperationException ex)
+                    catch (NullReferenceException ex)
                     {
-                       Debug.Print(ex.Message + Environment.NewLine + ex.InnerException);
+                        Debug.Print(ex.Message + Environment.NewLine + ex.InnerException);
                     }
                     finally
                     {
@@ -403,19 +430,16 @@ namespace Creator
                             txt_question_text.Clear();
                             pct_question_picture.Image = null;
                             pan_options.Controls.Clear();
+                            RefreshInputControls();
                             //add question to store
                             this.tempExamStore.Add(ques);
                         }
                     }
                 }
             }
-            catch (NullReferenceException ex)
-            {
-                Debug.Print("Error: " + ex.Message + ", Inner Exception: " + ex.InnerException);
-            }
-            catch (ArgumentNullException ex)
-            {
-                Debug.Print("Error: " + ex.Message + ", Inner Exception: " + ex.InnerException);
+            catch (NullReferenceException)
+            { 
+                // A necessary Evil
             }
         }
 
@@ -435,7 +459,10 @@ namespace Creator
             if (result == DialogResult.OK)
             {
                 string filename = svf_save_exam.FileName;
+                fileNameWithExtension = filename;
                 Save(filename);
+                btn_save_as.Enabled = false;
+                btn_save_exam.Enabled = true;
             }
         }
 
@@ -445,6 +472,9 @@ namespace Creator
         /// <param name="filePath">The full file path (including the file extension) the file should be saved to</param>
         private void Save(string filePath)
         {
+            prg_save_progress.Visible = true;
+            //Add current question being worked on
+            AddCurrentQuestion();
             //create the creator temp folder if it doesnt exist
             if (!Directory.Exists(GlobalPathVariables.creatorFolderPath))
             {
@@ -474,7 +504,14 @@ namespace Creator
             //copy requisite images to folder
             foreach (Question ques in tempExamStore)
             {
-                File.Copy(ques.QuestionImagePath, Path.Combine(tempFolderPath, Path.GetFileName(ques.QuestionImagePath)), true);
+                try
+                {
+                    File.Copy(ques.QuestionImagePath, Path.Combine(tempFolderPath, Path.GetFileName(ques.QuestionImagePath)), true);
+                }
+                catch (ArgumentException exc)
+                {
+                    Debug.Print("The following error occured: " + exc.Message + "\nInner Exception: " + exc.InnerException + "\n" + exc.HResult);
+                }
             }
 
             //compile the final *.oef file
@@ -482,13 +519,117 @@ namespace Creator
             {
                 foreach (string file in Directory.GetFiles(tempFolderPath))
                 {
-                    oefFile.AddFile(file);
+                    oefFile.AddFile(file, "");
                 }
                 if (File.Exists(filePath))
                 {
                     File.Delete(filePath);
                 }
                 oefFile.Save(filePath);
+            }
+            prg_save_progress.Visible = false;
+            lbl_save_status.Text = "Exam Saved Successfully!";
+            lbl_save_status.Visible = true;
+            //Thread
+        }
+
+        /// <summary>
+        /// This method makes sure when the save method is called the current question is committed
+        /// </summary>
+        private void AddCurrentQuestion()
+        {
+            try
+            {
+                if (trv_explorer.SelectedNode.Name.Contains("ques"))
+                {
+                    bool exists = false;
+                    Question present = new Question();
+                    try
+                    {
+                        var temp = tempExamStore.FindAll(s => s.SectionTitle == (trv_explorer.SelectedNode.Parent.Text));
+                        present = temp.SingleOrDefault(c => c.QuestionNumber == Convert.ToInt32(trv_explorer.SelectedNode.Text.Replace("Question ", "")));
+                        exists = tempExamStore.Contains(present);
+                    }
+                    catch (InvalidOperationException ex)
+                    {
+                        Debug.Print(ex.Message + Environment.NewLine + ex.InnerException);
+                    }
+                    finally
+                    {
+                        if (tempExamStore.Contains(present))
+                        {
+                            int index = tempExamStore.IndexOf(present);
+                            tempExamStore[index].QuestionText = txt_question_text.Text;
+                            tempExamStore[index].QuestionImagePath = pct_question_picture.ImageLocation;
+                            try
+                            {
+                                tempExamStore[index].QuestionAnswer = Convert.ToChar(((OptionControl)pan_options.Controls.OfType<OptionControl>().First<OptionControl>(p => p.IsChecked == true)).OptionLetter);
+                            }
+                            catch (InvalidOperationException)
+                            {
+                                tempExamStore[index].QuestionAnswer = 'A';
+                            }
+                            tempExamStore[index].QuestionNumber = Convert.ToInt32(trv_explorer.SelectedNode.Text.Replace("Question ", ""));
+                            Dictionary<char, string> tempDic = new Dictionary<char, string>();
+                            foreach (var ctrl in pan_options.Controls.OfType<OptionControl>())
+                            {
+                                tempDic.Add(Convert.ToChar(ctrl.OptionLetter), ctrl.OptionText);
+                            }
+                            tempExamStore[index].QuestionOptions = tempDic;
+                            tempExamStore[index].SectionTitle = trv_explorer.SelectedNode.Parent.Text;
+                        }
+                        else
+                        {
+                            //save the previous question
+                            Question ques = new Question();
+                            try
+                            {
+                                ques.QuestionAnswer = Convert.ToChar(((OptionControl)pan_options.Controls.OfType<OptionControl>().First<OptionControl>(p => p.IsChecked == true)).OptionLetter);
+                            }
+                            catch (InvalidOperationException)
+                            {
+                                ques.QuestionAnswer = 'A';
+                            }
+                            ques.QuestionImagePath = pct_question_picture.ImageLocation;
+                            ques.QuestionNumber = Convert.ToInt32(trv_explorer.SelectedNode.Text.Replace("Question ", ""));
+                            Dictionary<char, string> tempDic = new Dictionary<char, string>();
+                            foreach (var ctrl in pan_options.Controls.OfType<OptionControl>())
+                            {
+                                tempDic.Add(Convert.ToChar(ctrl.OptionLetter), ctrl.OptionText);
+                            }
+                            ques.QuestionOptions = tempDic;
+                            ques.QuestionText = txt_question_text.Text;
+                            ques.SectionTitle = trv_explorer.SelectedNode.Parent.Text;
+                            //add question to store
+                            this.tempExamStore.Add(ques);
+                        }
+                    }
+                }
+            }
+            catch (NullReferenceException ex)
+            {
+                Debug.Print("Error: " + ex.Message + ", Inner Exception: " + ex.InnerException);
+            }
+            catch (ArgumentNullException ex)
+            {
+                Debug.Print("Error: " + ex.Message + ", Inner Exception: " + ex.InnerException);
+            }
+        }
+
+
+        
+
+        private void SaveExam(object sender, EventArgs e)
+        {
+            Save(fileNameWithExtension);
+        }
+
+        private void btn_select_picture_Click(object sender, EventArgs e)
+        {
+            opf_get_files.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+            if (opf_get_files.ShowDialog() == DialogResult.OK)
+            {
+                pct_question_picture.ImageLocation = opf_get_files.FileName;
             }
         }
     }

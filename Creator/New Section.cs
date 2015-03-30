@@ -27,6 +27,7 @@ namespace Creator
         {
             enteredText.Add(txt_section_title.Text);
             txt_section_title.Clear();
+            txt_section_title.Focus();
         }
 
         private void txt_section_title_TextChanged(object sender, EventArgs e)

@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.CustomLabel customLabel3 = new System.Windows.Forms.DataVisualization.Charting.CustomLabel();
-            System.Windows.Forms.DataVisualization.Charting.CustomLabel customLabel4 = new System.Windows.Forms.DataVisualization.Charting.CustomLabel();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.CustomLabel customLabel1 = new System.Windows.Forms.DataVisualization.Charting.CustomLabel();
+            System.Windows.Forms.DataVisualization.Charting.CustomLabel customLabel2 = new System.Windows.Forms.DataVisualization.Charting.CustomLabel();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -147,28 +147,28 @@
             // 
             this.chr_display_score.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chr_display_score.BackColor = System.Drawing.SystemColors.Control;
-            customLabel3.Text = "Required Score";
-            customLabel4.Text = "Your Score";
-            chartArea2.AxisX.CustomLabels.Add(customLabel3);
-            chartArea2.AxisX.CustomLabels.Add(customLabel4);
-            chartArea2.AxisX.Maximum = 2D;
-            chartArea2.AxisY.Maximum = 1000D;
-            chartArea2.Name = "ChartArea1";
-            this.chr_display_score.ChartAreas.Add(chartArea2);
+            customLabel1.Text = "Required Score";
+            customLabel2.Text = "Your Score";
+            chartArea1.AxisX.CustomLabels.Add(customLabel1);
+            chartArea1.AxisX.CustomLabels.Add(customLabel2);
+            chartArea1.AxisX.Maximum = 2D;
+            chartArea1.AxisY.Maximum = 1000D;
+            chartArea1.Name = "ChartArea1";
+            this.chr_display_score.ChartAreas.Add(chartArea1);
             this.chr_display_score.Location = new System.Drawing.Point(271, 192);
             this.chr_display_score.Name = "chr_display_score";
             this.chr_display_score.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.None;
             this.chr_display_score.PaletteCustomColors = new System.Drawing.Color[] {
         System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192))))),
         System.Drawing.Color.Green};
-            series3.ChartArea = "ChartArea1";
-            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bar;
-            series3.Name = "Required Score";
-            series4.ChartArea = "ChartArea1";
-            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bar;
-            series4.Name = "Score";
-            this.chr_display_score.Series.Add(series3);
-            this.chr_display_score.Series.Add(series4);
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bar;
+            series1.Name = "Required Score";
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bar;
+            series2.Name = "Score";
+            this.chr_display_score.Series.Add(series1);
+            this.chr_display_score.Series.Add(series2);
             this.chr_display_score.Size = new System.Drawing.Size(509, 171);
             this.chr_display_score.TabIndex = 10;
             this.chr_display_score.Text = "chart1";
@@ -182,21 +182,21 @@
             this.dgv_show_breakdown.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgv_show_breakdown.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.dgv_show_breakdown.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_show_breakdown.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_show_breakdown.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgv_show_breakdown.ColumnHeadersHeight = 25;
             this.dgv_show_breakdown.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgv_show_breakdown.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.section,
             this.number,
             this.accuracy});
-            this.dgv_show_breakdown.Location = new System.Drawing.Point(271, 445);
+            this.dgv_show_breakdown.Location = new System.Drawing.Point(277, 445);
             this.dgv_show_breakdown.Name = "dgv_show_breakdown";
             this.dgv_show_breakdown.ReadOnly = true;
             this.dgv_show_breakdown.RowHeadersVisible = false;

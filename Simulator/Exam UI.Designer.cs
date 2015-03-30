@@ -161,8 +161,8 @@
             this.pic_image.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.pic_image.Location = new System.Drawing.Point(132, 155);
             this.pic_image.Name = "pic_image";
-            this.pic_image.Size = new System.Drawing.Size(314, 289);
-            this.pic_image.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pic_image.Size = new System.Drawing.Size(579, 289);
+            this.pic_image.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pic_image.TabIndex = 12;
             this.pic_image.TabStop = false;
             this.pic_image.Visible = false;
