@@ -178,6 +178,7 @@
             this.dgv_exams.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dgv_exams.RowHeadersVisible = false;
             this.dgv_exams.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.dgv_exams.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgv_exams.Size = new System.Drawing.Size(630, 417);
             this.dgv_exams.TabIndex = 5;
             this.dgv_exams.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_exams_CellClick);

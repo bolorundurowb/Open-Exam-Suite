@@ -82,6 +82,11 @@
     <Compile Include="OptionControl.Designer.cs">
       <DependentUpon>OptionControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Question.cs" />
     <Compile Include="UI.cs">
       <SubType>Form</SubType>
@@ -109,14 +114,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <EmbeddedResource Include="UI.resx">
       <DependentUpon>UI.cs</DependentUpon>
     </EmbeddedResource>
@@ -134,65 +134,36 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Add Option Logo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Exit Logo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Import Logo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Insert Logo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\New Logo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\New Question Logo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\New Section Logo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Next Logo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Open Logo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Previous Logo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Print Logo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Print Preview Logo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Redo logo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Save Logo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Undo Logo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Cut Logo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Copy Logo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Paste Logo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Save As Logo.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Creator.fw.ico" />
+    <None Include="Resources\Down.png" />
+    <None Include="Resources\Up.png" />
+    <None Include="Resources\New.png" />
+    <None Include="Resources\Rename.png" />
+    <None Include="Resources\Next.png" />
+    <None Include="Resources\Previous.png" />
+    <None Include="Resources\Exit.png" />
+    <None Include="Resources\Close.png" />
+    <None Include="Resources\Import.png" />
+    <None Include="Resources\New Question.png" />
+    <None Include="Resources\New Section.png" />
+    <None Include="Resources\Paste.png" />
+    <None Include="Resources\Copy.png" />
+    <None Include="Resources\Cut.png" />
+    <None Include="Resources\Redo.png" />
+    <None Include="Resources\Undo.png" />
+    <None Include="Resources\Print Preview.png" />
+    <None Include="Resources\Print.png" />
+    <None Include="Resources\Save As.png" />
+    <None Include="Resources\Save.png" />
+    <None Include="Resources\Open.png" />
+    <None Include="Resources\Exam 2.png" />
+    <None Include="Resources\6.png" />
+    <None Include="Resources\5.png" />
+    <None Include="Resources\2.png" />
+    <None Include="Resources\4.png" />
+    <None Include="Resources\1.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

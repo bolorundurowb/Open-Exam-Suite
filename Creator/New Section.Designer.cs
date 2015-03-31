@@ -57,11 +57,14 @@
             // btn_add
             // 
             this.btn_add.Enabled = false;
+            this.btn_add.Image = global::Creator.Properties.Resources._1;
+            this.btn_add.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btn_add.Location = new System.Drawing.Point(321, 16);
             this.btn_add.Name = "btn_add";
-            this.btn_add.Size = new System.Drawing.Size(75, 23);
+            this.btn_add.Size = new System.Drawing.Size(58, 23);
             this.btn_add.TabIndex = 2;
             this.btn_add.Text = "ADD";
+            this.btn_add.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btn_add.UseVisualStyleBackColor = true;
             this.btn_add.Click += new System.EventHandler(this.btn_add_Click);
             // 

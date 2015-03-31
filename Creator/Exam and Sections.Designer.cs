@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.label9 = new System.Windows.Forms.Label();
@@ -47,15 +48,15 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.dgv_section_titles = new System.Windows.Forms.DataGridView();
+            this.sectionTitile = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.err_exam_wizard = new System.Windows.Forms.ErrorProvider(this.components);
             this.btn_save = new System.Windows.Forms.Button();
             this.btn_move_down = new System.Windows.Forms.Button();
             this.btn_move_up = new System.Windows.Forms.Button();
             this.btn_remove = new System.Windows.Forms.Button();
             this.btn_rename = new System.Windows.Forms.Button();
             this.btn_new = new System.Windows.Forms.Button();
-            this.dgv_section_titles = new System.Windows.Forms.DataGridView();
-            this.sectionTitile = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.err_exam_wizard = new System.Windows.Forms.ErrorProvider(this.components);
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_time_limit)).BeginInit();
@@ -73,7 +74,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(513, 500);
+            this.tabControl1.Size = new System.Drawing.Size(519, 500);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -153,11 +154,13 @@
             // btn_next
             // 
             this.btn_next.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_next.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btn_next.Location = new System.Drawing.Point(410, 430);
             this.btn_next.Name = "btn_next";
             this.btn_next.Size = new System.Drawing.Size(75, 23);
             this.btn_next.TabIndex = 12;
             this.btn_next.Text = "NEXT";
+            this.btn_next.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btn_next.UseVisualStyleBackColor = true;
             this.btn_next.Click += new System.EventHandler(this.btn_next_Click);
             // 
@@ -265,74 +268,9 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(505, 474);
+            this.tabPage2.Size = new System.Drawing.Size(511, 474);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Sections";
-            // 
-            // btn_save
-            // 
-            this.btn_save.Enabled = false;
-            this.btn_save.Location = new System.Drawing.Point(412, 438);
-            this.btn_save.Name = "btn_save";
-            this.btn_save.Size = new System.Drawing.Size(75, 23);
-            this.btn_save.TabIndex = 6;
-            this.btn_save.Text = "SAVE";
-            this.btn_save.UseVisualStyleBackColor = true;
-            this.btn_save.Click += new System.EventHandler(this.btn_save_Click);
-            // 
-            // btn_move_down
-            // 
-            this.btn_move_down.Enabled = false;
-            this.btn_move_down.Location = new System.Drawing.Point(407, 134);
-            this.btn_move_down.Name = "btn_move_down";
-            this.btn_move_down.Size = new System.Drawing.Size(75, 23);
-            this.btn_move_down.TabIndex = 5;
-            this.btn_move_down.Text = "Move Down";
-            this.btn_move_down.UseVisualStyleBackColor = true;
-            this.btn_move_down.Click += new System.EventHandler(this.btn_move_down_Click);
-            // 
-            // btn_move_up
-            // 
-            this.btn_move_up.Enabled = false;
-            this.btn_move_up.Location = new System.Drawing.Point(407, 105);
-            this.btn_move_up.Name = "btn_move_up";
-            this.btn_move_up.Size = new System.Drawing.Size(75, 23);
-            this.btn_move_up.TabIndex = 4;
-            this.btn_move_up.Text = "Move Up";
-            this.btn_move_up.UseVisualStyleBackColor = true;
-            this.btn_move_up.Click += new System.EventHandler(this.btn_move_up_Click);
-            // 
-            // btn_remove
-            // 
-            this.btn_remove.Enabled = false;
-            this.btn_remove.Location = new System.Drawing.Point(407, 76);
-            this.btn_remove.Name = "btn_remove";
-            this.btn_remove.Size = new System.Drawing.Size(75, 23);
-            this.btn_remove.TabIndex = 3;
-            this.btn_remove.Text = "Remove";
-            this.btn_remove.UseVisualStyleBackColor = true;
-            this.btn_remove.Click += new System.EventHandler(this.btn_remove_Click);
-            // 
-            // btn_rename
-            // 
-            this.btn_rename.Enabled = false;
-            this.btn_rename.Location = new System.Drawing.Point(407, 46);
-            this.btn_rename.Name = "btn_rename";
-            this.btn_rename.Size = new System.Drawing.Size(75, 23);
-            this.btn_rename.TabIndex = 2;
-            this.btn_rename.Text = "Rename";
-            this.btn_rename.UseVisualStyleBackColor = true;
-            this.btn_rename.Click += new System.EventHandler(this.btn_rename_Click);
-            // 
-            // btn_new
-            // 
-            this.btn_new.Location = new System.Drawing.Point(407, 16);
-            this.btn_new.Name = "btn_new";
-            this.btn_new.Size = new System.Drawing.Size(75, 23);
-            this.btn_new.TabIndex = 1;
-            this.btn_new.Text = "New";
-            this.btn_new.UseVisualStyleBackColor = true;
-            this.btn_new.Click += new System.EventHandler(this.btn_new_Click);
             // 
             // dgv_section_titles
             // 
@@ -345,9 +283,18 @@
             this.dgv_section_titles.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_section_titles.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.sectionTitile});
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_section_titles.DefaultCellStyle = dataGridViewCellStyle1;
             this.dgv_section_titles.Location = new System.Drawing.Point(9, 10);
             this.dgv_section_titles.Name = "dgv_section_titles";
             this.dgv_section_titles.RowHeadersVisible = false;
+            this.dgv_section_titles.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgv_section_titles.Size = new System.Drawing.Size(385, 447);
             this.dgv_section_titles.TabIndex = 0;
             this.dgv_section_titles.SelectionChanged += new System.EventHandler(this.dgv_section_titles_SelectionChanged);
@@ -362,11 +309,90 @@
             // 
             this.err_exam_wizard.ContainerControl = this;
             // 
+            // btn_save
+            // 
+            this.btn_save.Enabled = false;
+            this.btn_save.Image = global::Creator.Properties.Resources._4;
+            this.btn_save.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btn_save.Location = new System.Drawing.Point(407, 434);
+            this.btn_save.Name = "btn_save";
+            this.btn_save.Size = new System.Drawing.Size(90, 23);
+            this.btn_save.TabIndex = 6;
+            this.btn_save.Text = "SAVE";
+            this.btn_save.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btn_save.UseVisualStyleBackColor = true;
+            this.btn_save.Click += new System.EventHandler(this.btn_save_Click);
+            // 
+            // btn_move_down
+            // 
+            this.btn_move_down.Enabled = false;
+            this.btn_move_down.Image = global::Creator.Properties.Resources.Down;
+            this.btn_move_down.Location = new System.Drawing.Point(407, 134);
+            this.btn_move_down.Name = "btn_move_down";
+            this.btn_move_down.Size = new System.Drawing.Size(90, 23);
+            this.btn_move_down.TabIndex = 5;
+            this.btn_move_down.Text = "Move Down";
+            this.btn_move_down.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btn_move_down.UseVisualStyleBackColor = true;
+            this.btn_move_down.Click += new System.EventHandler(this.btn_move_down_Click);
+            // 
+            // btn_move_up
+            // 
+            this.btn_move_up.Enabled = false;
+            this.btn_move_up.Image = global::Creator.Properties.Resources.Up;
+            this.btn_move_up.Location = new System.Drawing.Point(407, 105);
+            this.btn_move_up.Name = "btn_move_up";
+            this.btn_move_up.Size = new System.Drawing.Size(90, 23);
+            this.btn_move_up.TabIndex = 4;
+            this.btn_move_up.Text = "Move Up";
+            this.btn_move_up.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btn_move_up.UseVisualStyleBackColor = true;
+            this.btn_move_up.Click += new System.EventHandler(this.btn_move_up_Click);
+            // 
+            // btn_remove
+            // 
+            this.btn_remove.Enabled = false;
+            this.btn_remove.Image = global::Creator.Properties.Resources._2;
+            this.btn_remove.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btn_remove.Location = new System.Drawing.Point(407, 76);
+            this.btn_remove.Name = "btn_remove";
+            this.btn_remove.Size = new System.Drawing.Size(90, 23);
+            this.btn_remove.TabIndex = 3;
+            this.btn_remove.Text = "Remove";
+            this.btn_remove.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btn_remove.UseVisualStyleBackColor = true;
+            this.btn_remove.Click += new System.EventHandler(this.btn_remove_Click);
+            // 
+            // btn_rename
+            // 
+            this.btn_rename.Enabled = false;
+            this.btn_rename.Image = global::Creator.Properties.Resources.Rename;
+            this.btn_rename.Location = new System.Drawing.Point(407, 46);
+            this.btn_rename.Name = "btn_rename";
+            this.btn_rename.Size = new System.Drawing.Size(90, 23);
+            this.btn_rename.TabIndex = 2;
+            this.btn_rename.Text = "Rename";
+            this.btn_rename.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btn_rename.UseVisualStyleBackColor = true;
+            this.btn_rename.Click += new System.EventHandler(this.btn_rename_Click);
+            // 
+            // btn_new
+            // 
+            this.btn_new.Image = global::Creator.Properties.Resources.New;
+            this.btn_new.Location = new System.Drawing.Point(407, 16);
+            this.btn_new.Name = "btn_new";
+            this.btn_new.Size = new System.Drawing.Size(90, 23);
+            this.btn_new.TabIndex = 1;
+            this.btn_new.Text = "New";
+            this.btn_new.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btn_new.UseVisualStyleBackColor = true;
+            this.btn_new.Click += new System.EventHandler(this.btn_new_Click);
+            // 
             // Exam_and_Sections
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(513, 500);
+            this.ClientSize = new System.Drawing.Size(519, 500);
             this.Controls.Add(this.tabControl1);
             this.MaximizeBox = false;
             this.Name = "Exam_and_Sections";

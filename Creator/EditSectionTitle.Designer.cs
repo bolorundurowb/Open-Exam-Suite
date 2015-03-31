@@ -51,11 +51,14 @@
             // 
             // btn_edit_ok
             // 
+            this.btn_edit_ok.Image = global::Creator.Properties.Resources._4;
+            this.btn_edit_ok.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btn_edit_ok.Location = new System.Drawing.Point(307, 11);
             this.btn_edit_ok.Name = "btn_edit_ok";
             this.btn_edit_ok.Size = new System.Drawing.Size(54, 23);
             this.btn_edit_ok.TabIndex = 2;
             this.btn_edit_ok.Text = "OK";
+            this.btn_edit_ok.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btn_edit_ok.UseVisualStyleBackColor = true;
             this.btn_edit_ok.Click += new System.EventHandler(this.btn_edit_ok_Click);
             // 
@@ -63,7 +66,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(391, 50);
+            this.ClientSize = new System.Drawing.Size(387, 46);
             this.ControlBox = false;
             this.Controls.Add(this.btn_edit_ok);
             this.Controls.Add(this.txt_new_title);

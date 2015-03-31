@@ -57,70 +57,72 @@ namespace Simulator
                 }
             }
 
-            XmlReader reader = XmlReader.Create(xmlPath);
-            while (reader.Read())
+            using (XmlReader reader = XmlReader.Create(xmlPath))
             {
-                if (reader.NodeType == XmlNodeType.Element && reader.Name == "OpenExamDocument")
+                while (reader.Read())
                 {
-                    while (reader.NodeType != XmlNodeType.EndElement)
+                    if (reader.NodeType == XmlNodeType.Element && reader.Name == "OpenExamDocument")
                     {
-                        reader.Read();
-                        if (reader.Name == "FileVersion")
+                        while (reader.NodeType != XmlNodeType.EndElement)
                         {
-                            while (reader.NodeType != XmlNodeType.EndElement)
-                            {
-                                reader.Read();
-                                if (reader.NodeType == XmlNodeType.Text)
-                                {
-                                    lbl_file_version.Text = reader.Value;
-                                }
-                            }
                             reader.Read();
-                        }
-                        if (reader.Name == "ExamDetails")
-                        {
-                            while (reader.NodeType != XmlNodeType.EndElement)
+                            if (reader.Name == "FileVersion")
                             {
+                                while (reader.NodeType != XmlNodeType.EndElement)
+                                {
+                                    reader.Read();
+                                    if (reader.NodeType == XmlNodeType.Text)
+                                    {
+                                        lbl_file_version.Text = reader.Value;
+                                    }
+                                }
                                 reader.Read();
-                                if (reader.Name == "ExamTitle")
-                                {
-                                    while (reader.NodeType != XmlNodeType.EndElement)
-                                    {
-                                        reader.Read();
-                                        if (reader.NodeType == XmlNodeType.Text)
-                                        {
-                                            lbl_title.Text = reader.Value;
-                                        }
-                                    }
-                                    reader.Read();
-                                }
-                                if (reader.Name == "TimeAllowed")
-                                {
-                                    while (reader.NodeType != XmlNodeType.EndElement)
-                                    {
-                                        reader.Read();
-                                        if (reader.NodeType == XmlNodeType.Text)
-                                        {
-                                            lbl_time_limit.Text = reader.Value;
-                                        }
-                                    }
-                                    reader.Read();
-                                }
-                                if (reader.Name == "PassingScore")
-                                {
-                                    while (reader.NodeType != XmlNodeType.EndElement)
-                                    {
-                                        reader.Read();
-                                        if (reader.NodeType == XmlNodeType.Text)
-                                        {
-                                            lbl_passing_score.Text = reader.Value;
-                                            Properties.Settings.Default.RequiredScore = Convert.ToInt32(reader.Value);
-                                        }
-                                    }
-                                    reader.Read();
-                                }
                             }
-                            reader.Read();
+                            if (reader.Name == "ExamDetails")
+                            {
+                                while (reader.NodeType != XmlNodeType.EndElement)
+                                {
+                                    reader.Read();
+                                    if (reader.Name == "ExamTitle")
+                                    {
+                                        while (reader.NodeType != XmlNodeType.EndElement)
+                                        {
+                                            reader.Read();
+                                            if (reader.NodeType == XmlNodeType.Text)
+                                            {
+                                                lbl_title.Text = reader.Value;
+                                            }
+                                        }
+                                        reader.Read();
+                                    }
+                                    if (reader.Name == "TimeAllowed")
+                                    {
+                                        while (reader.NodeType != XmlNodeType.EndElement)
+                                        {
+                                            reader.Read();
+                                            if (reader.NodeType == XmlNodeType.Text)
+                                            {
+                                                lbl_time_limit.Text = reader.Value;
+                                            }
+                                        }
+                                        reader.Read();
+                                    }
+                                    if (reader.Name == "PassingScore")
+                                    {
+                                        while (reader.NodeType != XmlNodeType.EndElement)
+                                        {
+                                            reader.Read();
+                                            if (reader.NodeType == XmlNodeType.Text)
+                                            {
+                                                lbl_passing_score.Text = reader.Value;
+                                                Properties.Settings.Default.RequiredScore = Convert.ToInt32(reader.Value);
+                                            }
+                                        }
+                                        reader.Read();
+                                    }
+                                }
+                                reader.Read();
+                            }
                         }
                     }
                 }
