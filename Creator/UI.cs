@@ -510,7 +510,7 @@ namespace Creator
                 }
                 catch (ArgumentException exc)
                 {
-                    Debug.Print("The following error occured: " + exc.Message + "\nInner Exception: " + exc.InnerException + "\n" + exc.HResult);
+                    Debug.Print("The following error occured: " + exc.Message + "\nInner Exception: " + exc.InnerException);
                 }
             }
 

@@ -20,7 +20,6 @@ namespace Simulator
         string filename;
         int examType;
         string selectedSections;
-        string outputPath;
         int defaultExamDuration;
 
         public Exam_Settings()
@@ -28,11 +27,11 @@ namespace Simulator
             InitializeComponent();
         }
 
-        public Exam_Settings(string filePath, string fileName)
+        public Exam_Settings(string fullExamFilePath, string examName)
         {
             InitializeComponent();
-            fullFilePath = filePath;
-            filename = fileName;
+            fullFilePath = fullExamFilePath;
+            filename = examName;
         }
 
         private void rdb_selected_sections_CheckedChanged(object sender, EventArgs e)
@@ -103,7 +102,7 @@ namespace Simulator
             {
                 this.examType = 1;
             }
-            Properties.Settings.Default.ExamPath = outputPath;
+            
             Properties.Settings.Default.CandidatesName = txt_candidaate_name.Text;
             Properties.Settings.Default.ExamType = this.examType;
             Properties.Settings.Default.NumberOfQuestions = Convert.ToInt32(num_exam_number.Value);
@@ -131,8 +130,8 @@ namespace Simulator
 
         private void Exam_Settings_Load(object sender, EventArgs e)
         {
-            string temp = "Open Exam Files\\Simulator\\" + filename;
-            outputPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), temp);
+            string outputPath = GlobalPathVariables.GetExamFilesFolder(filename);
+
             if (!(Directory.Exists(outputPath)))
             {
                 using (ZipFile zip = ZipFile.Read(fullFilePath))
@@ -147,7 +146,7 @@ namespace Simulator
             //New try
             try
             {
-                XPathDocument doc = new XPathDocument(outputPath + Path.DirectorySeparatorChar + filename + ".xml");
+                XPathDocument doc = new XPathDocument(GlobalPathVariables.GetXmlFilePath(outputPath));
                 XPathNavigator nav = doc.CreateNavigator();
                 // Compile a standard XPath expression
                 XPathExpression expr;
@@ -180,10 +179,11 @@ namespace Simulator
                     defaultExamDuration = Convert.ToInt32(iterator.Current.Value);
                 }
             }
-            catch (Exception ex)
+            catch (ArgumentNullException)
             {
-                MessageBox.Show(ex.Message);
-            }
+                MessageBox.Show("Sorry, the selected exam was corrupted, please re-add the exam before retrying.", "Exam Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Close();
+            }            
             for (int i = 0; i < clb_section_options.Items.Count; i++)
                 clb_section_options.SetItemChecked(i, true);
         }

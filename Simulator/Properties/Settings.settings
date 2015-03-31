@@ -20,9 +20,6 @@
     <Setting Name="TimerValue" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="ExamPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
     <Setting Name="ExamTitles" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>

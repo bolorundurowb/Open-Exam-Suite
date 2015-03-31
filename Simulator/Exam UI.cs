@@ -17,7 +17,6 @@ namespace Simulator
         //Global Variables
         int timeLeft;
         string filename;
-        string outputPath;
         List<Question> questions;
         int questionIndex;
         char[] givenAnswers;
@@ -39,7 +38,6 @@ namespace Simulator
             InitializeComponent();
             timeLeft = Properties.Settings.Default.TimerValue * 60;
             this.filename = fileName;
-            this.outputPath = Properties.Settings.Default.ExamPath;
         }
 
         private void btn_pause_Click(object sender, EventArgs e)
@@ -174,7 +172,7 @@ namespace Simulator
         {
             try
             {
-                XPathDocument doc = new XPathDocument(outputPath + Path.DirectorySeparatorChar + filename + ".xml");
+                XPathDocument doc = new XPathDocument(GlobalPathVariables.GetXmlFilePath(GlobalPathVariables.GetExamFilesFolder(filename)));
                 XPathNavigator nav = doc.CreateNavigator();
                 // Compile a standard XPath expression
                 XPathExpression expr;
@@ -208,12 +206,13 @@ namespace Simulator
                     this.passingScore = Convert.ToInt32(iterator.Current.Value);
                 }
             }
-            catch (Exception ex)
+            catch (ArgumentNullException)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("Sorry, the selected exam was corrupted, please re-add the exam before retrying.", "Exam Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Close();
             }
             questions = new List<Question>();
-            questions = Question.GetQuestions(outputPath);
+            questions = Question.GetQuestions(GlobalPathVariables.GetExamFilesFolder(filename));
             givenAnswers = new char[questions.Count];
         }
 
@@ -271,7 +270,7 @@ namespace Simulator
                 txt_question.Text = temp.QuestionText;
                 if (!(string.IsNullOrWhiteSpace(temp.QuestionImagePath)))
                 {
-                    string imagePath = Path.Combine(outputPath, temp.QuestionImagePath);
+                    string imagePath = Path.Combine(GlobalPathVariables.GetExamFilesFolder(filename), temp.QuestionImagePath);
                     pic_image.ImageLocation = imagePath;
                 }
                 for (int i = 0; i < temp.QuestionOptions.Count; i++)
@@ -313,7 +312,7 @@ namespace Simulator
                     txt_question.Text = temp.QuestionText;
                     if (!(string.IsNullOrWhiteSpace(temp.QuestionImagePath)))
                     {
-                        string imagePath = Path.Combine(outputPath, temp.QuestionImagePath);
+                        string imagePath = Path.Combine(GlobalPathVariables.GetExamFilesFolder(filename), temp.QuestionImagePath);
                         pic_image.ImageLocation = imagePath;
                     }
                     else
@@ -368,7 +367,7 @@ namespace Simulator
                 txt_question.Text = temp.QuestionText;
                 if (!(string.IsNullOrWhiteSpace(temp.QuestionImagePath)))
                 {
-                    string imagePath = Path.Combine(outputPath, temp.QuestionImagePath);
+                    string imagePath = Path.Combine(GlobalPathVariables.GetExamFilesFolder(filename), temp.QuestionImagePath);
                     pic_image.ImageLocation = imagePath;
                 }
                 else

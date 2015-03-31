@@ -39,26 +39,25 @@ namespace Simulator
         int numOfQuestions;
         private void Exam_Properties_Load(object sender, EventArgs e)
         {
-            string temp = "Open Exam Files\\Simulator\\" + filename;
-            string outputPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), temp);
+            string xmlPath = GlobalPathVariables.GetXmlFilePath(GlobalPathVariables.GetExamFilesFolder(filename));
 
-            if (File.Exists(outputPath + Path.DirectorySeparatorChar + filename + ".xml.tmp"))
+            if (File.Exists(xmlPath + ".tmp"))
             {
-                File.Delete(outputPath + Path.DirectorySeparatorChar + filename + ".xml.tmp");
+                File.Delete(xmlPath + ".tmp");
             }
 
-            if (!(File.Exists(outputPath + Path.DirectorySeparatorChar + filename + ".xml")))
+            if (!(File.Exists(xmlPath)))
             {
                 using (ZipFile zip = ZipFile.Read(fullFilePath))
                 {
                     foreach (ZipEntry ent in zip)
                     {
-                        ent.Extract(outputPath, ExtractExistingFileAction.OverwriteSilently);
+                        ent.Extract(GlobalPathVariables.GetExamFilesFolder(filename), ExtractExistingFileAction.OverwriteSilently);
                     }
                 }
             }
 
-            XmlReader reader = XmlReader.Create(outputPath + Path.DirectorySeparatorChar + filename + ".xml");
+            XmlReader reader = XmlReader.Create(xmlPath);
             while (reader.Read())
             {
                 if (reader.NodeType == XmlNodeType.Element && reader.Name == "OpenExamDocument")
@@ -133,7 +132,7 @@ namespace Simulator
             //New try
             try
             {
-                XPathDocument doc = new XPathDocument(outputPath + Path.DirectorySeparatorChar + filename + ".xml");
+                XPathDocument doc = new XPathDocument(xmlPath);
                 XPathNavigator nav = doc.CreateNavigator();
                 // Compile a standard XPath expression
                 XPathExpression expr;
