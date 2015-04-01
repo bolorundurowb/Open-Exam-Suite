@@ -68,6 +68,7 @@
             this.editToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.svf_save_exam = new System.Windows.Forms.SaveFileDialog();
             this.opf_get_files = new System.Windows.Forms.OpenFileDialog();
+            this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
             this.btn_clear_picture = new System.Windows.Forms.Button();
             this.btn_select_picture = new System.Windows.Forms.Button();
             this.pct_question_picture = new System.Windows.Forms.PictureBox();
@@ -79,13 +80,13 @@
             this.btn_save_as = new System.Windows.Forms.ToolStripButton();
             this.btn_print_exam = new System.Windows.Forms.ToolStripButton();
             this.btn_print_preview = new System.Windows.Forms.ToolStripButton();
+            this.btn_new_section = new System.Windows.Forms.ToolStripButton();
+            this.btn_new_question = new System.Windows.Forms.ToolStripButton();
             this.btn_undo = new System.Windows.Forms.ToolStripButton();
             this.btn_redo = new System.Windows.Forms.ToolStripButton();
             this.btn_cut = new System.Windows.Forms.ToolStripButton();
             this.btn_copy = new System.Windows.Forms.ToolStripButton();
             this.btn_paste = new System.Windows.Forms.ToolStripButton();
-            this.btn_new_section = new System.Windows.Forms.ToolStripButton();
-            this.btn_new_question = new System.Windows.Forms.ToolStripButton();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -250,15 +251,16 @@
             this.btn_print_exam,
             this.btn_print_preview,
             this.toolStripSeparator2,
+            this.btn_new_section,
+            this.btn_new_question,
+            this.toolStripSeparator11,
             this.btn_undo,
             this.btn_redo,
             this.toolStripSeparator3,
             this.btn_cut,
             this.btn_copy,
             this.btn_paste,
-            this.toolStripSeparator4,
-            this.btn_new_section,
-            this.btn_new_question});
+            this.toolStripSeparator4});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(1204, 25);
@@ -451,6 +453,8 @@
             this.txt_question_text.Name = "txt_question_text";
             this.txt_question_text.Size = new System.Drawing.Size(866, 85);
             this.txt_question_text.TabIndex = 1;
+            this.txt_question_text.Enter += new System.EventHandler(this.txt_question_text_Enter);
+            this.txt_question_text.Leave += new System.EventHandler(this.txt_question_text_Leave);
             // 
             // label1
             // 
@@ -486,6 +490,11 @@
             // 
             this.opf_get_files.Filter = "Image Files |*.jpg";
             this.opf_get_files.Title = "Select Question Picture";
+            // 
+            // toolStripSeparator11
+            // 
+            this.toolStripSeparator11.Name = "toolStripSeparator11";
+            this.toolStripSeparator11.Size = new System.Drawing.Size(6, 25);
             // 
             // btn_clear_picture
             // 
@@ -617,6 +626,28 @@
             this.btn_print_preview.Size = new System.Drawing.Size(23, 22);
             this.btn_print_preview.Text = "Print Preview";
             // 
+            // btn_new_section
+            // 
+            this.btn_new_section.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btn_new_section.Enabled = false;
+            this.btn_new_section.Image = global::Creator.Properties.Resources.New_Section;
+            this.btn_new_section.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btn_new_section.Name = "btn_new_section";
+            this.btn_new_section.Size = new System.Drawing.Size(23, 22);
+            this.btn_new_section.Text = "Add Section";
+            this.btn_new_section.Click += new System.EventHandler(this.AddSection);
+            // 
+            // btn_new_question
+            // 
+            this.btn_new_question.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btn_new_question.Enabled = false;
+            this.btn_new_question.Image = global::Creator.Properties.Resources.New_Question;
+            this.btn_new_question.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btn_new_question.Name = "btn_new_question";
+            this.btn_new_question.Size = new System.Drawing.Size(23, 22);
+            this.btn_new_question.Text = "Add Question";
+            this.btn_new_question.Click += new System.EventHandler(this.AddQuestion);
+            // 
             // btn_undo
             // 
             this.btn_undo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -641,21 +672,23 @@
             // 
             this.btn_cut.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.btn_cut.Enabled = false;
-            this.btn_cut.Image = global::Creator.Properties.Resources.Cut;
+            this.btn_cut.Image = global::Creator.Properties.Resources.Cut1;
             this.btn_cut.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btn_cut.Name = "btn_cut";
             this.btn_cut.Size = new System.Drawing.Size(23, 22);
-            this.btn_cut.Text = "toolStripButton1";
+            this.btn_cut.Text = "Cut";
+            this.btn_cut.Click += new System.EventHandler(this.btn_cut_Click);
             // 
             // btn_copy
             // 
             this.btn_copy.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.btn_copy.Enabled = false;
-            this.btn_copy.Image = global::Creator.Properties.Resources.Copy;
+            this.btn_copy.Image = global::Creator.Properties.Resources.Copy_1;
             this.btn_copy.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btn_copy.Name = "btn_copy";
             this.btn_copy.Size = new System.Drawing.Size(23, 22);
-            this.btn_copy.Text = "toolStripButton2";
+            this.btn_copy.Text = "Copy";
+            this.btn_copy.Click += new System.EventHandler(this.btn_copy_Click);
             // 
             // btn_paste
             // 
@@ -665,29 +698,8 @@
             this.btn_paste.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btn_paste.Name = "btn_paste";
             this.btn_paste.Size = new System.Drawing.Size(23, 22);
-            this.btn_paste.Text = "toolStripButton3";
-            // 
-            // btn_new_section
-            // 
-            this.btn_new_section.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btn_new_section.Enabled = false;
-            this.btn_new_section.Image = global::Creator.Properties.Resources.New_Section;
-            this.btn_new_section.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btn_new_section.Name = "btn_new_section";
-            this.btn_new_section.Size = new System.Drawing.Size(23, 22);
-            this.btn_new_section.Text = "Add Section";
-            this.btn_new_section.Click += new System.EventHandler(this.AddSection);
-            // 
-            // btn_new_question
-            // 
-            this.btn_new_question.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btn_new_question.Enabled = false;
-            this.btn_new_question.Image = global::Creator.Properties.Resources.New_Question;
-            this.btn_new_question.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btn_new_question.Name = "btn_new_question";
-            this.btn_new_question.Size = new System.Drawing.Size(23, 22);
-            this.btn_new_question.Text = "Add Question";
-            this.btn_new_question.Click += new System.EventHandler(this.AddQuestion);
+            this.btn_paste.Text = "Paste";
+            this.btn_paste.Click += new System.EventHandler(this.btn_paste_Click);
             // 
             // openToolStripMenuItem
             // 
@@ -905,6 +917,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
         private System.Windows.Forms.ToolStripProgressBar prg_save_progress;
         private System.Windows.Forms.Label lbl_save_status;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
     }
 }
 

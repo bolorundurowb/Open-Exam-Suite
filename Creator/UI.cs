@@ -123,6 +123,9 @@ namespace Creator
                 btn_new_section.Enabled = false;
                 splcn_main_view.Panel2.Enabled = true;
                 editToolStripMenuItem1.Enabled = false;
+                //enable printing
+                btn_print_exam.Enabled = true;
+                btn_print_preview.Enabled = true;
                 //display question 
                 lbl_question_and_section.Text = "Section: " + ((TreeView)sender).SelectedNode.Parent.Text + ", " + ((TreeView)sender).SelectedNode.Text;
 
@@ -219,6 +222,9 @@ namespace Creator
                 lbl_question_and_section.Text = "";
                 //dislplay edit option
                 editToolStripMenuItem1.Enabled = true;
+                //disable printing
+                btn_print_exam.Enabled = false;
+                btn_print_preview.Enabled = false;
             }
             //enable add sections
             else if (((TreeView)sender).SelectedNode.Name.Contains("examNode"))
@@ -230,6 +236,9 @@ namespace Creator
                 btn_new_question.Enabled = false;
                 //display edit option
                 editToolStripMenuItem1.Enabled = false;
+                //disable printing
+                btn_print_exam.Enabled = false;
+                btn_print_preview.Enabled = false;
             }
             else
             {
@@ -239,6 +248,9 @@ namespace Creator
                 btn_new_question.Enabled = false;
                 newSectionToolStripMenuItem.Enabled = false;
                 btn_new_section.Enabled = false;
+                //disable printing
+                btn_print_exam.Enabled = false;
+                btn_print_preview.Enabled = false;
             }
         }
 
@@ -461,7 +473,6 @@ namespace Creator
                 string filename = svf_save_exam.FileName;
                 fileNameWithExtension = filename;
                 Save(filename);
-                btn_save_as.Enabled = false;
                 btn_save_exam.Enabled = true;
             }
         }
@@ -630,6 +641,53 @@ namespace Creator
             if (opf_get_files.ShowDialog() == DialogResult.OK)
             {
                 pct_question_picture.ImageLocation = opf_get_files.FileName;
+            }
+        }
+
+        private void txt_question_text_Enter(object sender, EventArgs e)
+        {
+            btn_paste.Enabled = true;
+            btn_cut.Enabled = true;
+            btn_copy.Enabled = true;
+        }
+
+        private void txt_question_text_Leave(object sender, EventArgs e)
+        {
+            btn_paste.Enabled = false;
+            btn_cut.Enabled = false;
+            btn_copy.Enabled = false;
+        }
+
+        private void btn_cut_Click(object sender, EventArgs e)
+        {
+            if (txt_question_text.SelectionLength > 0)
+            {
+                txt_question_text.Cut();
+            }
+        }
+
+        private void btn_copy_Click(object sender, EventArgs e)
+        {
+            if (txt_question_text.SelectionLength > 0)
+            {
+                txt_question_text.Copy();
+            }
+        }
+
+        private void btn_paste_Click(object sender, EventArgs e)
+        {
+            if (Clipboard.GetDataObject().GetDataPresent(DataFormats.Text))
+            {
+                // Determine if any text is selected in the text box. 
+                if (txt_question_text.SelectionLength > 0)
+                {
+                    // Ask user if they want to paste over currently selected text. 
+                    if (MessageBox.Show("Do you want to paste over current selection?", "Confirmation", MessageBoxButtons.YesNo) == DialogResult.No)
+                        // Move selection to the point after the current selection and paste.
+                        txt_question_text.SelectionStart = txt_question_text.SelectionStart + txt_question_text.SelectionLength;
+                }
+                // Paste current text in Clipboard into text box.
+                txt_question_text.Paste();
             }
         }
     }
