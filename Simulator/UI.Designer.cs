@@ -37,14 +37,14 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.btn_start = new System.Windows.Forms.Button();
-            this.btn_add = new System.Windows.Forms.Button();
-            this.btn_remove = new System.Windows.Forms.Button();
-            this.btn_properties = new System.Windows.Forms.Button();
             this.dgv_exams = new System.Windows.Forms.DataGridView();
             this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.path = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.opf_select = new System.Windows.Forms.OpenFileDialog();
+            this.btn_properties = new System.Windows.Forms.Button();
+            this.btn_remove = new System.Windows.Forms.Button();
+            this.btn_add = new System.Windows.Forms.Button();
+            this.btn_start = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_exams)).BeginInit();
             this.SuspendLayout();
@@ -90,49 +90,6 @@
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
-            // 
-            // btn_start
-            // 
-            this.btn_start.Enabled = false;
-            this.btn_start.Location = new System.Drawing.Point(12, 40);
-            this.btn_start.Name = "btn_start";
-            this.btn_start.Size = new System.Drawing.Size(75, 23);
-            this.btn_start.TabIndex = 1;
-            this.btn_start.Text = "Start";
-            this.btn_start.UseVisualStyleBackColor = true;
-            this.btn_start.Click += new System.EventHandler(this.btn_start_Click);
-            // 
-            // btn_add
-            // 
-            this.btn_add.Location = new System.Drawing.Point(12, 81);
-            this.btn_add.Name = "btn_add";
-            this.btn_add.Size = new System.Drawing.Size(75, 23);
-            this.btn_add.TabIndex = 2;
-            this.btn_add.Text = "Add";
-            this.btn_add.UseVisualStyleBackColor = true;
-            this.btn_add.Click += new System.EventHandler(this.btn_add_Click);
-            // 
-            // btn_remove
-            // 
-            this.btn_remove.Enabled = false;
-            this.btn_remove.Location = new System.Drawing.Point(12, 122);
-            this.btn_remove.Name = "btn_remove";
-            this.btn_remove.Size = new System.Drawing.Size(75, 23);
-            this.btn_remove.TabIndex = 3;
-            this.btn_remove.Text = "Remove";
-            this.btn_remove.UseVisualStyleBackColor = true;
-            this.btn_remove.Click += new System.EventHandler(this.btn_remove_Click);
-            // 
-            // btn_properties
-            // 
-            this.btn_properties.Enabled = false;
-            this.btn_properties.Location = new System.Drawing.Point(12, 162);
-            this.btn_properties.Name = "btn_properties";
-            this.btn_properties.Size = new System.Drawing.Size(75, 23);
-            this.btn_properties.TabIndex = 4;
-            this.btn_properties.Text = "Properties";
-            this.btn_properties.UseVisualStyleBackColor = true;
-            this.btn_properties.Click += new System.EventHandler(this.btn_properties_Click);
             // 
             // dgv_exams
             // 
@@ -201,6 +158,57 @@
             // 
             this.opf_select.Filter = "Open Exam Files (*.oef)|*.oef";
             this.opf_select.Multiselect = true;
+            // 
+            // btn_properties
+            // 
+            this.btn_properties.Enabled = false;
+            this.btn_properties.Image = global::Simulator.Properties.Resources._5;
+            this.btn_properties.Location = new System.Drawing.Point(12, 162);
+            this.btn_properties.Name = "btn_properties";
+            this.btn_properties.Size = new System.Drawing.Size(85, 23);
+            this.btn_properties.TabIndex = 4;
+            this.btn_properties.Text = "Properties";
+            this.btn_properties.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btn_properties.UseVisualStyleBackColor = true;
+            this.btn_properties.Click += new System.EventHandler(this.btn_properties_Click);
+            // 
+            // btn_remove
+            // 
+            this.btn_remove.Enabled = false;
+            this.btn_remove.Image = global::Simulator.Properties.Resources._2;
+            this.btn_remove.Location = new System.Drawing.Point(12, 122);
+            this.btn_remove.Name = "btn_remove";
+            this.btn_remove.Size = new System.Drawing.Size(85, 23);
+            this.btn_remove.TabIndex = 3;
+            this.btn_remove.Text = "Remove";
+            this.btn_remove.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btn_remove.UseVisualStyleBackColor = true;
+            this.btn_remove.Click += new System.EventHandler(this.btn_remove_Click);
+            // 
+            // btn_add
+            // 
+            this.btn_add.Image = global::Simulator.Properties.Resources._1;
+            this.btn_add.Location = new System.Drawing.Point(12, 81);
+            this.btn_add.Name = "btn_add";
+            this.btn_add.Size = new System.Drawing.Size(85, 23);
+            this.btn_add.TabIndex = 2;
+            this.btn_add.Text = "Add";
+            this.btn_add.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btn_add.UseVisualStyleBackColor = true;
+            this.btn_add.Click += new System.EventHandler(this.btn_add_Click);
+            // 
+            // btn_start
+            // 
+            this.btn_start.Enabled = false;
+            this.btn_start.Image = global::Simulator.Properties.Resources._4;
+            this.btn_start.Location = new System.Drawing.Point(12, 40);
+            this.btn_start.Name = "btn_start";
+            this.btn_start.Size = new System.Drawing.Size(85, 23);
+            this.btn_start.TabIndex = 1;
+            this.btn_start.Text = "Start";
+            this.btn_start.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btn_start.UseVisualStyleBackColor = true;
+            this.btn_start.Click += new System.EventHandler(this.btn_start_Click);
             // 
             // UI
             // 

@@ -101,8 +101,7 @@ namespace Simulator
             else
             {
                 this.examType = 1;
-            }
-            
+            }            
             Properties.Settings.Default.CandidatesName = txt_candidaate_name.Text;
             Properties.Settings.Default.ExamType = this.examType;
             Properties.Settings.Default.NumberOfQuestions = Convert.ToInt32(num_exam_number.Value);

@@ -33,7 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Creator.fw.ico</ApplicationIcon>
+    <ApplicationIcon>Creator Alt.fw.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Ionic.Zip">
@@ -134,7 +134,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Creator.fw.ico" />
+    <Content Include="Creator Alt.fw.ico" />
     <None Include="Resources\Down.png" />
     <None Include="Resources\Up.png" />
     <None Include="Resources\New.png" />
