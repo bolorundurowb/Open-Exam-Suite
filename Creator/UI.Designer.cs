@@ -48,18 +48,22 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
             this.splcn_main_view = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.trv_explorer = new System.Windows.Forms.TreeView();
             this.ilst_images = new System.Windows.Forms.ImageList(this.components);
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.dgv_properties = new System.Windows.Forms.DataGridView();
+            this.property = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.value = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.lbl_save_status = new System.Windows.Forms.Label();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.lbl_question_and_section = new System.Windows.Forms.ToolStripStatusLabel();
-            this.prg_save_progress = new System.Windows.Forms.ToolStripProgressBar();
             this.label2 = new System.Windows.Forms.Label();
             this.pan_options = new System.Windows.Forms.Panel();
             this.txt_question_text = new System.Windows.Forms.TextBox();
@@ -68,7 +72,6 @@
             this.editToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.svf_save_exam = new System.Windows.Forms.SaveFileDialog();
             this.opf_get_files = new System.Windows.Forms.OpenFileDialog();
-            this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
             this.btn_clear_picture = new System.Windows.Forms.Button();
             this.btn_select_picture = new System.Windows.Forms.Button();
             this.pct_question_picture = new System.Windows.Forms.PictureBox();
@@ -87,6 +90,7 @@
             this.btn_cut = new System.Windows.Forms.ToolStripButton();
             this.btn_copy = new System.Windows.Forms.ToolStripButton();
             this.btn_paste = new System.Windows.Forms.ToolStripButton();
+            this.helpToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -111,6 +115,8 @@
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_properties)).BeginInit();
             this.statusStrip.SuspendLayout();
             this.contextMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pct_question_picture)).BeginInit();
@@ -260,7 +266,9 @@
             this.btn_cut,
             this.btn_copy,
             this.btn_paste,
-            this.toolStripSeparator4});
+            this.toolStripSeparator4,
+            this.helpToolStripButton,
+            this.toolStripSeparator12});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(1204, 25);
@@ -277,6 +285,11 @@
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
+            // toolStripSeparator11
+            // 
+            this.toolStripSeparator11.Name = "toolStripSeparator11";
+            this.toolStripSeparator11.Size = new System.Drawing.Size(6, 25);
+            // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
@@ -286,6 +299,11 @@
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
             this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripSeparator12
+            // 
+            this.toolStripSeparator12.Name = "toolStripSeparator12";
+            this.toolStripSeparator12.Size = new System.Drawing.Size(6, 25);
             // 
             // splcn_main_view
             // 
@@ -377,6 +395,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.dgv_properties);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
@@ -386,11 +405,44 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Properties";
             // 
+            // dgv_properties
+            // 
+            this.dgv_properties.AllowUserToAddRows = false;
+            this.dgv_properties.AllowUserToDeleteRows = false;
+            this.dgv_properties.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgv_properties.BackgroundColor = System.Drawing.SystemColors.Control;
+            this.dgv_properties.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_properties.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.property,
+            this.value});
+            this.dgv_properties.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgv_properties.Enabled = false;
+            this.dgv_properties.Location = new System.Drawing.Point(3, 19);
+            this.dgv_properties.MultiSelect = false;
+            this.dgv_properties.Name = "dgv_properties";
+            this.dgv_properties.ReadOnly = true;
+            this.dgv_properties.RowHeadersVisible = false;
+            this.dgv_properties.Size = new System.Drawing.Size(224, 330);
+            this.dgv_properties.TabIndex = 0;
+            // 
+            // property
+            // 
+            this.property.HeaderText = "Property";
+            this.property.Name = "property";
+            this.property.ReadOnly = true;
+            // 
+            // value
+            // 
+            this.value.HeaderText = "Value";
+            this.value.Name = "value";
+            this.value.ReadOnly = true;
+            // 
             // lbl_save_status
             // 
             this.lbl_save_status.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lbl_save_status.AutoSize = true;
-            this.lbl_save_status.Location = new System.Drawing.Point(854, 4);
+            this.lbl_save_status.ForeColor = System.Drawing.Color.LimeGreen;
+            this.lbl_save_status.Location = new System.Drawing.Point(825, 4);
             this.lbl_save_status.Name = "lbl_save_status";
             this.lbl_save_status.Size = new System.Drawing.Size(0, 13);
             this.lbl_save_status.TabIndex = 10;
@@ -399,8 +451,7 @@
             // 
             this.statusStrip.Dock = System.Windows.Forms.DockStyle.Top;
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.lbl_question_and_section,
-            this.prg_save_progress});
+            this.lbl_question_and_section});
             this.statusStrip.Location = new System.Drawing.Point(0, 0);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(966, 22);
@@ -409,16 +460,9 @@
             // 
             // lbl_question_and_section
             // 
+            this.lbl_question_and_section.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Bold);
             this.lbl_question_and_section.Name = "lbl_question_and_section";
             this.lbl_question_and_section.Size = new System.Drawing.Size(0, 17);
-            // 
-            // prg_save_progress
-            // 
-            this.prg_save_progress.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.prg_save_progress.Name = "prg_save_progress";
-            this.prg_save_progress.Size = new System.Drawing.Size(100, 16);
-            this.prg_save_progress.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
-            this.prg_save_progress.Visible = false;
             // 
             // label2
             // 
@@ -437,7 +481,7 @@
             this.pan_options.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.pan_options.AutoScroll = true;
             this.pan_options.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pan_options.Location = new System.Drawing.Point(256, 370);
+            this.pan_options.Location = new System.Drawing.Point(256, 372);
             this.pan_options.Name = "pan_options";
             this.pan_options.Size = new System.Drawing.Size(352, 252);
             this.pan_options.TabIndex = 2;
@@ -491,11 +535,6 @@
             this.opf_get_files.Filter = "Image Files |*.jpg";
             this.opf_get_files.Title = "Select Question Picture";
             // 
-            // toolStripSeparator11
-            // 
-            this.toolStripSeparator11.Name = "toolStripSeparator11";
-            this.toolStripSeparator11.Size = new System.Drawing.Size(6, 25);
-            // 
             // btn_clear_picture
             // 
             this.btn_clear_picture.Image = global::Creator.Properties.Resources._6;
@@ -531,7 +570,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pct_question_picture.Location = new System.Drawing.Point(182, 168);
             this.pct_question_picture.Name = "pct_question_picture";
-            this.pct_question_picture.Size = new System.Drawing.Size(256, 196);
+            this.pct_question_picture.Size = new System.Drawing.Size(310, 196);
             this.pct_question_picture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pct_question_picture.TabIndex = 5;
             this.pct_question_picture.TabStop = false;
@@ -578,7 +617,7 @@
             // btn_open_exam
             // 
             this.btn_open_exam.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btn_open_exam.Image = ((System.Drawing.Image)(resources.GetObject("btn_open_exam.Image")));
+            this.btn_open_exam.Image = global::Creator.Properties.Resources.Open;
             this.btn_open_exam.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btn_open_exam.Name = "btn_open_exam";
             this.btn_open_exam.Size = new System.Drawing.Size(23, 22);
@@ -588,7 +627,7 @@
             // 
             this.btn_save_exam.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.btn_save_exam.Enabled = false;
-            this.btn_save_exam.Image = global::Creator.Properties.Resources.Save;
+            this.btn_save_exam.Image = global::Creator.Properties.Resources.Save1;
             this.btn_save_exam.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btn_save_exam.Name = "btn_save_exam";
             this.btn_save_exam.Size = new System.Drawing.Size(23, 22);
@@ -610,11 +649,12 @@
             // 
             this.btn_print_exam.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.btn_print_exam.Enabled = false;
-            this.btn_print_exam.Image = global::Creator.Properties.Resources.Print;
+            this.btn_print_exam.Image = global::Creator.Properties.Resources.Print1;
             this.btn_print_exam.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btn_print_exam.Name = "btn_print_exam";
             this.btn_print_exam.Size = new System.Drawing.Size(23, 22);
             this.btn_print_exam.Text = "Print";
+            this.btn_print_exam.Click += new System.EventHandler(this.PrintQuestion);
             // 
             // btn_print_preview
             // 
@@ -625,6 +665,7 @@
             this.btn_print_preview.Name = "btn_print_preview";
             this.btn_print_preview.Size = new System.Drawing.Size(23, 22);
             this.btn_print_preview.Text = "Print Preview";
+            this.btn_print_preview.Click += new System.EventHandler(this.PrintPreview);
             // 
             // btn_new_section
             // 
@@ -701,12 +742,22 @@
             this.btn_paste.Text = "Paste";
             this.btn_paste.Click += new System.EventHandler(this.btn_paste_Click);
             // 
+            // helpToolStripButton
+            // 
+            this.helpToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.helpToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("helpToolStripButton.Image")));
+            this.helpToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.helpToolStripButton.Name = "helpToolStripButton";
+            this.helpToolStripButton.Size = new System.Drawing.Size(23, 22);
+            this.helpToolStripButton.Text = "He&lp";
+            // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openToolStripMenuItem.Image")));
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
             this.openToolStripMenuItem.Text = "Open";
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // importToolStripMenuItem
             // 
@@ -715,6 +766,7 @@
             this.importToolStripMenuItem.Name = "importToolStripMenuItem";
             this.importToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
             this.importToolStripMenuItem.Text = "Import";
+            this.importToolStripMenuItem.Click += new System.EventHandler(this.ImportExam);
             // 
             // saveToolStripMenuItem
             // 
@@ -741,6 +793,7 @@
             this.printToolStripMenuItem.Name = "printToolStripMenuItem";
             this.printToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
             this.printToolStripMenuItem.Text = "Print";
+            this.printToolStripMenuItem.Click += new System.EventHandler(this.PrintQuestion);
             // 
             // closeToolStripMenuItem
             // 
@@ -749,6 +802,7 @@
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
             this.closeToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
             this.closeToolStripMenuItem.Text = "Close";
+            this.closeToolStripMenuItem.Click += new System.EventHandler(this.CloseExam);
             // 
             // exitToolStripMenuItem
             // 
@@ -837,6 +891,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_properties)).EndInit();
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
             this.contextMenuStrip.ResumeLayout(false);
@@ -915,9 +971,13 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
-        private System.Windows.Forms.ToolStripProgressBar prg_save_progress;
         private System.Windows.Forms.Label lbl_save_status;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
+        private System.Windows.Forms.DataGridView dgv_properties;
+        private System.Windows.Forms.DataGridViewTextBoxColumn property;
+        private System.Windows.Forms.DataGridViewComboBoxColumn value;
+        private System.Windows.Forms.ToolStripButton helpToolStripButton;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
     }
 }
 

@@ -119,5 +119,11 @@ namespace Creator
             //return complete exam document
             return exam;
         }
+
+        
+        /*public static XmlDocument ReadExamToXmlDocument(string xmlFilePath)
+        {
+
+        }*/
     }
 }

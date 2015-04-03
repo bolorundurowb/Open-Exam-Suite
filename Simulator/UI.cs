@@ -13,9 +13,27 @@ namespace Simulator
 {
     public partial class UI : Form
     {
+        string openedFilePath;
         public UI()
         {
             InitializeComponent();
+        }
+
+        public UI(string requestedFilePath)
+        {
+            InitializeComponent();
+            if (requestedFilePath != string.Empty && Path.GetExtension(requestedFilePath).ToLower() == ".oef")
+            {
+                Properties.Settings.Default.ExamPaths += "," + requestedFilePath;
+                Properties.Settings.Default.ExamTitles += "," + Path.GetFileNameWithoutExtension(requestedFilePath);
+                Properties.Settings.Default.Save();
+                this.openedFilePath = requestedFilePath;
+            }
+            else
+            {
+                MessageBox.Show("Selected file is not an OES Exam File", "File Type Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                this.openedFilePath = string.Empty;
+            }
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -72,18 +90,6 @@ namespace Simulator
             }
         }
 
-        private void dgv_exams_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            try
-            {
-                dgv_exams.Rows[e.RowIndex].Selected = true;
-            }
-            catch (ArgumentException)
-            {
-
-            }
-        }
-
         private void btn_remove_Click(object sender, EventArgs e)
         {
             foreach (DataGridViewRow test in dgv_exams.SelectedRows)
@@ -120,8 +126,10 @@ namespace Simulator
 
         private void UI_Load(object sender, EventArgs e)
         {
-            string[] paths = Properties.Settings.Default.ExamPaths.Split(',');
-            string[] titles = Properties.Settings.Default.ExamTitles.Split(',');
+            string[] unfilteredPaths = Properties.Settings.Default.ExamPaths.Split(',');
+            string[] unfilteredTitles = Properties.Settings.Default.ExamTitles.Split(',');
+            string[] paths = unfilteredPaths.Distinct().ToArray();
+            string[] titles = unfilteredTitles.Distinct().ToArray();
             if (!((paths == null) || (titles == null)))
             {
                 dgv_exams.Rows.Clear();
@@ -136,6 +144,17 @@ namespace Simulator
             if (dgv_exams.Rows.Count > 0)
             {
                 dgv_exams.Rows[0].Cells[0].Selected = false;
+            }
+            //Select opened file
+            if (openedFilePath != string.Empty)
+            {
+                foreach(DataGridViewRow row in dgv_exams.Rows)
+                {
+                    if (row.Cells[1].Value.ToString() == openedFilePath)
+                    {
+                        row.Selected = true;
+                    }
+                }
             }
         }
 

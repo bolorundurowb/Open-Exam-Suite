@@ -115,7 +115,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="XML Handler.cs" />
+    <Compile Include="Utilities.cs" />
     <EmbeddedResource Include="About.resx">
       <DependentUpon>About.cs</DependentUpon>
     </EmbeddedResource>
@@ -154,6 +154,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Creator Alt.fw.ico" />
+    <None Include="Resources\Open~2.bmp" />
+    <None Include="Resources\Print.bmp" />
+    <None Include="Resources\Save.bmp" />
+    <None Include="Resources\Open.bmp" />
     <None Include="Resources\Copy~1.png" />
     <None Include="Resources\Cut.png" />
     <None Include="Resources\Down.png" />

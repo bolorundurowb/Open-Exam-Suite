@@ -4,17 +4,31 @@ using System.Text;
 
 namespace Simulator
 {
+    /// <summary>
+    /// Class that contains fields and methods that enale access to exam innards
+    /// </summary>
     public class GlobalPathVariables
     {
         //Path to OES temp folder
         private static string oefTempFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "Open Exam Files");
-        //Creator temp folder
+        /// <summary>
+        /// Creator temp folder
+        /// </summary>
         public static string creatorFolderPath = Path.Combine(oefTempFolderPath, "Creator");
-        //Simulator temp folder
+        /// <summary>
+        /// Simulator temp folder
+        /// </summary>
         public static string simulatorFolderPath = Path.Combine(oefTempFolderPath, "Simulator");
-        //Error log file path
+        /// <summary>
+        /// Error log file path
+        /// </summary>
         public static string errorLogPath = Path.Combine(oefTempFolderPath, "Error Log.log");
 
+        /// <summary>
+        /// A method to determine the particular folder for an exam file
+        /// </summary>
+        /// <param name="examTitle">The title of the exam</param>
+        /// <returns>A fully qualified folder path</returns>
         public static string GetExamFilesFolder(string examTitle)
         {
             return Path.Combine(simulatorFolderPath, examTitle);

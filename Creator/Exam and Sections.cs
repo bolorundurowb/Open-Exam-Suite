@@ -42,7 +42,10 @@ namespace Creator
                     dgv_section_titles.Rows.Add(s);
                 }
             }
-            dgv_section_titles.Rows[0].Cells[0].Selected = false;
+            if (dgv_section_titles.RowCount > 0)
+            {
+                dgv_section_titles.Rows[0].Cells[0].Selected = false;
+            }
         }
 
         private void dgv_section_titles_SelectionChanged(object sender, EventArgs e)
@@ -148,7 +151,7 @@ namespace Creator
             Properties.Settings.Default.ExamInstructions = txt_exam_instructions.Text;
             Properties.Settings.Default.ExamTitle = txt_exam_title.Text;
             Properties.Settings.Default.FileVersion = lbl_file_version.Text;
-            Properties.Settings.Default.PassingScore = Convert.ToInt32(num_passing_score.Value);
+            Properties.Settings.Default.PassingScore = Convert.ToInt32(num_passing_score.Value) > 1000 ? 1000 : Convert.ToInt32(num_passing_score.Value);
             Properties.Settings.Default.TimeAllowed = Convert.ToInt32(num_time_limit.Value);
             Properties.Settings.Default.SectionTitles = new System.Collections.Specialized.StringCollection();
             for (int i = 0; i < dgv_section_titles.Rows.Count; i++)

@@ -48,7 +48,7 @@
             // 
             // txt_section_title
             // 
-            this.txt_section_title.Location = new System.Drawing.Point(76, 19);
+            this.txt_section_title.Location = new System.Drawing.Point(73, 19);
             this.txt_section_title.Name = "txt_section_title";
             this.txt_section_title.Size = new System.Drawing.Size(212, 20);
             this.txt_section_title.TabIndex = 1;
@@ -59,7 +59,7 @@
             this.btn_add.Enabled = false;
             this.btn_add.Image = global::Creator.Properties.Resources._1;
             this.btn_add.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btn_add.Location = new System.Drawing.Point(321, 16);
+            this.btn_add.Location = new System.Drawing.Point(291, 17);
             this.btn_add.Name = "btn_add";
             this.btn_add.Size = new System.Drawing.Size(58, 23);
             this.btn_add.TabIndex = 2;
@@ -80,7 +80,7 @@
             this.richTextBox1.Location = new System.Drawing.Point(12, 48);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(381, 45);
+            this.richTextBox1.Size = new System.Drawing.Size(350, 45);
             this.richTextBox1.TabIndex = 3;
             this.richTextBox1.Text = "NOTE: Once done adding sections, please close this window. Added sections would b" +
     "e automatically reflected.";
@@ -90,7 +90,7 @@
             this.AcceptButton = this.btn_add;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(408, 105);
+            this.ClientSize = new System.Drawing.Size(368, 105);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.btn_add);
             this.Controls.Add(this.txt_section_title);

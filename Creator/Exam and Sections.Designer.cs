@@ -106,7 +106,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(169, 154);
+            this.label9.Location = new System.Drawing.Point(187, 154);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(49, 13);
             this.label9.TabIndex = 16;
@@ -114,7 +114,7 @@
             // 
             // num_time_limit
             // 
-            this.num_time_limit.Location = new System.Drawing.Point(93, 150);
+            this.num_time_limit.Location = new System.Drawing.Point(112, 151);
             this.num_time_limit.Minimum = new decimal(new int[] {
             1,
             0,
@@ -155,10 +155,11 @@
             // btn_next
             // 
             this.btn_next.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_next.Image = global::Creator.Properties.Resources.Next;
             this.btn_next.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btn_next.Location = new System.Drawing.Point(410, 430);
+            this.btn_next.Location = new System.Drawing.Point(419, 429);
             this.btn_next.Name = "btn_next";
-            this.btn_next.Size = new System.Drawing.Size(75, 23);
+            this.btn_next.Size = new System.Drawing.Size(71, 23);
             this.btn_next.TabIndex = 12;
             this.btn_next.Text = "NEXT";
             this.btn_next.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -173,7 +174,7 @@
             this.txt_exam_instructions.Location = new System.Drawing.Point(35, 213);
             this.txt_exam_instructions.Multiline = true;
             this.txt_exam_instructions.Name = "txt_exam_instructions";
-            this.txt_exam_instructions.Size = new System.Drawing.Size(433, 195);
+            this.txt_exam_instructions.Size = new System.Drawing.Size(455, 195);
             this.txt_exam_instructions.TabIndex = 11;
             this.txt_exam_instructions.TextChanged += new System.EventHandler(this._TextChanged);
             // 
@@ -187,9 +188,9 @@
             // 
             // txt_exam_title
             // 
-            this.txt_exam_title.Location = new System.Drawing.Point(94, 28);
+            this.txt_exam_title.Location = new System.Drawing.Point(98, 28);
             this.txt_exam_title.Name = "txt_exam_title";
-            this.txt_exam_title.Size = new System.Drawing.Size(374, 20);
+            this.txt_exam_title.Size = new System.Drawing.Size(392, 20);
             this.txt_exam_title.TabIndex = 7;
             this.txt_exam_title.TextChanged += new System.EventHandler(this._TextChanged);
             // 
@@ -367,7 +368,7 @@
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.DarkSlateBlue;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgv_section_titles.DefaultCellStyle = dataGridViewCellStyle1;

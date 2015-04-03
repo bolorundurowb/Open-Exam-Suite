@@ -35,12 +35,13 @@ namespace Creator
                 openToolStripMenuItem.Enabled = false;
                 //enable some others
                 btn_save_as.Enabled = true;
-                saveToolStripMenuItem.Enabled = true;
+                saveAsToolStripMenuItem.Enabled = true;
                 closeToolStripMenuItem.Enabled = true;
                 insertPictureToolStripMenuItem.Enabled = true;
                 newSectionToolStripMenuItem.Enabled = true;
                 addOptionToolStripMenuItem.Enabled = true;
                 btn_new_section.Enabled = true;
+                importToolStripMenuItem.Enabled = true;
                 //adding elements to treeview
                 TreeNode examNode = new TreeNode();
                 examNode.Name = "examNode";
@@ -48,31 +49,33 @@ namespace Creator
                 examNode.ImageIndex = 2;
                 examNode.SelectedImageIndex = 2;
                 trv_explorer.Nodes.Add(examNode);           //Root node in TreeView
-
-                for (int i = 0; i < Properties.Settings.Default.SectionTitles.Count; i++)
+                if (Properties.Settings.Default.SectionTitles.Count > 0)
                 {
-                    TreeNode SectionNode = new TreeNode();
-                    SectionNode.Name = "secNode_" + i;
-                    SectionNode.Text = Properties.Settings.Default.SectionTitles[i];
-                    SectionNode.ImageIndex = 0;
-                    SectionNode.SelectedImageIndex = 0;
-                    SectionNode.ContextMenuStrip = contextMenuStrip;
-                    examNode.Nodes.Add(SectionNode);        //Section Nodes
+                    for (int i = 0; i < Properties.Settings.Default.SectionTitles.Count; i++)
+                    {
+                        TreeNode SectionNode = new TreeNode();
+                        SectionNode.Name = "secNode_" + i;
+                        SectionNode.Text = Properties.Settings.Default.SectionTitles[i];
+                        SectionNode.ImageIndex = 0;
+                        SectionNode.SelectedImageIndex = 0;
+                        SectionNode.ContextMenuStrip = contextMenuStrip;
+                        examNode.Nodes.Add(SectionNode);        //Section Nodes
+                    }
+
+                    TreeNode QuestionNode = new TreeNode();
+                    QuestionNode.Name = "quesNode_0";
+                    QuestionNode.Text = "Question 1";
+                    QuestionNode.ImageIndex = 1;
+                    QuestionNode.SelectedImageIndex = 1;
+                    examNode.Nodes[0].Nodes.Add(QuestionNode);      //The default question Node
+
+                    trv_explorer.SelectedNode = QuestionNode;
+                    //Enable Question fillout mode
+                    splcn_main_view.Panel2.Enabled = true;
                 }
-
-                TreeNode QuestionNode = new TreeNode();
-                QuestionNode.Name = "quesNode_0";
-                QuestionNode.Text = "Question 1";
-                QuestionNode.ImageIndex = 1;
-                QuestionNode.SelectedImageIndex = 1;
-                examNode.Nodes[0].Nodes.Add(QuestionNode);      //The default question Node
-
-                trv_explorer.ExpandAll();
-                trv_explorer.SelectedNode = QuestionNode;
                 //Initialize store for Questions
                 tempExamStore = new List<Question>();
-                //Enable Question fillout mode
-                splcn_main_view.Panel2.Enabled = true;
+                trv_explorer.ExpandAll();
             }
         }
 
@@ -125,6 +128,7 @@ namespace Creator
                 editToolStripMenuItem1.Enabled = false;
                 //enable printing
                 btn_print_exam.Enabled = true;
+                printToolStripMenuItem.Enabled = true;
                 btn_print_preview.Enabled = true;
                 //display question 
                 lbl_question_and_section.Text = "Section: " + ((TreeView)sender).SelectedNode.Parent.Text + ", " + ((TreeView)sender).SelectedNode.Text;
@@ -224,6 +228,7 @@ namespace Creator
                 editToolStripMenuItem1.Enabled = true;
                 //disable printing
                 btn_print_exam.Enabled = false;
+                printToolStripMenuItem.Enabled = false;
                 btn_print_preview.Enabled = false;
             }
             //enable add sections
@@ -238,6 +243,7 @@ namespace Creator
                 editToolStripMenuItem1.Enabled = false;
                 //disable printing
                 btn_print_exam.Enabled = false;
+                printToolStripMenuItem.Enabled = false;
                 btn_print_preview.Enabled = false;
             }
             else
@@ -250,6 +256,7 @@ namespace Creator
                 btn_new_section.Enabled = false;
                 //disable printing
                 btn_print_exam.Enabled = false;
+                printToolStripMenuItem.Enabled = false;
                 btn_print_preview.Enabled = false;
             }
         }
@@ -368,6 +375,7 @@ namespace Creator
                     trv_explorer.SelectedNode.Nodes.Add(node);
                 }
             }
+            trv_explorer.ExpandAll();
         }
 
         private void trv_explorer_BeforeSelect(object sender, TreeViewCancelEventArgs e)
@@ -474,6 +482,7 @@ namespace Creator
                 fileNameWithExtension = filename;
                 Save(filename);
                 btn_save_exam.Enabled = true;
+                saveToolStripMenuItem.Enabled = true;
             }
         }
 
@@ -483,7 +492,6 @@ namespace Creator
         /// <param name="filePath">The full file path (including the file extension) the file should be saved to</param>
         private void Save(string filePath)
         {
-            prg_save_progress.Visible = true;
             //Add current question being worked on
             AddCurrentQuestion();
             //create the creator temp folder if it doesnt exist
@@ -538,7 +546,6 @@ namespace Creator
                 }
                 oefFile.Save(filePath);
             }
-            prg_save_progress.Visible = false;
             lbl_save_status.Text = "Exam Saved Successfully!";
             lbl_save_status.Visible = true;
             //Thread
@@ -689,6 +696,61 @@ namespace Creator
                 // Paste current text in Clipboard into text box.
                 txt_question_text.Paste();
             }
+        }
+
+        private void PrintQuestion(object sender, EventArgs e)
+        {
+
+        }
+
+        private void PrintPreview(object sender, EventArgs e)
+        {
+
+        }
+
+        private void CloseExam(object sender, EventArgs e)
+        {
+            var result = MessageBox.Show("Have you saved the current exam?", "Close Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+            if (result == System.Windows.Forms.DialogResult.Yes)
+            {
+                //Clear class variables examQuestions.Clear();
+                tempExamStore.Clear();
+                fileNameWithExtension = null;
+                //Clear settings
+                Properties.Settings.Default.Reset();
+                Properties.Settings.Default.Save();
+                //Clear controls
+                txt_question_text.Clear();
+                pct_question_picture.Image = null;
+                pct_question_picture.ImageLocation = null;
+                pan_options.Controls.Clear();
+                trv_explorer.Nodes.Clear();
+                lbl_question_and_section.Text = "";
+                lbl_save_status.Text = "";
+                //Disable Controls
+                btn_print_exam.Enabled = false;
+                btn_print_preview.Enabled = false;
+                btn_save_as.Enabled = false;
+                btn_save_exam.Enabled = false;
+                splcn_main_view.Enabled = false;
+                insertPictureToolStripMenuItem.Enabled = false;
+                saveAsToolStripMenuItem.Enabled = false;
+                saveToolStripMenuItem.Enabled = false;
+                importToolStripMenuItem.Enabled = false;
+                //Enable Open
+                btn_open_exam.Enabled = true;
+                openToolStripMenuItem.Enabled = true;
+            }
+        }
+
+        private void ImportExam(object sender, EventArgs e)
+        {
+
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
