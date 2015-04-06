@@ -274,7 +274,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Open Exam Simulator";
             this.Load += new System.EventHandler(this.Exam_UI_Load);
-            this.Click += new System.EventHandler(this.btn_begin_Click);
             this.pan_display.ResumeLayout(false);
             this.pan_display.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_image)).EndInit();

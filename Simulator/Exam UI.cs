@@ -206,9 +206,10 @@ namespace Simulator
                     this.passingScore = Convert.ToInt32(iterator.Current.Value);
                 }
             }
-            catch (ArgumentNullException)
+            catch (ArgumentNullException ex)
             {
                 MessageBox.Show("Sorry, the selected exam was corrupted, please re-add the exam before retrying.", "Exam Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                GlobalPathVariables.WriteError(ex, this.Name);
                 this.Close();
             }
             questions = new List<Question>();
@@ -239,9 +240,10 @@ namespace Simulator
                     }
                 }
             }
-            catch (NullReferenceException)
+            catch (NullReferenceException ex)
             {
                 MessageBox.Show("Please select at least one section", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                GlobalPathVariables.WriteError(ex, "Exam UI");
             }
             string[] returnValue = temp2.ToArray();
             return returnValue;
@@ -286,6 +288,7 @@ namespace Simulator
                 {
                     btn_next.Enabled = false;
                 }
+                this.Invalidate();
             }
 
             if (option == "prev")

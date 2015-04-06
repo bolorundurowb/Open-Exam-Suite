@@ -154,7 +154,7 @@ namespace Simulator
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                GlobalPathVariables.WriteError(ex, this.Name);
             }
             lbl_section_number.Text = numOfSections.ToString();
             lbl_number_of_questions.Text = numOfQuestions.ToString();

@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Xml;
+﻿using System;
 using System.IO;
+using System.Xml;
+using Ionic.Zip;
+using System.Xml.XPath;
+using System.Collections.Generic;
 
 namespace Creator
 {
@@ -120,10 +123,83 @@ namespace Creator
             return exam;
         }
 
-        
-        /*public static XmlDocument ReadExamToXmlDocument(string xmlFilePath)
+        /// <summary>
+        /// Method to read questions from an xml file
+        /// </summary>
+        /// <param name="xmlFilePath">Fully qualified path to xml file</param>
+        /// <returns>A specially formatted dictionary containing the questions in the xml file</returns>
+        public static Dictionary<string, List<Question>> ReadExamToFormat(string xmlFilePath)
         {
+            XPathDocument doc = new XPathDocument(xmlFilePath);
+            XPathNavigator nav = doc.CreateNavigator();
+            XmlNamespaceManager nm = new XmlNamespaceManager(nav.NameTable);
+            Dictionary<string, List<Question>> formattedQuestionList = new Dictionary<string, List<Question>>();
+            XPathExpression expression = nav.Compile("//Section");
+            XPathNodeIterator rootIterator = nav.Select(expression);
+            while (rootIterator.MoveNext())
+            {
+                string sectionTitle = rootIterator.Current.GetAttribute("Title", nm.DefaultNamespace);
+                List<Question> sectionQuestions = new List<Question>();
+                XPathNodeIterator subIterator = rootIterator.Current.SelectChildren(XPathNodeType.Element);
+                while (subIterator.MoveNext())
+                {
+                    Question ques = new Question();
+                    ques.SectionTitle = sectionTitle;
+                    ques.QuestionNumber = Convert.ToInt32(subIterator.Current.GetAttribute("No", nm.DefaultNamespace));
+                    Dictionary<char, string> options = new Dictionary<char, string>();
+                    XPathNodeIterator iter = subIterator.Current.SelectChildren(XPathNodeType.Element);
+                    while (iter.MoveNext())
+                    {
+                        if (iter.Current.LocalName == "Text")
+                        {
+                            ques.QuestionText = iter.Current.Value;
+                        }
+                        else if (iter.Current.LocalName == "Image")
+                        {
+                            if (string.IsNullOrWhiteSpace(iter.Current.Value))
+                            {
+                                ques.QuestionImagePath = null;
+                            }
+                            else
+                            {
+                                ques.QuestionImagePath = Path.Combine(Path.GetDirectoryName(xmlFilePath), iter.Current.Value);
+                            }
+                        }
+                        else if (iter.Current.LocalName == "Answer")
+                        {
+                            ques.QuestionAnswer = Convert.ToChar(iter.Current.Value);
+                        }
+                        if (iter.Current.LocalName == "Options")
+                        {
+                            XPathNodeIterator ite = iter.Current.SelectChildren(XPathNodeType.Element);
+                            while (ite.MoveNext())
+                            {
+                                char option;
+                                string optionText;
+                                option = Convert.ToChar(ite.Current.GetAttribute("Title", nm.DefaultNamespace));
+                                optionText = ite.Current.Value;
+                                options.Add(option, optionText);
+                            }
+                            ques.QuestionOptions = options;
+                        }
+                    }
+                    sectionQuestions.Add(ques);
+                }
+                formattedQuestionList.Add(sectionTitle, sectionQuestions);
+            }
+            return formattedQuestionList;
+        }
 
-        }*/
+        public static void ExtractExamToFolder(string examPath)
+        {
+            if (!Directory.Exists(GlobalPathVariables.GetExamFilesFolder(Path.GetFileNameWithoutExtension(examPath))))
+            {
+                Directory.CreateDirectory(GlobalPathVariables.GetExamFilesFolder(Path.GetFileNameWithoutExtension(examPath)));
+            }
+            using (ZipFile zip = new ZipFile(examPath))
+            {
+                zip.ExtractAll(GlobalPathVariables.GetExamFilesFolder(Path.GetFileNameWithoutExtension(examPath)), ExtractExistingFileAction.OverwriteSilently);
+            }
+        }
     }
 }

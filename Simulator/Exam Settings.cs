@@ -178,9 +178,10 @@ namespace Simulator
                     defaultExamDuration = Convert.ToInt32(iterator.Current.Value);
                 }
             }
-            catch (ArgumentNullException)
+            catch (ArgumentNullException ex)
             {
                 MessageBox.Show("Sorry, the selected exam was corrupted, please re-add the exam before retrying.", "Exam Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
+                GlobalPathVariables.WriteError(ex, this.Name);
                 this.Close();
             }            
             for (int i = 0; i < clb_section_options.Items.Count; i++)

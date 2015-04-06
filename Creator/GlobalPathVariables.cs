@@ -32,5 +32,33 @@ namespace Creator
                 sw.WriteLine("");
             }
         }
+
+        /// <summary>
+        /// A method to determine the particular folder for an exam file
+        /// </summary>
+        /// <param name="examTitle">The title of the exam</param>
+        /// <returns>A fully qualified folder path</returns>
+        public static string GetExamFilesFolder(string examTitle)
+        {
+            return Path.Combine(creatorFolderPath, examTitle);
+        }
+
+        /// <summary>
+        /// Generates the fully qualified path to the exam xml file
+        /// </summary>
+        /// <param name="examFilesFolder">The fully qualified path to the folder that the exam was extracted to</param>
+        /// <returns>a path to the xml file or null if any error occurs</returns>
+        public static string GetXmlFilePath(string examFilesFolder)
+        {
+            string[] temp = Directory.GetFiles(examFilesFolder, "*.xml", SearchOption.TopDirectoryOnly);
+            if (temp.Length > 0)
+            {
+                return temp[0];
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

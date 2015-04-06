@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.Xml;
+using System.Xml.XPath;
 using System.IO;
 using Ionic.Zip;
 
@@ -710,11 +711,60 @@ namespace Creator
 
         private void CloseExam(object sender, EventArgs e)
         {
-            var result = MessageBox.Show("Have you saved the current exam?", "Close Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-            if (result == System.Windows.Forms.DialogResult.Yes)
+            if (trv_explorer.Nodes.Count > 0)
             {
-                //Clear class variables examQuestions.Clear();
-                tempExamStore.Clear();
+                var result = MessageBox.Show("Have you saved the current exam?", "Close Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                if (result == System.Windows.Forms.DialogResult.Yes)
+                {
+                    //Clear class variables 
+                    try
+                    {
+                        examQuestions.Clear();
+                        tempExamStore.Clear();
+                    }
+                    catch (NullReferenceException)
+                    { }
+                    fileNameWithExtension = null;
+                    //Clear settings
+                    Properties.Settings.Default.Reset();
+                    Properties.Settings.Default.Save();
+                    //Clear controls
+                    txt_question_text.Clear();
+                    pct_question_picture.Image = null;
+                    pct_question_picture.ImageLocation = null;
+                    pan_options.Controls.Clear();
+                    trv_explorer.Nodes.Clear();
+                    lbl_question_and_section.Text = "";
+                    lbl_save_status.Text = "";
+                    //Disable Controls
+                    btn_print_exam.Enabled = false;
+                    btn_print_preview.Enabled = false;
+                    btn_save_as.Enabled = false;
+                    btn_save_exam.Enabled = false;
+                    splcn_main_view.Panel2.Enabled = false;
+                    insertPictureToolStripMenuItem.Enabled = false;
+                    saveAsToolStripMenuItem.Enabled = false;
+                    saveToolStripMenuItem.Enabled = false;
+                    importToolStripMenuItem.Enabled = false;
+                    //Enable Open
+                    btn_open_exam.Enabled = true;
+                    openToolStripMenuItem.Enabled = true;
+                }
+                else
+                {
+                    return;
+                }
+            }
+            else
+            {
+                //Clear class variables 
+                try
+                {
+                    examQuestions.Clear();
+                    tempExamStore.Clear();
+                }
+                catch (NullReferenceException)
+                { }
                 fileNameWithExtension = null;
                 //Clear settings
                 Properties.Settings.Default.Reset();
@@ -732,7 +782,7 @@ namespace Creator
                 btn_print_preview.Enabled = false;
                 btn_save_as.Enabled = false;
                 btn_save_exam.Enabled = false;
-                splcn_main_view.Enabled = false;
+                splcn_main_view.Panel2.Enabled = false;
                 insertPictureToolStripMenuItem.Enabled = false;
                 saveAsToolStripMenuItem.Enabled = false;
                 saveToolStripMenuItem.Enabled = false;
@@ -745,12 +795,123 @@ namespace Creator
 
         private void ImportExam(object sender, EventArgs e)
         {
-
+            opf_get_exam.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            string filePath = "";
+            if (opf_get_exam.ShowDialog() == DialogResult.OK)
+            {
+                filePath = opf_get_exam.FileName;
+                XML_Handler.ExtractExamToFolder(filePath);
+                Dictionary<string, List<Question>> questionList = new Dictionary<string, List<Question>>();
+                questionList = XML_Handler.ReadExamToFormat(GlobalPathVariables.GetXmlFilePath(GlobalPathVariables.GetExamFilesFolder(Path.GetFileNameWithoutExtension(filePath))));
+                WriteQuestionsToTreeView(questionList);
+                EnableOptions();
+            }
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            CloseExam(sender, new EventArgs());
 
+            opf_get_exam.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            string filePath = "";
+            if (opf_get_exam.ShowDialog() == DialogResult.OK)
+            {
+                filePath = opf_get_exam.FileName;
+                //Get the basic data
+                XML_Handler.ExtractExamToFolder(filePath);
+                XPathDocument doc = new XPathDocument(GlobalPathVariables.GetXmlFilePath(GlobalPathVariables.GetExamFilesFolder(Path.GetFileNameWithoutExtension(filePath))));
+                XPathNavigator navigator = doc.CreateNavigator();
+                XPathExpression expression = navigator.Compile("//FileVersion");
+                XPathNodeIterator fvIterator = navigator.Select(expression);
+                while (fvIterator.MoveNext())
+                {
+                    Properties.Settings.Default.FileVersion = fvIterator.Current.Value;
+                }
+                expression = navigator.Compile("//ExamTitle");
+                fvIterator = navigator.Select(expression);
+                string examTitle = string.Empty;
+                while (fvIterator.MoveNext())
+                {
+                    Properties.Settings.Default.ExamTitle = fvIterator.Current.Value;
+                    examTitle = fvIterator.Current.Value;
+                }
+                trv_explorer.Nodes.Add(examTitle);
+                expression = navigator.Compile("//TimeAllowed");
+                fvIterator = navigator.Select(expression);
+                while (fvIterator.MoveNext())
+                {
+                    Properties.Settings.Default.TimeAllowed = Convert.ToInt32(fvIterator.Current.Value);
+                }
+                expression = navigator.Compile("//PassingScore");
+                fvIterator = navigator.Select(expression);
+                while (fvIterator.MoveNext())
+                {
+                    Properties.Settings.Default.PassingScore = Convert.ToInt32(fvIterator.Current.Value);
+                }
+                expression = navigator.Compile("//ExamCode");
+                fvIterator = navigator.Select(expression);
+                while (fvIterator.MoveNext())
+                {
+                    Properties.Settings.Default.ExamCode = fvIterator.Current.Value;
+                }
+                expression = navigator.Compile("//ExamInstructions");
+                fvIterator = navigator.Select(expression);
+                while (fvIterator.MoveNext())
+                {
+                    Properties.Settings.Default.ExamInstructions = fvIterator.Current.Value;
+                }
+                expression = navigator.Compile("//Section");
+                fvIterator = navigator.Select(expression);
+                Properties.Settings.Default.SectionTitles = new System.Collections.Specialized.StringCollection();
+                while (fvIterator.MoveNext())
+                {
+                    Properties.Settings.Default.SectionTitles.Add(fvIterator.Current.GetAttribute("Title", ""));
+                }
+                Properties.Settings.Default.Save();
+
+                Dictionary<string, List<Question>> questionList = new Dictionary<string, List<Question>>();
+                questionList = XML_Handler.ReadExamToFormat(GlobalPathVariables.GetXmlFilePath(GlobalPathVariables.GetExamFilesFolder(Path.GetFileNameWithoutExtension(filePath))));
+                WriteQuestionsToTreeView(questionList);
+                EnableOptions();
+            }
+        }
+
+        public void WriteQuestionsToTreeView (Dictionary<string, List<Question>> formattedQuestionList)
+        {
+            tempExamStore = new List<Question>();
+            foreach(KeyValuePair<string, List<Question>> section in formattedQuestionList)
+            {
+                TreeNode sectionNode = new TreeNode();
+                sectionNode.Name = "secNode_" + trv_explorer.Nodes[0].GetNodeCount(false);
+                sectionNode.Text = section.Key;
+                sectionNode.ImageIndex = 0;
+                sectionNode.SelectedImageIndex = 0;
+                sectionNode.ContextMenuStrip = contextMenuStrip;
+                
+                int count = 0;
+                foreach (Question question in section.Value)
+                {
+                    TreeNode questionNode = new TreeNode();
+                    questionNode.Name = "quesNode_" + count;
+                    questionNode.Text = "Question " + (count + 1);
+                    questionNode.ImageIndex = 1;
+                    questionNode.SelectedImageIndex = 1;
+                    sectionNode.Nodes.Add(questionNode);
+                    tempExamStore.Add(question);
+                    count++;
+                }
+                trv_explorer.Nodes[0].Nodes.Add(sectionNode);                
+            }
+        }
+
+        public void EnableOptions()
+        {
+            trv_explorer.ExpandAll();
+            trv_explorer.SelectedNode = trv_explorer.Nodes[0].Nodes[0];
+            btn_open_exam.Enabled = false;
+            openToolStripMenuItem.Enabled = false;
+            importToolStripMenuItem.Enabled = true;
+            closeToolStripMenuItem.Enabled = true;
         }
     }
 }

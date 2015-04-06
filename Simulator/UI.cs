@@ -164,11 +164,11 @@ namespace Simulator
             {
                 dgv_exams.Rows[e.RowIndex].Selected = true;
             }
-            catch (ArgumentException)
+            catch (ArgumentException ex)
             {
-
+                GlobalPathVariables.WriteError(ex, this.Name);
             }
-            btn_start_Click(dgv_exams, e);
+            btn_start_Click(dgv_exams, e);         
         }
     }
 }
