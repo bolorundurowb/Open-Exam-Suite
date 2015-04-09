@@ -966,19 +966,19 @@ namespace Creator
             float yPos = 0;
             float leftMargin = ev.MarginBounds.Left;
             float topMargin = ev.MarginBounds.Top;
-            Font printFont = new System.Drawing.Font("Calibri", 12);
+            Font printFont = new System.Drawing.Font("Calibri", 11);
             Font headerFont = new System.Drawing.Font("Calibri", 14, FontStyle.Bold);
 
             yPos = topMargin + (headerFont.GetHeight(ev.Graphics));
-            ev.Graphics.DrawString(lbl_question_and_section.Text, headerFont, Brushes.Black, leftMargin, yPos, new StringFormat());
+            ev.Graphics.DrawString(lbl_question_and_section.Text, headerFont, Brushes.Black, leftMargin, yPos, StringFormat.GenericTypographic);
 
             for (int i = 0; i < txt_question_text.Lines.Length; i++)
             {
-                yPos = yPos + (printFont.GetHeight(ev.Graphics));
-                ev.Graphics.DrawString(txt_question_text.Lines[i], printFont, Brushes.Black, leftMargin, yPos, new StringFormat());
+                yPos = yPos + (printFont.GetHeight(ev.Graphics)) + 10;
+                ev.Graphics.DrawString(txt_question_text.Lines[i], printFont, Brushes.Black, new RectangleF(leftMargin, yPos,ev.MarginBounds.Width + 60, 150), StringFormat.GenericTypographic);
             }
 
-            yPos = yPos + 60;
+            yPos = yPos + 120;
             if (!((string.IsNullOrWhiteSpace(pct_question_picture.ImageLocation)) || (pct_question_picture.Image == null)))
             {
                 ev.Graphics.DrawImage(pct_question_picture.Image, new Rectangle(Convert.ToInt32(leftMargin + 100), Convert.ToInt32(yPos + 15), 450, 400));

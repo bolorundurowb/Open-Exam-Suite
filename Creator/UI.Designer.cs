@@ -827,6 +827,8 @@
             // 
             this.txt_question_text.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.txt_question_text.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txt_question_text.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txt_question_text.Location = new System.Drawing.Point(49, 60);
             this.txt_question_text.Name = "txt_question_text";
             this.txt_question_text.Size = new System.Drawing.Size(866, 85);
