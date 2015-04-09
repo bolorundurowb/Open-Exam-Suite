@@ -278,9 +278,10 @@ namespace Simulator
                 for (int i = 0; i < temp.QuestionOptions.Count; i++)
                 {
                     RadioButton rdb = new RadioButton();
+                    rdb.AutoSize = true;
                     rdb.Text = temp.QuestionOptions.ElementAt(i).Key + ". - " + temp.QuestionOptions.ElementAt(i).Value;
                     rdb.Name = "rdb" + (" " + temp.QuestionOptions.ElementAt(i).Key).Replace(' ', '_');
-                    rdb.Location = new Point(51, 464 + (i * 18));
+                    rdb.Location = new Point(51, 464 + (i * 22));
                     pan_display.Controls.Add(rdb);
                 }
                 int type = Properties.Settings.Default.ExamType;
@@ -325,9 +326,10 @@ namespace Simulator
                     for (int i = 0; i < temp.QuestionOptions.Count; i++)
                     {
                         RadioButton rdb = new RadioButton();
+                        rdb.AutoSize = true;
                         rdb.Text = temp.QuestionOptions.ElementAt(i).Key + ". - " + temp.QuestionOptions.ElementAt(i).Value;
                         rdb.Name = "rdb" + (" " + temp.QuestionOptions.ElementAt(i).Key).Replace(' ', '_');
-                        rdb.Location = new Point(51, 464 + (i * 18));
+                        rdb.Location = new Point(51, 464 + (i * 22));
                         if (temp.QuestionOptions.ElementAt(questionIndex).Key == givenAnswers[questionIndex])
                             rdb.Checked = true;
                         pan_display.Controls.Add(rdb);
@@ -380,9 +382,10 @@ namespace Simulator
                 for (int i = 0; i < temp.QuestionOptions.Count; i++)
                 {
                     RadioButton rdb = new RadioButton();
+                    rdb.AutoSize = true;
                     rdb.Text = temp.QuestionOptions.ElementAt(i).Key + ". - " + temp.QuestionOptions.ElementAt(i).Value;
                     rdb.Name = "rdb" + (" " + temp.QuestionOptions.ElementAt(i).Key).Replace(' ', '_');
-                    rdb.Location = new Point(51, 464 + (i * 18));
+                    rdb.Location = new Point(51, 464 + (i * 22));
                     pan_display.Controls.Add(rdb);
                 }
                 btn_previous.Enabled = true;

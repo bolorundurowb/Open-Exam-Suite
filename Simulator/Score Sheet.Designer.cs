@@ -34,6 +34,7 @@
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -65,7 +66,7 @@
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(398, 46);
+            this.label1.Location = new System.Drawing.Point(391, 20);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(219, 20);
             this.label1.TabIndex = 0;
@@ -75,7 +76,7 @@
             // 
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(294, 92);
+            this.label2.Location = new System.Drawing.Point(287, 66);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(72, 13);
             this.label2.TabIndex = 1;
@@ -85,7 +86,7 @@
             // 
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(294, 125);
+            this.label3.Location = new System.Drawing.Point(287, 99);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(39, 13);
             this.label3.TabIndex = 2;
@@ -95,7 +96,7 @@
             // 
             this.label4.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(294, 157);
+            this.label4.Location = new System.Drawing.Point(287, 131);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(73, 13);
             this.label4.TabIndex = 3;
@@ -105,7 +106,7 @@
             // 
             this.label5.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(574, 92);
+            this.label5.Location = new System.Drawing.Point(567, 66);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(92, 13);
             this.label5.TabIndex = 4;
@@ -115,7 +116,7 @@
             // 
             this.label6.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(574, 125);
+            this.label6.Location = new System.Drawing.Point(567, 99);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(88, 13);
             this.label6.TabIndex = 5;
@@ -124,7 +125,7 @@
             // btn_retake
             // 
             this.btn_retake.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btn_retake.Location = new System.Drawing.Point(23, 692);
+            this.btn_retake.Location = new System.Drawing.Point(23, 639);
             this.btn_retake.Name = "btn_retake";
             this.btn_retake.Size = new System.Drawing.Size(75, 23);
             this.btn_retake.TabIndex = 7;
@@ -135,7 +136,7 @@
             // btn_exit
             // 
             this.btn_exit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_exit.Location = new System.Drawing.Point(971, 692);
+            this.btn_exit.Location = new System.Drawing.Point(957, 639);
             this.btn_exit.Name = "btn_exit";
             this.btn_exit.Size = new System.Drawing.Size(75, 23);
             this.btn_exit.TabIndex = 9;
@@ -155,7 +156,7 @@
             chartArea1.AxisY.Maximum = 1000D;
             chartArea1.Name = "ChartArea1";
             this.chr_display_score.ChartAreas.Add(chartArea1);
-            this.chr_display_score.Location = new System.Drawing.Point(271, 192);
+            this.chr_display_score.Location = new System.Drawing.Point(264, 166);
             this.chr_display_score.Name = "chr_display_score";
             this.chr_display_score.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.None;
             this.chr_display_score.PaletteCustomColors = new System.Drawing.Color[] {
@@ -196,11 +197,20 @@
             this.section,
             this.number,
             this.accuracy});
-            this.dgv_show_breakdown.Location = new System.Drawing.Point(277, 445);
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.MidnightBlue;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_show_breakdown.DefaultCellStyle = dataGridViewCellStyle2;
+            this.dgv_show_breakdown.Location = new System.Drawing.Point(270, 397);
             this.dgv_show_breakdown.Name = "dgv_show_breakdown";
             this.dgv_show_breakdown.ReadOnly = true;
             this.dgv_show_breakdown.RowHeadersVisible = false;
-            this.dgv_show_breakdown.Size = new System.Drawing.Size(495, 233);
+            this.dgv_show_breakdown.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgv_show_breakdown.Size = new System.Drawing.Size(495, 228);
             this.dgv_show_breakdown.TabIndex = 11;
             // 
             // section
@@ -229,7 +239,7 @@
             // 
             this.lbl_candidate_name.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lbl_candidate_name.AutoSize = true;
-            this.lbl_candidate_name.Location = new System.Drawing.Point(372, 92);
+            this.lbl_candidate_name.Location = new System.Drawing.Point(365, 66);
             this.lbl_candidate_name.Name = "lbl_candidate_name";
             this.lbl_candidate_name.Size = new System.Drawing.Size(35, 13);
             this.lbl_candidate_name.TabIndex = 12;
@@ -239,7 +249,7 @@
             // 
             this.lbl_date.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lbl_date.AutoSize = true;
-            this.lbl_date.Location = new System.Drawing.Point(339, 125);
+            this.lbl_date.Location = new System.Drawing.Point(332, 99);
             this.lbl_date.Name = "lbl_date";
             this.lbl_date.Size = new System.Drawing.Size(35, 13);
             this.lbl_date.TabIndex = 13;
@@ -249,7 +259,7 @@
             // 
             this.lbl_exam_number.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lbl_exam_number.AutoSize = true;
-            this.lbl_exam_number.Location = new System.Drawing.Point(373, 157);
+            this.lbl_exam_number.Location = new System.Drawing.Point(366, 131);
             this.lbl_exam_number.Name = "lbl_exam_number";
             this.lbl_exam_number.Size = new System.Drawing.Size(35, 13);
             this.lbl_exam_number.TabIndex = 14;
@@ -259,7 +269,7 @@
             // 
             this.lbl_elapsed_time.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lbl_elapsed_time.AutoSize = true;
-            this.lbl_elapsed_time.Location = new System.Drawing.Point(668, 125);
+            this.lbl_elapsed_time.Location = new System.Drawing.Point(661, 99);
             this.lbl_elapsed_time.Name = "lbl_elapsed_time";
             this.lbl_elapsed_time.Size = new System.Drawing.Size(41, 13);
             this.lbl_elapsed_time.TabIndex = 16;
@@ -270,7 +280,7 @@
             // 
             this.lbl_time.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lbl_time.AutoSize = true;
-            this.lbl_time.Location = new System.Drawing.Point(666, 92);
+            this.lbl_time.Location = new System.Drawing.Point(659, 66);
             this.lbl_time.Name = "lbl_time";
             this.lbl_time.Size = new System.Drawing.Size(41, 13);
             this.lbl_time.TabIndex = 15;
@@ -281,7 +291,7 @@
             // 
             this.label7.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(436, 389);
+            this.label7.Location = new System.Drawing.Point(436, 350);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(53, 13);
             this.label7.TabIndex = 17;
@@ -291,7 +301,7 @@
             // 
             this.lbl_status.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lbl_status.AutoSize = true;
-            this.lbl_status.Location = new System.Drawing.Point(495, 389);
+            this.lbl_status.Location = new System.Drawing.Point(495, 350);
             this.lbl_status.Name = "lbl_status";
             this.lbl_status.Size = new System.Drawing.Size(35, 13);
             this.lbl_status.TabIndex = 18;
@@ -300,7 +310,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(698, 92);
+            this.label8.Location = new System.Drawing.Point(697, 66);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(34, 13);
             this.label8.TabIndex = 19;
@@ -309,7 +319,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(699, 125);
+            this.label9.Location = new System.Drawing.Point(698, 99);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(34, 13);
             this.label9.TabIndex = 20;
@@ -319,7 +329,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1058, 727);
+            this.ClientSize = new System.Drawing.Size(1044, 674);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.lbl_status);

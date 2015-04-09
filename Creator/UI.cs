@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -127,6 +128,8 @@ namespace Creator
                 btn_new_section.Enabled = false;
                 splcn_main_view.Panel2.Enabled = true;
                 editToolStripMenuItem1.Enabled = false;
+                previousItemToolStripMenuItem.Enabled = true;
+                nextItemToolStripMenuItem.Enabled = true;
                 //enable printing
                 btn_print_exam.Enabled = true;
                 printToolStripMenuItem.Enabled = true;
@@ -223,6 +226,8 @@ namespace Creator
                 btn_new_question.Enabled = true;
                 newSectionToolStripMenuItem.Enabled = false;
                 btn_new_section.Enabled = false;
+                previousItemToolStripMenuItem.Enabled = true;
+                nextItemToolStripMenuItem.Enabled = true;
                 //clear status text
                 lbl_question_and_section.Text = "";
                 //dislplay edit option
@@ -240,6 +245,8 @@ namespace Creator
                 btn_new_section.Enabled = true;
                 newQuestionToolStripMenuItem.Enabled = false;
                 btn_new_question.Enabled = false;
+                previousItemToolStripMenuItem.Enabled = false;
+                nextItemToolStripMenuItem.Enabled = false;
                 //display edit option
                 editToolStripMenuItem1.Enabled = false;
                 //disable printing
@@ -656,6 +663,8 @@ namespace Creator
         {
             btn_paste.Enabled = true;
             btn_cut.Enabled = true;
+            btn_undo.Enabled = true;
+            btn_redo.Enabled = true;
             btn_copy.Enabled = true;
         }
 
@@ -663,6 +672,8 @@ namespace Creator
         {
             btn_paste.Enabled = false;
             btn_cut.Enabled = false;
+            btn_undo.Enabled = false;
+            btn_redo.Enabled = false;
             btn_copy.Enabled = false;
         }
 
@@ -701,12 +712,18 @@ namespace Creator
 
         private void PrintQuestion(object sender, EventArgs e)
         {
+            if (pntdlg_print.ShowDialog() == DialogResult.OK)
+            {
 
+            }
         }
 
         private void PrintPreview(object sender, EventArgs e)
         {
+            if (pntprvdlg_print.ShowDialog() == DialogResult.OK)
+            {
 
+            }
         }
 
         private void CloseExam(object sender, EventArgs e)
@@ -912,6 +929,69 @@ namespace Creator
             openToolStripMenuItem.Enabled = false;
             importToolStripMenuItem.Enabled = true;
             closeToolStripMenuItem.Enabled = true;
+            saveAsToolStripMenuItem.Enabled = true;
+            btn_save_as.Enabled = true;
+            saveToolStripMenuItem.Enabled = true;
+            btn_save_exam.Enabled = true;
+        }
+
+        private void previousItemToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (trv_explorer.SelectedNode.Parent.Nodes.IndexOf(trv_explorer.SelectedNode) != 0)
+            {
+                trv_explorer.SelectedNode = trv_explorer.SelectedNode.Parent.Nodes[trv_explorer.SelectedNode.Parent.Nodes.IndexOf(trv_explorer.SelectedNode) - 1];
+            }
+        }
+
+        private void nextItemToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (trv_explorer.SelectedNode.Parent.Nodes.IndexOf(trv_explorer.SelectedNode) < trv_explorer.SelectedNode.Parent.Nodes.Count - 1)
+            {
+                trv_explorer.SelectedNode = trv_explorer.SelectedNode.Parent.Nodes[trv_explorer.SelectedNode.Parent.Nodes.IndexOf(trv_explorer.SelectedNode) + 1];
+            }
+        }
+
+        private void btn_undo_Click(object sender, EventArgs e)
+        {
+            txt_question_text.Undo();
+        }
+
+        private void btn_redo_Click(object sender, EventArgs e)
+        {
+            txt_question_text.Redo();
+        }
+
+        private void pntdoc_print_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs ev)
+        {
+            float yPos = 0;
+            float leftMargin = ev.MarginBounds.Left;
+            float topMargin = ev.MarginBounds.Top;
+            Font printFont = new System.Drawing.Font("Calibri", 12);
+            Font headerFont = new System.Drawing.Font("Calibri", 14, FontStyle.Bold);
+
+            yPos = topMargin + (headerFont.GetHeight(ev.Graphics));
+            ev.Graphics.DrawString(lbl_question_and_section.Text, headerFont, Brushes.Black, leftMargin, yPos, new StringFormat());
+
+            for (int i = 0; i < txt_question_text.Lines.Length; i++)
+            {
+                yPos = yPos + (printFont.GetHeight(ev.Graphics));
+                ev.Graphics.DrawString(txt_question_text.Lines[i], printFont, Brushes.Black, leftMargin, yPos, new StringFormat());
+            }
+
+            yPos = yPos + 60;
+            if (!((string.IsNullOrWhiteSpace(pct_question_picture.ImageLocation)) || (pct_question_picture.Image == null)))
+            {
+                ev.Graphics.DrawImage(pct_question_picture.Image, new Rectangle(Convert.ToInt32(leftMargin + 100), Convert.ToInt32(yPos + 15), 450, 400));
+            }
+
+            yPos = yPos + 435;
+            foreach (OptionControl control in pan_options.Controls)
+            {
+                string temp;
+                temp = control.OptionLetter + ". -  " + control.OptionText;
+                ev.Graphics.DrawString(temp, printFont, Brushes.Black, leftMargin + 35, yPos, new StringFormat());
+                yPos = yPos + (printFont.GetHeight(ev.Graphics));
+            }
         }
     }
 }

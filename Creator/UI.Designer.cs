@@ -98,13 +98,16 @@
             this.btn_remove_option = new System.Windows.Forms.Button();
             this.btn_add_option = new System.Windows.Forms.Button();
             this.pan_options = new System.Windows.Forms.Panel();
-            this.txt_question_text = new System.Windows.Forms.TextBox();
+            this.txt_question_text = new System.Windows.Forms.RichTextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.editToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.svf_save_exam = new System.Windows.Forms.SaveFileDialog();
             this.opf_get_files = new System.Windows.Forms.OpenFileDialog();
             this.opf_get_exam = new System.Windows.Forms.OpenFileDialog();
+            this.pntdlg_print = new System.Windows.Forms.PrintDialog();
+            this.pntdoc_print = new System.Drawing.Printing.PrintDocument();
+            this.pntprvdlg_print = new System.Windows.Forms.PrintPreviewDialog();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splcn_main_view)).BeginInit();
@@ -333,6 +336,7 @@
             this.previousItemToolStripMenuItem.Name = "previousItemToolStripMenuItem";
             this.previousItemToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.previousItemToolStripMenuItem.Text = "Previous Item";
+            this.previousItemToolStripMenuItem.Click += new System.EventHandler(this.previousItemToolStripMenuItem_Click);
             // 
             // nextItemToolStripMenuItem
             // 
@@ -341,6 +345,7 @@
             this.nextItemToolStripMenuItem.Name = "nextItemToolStripMenuItem";
             this.nextItemToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.nextItemToolStripMenuItem.Text = "Next Item";
+            this.nextItemToolStripMenuItem.Click += new System.EventHandler(this.nextItemToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -496,6 +501,7 @@
             this.btn_undo.Name = "btn_undo";
             this.btn_undo.Size = new System.Drawing.Size(23, 22);
             this.btn_undo.Text = "Undo";
+            this.btn_undo.Click += new System.EventHandler(this.btn_undo_Click);
             // 
             // btn_redo
             // 
@@ -506,6 +512,7 @@
             this.btn_redo.Name = "btn_redo";
             this.btn_redo.Size = new System.Drawing.Size(23, 22);
             this.btn_redo.Text = "Redo";
+            this.btn_redo.Click += new System.EventHandler(this.btn_redo_Click);
             // 
             // toolStripSeparator3
             // 
@@ -821,10 +828,10 @@
             this.txt_question_text.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txt_question_text.Location = new System.Drawing.Point(49, 60);
-            this.txt_question_text.Multiline = true;
             this.txt_question_text.Name = "txt_question_text";
             this.txt_question_text.Size = new System.Drawing.Size(866, 85);
             this.txt_question_text.TabIndex = 1;
+            this.txt_question_text.Text = "";
             this.txt_question_text.Enter += new System.EventHandler(this.txt_question_text_Enter);
             this.txt_question_text.Leave += new System.EventHandler(this.txt_question_text_Leave);
             // 
@@ -866,6 +873,28 @@
             // opf_get_exam
             // 
             this.opf_get_exam.Filter = "OES Exam Files (.oef)|*.oef";
+            // 
+            // pntdlg_print
+            // 
+            this.pntdlg_print.Document = this.pntdoc_print;
+            this.pntdlg_print.UseEXDialog = true;
+            // 
+            // pntdoc_print
+            // 
+            this.pntdoc_print.DocumentName = "Open Exam";
+            this.pntdoc_print.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.pntdoc_print_PrintPage);
+            // 
+            // pntprvdlg_print
+            // 
+            this.pntprvdlg_print.AutoScrollMargin = new System.Drawing.Size(0, 0);
+            this.pntprvdlg_print.AutoScrollMinSize = new System.Drawing.Size(0, 0);
+            this.pntprvdlg_print.ClientSize = new System.Drawing.Size(400, 300);
+            this.pntprvdlg_print.Document = this.pntdoc_print;
+            this.pntprvdlg_print.Enabled = true;
+            this.pntprvdlg_print.Icon = ((System.Drawing.Icon)(resources.GetObject("pntprvdlg_print.Icon")));
+            this.pntprvdlg_print.Name = "pntprvdlg_print";
+            this.pntprvdlg_print.ShowIcon = false;
+            this.pntprvdlg_print.Visible = false;
             // 
             // UI
             // 
@@ -950,7 +979,7 @@
         private System.Windows.Forms.Button btn_remove_option;
         private System.Windows.Forms.Button btn_add_option;
         private System.Windows.Forms.Panel pan_options;
-        private System.Windows.Forms.TextBox txt_question_text;
+        private System.Windows.Forms.RichTextBox txt_question_text;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.SaveFileDialog svf_save_exam;
         private System.Windows.Forms.OpenFileDialog opf_get_files;
@@ -985,6 +1014,9 @@
         private System.Windows.Forms.ToolStripButton helpToolStripButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
         private System.Windows.Forms.OpenFileDialog opf_get_exam;
+        private System.Windows.Forms.PrintDialog pntdlg_print;
+        private System.Drawing.Printing.PrintDocument pntdoc_print;
+        private System.Windows.Forms.PrintPreviewDialog pntprvdlg_print;
     }
 }
 

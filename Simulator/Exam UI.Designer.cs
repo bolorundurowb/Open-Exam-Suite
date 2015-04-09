@@ -56,7 +56,7 @@
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(1152, 9);
+            this.label1.Location = new System.Drawing.Point(1098, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(54, 13);
             this.label1.TabIndex = 0;
@@ -67,7 +67,7 @@
             // 
             this.lbl_elapsed_time.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lbl_elapsed_time.AutoSize = true;
-            this.lbl_elapsed_time.Location = new System.Drawing.Point(1211, 9);
+            this.lbl_elapsed_time.Location = new System.Drawing.Point(1157, 9);
             this.lbl_elapsed_time.Name = "lbl_elapsed_time";
             this.lbl_elapsed_time.Size = new System.Drawing.Size(0, 13);
             this.lbl_elapsed_time.TabIndex = 1;
@@ -114,7 +114,7 @@
             // 
             this.btn_pause.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_pause.Enabled = false;
-            this.btn_pause.Location = new System.Drawing.Point(1112, 649);
+            this.btn_pause.Location = new System.Drawing.Point(1058, 649);
             this.btn_pause.Name = "btn_pause";
             this.btn_pause.Size = new System.Drawing.Size(75, 23);
             this.btn_pause.TabIndex = 5;
@@ -127,7 +127,7 @@
             // 
             this.btn_end.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_end.Enabled = false;
-            this.btn_end.Location = new System.Drawing.Point(1202, 649);
+            this.btn_end.Location = new System.Drawing.Point(1148, 649);
             this.btn_end.Name = "btn_end";
             this.btn_end.Size = new System.Drawing.Size(75, 23);
             this.btn_end.TabIndex = 6;
@@ -153,13 +153,13 @@
             this.pan_display.Controls.Add(this.lbl_exam_title);
             this.pan_display.Location = new System.Drawing.Point(30, 34);
             this.pan_display.Name = "pan_display";
-            this.pan_display.Size = new System.Drawing.Size(1235, 597);
+            this.pan_display.Size = new System.Drawing.Size(1181, 597);
             this.pan_display.TabIndex = 7;
             // 
             // pic_image
             // 
             this.pic_image.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.pic_image.Location = new System.Drawing.Point(132, 155);
+            this.pic_image.Location = new System.Drawing.Point(105, 155);
             this.pic_image.Name = "pic_image";
             this.pic_image.Size = new System.Drawing.Size(579, 289);
             this.pic_image.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -176,7 +176,7 @@
             this.txt_question.Multiline = true;
             this.txt_question.Name = "txt_question";
             this.txt_question.ReadOnly = true;
-            this.txt_question.Size = new System.Drawing.Size(1130, 72);
+            this.txt_question.Size = new System.Drawing.Size(1076, 72);
             this.txt_question.TabIndex = 11;
             this.txt_question.Visible = false;
             // 
@@ -259,7 +259,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1293, 684);
+            this.ClientSize = new System.Drawing.Size(1239, 684);
             this.Controls.Add(this.pan_display);
             this.Controls.Add(this.btn_end);
             this.Controls.Add(this.btn_pause);
