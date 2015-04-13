@@ -23,10 +23,14 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
+    <TargetCulture>en</TargetCulture>
+    <ProductName>Simulator</ProductName>
+    <PublisherName>Invenio Technoloies</PublisherName>
     <SuiteName>Open Exam Suite</SuiteName>
-    <ApplicationRevision>3</ApplicationRevision>
+    <ApplicationRevision>4</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
+    <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -189,6 +193,14 @@
     <None Include="Resources\1.png" />
     <None Include="Resources\4.png" />
     <Content Include="Simulator Alt.fw.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <FileAssociation Include=".oef">
+      <Visible>False</Visible>
+      <Description>OES Exam Files</Description>
+      <Progid>Default</Progid>
+      <DefaultIcon>SuiteFileIcon.fw.ico</DefaultIcon>
+    </FileAssociation>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

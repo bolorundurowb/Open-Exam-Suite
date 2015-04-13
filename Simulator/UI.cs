@@ -65,7 +65,10 @@ namespace Simulator
                     }
                 }
             }
-            dgv_exams.Rows[0].Cells[0].Selected = false;
+            if (dgv_exams.RowCount > 0)
+            {
+                dgv_exams.Rows[0].Cells[0].Selected = false;
+            }
         }
 
         private void dgv_exams_SelectionChanged(object sender, EventArgs e)

@@ -351,6 +351,7 @@
             this.Controls.Add(this.label1);
             this.Name = "Score_Sheet";
             this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Score Sheet";
             ((System.ComponentModel.ISupportInitialize)(this.chr_display_score)).EndInit();
