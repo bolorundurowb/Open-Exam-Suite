@@ -92,9 +92,6 @@
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.lbl_question_and_section = new System.Windows.Forms.ToolStripStatusLabel();
             this.label2 = new System.Windows.Forms.Label();
-            this.btn_clear_picture = new System.Windows.Forms.Button();
-            this.btn_select_picture = new System.Windows.Forms.Button();
-            this.pct_question_picture = new System.Windows.Forms.PictureBox();
             this.btn_remove_option = new System.Windows.Forms.Button();
             this.btn_add_option = new System.Windows.Forms.Button();
             this.pan_options = new System.Windows.Forms.Panel();
@@ -108,6 +105,11 @@
             this.pntdlg_print = new System.Windows.Forms.PrintDialog();
             this.pntdoc_print = new System.Drawing.Printing.PrintDocument();
             this.pntprvdlg_print = new System.Windows.Forms.PrintPreviewDialog();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btn_clear_picture = new System.Windows.Forms.Button();
+            this.btn_select_picture = new System.Windows.Forms.Button();
+            this.pct_question_picture = new System.Windows.Forms.PictureBox();
+            this.btn_add_image = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splcn_main_view)).BeginInit();
@@ -122,8 +124,9 @@
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_properties)).BeginInit();
             this.statusStrip.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pct_question_picture)).BeginInit();
             this.contextMenuStrip.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pct_question_picture)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -585,12 +588,11 @@
             // 
             // splcn_main_view.Panel2
             // 
+            this.splcn_main_view.Panel2.Controls.Add(this.btn_add_image);
+            this.splcn_main_view.Panel2.Controls.Add(this.groupBox3);
             this.splcn_main_view.Panel2.Controls.Add(this.lbl_save_status);
             this.splcn_main_view.Panel2.Controls.Add(this.statusStrip);
             this.splcn_main_view.Panel2.Controls.Add(this.label2);
-            this.splcn_main_view.Panel2.Controls.Add(this.btn_clear_picture);
-            this.splcn_main_view.Panel2.Controls.Add(this.btn_select_picture);
-            this.splcn_main_view.Panel2.Controls.Add(this.pct_question_picture);
             this.splcn_main_view.Panel2.Controls.Add(this.btn_remove_option);
             this.splcn_main_view.Panel2.Controls.Add(this.btn_add_option);
             this.splcn_main_view.Panel2.Controls.Add(this.pan_options);
@@ -742,53 +744,12 @@
             this.label2.Text = "Ensure only one option is selected, else the first selected option would be recor" +
     "ded!";
             // 
-            // btn_clear_picture
-            // 
-            this.btn_clear_picture.Image = global::Creator.Properties.Resources._6;
-            this.btn_clear_picture.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btn_clear_picture.Location = new System.Drawing.Point(107, 200);
-            this.btn_clear_picture.Name = "btn_clear_picture";
-            this.btn_clear_picture.Size = new System.Drawing.Size(64, 23);
-            this.btn_clear_picture.TabIndex = 7;
-            this.btn_clear_picture.Text = "Clear";
-            this.btn_clear_picture.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btn_clear_picture.UseVisualStyleBackColor = true;
-            this.btn_clear_picture.Visible = false;
-            this.btn_clear_picture.Click += new System.EventHandler(this.btn_clear_picture_Click);
-            // 
-            // btn_select_picture
-            // 
-            this.btn_select_picture.Image = global::Creator.Properties.Resources._5;
-            this.btn_select_picture.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btn_select_picture.Location = new System.Drawing.Point(107, 170);
-            this.btn_select_picture.Name = "btn_select_picture";
-            this.btn_select_picture.Size = new System.Drawing.Size(64, 23);
-            this.btn_select_picture.TabIndex = 6;
-            this.btn_select_picture.Text = "Select";
-            this.btn_select_picture.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btn_select_picture.UseVisualStyleBackColor = true;
-            this.btn_select_picture.Visible = false;
-            this.btn_select_picture.Click += new System.EventHandler(this.btn_select_picture_Click);
-            // 
-            // pct_question_picture
-            // 
-            this.pct_question_picture.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pct_question_picture.Location = new System.Drawing.Point(182, 168);
-            this.pct_question_picture.Name = "pct_question_picture";
-            this.pct_question_picture.Size = new System.Drawing.Size(310, 196);
-            this.pct_question_picture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pct_question_picture.TabIndex = 5;
-            this.pct_question_picture.TabStop = false;
-            this.pct_question_picture.Visible = false;
-            // 
             // btn_remove_option
             // 
             this.btn_remove_option.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btn_remove_option.Enabled = false;
             this.btn_remove_option.Image = global::Creator.Properties.Resources._2;
-            this.btn_remove_option.Location = new System.Drawing.Point(623, 408);
+            this.btn_remove_option.Location = new System.Drawing.Point(614, 423);
             this.btn_remove_option.Name = "btn_remove_option";
             this.btn_remove_option.Size = new System.Drawing.Size(71, 23);
             this.btn_remove_option.TabIndex = 4;
@@ -802,7 +763,7 @@
             this.btn_add_option.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btn_add_option.Image = global::Creator.Properties.Resources._1;
             this.btn_add_option.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btn_add_option.Location = new System.Drawing.Point(623, 378);
+            this.btn_add_option.Location = new System.Drawing.Point(614, 393);
             this.btn_add_option.Name = "btn_add_option";
             this.btn_add_option.Size = new System.Drawing.Size(71, 23);
             this.btn_add_option.TabIndex = 3;
@@ -816,9 +777,9 @@
             this.pan_options.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.pan_options.AutoScroll = true;
             this.pan_options.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pan_options.Location = new System.Drawing.Point(256, 372);
+            this.pan_options.Location = new System.Drawing.Point(256, 393);
             this.pan_options.Name = "pan_options";
-            this.pan_options.Size = new System.Drawing.Size(352, 252);
+            this.pan_options.Size = new System.Drawing.Size(352, 231);
             this.pan_options.TabIndex = 2;
             this.pan_options.ControlAdded += new System.Windows.Forms.ControlEventHandler(this.pan_options_ControlChanged);
             this.pan_options.ControlRemoved += new System.Windows.Forms.ControlEventHandler(this.pan_options_ControlChanged);
@@ -898,6 +859,69 @@
             this.pntprvdlg_print.ShowIcon = false;
             this.pntprvdlg_print.Visible = false;
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox3.Controls.Add(this.btn_clear_picture);
+            this.groupBox3.Controls.Add(this.btn_select_picture);
+            this.groupBox3.Controls.Add(this.pct_question_picture);
+            this.groupBox3.Location = new System.Drawing.Point(204, 151);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(413, 223);
+            this.groupBox3.TabIndex = 11;
+            this.groupBox3.TabStop = false;
+            // 
+            // btn_clear_picture
+            // 
+            this.btn_clear_picture.Image = global::Creator.Properties.Resources._6;
+            this.btn_clear_picture.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btn_clear_picture.Location = new System.Drawing.Point(9, 51);
+            this.btn_clear_picture.Name = "btn_clear_picture";
+            this.btn_clear_picture.Size = new System.Drawing.Size(64, 23);
+            this.btn_clear_picture.TabIndex = 10;
+            this.btn_clear_picture.Text = "Clear";
+            this.btn_clear_picture.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btn_clear_picture.UseVisualStyleBackColor = true;
+            this.btn_clear_picture.Visible = false;
+            // 
+            // btn_select_picture
+            // 
+            this.btn_select_picture.Image = global::Creator.Properties.Resources._5;
+            this.btn_select_picture.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btn_select_picture.Location = new System.Drawing.Point(9, 21);
+            this.btn_select_picture.Name = "btn_select_picture";
+            this.btn_select_picture.Size = new System.Drawing.Size(64, 23);
+            this.btn_select_picture.TabIndex = 9;
+            this.btn_select_picture.Text = "Select";
+            this.btn_select_picture.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btn_select_picture.UseVisualStyleBackColor = true;
+            this.btn_select_picture.Visible = false;
+            // 
+            // pct_question_picture
+            // 
+            this.pct_question_picture.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pct_question_picture.Location = new System.Drawing.Point(79, 19);
+            this.pct_question_picture.Name = "pct_question_picture";
+            this.pct_question_picture.Size = new System.Drawing.Size(328, 196);
+            this.pct_question_picture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pct_question_picture.TabIndex = 8;
+            this.pct_question_picture.TabStop = false;
+            this.pct_question_picture.Visible = false;
+            // 
+            // btn_add_image
+            // 
+            this.btn_add_image.Location = new System.Drawing.Point(111, 158);
+            this.btn_add_image.Name = "btn_add_image";
+            this.btn_add_image.Size = new System.Drawing.Size(78, 23);
+            this.btn_add_image.TabIndex = 12;
+            this.btn_add_image.Text = "Add Picture";
+            this.btn_add_image.UseVisualStyleBackColor = true;
+            this.btn_add_image.Click += new System.EventHandler(this.insertPictureToolStripMenuItem_Click);
+            // 
             // UI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -932,8 +956,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgv_properties)).EndInit();
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pct_question_picture)).EndInit();
             this.contextMenuStrip.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pct_question_picture)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -990,9 +1015,6 @@
         private System.Windows.Forms.ToolStripButton btn_paste;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ImageList ilst_images;
-        private System.Windows.Forms.PictureBox pct_question_picture;
-        private System.Windows.Forms.Button btn_clear_picture;
-        private System.Windows.Forms.Button btn_select_picture;
         private System.Windows.Forms.ToolStripButton btn_new_section;
         private System.Windows.Forms.ToolStripButton btn_new_question;
         private System.Windows.Forms.Label label2;
@@ -1019,6 +1041,11 @@
         private System.Windows.Forms.PrintDialog pntdlg_print;
         private System.Drawing.Printing.PrintDocument pntdoc_print;
         private System.Windows.Forms.PrintPreviewDialog pntprvdlg_print;
+        private System.Windows.Forms.Button btn_add_image;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Button btn_clear_picture;
+        private System.Windows.Forms.Button btn_select_picture;
+        private System.Windows.Forms.PictureBox pct_question_picture;
     }
 }
 

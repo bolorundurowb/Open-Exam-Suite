@@ -222,6 +222,7 @@ namespace Creator
             else if (((TreeView)sender).SelectedNode.Name.Contains("secNode"))
             {
                 splcn_main_view.Panel2.Enabled = false;
+                addOptionToolStripMenuItem.Enabled = false;
                 newQuestionToolStripMenuItem.Enabled = true;
                 btn_new_question.Enabled = true;
                 newSectionToolStripMenuItem.Enabled = false;
@@ -242,6 +243,7 @@ namespace Creator
             {
                 splcn_main_view.Panel2.Enabled = false;
                 newSectionToolStripMenuItem.Enabled = true;
+                addOptionToolStripMenuItem.Enabled = false;
                 btn_new_section.Enabled = true;
                 newQuestionToolStripMenuItem.Enabled = false;
                 btn_new_question.Enabled = false;
@@ -259,6 +261,7 @@ namespace Creator
                 splcn_main_view.Panel2.Enabled = false;
                 addOptionToolStripMenuItem.Enabled = false;
                 newQuestionToolStripMenuItem.Enabled = false;
+                addOptionToolStripMenuItem.Enabled = false;
                 btn_new_question.Enabled = false;
                 newSectionToolStripMenuItem.Enabled = false;
                 btn_new_section.Enabled = false;
@@ -318,6 +321,7 @@ namespace Creator
         private void btn_clear_picture_Click(object sender, EventArgs e)
         {
             pct_question_picture.Image = null;
+            pct_question_picture.ImageLocation = null;
         }
 
         private void pan_options_ControlChanged(object sender, ControlEventArgs e)
@@ -417,6 +421,7 @@ namespace Creator
                             }
                             catch (InvalidOperationException)
                             {
+                                MessageBox.Show("An answer to this question has not been selected, the first option ('A') has been selected by default. Return to the question to change it","Option not selected");
                                 tempExamStore[index].QuestionAnswer = 'A';
                             }
                             tempExamStore[index].QuestionNumber = Convert.ToInt32(((TreeView)sender).SelectedNode.Text.Replace("Question ", ""));
@@ -430,6 +435,7 @@ namespace Creator
                             //clear the boxes
                             txt_question_text.Clear();
                             pct_question_picture.Image = null;
+                            pct_question_picture.ImageLocation = null;
                             pan_options.Controls.Clear();
                         }
                         else
