@@ -25,9 +25,9 @@
     <MapFileExtensions>true</MapFileExtensions>
     <TargetCulture>en</TargetCulture>
     <ProductName>Simulator</ProductName>
-    <PublisherName>Invenio Technoloies</PublisherName>
+    <PublisherName>Invenio Technologies</PublisherName>
     <SuiteName>Open Exam Suite</SuiteName>
-    <ApplicationRevision>4</ApplicationRevision>
+    <ApplicationRevision>8</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -72,7 +72,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Ionic.Zip">
-      <HintPath>..\..\..\APIs\DotNetZipLib-Runtime-v1.9\Ionic.Zip.dll</HintPath>
+      <HintPath>..\..\..\APIs\DotNetZipLib-Runtime-v1.9\zip-v1.9\Ionic.Zip.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

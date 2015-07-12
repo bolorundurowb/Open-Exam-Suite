@@ -141,6 +141,17 @@ namespace Simulator
                     }
                 }
             }
+            else
+            {
+                Directory.Delete(outputPath, true);
+                using (ZipFile zip = ZipFile.Read(fullFilePath))
+                {
+                    foreach (ZipEntry ent in zip)
+                    {
+                        ent.Extract(outputPath, ExtractExistingFileAction.OverwriteSilently);
+                    }
+                }
+            }
             int numOfQuestions = 0;
             //New try
             try

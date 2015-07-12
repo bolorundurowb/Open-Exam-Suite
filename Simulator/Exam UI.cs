@@ -153,7 +153,7 @@ namespace Simulator
                 double y = (timeLeft % 3600) / 60;
                 double minutes = Math.Floor(y);
                 double seconds = timeLeft % 60;
-                string temp = String.Format("{0:0}:{1:00}:{2:00}", hours.ToString(), minutes.ToString(), seconds.ToString());
+                string temp = String.Format("{0}:{1}:{2}", hours.ToString("00"), minutes.ToString("00"), seconds.ToString("00"));
                 lbl_elapsed_time.Text = temp;
                 this.totalSeconds += 1;
             }
