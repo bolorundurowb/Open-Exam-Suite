@@ -40,7 +40,7 @@
             this.rdb_option.Name = "rdb_option";
             this.rdb_option.Size = new System.Drawing.Size(32, 17);
             this.rdb_option.TabIndex = 0;
-            this.rdb_option.Text = "Z";
+            this.rdb_option.Text = "A";
             this.rdb_option.UseVisualStyleBackColor = true;
             this.rdb_option.Click += new System.EventHandler(this.rdb_option_Click);
             // 

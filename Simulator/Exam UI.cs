@@ -330,7 +330,7 @@ namespace Simulator
                         rdb.Text = temp.QuestionOptions.ElementAt(i).Key + ". - " + temp.QuestionOptions.ElementAt(i).Value;
                         rdb.Name = "rdb" + (" " + temp.QuestionOptions.ElementAt(i).Key).Replace(' ', '_');
                         rdb.Location = new Point(51, 464 + (i * 22));
-                        if (temp.QuestionOptions.ElementAt(questionIndex).Key == givenAnswers[questionIndex])
+                        if (temp.QuestionOptions.ElementAt(i).Key == givenAnswers[questionIndex])
                             rdb.Checked = true;
                         pan_display.Controls.Add(rdb);
                     }
@@ -386,6 +386,8 @@ namespace Simulator
                     rdb.Text = temp.QuestionOptions.ElementAt(i).Key + ". - " + temp.QuestionOptions.ElementAt(i).Value;
                     rdb.Name = "rdb" + (" " + temp.QuestionOptions.ElementAt(i).Key).Replace(' ', '_');
                     rdb.Location = new Point(51, 464 + (i * 22));
+                    if (temp.QuestionOptions.ElementAt(i).Key == givenAnswers[questionIndex])
+                        rdb.Checked = true;
                     pan_display.Controls.Add(rdb);
                 }
                 btn_previous.Enabled = true;
