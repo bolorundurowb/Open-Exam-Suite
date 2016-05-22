@@ -1,20 +1,55 @@
-# Open-Exam-Suite
+# Open Exam Suite
+[![Build status](https://ci.appveyor.com/api/projects/status/sbhyvvpj8jy8ifmw/branch/master?svg=true)](https://ci.appveyor.com/project/BolorunduroWinnerTimothy/open-exam-suite/branch/master)   [![SourceForge](https://img.shields.io/badge/downloads-67%2Fwk-brightgreen.svg)](https://sourceforge.net/projects/open-exam-suite/) [![NETFramework](https://img.shields.io/badge/.net-4.0-ff66b6.svg)]()
 
-I've finally gotten tired of the tyranny of Avanset and how they have made it next to impossible to make use of VCE files because of their prohibitive subscription prices. This project seeks to create an open Exam designer and simulator that will create a file based on XML. It would be the open source solace for those wanting to take computer based simulated examination.
+This project is an answer to a call to develop an open source alternative to Avanset's Visual CertExam Suite. This project has an exam designer that creates an *oef* (Open Exam Format) file and an exam simulator that can read and simulate the exam. It aims to be the open source solace for those wanting to take computer based simulated examinations.
+Answering the call to design an open source alternative to Avanset's Visual CertExam Suite birthed version one of open exam suite and as I was still learning and getting a hang of the language, the code written is less than ideal which gave birth to version two of the software which based on the new knowledge was better written and had new features. The code resides [here](https://github.com/bolorundurowb/Open-Exam-Suite-2.0).
 
-The *.oef format that Open Exam Suite understands is just basically a zip file with an XML file containing the exam text and all the pictures associated with questions 
-
-I made some radical changes to the code and  felt that it would be appropriate to create a new respository at https://github.com/bolorundurowb/Open-Exam-Suite-2.0 but with follwing that this has, I will try and merge the changes I made in that version into this version and also include features I have been working on for an enterprise version of this exam suite.
+[NB: the *oef* files are basically just zip files that contain an XML file and images. The XML contains the exam details and structure while the pictures are question images]
 
 
-I'll need community help with the conversion of the existing vce exams to this new format. 
+## Version 1 features
+#### Creator Section
+1. Supports grouping questions into sections.
+2. Supports Images in questions
+3. Supports an unlimited number of options per question.
+4. Supports importing an existing exam file.
+5. Supports editing an exam file.
+6. Supports time limits in exams.
+#### Simulator Section
+1. Supports taking exams as designed.
+2. Supports selecting certain sections to take.
+3. Supports just selecting the number of questions to be taken.
+4. Supports changing of time limits.
 
-V1.0 features
-1.) Multiple options per question
-2.) Supports sectioning of exams
-3.) Supports exam properties such as time limits etc...
 
-v2.0 proposed features
-1.) Support for answers while creating the exam
-2.) New Creator UI
-3.) More stable and intuitive UI
+## Version 2 added features
+#### Creator Section
+1. Supports adding of explanations to questions.
+2. Written utilizing more OOP principles than version 1.0
+3. Less buggy and faster.
+4. New, more stable and intuitive UI.
+#### Simulator Section
+1. Support for checking correct answer while taking exams.
+2. Support for viewing an answers explanation.
+3. Support for printing results.
+
+I have gained more programming knowledge and experience and intend to use that in version three of this project. Version three would be faster and have more features than version two. It aims to be a full rewrite.
+
+
+## Version 3 proposed features
+#### General improvements
+1. Would be coded using every OOP principle I know.
+2. Would be coded using TDD.
+3. Aim to change the exam file (*oef*) type from *zip* based to NoSQL file based. Specifically [LiteDB](http://www.litedb.org).
+#### Creator Section
+1. UI overhaul to make it even more intuitive and better.
+2. Faster response
+3. Support for Undo and Redo.
+4. Support for Copying, Cutting and Pasting.
+5. Support documentation in the help section.
+#### Simulator Section
+1. Full rewrite for stability sake.
+
+
+
+__I need community help with a way to convert existing *vce* exams to this *oef* format. Any input would be appreciated, a library, a word of advice, anything.__
