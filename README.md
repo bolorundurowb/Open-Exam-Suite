@@ -1,5 +1,5 @@
 # Open Exam Suite
-[![Build status](https://ci.appveyor.com/api/projects/status/sbhyvvpj8jy8ifmw/branch/master?svg=true)](https://ci.appveyor.com/project/BolorunduroWinnerTimothy/open-exam-suite/branch/master)   [![SourceForge](https://img.shields.io/badge/downloads-67%2Fwk-brightgreen.svg)](https://sourceforge.net/projects/open-exam-suite/) [![NETFramework](https://img.shields.io/badge/.net-4.0-ff66b6.svg)]()
+[![Build status](https://ci.appveyor.com/api/projects/status/sbhyvvpj8jy8ifmw/branch/master?svg=true)](https://ci.appveyor.com/project/BolorunduroWinnerTimothy/open-exam-suite/branch/master)   [![SourceForge](https://img.shields.io/badge/downloads-67%2Fwk-brightgreen.svg)](https://sourceforge.net/projects/open-exam-suite/) [![NETFramework](https://img.shields.io/badge/.net-4.0-ff66b6.svg)](https://www.microsoft.com/en-us/download/details.aspx?id=17851)
 
 This project is an answer to a call to develop an open source alternative to Avanset's Visual CertExam Suite. This project has an exam designer that creates an *oef* (Open Exam Format) file and an exam simulator that can read and simulate the exam. It aims to be the open source solace for those wanting to take computer based simulated examinations.
 Answering the call to design an open source alternative to Avanset's Visual CertExam Suite birthed version one of open exam suite and as I was still learning and getting a hang of the language, the code written is less than ideal which gave birth to version two of the software which based on the new knowledge was better written and had new features. The code resides [here](https://github.com/bolorundurowb/Open-Exam-Suite-2.0).
@@ -15,6 +15,7 @@ Answering the call to design an open source alternative to Avanset's Visual Cert
 4. Supports importing an existing exam file.
 5. Supports editing an exam file.
 6. Supports time limits in exams.
+
 #### Simulator Section
 1. Supports taking exams as designed.
 2. Supports selecting certain sections to take.
@@ -28,6 +29,7 @@ Answering the call to design an open source alternative to Avanset's Visual Cert
 2. Written utilizing more OOP principles than version 1.0
 3. Less buggy and faster.
 4. New, more stable and intuitive UI.
+
 #### Simulator Section
 1. Support for checking correct answer while taking exams.
 2. Support for viewing an answers explanation.
@@ -41,15 +43,18 @@ I have gained more programming knowledge and experience and intend to use that i
 1. Would be coded using every OOP principle I know.
 2. Would be coded using TDD.
 3. Aim to change the exam file (*oef*) type from *zip* based to NoSQL file based. Specifically [LiteDB](http://www.litedb.org).
+
 #### Creator Section
 1. UI overhaul to make it even more intuitive and better.
 2. Faster response
 3. Support for Undo and Redo.
 4. Support for Copying, Cutting and Pasting.
 5. Support documentation in the help section.
+
 #### Simulator Section
 1. Full rewrite for stability sake.
 
 
 
+###### SourceForge [link](https://sourceforge.net/projects/open-exam-suite).
 __I need community help with a way to convert existing *vce* exams to this *oef* format. Any input would be appreciated, a library, a word of advice, anything.__
