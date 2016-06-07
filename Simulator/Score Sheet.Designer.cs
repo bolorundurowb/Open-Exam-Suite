@@ -135,7 +135,6 @@
             this.btn_retake.TabIndex = 7;
             this.btn_retake.Text = "Retake";
             this.btn_retake.UseVisualStyleBackColor = true;
-            this.btn_retake.Click += new System.EventHandler(this.btn_retake_Click);
             // 
             // btn_exit
             // 
@@ -146,7 +145,6 @@
             this.btn_exit.TabIndex = 9;
             this.btn_exit.Text = "Exit";
             this.btn_exit.UseVisualStyleBackColor = true;
-            this.btn_exit.Click += new System.EventHandler(this.btn_exit_Click);
             // 
             // chr_display_score
             // 
@@ -337,7 +335,6 @@
             this.btn_print_score.TabIndex = 21;
             this.btn_print_score.Text = "Print";
             this.btn_print_score.UseVisualStyleBackColor = true;
-            this.btn_print_score.Click += new System.EventHandler(this.btn_print_score_Click);
             // 
             // pnt_prv_dlg
             // 
@@ -353,7 +350,6 @@
             // 
             // pnt_doc
             // 
-            this.pnt_doc.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.pnt_doc_PrintPage);
             // 
             // Score_Sheet
             // 

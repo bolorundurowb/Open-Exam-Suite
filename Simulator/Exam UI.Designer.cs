@@ -1,4 +1,6 @@
-﻿namespace Simulator
+﻿using System;
+
+namespace Simulator
 {
     partial class Exam_UI
     {
@@ -82,7 +84,6 @@
             this.btn_begin.TabIndex = 2;
             this.btn_begin.Text = "Begin";
             this.btn_begin.UseVisualStyleBackColor = true;
-            this.btn_begin.Click += new System.EventHandler(this.btn_begin_Click);
             // 
             // btn_previous
             // 
@@ -95,7 +96,6 @@
             this.btn_previous.Text = "Previous";
             this.btn_previous.UseVisualStyleBackColor = true;
             this.btn_previous.Visible = false;
-            this.btn_previous.Click += new System.EventHandler(this.btn_previous_Click);
             // 
             // btn_next
             // 
@@ -108,7 +108,6 @@
             this.btn_next.Text = "Next";
             this.btn_next.UseVisualStyleBackColor = true;
             this.btn_next.Visible = false;
-            this.btn_next.Click += new System.EventHandler(this.btn_next_Click);
             // 
             // btn_pause
             // 
@@ -121,7 +120,6 @@
             this.btn_pause.Text = "Pause";
             this.btn_pause.UseVisualStyleBackColor = true;
             this.btn_pause.Visible = false;
-            this.btn_pause.Click += new System.EventHandler(this.btn_pause_Click);
             // 
             // btn_end
             // 
@@ -134,7 +132,6 @@
             this.btn_end.Text = "End";
             this.btn_end.UseVisualStyleBackColor = true;
             this.btn_end.Visible = false;
-            this.btn_end.Click += new System.EventHandler(this.btn_end_Click);
             // 
             // pan_display
             // 
@@ -273,7 +270,6 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Open Exam Simulator";
-            this.Load += new System.EventHandler(this.Exam_UI_Load);
             this.pan_display.ResumeLayout(false);
             this.pan_display.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_image)).EndInit();

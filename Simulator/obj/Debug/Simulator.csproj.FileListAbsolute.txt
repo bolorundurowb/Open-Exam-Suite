@@ -42,3 +42,6 @@ C:\Users\Virtuoso\Documents\Visual Studio 2013\Projects\Open Exam Suite\Simulato
 C:\Users\Virtuoso\Documents\Visual Studio 2013\Projects\Open Exam Suite\Simulator\obj\Debug\Simulator.application
 C:\Users\Virtuoso\Documents\Visual Studio 2013\Projects\Open Exam Suite\Simulator\obj\Debug\Simulator.exe
 C:\Users\Virtuoso\Documents\Visual Studio 2013\Projects\Open Exam Suite\Simulator\obj\Debug\Simulator.pdb
+C:\Users\bolorundurowb\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Simulator\bin\Debug\Simulator.exe.config
+C:\Users\bolorundurowb\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Simulator\obj\Debug\Simulator.exe
+C:\Users\bolorundurowb\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Simulator\obj\Debug\Simulator.pdb

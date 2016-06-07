@@ -121,7 +121,6 @@
             this.btn_deselect_all.TabIndex = 4;
             this.btn_deselect_all.Text = "Deselect All";
             this.btn_deselect_all.UseVisualStyleBackColor = true;
-            this.btn_deselect_all.Click += new System.EventHandler(this.btn_deselect_all_Click);
             // 
             // btn_select_all
             // 
@@ -131,7 +130,6 @@
             this.btn_select_all.TabIndex = 3;
             this.btn_select_all.Text = "Select All";
             this.btn_select_all.UseVisualStyleBackColor = true;
-            this.btn_select_all.Click += new System.EventHandler(this.btn_select_all_Click);
             // 
             // rdb_fixed_number_questions
             // 
@@ -142,7 +140,6 @@
             this.rdb_fixed_number_questions.TabIndex = 1;
             this.rdb_fixed_number_questions.Text = "Take";
             this.rdb_fixed_number_questions.UseVisualStyleBackColor = true;
-            this.rdb_fixed_number_questions.CheckedChanged += new System.EventHandler(this.rdb_fixed_number_questions_CheckedChanged);
             // 
             // rdb_selected_sections
             // 
@@ -155,7 +152,6 @@
             this.rdb_selected_sections.TabStop = true;
             this.rdb_selected_sections.Text = "Take questions from selected sections only:";
             this.rdb_selected_sections.UseVisualStyleBackColor = true;
-            this.rdb_selected_sections.CheckedChanged += new System.EventHandler(this.rdb_selected_sections_CheckedChanged);
             // 
             // groupBox2
             // 
@@ -216,7 +212,6 @@
             this.chk_enable_timer.TabIndex = 0;
             this.chk_enable_timer.Text = "Enable exam timer?";
             this.chk_enable_timer.UseVisualStyleBackColor = true;
-            this.chk_enable_timer.CheckedChanged += new System.EventHandler(this.chk_enable_timer_CheckedChanged);
             // 
             // btn_ok
             // 
@@ -226,7 +221,6 @@
             this.btn_ok.TabIndex = 4;
             this.btn_ok.Text = "OK";
             this.btn_ok.UseVisualStyleBackColor = true;
-            this.btn_ok.Click += new System.EventHandler(this.btn_ok_Click);
             // 
             // btn_cancel
             // 
@@ -236,7 +230,6 @@
             this.btn_cancel.TabIndex = 5;
             this.btn_cancel.Text = "CANCEL";
             this.btn_cancel.UseVisualStyleBackColor = true;
-            this.btn_cancel.Click += new System.EventHandler(this.btn_cancel_Click);
             // 
             // Exam_Settings
             // 
@@ -258,7 +251,6 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Settings";
-            this.Load += new System.EventHandler(this.Exam_Settings_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_exam_number)).EndInit();

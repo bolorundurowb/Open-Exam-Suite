@@ -34,7 +34,10 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UI));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addExamToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dgv_exams = new System.Windows.Forms.DataGridView();
@@ -45,9 +48,6 @@
             this.btn_remove = new System.Windows.Forms.Button();
             this.btn_add = new System.Windows.Forms.Button();
             this.btn_start = new System.Windows.Forms.Button();
-            this.addExamToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_exams)).BeginInit();
             this.SuspendLayout();
@@ -75,12 +75,28 @@
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
+            // addExamToolStripMenuItem
+            // 
+            this.addExamToolStripMenuItem.Image = global::Simulator.Properties.Resources._1;
+            this.addExamToolStripMenuItem.Name = "addExamToolStripMenuItem";
+            this.addExamToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.addExamToolStripMenuItem.Text = "Add Exam";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(124, 6);
+            // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.exitToolStripMenuItem.Text = "Exit";
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(124, 6);
             // 
             // helpToolStripMenuItem
             // 
@@ -95,7 +111,6 @@
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.aboutToolStripMenuItem.Text = "About";
-            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // dgv_exams
             // 
@@ -144,8 +159,6 @@
             this.dgv_exams.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgv_exams.Size = new System.Drawing.Size(630, 417);
             this.dgv_exams.TabIndex = 5;
-            this.dgv_exams.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_exams_CellDoubleClick);
-            this.dgv_exams.SelectionChanged += new System.EventHandler(this.dgv_exams_SelectionChanged);
             // 
             // name
             // 
@@ -175,7 +188,6 @@
             this.btn_properties.Text = "Properties";
             this.btn_properties.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btn_properties.UseVisualStyleBackColor = true;
-            this.btn_properties.Click += new System.EventHandler(this.btn_properties_Click);
             // 
             // btn_remove
             // 
@@ -188,7 +200,6 @@
             this.btn_remove.Text = "Remove";
             this.btn_remove.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btn_remove.UseVisualStyleBackColor = true;
-            this.btn_remove.Click += new System.EventHandler(this.btn_remove_Click);
             // 
             // btn_add
             // 
@@ -200,7 +211,6 @@
             this.btn_add.Text = "Add";
             this.btn_add.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btn_add.UseVisualStyleBackColor = true;
-            this.btn_add.Click += new System.EventHandler(this.btn_add_Click);
             // 
             // btn_start
             // 
@@ -213,25 +223,6 @@
             this.btn_start.Text = "Start";
             this.btn_start.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btn_start.UseVisualStyleBackColor = true;
-            this.btn_start.Click += new System.EventHandler(this.btn_start_Click);
-            // 
-            // addExamToolStripMenuItem
-            // 
-            this.addExamToolStripMenuItem.Image = global::Simulator.Properties.Resources._1;
-            this.addExamToolStripMenuItem.Name = "addExamToolStripMenuItem";
-            this.addExamToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.addExamToolStripMenuItem.Text = "Add Exam";
-            this.addExamToolStripMenuItem.Click += new System.EventHandler(this.btn_add_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(149, 6);
             // 
             // UI
             // 
@@ -249,9 +240,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "UI";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "SIMULATOR";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.UI_FormClosing);
-            this.Load += new System.EventHandler(this.UI_Load);
+            this.Text = "Simulator";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_exams)).EndInit();
