@@ -59,7 +59,7 @@
     <ApplicationIcon>Creator Alt.fw.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>2679211DD8728DA27C1DCEE6CA77059CAD8FD927</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>887D2011F9FE2E24BAE75005FECDD1B0D3B94E0C</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestKeyFile>Creator_TemporaryKey.pfx</ManifestKeyFile>
@@ -92,25 +92,6 @@
     <Compile Include="About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
-    <Compile Include="EditSectionTitle.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="EditSectionTitle.Designer.cs">
-      <DependentUpon>EditSectionTitle.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Exam and Sections.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Exam and Sections.Designer.cs">
-      <DependentUpon>Exam and Sections.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GlobalPathVariables.cs" />
-    <Compile Include="New Section.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="New Section.Designer.cs">
-      <DependentUpon>New Section.cs</DependentUpon>
-    </Compile>
     <Compile Include="OptionControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -122,27 +103,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Question.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI.Designer.cs">
       <DependentUpon>UI.cs</DependentUpon>
     </Compile>
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="XML Handler.cs" />
     <EmbeddedResource Include="About.resx">
       <DependentUpon>About.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="EditSectionTitle.resx">
-      <DependentUpon>EditSectionTitle.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Exam and Sections.resx">
-      <DependentUpon>Exam and Sections.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="New Section.resx">
-      <DependentUpon>New Section.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="OptionControl.resx">
       <DependentUpon>OptionControl.cs</DependentUpon>

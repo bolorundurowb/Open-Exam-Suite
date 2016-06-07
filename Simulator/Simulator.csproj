@@ -59,7 +59,7 @@
     <ApplicationIcon>Simulator Alt.fw.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>DBCCA97A54852B53822F6252F82CA904AB206F9B</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>7978CA3D4FCE610ECE2BFBD5CB2BD34A82202ABA</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestKeyFile>Simulator_TemporaryKey.pfx</ManifestKeyFile>

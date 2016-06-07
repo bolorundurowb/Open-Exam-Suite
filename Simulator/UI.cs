@@ -8,5 +8,10 @@ namespace Simulator
         {
 
         }
+
+        public UI(string filePath)
+        {
+
+        }
     }
 }

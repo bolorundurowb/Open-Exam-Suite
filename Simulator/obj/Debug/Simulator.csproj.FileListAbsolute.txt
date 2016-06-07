@@ -45,3 +45,17 @@ C:\Users\Virtuoso\Documents\Visual Studio 2013\Projects\Open Exam Suite\Simulato
 C:\Users\bolorundurowb\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Simulator\bin\Debug\Simulator.exe.config
 C:\Users\bolorundurowb\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Simulator\obj\Debug\Simulator.exe
 C:\Users\bolorundurowb\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Simulator\obj\Debug\Simulator.pdb
+C:\Users\bolorundurowb\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Simulator\obj\Debug\Simulator.About.resources
+C:\Users\bolorundurowb\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Simulator\obj\Debug\Simulator.Exam_Properties.resources
+C:\Users\bolorundurowb\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Simulator\obj\Debug\Simulator.Exam_Settings.resources
+C:\Users\bolorundurowb\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Simulator\obj\Debug\Simulator.Exam_UI.resources
+C:\Users\bolorundurowb\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Simulator\obj\Debug\Simulator.Score_Sheet.resources
+C:\Users\bolorundurowb\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Simulator\obj\Debug\Simulator.UI.resources
+C:\Users\bolorundurowb\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Simulator\obj\Debug\Simulator.Properties.Resources.resources
+C:\Users\bolorundurowb\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Simulator\obj\Debug\Simulator.csproj.GenerateResource.Cache
+C:\Users\bolorundurowb\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Simulator\bin\Debug\Simulator.exe.manifest
+C:\Users\bolorundurowb\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Simulator\bin\Debug\Simulator.application
+C:\Users\bolorundurowb\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Simulator\bin\Debug\Simulator.exe
+C:\Users\bolorundurowb\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Simulator\bin\Debug\Simulator.pdb
+C:\Users\bolorundurowb\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Simulator\obj\Debug\Simulator.exe.manifest
+C:\Users\bolorundurowb\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Simulator\obj\Debug\Simulator.application
