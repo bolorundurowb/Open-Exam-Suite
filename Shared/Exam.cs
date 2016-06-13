@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 
 namespace Shared
 {
+    [Serializable]
     public class Exam
     {
         public Properties Properties { get; set; }
@@ -62,6 +64,7 @@ namespace Shared
         }
     }
 
+    [Serializable]
     public class Properties
     {
         public string Title { get; set; }
@@ -77,6 +80,7 @@ namespace Shared
         public string Instructions { get; set; }
     }
 
+    [Serializable]
     public class Section
     {
         public string Title { get; set; }
@@ -89,6 +93,7 @@ namespace Shared
         }
     }
 
+    [Serializable]
     public class Question
     {
         public int No { get; set; }
@@ -107,6 +112,7 @@ namespace Shared
         }
     }
 
+    [Serializable]
     public class Option
     {
         public char Alphabet { get; set; }
