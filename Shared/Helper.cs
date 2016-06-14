@@ -16,21 +16,49 @@ namespace Shared
             else
             {
                 Stream stream = null;
-                IFormatter formatter = new BinaryFormatter();
-                stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.None);
-                Exam exam = (Exam)formatter.Deserialize(stream);
-                return exam;
+                try
+                {
+                    
+                    IFormatter formatter = new BinaryFormatter();
+                    stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.None);
+                    Exam exam = (Exam)formatter.Deserialize(stream);
+                    return exam;
+                }
+                catch(Exception)
+                {
+                    return null;
+                }
+                finally
+                {
+                    if (stream != null)
+                        stream.Close();
+                }
             }            
         }
 
         public static bool WriteExamToFile (Exam exam, string filePath)
         {
+            if (exam == null)
+                throw new NullReferenceException("The exam to be written cannot be null.");
+            else if (string.IsNullOrWhiteSpace(filePath))
+                throw new ArgumentException("Empty filepath");
             Stream stream = null;
-            IFormatter formatter = new BinaryFormatter();
-            stream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
-            formatter.Serialize(stream, exam);
-            stream.Close();
-            return true;
+            try
+            {
+                IFormatter formatter = new BinaryFormatter();
+                stream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
+                formatter.Serialize(stream, exam);
+                return true;
+            }
+            catch(Exception)
+            {
+                return false;
+            }
+            finally
+            {
+                if (stream != null)
+                    stream.Close();
+            }
         }
     }
 }

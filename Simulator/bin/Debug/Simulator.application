@@ -7,14 +7,14 @@
     <framework targetVersion="4.0" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="Simulator.exe.manifest" size="4452">
+    <dependentAssembly dependencyType="install" codebase="Simulator.exe.manifest" size="5064">
       <assemblyIdentity name="Simulator.exe" version="1.0.0.9" publicKeyToken="0000000000000000" language="en" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>97IomWTVQxkn4dLeq1Yhie3gC50=</dsig:DigestValue>
+        <dsig:DigestValue>x2QmoOQtDYOG9WJf6/s7B7BMy1U=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

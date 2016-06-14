@@ -59,3 +59,6 @@ C:\Users\bolorundurowb\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Sim
 C:\Users\bolorundurowb\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Simulator\bin\Debug\Simulator.pdb
 C:\Users\bolorundurowb\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Simulator\obj\Debug\Simulator.exe.manifest
 C:\Users\bolorundurowb\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Simulator\obj\Debug\Simulator.application
+C:\Users\bolorundurowb\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Simulator\obj\Debug\Simulator.csprojResolveAssemblyReference.cache
+C:\Users\bolorundurowb\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Simulator\bin\Debug\Shared.dll
+C:\Users\bolorundurowb\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Simulator\bin\Debug\Shared.pdb

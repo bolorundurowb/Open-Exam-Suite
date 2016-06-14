@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Shared;
 using System.IO;
+using System.Drawing;
 
 namespace SharedTests
 {
@@ -38,7 +39,8 @@ namespace SharedTests
                                     Text = "Option 1",
                                     Alphabet = 'A'
                                 }
-                            }
+                            },
+                            Image = new Bitmap(@"C:\Users\bolorundurowb\Pictures\personality.PNG")
                         }
                     }
                 }
@@ -58,7 +60,22 @@ namespace SharedTests
         {
             string filepath = Environment.CurrentDirectory + Path.DirectorySeparatorChar + "test.oef";
             Exam exam = Helper.GetExamFromFile(filepath);
-            Assert.AreEqual(exam, this.exam);
+            Assert.IsInstanceOfType(exam, typeof(Exam));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NullReferenceException))]
+        public void NullExamPassed()
+        {
+            Exam nullExam = null;
+            Assert.IsTrue(Helper.WriteExamToFile(nullExam, @"C:\"));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void EmptyFilePath()
+        {
+            Assert.IsTrue(Helper.WriteExamToFile(exam, string.Empty));
         }
     }
 }

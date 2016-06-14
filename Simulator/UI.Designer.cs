@@ -37,17 +37,16 @@
             this.addExamToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dgv_exams = new System.Windows.Forms.DataGridView();
-            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.path = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.opf_select = new System.Windows.Forms.OpenFileDialog();
+            this.ofd_exam = new System.Windows.Forms.OpenFileDialog();
             this.btn_properties = new System.Windows.Forms.Button();
             this.btn_remove = new System.Windows.Forms.Button();
             this.btn_add = new System.Windows.Forms.Button();
             this.btn_start = new System.Windows.Forms.Button();
+            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.path = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_exams)).BeginInit();
             this.SuspendLayout();
@@ -69,8 +68,7 @@
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addExamToolStripMenuItem,
             this.toolStripSeparator1,
-            this.exitToolStripMenuItem,
-            this.toolStripSeparator2});
+            this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
@@ -79,24 +77,21 @@
             // 
             this.addExamToolStripMenuItem.Image = global::Simulator.Properties.Resources._1;
             this.addExamToolStripMenuItem.Name = "addExamToolStripMenuItem";
-            this.addExamToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.addExamToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.addExamToolStripMenuItem.Text = "Add Exam";
+            this.addExamToolStripMenuItem.Click += new System.EventHandler(this.AddExam);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(124, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exitToolStripMenuItem.Text = "Exit";
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(124, 6);
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.Exit);
             // 
             // helpToolStripMenuItem
             // 
@@ -109,8 +104,9 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.About);
             // 
             // dgv_exams
             // 
@@ -120,7 +116,6 @@
             this.dgv_exams.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.dgv_exams.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv_exams.BackgroundColor = System.Drawing.SystemColors.Control;
             this.dgv_exams.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -159,23 +154,12 @@
             this.dgv_exams.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgv_exams.Size = new System.Drawing.Size(630, 417);
             this.dgv_exams.TabIndex = 5;
+            this.dgv_exams.SelectionChanged += new System.EventHandler(this.SelectionChanged);
             // 
-            // name
+            // ofd_exam
             // 
-            this.name.HeaderText = "Exam Name";
-            this.name.Name = "name";
-            this.name.ReadOnly = true;
-            // 
-            // path
-            // 
-            this.path.HeaderText = "Exam Path";
-            this.path.Name = "path";
-            this.path.ReadOnly = true;
-            // 
-            // opf_select
-            // 
-            this.opf_select.Filter = "Open Exam Files (*.oef)|*.oef";
-            this.opf_select.Multiselect = true;
+            this.ofd_exam.Filter = "Open Exam Files (*.oef)|*.oef";
+            this.ofd_exam.Multiselect = true;
             // 
             // btn_properties
             // 
@@ -188,6 +172,7 @@
             this.btn_properties.Text = "Properties";
             this.btn_properties.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btn_properties.UseVisualStyleBackColor = true;
+            this.btn_properties.Click += new System.EventHandler(this.Properties);
             // 
             // btn_remove
             // 
@@ -200,6 +185,7 @@
             this.btn_remove.Text = "Remove";
             this.btn_remove.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btn_remove.UseVisualStyleBackColor = true;
+            this.btn_remove.Click += new System.EventHandler(this.Remove);
             // 
             // btn_add
             // 
@@ -211,6 +197,7 @@
             this.btn_add.Text = "Add";
             this.btn_add.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btn_add.UseVisualStyleBackColor = true;
+            this.btn_add.Click += new System.EventHandler(this.AddExam);
             // 
             // btn_start
             // 
@@ -223,6 +210,21 @@
             this.btn_start.Text = "Start";
             this.btn_start.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btn_start.UseVisualStyleBackColor = true;
+            this.btn_start.Click += new System.EventHandler(this.Start);
+            // 
+            // name
+            // 
+            this.name.HeaderText = "Exam Name";
+            this.name.Name = "name";
+            this.name.ReadOnly = true;
+            this.name.Width = 189;
+            // 
+            // path
+            // 
+            this.path.HeaderText = "Exam Path";
+            this.path.Name = "path";
+            this.path.ReadOnly = true;
+            this.path.Width = 439;
             // 
             // UI
             // 
@@ -241,6 +243,9 @@
             this.Name = "UI";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Simulator";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SaveAppData);
+            this.Shown += new System.EventHandler(this.LoadAppData);
+            this.SizeChanged += new System.EventHandler(this.ChangeHeaderSize);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_exams)).EndInit();
@@ -261,12 +266,11 @@
         private System.Windows.Forms.Button btn_remove;
         private System.Windows.Forms.Button btn_properties;
         private System.Windows.Forms.DataGridView dgv_exams;
-        private System.Windows.Forms.DataGridViewTextBoxColumn name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn path;
-        private System.Windows.Forms.OpenFileDialog opf_select;
+        private System.Windows.Forms.OpenFileDialog ofd_exam;
         private System.Windows.Forms.ToolStripMenuItem addExamToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn path;
     }
 }
 
