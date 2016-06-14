@@ -43,14 +43,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Shared.dll" size="10752">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Shared.dll" size="11776">
       <assemblyIdentity name="Shared" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>+aXPM29c6jEWi9nD7QTfSZIvuu4=</dsig:DigestValue>
+        <dsig:DigestValue>MwGQO8On9Hom6wgfROKGLpiviX0=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -62,7 +62,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>9FeJ1Ql3WMArIzdVLAx3bLPe8CE=</dsig:DigestValue>
+        <dsig:DigestValue>XRcwrWuXckcGZttj4a41kgq4Yec=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
