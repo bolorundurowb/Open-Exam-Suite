@@ -91,6 +91,11 @@ namespace Shared
         {
             Questions = new List<Question>();
         }
+
+        public override string ToString()
+        {
+            return Title;
+        }
     }
 
     [Serializable]

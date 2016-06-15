@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Shared
 {
@@ -9,18 +6,10 @@ namespace Shared
     {
         public string CandidateName { get; set; }
 
-        public List<Section> SelectedSections { get; set; }
+        public List<Section> Sections { get; set; }
 
-        public int NumberOfQuestions { get; set; }
+        public List<Question> Questions { get; set; }
 
         public int TimeLimit { get; set; }
-
-        public QuestionChoice Choice { get; set; }
-    }
-
-    public enum QuestionChoice
-    {
-        SelectedSections,
-        SpecifiedNumber
     }
 }

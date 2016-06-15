@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.txt_candidaate_name = new System.Windows.Forms.TextBox();
+            this.txt_candidate_name = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.clb_section_options = new System.Windows.Forms.CheckedListBox();
-            this.num_exam_number = new System.Windows.Forms.NumericUpDown();
+            this.num_questions = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
             this.btn_deselect_all = new System.Windows.Forms.Button();
             this.btn_select_all = new System.Windows.Forms.Button();
@@ -46,7 +46,7 @@
             this.btn_ok = new System.Windows.Forms.Button();
             this.btn_cancel = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.num_exam_number)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_questions)).BeginInit();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_time_limit)).BeginInit();
             this.SuspendLayout();
@@ -60,18 +60,18 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Candidate Name:";
             // 
-            // txt_candidaate_name
+            // txt_candidate_name
             // 
-            this.txt_candidaate_name.Location = new System.Drawing.Point(108, 10);
-            this.txt_candidaate_name.Name = "txt_candidaate_name";
-            this.txt_candidaate_name.Size = new System.Drawing.Size(218, 20);
-            this.txt_candidaate_name.TabIndex = 1;
-            this.txt_candidaate_name.Text = "Candidate Name";
+            this.txt_candidate_name.Location = new System.Drawing.Point(108, 10);
+            this.txt_candidate_name.Name = "txt_candidate_name";
+            this.txt_candidate_name.Size = new System.Drawing.Size(218, 20);
+            this.txt_candidate_name.TabIndex = 1;
+            this.txt_candidate_name.Text = "Candidate Name";
             // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.clb_section_options);
-            this.groupBox1.Controls.Add(this.num_exam_number);
+            this.groupBox1.Controls.Add(this.num_questions);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.btn_deselect_all);
             this.groupBox1.Controls.Add(this.btn_select_all);
@@ -95,14 +95,24 @@
             this.clb_section_options.Size = new System.Drawing.Size(452, 167);
             this.clb_section_options.TabIndex = 7;
             // 
-            // num_exam_number
+            // num_questions
             // 
-            this.num_exam_number.Enabled = false;
-            this.num_exam_number.Location = new System.Drawing.Point(74, 265);
-            this.num_exam_number.Name = "num_exam_number";
-            this.num_exam_number.Size = new System.Drawing.Size(53, 20);
-            this.num_exam_number.TabIndex = 6;
-            this.num_exam_number.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.num_questions.Enabled = false;
+            this.num_questions.Location = new System.Drawing.Point(74, 265);
+            this.num_questions.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.num_questions.Name = "num_questions";
+            this.num_questions.Size = new System.Drawing.Size(53, 20);
+            this.num_questions.TabIndex = 6;
+            this.num_questions.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.num_questions.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // label4
             // 
@@ -121,6 +131,7 @@
             this.btn_deselect_all.TabIndex = 4;
             this.btn_deselect_all.Text = "Deselect All";
             this.btn_deselect_all.UseVisualStyleBackColor = true;
+            this.btn_deselect_all.Click += new System.EventHandler(this.DeselectAll);
             // 
             // btn_select_all
             // 
@@ -130,6 +141,7 @@
             this.btn_select_all.TabIndex = 3;
             this.btn_select_all.Text = "Select All";
             this.btn_select_all.UseVisualStyleBackColor = true;
+            this.btn_select_all.Click += new System.EventHandler(this.SelectAll);
             // 
             // rdb_fixed_number_questions
             // 
@@ -140,6 +152,7 @@
             this.rdb_fixed_number_questions.TabIndex = 1;
             this.rdb_fixed_number_questions.Text = "Take";
             this.rdb_fixed_number_questions.UseVisualStyleBackColor = true;
+            this.rdb_fixed_number_questions.CheckedChanged += new System.EventHandler(this.ChooseNumOfQuestions);
             // 
             // rdb_selected_sections
             // 
@@ -152,6 +165,7 @@
             this.rdb_selected_sections.TabStop = true;
             this.rdb_selected_sections.Text = "Take questions from selected sections only:";
             this.rdb_selected_sections.UseVisualStyleBackColor = true;
+            this.rdb_selected_sections.CheckedChanged += new System.EventHandler(this.ChooseSections);
             // 
             // groupBox2
             // 
@@ -210,8 +224,9 @@
             this.chk_enable_timer.Name = "chk_enable_timer";
             this.chk_enable_timer.Size = new System.Drawing.Size(118, 17);
             this.chk_enable_timer.TabIndex = 0;
-            this.chk_enable_timer.Text = "Enable exam timer?";
+            this.chk_enable_timer.Text = "Set exam time limit?";
             this.chk_enable_timer.UseVisualStyleBackColor = true;
+            this.chk_enable_timer.CheckedChanged += new System.EventHandler(this.CustomTimer);
             // 
             // btn_ok
             // 
@@ -221,6 +236,7 @@
             this.btn_ok.TabIndex = 4;
             this.btn_ok.Text = "OK";
             this.btn_ok.UseVisualStyleBackColor = true;
+            this.btn_ok.Click += new System.EventHandler(this.Proceed);
             // 
             // btn_cancel
             // 
@@ -230,6 +246,7 @@
             this.btn_cancel.TabIndex = 5;
             this.btn_cancel.Text = "CANCEL";
             this.btn_cancel.UseVisualStyleBackColor = true;
+            this.btn_cancel.Click += new System.EventHandler(this.Close);
             // 
             // Exam_Settings
             // 
@@ -240,7 +257,7 @@
             this.Controls.Add(this.btn_ok);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.txt_candidaate_name);
+            this.Controls.Add(this.txt_candidate_name);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.HelpButton = true;
@@ -253,7 +270,7 @@
             this.Text = "Settings";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.num_exam_number)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_questions)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_time_limit)).EndInit();
@@ -265,7 +282,7 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txt_candidaate_name;
+        private System.Windows.Forms.TextBox txt_candidate_name;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button btn_deselect_all;
         private System.Windows.Forms.Button btn_select_all;
@@ -278,7 +295,7 @@
         private System.Windows.Forms.Button btn_ok;
         private System.Windows.Forms.Button btn_cancel;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.NumericUpDown num_exam_number;
+        private System.Windows.Forms.NumericUpDown num_questions;
         private System.Windows.Forms.NumericUpDown num_time_limit;
         private System.Windows.Forms.CheckedListBox clb_section_options;
     }
