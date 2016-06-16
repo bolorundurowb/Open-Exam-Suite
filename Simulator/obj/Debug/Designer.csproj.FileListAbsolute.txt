@@ -1,0 +1,9 @@
+C:\Users\Lenovo\Documents\Visual Studio 2013\Projects\OpenExam Suite\OpenExam Suite\bin\Debug\OpenExam Suite.exe.config
+C:\Users\Lenovo\Documents\Visual Studio 2013\Projects\OpenExam Suite\OpenExam Suite\bin\Debug\OpenExam Suite.exe
+C:\Users\Lenovo\Documents\Visual Studio 2013\Projects\OpenExam Suite\OpenExam Suite\bin\Debug\OpenExam Suite.pdb
+C:\Users\Lenovo\Documents\Visual Studio 2013\Projects\OpenExam Suite\OpenExam Suite\obj\Debug\Designer.csprojResolveAssemblyReference.cache
+C:\Users\Lenovo\Documents\Visual Studio 2013\Projects\OpenExam Suite\OpenExam Suite\obj\Debug\OpenExam_Suite.Form1.resources
+C:\Users\Lenovo\Documents\Visual Studio 2013\Projects\OpenExam Suite\OpenExam Suite\obj\Debug\OpenExam_Suite.Properties.Resources.resources
+C:\Users\Lenovo\Documents\Visual Studio 2013\Projects\OpenExam Suite\OpenExam Suite\obj\Debug\Designer.csproj.GenerateResource.Cache
+C:\Users\Lenovo\Documents\Visual Studio 2013\Projects\OpenExam Suite\OpenExam Suite\obj\Debug\OpenExam Suite.exe
+C:\Users\Lenovo\Documents\Visual Studio 2013\Projects\OpenExam Suite\OpenExam Suite\obj\Debug\OpenExam Suite.pdb
