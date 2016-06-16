@@ -40,7 +40,7 @@ namespace Simulator
             this.btn_pause = new System.Windows.Forms.Button();
             this.btn_end = new System.Windows.Forms.Button();
             this.pan_display = new System.Windows.Forms.Panel();
-            this.pic_image = new System.Windows.Forms.PictureBox();
+            this.pct_image = new System.Windows.Forms.PictureBox();
             this.txt_question = new System.Windows.Forms.TextBox();
             this.lbl_question_number = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -51,7 +51,7 @@ namespace Simulator
             this.lbl_exam_title = new System.Windows.Forms.Label();
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.pan_display.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pic_image)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pct_image)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -124,7 +124,6 @@ namespace Simulator
             // btn_end
             // 
             this.btn_end.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_end.Enabled = false;
             this.btn_end.Location = new System.Drawing.Point(1148, 649);
             this.btn_end.Name = "btn_end";
             this.btn_end.Size = new System.Drawing.Size(75, 23);
@@ -139,7 +138,7 @@ namespace Simulator
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pan_display.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pan_display.Controls.Add(this.pic_image);
+            this.pan_display.Controls.Add(this.pct_image);
             this.pan_display.Controls.Add(this.txt_question);
             this.pan_display.Controls.Add(this.lbl_question_number);
             this.pan_display.Controls.Add(this.label3);
@@ -153,16 +152,16 @@ namespace Simulator
             this.pan_display.Size = new System.Drawing.Size(1181, 597);
             this.pan_display.TabIndex = 7;
             // 
-            // pic_image
+            // pct_image
             // 
-            this.pic_image.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.pic_image.Location = new System.Drawing.Point(105, 155);
-            this.pic_image.Name = "pic_image";
-            this.pic_image.Size = new System.Drawing.Size(579, 289);
-            this.pic_image.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pic_image.TabIndex = 12;
-            this.pic_image.TabStop = false;
-            this.pic_image.Visible = false;
+            this.pct_image.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.pct_image.Location = new System.Drawing.Point(105, 155);
+            this.pct_image.Name = "pct_image";
+            this.pct_image.Size = new System.Drawing.Size(579, 289);
+            this.pct_image.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pct_image.TabIndex = 12;
+            this.pct_image.TabStop = false;
+            this.pct_image.Visible = false;
             // 
             // txt_question
             // 
@@ -270,9 +269,10 @@ namespace Simulator
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Open Exam Simulator";
+            this.Load += new System.EventHandler(this.Start);
             this.pan_display.ResumeLayout(false);
             this.pan_display.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pic_image)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pct_image)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -292,7 +292,7 @@ namespace Simulator
         private System.Windows.Forms.Label lbl_exam_title;
         private System.Windows.Forms.Timer timer;
         private System.Windows.Forms.Label lbl_exam_code;
-        private System.Windows.Forms.PictureBox pic_image;
+        private System.Windows.Forms.PictureBox pct_image;
         private System.Windows.Forms.TextBox txt_question;
         private System.Windows.Forms.Label lbl_question_number;
         private System.Windows.Forms.Label label3;

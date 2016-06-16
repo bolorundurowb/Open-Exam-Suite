@@ -11,5 +11,13 @@ namespace Shared
         public List<Question> Questions { get; set; }
 
         public int TimeLimit { get; set; }
+
+        public Settings()
+        {
+            Sections = new List<Section>();
+            Questions = new List<Question>();
+            CandidateName = string.Empty;
+            TimeLimit = 0;
+        }
     }
 }

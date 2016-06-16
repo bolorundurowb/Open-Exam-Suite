@@ -42,7 +42,7 @@ I have gained more programming knowledge and experience and intend to use that i
 #### General improvements
 1. Would be coded using every OOP principle I know.
 2. Would be coded using TDD.
-3. Aim to change the exam file (*oef*) type from *zip* based to NoSQL file based. Specifically [LiteDB](http://www.litedb.org).
+3. Aim to change the exam file (*oef*) type from *zip* based to binary that can easily be serialized into an object.
 
 #### Creator Section
 1. UI overhaul to make it even more intuitive and better.

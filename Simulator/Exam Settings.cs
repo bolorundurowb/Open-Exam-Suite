@@ -94,7 +94,7 @@ namespace Simulator
             //
             if (rdb_selected_sections.Checked)
             {
-                settings.Sections = clb_section_options.SelectedItems.Cast<Section>().ToList();
+                settings.Sections = clb_section_options.CheckedItems.Cast<Section>().ToList(); 
                 foreach (var section in settings.Sections)
                     settings.Questions.AddRange(section.Questions.ToArray());
             }
@@ -127,7 +127,10 @@ namespace Simulator
                 }
             }
             //
-
+            Exam_UI ui = new Exam_UI(exam, settings);
+            this.Hide();
+            ui.ShowDialog();
+            this.Close();
         }
     }
 }
