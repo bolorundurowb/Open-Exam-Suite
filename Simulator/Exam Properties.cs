@@ -16,10 +16,7 @@ namespace Simulator
 
             lbl_file_version.Text = exam.Properties.Version.ToString();
             lbl_full_path.Text = filePath;
-            int numOfQuestions = 0;
-            foreach (var section in exam.Sections)
-                numOfQuestions += section.Questions.Count;
-            lbl_number_of_questions.Text = numOfQuestions.ToString();
+            lbl_number_of_questions.Text = exam.NumberOfQuestions.ToString();
             lbl_passing_score.Text = exam.Properties.Passmark.ToString();
             lbl_section_number.Text = exam.Sections.Count.ToString();
             lbl_time_limit.Text = exam.Properties.TimeLimit.ToString();

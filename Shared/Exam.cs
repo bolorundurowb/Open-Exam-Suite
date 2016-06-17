@@ -8,6 +8,17 @@ namespace Shared
     [Serializable]
     public class Exam
     {
+        public int NumberOfQuestions
+        {
+            get
+            {
+                int numOfQuestions = 0;
+                foreach (var section in this.Sections)
+                    numOfQuestions += section.Questions.Count;
+                return numOfQuestions;
+            }
+        }
+
         public Properties Properties { get; set; }
 
         public List<Section> Sections { get; set; }

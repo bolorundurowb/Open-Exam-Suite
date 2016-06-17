@@ -18,10 +18,7 @@ namespace Simulator
             //
             clb_section_options.Items.AddRange(exam.Sections.ToArray());
             //
-            int numOfQuestions = 0;
-            foreach (var section in exam.Sections)
-                numOfQuestions += section.Questions.Count;
-            num_questions.Maximum = numOfQuestions;
+            num_questions.Maximum = exam.NumberOfQuestions;
             //
             SelectAll(null, null);
         }

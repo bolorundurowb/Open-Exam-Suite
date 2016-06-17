@@ -16,15 +16,15 @@ namespace SharedTests
                 Title = "Test",
                 Version = 3,
                 Code = "T01",
-                Instructions = "",
-                Passmark = 10,
+                Instructions = "Goodluck! Make good use of your time.",
+                Passmark = 650,
                 TimeLimit = 5
             },
             Sections = new System.Collections.Generic.List<Section>
             {
                 new Section
                 {
-                    Title = "Section",
+                    Title = "Section A",
                     Questions = new System.Collections.Generic.List<Question>
                     {
                         new Question
@@ -38,9 +38,33 @@ namespace SharedTests
                                 {
                                     Text = "Option 1",
                                     Alphabet = 'A'
+                                },
+                                new Option
+                                {
+                                    Text = "Option 2",
+                                    Alphabet = 'B'
                                 }
                             },
                             Image = new Bitmap(@"C:\Users\bolorundurowb\Pictures\personality.PNG")
+                        },
+                        new Question
+                        {
+                            No=1,
+                            Text = "Question 2",
+                            Answer = 'B',
+                            Options = new System.Collections.Generic.List<Option>
+                            {
+                                new Option
+                                {
+                                    Text = "Option 1",
+                                    Alphabet = 'A'
+                                },
+                                new Option
+                                {
+                                    Text = "Option 2",
+                                    Alphabet = 'B'
+                                }
+                            }
                         }
                     }
                 }

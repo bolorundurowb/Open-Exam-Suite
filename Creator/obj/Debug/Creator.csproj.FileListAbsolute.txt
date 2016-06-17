@@ -60,3 +60,4 @@ C:\Users\bolorundurowb\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Cre
 C:\Users\bolorundurowb\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Creator\obj\Debug\Creator.application
 C:\Users\bolorundurowb\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Creator\obj\Debug\Creator.exe
 C:\Users\bolorundurowb\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Creator\obj\Debug\Creator.pdb
+C:\Users\bolorundurowb\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Creator\obj\Debug\Creator.csprojResolveAssemblyReference.cache

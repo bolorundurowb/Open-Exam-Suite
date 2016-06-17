@@ -84,6 +84,7 @@ namespace Simulator
             this.btn_begin.TabIndex = 2;
             this.btn_begin.Text = "Begin";
             this.btn_begin.UseVisualStyleBackColor = true;
+            this.btn_begin.Click += new System.EventHandler(this.Begin);
             // 
             // btn_previous
             // 
@@ -96,6 +97,7 @@ namespace Simulator
             this.btn_previous.Text = "Previous";
             this.btn_previous.UseVisualStyleBackColor = true;
             this.btn_previous.Visible = false;
+            this.btn_previous.Click += new System.EventHandler(this.Previous);
             // 
             // btn_next
             // 
@@ -108,11 +110,11 @@ namespace Simulator
             this.btn_next.Text = "Next";
             this.btn_next.UseVisualStyleBackColor = true;
             this.btn_next.Visible = false;
+            this.btn_next.Click += new System.EventHandler(this.Next);
             // 
             // btn_pause
             // 
             this.btn_pause.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_pause.Enabled = false;
             this.btn_pause.Location = new System.Drawing.Point(1058, 649);
             this.btn_pause.Name = "btn_pause";
             this.btn_pause.Size = new System.Drawing.Size(75, 23);
@@ -120,6 +122,7 @@ namespace Simulator
             this.btn_pause.Text = "Pause";
             this.btn_pause.UseVisualStyleBackColor = true;
             this.btn_pause.Visible = false;
+            this.btn_pause.Click += new System.EventHandler(this.PauseExam);
             // 
             // btn_end
             // 
@@ -131,6 +134,7 @@ namespace Simulator
             this.btn_end.Text = "End";
             this.btn_end.UseVisualStyleBackColor = true;
             this.btn_end.Visible = false;
+            this.btn_end.Click += new System.EventHandler(this.End);
             // 
             // pan_display
             // 
@@ -183,7 +187,7 @@ namespace Simulator
             this.lbl_question_number.Name = "lbl_question_number";
             this.lbl_question_number.Size = new System.Drawing.Size(35, 13);
             this.lbl_question_number.TabIndex = 10;
-            this.lbl_question_number.Text = "label4";
+            this.lbl_question_number.Text = "lbl_question_number";
             this.lbl_question_number.Visible = false;
             // 
             // label3
@@ -203,7 +207,7 @@ namespace Simulator
             this.lbl_section_title.Name = "lbl_section_title";
             this.lbl_section_title.Size = new System.Drawing.Size(35, 13);
             this.lbl_section_title.TabIndex = 8;
-            this.lbl_section_title.Text = "label2";
+            this.lbl_section_title.Text = "lbl_section_title";
             this.lbl_section_title.Visible = false;
             // 
             // label2
@@ -224,7 +228,7 @@ namespace Simulator
             this.lbl_exam_code.Name = "lbl_exam_code";
             this.lbl_exam_code.Size = new System.Drawing.Size(47, 15);
             this.lbl_exam_code.TabIndex = 2;
-            this.lbl_exam_code.Text = "label4";
+            this.lbl_exam_code.Text = "lbl_exam_code";
             // 
             // lbl_exam_instructions
             // 
@@ -244,7 +248,7 @@ namespace Simulator
             this.lbl_exam_title.Name = "lbl_exam_title";
             this.lbl_exam_title.Size = new System.Drawing.Size(51, 16);
             this.lbl_exam_title.TabIndex = 0;
-            this.lbl_exam_title.Text = "label3";
+            this.lbl_exam_title.Text = "lbl_exam_title";
             // 
             // timer
             // 

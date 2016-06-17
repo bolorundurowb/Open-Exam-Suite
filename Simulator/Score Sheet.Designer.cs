@@ -46,14 +46,11 @@
             this.btn_exit = new System.Windows.Forms.Button();
             this.chr_display_score = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.dgv_show_breakdown = new System.Windows.Forms.DataGridView();
-            this.section = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.number = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.accuracy = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lbl_candidate_name = new System.Windows.Forms.Label();
             this.lbl_date = new System.Windows.Forms.Label();
             this.lbl_exam_number = new System.Windows.Forms.Label();
             this.lbl_elapsed_time = new System.Windows.Forms.Label();
-            this.lbl_time = new System.Windows.Forms.Label();
+            this.lbl_time_allowed = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.lbl_status = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
@@ -61,6 +58,9 @@
             this.btn_print_score = new System.Windows.Forms.Button();
             this.pnt_prv_dlg = new System.Windows.Forms.PrintPreviewDialog();
             this.pnt_doc = new System.Drawing.Printing.PrintDocument();
+            this.section = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.number = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.accuracy = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.chr_display_score)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_show_breakdown)).BeginInit();
             this.SuspendLayout();
@@ -135,6 +135,7 @@
             this.btn_retake.TabIndex = 7;
             this.btn_retake.Text = "Retake";
             this.btn_retake.UseVisualStyleBackColor = true;
+            this.btn_retake.Click += new System.EventHandler(this.Retake);
             // 
             // btn_exit
             // 
@@ -145,13 +146,14 @@
             this.btn_exit.TabIndex = 9;
             this.btn_exit.Text = "Exit";
             this.btn_exit.UseVisualStyleBackColor = true;
+            this.btn_exit.Click += new System.EventHandler(this.Exit);
             // 
             // chr_display_score
             // 
             this.chr_display_score.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chr_display_score.BackColor = System.Drawing.SystemColors.Control;
             customLabel1.FromPosition = 0.5D;
-            customLabel1.Text = "Required Score";
+            customLabel1.Text = "Pass Mark";
             customLabel1.ToPosition = 1.5D;
             customLabel2.FromPosition = -0.5D;
             customLabel2.Text = "Your Score";
@@ -161,6 +163,7 @@
             chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.Transparent;
             chartArea1.AxisX.Maximum = 2D;
             chartArea1.AxisY.Maximum = 1000D;
+            chartArea1.BackColor = System.Drawing.SystemColors.Control;
             chartArea1.Name = "ChartArea1";
             this.chr_display_score.ChartAreas.Add(chartArea1);
             this.chr_display_score.Location = new System.Drawing.Point(184, 169);
@@ -171,15 +174,14 @@
         System.Drawing.Color.Green};
             series1.ChartArea = "ChartArea1";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bar;
-            series1.Name = "Required Score";
+            series1.Name = "Pass Mark";
             series2.ChartArea = "ChartArea1";
             series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bar;
-            series2.Name = "Score";
+            series2.Name = "Your Score";
             this.chr_display_score.Series.Add(series1);
             this.chr_display_score.Series.Add(series2);
             this.chr_display_score.Size = new System.Drawing.Size(542, 171);
             this.chr_display_score.TabIndex = 10;
-            this.chr_display_score.Text = "chart1";
             // 
             // dgv_show_breakdown
             // 
@@ -220,28 +222,6 @@
             this.dgv_show_breakdown.Size = new System.Drawing.Size(495, 228);
             this.dgv_show_breakdown.TabIndex = 11;
             // 
-            // section
-            // 
-            this.section.HeaderText = "Section";
-            this.section.Name = "section";
-            this.section.ReadOnly = true;
-            this.section.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.section.Width = 345;
-            // 
-            // number
-            // 
-            this.number.HeaderText = "Number";
-            this.number.Name = "number";
-            this.number.ReadOnly = true;
-            this.number.Width = 75;
-            // 
-            // accuracy
-            // 
-            this.accuracy.HeaderText = "Accuracy";
-            this.accuracy.Name = "accuracy";
-            this.accuracy.ReadOnly = true;
-            this.accuracy.Width = 75;
-            // 
             // lbl_candidate_name
             // 
             this.lbl_candidate_name.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -279,15 +259,15 @@
             this.lbl_elapsed_time.TabIndex = 16;
             this.lbl_elapsed_time.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // lbl_time
+            // lbl_time_allowed
             // 
-            this.lbl_time.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.lbl_time.AutoSize = true;
-            this.lbl_time.Location = new System.Drawing.Point(595, 69);
-            this.lbl_time.Name = "lbl_time";
-            this.lbl_time.Size = new System.Drawing.Size(0, 13);
-            this.lbl_time.TabIndex = 15;
-            this.lbl_time.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lbl_time_allowed.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lbl_time_allowed.AutoSize = true;
+            this.lbl_time_allowed.Location = new System.Drawing.Point(595, 69);
+            this.lbl_time_allowed.Name = "lbl_time_allowed";
+            this.lbl_time_allowed.Size = new System.Drawing.Size(0, 13);
+            this.lbl_time_allowed.TabIndex = 15;
+            this.lbl_time_allowed.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label7
             // 
@@ -311,7 +291,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(634, 68);
+            this.label8.Location = new System.Drawing.Point(627, 69);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(34, 13);
             this.label8.TabIndex = 19;
@@ -320,7 +300,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(630, 100);
+            this.label9.Location = new System.Drawing.Point(630, 102);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(34, 13);
             this.label9.TabIndex = 20;
@@ -335,6 +315,7 @@
             this.btn_print_score.TabIndex = 21;
             this.btn_print_score.Text = "Print";
             this.btn_print_score.UseVisualStyleBackColor = true;
+            this.btn_print_score.Click += new System.EventHandler(this.Print);
             // 
             // pnt_prv_dlg
             // 
@@ -348,8 +329,27 @@
             this.pnt_prv_dlg.ShowIcon = false;
             this.pnt_prv_dlg.Visible = false;
             // 
-            // pnt_doc
+            // section
             // 
+            this.section.HeaderText = "Section";
+            this.section.Name = "section";
+            this.section.ReadOnly = true;
+            this.section.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.section.Width = 345;
+            // 
+            // number
+            // 
+            this.number.HeaderText = "Number";
+            this.number.Name = "number";
+            this.number.ReadOnly = true;
+            this.number.Width = 75;
+            // 
+            // accuracy
+            // 
+            this.accuracy.HeaderText = "Correct";
+            this.accuracy.Name = "accuracy";
+            this.accuracy.ReadOnly = true;
+            this.accuracy.Width = 75;
             // 
             // Score_Sheet
             // 
@@ -362,7 +362,7 @@
             this.Controls.Add(this.lbl_status);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.lbl_elapsed_time);
-            this.Controls.Add(this.lbl_time);
+            this.Controls.Add(this.lbl_time_allowed);
             this.Controls.Add(this.lbl_exam_number);
             this.Controls.Add(this.lbl_date);
             this.Controls.Add(this.lbl_candidate_name);
@@ -381,6 +381,7 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Score Sheet";
+            this.Load += new System.EventHandler(this.LoadDataToUI);
             ((System.ComponentModel.ISupportInitialize)(this.chr_display_score)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_show_breakdown)).EndInit();
             this.ResumeLayout(false);
@@ -404,10 +405,7 @@
         private System.Windows.Forms.Label lbl_date;
         private System.Windows.Forms.Label lbl_exam_number;
         private System.Windows.Forms.Label lbl_elapsed_time;
-        private System.Windows.Forms.Label lbl_time;
-        private System.Windows.Forms.DataGridViewTextBoxColumn section;
-        private System.Windows.Forms.DataGridViewTextBoxColumn number;
-        private System.Windows.Forms.DataGridViewTextBoxColumn accuracy;
+        private System.Windows.Forms.Label lbl_time_allowed;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label lbl_status;
         private System.Windows.Forms.Label label8;
@@ -415,5 +413,8 @@
         private System.Windows.Forms.Button btn_print_score;
         private System.Windows.Forms.PrintPreviewDialog pnt_prv_dlg;
         private System.Drawing.Printing.PrintDocument pnt_doc;
+        private System.Windows.Forms.DataGridViewTextBoxColumn section;
+        private System.Windows.Forms.DataGridViewTextBoxColumn number;
+        private System.Windows.Forms.DataGridViewTextBoxColumn accuracy;
     }
 }
