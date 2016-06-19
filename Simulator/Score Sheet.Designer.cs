@@ -46,6 +46,9 @@
             this.btn_exit = new System.Windows.Forms.Button();
             this.chr_display_score = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.dgv_show_breakdown = new System.Windows.Forms.DataGridView();
+            this.section = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.number = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.accuracy = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lbl_candidate_name = new System.Windows.Forms.Label();
             this.lbl_date = new System.Windows.Forms.Label();
             this.lbl_exam_number = new System.Windows.Forms.Label();
@@ -58,9 +61,6 @@
             this.btn_print_score = new System.Windows.Forms.Button();
             this.pnt_prv_dlg = new System.Windows.Forms.PrintPreviewDialog();
             this.pnt_doc = new System.Drawing.Printing.PrintDocument();
-            this.section = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.number = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.accuracy = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.chr_display_score)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_show_breakdown)).BeginInit();
             this.SuspendLayout();
@@ -222,6 +222,28 @@
             this.dgv_show_breakdown.Size = new System.Drawing.Size(495, 228);
             this.dgv_show_breakdown.TabIndex = 11;
             // 
+            // section
+            // 
+            this.section.HeaderText = "Section";
+            this.section.Name = "section";
+            this.section.ReadOnly = true;
+            this.section.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.section.Width = 345;
+            // 
+            // number
+            // 
+            this.number.HeaderText = "Number";
+            this.number.Name = "number";
+            this.number.ReadOnly = true;
+            this.number.Width = 75;
+            // 
+            // accuracy
+            // 
+            this.accuracy.HeaderText = "Correct";
+            this.accuracy.Name = "accuracy";
+            this.accuracy.ReadOnly = true;
+            this.accuracy.Width = 75;
+            // 
             // lbl_candidate_name
             // 
             this.lbl_candidate_name.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -315,7 +337,7 @@
             this.btn_print_score.TabIndex = 21;
             this.btn_print_score.Text = "Print";
             this.btn_print_score.UseVisualStyleBackColor = true;
-            this.btn_print_score.Click += new System.EventHandler(this.Print);
+            this.btn_print_score.Click += new System.EventHandler(this.PrintResult);
             // 
             // pnt_prv_dlg
             // 
@@ -329,27 +351,9 @@
             this.pnt_prv_dlg.ShowIcon = false;
             this.pnt_prv_dlg.Visible = false;
             // 
-            // section
+            // pnt_doc
             // 
-            this.section.HeaderText = "Section";
-            this.section.Name = "section";
-            this.section.ReadOnly = true;
-            this.section.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.section.Width = 345;
-            // 
-            // number
-            // 
-            this.number.HeaderText = "Number";
-            this.number.Name = "number";
-            this.number.ReadOnly = true;
-            this.number.Width = 75;
-            // 
-            // accuracy
-            // 
-            this.accuracy.HeaderText = "Correct";
-            this.accuracy.Name = "accuracy";
-            this.accuracy.ReadOnly = true;
-            this.accuracy.Width = 75;
+            this.pnt_doc.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.Print);
             // 
             // Score_Sheet
             // 
