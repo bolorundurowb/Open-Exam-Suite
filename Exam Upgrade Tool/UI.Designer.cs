@@ -1,6 +1,6 @@
 ﻿namespace Exam_Upgrade_Tool
 {
-    partial class Form1
+    partial class UI
     {
         /// <summary>
         /// Required designer variable.
@@ -30,13 +30,13 @@
         {
             this.SuspendLayout();
             // 
-            // Form1
+            // UI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(398, 293);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "UI";
+            this.Text = "Exam Upgrade Tool";
             this.ResumeLayout(false);
 
         }
