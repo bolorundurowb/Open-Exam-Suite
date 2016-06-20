@@ -90,7 +90,12 @@ namespace Simulator
             }
             catch(FileNotFoundException)
             {
-                MessageBox.Show("Sory, the selected exam does not exist. It may have been moved or deleted.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Sorry, the selected exam does not exist. It may have been moved or deleted.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Remove(sender, e);
+            }
+            catch(NullReferenceException)
+            {
+                MessageBox.Show("Sorry, the selected exam is not a supported version. You can convert it using  the upgrade tool at:\n." + "https://sourceforge.net/projects/exam-upgrade-tool/", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Remove(sender, e);
             }
         }
@@ -112,7 +117,12 @@ namespace Simulator
             }
             catch (FileNotFoundException)
             {
-                MessageBox.Show("Sory, the selected exam does not exist. It may have been moved or deleted.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Sorry, the selected exam does not exist. It may have been moved or deleted.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Remove(sender, e);
+            }
+            catch(NullReferenceException)
+            {
+                MessageBox.Show("Sorry, the selected exam is not a supported version. You can convert it using  the upgrade tool at:\n." + "https://sourceforge.net/projects/exam-upgrade-tool/", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Remove(sender, e);
             }
         }

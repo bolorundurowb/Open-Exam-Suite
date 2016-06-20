@@ -26,6 +26,7 @@ namespace Shared
         public Exam()
         {
             Sections = new List<Section>();
+            Properties = new Properties();
         }
 
         //Methods
@@ -121,6 +122,8 @@ namespace Shared
         public char Answer { get; set; }
 
         public List<Option> Options { get; set; }
+
+        public string Explanation { get; set; }
 
         public Question()
         {
