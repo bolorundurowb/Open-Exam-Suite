@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Specialized;
 using System.IO;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace Simulator
@@ -95,7 +94,7 @@ namespace Simulator
             }
             catch(NullReferenceException)
             {
-                MessageBox.Show("Sorry, the selected exam is not a supported version. You can convert it using  the upgrade tool at:\n." + "https://sourceforge.net/projects/exam-upgrade-tool/", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Sorry, the selected exam is not a supported version. You can convert it using  the upgrade tool at:\n" + "https://sourceforge.net/projects/exam-upgrade-tool/", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Remove(sender, e);
             }
         }
@@ -122,7 +121,7 @@ namespace Simulator
             }
             catch(NullReferenceException)
             {
-                MessageBox.Show("Sorry, the selected exam is not a supported version. You can convert it using  the upgrade tool at:\n." + "https://sourceforge.net/projects/exam-upgrade-tool/", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Sorry, the selected exam is not a supported version. You can convert it using  the upgrade tool at:\n" + "https://sourceforge.net/projects/exam-upgrade-tool/", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Remove(sender, e);
             }
         }

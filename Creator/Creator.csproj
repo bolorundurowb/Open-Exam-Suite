@@ -71,13 +71,8 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Ionic.Zip">
-      <HintPath>..\..\..\APIs\DotNetZipLib-Runtime-v1.9\zip-v1.9\Ionic.Zip.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
@@ -92,11 +87,11 @@
     <Compile Include="About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
-    <Compile Include="OptionControl.cs">
-      <SubType>UserControl</SubType>
+    <Compile Include="AddSection.cs">
+      <SubType>Form</SubType>
     </Compile>
-    <Compile Include="OptionControl.Designer.cs">
-      <DependentUpon>OptionControl.cs</DependentUpon>
+    <Compile Include="AddSection.Designer.cs">
+      <DependentUpon>AddSection.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -114,8 +109,8 @@
     <EmbeddedResource Include="About.resx">
       <DependentUpon>About.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="OptionControl.resx">
-      <DependentUpon>OptionControl.cs</DependentUpon>
+    <EmbeddedResource Include="AddSection.resx">
+      <DependentUpon>AddSection.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -141,33 +136,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Creator Alt.fw.ico" />
-    <None Include="Resources\Open~2.bmp" />
-    <None Include="Resources\Print.bmp" />
-    <None Include="Resources\Save.bmp" />
-    <None Include="Resources\Open.bmp" />
-    <None Include="Resources\Copy~1.png" />
-    <None Include="Resources\Cut.png" />
-    <None Include="Resources\Down.png" />
-    <None Include="Resources\Up.png" />
-    <None Include="Resources\New.png" />
-    <None Include="Resources\Rename.png" />
-    <None Include="Resources\Next.png" />
-    <None Include="Resources\Previous.png" />
-    <None Include="Resources\Exit.png" />
+    <None Include="Resources\Creator Splash.fw.png" />
     <None Include="Resources\Close.png" />
-    <None Include="Resources\Import.png" />
     <None Include="Resources\New Question.png" />
     <None Include="Resources\New Section.png" />
-    <None Include="Resources\Paste.png" />
-    <None Include="Resources\Copy.png" />
-    <None Include="Resources\Redo.png" />
-    <None Include="Resources\Undo.png" />
     <None Include="Resources\Print Preview.png" />
-    <None Include="Resources\Print.png" />
-    <None Include="Resources\Save As.png" />
-    <None Include="Resources\Save.png" />
-    <None Include="Resources\Open.png" />
-    <None Include="Resources\Exam 2.png" />
     <None Include="Resources\6.png" />
     <None Include="Resources\5.png" />
     <None Include="Resources\2.png" />
@@ -195,6 +168,12 @@
       <ProductName>Windows Installer 4.5</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Shared\Shared.csproj">
+      <Project>{3FAC1A95-FEAC-4E9A-92C8-1D0C48815E32}</Project>
+      <Name>Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
