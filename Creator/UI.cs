@@ -1,5 +1,9 @@
 ﻿using Shared;
+using Shared.Controls;
+using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
+using System;
 
 namespace Creator
 {
@@ -71,6 +75,8 @@ namespace Creator
             this.exam.Sections.Add(section);
             //
             SectionNode sectionNode = new SectionNode(section);
+            sectionNode.ImageIndex = 1;
+            sectionNode.SelectedImageIndex = 1;
             trv_view_exam.Nodes[0].Nodes.Add(sectionNode);
             //
             trv_view_exam.ExpandAll();
@@ -109,12 +115,92 @@ namespace Creator
 
         private void AfterSelect(object sender, TreeViewEventArgs e)
         {
-
+            if(sender.GetType() == typeof(ExamNode))
+            {
+                newQuestionToolStripButton.Enabled = false;
+                //
+                if (splitContainer2.Panel2.Controls.Contains(pan_display_questions))
+                {
+                    splitContainer2.Panel2.Controls.Remove(pan_display_questions);
+                    splitContainer2.Panel2.Controls.Add(pan_exam_properties);
+                }
+            }
+            else if(sender.GetType() == typeof(SectionNode))
+            {
+                newQuestionToolStripButton.Enabled = true;
+                //
+                if (splitContainer2.Panel2.Controls.Contains(pan_exam_properties))
+                {
+                    splitContainer2.Panel2.Controls.Remove(pan_exam_properties);
+                    splitContainer2.Panel2.Controls.Add(pan_display_questions);
+                }
+                pan_display_questions.Enabled = false;
+            }
+            else
+            {
+                newQuestionToolStripButton.Enabled = true;
+                //
+                if (splitContainer2.Panel2.Controls.Contains(pan_exam_properties))
+                {
+                    splitContainer2.Panel2.Controls.Remove(pan_exam_properties);
+                    splitContainer2.Panel2.Controls.Add(pan_display_questions);
+                }
+                pan_display_questions.Enabled = true;
+                //
+                Question question = ((QuestionNode)sender).Question;
+                txt_explanation.Text = question.Explanation;
+                txt_question_text.Text = question.Text;
+                lbl_section_question.Text = "Section: " + trv_view_exam.SelectedNode.Parent.Text + " Question " + question.No;
+                pct_image.Image = question.Image;
+                //
+                int i = 0;
+                foreach(var option in question.Options)
+                {
+                    OptionControl ctrl = new OptionControl();
+                    ctrl.Letter = option.Alphabet;
+                    ctrl.Text = option.Text;
+                    ctrl.Location = new Point(2, i * 36);
+                    if (option.Alphabet == question.Answer)
+                    {
+                        ctrl.Checked = true;
+                    }
+                    pan_options.Controls.Add(ctrl);
+                    i++;
+                } 
+            }
         }
 
         private void BeforeSelect(object sender, TreeViewCancelEventArgs e)
         {
+            if(sender.GetType() == typeof(QuestionNode))
+            {
+                Question question = ((QuestionNode)sender).Question;
+                question.Answer = pan_display_questions.Controls.OfType<OptionControl>().FirstOrDefault(s => s.Checked) == null ? '\0' : pan_display_questions.Controls.OfType<OptionControl>().FirstOrDefault(s => s.Checked).Letter;
+                question.Explanation = txt_explanation.Text;
+                question.Image = (Bitmap)pct_image.Image;
+                question.No = trv_view_exam.SelectedNode.Index + 1;
+                question.Options.Clear();
+                foreach(var ctrl in pan_display_questions.Controls.OfType<OptionControl>())
+                {
+                    Option option = new Option();
+                    option.Alphabet = ctrl.Letter;
+                    option.Text = ctrl.Text;
+                    question.Options.Add(option);
+                }
+                question.Text = txt_question_text.Text;
+                //
+                ClearControls();
+            }
+        }
 
+        private void ClearControls()
+        {
+            lbl_section_question.Text = "";
+            txt_question_text.Clear();
+            txt_explanation.Clear();
+            pct_image.Image = null;
+            //
+            pan_options.Controls.Clear();
         }
 
         private void SaveProperties(object sender, System.EventArgs e)
@@ -127,11 +213,14 @@ namespace Creator
             this.exam.Properties.Version = int.Parse(lbl_version.Text);
             //
             ExamNode examNode = new ExamNode(exam);
+            examNode.ImageIndex = 0;
+            examNode.SelectedImageIndex = 0;
             trv_view_exam.Nodes.Add(examNode);
             //
             trv_view_exam.ExpandAll();
             //
             EnableExamControls();
+            EnableSectionControls();
         }
 
         private void EnableExamControls()
@@ -150,7 +239,6 @@ namespace Creator
 
         private void EnableSectionControls()
         {
-            newQuestionToolStripButton.Enabled = true;
             newSectionToolStripButton.Enabled = true;
         }
 
@@ -188,9 +276,56 @@ namespace Creator
             copyToolStripMenuItem.Enabled = false;
         }
 
-        private void Close(object sender, System.EventArgs e)
+        private void Close(object sender, EventArgs e)
         {
             DisableAllControls();
+        }
+
+        private void OptionsChanged(object sender, ControlEventArgs e)
+        {
+            if (pan_options.Controls.Count > 0)
+                btn_remove_option.Enabled = true;
+            else
+                btn_remove_option.Enabled = false;
+        }
+
+        private void InsertImage(object sender, EventArgs e)
+        {
+            ofd_select_image.ShowDialog();
+            if (!string.IsNullOrWhiteSpace(ofd_select_image.FileName))
+            {
+                pct_image.ImageLocation = ofd_select_image.FileName;
+            }
+        }
+
+        private void ClearImage(object sender, EventArgs e)
+        {
+            pct_image.Image = null;
+        }
+
+        private void RemoveOption(object sender, EventArgs e)
+        {
+            pan_options.Controls.Remove(pan_options.Controls.OfType<OptionControl>().ElementAt(pan_options.Controls.OfType<OptionControl>().Count() - 1));
+        }
+
+        private void AddOption(object sender, EventArgs e)
+        {
+            if (pan_options.Controls.Count > 0)
+            {
+                OptionControl ctrl = new OptionControl();
+                ctrl.Name = "option" + (pan_options.Controls.Count - 1);
+                ctrl.Letter = (char)(Convert.ToInt32(((OptionControl)pan_options.Controls[pan_options.Controls.Count - 1]).Letter) + 1);
+                ctrl.Location = new Point(2, 2 + (pan_options.Controls.Count * 36));
+                pan_options.Controls.Add(ctrl);
+            }
+            else
+            {
+                OptionControl ctrl = new OptionControl();
+                ctrl.Location = new Point(2, 2);
+                ctrl.Name = "option0";
+                ctrl.Letter = 'A';
+                pan_options.Controls.Add(ctrl);
+            }
         }
     }
 }

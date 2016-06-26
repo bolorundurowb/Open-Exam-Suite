@@ -43,14 +43,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Creator.exe" size="127984">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Creator.exe" size="129520">
       <assemblyIdentity name="Creator" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>RxgsRFt+KCwsWLAyt4c7taIx4b8=</dsig:DigestValue>
+        <dsig:DigestValue>6js/b8HI7DlHqnTN1oyLKyGMcJ8=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -62,7 +62,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>wf1G30yv0nI+vYGKnXj5yTFXI4s=</dsig:DigestValue>
+        <dsig:DigestValue>Ph+zJ4TwHmOoOOeSMqd108UIzw4=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

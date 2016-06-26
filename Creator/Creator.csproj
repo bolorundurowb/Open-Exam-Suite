@@ -93,13 +93,13 @@
     <Compile Include="AddSection.Designer.cs">
       <DependentUpon>AddSection.cs</DependentUpon>
     </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -136,16 +136,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Creator Alt.fw.ico" />
-    <None Include="Resources\Creator Splash.fw.png" />
-    <None Include="Resources\Close.png" />
-    <None Include="Resources\New Question.png" />
-    <None Include="Resources\New Section.png" />
-    <None Include="Resources\Print Preview.png" />
-    <None Include="Resources\6.png" />
-    <None Include="Resources\5.png" />
-    <None Include="Resources\2.png" />
-    <None Include="Resources\4.png" />
-    <None Include="Resources\1.png" />
+    <None Include="Resources\splash.png" />
+    <None Include="Resources\remove.png" />
+    <None Include="Resources\ok.png" />
+    <None Include="Resources\New_Section.png" />
+    <None Include="Resources\New_Question.png" />
+    <None Include="Resources\Exam.png" />
+    <None Include="Resources\add.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">

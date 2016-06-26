@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace Shared
+namespace Shared.Controls
 {
     public class ExamNode : TreeNode
     {
@@ -8,7 +8,7 @@ namespace Shared
 
         public ExamNode(Exam exam)
         {
-            this.Text = exam.Properties.Code;
+            this.Text = exam.Properties.Title;
             this.Exam = exam;
             this.Exam.Sections.ForEach(x => this.Nodes.Add(new SectionNode(x)));
         }

@@ -51,7 +51,7 @@
             // 
             // btn_add_section
             // 
-            this.btn_add_section.Image = global::Creator.Properties.Resources._4;
+            this.btn_add_section.Image = global::Creator.Properties.Resources.ok;
             this.btn_add_section.Location = new System.Drawing.Point(280, 7);
             this.btn_add_section.Name = "btn_add_section";
             this.btn_add_section.Size = new System.Drawing.Size(53, 23);
