@@ -10,6 +10,8 @@ namespace Shared.Controls
         {
             this.Text = exam.Properties.Title;
             this.Exam = exam;
+            this.ImageIndex = 0;
+            this.SelectedImageIndex = 0;
             this.Exam.Sections.ForEach(x => this.Nodes.Add(new SectionNode(x)));
         }
     }
@@ -22,6 +24,8 @@ namespace Shared.Controls
         {
             this.Text = section.Title;
             this.Section = section;
+            this.ImageIndex = 1;
+            this.SelectedImageIndex = 1;
             this.Section.Questions.ForEach(x => this.Nodes.Add(new QuestionNode(x)));
         }
     }
@@ -33,6 +37,9 @@ namespace Shared.Controls
         public QuestionNode(Question question)
         {
             this.Text = "Question " + question.No;
+
+            this.ImageIndex = 2;
+            this.SelectedImageIndex = 2;
             this.Question = question;
         }
     }

@@ -10,7 +10,9 @@ namespace Creator
     public partial class UI : Form
     {
         #region Class Variables
-        Exam exam;
+        private Exam exam;
+        private string currentExamFile;
+        private bool IsDirty { get; set; }
         #endregion
 
         public UI()
@@ -18,54 +20,83 @@ namespace Creator
             InitializeComponent();
         }
 
-        private void New(object sender, System.EventArgs e)
+        private void New(object sender, EventArgs e)
         {
+            Close(sender, e);
+            //
             this.exam = new Exam();
             splitContainer2.Panel2.Controls.Remove(pan_splash);
             splitContainer2.Panel2.Controls.Add(pan_exam_properties);
         }
 
-        private void Open(object sender, System.EventArgs e)
+        private void Open(object sender, EventArgs e)
+        {
+            if (ofd_open_exam.ShowDialog() == DialogResult.OK)
+            {
+                this.exam = Helper.GetExamFromFile(ofd_open_exam.FileName);
+                //
+                trv_view_exam.Nodes.Clear();
+                //
+                ExamNode examNode = new ExamNode(this.exam);
+                trv_view_exam.Nodes.Add(examNode);
+                trv_view_exam.ExpandAll();
+            }
+        }
+
+        private void Save(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(currentExamFile))
+            {
+                SaveAs(sender, e);
+            }
+            else
+            {
+                Helper.WriteExamToFile(this.exam, currentExamFile);
+                IsDirty = false;
+            }
+        }
+
+        private void SaveAs(object sender, EventArgs e)
+        {
+            sfd_save_as_exam.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            sfd_save_as_exam.ShowDialog();
+            if (string.IsNullOrWhiteSpace(sfd_save_as_exam.FileName))
+            {
+                MessageBox.Show("Improper file name, Exam not saved!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                currentExamFile = sfd_save_as_exam.FileName;
+                Save(sender, e);
+            }
+        }
+
+        private void Print(object sender, EventArgs e)
         {
 
         }
 
-        private void Save(object sender, System.EventArgs e)
+        private void PrintPreview(object sender, EventArgs e)
         {
 
         }
 
-        private void SaveAs(object sender, System.EventArgs e)
-        {
-
-        }
-
-        private void Print(object sender, System.EventArgs e)
-        {
-
-        }
-
-        private void PrintPreview(object sender, System.EventArgs e)
-        {
-
-        }
-
-        private void Exit(object sender, System.EventArgs e)
+        private void Exit(object sender, EventArgs e)
         {
             Application.Exit();
         }
 
-        private void Undo(object sender, System.EventArgs e)
+        private void Undo(object sender, EventArgs e)
         {
 
         }
 
-        private void Redo(object sender, System.EventArgs e)
+        private void Redo(object sender, EventArgs e)
         {
 
         }
 
-        private void NewSection(object sender, System.EventArgs e)
+        private void NewSection(object sender, EventArgs e)
         {
             AddSection addSection = new AddSection();
             addSection.ShowDialog();
@@ -82,12 +113,21 @@ namespace Creator
             trv_view_exam.ExpandAll();
         }
 
-        private void NewQuestion(object sender, System.EventArgs e)
+        private void NewQuestion(object sender, EventArgs e)
         {
-
+            var nodeToBeAddedTo = trv_view_exam.SelectedNode.GetType() == typeof(SectionNode) ? trv_view_exam.SelectedNode : trv_view_exam.SelectedNode.Parent;
+            Question question = new Question();
+            question.No = nodeToBeAddedTo.Nodes.Count + 1;
+            //
+            QuestionNode questionNode = new QuestionNode(question);
+            questionNode.ImageIndex = 2;
+            questionNode.SelectedImageIndex = 2;
+            nodeToBeAddedTo.Nodes.Add(questionNode);
+            //
+            trv_view_exam.ExpandAll();
         }
 
-        private void Cut(object sender, System.EventArgs e)
+        private void Cut(object sender, EventArgs e)
         {
 
         }
@@ -115,7 +155,7 @@ namespace Creator
 
         private void AfterSelect(object sender, TreeViewEventArgs e)
         {
-            if(sender.GetType() == typeof(ExamNode))
+            if(trv_view_exam.SelectedNode.GetType() == typeof(ExamNode))
             {
                 newQuestionToolStripButton.Enabled = false;
                 //
@@ -124,14 +164,30 @@ namespace Creator
                     splitContainer2.Panel2.Controls.Remove(pan_display_questions);
                     splitContainer2.Panel2.Controls.Add(pan_exam_properties);
                 }
+                else if (splitContainer2.Panel2.Controls.Contains(pan_splash))
+                {
+                    splitContainer2.Panel2.Controls.Remove(pan_splash);
+                    splitContainer2.Panel2.Controls.Add(pan_exam_properties);
+                }
+                //
+                txt_code.Text = exam.Properties.Code;
+                txt_instruction.Text = exam.Properties.Instructions;
+                txt_title.Text = exam.Properties.Title;
+                num_passmark.Value = (decimal)exam.Properties.Passmark;
+                num_time_limit.Value = exam.Properties.TimeLimit;
             }
-            else if(sender.GetType() == typeof(SectionNode))
+            else if(trv_view_exam.SelectedNode.GetType() == typeof(SectionNode))
             {
                 newQuestionToolStripButton.Enabled = true;
                 //
                 if (splitContainer2.Panel2.Controls.Contains(pan_exam_properties))
                 {
                     splitContainer2.Panel2.Controls.Remove(pan_exam_properties);
+                    splitContainer2.Panel2.Controls.Add(pan_display_questions);
+                }
+                else if (splitContainer2.Panel2.Controls.Contains(pan_splash))
+                {
+                    splitContainer2.Panel2.Controls.Remove(pan_splash);
                     splitContainer2.Panel2.Controls.Add(pan_display_questions);
                 }
                 pan_display_questions.Enabled = false;
@@ -145,9 +201,14 @@ namespace Creator
                     splitContainer2.Panel2.Controls.Remove(pan_exam_properties);
                     splitContainer2.Panel2.Controls.Add(pan_display_questions);
                 }
+                else if (splitContainer2.Panel2.Controls.Contains(pan_splash))
+                {
+                    splitContainer2.Panel2.Controls.Remove(pan_splash);
+                    splitContainer2.Panel2.Controls.Add(pan_display_questions);
+                }
                 pan_display_questions.Enabled = true;
                 //
-                Question question = ((QuestionNode)sender).Question;
+                Question question = ((QuestionNode)trv_view_exam.SelectedNode).Question;
                 txt_explanation.Text = question.Explanation;
                 txt_question_text.Text = question.Text;
                 lbl_section_question.Text = "Section: " + trv_view_exam.SelectedNode.Parent.Text + " Question " + question.No;
@@ -172,25 +233,27 @@ namespace Creator
 
         private void BeforeSelect(object sender, TreeViewCancelEventArgs e)
         {
-            if(sender.GetType() == typeof(QuestionNode))
-            {
-                Question question = ((QuestionNode)sender).Question;
-                question.Answer = pan_display_questions.Controls.OfType<OptionControl>().FirstOrDefault(s => s.Checked) == null ? '\0' : pan_display_questions.Controls.OfType<OptionControl>().FirstOrDefault(s => s.Checked).Letter;
-                question.Explanation = txt_explanation.Text;
-                question.Image = (Bitmap)pct_image.Image;
-                question.No = trv_view_exam.SelectedNode.Index + 1;
-                question.Options.Clear();
-                foreach(var ctrl in pan_display_questions.Controls.OfType<OptionControl>())
+            if (trv_view_exam.SelectedNode != null)
+                if (trv_view_exam.SelectedNode.GetType() == typeof(QuestionNode))
                 {
-                    Option option = new Option();
-                    option.Alphabet = ctrl.Letter;
-                    option.Text = ctrl.Text;
-                    question.Options.Add(option);
+                    Question question = ((QuestionNode)trv_view_exam.SelectedNode).Question;
+                    var answerCtrl = pan_options.Controls.OfType<OptionControl>().FirstOrDefault(s => s.Checked);
+                    question.Answer = answerCtrl == null ? '\0' : answerCtrl.Letter;
+                    question.Explanation = txt_explanation.Text;
+                    question.Image = (Bitmap)pct_image.Image;
+                    question.No = trv_view_exam.SelectedNode.Index + 1;
+                    question.Options.Clear();
+                    foreach (var ctrl in pan_options.Controls.OfType<OptionControl>())
+                    {
+                        Option option = new Option();
+                        option.Alphabet = ctrl.Letter;
+                        option.Text = ctrl.Text;
+                        question.Options.Add(option);
+                    }
+                    question.Text = txt_question_text.Text;
+                    //
+                    ClearControls();
                 }
-                question.Text = txt_question_text.Text;
-                //
-                ClearControls();
-            }
         }
 
         private void ClearControls()
@@ -225,6 +288,8 @@ namespace Creator
 
         private void EnableExamControls()
         {
+            closeToolStripMenuItem.Enabled = true;
+            //
             saveAsToolStripMenuItem.Enabled = true;
             saveToolStripButton.Enabled = true;
             saveToolStripMenuItem.Enabled = true;
@@ -252,8 +317,20 @@ namespace Creator
             copyToolStripMenuItem.Enabled = true;
         }
 
+        private void DisableQuestionControls()
+        {
+            cutToolStripButton.Enabled = false;
+            cutToolStripMenuItem.Enabled = false;
+            pasteToolStripButton.Enabled = false;
+            pasteToolStripMenuItem.Enabled = false;
+            copyToolStripButton.Enabled = false;
+            copyToolStripMenuItem.Enabled = false;
+        }
+
         private void DisableAllControls()
         {
+            closeToolStripMenuItem.Enabled = false;
+            //
             saveAsToolStripMenuItem.Enabled = false;
             saveToolStripButton.Enabled = false;
             saveToolStripMenuItem.Enabled = false;
@@ -278,7 +355,35 @@ namespace Creator
 
         private void Close(object sender, EventArgs e)
         {
+            if(IsDirty)
+            {
+                var response = MessageBox.Show("There are unsaved changes in your project. Do you want to save the changes before closing it?", "Unsaved Changes", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+                if(response == DialogResult.Yes)
+                {
+                    Save(sender, e);
+                }
+                else if(response == DialogResult.Cancel)
+                {
+                    return;
+                }
+            }
+            this.exam = null;
+            IsDirty = false;
+            //
+            ClearControls();
+            trv_view_exam.Nodes.Clear();
             DisableAllControls();
+            //
+            if (splitContainer2.Panel2.Contains(pan_display_questions))
+            {
+                splitContainer2.Panel2.Controls.Remove(pan_display_questions);
+                splitContainer2.Panel2.Controls.Add(pan_splash);
+            }
+            else if (splitContainer2.Panel2.Contains(pan_exam_properties))
+            {
+                splitContainer2.Panel2.Controls.Remove(pan_exam_properties);
+                splitContainer2.Panel2.Controls.Add(pan_splash);
+            }
         }
 
         private void OptionsChanged(object sender, ControlEventArgs e)
@@ -326,6 +431,16 @@ namespace Creator
                 ctrl.Letter = 'A';
                 pan_options.Controls.Add(ctrl);
             }
+        }
+
+        private void Editable(object sender, EventArgs e)
+        {
+            EnableQuestionControls();
+        }
+
+        private void NotEditable(object sender, EventArgs e)
+        {
+            DisableQuestionControls();
         }
     }
 }
