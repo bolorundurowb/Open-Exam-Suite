@@ -93,6 +93,12 @@
     <Compile Include="AddSection.Designer.cs">
       <DependentUpon>AddSection.cs</DependentUpon>
     </Compile>
+    <Compile Include="PrintOptions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PrintOptions.Designer.cs">
+      <DependentUpon>PrintOptions.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -111,6 +117,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AddSection.resx">
       <DependentUpon>AddSection.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PrintOptions.resx">
+      <DependentUpon>PrintOptions.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

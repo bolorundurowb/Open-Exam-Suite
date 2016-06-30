@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using System;
+using System.IO;
 
 namespace Creator
 {
@@ -12,6 +13,8 @@ namespace Creator
         #region Class Variables
         private Exam exam;
         private string currentExamFile;
+        private PrintOption whatToPrint;
+
         private bool IsDirty { get; set; }
         #endregion
 
@@ -33,14 +36,35 @@ namespace Creator
         {
             if (ofd_open_exam.ShowDialog() == DialogResult.OK)
             {
-                this.exam = Helper.GetExamFromFile(ofd_open_exam.FileName);
-                //
-                trv_view_exam.Nodes.Clear();
-                //
-                ExamNode examNode = new ExamNode(this.exam);
-                trv_view_exam.Nodes.Add(examNode);
-                trv_view_exam.ExpandAll();
+                Close(sender, e);
+                currentExamFile = ofd_open_exam.FileName;
+                Open();
             }
+        }
+
+        private void Open()
+        {
+            this.exam = Helper.GetExamFromFile(currentExamFile);
+            //
+            trv_view_exam.Nodes.Clear();
+            EnableExamControls();
+            EnableSectionControls();
+            //
+            ExamNode examNode = new ExamNode(this.exam);
+            trv_view_exam.Nodes.Add(examNode);
+            trv_view_exam.ExpandAll();
+            //
+            if (splitContainer2.Panel2.Controls.Contains(pan_splash))
+            {
+                splitContainer2.Panel2.Controls.Remove(pan_splash);
+                splitContainer2.Panel2.Controls.Add(pan_exam_properties);
+            }
+            //
+            txt_code.Text = exam.Properties.Code;
+            txt_instruction.Text = exam.Properties.Instructions;
+            txt_title.Text = exam.Properties.Title;
+            num_passmark.Value = (decimal)exam.Properties.Passmark;
+            num_time_limit.Value = exam.Properties.TimeLimit;
         }
 
         private void Save(object sender, EventArgs e)
@@ -51,9 +75,38 @@ namespace Creator
             }
             else
             {
+                if (trv_view_exam.SelectedNode != null)
+                    if (trv_view_exam.SelectedNode.GetType() == typeof(QuestionNode))
+                        CommitQuestion();
                 Helper.WriteExamToFile(this.exam, currentExamFile);
+                MessageBox.Show("Exam ")
                 IsDirty = false;
             }
+            //
+            if (Properties.Settings.Default.Exams == null)
+                Properties.Settings.Default.Exams = new System.Collections.Specialized.StringCollection();
+            if (!Properties.Settings.Default.Exams.Contains(currentExamFile))
+                Properties.Settings.Default.Exams.Add(currentExamFile);
+            Properties.Settings.Default.Save();
+        }
+
+        private void CommitQuestion()
+        {
+            Question question = ((QuestionNode)trv_view_exam.SelectedNode).Question;
+            var answerCtrl = pan_options.Controls.OfType<OptionControl>().FirstOrDefault(s => s.Checked);
+            question.Answer = answerCtrl == null ? '\0' : answerCtrl.Letter;
+            question.Explanation = txt_explanation.Text;
+            question.Image = (Bitmap)pct_image.Image;
+            question.No = trv_view_exam.SelectedNode.Index + 1;
+            question.Options.Clear();
+            foreach (var ctrl in pan_options.Controls.OfType<OptionControl>())
+            {
+                Option option = new Option();
+                option.Alphabet = ctrl.Letter;
+                option.Text = ctrl.Text;
+                question.Options.Add(option);
+            }
+            question.Text = txt_question_text.Text;
         }
 
         private void SaveAs(object sender, EventArgs e)
@@ -73,12 +126,18 @@ namespace Creator
 
         private void Print(object sender, EventArgs e)
         {
-
+            PrintOptions po = new PrintOptions(trv_view_exam.SelectedNode);
+            po.ShowDialog();
+            whatToPrint = po.SelectedPrintOption;
+            pdg_print.ShowDialog();
         }
 
         private void PrintPreview(object sender, EventArgs e)
         {
-
+            PrintOptions po = new PrintOptions(trv_view_exam.SelectedNode);
+            po.ShowDialog();
+            whatToPrint = po.SelectedPrintOption;
+            ppd_print.ShowDialog();
         }
 
         private void Exit(object sender, EventArgs e)
@@ -106,8 +165,6 @@ namespace Creator
             this.exam.Sections.Add(section);
             //
             SectionNode sectionNode = new SectionNode(section);
-            sectionNode.ImageIndex = 1;
-            sectionNode.SelectedImageIndex = 1;
             trv_view_exam.Nodes[0].Nodes.Add(sectionNode);
             //
             trv_view_exam.ExpandAll();
@@ -120,8 +177,6 @@ namespace Creator
             question.No = nodeToBeAddedTo.Nodes.Count + 1;
             //
             QuestionNode questionNode = new QuestionNode(question);
-            questionNode.ImageIndex = 2;
-            questionNode.SelectedImageIndex = 2;
             nodeToBeAddedTo.Nodes.Add(questionNode);
             //
             trv_view_exam.ExpandAll();
@@ -129,25 +184,39 @@ namespace Creator
 
         private void Cut(object sender, EventArgs e)
         {
-
+            if (txt_question_text.SelectionLength > 0)
+            {
+                txt_question_text.Cut();
+            }
         }
 
         private void Copy(object sender, System.EventArgs e)
         {
-
+            if (txt_question_text.SelectionLength > 0)
+            {
+                txt_question_text.Copy();
+            }
         }
 
         private void Paste(object sender, System.EventArgs e)
         {
-
+            if (Clipboard.GetDataObject().GetDataPresent(DataFormats.Text))
+            {
+                if (txt_question_text.SelectionLength > 0)
+                {
+                    if (MessageBox.Show("Do you want to paste over current selection?", "Confirmation", MessageBoxButtons.YesNo) == DialogResult.No)
+                        txt_question_text.SelectionStart = txt_question_text.SelectionStart + txt_question_text.SelectionLength;
+                }
+                txt_question_text.Paste();
+            }
         }
 
-        private void Help(object sender, System.EventArgs e)
+        private void Help(object sender, EventArgs e)
         {
 
         }
 
-        private void About(object sender, System.EventArgs e)
+        private void About(object sender, EventArgs e)
         {
             About about = new About();
             about.ShowDialog();
@@ -169,12 +238,6 @@ namespace Creator
                     splitContainer2.Panel2.Controls.Remove(pan_splash);
                     splitContainer2.Panel2.Controls.Add(pan_exam_properties);
                 }
-                //
-                txt_code.Text = exam.Properties.Code;
-                txt_instruction.Text = exam.Properties.Instructions;
-                txt_title.Text = exam.Properties.Title;
-                num_passmark.Value = (decimal)exam.Properties.Passmark;
-                num_time_limit.Value = exam.Properties.TimeLimit;
             }
             else if(trv_view_exam.SelectedNode.GetType() == typeof(SectionNode))
             {
@@ -236,21 +299,7 @@ namespace Creator
             if (trv_view_exam.SelectedNode != null)
                 if (trv_view_exam.SelectedNode.GetType() == typeof(QuestionNode))
                 {
-                    Question question = ((QuestionNode)trv_view_exam.SelectedNode).Question;
-                    var answerCtrl = pan_options.Controls.OfType<OptionControl>().FirstOrDefault(s => s.Checked);
-                    question.Answer = answerCtrl == null ? '\0' : answerCtrl.Letter;
-                    question.Explanation = txt_explanation.Text;
-                    question.Image = (Bitmap)pct_image.Image;
-                    question.No = trv_view_exam.SelectedNode.Index + 1;
-                    question.Options.Clear();
-                    foreach (var ctrl in pan_options.Controls.OfType<OptionControl>())
-                    {
-                        Option option = new Option();
-                        option.Alphabet = ctrl.Letter;
-                        option.Text = ctrl.Text;
-                        question.Options.Add(option);
-                    }
-                    question.Text = txt_question_text.Text;
+                    CommitQuestion();
                     //
                     ClearControls();
                 }
@@ -384,6 +433,8 @@ namespace Creator
                 splitContainer2.Panel2.Controls.Remove(pan_exam_properties);
                 splitContainer2.Panel2.Controls.Add(pan_splash);
             }
+            //
+            LoadExamHistory();
         }
 
         private void OptionsChanged(object sender, ControlEventArgs e)
@@ -441,6 +492,135 @@ namespace Creator
         private void NotEditable(object sender, EventArgs e)
         {
             DisableQuestionControls();
+        }
+
+        private void PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
+        {
+            if (whatToPrint == PrintOption.CurrentQuestion)
+            {
+                float yPos = e.MarginBounds.Top;
+                float leftMargin = e.MarginBounds.Left;
+                Font normFont = new Font("Calibri", 12);
+                Font subHeadFont = new Font("Calibri", 13F);
+                Font headerFont = new Font("Cambria", 14, FontStyle.Bold);
+
+                e.Graphics.DrawString("OPEN EXAM SUITE - CREATOR", headerFont, Brushes.Purple, new PointF(250, yPos));
+                yPos += 2 * headerFont.GetHeight(e.Graphics);
+
+                e.Graphics.DrawString("EXAM: " + exam.Properties.Title + "  EXAM CODE: " + exam.Properties.Code, subHeadFont, Brushes.Green, new PointF(200, yPos));
+                yPos += 2 * subHeadFont.GetHeight(e.Graphics);
+
+                e.Graphics.DrawString("Section: " + trv_view_exam.SelectedNode.Parent.Text, subHeadFont, Brushes.Green, new PointF(leftMargin, yPos));
+                yPos += 2 * subHeadFont.GetHeight(e.Graphics);
+
+                e.Graphics.DrawString(trv_view_exam.SelectedNode.Text, subHeadFont, Brushes.Black, new PointF(leftMargin, yPos));
+                yPos += subHeadFont.GetHeight(e.Graphics);
+
+                for (int i = 0; i < txt_question_text.Lines.Length; i++)
+                {
+                    e.Graphics.DrawString(txt_question_text.Lines[i], normFont, Brushes.Black, new RectangleF(leftMargin, yPos, e.MarginBounds.Width + 60, 150),
+                        StringFormat.GenericTypographic);
+                    yPos += subHeadFont.GetHeight(e.Graphics);
+                }
+                yPos += subHeadFont.GetHeight(e.Graphics);
+                if (pct_image.Image != null)
+                {
+                    yPos += 50;
+                    e.Graphics.DrawImage(pct_image.Image, new Rectangle(Convert.ToInt32(leftMargin + 100), Convert.ToInt32(yPos + 15), 450, 400));
+                    yPos += 400;
+                }
+
+                foreach (OptionControl control in pan_options.Controls)
+                {
+                    string temp = control.Letter + ". -  " + control.Text;
+                    e.Graphics.DrawString(temp, normFont, Brushes.Black, new PointF(leftMargin + 35, yPos));
+                    yPos += normFont.GetHeight(e.Graphics);
+                }
+            }
+            else if (whatToPrint == PrintOption.CurrentSection)
+            {
+                float yPos = e.MarginBounds.Top;
+                float leftMargin = e.MarginBounds.Left;
+                Font normFont = new Font("Calibri", 12);
+                Font subHeadFont = new Font("Calibri", 13F);
+                Font headerFont = new Font("Cambria", 14, FontStyle.Bold);
+
+                e.Graphics.DrawString("OPEN EXAM SUITE - CREATOR", headerFont, Brushes.Purple, new PointF(250, yPos));
+                yPos += 2 * headerFont.GetHeight(e.Graphics);
+
+                e.Graphics.DrawString("EXAM: " + exam.Properties.Title + "  EXAM CODE: " + exam.Properties.Code, subHeadFont, Brushes.Green, new PointF(200, yPos));
+                yPos += 2 * subHeadFont.GetHeight(e.Graphics);
+            }
+            else
+            {
+                float yPos = e.MarginBounds.Top;
+                float leftMargin = e.MarginBounds.Left;
+                Font normFont = new Font("Calibri", 12);
+                Font subHeadFont = new Font("Calibri", 13F);
+                Font headerFont = new Font("Cambria", 14, FontStyle.Bold);
+
+                e.Graphics.DrawString("OPEN EXAM SUITE - CREATOR", headerFont, Brushes.Purple, new PointF(250, yPos));
+                yPos += 2 * headerFont.GetHeight(e.Graphics);
+
+                e.Graphics.DrawString("EXAM: " + exam.Properties.Title + "  EXAM CODE: " + exam.Properties.Code, subHeadFont, Brushes.Green, new PointF(200, yPos));
+                yPos += 2 * subHeadFont.GetHeight(e.Graphics);
+            }
+        }
+
+        private void UIFormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (IsDirty)
+            {
+                DialogResult result = MessageBox.Show("The current exam has not been saved, are you sure you want to close it?", "Unsaved Changes",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.No)
+                    e.Cancel = true;
+                else
+                    Save(sender, e);
+            }
+        }
+
+        private void LoadExamHistory()
+        {
+            if (Properties.Settings.Default.Exams != null)
+            {
+                foreach (Control link in grp_exam_history.Controls.OfType<LinkLabel>())
+                {
+                    grp_exam_history.Controls.Remove(link);
+                }
+                int i = 0;
+                foreach (string exam in Properties.Settings.Default.Exams)
+                {
+                    LinkLabel examLink = new LinkLabel();
+                    examLink.Location = new Point(10, (25 + (i * 25)));
+                    examLink.AutoSize = true;
+                    examLink.Text = exam;
+                    examLink.Click += examLink_Click;
+                    grp_exam_history.Controls.Add(examLink);
+                    i++;
+                }
+            }
+        }
+
+        void examLink_Click(object sender, EventArgs e)
+        {
+            if (File.Exists(((LinkLabel)sender).Text))
+            {
+                currentExamFile = ((LinkLabel)sender).Text;
+                Open();
+            }
+            else
+            {
+                MessageBox.Show("Sorry, the selected file has been moved or deleted.", "Access error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                Properties.Settings.Default.Exams.Remove(((LinkLabel)sender).Text);
+                Properties.Settings.Default.Save();
+                grp_exam_history.Controls.Remove(((Control)sender));
+            }
+        }
+
+        private void LoadUI(object sender, EventArgs e)
+        {
+            LoadExamHistory();
         }
     }
 }

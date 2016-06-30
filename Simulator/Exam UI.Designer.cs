@@ -50,6 +50,8 @@ namespace Simulator
             this.lbl_exam_instructions = new System.Windows.Forms.Label();
             this.lbl_exam_title = new System.Windows.Forms.Label();
             this.timer = new System.Windows.Forms.Timer(this.components);
+            this.btn_show_answer = new System.Windows.Forms.Button();
+            this.lbl_explanation = new System.Windows.Forms.Label();
             this.pan_display.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pct_image)).BeginInit();
             this.SuspendLayout();
@@ -78,7 +80,7 @@ namespace Simulator
             // btn_begin
             // 
             this.btn_begin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btn_begin.Location = new System.Drawing.Point(13, 649);
+            this.btn_begin.Location = new System.Drawing.Point(13, 651);
             this.btn_begin.Name = "btn_begin";
             this.btn_begin.Size = new System.Drawing.Size(75, 23);
             this.btn_begin.TabIndex = 2;
@@ -90,7 +92,7 @@ namespace Simulator
             // 
             this.btn_previous.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btn_previous.Enabled = false;
-            this.btn_previous.Location = new System.Drawing.Point(13, 649);
+            this.btn_previous.Location = new System.Drawing.Point(13, 651);
             this.btn_previous.Name = "btn_previous";
             this.btn_previous.Size = new System.Drawing.Size(75, 23);
             this.btn_previous.TabIndex = 3;
@@ -103,7 +105,7 @@ namespace Simulator
             // 
             this.btn_next.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btn_next.Enabled = false;
-            this.btn_next.Location = new System.Drawing.Point(105, 649);
+            this.btn_next.Location = new System.Drawing.Point(105, 651);
             this.btn_next.Name = "btn_next";
             this.btn_next.Size = new System.Drawing.Size(75, 23);
             this.btn_next.TabIndex = 4;
@@ -115,7 +117,7 @@ namespace Simulator
             // btn_pause
             // 
             this.btn_pause.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_pause.Location = new System.Drawing.Point(1058, 649);
+            this.btn_pause.Location = new System.Drawing.Point(1058, 651);
             this.btn_pause.Name = "btn_pause";
             this.btn_pause.Size = new System.Drawing.Size(75, 23);
             this.btn_pause.TabIndex = 5;
@@ -127,7 +129,7 @@ namespace Simulator
             // btn_end
             // 
             this.btn_end.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_end.Location = new System.Drawing.Point(1148, 649);
+            this.btn_end.Location = new System.Drawing.Point(1148, 651);
             this.btn_end.Name = "btn_end";
             this.btn_end.Size = new System.Drawing.Size(75, 23);
             this.btn_end.TabIndex = 6;
@@ -153,7 +155,7 @@ namespace Simulator
             this.pan_display.Controls.Add(this.lbl_exam_title);
             this.pan_display.Location = new System.Drawing.Point(30, 34);
             this.pan_display.Name = "pan_display";
-            this.pan_display.Size = new System.Drawing.Size(1181, 597);
+            this.pan_display.Size = new System.Drawing.Size(1181, 568);
             this.pan_display.TabIndex = 7;
             // 
             // pct_image
@@ -161,7 +163,7 @@ namespace Simulator
             this.pct_image.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.pct_image.Location = new System.Drawing.Point(105, 155);
             this.pct_image.Name = "pct_image";
-            this.pct_image.Size = new System.Drawing.Size(579, 289);
+            this.pct_image.Size = new System.Drawing.Size(579, 258);
             this.pct_image.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pct_image.TabIndex = 12;
             this.pct_image.TabStop = false;
@@ -185,7 +187,7 @@ namespace Simulator
             this.lbl_question_number.AutoSize = true;
             this.lbl_question_number.Location = new System.Drawing.Point(88, 47);
             this.lbl_question_number.Name = "lbl_question_number";
-            this.lbl_question_number.Size = new System.Drawing.Size(35, 13);
+            this.lbl_question_number.Size = new System.Drawing.Size(104, 13);
             this.lbl_question_number.TabIndex = 10;
             this.lbl_question_number.Text = "lbl_question_number";
             this.lbl_question_number.Visible = false;
@@ -205,7 +207,7 @@ namespace Simulator
             this.lbl_section_title.AutoSize = true;
             this.lbl_section_title.Location = new System.Drawing.Point(82, 20);
             this.lbl_section_title.Name = "lbl_section_title";
-            this.lbl_section_title.Size = new System.Drawing.Size(35, 13);
+            this.lbl_section_title.Size = new System.Drawing.Size(79, 13);
             this.lbl_section_title.TabIndex = 8;
             this.lbl_section_title.Text = "lbl_section_title";
             this.lbl_section_title.Visible = false;
@@ -226,7 +228,7 @@ namespace Simulator
             this.lbl_exam_code.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_exam_code.Location = new System.Drawing.Point(25, 54);
             this.lbl_exam_code.Name = "lbl_exam_code";
-            this.lbl_exam_code.Size = new System.Drawing.Size(47, 15);
+            this.lbl_exam_code.Size = new System.Drawing.Size(105, 15);
             this.lbl_exam_code.TabIndex = 2;
             this.lbl_exam_code.Text = "lbl_exam_code";
             // 
@@ -246,7 +248,7 @@ namespace Simulator
             this.lbl_exam_title.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_exam_title.Location = new System.Drawing.Point(25, 20);
             this.lbl_exam_title.Name = "lbl_exam_title";
-            this.lbl_exam_title.Size = new System.Drawing.Size(51, 16);
+            this.lbl_exam_title.Size = new System.Drawing.Size(103, 16);
             this.lbl_exam_title.TabIndex = 0;
             this.lbl_exam_title.Text = "lbl_exam_title";
             // 
@@ -255,11 +257,35 @@ namespace Simulator
             this.timer.Interval = 1000;
             this.timer.Tick += new System.EventHandler(this.timer_Tick);
             // 
+            // btn_show_answer
+            // 
+            this.btn_show_answer.Location = new System.Drawing.Point(973, 4);
+            this.btn_show_answer.Name = "btn_show_answer";
+            this.btn_show_answer.Size = new System.Drawing.Size(87, 23);
+            this.btn_show_answer.TabIndex = 8;
+            this.btn_show_answer.Text = "Show Answer";
+            this.btn_show_answer.UseVisualStyleBackColor = true;
+            this.btn_show_answer.Visible = false;
+            this.btn_show_answer.Click += new System.EventHandler(this.ShowAnswer);
+            // 
+            // lbl_explanation
+            // 
+            this.lbl_explanation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbl_explanation.Location = new System.Drawing.Point(61, 622);
+            this.lbl_explanation.Name = "lbl_explanation";
+            this.lbl_explanation.Size = new System.Drawing.Size(1138, 13);
+            this.lbl_explanation.TabIndex = 9;
+            this.lbl_explanation.Text = "lbl_explanation";
+            this.lbl_explanation.Visible = false;
+            // 
             // Exam_UI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1239, 684);
+            this.ClientSize = new System.Drawing.Size(1239, 686);
+            this.Controls.Add(this.lbl_explanation);
+            this.Controls.Add(this.btn_show_answer);
             this.Controls.Add(this.pan_display);
             this.Controls.Add(this.btn_end);
             this.Controls.Add(this.btn_pause);
@@ -302,5 +328,7 @@ namespace Simulator
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label lbl_section_title;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button btn_show_answer;
+        private System.Windows.Forms.Label lbl_explanation;
     }
 }

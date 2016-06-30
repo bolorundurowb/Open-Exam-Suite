@@ -1,6 +1,7 @@
 ﻿using Shared;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -68,6 +69,7 @@ namespace Simulator
             btn_next.Visible = true;
             btn_pause.Visible = true;
             btn_previous.Visible = true;
+            btn_show_answer.Visible = true;
             //
             pct_image.Visible = true;
             //
@@ -105,6 +107,8 @@ namespace Simulator
 
         private void NavigateExam(NavOption option)
         {
+            lbl_explanation.Visible = false;
+            //
             if (option == NavOption.Begin)
             {
                 if(settings.Questions.Count > 0)
@@ -191,6 +195,7 @@ namespace Simulator
             Question question = settings.Questions[currentQuestionIndex];
             lbl_question_number.Text = question.No.ToString();
             lbl_section_title.Text = settings.Sections.First(s => s.Questions.Contains(question)).Title;
+            lbl_explanation.Text = question.Explanation;
             txt_question.Text = question.Text;
             pct_image.Image = question.Image;
             AddOptions(question.Options);
@@ -204,7 +209,7 @@ namespace Simulator
                 rdb.AutoSize = true;
                 rdb.Text = options[i].Alphabet + ". - " + options[i].Text;
                 rdb.Name = "rdb" + options[i].Alphabet;
-                rdb.Location = new System.Drawing.Point(51, 464 + (i * 22));
+                rdb.Location = new Point(51, 464 + (i * 22));
                 if (userAnswers[currentQuestionIndex] == options[i].Alphabet)
                     rdb.Checked = true;
                 pan_display.Controls.Add(rdb);
@@ -229,6 +234,18 @@ namespace Simulator
                 return '\0';
             else
                 return Convert.ToChar(rdb.Text.Substring(0, 1));
+        }
+
+        private void ShowAnswer(object sender, EventArgs e)
+        {
+            lbl_explanation.Visible = true;
+            RadioButton answer = pan_display.Controls.OfType<RadioButton>().FirstOrDefault(s => s.Name.Replace("rdb", "") == settings.Questions[currentQuestionIndex].Answer.ToString());
+            if (answer != null)
+            {
+                int index = pan_display.Controls.IndexOf(answer);
+                ((RadioButton)pan_display.Controls[index]).Checked = true;
+                ((RadioButton)pan_display.Controls[index]).ForeColor = Color.Green;
+            }
         }
     }
 

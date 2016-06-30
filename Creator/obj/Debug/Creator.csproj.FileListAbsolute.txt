@@ -46,20 +46,3 @@ C:\Users\Virtuoso\Documents\Visual Studio 2013\Projects\Open Exam Suite\Creator\
 C:\Users\Virtuoso\Documents\Visual Studio 2013\Projects\Open Exam Suite\Creator\obj\Debug\Creator.exe
 C:\Users\Virtuoso\Documents\Visual Studio 2013\Projects\Open Exam Suite\Creator\obj\Debug\Creator.pdb
 C:\Users\Virtuoso\Documents\Visual Studio 2013\Projects\Open Exam Suite\Creator\obj\Debug\Creator.csprojResolveAssemblyReference.cache
-C:\Users\bolorundurowb\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Creator\bin\Debug\Creator.exe.config
-C:\Users\bolorundurowb\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Creator\bin\Debug\Creator.exe.manifest
-C:\Users\bolorundurowb\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Creator\bin\Debug\Creator.application
-C:\Users\bolorundurowb\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Creator\bin\Debug\Creator.exe
-C:\Users\bolorundurowb\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Creator\bin\Debug\Creator.pdb
-C:\Users\bolorundurowb\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Creator\obj\Debug\Creator.About.resources
-C:\Users\bolorundurowb\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Creator\obj\Debug\Creator.Properties.Resources.resources
-C:\Users\bolorundurowb\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Creator\obj\Debug\Creator.UI.resources
-C:\Users\bolorundurowb\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Creator\obj\Debug\Creator.csproj.GenerateResource.Cache
-C:\Users\bolorundurowb\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Creator\obj\Debug\Creator.exe.manifest
-C:\Users\bolorundurowb\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Creator\obj\Debug\Creator.application
-C:\Users\bolorundurowb\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Creator\obj\Debug\Creator.exe
-C:\Users\bolorundurowb\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Creator\obj\Debug\Creator.pdb
-C:\Users\bolorundurowb\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Creator\obj\Debug\Creator.csprojResolveAssemblyReference.cache
-C:\Users\bolorundurowb\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Creator\bin\Debug\Shared.dll
-C:\Users\bolorundurowb\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Creator\bin\Debug\Shared.pdb
-C:\Users\bolorundurowb\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Creator\obj\Debug\Creator.AddSection.resources

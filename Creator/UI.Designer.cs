@@ -108,6 +108,9 @@
             this.sfd_save_as_exam = new System.Windows.Forms.SaveFileDialog();
             this.ofd_select_image = new System.Windows.Forms.OpenFileDialog();
             this.ofd_open_exam = new System.Windows.Forms.OpenFileDialog();
+            this.pdg_print = new System.Windows.Forms.PrintDialog();
+            this.pdc_doc = new System.Drawing.Printing.PrintDocument();
+            this.ppd_print = new System.Windows.Forms.PrintPreviewDialog();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
@@ -820,6 +823,7 @@
             this.saveToolStripButton.Name = "saveToolStripButton";
             this.saveToolStripButton.Size = new System.Drawing.Size(23, 22);
             this.saveToolStripButton.Text = "&Save";
+            this.saveToolStripButton.Click += new System.EventHandler(this.Save);
             // 
             // printToolStripButton
             // 
@@ -830,6 +834,7 @@
             this.printToolStripButton.Name = "printToolStripButton";
             this.printToolStripButton.Size = new System.Drawing.Size(23, 22);
             this.printToolStripButton.Text = "&Print";
+            this.printToolStripButton.Click += new System.EventHandler(this.Print);
             // 
             // toolStripSeparator12
             // 
@@ -924,6 +929,27 @@
             // 
             this.ofd_open_exam.Filter = "OEF Files|*.oef";
             // 
+            // pdg_print
+            // 
+            this.pdg_print.Document = this.pdc_doc;
+            this.pdg_print.UseEXDialog = true;
+            // 
+            // pdc_doc
+            // 
+            this.pdc_doc.DocumentName = "Exam";
+            this.pdc_doc.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.PrintPage);
+            // 
+            // ppd_print
+            // 
+            this.ppd_print.AutoScrollMargin = new System.Drawing.Size(0, 0);
+            this.ppd_print.AutoScrollMinSize = new System.Drawing.Size(0, 0);
+            this.ppd_print.ClientSize = new System.Drawing.Size(400, 300);
+            this.ppd_print.Document = this.pdc_doc;
+            this.ppd_print.Enabled = true;
+            this.ppd_print.Icon = ((System.Drawing.Icon)(resources.GetObject("ppd_print.Icon")));
+            this.ppd_print.Name = "ppd_print";
+            this.ppd_print.Visible = false;
+            // 
             // UI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -936,6 +962,8 @@
             this.Name = "UI";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Creator";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.UIFormClosing);
+            this.Shown += new System.EventHandler(this.LoadUI);
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
@@ -1038,5 +1066,8 @@
         private System.Windows.Forms.SaveFileDialog sfd_save_as_exam;
         private System.Windows.Forms.OpenFileDialog ofd_select_image;
         private System.Windows.Forms.OpenFileDialog ofd_open_exam;
+        private System.Windows.Forms.PrintDialog pdg_print;
+        private System.Windows.Forms.PrintPreviewDialog ppd_print;
+        private System.Drawing.Printing.PrintDocument pdc_doc;
     }
 }
