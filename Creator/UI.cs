@@ -199,6 +199,14 @@ namespace Creator
                                 _sectionNode.Nodes.RemoveAt(undoObject.Question.No - 1);
                             }
                         }
+                        //
+                        int j = 1;
+                        foreach (QuestionNode questionNode_ in _sectionNode.Nodes)
+                        {
+                            questionNode_.Text = "Question " + j;
+                            questionNode_.Question.No = j;
+                            j++;
+                        }
                         break;
                     case ActionType.Delete:
                         SectionNode sectionNode = trv_view_exam.Nodes[0].Nodes.Cast<SectionNode>().FirstOrDefault(s => s.Title == undoObject.SectionTitle);
@@ -216,13 +224,19 @@ namespace Creator
                         }
                         else
                         {
-                            sectionNode.ContextMenuStrip = cms_section;
-                            //
                             QuestionNode questionNode = new QuestionNode(undoObject.Question);
                             questionNode.ContextMenuStrip = cms_question;
-                            sectionNode.Nodes.Add(questionNode);
+                            sectionNode.Nodes.Insert(questionNode.Question.No - 1, questionNode);
                             //
                             trv_view_exam.ExpandAll();
+                        }
+                        //
+                        int i = 1;
+                        foreach (QuestionNode questionNode_ in sectionNode.Nodes)
+                        {
+                            questionNode_.Text = "Question " + i;
+                            questionNode_.Question.No = i;
+                            i++;
                         }
                         break;
                     case ActionType.Modify:
@@ -238,7 +252,7 @@ namespace Creator
 
         private void Redo(object sender, EventArgs e)
         {
-            ChangeRepresentationObject redoObject = undoRedo.Undo();
+            ChangeRepresentationObject redoObject = undoRedo.Redo();
             if (redoObject == null) return;
             else
             {
@@ -257,8 +271,6 @@ namespace Creator
                             //
                             trv_view_exam.Nodes[0].Nodes.Add(sectionNode);
                             trv_view_exam.ExpandAll();
-                            //
-
                         }
                         else
                         {
@@ -270,6 +282,14 @@ namespace Creator
                             //
                             trv_view_exam.ExpandAll();
                         }
+                        //
+                        int i = 1;
+                        foreach (QuestionNode questionNode_ in sectionNode.Nodes)
+                        {
+                            questionNode_.Text = "Question " + i;
+                            questionNode_.Question.No = i;
+                            i++;
+                        }
                         break;
                     case ActionType.Delete:
                         SectionNode _sectionNode = trv_view_exam.Nodes[0].Nodes.Cast<SectionNode>().FirstOrDefault(s => s.Title == redoObject.SectionTitle);
@@ -280,6 +300,14 @@ namespace Creator
                                 exam.Sections.First(s => s.Title == redoObject.SectionTitle).Questions.RemoveAt(redoObject.Question.No - 1);
                                 _sectionNode.Nodes.RemoveAt(redoObject.Question.No - 1);
                             }
+                        }
+                        //
+                        int j = 1;
+                        foreach (QuestionNode questionNode_ in _sectionNode.Nodes)
+                        {
+                            questionNode_.Text = "Question " + j;
+                            questionNode_.Question.No = j;
+                            j++;
                         }
                         break;
                     case ActionType.Modify:
@@ -418,6 +446,8 @@ namespace Creator
                 txt_question_text.Text = question.Text;
                 lbl_section_question.Text = "Section: " + trv_view_exam.SelectedNode.Parent.Text + " Question " + question.No;
                 pct_image.Image = question.Image;
+                //
+                pan_options.Controls.Clear();
                 //
                 int i = 0;
                 foreach(var option in question.Options)
@@ -768,13 +798,14 @@ namespace Creator
         private void DeleteQuestion(object sender, EventArgs e)
         {
             var sectionNode = trv_view_exam.SelectedNode.Parent;
-            sectionNode.Nodes.Remove(trv_view_exam.SelectedNode);
             //
             ChangeRepresentationObject obj = new ChangeRepresentationObject();
             obj.Action = ActionType.Delete;
             obj.Question = ((QuestionNode)trv_view_exam.SelectedNode).Question;
             obj.SectionTitle = ((SectionNode)sectionNode).Title;
             undoRedo.InsertObjectforUndoRedo(obj);
+            //
+            sectionNode.Nodes.Remove(trv_view_exam.SelectedNode);
             //
             int i = 1;
             foreach(QuestionNode questionNode in sectionNode.Nodes)

@@ -19,6 +19,7 @@ namespace Creator
             if (RedoCollection.Count == 0) return null;
             //
             ChangeRepresentationObject redoObject = RedoCollection.Pop();
+            UndoCollection.Push(redoObject);
             return redoObject;
         }
 
@@ -27,6 +28,7 @@ namespace Creator
             if (UndoCollection.Count == 0) return null;
             //
             ChangeRepresentationObject undoObject = UndoCollection.Pop();
+            RedoCollection.Push(undoObject);
             return undoObject;
         }
     }
