@@ -111,6 +111,10 @@
             this.pdg_print = new System.Windows.Forms.PrintDialog();
             this.pdc_doc = new System.Drawing.Printing.PrintDocument();
             this.ppd_print = new System.Windows.Forms.PrintPreviewDialog();
+            this.cms_section = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.btn_edit_section = new System.Windows.Forms.ToolStripMenuItem();
+            this.cms_question = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.btn_delete_question = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
@@ -125,6 +129,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.num_passmark)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
+            this.cms_section.SuspendLayout();
+            this.cms_question.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripSeparator4
@@ -181,6 +187,7 @@
             this.trv_view_exam.TabIndex = 0;
             this.trv_view_exam.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.BeforeSelect);
             this.trv_view_exam.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.AfterSelect);
+            this.trv_view_exam.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.MakeSureNodeSelected);
             // 
             // imglst_node_images
             // 
@@ -950,6 +957,36 @@
             this.ppd_print.Name = "ppd_print";
             this.ppd_print.Visible = false;
             // 
+            // cms_section
+            // 
+            this.cms_section.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btn_edit_section});
+            this.cms_section.Name = "cms_section";
+            this.cms_section.Size = new System.Drawing.Size(95, 26);
+            // 
+            // btn_edit_section
+            // 
+            this.btn_edit_section.Image = global::Creator.Properties.Resources.edit;
+            this.btn_edit_section.Name = "btn_edit_section";
+            this.btn_edit_section.Size = new System.Drawing.Size(94, 22);
+            this.btn_edit_section.Text = "Edit";
+            this.btn_edit_section.Click += new System.EventHandler(this.EditSection);
+            // 
+            // cms_question
+            // 
+            this.cms_question.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btn_delete_question});
+            this.cms_question.Name = "cms_question";
+            this.cms_question.Size = new System.Drawing.Size(108, 26);
+            // 
+            // btn_delete_question
+            // 
+            this.btn_delete_question.Image = global::Creator.Properties.Resources.remove;
+            this.btn_delete_question.Name = "btn_delete_question";
+            this.btn_delete_question.Size = new System.Drawing.Size(107, 22);
+            this.btn_delete_question.Text = "Delete";
+            this.btn_delete_question.Click += new System.EventHandler(this.DeleteQuestion);
+            // 
             // UI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -982,6 +1019,8 @@
             this.menuStrip1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.cms_section.ResumeLayout(false);
+            this.cms_question.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1069,5 +1108,9 @@
         private System.Windows.Forms.PrintDialog pdg_print;
         private System.Windows.Forms.PrintPreviewDialog ppd_print;
         private System.Drawing.Printing.PrintDocument pdc_doc;
+        private System.Windows.Forms.ContextMenuStrip cms_section;
+        private System.Windows.Forms.ToolStripMenuItem btn_edit_section;
+        private System.Windows.Forms.ContextMenuStrip cms_question;
+        private System.Windows.Forms.ToolStripMenuItem btn_delete_question;
     }
 }

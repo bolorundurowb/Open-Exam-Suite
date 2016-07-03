@@ -14,6 +14,7 @@ namespace Creator
         private Exam exam;
         private string currentExamFile;
         private PrintOption whatToPrint;
+        private UndoRedo undoRedo;
 
         private bool IsDirty { get; set; }
         #endregion
@@ -30,6 +31,8 @@ namespace Creator
             this.exam = new Exam();
             splitContainer2.Panel2.Controls.Remove(pan_splash);
             splitContainer2.Panel2.Controls.Add(pan_exam_properties);
+            //
+            this.undoRedo = new UndoRedo();
         }
 
         private void Open(object sender, EventArgs e)
@@ -50,8 +53,21 @@ namespace Creator
             EnableExamControls();
             EnableSectionControls();
             //
-            ExamNode examNode = new ExamNode(this.exam);
+            ExamNode examNode = new ExamNode(this.exam.Properties);
             trv_view_exam.Nodes.Add(examNode);
+            foreach(Section section in exam.Sections)
+            {
+                SectionNode sectionNode = new SectionNode(section.Title);
+                sectionNode.ContextMenuStrip = cms_section;
+                foreach(Question question in section.Questions)
+                {
+                    QuestionNode questionNode = new QuestionNode(question);
+                    questionNode.ContextMenuStrip = cms_question;
+                    //
+                    sectionNode.Nodes.Add(questionNode);
+                }
+                examNode.Nodes.Add(sectionNode);
+            }
             trv_view_exam.ExpandAll();
             //
             if (splitContainer2.Panel2.Controls.Contains(pan_splash))
@@ -65,6 +81,8 @@ namespace Creator
             txt_title.Text = exam.Properties.Title;
             num_passmark.Value = (decimal)exam.Properties.Passmark;
             num_time_limit.Value = exam.Properties.TimeLimit;
+            //
+            this.undoRedo = new UndoRedo();
         }
 
         private void Save(object sender, EventArgs e)
@@ -78,8 +96,26 @@ namespace Creator
                 if (trv_view_exam.SelectedNode != null)
                     if (trv_view_exam.SelectedNode.GetType() == typeof(QuestionNode))
                         CommitQuestion();
+                //
+                ExamNode examNode = (ExamNode)trv_view_exam.Nodes[0];
+                this.exam.Properties = examNode.Properties;
+                this.exam.Sections.Clear();
+                foreach(SectionNode sectionNode in examNode.Nodes)
+                {
+                    Section section = new Section();
+                    section.Title = sectionNode.Title;
+                    foreach(QuestionNode questionNode in sectionNode.Nodes)
+                    {
+                        Question question = new Question();
+                        question = questionNode.Question;
+                        //
+                        section.Questions.Add(question);
+                    }
+                    this.exam.Sections.Add(section);
+                }
+                //
                 Helper.WriteExamToFile(this.exam, currentExamFile);
-                MessageBox.Show("Exam ")
+                MessageBox.Show("Exam has been sucessfully saved.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 IsDirty = false;
             }
             //
@@ -147,12 +183,114 @@ namespace Creator
 
         private void Undo(object sender, EventArgs e)
         {
-
+            ChangeRepresentationObject undoObject = undoRedo.Undo();
+            if (undoObject == null) return;
+            else
+            {
+                switch(undoObject.Action)
+                {
+                    case ActionType.Add:
+                        SectionNode _sectionNode = trv_view_exam.Nodes[0].Nodes.Cast<SectionNode>().FirstOrDefault(s => s.Title == undoObject.SectionTitle);
+                        if (_sectionNode != null)
+                        {
+                            if (_sectionNode.Nodes.Count >= undoObject.Question.No)
+                            {
+                                exam.Sections.First(s => s.Title == undoObject.SectionTitle).Questions.RemoveAt(undoObject.Question.No - 1);
+                                _sectionNode.Nodes.RemoveAt(undoObject.Question.No - 1);
+                            }
+                        }
+                        break;
+                    case ActionType.Delete:
+                        SectionNode sectionNode = trv_view_exam.Nodes[0].Nodes.Cast<SectionNode>().FirstOrDefault(s => s.Title == undoObject.SectionTitle);
+                        if (sectionNode == null)
+                        {
+                            sectionNode = new SectionNode(undoObject.SectionTitle);
+                            sectionNode.ContextMenuStrip = cms_section;
+                            //
+                            QuestionNode questionNode = new QuestionNode(undoObject.Question);
+                            questionNode.ContextMenuStrip = cms_question;
+                            sectionNode.Nodes.Add(questionNode);
+                            //
+                            trv_view_exam.Nodes[0].Nodes.Add(sectionNode);
+                            trv_view_exam.ExpandAll();
+                        }
+                        else
+                        {
+                            sectionNode.ContextMenuStrip = cms_section;
+                            //
+                            QuestionNode questionNode = new QuestionNode(undoObject.Question);
+                            questionNode.ContextMenuStrip = cms_question;
+                            sectionNode.Nodes.Add(questionNode);
+                            //
+                            trv_view_exam.ExpandAll();
+                        }
+                        break;
+                    case ActionType.Modify:
+                        SectionNode sectionNode_ = trv_view_exam.Nodes[0].Nodes.Cast<SectionNode>().FirstOrDefault(s => s.Title == undoObject.SectionTitle);
+                        if (sectionNode_ != null)
+                        {
+                            ((QuestionNode)sectionNode_.Nodes[undoObject.Question.No - 1]).Question = undoObject.Question;
+                        }
+                        break;
+                }
+            }
         }
 
         private void Redo(object sender, EventArgs e)
         {
+            ChangeRepresentationObject redoObject = undoRedo.Undo();
+            if (redoObject == null) return;
+            else
+            {
+                switch (redoObject.Action)
+                {
+                    case ActionType.Add:
+                        SectionNode sectionNode = trv_view_exam.Nodes[0].Nodes.Cast<SectionNode>().FirstOrDefault(s => s.Title == redoObject.SectionTitle);
+                        if(sectionNode == null)
+                        {
+                            sectionNode = new SectionNode(redoObject.SectionTitle);
+                            sectionNode.ContextMenuStrip = cms_section;
+                            //
+                            QuestionNode questionNode = new QuestionNode(redoObject.Question);
+                            questionNode.ContextMenuStrip = cms_question;
+                            sectionNode.Nodes.Add(questionNode);
+                            //
+                            trv_view_exam.Nodes[0].Nodes.Add(sectionNode);
+                            trv_view_exam.ExpandAll();
+                            //
 
+                        }
+                        else
+                        {
+                            sectionNode.ContextMenuStrip = cms_section;
+                            //
+                            QuestionNode questionNode = new QuestionNode(redoObject.Question);
+                            questionNode.ContextMenuStrip = cms_question;
+                            sectionNode.Nodes.Add(questionNode);
+                            //
+                            trv_view_exam.ExpandAll();
+                        }
+                        break;
+                    case ActionType.Delete:
+                        SectionNode _sectionNode = trv_view_exam.Nodes[0].Nodes.Cast<SectionNode>().FirstOrDefault(s => s.Title == redoObject.SectionTitle);
+                        if (_sectionNode != null)
+                        {
+                            if(_sectionNode.Nodes.Count >= redoObject.Question.No)
+                            {
+                                exam.Sections.First(s => s.Title == redoObject.SectionTitle).Questions.RemoveAt(redoObject.Question.No - 1);
+                                _sectionNode.Nodes.RemoveAt(redoObject.Question.No - 1);
+                            }
+                        }
+                        break;
+                    case ActionType.Modify:
+                        SectionNode sectionNode_ = trv_view_exam.Nodes[0].Nodes.Cast<SectionNode>().FirstOrDefault(s => s.Title == redoObject.SectionTitle);
+                        if (sectionNode_ != null)
+                        {
+                            ((QuestionNode)sectionNode_.Nodes[redoObject.Question.No - 1]).Question = redoObject.Question;
+                        }
+                        break;
+                }
+            }
         }
 
         private void NewSection(object sender, EventArgs e)
@@ -160,11 +298,8 @@ namespace Creator
             AddSection addSection = new AddSection();
             addSection.ShowDialog();
             //
-            Section section = new Section();
-            section.Title = addSection.Title;
-            this.exam.Sections.Add(section);
-            //
-            SectionNode sectionNode = new SectionNode(section);
+            SectionNode sectionNode = new SectionNode(addSection.Title);
+            sectionNode.ContextMenuStrip = cms_section;
             trv_view_exam.Nodes[0].Nodes.Add(sectionNode);
             //
             trv_view_exam.ExpandAll();
@@ -172,14 +307,21 @@ namespace Creator
 
         private void NewQuestion(object sender, EventArgs e)
         {
-            var nodeToBeAddedTo = trv_view_exam.SelectedNode.GetType() == typeof(SectionNode) ? trv_view_exam.SelectedNode : trv_view_exam.SelectedNode.Parent;
+            SectionNode nodeToBeAddedTo = trv_view_exam.SelectedNode.GetType() == typeof(SectionNode) ? (SectionNode)trv_view_exam.SelectedNode : (SectionNode)trv_view_exam.SelectedNode.Parent;
             Question question = new Question();
             question.No = nodeToBeAddedTo.Nodes.Count + 1;
             //
             QuestionNode questionNode = new QuestionNode(question);
+            questionNode.ContextMenuStrip = cms_question;
             nodeToBeAddedTo.Nodes.Add(questionNode);
             //
             trv_view_exam.ExpandAll();
+            //
+            ChangeRepresentationObject obj = new ChangeRepresentationObject();
+            obj.Action = ActionType.Add;
+            obj.Question = question;
+            obj.SectionTitle = nodeToBeAddedTo.Title;
+            undoRedo.InsertObjectforUndoRedo(obj);
         }
 
         private void Cut(object sender, EventArgs e)
@@ -315,18 +457,17 @@ namespace Creator
             pan_options.Controls.Clear();
         }
 
-        private void SaveProperties(object sender, System.EventArgs e)
+        private void SaveProperties(object sender, EventArgs e)
         {
-            this.exam.Properties.Code = txt_code.Text;
-            this.exam.Properties.Instructions = txt_instruction.Text;
-            this.exam.Properties.Passmark = (int)num_passmark.Value;
-            this.exam.Properties.TimeLimit = (int)num_time_limit.Value;
-            this.exam.Properties.Title = txt_title.Text;
-            this.exam.Properties.Version = int.Parse(lbl_version.Text);
+            Shared.Properties properties = new Shared.Properties();
+            properties.Code = txt_code.Text;
+            properties.Instructions = txt_instruction.Text;
+            properties.Passmark = (int)num_passmark.Value;
+            properties.TimeLimit = (int)num_time_limit.Value;
+            properties.Title = txt_title.Text;
+            properties.Version = int.Parse(lbl_version.Text);
             //
-            ExamNode examNode = new ExamNode(exam);
-            examNode.ImageIndex = 0;
-            examNode.SelectedImageIndex = 0;
+            ExamNode examNode = new ExamNode(properties);
             trv_view_exam.Nodes.Add(examNode);
             //
             trv_view_exam.ExpandAll();
@@ -417,6 +558,7 @@ namespace Creator
                 }
             }
             this.exam = null;
+            this.undoRedo = null;
             IsDirty = false;
             //
             ClearControls();
@@ -621,6 +763,42 @@ namespace Creator
         private void LoadUI(object sender, EventArgs e)
         {
             LoadExamHistory();
+        }
+
+        private void DeleteQuestion(object sender, EventArgs e)
+        {
+            var sectionNode = trv_view_exam.SelectedNode.Parent;
+            sectionNode.Nodes.Remove(trv_view_exam.SelectedNode);
+            //
+            ChangeRepresentationObject obj = new ChangeRepresentationObject();
+            obj.Action = ActionType.Delete;
+            obj.Question = ((QuestionNode)trv_view_exam.SelectedNode).Question;
+            obj.SectionTitle = ((SectionNode)sectionNode).Title;
+            undoRedo.InsertObjectforUndoRedo(obj);
+            //
+            int i = 1;
+            foreach(QuestionNode questionNode in sectionNode.Nodes)
+            {
+                questionNode.Question.No = 1;
+                questionNode.Text = "Question " + i;
+                i++;
+            }
+        }
+
+        private void EditSection(object sender, EventArgs e)
+        {
+            SectionNode sectionNode = (SectionNode)trv_view_exam.SelectedNode;
+            //
+            EditSection editSection = new Creator.EditSection(sectionNode.Title);
+            editSection.ShowDialog();
+            //
+            sectionNode.Title = editSection.Title;
+            sectionNode.Text = editSection.Title;
+        }
+
+        private void MakeSureNodeSelected(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            trv_view_exam.SelectedNode = e.Node;
         }
     }
 }

@@ -12,6 +12,7 @@ namespace Shared.Controls
     public partial class OptionControl : UserControl
     {
         #region Public Properties
+        [Browsable(true), DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public char Letter
         {
             get
@@ -24,6 +25,7 @@ namespace Shared.Controls
             }
         }
 
+        [Browsable(true), DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public override string Text
         {
             get
@@ -36,6 +38,7 @@ namespace Shared.Controls
             }
         }
 
+        [Browsable(true), DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public bool Checked
         {
             get

@@ -41,6 +41,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChangeRepresentationObject.cs" />
     <Compile Include="Controls\OptionControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -50,6 +51,7 @@
     <Compile Include="Controls\TreeNodes.cs" />
     <Compile Include="Exam.cs" />
     <Compile Include="Helper.cs" />
+    <Compile Include="IUndoRedo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />
   </ItemGroup>
