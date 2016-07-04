@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Diagnostics;
-
-namespace Simulator
+﻿namespace Simulator
 {
+    using System.Diagnostics;
+    using System.Windows.Forms;
+
     public partial class About : Form
     {
         public About()
@@ -20,25 +12,20 @@ namespace Simulator
 
         private void lnk_web_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            ProcessStartInfo sInfo = new ProcessStartInfo(lnk_web.Text);
-            Process.Start(sInfo);
+            ProcessStartInfo startInfo = new ProcessStartInfo(lnk_web.Text);
+            Process.Start(startInfo);
         }
 
         private void lnk_issues_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            ProcessStartInfo sInfo = new ProcessStartInfo(lnk_issues.Text);
-            Process.Start(sInfo);
+            ProcessStartInfo startInfo = new ProcessStartInfo(lnk_issues.Text);
+            Process.Start(startInfo);
         }
 
         private void lnk_wiki_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            ProcessStartInfo sInfo = new ProcessStartInfo(lnk_wiki.Text);
-            Process.Start(sInfo);
-        }
-
-        private void lnk_email_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Process.Start("mailto:bolorundurowb@outlook.com");
+            ProcessStartInfo startInfo = new ProcessStartInfo(lnk_wiki.Text);
+            Process.Start(startInfo);
         }
     }
 }

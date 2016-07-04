@@ -59,7 +59,7 @@
     <ApplicationIcon>Simulator Alt.fw.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>DBCCA97A54852B53822F6252F82CA904AB206F9B</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>7978CA3D4FCE610ECE2BFBD5CB2BD34A82202ABA</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestKeyFile>Simulator_TemporaryKey.pfx</ManifestKeyFile>
@@ -71,20 +71,15 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Ionic.Zip">
-      <HintPath>..\..\..\APIs\DotNetZipLib-Runtime-v1.9\zip-v1.9\Ionic.Zip.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Windows.Forms.DataVisualization" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="About.cs">
@@ -111,8 +106,11 @@
     <Compile Include="Exam UI.Designer.cs">
       <DependentUpon>Exam UI.cs</DependentUpon>
     </Compile>
-    <Compile Include="GlobalPathVariables.cs" />
-    <Compile Include="Question.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="Score Sheet.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -159,11 +157,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
     <None Include="Simulator_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
@@ -201,6 +194,12 @@
       <Progid>Default</Progid>
       <DefaultIcon>SuiteFileIcon.fw.ico</DefaultIcon>
     </FileAssociation>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Shared\Shared.csproj">
+      <Project>{3fac1a95-feac-4e9a-92c8-1d0c48815e32}</Project>
+      <Name>Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

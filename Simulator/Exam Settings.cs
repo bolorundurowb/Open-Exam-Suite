@@ -1,74 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
+﻿using Shared;
+using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Ionic.Zip;
-using System.Xml;
-using System.Xml.XPath;
-using System.IO;
 
 namespace Simulator
 {
     public partial class Exam_Settings : Form
     {
-        string fullFilePath;
-        string filename;
-        int examType;
-        string selectedSections;
-        int defaultExamDuration;
+        private Exam exam;
+        private Settings settings;
 
-        public Exam_Settings()
+        public Exam_Settings(Exam _exam)
         {
             InitializeComponent();
+            //
+            exam = _exam;
+            //
+            clb_section_options.Items.AddRange(exam.Sections.ToArray());
+            //
+            num_questions.Maximum = exam.NumberOfQuestions;
+            //
+            SelectAll(null, null);
         }
 
-        public Exam_Settings(string fullExamFilePath, string examName)
+        private void Close(object sender, EventArgs e)
         {
-            InitializeComponent();
-            fullFilePath = fullExamFilePath;
-            filename = examName;
+            this.Close();
         }
 
-        private void rdb_selected_sections_CheckedChanged(object sender, EventArgs e)
+        private void CustomTimer(object sender, EventArgs e)
         {
-            if (rdb_selected_sections.Checked)
-            {
-                clb_section_options.Enabled = true;
-                btn_deselect_all.Enabled = true;
-                btn_select_all.Enabled = true;
-                this.examType = 1;
-            }
-            else
-            {
-                clb_section_options.Enabled = false; 
-                btn_deselect_all.Enabled = false;
-                btn_select_all.Enabled = false;
-                this.examType = 2;
-            }
-        }
-
-        private void rdb_fixed_number_questions_CheckedChanged(object sender, EventArgs e)
-        {
-            if (rdb_fixed_number_questions.Checked)
-            {
-                num_exam_number.Enabled = true;
-                this.examType = 2;
-            }
-            else
-            {
-                num_exam_number.Enabled = false;
-                this.examType = 1;
-            }
-        }
-
-        private void chk_enable_timer_CheckedChanged(object sender, EventArgs e)
-        {
-            if (chk_enable_timer.Checked)
+            if(chk_enable_timer.Checked)
             {
                 num_time_limit.Enabled = true;
             }
@@ -78,137 +40,94 @@ namespace Simulator
             }
         }
 
-        private void btn_ok_Click(object sender, EventArgs e)
+        private void ChooseNumOfQuestions(object sender, EventArgs e)
         {
-            if (rdb_selected_sections.Checked)
-            {
-                for (int i =0; i < clb_section_options.CheckedItems.Count; i++)
-                {
-                    this.selectedSections += ("," + clb_section_options.CheckedItems[i].ToString());
-                }
-            }
-            else
-            {
-                for (int i = 0; i < clb_section_options.Items.Count; i++)
-                {
-                    this.selectedSections += ("," + clb_section_options.Items[i].ToString());
-                }
-            }
             if (rdb_fixed_number_questions.Checked)
             {
-                this.examType = 2;
+                num_questions.Enabled = true;
             }
             else
             {
-                this.examType = 1;
-            }            
-            Properties.Settings.Default.CandidatesName = txt_candidaate_name.Text;
-            Properties.Settings.Default.ExamType = this.examType;
-            Properties.Settings.Default.NumberOfQuestions = Convert.ToInt32(num_exam_number.Value);
-            Properties.Settings.Default.SelectedSections = selectedSections;
-            Properties.Settings.Default.TimerEnabled = chk_enable_timer.Checked;
-            if (chk_enable_timer.Checked)
-            {
-                Properties.Settings.Default.TimerValue = Convert.ToInt32(num_time_limit.Value);
+                num_questions.Enabled = false;
             }
-            else
-            {
-                Properties.Settings.Default.TimerValue = defaultExamDuration;
-            }
-            Properties.Settings.Default.Save();
-            Form exam = new Exam_UI(filename);
-            this.Hide();
-            exam.ShowDialog();
-            this.Close();
         }
 
-        private void btn_cancel_Click(object sender, EventArgs e)
+        private void ChooseSections(object sender, EventArgs e)
         {
-            this.Close();
-        }
-
-        private void Exam_Settings_Load(object sender, EventArgs e)
-        {
-            string outputPath = GlobalPathVariables.GetExamFilesFolder(filename);
-
-            if (!(Directory.Exists(outputPath)))
+            if(rdb_selected_sections.Checked)
             {
-                using (ZipFile zip = ZipFile.Read(fullFilePath))
-                {
-                    foreach (ZipEntry ent in zip)
-                    {
-                        ent.Extract(outputPath, ExtractExistingFileAction.OverwriteSilently);
-                    }
-                }
+                clb_section_options.Enabled = true;
             }
             else
             {
-                Directory.Delete(outputPath, true);
-                using (ZipFile zip = ZipFile.Read(fullFilePath))
-                {
-                    foreach (ZipEntry ent in zip)
-                    {
-                        ent.Extract(outputPath, ExtractExistingFileAction.OverwriteSilently);
-                    }
-                }
+                clb_section_options.Enabled = false;
             }
-            int numOfQuestions = 0;
-            //New try
-            try
-            {
-                XPathDocument doc = new XPathDocument(GlobalPathVariables.GetXmlFilePath(outputPath));
-                XPathNavigator nav = doc.CreateNavigator();
-                // Compile a standard XPath expression
-                XPathExpression expr;
-                expr = nav.Compile("//Section");
-                XPathNodeIterator iterator = nav.Select(expr);
-                // Iterate on the node set
-                while (iterator.MoveNext())
-                {
-                    clb_section_options.Items.Add(iterator.Current.GetAttribute("Title", ""));
-                }
-                XPathExpression exp = nav.Compile("//Question");
-                XPathNodeIterator iter = nav.Select(exp);
-                while (iter.MoveNext())
-                {
-                    numOfQuestions += 1;
-                }
-                num_exam_number.Maximum = numOfQuestions;
-                expr = nav.Compile("//TimeAllowed");
-                iterator = nav.Select(expr);
-                // Iterate on the node set
-                while (iterator.MoveNext())
-                {
-                    defaultExamDuration = Convert.ToInt32(iterator.Current.Value);
-                }
-                expr = nav.Compile("//TimeAllowed");
-                iterator = nav.Select(expr);
-                // Iterate on the node set
-                while (iterator.MoveNext())
-                {
-                    defaultExamDuration = Convert.ToInt32(iterator.Current.Value);
-                }
-            }
-            catch (ArgumentNullException ex)
-            {
-                MessageBox.Show("Sorry, the selected exam was corrupted, please re-add the exam before retrying.", "Exam Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
-                GlobalPathVariables.WriteError(ex, this.Name);
-                this.Close();
-            }            
+        }
+
+        private void SelectAll(object sender, EventArgs e)
+        {
             for (int i = 0; i < clb_section_options.Items.Count; i++)
+            {
                 clb_section_options.SetItemChecked(i, true);
+            }
         }
 
-        private void btn_select_all_Click(object sender, EventArgs e)
+        private void DeselectAll(object sender, EventArgs e)
         {
             for (int i = 0; i < clb_section_options.Items.Count; i++)
-                clb_section_options.SetItemChecked(i, true);
-        }
-
-        private void btn_deselect_all_Click(object sender, EventArgs e)
-        {
-            for (int i = 0; i < clb_section_options.Items.Count; i++)
+            {
                 clb_section_options.SetItemChecked(i, false);
+            }
+        }
+
+        private void Proceed(object sender, EventArgs e)
+        {
+            settings = new Settings();
+            settings.CandidateName = txt_candidate_name.Text;
+            if (chk_enable_timer.Checked)
+                settings.TimeLimit = (int)num_time_limit.Value;
+            else
+                settings.TimeLimit = exam.Properties.TimeLimit;
+            //
+            if (rdb_selected_sections.Checked)
+            {
+                settings.Sections = clb_section_options.CheckedItems.Cast<Section>().ToList(); 
+                foreach (var section in settings.Sections)
+                    settings.Questions.AddRange(section.Questions.ToArray());
+            }
+            //
+            if(rdb_fixed_number_questions.Checked)
+            {
+                int numOfQuestions = (int)num_questions.Value;
+                int sum = 0;
+                foreach(Section section in exam.Sections)
+                {
+                    if (sum + section.Questions.Count < numOfQuestions)
+                    {
+                        settings.Sections.Add(section);
+                        settings.Questions.AddRange(section.Questions.ToArray());
+                        sum += section.Questions.Count;
+                    }
+                    else if (sum + section.Questions.Count == numOfQuestions)
+                    {
+                        settings.Sections.Add(section);
+                        settings.Questions.AddRange(section.Questions.ToArray());
+                        break;
+                    }
+                    else
+                    {
+                        int difference = numOfQuestions - sum;
+                        settings.Sections.Add(section);
+                        settings.Questions.AddRange(section.Questions.GetRange(0, difference).ToArray());
+                        break;
+                    }
+                }
+            }
+            //
+            Exam_UI ui = new Exam_UI(exam, settings);
+            this.Hide();
+            ui.ShowDialog();
+            this.Close();
         }
     }
 }

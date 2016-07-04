@@ -59,7 +59,7 @@
     <ApplicationIcon>Creator Alt.fw.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>2679211DD8728DA27C1DCEE6CA77059CAD8FD927</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>887D2011F9FE2E24BAE75005FECDD1B0D3B94E0C</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestKeyFile>Creator_TemporaryKey.pfx</ManifestKeyFile>
@@ -71,13 +71,8 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Ionic.Zip">
-      <HintPath>..\..\..\APIs\DotNetZipLib-Runtime-v1.9\zip-v1.9\Ionic.Zip.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
@@ -92,60 +87,49 @@
     <Compile Include="About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
-    <Compile Include="EditSectionTitle.cs">
+    <Compile Include="EditSection.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="EditSectionTitle.Designer.cs">
-      <DependentUpon>EditSectionTitle.cs</DependentUpon>
+    <Compile Include="EditSection.Designer.cs">
+      <DependentUpon>EditSection.cs</DependentUpon>
     </Compile>
-    <Compile Include="Exam and Sections.cs">
+    <Compile Include="AddSection.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Exam and Sections.Designer.cs">
-      <DependentUpon>Exam and Sections.cs</DependentUpon>
+    <Compile Include="AddSection.Designer.cs">
+      <DependentUpon>AddSection.cs</DependentUpon>
     </Compile>
-    <Compile Include="GlobalPathVariables.cs" />
-    <Compile Include="New Section.cs">
+    <Compile Include="PrintOptions.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="New Section.Designer.cs">
-      <DependentUpon>New Section.cs</DependentUpon>
+    <Compile Include="PrintOptions.Designer.cs">
+      <DependentUpon>PrintOptions.cs</DependentUpon>
     </Compile>
-    <Compile Include="OptionControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="OptionControl.Designer.cs">
-      <DependentUpon>OptionControl.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Question.cs" />
     <Compile Include="UI.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI.Designer.cs">
       <DependentUpon>UI.cs</DependentUpon>
     </Compile>
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="XML Handler.cs" />
+    <Compile Include="UndoRedo.cs" />
     <EmbeddedResource Include="About.resx">
       <DependentUpon>About.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="EditSectionTitle.resx">
-      <DependentUpon>EditSectionTitle.cs</DependentUpon>
+    <EmbeddedResource Include="EditSection.resx">
+      <DependentUpon>EditSection.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Exam and Sections.resx">
-      <DependentUpon>Exam and Sections.cs</DependentUpon>
+    <EmbeddedResource Include="AddSection.resx">
+      <DependentUpon>AddSection.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="New Section.resx">
-      <DependentUpon>New Section.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="OptionControl.resx">
-      <DependentUpon>OptionControl.cs</DependentUpon>
+    <EmbeddedResource Include="PrintOptions.resx">
+      <DependentUpon>PrintOptions.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -171,38 +155,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Creator Alt.fw.ico" />
-    <None Include="Resources\Open~2.bmp" />
-    <None Include="Resources\Print.bmp" />
-    <None Include="Resources\Save.bmp" />
-    <None Include="Resources\Open.bmp" />
-    <None Include="Resources\Copy~1.png" />
-    <None Include="Resources\Cut.png" />
-    <None Include="Resources\Down.png" />
-    <None Include="Resources\Up.png" />
-    <None Include="Resources\New.png" />
-    <None Include="Resources\Rename.png" />
-    <None Include="Resources\Next.png" />
-    <None Include="Resources\Previous.png" />
-    <None Include="Resources\Exit.png" />
-    <None Include="Resources\Close.png" />
-    <None Include="Resources\Import.png" />
-    <None Include="Resources\New Question.png" />
-    <None Include="Resources\New Section.png" />
-    <None Include="Resources\Paste.png" />
-    <None Include="Resources\Copy.png" />
-    <None Include="Resources\Redo.png" />
-    <None Include="Resources\Undo.png" />
-    <None Include="Resources\Print Preview.png" />
-    <None Include="Resources\Print.png" />
-    <None Include="Resources\Save As.png" />
-    <None Include="Resources\Save.png" />
-    <None Include="Resources\Open.png" />
-    <None Include="Resources\Exam 2.png" />
-    <None Include="Resources\6.png" />
-    <None Include="Resources\5.png" />
-    <None Include="Resources\2.png" />
-    <None Include="Resources\4.png" />
-    <None Include="Resources\1.png" />
+    <None Include="Resources\edit.png" />
+    <None Include="Resources\splash.png" />
+    <None Include="Resources\remove.png" />
+    <None Include="Resources\ok.png" />
+    <None Include="Resources\New_Section.png" />
+    <None Include="Resources\New_Question.png" />
+    <None Include="Resources\Exam.png" />
+    <None Include="Resources\add.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
@@ -225,6 +185,12 @@
       <ProductName>Windows Installer 4.5</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Shared\Shared.csproj">
+      <Project>{3FAC1A95-FEAC-4E9A-92C8-1D0C48815E32}</Project>
+      <Name>Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

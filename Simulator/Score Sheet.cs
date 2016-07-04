@@ -1,40 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+﻿using Shared;
+using System;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Simulator
 {
     public partial class Score_Sheet : Form
     {
-        private int required;
-        private int got;
-        public Score_Sheet()
+        #region Global Variables
+        private Settings settings;
+        private Exam exam;
+        #endregion
+
+        public Score_Sheet(Settings _settings, Exam _exam)
         {
             InitializeComponent();
+            settings = _settings;
+            exam = _exam;
+            lbl_candidate_name.Text = _settings.CandidateName;
+            lbl_date.Text = DateTime.Now.ToShortDateString();
+            lbl_elapsed_time.Text = _settings.ElapsedTime.TotalMinutes.ToString("F");
+            lbl_exam_number.Text = _exam.Properties.Code;
+            lbl_time_allowed.Text = _settings.TimeLimit.ToString();
         }
 
-        /// <summary>
-        /// The Constructor that displays result details
-        /// </summary>
-        /// <param name="candidateName">The name of the candidate</param>
-        /// <param name="time">the total allocatable time</param>
-        /// <param name="elapsedTime">the time used</param>
-        /// <param name="examCode">the exam code, gotten from the exam file</param>
-        /// <param name="score">the candidates score</param>
-        /// <param name="requiredScore">the score required to pass</param>
-        /// <param name="sectionQuestionNumbers">the number of questions per section</param>
-        /// <param name="rightSectionQuestionNumbers">the number of correct questions per section</param>
-        public Score_Sheet(string candidateName, int time, int elapsedTime, string examCode, int score, int requiredScore, Dictionary<string, int> sectionQuestionNumbers, Dictionary<string, int> rightSectionQuestionNumbers)
+        private void LoadDataToUI(object sender, EventArgs e)
         {
-            InitializeComponent();
-            lbl_date.Text = DateTime.Now.Date.ToShortDateString();
-            if (score >= requiredScore)
+            int normalizedScore = (settings.NumberOfCorrectAnswers / settings.Questions.Count) * 1000;
+            if (normalizedScore >= exam.Properties.Passmark)
             {
                 lbl_status.Text = "Passed";
                 lbl_status.Font = new Font("Microsoft Sans Serif", 8.25F);
@@ -46,70 +40,59 @@ namespace Simulator
                 lbl_status.Font = new Font("Microsoft Sans Serif", 8.25F);
                 lbl_status.ForeColor = Color.Red;
             }
-            lbl_candidate_name.Text = candidateName;
-            lbl_elapsed_time.Text = elapsedTime.ToString();
-            lbl_exam_number.Text = examCode;
-            lbl_time.Text = time.ToString();
-            dgv_show_breakdown.Rows.Clear();
             //
-            for (int i = 0; i < sectionQuestionNumbers.Count; i++)
+            chr_display_score.Series["Pass Mark"].Points.AddXY(1, exam.Properties.Passmark);
+            chr_display_score.Series["Your Score"].Points.AddXY(0, normalizedScore);
+            //
+            foreach(var spread in settings.ResultSpread)
             {
-                dgv_show_breakdown.Rows.Add(sectionQuestionNumbers.ElementAt(i).Key, sectionQuestionNumbers.ElementAt(i).Value, rightSectionQuestionNumbers.ElementAt(i).Value);
+                dgv_show_breakdown.Rows.Add(spread.Item1, spread.Item2, spread.Item3);
             }
-            //
-            chr_display_score.Series["Required Score"].Points.AddXY(1, requiredScore);
-            chr_display_score.Series["Score"].Points.AddXY(0, score);
-            //
-            required = requiredScore;
-            got = score;
         }
 
-        private void btn_exit_Click(object sender, EventArgs e)
+        private void Exit(object sender, EventArgs e)
         {
             Application.Exit();
         }
 
-        private void btn_retake_Click(object sender, EventArgs e)
+        private void Retake(object sender, EventArgs e)
         {
             this.Close();
-        }
+        }        
 
-        private void btn_print_score_Click(object sender, EventArgs e)
+        private void Print(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
-            pnt_prv_dlg.ShowDialog();
-        }
-
-        private void pnt_doc_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
-        {
+            int normalizedScore = (settings.NumberOfCorrectAnswers / settings.Questions.Count) * 1000;
+            //
             Font headerFont = new Font("Segoe UI", 12F, FontStyle.Bold);
             Font subFont = new Font("Segoe UI", 10F, FontStyle.Regular);
-            Font specialFont = new System.Drawing.Font("Segoe UI", 10F, FontStyle.Bold);
-
+            Font specialFont = new Font("Segoe UI", 10F, FontStyle.Bold);
+            //
             float ypos = e.MarginBounds.Top;
             e.Graphics.DrawString("EXAMINATION SCORE SHEET", headerFont, Brushes.Black, new PointF((e.MarginBounds.Width / 2) - 50, ypos));
             ypos += (2 * headerFont.GetHeight(e.Graphics));
-            string name = lbl_candidate_name.Text.Length<35?lbl_candidate_name.Text:lbl_candidate_name.Text.Substring(0,35);
+            string name = lbl_candidate_name.Text.Length < 35 ? lbl_candidate_name.Text : lbl_candidate_name.Text.Substring(0, 35);
             e.Graphics.DrawString("CANDIDATE NAME: " + name, subFont, Brushes.DarkSlateBlue, new PointF(e.MarginBounds.Left, ypos));
-            e.Graphics.DrawString("TIME ALLOWED: " + lbl_time.Text+ " min(s)", subFont, Brushes.DarkSlateBlue, new PointF((e.MarginBounds.Width / 2) + 175, ypos));
+            e.Graphics.DrawString("TIME ALLOWED: " + lbl_time_allowed.Text + " min(s)", subFont, Brushes.DarkSlateBlue, new PointF((e.MarginBounds.Width / 2) + 175, ypos));
             ypos += (2 * subFont.GetHeight(e.Graphics));
             e.Graphics.DrawString("DATE: " + DateTime.Now.ToShortDateString(), subFont, Brushes.DarkSlateBlue, new PointF(e.MarginBounds.Left, ypos));
             e.Graphics.DrawString("TIME ELAPSED: " + lbl_elapsed_time.Text + " min(s)", subFont, Brushes.DarkSlateBlue, new PointF((e.MarginBounds.Width / 2) + 175, ypos));
             ypos += (2 * subFont.GetHeight(e.Graphics));
             e.Graphics.DrawString("EXAM CODE: " + lbl_exam_number.Text, subFont, Brushes.DarkSlateBlue, new PointF(e.MarginBounds.Left, ypos));
             ypos += (2 * subFont.GetHeight(e.Graphics));
-
-            System.IO.MemoryStream imgStream = new System.IO.MemoryStream();
+            //
+            MemoryStream imgStream = new MemoryStream();
             chr_display_score.SaveImage(imgStream, System.Drawing.Imaging.ImageFormat.Jpeg);
             Bitmap bmp = new Bitmap(imgStream);
             e.Graphics.DrawImage(bmp, new PointF(e.MarginBounds.Left + 50, ypos));
             ypos += ((2 * subFont.GetHeight(e.Graphics)) + (bmp.Height));
 
-            e.Graphics.DrawString("Required Score: " + required, subFont, Brushes.DarkSlateBlue, new PointF(e.MarginBounds.Left, ypos));
-            e.Graphics.DrawString("Your Score: " + got, subFont, Brushes.DarkSlateBlue, new PointF((e.MarginBounds.Width / 2) + 175, ypos));
+            e.Graphics.DrawString("Required Score: " + exam.Properties.Passmark, subFont, Brushes.DarkSlateBlue, new PointF(e.MarginBounds.Left, ypos));
+            e.Graphics.DrawString("Your Score: " + normalizedScore, subFont, Brushes.DarkSlateBlue, new PointF((e.MarginBounds.Width / 2) + 175, ypos));
             ypos += (2 * subFont.GetHeight(e.Graphics));
             e.Graphics.DrawString("STATUS: ", subFont, Brushes.DarkSlateBlue, new PointF(e.MarginBounds.Left, ypos));
-            Brush brush = got < required ? Brushes.Red : Brushes.Green;
-            string status = got <required?"failed":"passed";
+            Brush brush = normalizedScore < exam.Properties.Passmark ? Brushes.Red : Brushes.Green;
+            string status = normalizedScore < exam.Properties.Passmark ? "Failed" : "Passed";
             e.Graphics.DrawString(status, subFont, brush, new PointF(e.MarginBounds.Left + 70, ypos));
             ypos += (2 * subFont.GetHeight(e.Graphics));
 
@@ -120,7 +103,7 @@ namespace Simulator
             ypos += specialFont.GetHeight(e.Graphics);
             e.Graphics.DrawLine(new Pen(Brushes.DarkSlateBlue), new PointF(150, ypos), new PointF(700, ypos));
 
-            
+
             foreach (DataGridViewRow row in dgv_show_breakdown.Rows)
             {
                 e.Graphics.DrawString(row.Cells[0].Value.ToString(), subFont, Brushes.DarkSlateBlue, new PointF(180, ypos));
@@ -129,6 +112,11 @@ namespace Simulator
                 ypos += (subFont.GetHeight(e.Graphics));
             }
             e.Graphics.DrawLine(new Pen(Brushes.DarkSlateBlue), new PointF(150, ypos), new PointF(700, ypos));
+        }
+
+        private void PrintResult(object sender, EventArgs e)
+        {
+            pnt_prv_dlg.ShowDialog();
         }
     }
 }

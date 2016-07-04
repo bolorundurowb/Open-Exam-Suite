@@ -1,77 +1,54 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using Shared;
+using System;
+using System.Collections.Specialized;
 using System.IO;
+using System.Windows.Forms;
 
 namespace Simulator
 {
     public partial class UI : Form
     {
-        string openedFilePath;
         public UI()
         {
             InitializeComponent();
         }
 
-        public UI(string requestedFilePath)
+        public UI(string[] filePaths)
         {
             InitializeComponent();
-            if (requestedFilePath != string.Empty && Path.GetExtension(requestedFilePath).ToLower() == ".oef")
-            {
-                Properties.Settings.Default.ExamPaths += "," + requestedFilePath;
-                Properties.Settings.Default.ExamTitles += "," + Path.GetFileNameWithoutExtension(requestedFilePath);
-                Properties.Settings.Default.Save();
-                this.openedFilePath = requestedFilePath;
-            }
-            else
-            {
-                MessageBox.Show("Selected file is not an OES Exam File", "File Type Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                this.openedFilePath = string.Empty;
-            }
         }
 
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        private void Exit(object sender, EventArgs e)
         {
             Application.Exit();
         }
 
-        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        private void AddExam(object sender, EventArgs e)
         {
-            Form about = new About();
-            about.ShowDialog();
-        }
-
-        private void btn_add_Click(object sender, EventArgs e)
-        {
-            opf_select.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            if (opf_select.ShowDialog() == DialogResult.OK)
+            if(ofd_exam.ShowDialog() == DialogResult.OK)
             {
-                List<string> paths = new List<string>();
-                foreach (string filename in opf_select.FileNames)
+                foreach (string fileName in ofd_exam.FileNames)
                 {
-                    for (int i = 0; i < dgv_exams.Rows.Count; i++)
+                    if (!CheckIfExamExists(fileName))
                     {
-                        paths.Add(dgv_exams.Rows[i].Cells[1].Value.ToString());
-                    }
-                    if (!(paths.Exists(p => p == filename)))
-                    {
-                        dgv_exams.Rows.Add(Path.GetFileNameWithoutExtension(filename), filename);
+                        dgv_exams.Rows.Add(Path.GetFileNameWithoutExtension(fileName), fileName);
                     }
                 }
             }
-            if (dgv_exams.RowCount > 0)
-            {
-                dgv_exams.Rows[0].Cells[0].Selected = false;
-            }
         }
 
-        private void dgv_exams_SelectionChanged(object sender, EventArgs e)
+        private bool CheckIfExamExists(string fileName)
+        {
+            bool exists = false;
+            foreach (DataGridViewRow row in dgv_exams.Rows)
+            {
+                if (row.Cells[1].Value.ToString() == fileName)
+                    exists = true;
+            }
+            return exists;
+        }
+
+        private void SelectionChanged(object sender, EventArgs e)
         {
             if (dgv_exams.SelectedRows.Count == 1)
             {
@@ -79,13 +56,13 @@ namespace Simulator
                 btn_properties.Enabled = true;
                 btn_remove.Enabled = true;
             }
-            if (dgv_exams.SelectedRows.Count > 1)
+            else if (dgv_exams.SelectedRows.Count > 1)
             {
                 btn_start.Enabled = false;
                 btn_properties.Enabled = false;
                 btn_remove.Enabled = true;
             }
-            if (dgv_exams.SelectedRows.Count == 0)
+            else
             {
                 btn_start.Enabled = false;
                 btn_properties.Enabled = false;
@@ -93,85 +70,85 @@ namespace Simulator
             }
         }
 
-        private void btn_remove_Click(object sender, EventArgs e)
+        private void Remove(object sender, EventArgs e)
         {
-            foreach (DataGridViewRow test in dgv_exams.SelectedRows)
+            foreach (DataGridViewRow row in dgv_exams.SelectedRows)
             {
-                dgv_exams.Rows.RemoveAt(test.Index);
+                dgv_exams.Rows.Remove(row);
             }
         }
 
-        private void btn_start_Click(object sender, EventArgs e)
-        {
-            string fullFilePath = dgv_exams.SelectedRows[0].Cells[1].Value.ToString();
-            Exam_Settings sett = new Exam_Settings(fullFilePath, dgv_exams.SelectedRows[0].Cells[0].Value.ToString());
-            sett.ShowDialog();
-        }
-
-        private void btn_properties_Click(object sender, EventArgs e)
-        {
-            string fullFilePath = dgv_exams.SelectedRows[0].Cells[1].Value.ToString();
-            Exam_Properties prop = new Exam_Properties(fullFilePath, dgv_exams.SelectedRows[0].Cells[0].Value.ToString());
-            prop.ShowDialog();
-        }
-
-        private void UI_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            Properties.Settings.Default.ExamTitles = "";
-            Properties.Settings.Default.ExamPaths = "";
-            for (int i = 0; i < dgv_exams.Rows.Count; i++)
-            {
-                Properties.Settings.Default.ExamTitles += ("," + dgv_exams.Rows[i].Cells[0].Value.ToString());
-                Properties.Settings.Default.ExamPaths += ("," + dgv_exams.Rows[i].Cells[1].Value.ToString());
-            }
-            Properties.Settings.Default.Save();
-        }
-
-        private void UI_Load(object sender, EventArgs e)
-        {
-            string[] unfilteredPaths = Properties.Settings.Default.ExamPaths.Split(',');
-            string[] unfilteredTitles = Properties.Settings.Default.ExamTitles.Split(',');
-            string[] paths = unfilteredPaths.Distinct().ToArray();
-            string[] titles = unfilteredTitles.Distinct().ToArray();
-            if (!((paths == null) || (titles == null)))
-            {
-                dgv_exams.Rows.Clear();
-                for (int i= 0; i < titles.Length; i++)
-                {
-                    if ((!(string.IsNullOrWhiteSpace(titles[i]))) && (!(string.IsNullOrWhiteSpace(paths[i]))))
-                    {
-                        dgv_exams.Rows.Add(titles[i], paths[i]);
-                    }
-                }
-            }
-            if (dgv_exams.Rows.Count > 0)
-            {
-                dgv_exams.Rows[0].Cells[0].Selected = false;
-            }
-            //Select opened file
-            if (openedFilePath != string.Empty)
-            {
-                foreach(DataGridViewRow row in dgv_exams.Rows)
-                {
-                    if (row.Cells[1].Value.ToString() == openedFilePath)
-                    {
-                        row.Selected = true;
-                    }
-                }
-            }
-        }
-
-        private void dgv_exams_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private void Properties(object sender, EventArgs e)
         {
             try
             {
-                dgv_exams.Rows[e.RowIndex].Selected = true;
+                string filePath = dgv_exams.SelectedRows[0].Cells[1].Value.ToString();
+                Exam exam = Helper.GetExamFromFile(filePath);
+                Exam_Properties properties = new Exam_Properties(exam, filePath);
+                properties.ShowDialog();
             }
-            catch (ArgumentException ex)
+            catch(FileNotFoundException)
             {
-                GlobalPathVariables.WriteError(ex, this.Name);
+                MessageBox.Show("Sorry, the selected exam does not exist. It may have been moved or deleted.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Remove(sender, e);
             }
-            btn_start_Click(dgv_exams, e);         
+            catch(NullReferenceException)
+            {
+                MessageBox.Show("Sorry, the selected exam is not a supported version. You can convert it using  the upgrade tool at:\n" + "https://sourceforge.net/projects/exam-upgrade-tool/", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Remove(sender, e);
+            }
+        }
+
+        private void About(object sender, EventArgs e)
+        {
+            About about = new About();
+            about.ShowDialog();
+        }
+
+        private void Start(object sender, EventArgs e)
+        {
+            try
+            {
+                string filePath = dgv_exams.SelectedRows[0].Cells[1].Value.ToString();
+                Exam exam = Helper.GetExamFromFile(filePath);
+                Exam_Settings settings = new Exam_Settings(exam);
+                settings.ShowDialog();
+            }
+            catch (FileNotFoundException)
+            {
+                MessageBox.Show("Sorry, the selected exam does not exist. It may have been moved or deleted.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Remove(sender, e);
+            }
+            catch(NullReferenceException)
+            {
+                MessageBox.Show("Sorry, the selected exam is not a supported version. You can convert it using  the upgrade tool at:\n" + "https://sourceforge.net/projects/exam-upgrade-tool/", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Remove(sender, e);
+            }
+        }
+
+        private void SaveAppData(object sender, FormClosingEventArgs e)
+        {
+            Simulator.Properties.Settings.Default.ExamPaths = new StringCollection();
+            foreach (DataGridViewRow row in dgv_exams.Rows)
+                Simulator.Properties.Settings.Default.ExamPaths.Add(row.Cells[1].Value.ToString());
+            Simulator.Properties.Settings.Default.Save();
+        }
+
+        private void LoadAppData(object sender, EventArgs e)
+        {
+            if (Simulator.Properties.Settings.Default.ExamPaths != null)
+            {
+                foreach(string path in Simulator.Properties.Settings.Default.ExamPaths)
+                {
+                    dgv_exams.Rows.Add(Path.GetFileNameWithoutExtension(path), path);
+                }
+            }
+        }
+
+        private void ChangeHeaderSize(object sender, EventArgs e)
+        {
+            name.Width = dgv_exams.Width / 3;
+            path.Width = dgv_exams.Width * 2 / 3;
         }
     }
 }

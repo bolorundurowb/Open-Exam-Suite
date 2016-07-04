@@ -28,16 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(About));
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
             this.lnk_web = new System.Windows.Forms.LinkLabel();
             this.lnk_issues = new System.Windows.Forms.LinkLabel();
             this.lnk_wiki = new System.Windows.Forms.LinkLabel();
-            this.lnk_email = new System.Windows.Forms.LinkLabel();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
@@ -49,7 +46,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(171, 15);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Open Exam Simulator 1.0";
+            this.label1.Text = "Open Exam Simulator 3.0";
             // 
             // label2
             // 
@@ -77,15 +74,6 @@
             this.label4.Size = new System.Drawing.Size(28, 13);
             this.label4.TabIndex = 3;
             this.label4.Text = "Wiki";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(19, 143);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(32, 13);
-            this.label5.TabIndex = 4;
-            this.label5.Text = "eMail";
             // 
             // lnk_web
             // 
@@ -120,41 +108,30 @@
             this.lnk_wiki.Text = "https://github.com/bolorundurowb/Open-Exam-Suite/wiki";
             this.lnk_wiki.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnk_wiki_LinkClicked);
             // 
-            // lnk_email
-            // 
-            this.lnk_email.AutoSize = true;
-            this.lnk_email.Location = new System.Drawing.Point(64, 143);
-            this.lnk_email.Name = "lnk_email";
-            this.lnk_email.Size = new System.Drawing.Size(146, 13);
-            this.lnk_email.TabIndex = 8;
-            this.lnk_email.TabStop = true;
-            this.lnk_email.Text = "bolorundurowb@outlook.com";
-            this.lnk_email.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnk_email_LinkClicked);
-            // 
             // richTextBox1
             // 
             this.richTextBox1.BackColor = System.Drawing.SystemColors.Control;
             this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.richTextBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.richTextBox1.Location = new System.Drawing.Point(22, 176);
+            this.richTextBox1.Location = new System.Drawing.Point(22, 142);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
             this.richTextBox1.Size = new System.Drawing.Size(352, 74);
             this.richTextBox1.TabIndex = 9;
-            this.richTextBox1.Text = resources.GetString("richTextBox1.Text");
+            this.richTextBox1.Text = "This software is developed to create and support and open and free exam simulatio" +
+    "n environment. The file extension would be *.oef. It is my hope that this would " +
+    "start an electronic exam revolution";
             // 
             // About
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(407, 269);
+            this.ClientSize = new System.Drawing.Size(387, 225);
             this.Controls.Add(this.richTextBox1);
-            this.Controls.Add(this.lnk_email);
             this.Controls.Add(this.lnk_wiki);
             this.Controls.Add(this.lnk_issues);
             this.Controls.Add(this.lnk_web);
-            this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -178,11 +155,9 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.LinkLabel lnk_web;
         private System.Windows.Forms.LinkLabel lnk_issues;
         private System.Windows.Forms.LinkLabel lnk_wiki;
-        private System.Windows.Forms.LinkLabel lnk_email;
         private System.Windows.Forms.RichTextBox richTextBox1;
     }
 }

@@ -4,7 +4,9 @@
 This project is an answer to a call to develop an open source alternative to Avanset's Visual CertExam Suite. This project has an exam designer that creates an *oef* (Open Exam Format) file and an exam simulator that can read and simulate the exam. It aims to be the open source solace for those wanting to take computer based simulated examinations.
 Answering the call to design an open source alternative to Avanset's Visual CertExam Suite birthed version one of open exam suite and as I was still learning and getting a hang of the language, the code written is less than ideal which gave birth to version two of the software which based on the new knowledge was better written and had new features. The code resides [here](https://github.com/bolorundurowb/Open-Exam-Suite-2.0).
 
-[NB: the *oef* files are basically just zip files that contain an XML file and images. The XML contains the exam details and structure while the pictures are question images]
+[NB: the version 1 and 2 *oef* files are basically just zip files that contain an XML file and images. The XML contains the exam details and structure while the pictures are question images]
+
+***Please, I am working on a site where exams that have been compiles using this tool can be shared with the community. Until I'm done, please send them to ogatimo@gmail.com and I'll post them on the product documentation/help page.*** *[http://bolorundurowb.github.io/Open-Exam-Suite](http://bolorundurowb.github.io/Open-Exam-Suite)*
 
 
 ## Version 1 features
@@ -38,11 +40,12 @@ Answering the call to design an open source alternative to Avanset's Visual Cert
 I have gained more programming knowledge and experience and intend to use that in version three of this project. Version three would be faster and have more features than version two. It aims to be a full rewrite.
 
 
-## Version 3 proposed features
+## Version 3 added features
+Version three does not have backward support for exams created with the versions 1 and 2 creator apps. But I have written and added a converter that can easily upgrade the old exam files to the newer form that is readable by the version 3 simulator.
 #### General improvements
-1. Would be coded using every OOP principle I know.
-2. Would be coded using TDD.
-3. Aim to change the exam file (*oef*) type from *zip* based to NoSQL file based. Specifically [LiteDB](http://www.litedb.org).
+1. Coded using every OOP principle I know.
+2. Coded using TDD.
+3. Exam file (*oef*) type changed from *zip* based to a serializable binary.
 
 #### Creator Section
 1. UI overhaul to make it even more intuitive and better.

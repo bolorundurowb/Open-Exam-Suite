@@ -64,11 +64,11 @@
             // lbl_full_path
             // 
             this.lbl_full_path.AutoSize = true;
-            this.lbl_full_path.Location = new System.Drawing.Point(107, 14);
+            this.lbl_full_path.Location = new System.Drawing.Point(102, 13);
+            this.lbl_full_path.MaximumSize = new System.Drawing.Size(334, 13);
             this.lbl_full_path.Name = "lbl_full_path";
-            this.lbl_full_path.Size = new System.Drawing.Size(35, 13);
+            this.lbl_full_path.Size = new System.Drawing.Size(0, 13);
             this.lbl_full_path.TabIndex = 1;
-            this.lbl_full_path.Text = "label2";
             // 
             // groupBox1
             // 
@@ -94,56 +94,50 @@
             // lbl_created
             // 
             this.lbl_created.AutoSize = true;
-            this.lbl_created.Location = new System.Drawing.Point(296, 84);
+            this.lbl_created.Location = new System.Drawing.Point(291, 84);
             this.lbl_created.Name = "lbl_created";
-            this.lbl_created.Size = new System.Drawing.Size(41, 13);
+            this.lbl_created.Size = new System.Drawing.Size(0, 13);
             this.lbl_created.TabIndex = 11;
-            this.lbl_created.Text = "label14";
             // 
             // lbl_file_size
             // 
             this.lbl_file_size.AutoSize = true;
-            this.lbl_file_size.Location = new System.Drawing.Point(296, 56);
+            this.lbl_file_size.Location = new System.Drawing.Point(291, 56);
             this.lbl_file_size.Name = "lbl_file_size";
-            this.lbl_file_size.Size = new System.Drawing.Size(41, 13);
+            this.lbl_file_size.Size = new System.Drawing.Size(0, 13);
             this.lbl_file_size.TabIndex = 10;
-            this.lbl_file_size.Text = "label15";
             // 
             // lbl_file_version
             // 
             this.lbl_file_version.AutoSize = true;
-            this.lbl_file_version.Location = new System.Drawing.Point(317, 29);
+            this.lbl_file_version.Location = new System.Drawing.Point(309, 29);
             this.lbl_file_version.Name = "lbl_file_version";
-            this.lbl_file_version.Size = new System.Drawing.Size(41, 13);
+            this.lbl_file_version.Size = new System.Drawing.Size(0, 13);
             this.lbl_file_version.TabIndex = 9;
-            this.lbl_file_version.Text = "label16";
             // 
             // lbl_passing_score
             // 
             this.lbl_passing_score.AutoSize = true;
-            this.lbl_passing_score.Location = new System.Drawing.Point(104, 84);
+            this.lbl_passing_score.Location = new System.Drawing.Point(100, 84);
             this.lbl_passing_score.Name = "lbl_passing_score";
-            this.lbl_passing_score.Size = new System.Drawing.Size(41, 13);
+            this.lbl_passing_score.Size = new System.Drawing.Size(0, 13);
             this.lbl_passing_score.TabIndex = 8;
-            this.lbl_passing_score.Text = "label13";
             // 
             // lbl_time_limit
             // 
             this.lbl_time_limit.AutoSize = true;
-            this.lbl_time_limit.Location = new System.Drawing.Point(85, 56);
+            this.lbl_time_limit.Location = new System.Drawing.Point(78, 56);
             this.lbl_time_limit.Name = "lbl_time_limit";
-            this.lbl_time_limit.Size = new System.Drawing.Size(41, 13);
+            this.lbl_time_limit.Size = new System.Drawing.Size(0, 13);
             this.lbl_time_limit.TabIndex = 7;
-            this.lbl_time_limit.Text = "label12";
             // 
             // lbl_title
             // 
             this.lbl_title.AutoSize = true;
-            this.lbl_title.Location = new System.Drawing.Point(68, 29);
+            this.lbl_title.Location = new System.Drawing.Point(52, 29);
             this.lbl_title.Name = "lbl_title";
-            this.lbl_title.Size = new System.Drawing.Size(41, 13);
+            this.lbl_title.Size = new System.Drawing.Size(0, 13);
             this.lbl_title.TabIndex = 6;
-            this.lbl_title.Text = "label11";
             // 
             // label6
             // 
@@ -215,20 +209,18 @@
             // lbl_number_of_questions
             // 
             this.lbl_number_of_questions.AutoSize = true;
-            this.lbl_number_of_questions.Location = new System.Drawing.Point(329, 25);
+            this.lbl_number_of_questions.Location = new System.Drawing.Point(323, 25);
             this.lbl_number_of_questions.Name = "lbl_number_of_questions";
-            this.lbl_number_of_questions.Size = new System.Drawing.Size(41, 13);
+            this.lbl_number_of_questions.Size = new System.Drawing.Size(0, 13);
             this.lbl_number_of_questions.TabIndex = 3;
-            this.lbl_number_of_questions.Text = "label18";
             // 
             // lbl_section_number
             // 
             this.lbl_section_number.AutoSize = true;
-            this.lbl_section_number.Location = new System.Drawing.Point(133, 25);
+            this.lbl_section_number.Location = new System.Drawing.Point(126, 26);
             this.lbl_section_number.Name = "lbl_section_number";
-            this.lbl_section_number.Size = new System.Drawing.Size(41, 13);
+            this.lbl_section_number.Size = new System.Drawing.Size(0, 13);
             this.lbl_section_number.TabIndex = 2;
-            this.lbl_section_number.Text = "label17";
             // 
             // label10
             // 
@@ -266,7 +258,6 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Properties";
-            this.Load += new System.EventHandler(this.Exam_Properties_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);

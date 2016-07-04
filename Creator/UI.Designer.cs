@@ -30,535 +30,891 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UI));
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.trv_view_exam = new System.Windows.Forms.TreeView();
+            this.imglst_node_images = new System.Windows.Forms.ImageList(this.components);
+            this.pan_display_questions = new System.Windows.Forms.Panel();
+            this.pct_image = new System.Windows.Forms.PictureBox();
+            this.btn_clear_image = new System.Windows.Forms.Button();
+            this.btn_insert_image = new System.Windows.Forms.Button();
+            this.btn_remove_option = new System.Windows.Forms.Button();
+            this.btn_add_options = new System.Windows.Forms.Button();
+            this.txt_explanation = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.pan_options = new System.Windows.Forms.Panel();
+            this.txt_question_text = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.lbl_section_question = new System.Windows.Forms.Label();
+            this.pan_splash = new System.Windows.Forms.Panel();
+            this.grp_exam_history = new System.Windows.Forms.GroupBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pan_exam_properties = new System.Windows.Forms.Panel();
+            this.label10 = new System.Windows.Forms.Label();
+            this.btn_save_properties = new System.Windows.Forms.Button();
+            this.txt_instruction = new System.Windows.Forms.TextBox();
+            this.num_time_limit = new System.Windows.Forms.NumericUpDown();
+            this.label9 = new System.Windows.Forms.Label();
+            this.num_passmark = new System.Windows.Forms.NumericUpDown();
+            this.lbl_version = new System.Windows.Forms.Label();
+            this.txt_code = new System.Windows.Forms.TextBox();
+            this.txt_title = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.printPreviewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.redoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
-            this.insertPictureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.examToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addOptionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
-            this.newQuestionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.newSectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
-            this.previousItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.nextItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aboutCreatorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.btn_new_exam = new System.Windows.Forms.ToolStripButton();
-            this.btn_open_exam = new System.Windows.Forms.ToolStripButton();
-            this.btn_save_exam = new System.Windows.Forms.ToolStripButton();
-            this.btn_save_as = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.btn_print_exam = new System.Windows.Forms.ToolStripButton();
-            this.btn_print_preview = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.btn_new_section = new System.Windows.Forms.ToolStripButton();
-            this.btn_new_question = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
-            this.btn_undo = new System.Windows.Forms.ToolStripButton();
-            this.btn_redo = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.btn_cut = new System.Windows.Forms.ToolStripButton();
-            this.btn_copy = new System.Windows.Forms.ToolStripButton();
-            this.btn_paste = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.helpToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.newToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.printToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
-            this.splcn_main_view = new System.Windows.Forms.SplitContainer();
-            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.trv_explorer = new System.Windows.Forms.TreeView();
-            this.ilst_images = new System.Windows.Forms.ImageList(this.components);
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.dgv_properties = new System.Windows.Forms.DataGridView();
-            this.property = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.value = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.lbl_save_status = new System.Windows.Forms.Label();
-            this.statusStrip = new System.Windows.Forms.StatusStrip();
-            this.lbl_question_and_section = new System.Windows.Forms.ToolStripStatusLabel();
-            this.label2 = new System.Windows.Forms.Label();
-            this.btn_remove_option = new System.Windows.Forms.Button();
-            this.btn_add_option = new System.Windows.Forms.Button();
-            this.pan_options = new System.Windows.Forms.Panel();
-            this.txt_question_text = new System.Windows.Forms.RichTextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.editToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.svf_save_exam = new System.Windows.Forms.SaveFileDialog();
-            this.opf_get_files = new System.Windows.Forms.OpenFileDialog();
-            this.opf_get_exam = new System.Windows.Forms.OpenFileDialog();
-            this.pntdlg_print = new System.Windows.Forms.PrintDialog();
-            this.pntdoc_print = new System.Drawing.Printing.PrintDocument();
-            this.pntprvdlg_print = new System.Windows.Forms.PrintPreviewDialog();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.btn_clear_picture = new System.Windows.Forms.Button();
-            this.btn_select_picture = new System.Windows.Forms.Button();
-            this.pct_question_picture = new System.Windows.Forms.PictureBox();
-            this.btn_add_image = new System.Windows.Forms.Button();
-            this.menuStrip1.SuspendLayout();
-            this.toolStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splcn_main_view)).BeginInit();
-            this.splcn_main_view.Panel1.SuspendLayout();
-            this.splcn_main_view.Panel2.SuspendLayout();
-            this.splcn_main_view.SuspendLayout();
+            this.newSectionToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.newQuestionToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
+            this.cutToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.copyToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.pasteToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator15 = new System.Windows.Forms.ToolStripSeparator();
+            this.helpToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.sfd_save_as_exam = new System.Windows.Forms.SaveFileDialog();
+            this.ofd_select_image = new System.Windows.Forms.OpenFileDialog();
+            this.ofd_open_exam = new System.Windows.Forms.OpenFileDialog();
+            this.pdg_print = new System.Windows.Forms.PrintDialog();
+            this.pdc_doc = new System.Drawing.Printing.PrintDocument();
+            this.ppd_print = new System.Windows.Forms.PrintPreviewDialog();
+            this.cms_section = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.btn_edit_section = new System.Windows.Forms.ToolStripMenuItem();
+            this.cms_question = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.btn_delete_question = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
-            this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgv_properties)).BeginInit();
-            this.statusStrip.SuspendLayout();
-            this.contextMenuStrip.SuspendLayout();
-            this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pct_question_picture)).BeginInit();
+            this.pan_display_questions.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pct_image)).BeginInit();
+            this.pan_splash.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.pan_exam_properties.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.num_time_limit)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_passmark)).BeginInit();
+            this.menuStrip1.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
+            this.cms_section.SuspendLayout();
+            this.cms_question.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(149, 6);
+            // 
+            // toolStripSeparator8
+            // 
+            this.toolStripSeparator8.Name = "toolStripSeparator8";
+            this.toolStripSeparator8.Size = new System.Drawing.Size(6, 25);
+            // 
+            // splitContainer2
+            // 
+            this.splitContainer2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.splitContainer2.Location = new System.Drawing.Point(0, 50);
+            this.splitContainer2.Name = "splitContainer2";
+            // 
+            // splitContainer2.Panel1
+            // 
+            this.splitContainer2.Panel1.Controls.Add(this.groupBox2);
+            // 
+            // splitContainer2.Panel2
+            // 
+            this.splitContainer2.Panel2.Controls.Add(this.pan_splash);
+            this.splitContainer2.Size = new System.Drawing.Size(880, 431);
+            this.splitContainer2.SplitterDistance = 252;
+            this.splitContainer2.TabIndex = 3;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.trv_view_exam);
+            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox2.Location = new System.Drawing.Point(0, 0);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(252, 431);
+            this.groupBox2.TabIndex = 0;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Exam Explorer";
+            // 
+            // trv_view_exam
+            // 
+            this.trv_view_exam.BackColor = System.Drawing.SystemColors.Control;
+            this.trv_view_exam.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.trv_view_exam.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.trv_view_exam.ImageIndex = 0;
+            this.trv_view_exam.ImageList = this.imglst_node_images;
+            this.trv_view_exam.Location = new System.Drawing.Point(3, 16);
+            this.trv_view_exam.Name = "trv_view_exam";
+            this.trv_view_exam.SelectedImageIndex = 0;
+            this.trv_view_exam.Size = new System.Drawing.Size(246, 412);
+            this.trv_view_exam.TabIndex = 0;
+            this.trv_view_exam.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.BeforeSelect);
+            this.trv_view_exam.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.AfterSelect);
+            this.trv_view_exam.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.MakeSureNodeSelected);
+            // 
+            // imglst_node_images
+            // 
+            this.imglst_node_images.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imglst_node_images.ImageStream")));
+            this.imglst_node_images.TransparentColor = System.Drawing.Color.Transparent;
+            this.imglst_node_images.Images.SetKeyName(0, "Exam.png");
+            this.imglst_node_images.Images.SetKeyName(1, "New_Section.png");
+            this.imglst_node_images.Images.SetKeyName(2, "New_Question.png");
+            // 
+            // pan_display_questions
+            // 
+            this.pan_display_questions.Controls.Add(this.pct_image);
+            this.pan_display_questions.Controls.Add(this.btn_clear_image);
+            this.pan_display_questions.Controls.Add(this.btn_insert_image);
+            this.pan_display_questions.Controls.Add(this.btn_remove_option);
+            this.pan_display_questions.Controls.Add(this.btn_add_options);
+            this.pan_display_questions.Controls.Add(this.txt_explanation);
+            this.pan_display_questions.Controls.Add(this.label12);
+            this.pan_display_questions.Controls.Add(this.pan_options);
+            this.pan_display_questions.Controls.Add(this.txt_question_text);
+            this.pan_display_questions.Controls.Add(this.label11);
+            this.pan_display_questions.Controls.Add(this.lbl_section_question);
+            this.pan_display_questions.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pan_display_questions.Location = new System.Drawing.Point(0, 0);
+            this.pan_display_questions.Name = "pan_display_questions";
+            this.pan_display_questions.Size = new System.Drawing.Size(624, 431);
+            this.pan_display_questions.TabIndex = 0;
+            // 
+            // pct_image
+            // 
+            this.pct_image.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pct_image.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pct_image.Location = new System.Drawing.Point(135, 124);
+            this.pct_image.Name = "pct_image";
+            this.pct_image.Size = new System.Drawing.Size(392, 82);
+            this.pct_image.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pct_image.TabIndex = 10;
+            this.pct_image.TabStop = false;
+            // 
+            // btn_clear_image
+            // 
+            this.btn_clear_image.Location = new System.Drawing.Point(53, 154);
+            this.btn_clear_image.Name = "btn_clear_image";
+            this.btn_clear_image.Size = new System.Drawing.Size(75, 23);
+            this.btn_clear_image.TabIndex = 9;
+            this.btn_clear_image.Text = "Clear";
+            this.btn_clear_image.UseVisualStyleBackColor = true;
+            this.btn_clear_image.Click += new System.EventHandler(this.ClearImage);
+            // 
+            // btn_insert_image
+            // 
+            this.btn_insert_image.Location = new System.Drawing.Point(53, 124);
+            this.btn_insert_image.Name = "btn_insert_image";
+            this.btn_insert_image.Size = new System.Drawing.Size(75, 23);
+            this.btn_insert_image.TabIndex = 8;
+            this.btn_insert_image.Text = "Insert";
+            this.btn_insert_image.UseVisualStyleBackColor = true;
+            this.btn_insert_image.Click += new System.EventHandler(this.InsertImage);
+            // 
+            // btn_remove_option
+            // 
+            this.btn_remove_option.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.btn_remove_option.Enabled = false;
+            this.btn_remove_option.Image = global::Creator.Properties.Resources.remove;
+            this.btn_remove_option.Location = new System.Drawing.Point(467, 256);
+            this.btn_remove_option.Name = "btn_remove_option";
+            this.btn_remove_option.Size = new System.Drawing.Size(75, 23);
+            this.btn_remove_option.TabIndex = 7;
+            this.btn_remove_option.Text = "Remove";
+            this.btn_remove_option.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btn_remove_option.UseVisualStyleBackColor = true;
+            this.btn_remove_option.Click += new System.EventHandler(this.RemoveOption);
+            // 
+            // btn_add_options
+            // 
+            this.btn_add_options.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.btn_add_options.Image = global::Creator.Properties.Resources.add;
+            this.btn_add_options.Location = new System.Drawing.Point(467, 226);
+            this.btn_add_options.Name = "btn_add_options";
+            this.btn_add_options.Size = new System.Drawing.Size(75, 23);
+            this.btn_add_options.TabIndex = 6;
+            this.btn_add_options.Text = "Add";
+            this.btn_add_options.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btn_add_options.UseVisualStyleBackColor = true;
+            this.btn_add_options.Click += new System.EventHandler(this.AddOption);
+            // 
+            // txt_explanation
+            // 
+            this.txt_explanation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txt_explanation.Location = new System.Drawing.Point(122, 405);
+            this.txt_explanation.Name = "txt_explanation";
+            this.txt_explanation.Size = new System.Drawing.Size(490, 20);
+            this.txt_explanation.TabIndex = 5;
+            this.txt_explanation.TextChanged += new System.EventHandler(this.QuestionChanged);
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(13, 409);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(103, 13);
+            this.label12.TabIndex = 4;
+            this.label12.Text = "Answer Explanation:";
+            // 
+            // pan_options
+            // 
+            this.pan_options.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.pan_options.AutoScroll = true;
+            this.pan_options.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pan_options.Location = new System.Drawing.Point(146, 224);
+            this.pan_options.Name = "pan_options";
+            this.pan_options.Size = new System.Drawing.Size(315, 170);
+            this.pan_options.TabIndex = 3;
+            this.pan_options.ControlAdded += new System.Windows.Forms.ControlEventHandler(this.OptionsChanged);
+            this.pan_options.ControlRemoved += new System.Windows.Forms.ControlEventHandler(this.OptionsChanged);
+            // 
+            // txt_question_text
+            // 
+            this.txt_question_text.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txt_question_text.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txt_question_text.Location = new System.Drawing.Point(16, 57);
+            this.txt_question_text.Multiline = true;
+            this.txt_question_text.Name = "txt_question_text";
+            this.txt_question_text.Size = new System.Drawing.Size(596, 57);
+            this.txt_question_text.TabIndex = 2;
+            this.txt_question_text.TextChanged += new System.EventHandler(this.QuestionChanged);
+            this.txt_question_text.Enter += new System.EventHandler(this.Editable);
+            this.txt_question_text.Leave += new System.EventHandler(this.NotEditable);
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(13, 39);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(76, 13);
+            this.label11.TabIndex = 1;
+            this.label11.Text = "Question Text:";
+            // 
+            // lbl_section_question
+            // 
+            this.lbl_section_question.AutoSize = true;
+            this.lbl_section_question.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_section_question.Location = new System.Drawing.Point(13, 12);
+            this.lbl_section_question.Name = "lbl_section_question";
+            this.lbl_section_question.Size = new System.Drawing.Size(0, 17);
+            this.lbl_section_question.TabIndex = 0;
+            // 
+            // pan_splash
+            // 
+            this.pan_splash.Controls.Add(this.grp_exam_history);
+            this.pan_splash.Controls.Add(this.pictureBox1);
+            this.pan_splash.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pan_splash.Location = new System.Drawing.Point(0, 0);
+            this.pan_splash.Name = "pan_splash";
+            this.pan_splash.Size = new System.Drawing.Size(624, 431);
+            this.pan_splash.TabIndex = 0;
+            // 
+            // grp_exam_history
+            // 
+            this.grp_exam_history.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.grp_exam_history.Location = new System.Drawing.Point(4, 236);
+            this.grp_exam_history.Name = "grp_exam_history";
+            this.grp_exam_history.Size = new System.Drawing.Size(617, 192);
+            this.grp_exam_history.TabIndex = 1;
+            this.grp_exam_history.TabStop = false;
+            this.grp_exam_history.Text = "Exam History";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox1.Image = global::Creator.Properties.Resources.splash;
+            this.pictureBox1.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(618, 227);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            // 
+            // pan_exam_properties
+            // 
+            this.pan_exam_properties.Controls.Add(this.label10);
+            this.pan_exam_properties.Controls.Add(this.btn_save_properties);
+            this.pan_exam_properties.Controls.Add(this.txt_instruction);
+            this.pan_exam_properties.Controls.Add(this.num_time_limit);
+            this.pan_exam_properties.Controls.Add(this.label9);
+            this.pan_exam_properties.Controls.Add(this.num_passmark);
+            this.pan_exam_properties.Controls.Add(this.lbl_version);
+            this.pan_exam_properties.Controls.Add(this.txt_code);
+            this.pan_exam_properties.Controls.Add(this.txt_title);
+            this.pan_exam_properties.Controls.Add(this.label7);
+            this.pan_exam_properties.Controls.Add(this.label6);
+            this.pan_exam_properties.Controls.Add(this.label5);
+            this.pan_exam_properties.Controls.Add(this.label4);
+            this.pan_exam_properties.Controls.Add(this.label3);
+            this.pan_exam_properties.Controls.Add(this.label2);
+            this.pan_exam_properties.Controls.Add(this.label1);
+            this.pan_exam_properties.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pan_exam_properties.Location = new System.Drawing.Point(0, 0);
+            this.pan_exam_properties.Name = "pan_exam_properties";
+            this.pan_exam_properties.Size = new System.Drawing.Size(611, 431);
+            this.pan_exam_properties.TabIndex = 0;
+            // 
+            // label10
+            // 
+            this.label10.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(331, 202);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(55, 13);
+            this.label10.TabIndex = 15;
+            this.label10.Text = "(minute(s))";
+            // 
+            // btn_save_properties
+            // 
+            this.btn_save_properties.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btn_save_properties.Location = new System.Drawing.Point(275, 342);
+            this.btn_save_properties.Name = "btn_save_properties";
+            this.btn_save_properties.Size = new System.Drawing.Size(75, 23);
+            this.btn_save_properties.TabIndex = 14;
+            this.btn_save_properties.Text = "Save";
+            this.btn_save_properties.UseVisualStyleBackColor = true;
+            this.btn_save_properties.Click += new System.EventHandler(this.SaveProperties);
+            // 
+            // txt_instruction
+            // 
+            this.txt_instruction.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.txt_instruction.Location = new System.Drawing.Point(154, 258);
+            this.txt_instruction.Multiline = true;
+            this.txt_instruction.Name = "txt_instruction";
+            this.txt_instruction.Size = new System.Drawing.Size(294, 62);
+            this.txt_instruction.TabIndex = 13;
+            // 
+            // num_time_limit
+            // 
+            this.num_time_limit.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.num_time_limit.Location = new System.Drawing.Point(213, 199);
+            this.num_time_limit.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.num_time_limit.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.num_time_limit.Name = "num_time_limit";
+            this.num_time_limit.Size = new System.Drawing.Size(111, 20);
+            this.num_time_limit.TabIndex = 12;
+            this.num_time_limit.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.num_time_limit.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // label9
+            // 
+            this.label9.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(330, 171);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(103, 13);
+            this.label9.TabIndex = 11;
+            this.label9.Text = "(On a scale of 1000)";
+            // 
+            // num_passmark
+            // 
+            this.num_passmark.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.num_passmark.Location = new System.Drawing.Point(213, 168);
+            this.num_passmark.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.num_passmark.Name = "num_passmark";
+            this.num_passmark.Size = new System.Drawing.Size(111, 20);
+            this.num_passmark.TabIndex = 10;
+            this.num_passmark.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // lbl_version
+            // 
+            this.lbl_version.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lbl_version.AutoSize = true;
+            this.lbl_version.Location = new System.Drawing.Point(210, 139);
+            this.lbl_version.Name = "lbl_version";
+            this.lbl_version.Size = new System.Drawing.Size(13, 13);
+            this.lbl_version.TabIndex = 9;
+            this.lbl_version.Text = "3";
+            // 
+            // txt_code
+            // 
+            this.txt_code.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.txt_code.Location = new System.Drawing.Point(213, 104);
+            this.txt_code.Name = "txt_code";
+            this.txt_code.Size = new System.Drawing.Size(116, 20);
+            this.txt_code.TabIndex = 8;
+            // 
+            // txt_title
+            // 
+            this.txt_title.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.txt_title.Location = new System.Drawing.Point(213, 72);
+            this.txt_title.Name = "txt_title";
+            this.txt_title.Size = new System.Drawing.Size(240, 20);
+            this.txt_title.TabIndex = 7;
+            // 
+            // label7
+            // 
+            this.label7.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(151, 233);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(59, 13);
+            this.label7.TabIndex = 6;
+            this.label7.Text = "Instruction:";
+            // 
+            // label6
+            // 
+            this.label6.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(151, 201);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(57, 13);
+            this.label6.TabIndex = 5;
+            this.label6.Text = "Time Limit:";
+            // 
+            // label5
+            // 
+            this.label5.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(151, 170);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(56, 13);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "Passmark:";
+            // 
+            // label4
+            // 
+            this.label4.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(151, 139);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(45, 13);
+            this.label4.TabIndex = 3;
+            this.label4.Text = "Version:";
+            // 
+            // label3
+            // 
+            this.label3.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(151, 107);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(35, 13);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "Code:";
+            // 
+            // label2
+            // 
+            this.label2.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(151, 75);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(30, 13);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Title:";
+            // 
+            // label1
+            // 
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(239, 25);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(133, 18);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Exam Properties";
             // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.editToolStripMenuItem,
-            this.examToolStripMenuItem,
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1204, 24);
-            this.menuStrip1.TabIndex = 0;
+            this.menuStrip1.Size = new System.Drawing.Size(880, 24);
+            this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newToolStripMenuItem,
-            this.toolStripSeparator7,
             this.openToolStripMenuItem,
-            this.importToolStripMenuItem,
-            this.toolStripSeparator6,
+            this.toolStripSeparator,
             this.saveToolStripMenuItem,
             this.saveAsToolStripMenuItem,
+            this.toolStripSeparator1,
             this.printToolStripMenuItem,
-            this.toolStripSeparator5,
+            this.printPreviewToolStripMenuItem,
+            this.toolStripSeparator2,
             this.closeToolStripMenuItem,
+            this.toolStripSeparator6,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
-            this.fileToolStripMenuItem.Text = "File";
+            this.fileToolStripMenuItem.Text = "&File";
             // 
             // newToolStripMenuItem
             // 
+            this.newToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("newToolStripMenuItem.Image")));
+            this.newToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
-            this.newToolStripMenuItem.Text = "New";
-            this.newToolStripMenuItem.Click += new System.EventHandler(this.btn_new_exam_Click);
-            // 
-            // toolStripSeparator7
-            // 
-            this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(111, 6);
+            this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.newToolStripMenuItem.Text = "&New";
+            this.newToolStripMenuItem.Click += new System.EventHandler(this.New);
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openToolStripMenuItem.Image")));
+            this.openToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
-            this.openToolStripMenuItem.Text = "Open";
-            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+            this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.openToolStripMenuItem.Text = "&Open";
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.Open);
             // 
-            // importToolStripMenuItem
+            // toolStripSeparator
             // 
-            this.importToolStripMenuItem.Enabled = false;
-            this.importToolStripMenuItem.Image = global::Creator.Properties.Resources.Import;
-            this.importToolStripMenuItem.Name = "importToolStripMenuItem";
-            this.importToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
-            this.importToolStripMenuItem.Text = "Import";
-            this.importToolStripMenuItem.Click += new System.EventHandler(this.ImportExam);
-            // 
-            // toolStripSeparator6
-            // 
-            this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(111, 6);
+            this.toolStripSeparator.Name = "toolStripSeparator";
+            this.toolStripSeparator.Size = new System.Drawing.Size(143, 6);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Enabled = false;
-            this.saveToolStripMenuItem.Image = global::Creator.Properties.Resources.Save;
+            this.saveToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("saveToolStripMenuItem.Image")));
+            this.saveToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
-            this.saveToolStripMenuItem.Text = "Save";
-            this.saveToolStripMenuItem.Click += new System.EventHandler(this.SaveExam);
+            this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.saveToolStripMenuItem.Text = "&Save";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.Save);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Enabled = false;
-            this.saveAsToolStripMenuItem.Image = global::Creator.Properties.Resources.Save_As;
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
-            this.saveAsToolStripMenuItem.Text = "Save As";
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.saveAsToolStripMenuItem.Text = "Save &As";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.SaveAs);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(143, 6);
             // 
             // printToolStripMenuItem
             // 
             this.printToolStripMenuItem.Enabled = false;
-            this.printToolStripMenuItem.Image = global::Creator.Properties.Resources.Print;
+            this.printToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("printToolStripMenuItem.Image")));
+            this.printToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.printToolStripMenuItem.Name = "printToolStripMenuItem";
-            this.printToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
-            this.printToolStripMenuItem.Text = "Print";
-            this.printToolStripMenuItem.Click += new System.EventHandler(this.PrintQuestion);
+            this.printToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
+            this.printToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.printToolStripMenuItem.Text = "&Print";
+            this.printToolStripMenuItem.Click += new System.EventHandler(this.Print);
             // 
-            // toolStripSeparator5
+            // printPreviewToolStripMenuItem
             // 
-            this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(111, 6);
+            this.printPreviewToolStripMenuItem.Enabled = false;
+            this.printPreviewToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("printPreviewToolStripMenuItem.Image")));
+            this.printPreviewToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.printPreviewToolStripMenuItem.Name = "printPreviewToolStripMenuItem";
+            this.printPreviewToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.printPreviewToolStripMenuItem.Text = "Print Pre&view";
+            this.printPreviewToolStripMenuItem.Click += new System.EventHandler(this.PrintPreview);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(143, 6);
             // 
             // closeToolStripMenuItem
             // 
             this.closeToolStripMenuItem.Enabled = false;
-            this.closeToolStripMenuItem.Image = global::Creator.Properties.Resources.Close;
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
-            this.closeToolStripMenuItem.Text = "Close";
-            this.closeToolStripMenuItem.Click += new System.EventHandler(this.CloseExam);
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.closeToolStripMenuItem.Text = "&Close";
+            this.closeToolStripMenuItem.Click += new System.EventHandler(this.Close);
+            // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(143, 6);
             // 
             // exitToolStripMenuItem
             // 
-            this.exitToolStripMenuItem.Image = global::Creator.Properties.Resources.Exit;
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
-            this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.exitToolStripMenuItem.Text = "E&xit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.Exit);
             // 
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.undoToolStripMenuItem,
             this.redoToolStripMenuItem,
-            this.toolStripSeparator10,
-            this.insertPictureToolStripMenuItem});
+            this.toolStripSeparator3,
+            this.cutToolStripMenuItem,
+            this.copyToolStripMenuItem,
+            this.pasteToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
-            this.editToolStripMenuItem.Text = "Edit";
+            this.editToolStripMenuItem.Text = "&Edit";
             // 
             // undoToolStripMenuItem
             // 
             this.undoToolStripMenuItem.Enabled = false;
-            this.undoToolStripMenuItem.Image = global::Creator.Properties.Resources.Undo;
             this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
-            this.undoToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
-            this.undoToolStripMenuItem.Text = "Undo";
+            this.undoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
+            this.undoToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.undoToolStripMenuItem.Text = "&Undo";
+            this.undoToolStripMenuItem.Click += new System.EventHandler(this.Undo);
             // 
             // redoToolStripMenuItem
             // 
             this.redoToolStripMenuItem.Enabled = false;
-            this.redoToolStripMenuItem.Image = global::Creator.Properties.Resources.Redo;
             this.redoToolStripMenuItem.Name = "redoToolStripMenuItem";
-            this.redoToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
-            this.redoToolStripMenuItem.Text = "Redo";
-            // 
-            // toolStripSeparator10
-            // 
-            this.toolStripSeparator10.Name = "toolStripSeparator10";
-            this.toolStripSeparator10.Size = new System.Drawing.Size(140, 6);
-            // 
-            // insertPictureToolStripMenuItem
-            // 
-            this.insertPictureToolStripMenuItem.Enabled = false;
-            this.insertPictureToolStripMenuItem.Name = "insertPictureToolStripMenuItem";
-            this.insertPictureToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
-            this.insertPictureToolStripMenuItem.Text = "Insert Picture";
-            this.insertPictureToolStripMenuItem.Click += new System.EventHandler(this.insertPictureToolStripMenuItem_Click);
-            // 
-            // examToolStripMenuItem
-            // 
-            this.examToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.addOptionToolStripMenuItem,
-            this.toolStripSeparator9,
-            this.newQuestionToolStripMenuItem,
-            this.newSectionToolStripMenuItem,
-            this.toolStripSeparator8,
-            this.previousItemToolStripMenuItem,
-            this.nextItemToolStripMenuItem});
-            this.examToolStripMenuItem.Name = "examToolStripMenuItem";
-            this.examToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
-            this.examToolStripMenuItem.Text = "Exam";
-            // 
-            // addOptionToolStripMenuItem
-            // 
-            this.addOptionToolStripMenuItem.Enabled = false;
-            this.addOptionToolStripMenuItem.Name = "addOptionToolStripMenuItem";
-            this.addOptionToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
-            this.addOptionToolStripMenuItem.Text = "Add Option";
-            this.addOptionToolStripMenuItem.Click += new System.EventHandler(this.addOptionToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator9
-            // 
-            this.toolStripSeparator9.Name = "toolStripSeparator9";
-            this.toolStripSeparator9.Size = new System.Drawing.Size(146, 6);
-            // 
-            // newQuestionToolStripMenuItem
-            // 
-            this.newQuestionToolStripMenuItem.Enabled = false;
-            this.newQuestionToolStripMenuItem.Image = global::Creator.Properties.Resources.New_Question;
-            this.newQuestionToolStripMenuItem.Name = "newQuestionToolStripMenuItem";
-            this.newQuestionToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
-            this.newQuestionToolStripMenuItem.Text = "New Question";
-            this.newQuestionToolStripMenuItem.Click += new System.EventHandler(this.AddQuestion);
-            // 
-            // newSectionToolStripMenuItem
-            // 
-            this.newSectionToolStripMenuItem.Enabled = false;
-            this.newSectionToolStripMenuItem.Image = global::Creator.Properties.Resources.New_Section;
-            this.newSectionToolStripMenuItem.Name = "newSectionToolStripMenuItem";
-            this.newSectionToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
-            this.newSectionToolStripMenuItem.Text = "New Section";
-            this.newSectionToolStripMenuItem.Click += new System.EventHandler(this.AddSection);
-            // 
-            // toolStripSeparator8
-            // 
-            this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(146, 6);
-            // 
-            // previousItemToolStripMenuItem
-            // 
-            this.previousItemToolStripMenuItem.Enabled = false;
-            this.previousItemToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("previousItemToolStripMenuItem.Image")));
-            this.previousItemToolStripMenuItem.Name = "previousItemToolStripMenuItem";
-            this.previousItemToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
-            this.previousItemToolStripMenuItem.Text = "Previous Item";
-            this.previousItemToolStripMenuItem.Click += new System.EventHandler(this.previousItemToolStripMenuItem_Click);
-            // 
-            // nextItemToolStripMenuItem
-            // 
-            this.nextItemToolStripMenuItem.Enabled = false;
-            this.nextItemToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("nextItemToolStripMenuItem.Image")));
-            this.nextItemToolStripMenuItem.Name = "nextItemToolStripMenuItem";
-            this.nextItemToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
-            this.nextItemToolStripMenuItem.Text = "Next Item";
-            this.nextItemToolStripMenuItem.Click += new System.EventHandler(this.nextItemToolStripMenuItem_Click);
-            // 
-            // helpToolStripMenuItem
-            // 
-            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.aboutCreatorToolStripMenuItem});
-            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-            this.helpToolStripMenuItem.Text = "Help";
-            // 
-            // aboutCreatorToolStripMenuItem
-            // 
-            this.aboutCreatorToolStripMenuItem.Name = "aboutCreatorToolStripMenuItem";
-            this.aboutCreatorToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
-            this.aboutCreatorToolStripMenuItem.Text = "About Creator";
-            this.aboutCreatorToolStripMenuItem.Click += new System.EventHandler(this.aboutCreatorToolStripMenuItem_Click);
-            // 
-            // toolStrip1
-            // 
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btn_new_exam,
-            this.btn_open_exam,
-            this.btn_save_exam,
-            this.btn_save_as,
-            this.toolStripSeparator1,
-            this.btn_print_exam,
-            this.btn_print_preview,
-            this.toolStripSeparator2,
-            this.btn_new_section,
-            this.btn_new_question,
-            this.toolStripSeparator11,
-            this.btn_undo,
-            this.btn_redo,
-            this.toolStripSeparator3,
-            this.btn_cut,
-            this.btn_copy,
-            this.btn_paste,
-            this.toolStripSeparator4,
-            this.helpToolStripButton,
-            this.toolStripSeparator12});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 24);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1204, 25);
-            this.toolStrip1.TabIndex = 1;
-            this.toolStrip1.Text = "toolStrip1";
-            // 
-            // btn_new_exam
-            // 
-            this.btn_new_exam.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btn_new_exam.Image = global::Creator.Properties.Resources.Exam_2;
-            this.btn_new_exam.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btn_new_exam.Name = "btn_new_exam";
-            this.btn_new_exam.Size = new System.Drawing.Size(23, 22);
-            this.btn_new_exam.Text = "New Exam";
-            this.btn_new_exam.Click += new System.EventHandler(this.btn_new_exam_Click);
-            // 
-            // btn_open_exam
-            // 
-            this.btn_open_exam.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btn_open_exam.Image = global::Creator.Properties.Resources.Open;
-            this.btn_open_exam.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btn_open_exam.Name = "btn_open_exam";
-            this.btn_open_exam.Size = new System.Drawing.Size(23, 22);
-            this.btn_open_exam.Text = "Open Existing Exam";
-            this.btn_open_exam.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
-            // 
-            // btn_save_exam
-            // 
-            this.btn_save_exam.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btn_save_exam.Enabled = false;
-            this.btn_save_exam.Image = global::Creator.Properties.Resources.Save1;
-            this.btn_save_exam.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btn_save_exam.Name = "btn_save_exam";
-            this.btn_save_exam.Size = new System.Drawing.Size(23, 22);
-            this.btn_save_exam.Text = "Save";
-            this.btn_save_exam.Click += new System.EventHandler(this.SaveExam);
-            // 
-            // btn_save_as
-            // 
-            this.btn_save_as.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btn_save_as.Enabled = false;
-            this.btn_save_as.Image = global::Creator.Properties.Resources.Save_As;
-            this.btn_save_as.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btn_save_as.Name = "btn_save_as";
-            this.btn_save_as.Size = new System.Drawing.Size(23, 22);
-            this.btn_save_as.Text = "Save As";
-            this.btn_save_as.Click += new System.EventHandler(this.SaveAs);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-            // 
-            // btn_print_exam
-            // 
-            this.btn_print_exam.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btn_print_exam.Enabled = false;
-            this.btn_print_exam.Image = global::Creator.Properties.Resources.Print1;
-            this.btn_print_exam.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btn_print_exam.Name = "btn_print_exam";
-            this.btn_print_exam.Size = new System.Drawing.Size(23, 22);
-            this.btn_print_exam.Text = "Print";
-            this.btn_print_exam.Click += new System.EventHandler(this.PrintQuestion);
-            // 
-            // btn_print_preview
-            // 
-            this.btn_print_preview.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btn_print_preview.Enabled = false;
-            this.btn_print_preview.Image = global::Creator.Properties.Resources.Print_Preview;
-            this.btn_print_preview.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btn_print_preview.Name = "btn_print_preview";
-            this.btn_print_preview.Size = new System.Drawing.Size(23, 22);
-            this.btn_print_preview.Text = "Print Preview";
-            this.btn_print_preview.Click += new System.EventHandler(this.PrintPreview);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
-            // 
-            // btn_new_section
-            // 
-            this.btn_new_section.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btn_new_section.Enabled = false;
-            this.btn_new_section.Image = global::Creator.Properties.Resources.New_Section;
-            this.btn_new_section.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btn_new_section.Name = "btn_new_section";
-            this.btn_new_section.Size = new System.Drawing.Size(23, 22);
-            this.btn_new_section.Text = "Add Section";
-            this.btn_new_section.Click += new System.EventHandler(this.AddSection);
-            // 
-            // btn_new_question
-            // 
-            this.btn_new_question.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btn_new_question.Enabled = false;
-            this.btn_new_question.Image = global::Creator.Properties.Resources.New_Question;
-            this.btn_new_question.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btn_new_question.Name = "btn_new_question";
-            this.btn_new_question.Size = new System.Drawing.Size(23, 22);
-            this.btn_new_question.Text = "Add Question";
-            this.btn_new_question.Click += new System.EventHandler(this.AddQuestion);
-            // 
-            // toolStripSeparator11
-            // 
-            this.toolStripSeparator11.Name = "toolStripSeparator11";
-            this.toolStripSeparator11.Size = new System.Drawing.Size(6, 25);
-            // 
-            // btn_undo
-            // 
-            this.btn_undo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btn_undo.Enabled = false;
-            this.btn_undo.Image = global::Creator.Properties.Resources.Undo;
-            this.btn_undo.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btn_undo.Name = "btn_undo";
-            this.btn_undo.Size = new System.Drawing.Size(23, 22);
-            this.btn_undo.Text = "Undo";
-            this.btn_undo.Click += new System.EventHandler(this.btn_undo_Click);
-            // 
-            // btn_redo
-            // 
-            this.btn_redo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btn_redo.Enabled = false;
-            this.btn_redo.Image = global::Creator.Properties.Resources.Redo;
-            this.btn_redo.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btn_redo.Name = "btn_redo";
-            this.btn_redo.Size = new System.Drawing.Size(23, 22);
-            this.btn_redo.Text = "Redo";
-            this.btn_redo.Click += new System.EventHandler(this.btn_redo_Click);
+            this.redoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
+            this.redoToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.redoToolStripMenuItem.Text = "&Redo";
+            this.redoToolStripMenuItem.Click += new System.EventHandler(this.Redo);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(141, 6);
             // 
-            // btn_cut
+            // cutToolStripMenuItem
             // 
-            this.btn_cut.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btn_cut.Enabled = false;
-            this.btn_cut.Image = global::Creator.Properties.Resources.Cut1;
-            this.btn_cut.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btn_cut.Name = "btn_cut";
-            this.btn_cut.Size = new System.Drawing.Size(23, 22);
-            this.btn_cut.Text = "Cut";
-            this.btn_cut.Click += new System.EventHandler(this.btn_cut_Click);
+            this.cutToolStripMenuItem.Enabled = false;
+            this.cutToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("cutToolStripMenuItem.Image")));
+            this.cutToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
+            this.cutToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
+            this.cutToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.cutToolStripMenuItem.Text = "Cu&t";
+            this.cutToolStripMenuItem.Click += new System.EventHandler(this.Cut);
             // 
-            // btn_copy
+            // copyToolStripMenuItem
             // 
-            this.btn_copy.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btn_copy.Enabled = false;
-            this.btn_copy.Image = global::Creator.Properties.Resources.Copy_1;
-            this.btn_copy.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btn_copy.Name = "btn_copy";
-            this.btn_copy.Size = new System.Drawing.Size(23, 22);
-            this.btn_copy.Text = "Copy";
-            this.btn_copy.Click += new System.EventHandler(this.btn_copy_Click);
+            this.copyToolStripMenuItem.Enabled = false;
+            this.copyToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("copyToolStripMenuItem.Image")));
+            this.copyToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
+            this.copyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.copyToolStripMenuItem.Text = "&Copy";
+            this.copyToolStripMenuItem.Click += new System.EventHandler(this.Copy);
             // 
-            // btn_paste
+            // pasteToolStripMenuItem
             // 
-            this.btn_paste.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btn_paste.Enabled = false;
-            this.btn_paste.Image = global::Creator.Properties.Resources.Paste;
-            this.btn_paste.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btn_paste.Name = "btn_paste";
-            this.btn_paste.Size = new System.Drawing.Size(23, 22);
-            this.btn_paste.Text = "Paste";
-            this.btn_paste.Click += new System.EventHandler(this.btn_paste_Click);
+            this.pasteToolStripMenuItem.Enabled = false;
+            this.pasteToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("pasteToolStripMenuItem.Image")));
+            this.pasteToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
+            this.pasteToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
+            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.pasteToolStripMenuItem.Text = "&Paste";
+            this.pasteToolStripMenuItem.Click += new System.EventHandler(this.Paste);
             // 
-            // toolStripSeparator4
+            // helpToolStripMenuItem
             // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
+            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aboutToolStripMenuItem});
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem.Text = "&Help";
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.aboutToolStripMenuItem.Text = "&About...";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.About);
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newToolStripButton,
+            this.openToolStripButton,
+            this.saveToolStripButton,
+            this.printToolStripButton,
+            this.toolStripSeparator12,
+            this.newSectionToolStripButton,
+            this.newQuestionToolStripButton,
+            this.toolStripSeparator14,
+            this.cutToolStripButton,
+            this.copyToolStripButton,
+            this.pasteToolStripButton,
+            this.toolStripSeparator15,
+            this.helpToolStripButton});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 24);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(880, 25);
+            this.toolStrip1.TabIndex = 5;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // newToolStripButton
+            // 
+            this.newToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.newToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("newToolStripButton.Image")));
+            this.newToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.newToolStripButton.Name = "newToolStripButton";
+            this.newToolStripButton.Size = new System.Drawing.Size(23, 22);
+            this.newToolStripButton.Text = "&New";
+            this.newToolStripButton.Click += new System.EventHandler(this.New);
+            // 
+            // openToolStripButton
+            // 
+            this.openToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.openToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("openToolStripButton.Image")));
+            this.openToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.openToolStripButton.Name = "openToolStripButton";
+            this.openToolStripButton.Size = new System.Drawing.Size(23, 22);
+            this.openToolStripButton.Text = "&Open";
+            this.openToolStripButton.Click += new System.EventHandler(this.Open);
+            // 
+            // saveToolStripButton
+            // 
+            this.saveToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.saveToolStripButton.Enabled = false;
+            this.saveToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("saveToolStripButton.Image")));
+            this.saveToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.saveToolStripButton.Name = "saveToolStripButton";
+            this.saveToolStripButton.Size = new System.Drawing.Size(23, 22);
+            this.saveToolStripButton.Text = "&Save";
+            this.saveToolStripButton.Click += new System.EventHandler(this.Save);
+            // 
+            // printToolStripButton
+            // 
+            this.printToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.printToolStripButton.Enabled = false;
+            this.printToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("printToolStripButton.Image")));
+            this.printToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.printToolStripButton.Name = "printToolStripButton";
+            this.printToolStripButton.Size = new System.Drawing.Size(23, 22);
+            this.printToolStripButton.Text = "&Print";
+            this.printToolStripButton.Click += new System.EventHandler(this.Print);
+            // 
+            // toolStripSeparator12
+            // 
+            this.toolStripSeparator12.Name = "toolStripSeparator12";
+            this.toolStripSeparator12.Size = new System.Drawing.Size(6, 25);
+            // 
+            // newSectionToolStripButton
+            // 
+            this.newSectionToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.newSectionToolStripButton.Enabled = false;
+            this.newSectionToolStripButton.Image = global::Creator.Properties.Resources.New_Section;
+            this.newSectionToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.newSectionToolStripButton.Name = "newSectionToolStripButton";
+            this.newSectionToolStripButton.Size = new System.Drawing.Size(23, 22);
+            this.newSectionToolStripButton.Text = "New Section";
+            this.newSectionToolStripButton.Click += new System.EventHandler(this.NewSection);
+            // 
+            // newQuestionToolStripButton
+            // 
+            this.newQuestionToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.newQuestionToolStripButton.Enabled = false;
+            this.newQuestionToolStripButton.Image = global::Creator.Properties.Resources.New_Question;
+            this.newQuestionToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.newQuestionToolStripButton.Name = "newQuestionToolStripButton";
+            this.newQuestionToolStripButton.Size = new System.Drawing.Size(23, 22);
+            this.newQuestionToolStripButton.Text = "New Question";
+            this.newQuestionToolStripButton.Click += new System.EventHandler(this.NewQuestion);
+            // 
+            // toolStripSeparator14
+            // 
+            this.toolStripSeparator14.Name = "toolStripSeparator14";
+            this.toolStripSeparator14.Size = new System.Drawing.Size(6, 25);
+            // 
+            // cutToolStripButton
+            // 
+            this.cutToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.cutToolStripButton.Enabled = false;
+            this.cutToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("cutToolStripButton.Image")));
+            this.cutToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.cutToolStripButton.Name = "cutToolStripButton";
+            this.cutToolStripButton.Size = new System.Drawing.Size(23, 22);
+            this.cutToolStripButton.Text = "C&ut";
+            this.cutToolStripButton.Click += new System.EventHandler(this.Cut);
+            // 
+            // copyToolStripButton
+            // 
+            this.copyToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.copyToolStripButton.Enabled = false;
+            this.copyToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("copyToolStripButton.Image")));
+            this.copyToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.copyToolStripButton.Name = "copyToolStripButton";
+            this.copyToolStripButton.Size = new System.Drawing.Size(23, 22);
+            this.copyToolStripButton.Text = "&Copy";
+            this.copyToolStripButton.Click += new System.EventHandler(this.Copy);
+            // 
+            // pasteToolStripButton
+            // 
+            this.pasteToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.pasteToolStripButton.Enabled = false;
+            this.pasteToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("pasteToolStripButton.Image")));
+            this.pasteToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.pasteToolStripButton.Name = "pasteToolStripButton";
+            this.pasteToolStripButton.Size = new System.Drawing.Size(23, 22);
+            this.pasteToolStripButton.Text = "&Paste";
+            this.pasteToolStripButton.Click += new System.EventHandler(this.Paste);
+            // 
+            // toolStripSeparator15
+            // 
+            this.toolStripSeparator15.Name = "toolStripSeparator15";
+            this.toolStripSeparator15.Size = new System.Drawing.Size(6, 25);
             // 
             // helpToolStripButton
             // 
@@ -568,484 +924,198 @@
             this.helpToolStripButton.Name = "helpToolStripButton";
             this.helpToolStripButton.Size = new System.Drawing.Size(23, 22);
             this.helpToolStripButton.Text = "He&lp";
+            this.helpToolStripButton.Click += new System.EventHandler(this.Help);
             // 
-            // toolStripSeparator12
-            // 
-            this.toolStripSeparator12.Name = "toolStripSeparator12";
-            this.toolStripSeparator12.Size = new System.Drawing.Size(6, 25);
-            // 
-            // splcn_main_view
-            // 
-            this.splcn_main_view.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.splcn_main_view.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splcn_main_view.Location = new System.Drawing.Point(0, 49);
-            this.splcn_main_view.Name = "splcn_main_view";
-            // 
-            // splcn_main_view.Panel1
-            // 
-            this.splcn_main_view.Panel1.Controls.Add(this.splitContainer2);
-            this.splcn_main_view.Panel1MinSize = 200;
-            // 
-            // splcn_main_view.Panel2
-            // 
-            this.splcn_main_view.Panel2.Controls.Add(this.btn_add_image);
-            this.splcn_main_view.Panel2.Controls.Add(this.groupBox3);
-            this.splcn_main_view.Panel2.Controls.Add(this.lbl_save_status);
-            this.splcn_main_view.Panel2.Controls.Add(this.statusStrip);
-            this.splcn_main_view.Panel2.Controls.Add(this.label2);
-            this.splcn_main_view.Panel2.Controls.Add(this.btn_remove_option);
-            this.splcn_main_view.Panel2.Controls.Add(this.btn_add_option);
-            this.splcn_main_view.Panel2.Controls.Add(this.pan_options);
-            this.splcn_main_view.Panel2.Controls.Add(this.txt_question_text);
-            this.splcn_main_view.Panel2.Controls.Add(this.label1);
-            this.splcn_main_view.Panel2.Enabled = false;
-            this.splcn_main_view.Panel2MinSize = 500;
-            this.splcn_main_view.Size = new System.Drawing.Size(1204, 658);
-            this.splcn_main_view.SplitterDistance = 232;
-            this.splcn_main_view.TabIndex = 2;
-            // 
-            // splitContainer2
-            // 
-            this.splitContainer2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer2.Name = "splitContainer2";
-            this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer2.Panel1
-            // 
-            this.splitContainer2.Panel1.Controls.Add(this.groupBox1);
-            this.splitContainer2.Panel1MinSize = 300;
-            // 
-            // splitContainer2.Panel2
-            // 
-            this.splitContainer2.Panel2.Controls.Add(this.groupBox2);
-            this.splitContainer2.Panel2MinSize = 250;
-            this.splitContainer2.Size = new System.Drawing.Size(232, 658);
-            this.splitContainer2.SplitterDistance = 300;
-            this.splitContainer2.TabIndex = 3;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.trv_explorer);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(0, 0);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(230, 298);
-            this.groupBox1.TabIndex = 0;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Explorer";
-            // 
-            // trv_explorer
-            // 
-            this.trv_explorer.BackColor = System.Drawing.SystemColors.Control;
-            this.trv_explorer.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.trv_explorer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.trv_explorer.HideSelection = false;
-            this.trv_explorer.ImageIndex = 0;
-            this.trv_explorer.ImageList = this.ilst_images;
-            this.trv_explorer.Location = new System.Drawing.Point(3, 19);
-            this.trv_explorer.Name = "trv_explorer";
-            this.trv_explorer.SelectedImageIndex = 0;
-            this.trv_explorer.Size = new System.Drawing.Size(224, 276);
-            this.trv_explorer.TabIndex = 0;
-            this.trv_explorer.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.trv_explorer_BeforeSelect);
-            this.trv_explorer.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trv_explorer_AfterSelect);
-            // 
-            // ilst_images
-            // 
-            this.ilst_images.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ilst_images.ImageStream")));
-            this.ilst_images.TransparentColor = System.Drawing.Color.Transparent;
-            this.ilst_images.Images.SetKeyName(0, "New Section.png");
-            this.ilst_images.Images.SetKeyName(1, "New Question.png");
-            this.ilst_images.Images.SetKeyName(2, "Exam 1.png");
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.dgv_properties);
-            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox2.Location = new System.Drawing.Point(0, 0);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(230, 352);
-            this.groupBox2.TabIndex = 0;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Properties";
-            // 
-            // dgv_properties
-            // 
-            this.dgv_properties.AllowUserToAddRows = false;
-            this.dgv_properties.AllowUserToDeleteRows = false;
-            this.dgv_properties.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgv_properties.BackgroundColor = System.Drawing.SystemColors.Control;
-            this.dgv_properties.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgv_properties.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.property,
-            this.value});
-            this.dgv_properties.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv_properties.Enabled = false;
-            this.dgv_properties.Location = new System.Drawing.Point(3, 19);
-            this.dgv_properties.MultiSelect = false;
-            this.dgv_properties.Name = "dgv_properties";
-            this.dgv_properties.ReadOnly = true;
-            this.dgv_properties.RowHeadersVisible = false;
-            this.dgv_properties.Size = new System.Drawing.Size(224, 330);
-            this.dgv_properties.TabIndex = 0;
-            // 
-            // property
-            // 
-            this.property.HeaderText = "Property";
-            this.property.Name = "property";
-            this.property.ReadOnly = true;
-            // 
-            // value
-            // 
-            this.value.HeaderText = "Value";
-            this.value.Name = "value";
-            this.value.ReadOnly = true;
-            // 
-            // lbl_save_status
-            // 
-            this.lbl_save_status.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbl_save_status.AutoSize = true;
-            this.lbl_save_status.ForeColor = System.Drawing.Color.LimeGreen;
-            this.lbl_save_status.Location = new System.Drawing.Point(825, 4);
-            this.lbl_save_status.Name = "lbl_save_status";
-            this.lbl_save_status.Size = new System.Drawing.Size(0, 13);
-            this.lbl_save_status.TabIndex = 10;
-            // 
-            // statusStrip
-            // 
-            this.statusStrip.Dock = System.Windows.Forms.DockStyle.Top;
-            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.lbl_question_and_section});
-            this.statusStrip.Location = new System.Drawing.Point(0, 0);
-            this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(966, 22);
-            this.statusStrip.TabIndex = 9;
-            this.statusStrip.Text = "statusStrip1";
-            // 
-            // lbl_question_and_section
-            // 
-            this.lbl_question_and_section.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Bold);
-            this.lbl_question_and_section.Name = "lbl_question_and_section";
-            this.lbl_question_and_section.Size = new System.Drawing.Size(0, 17);
-            // 
-            // label2
-            // 
-            this.label2.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.label2.AutoSize = true;
-            this.label2.ForeColor = System.Drawing.Color.Red;
-            this.label2.Location = new System.Drawing.Point(231, 632);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(399, 13);
-            this.label2.TabIndex = 8;
-            this.label2.Text = "Ensure only one option is selected, else the first selected option would be recor" +
-    "ded!";
-            // 
-            // btn_remove_option
-            // 
-            this.btn_remove_option.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.btn_remove_option.Enabled = false;
-            this.btn_remove_option.Image = global::Creator.Properties.Resources._2;
-            this.btn_remove_option.Location = new System.Drawing.Point(614, 423);
-            this.btn_remove_option.Name = "btn_remove_option";
-            this.btn_remove_option.Size = new System.Drawing.Size(71, 23);
-            this.btn_remove_option.TabIndex = 4;
-            this.btn_remove_option.Text = "Remove";
-            this.btn_remove_option.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btn_remove_option.UseVisualStyleBackColor = true;
-            this.btn_remove_option.Click += new System.EventHandler(this.btn_remove_option_Click);
-            // 
-            // btn_add_option
-            // 
-            this.btn_add_option.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.btn_add_option.Image = global::Creator.Properties.Resources._1;
-            this.btn_add_option.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btn_add_option.Location = new System.Drawing.Point(614, 393);
-            this.btn_add_option.Name = "btn_add_option";
-            this.btn_add_option.Size = new System.Drawing.Size(71, 23);
-            this.btn_add_option.TabIndex = 3;
-            this.btn_add_option.Text = "Add";
-            this.btn_add_option.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btn_add_option.UseVisualStyleBackColor = true;
-            this.btn_add_option.Click += new System.EventHandler(this.addOptionToolStripMenuItem_Click);
-            // 
-            // pan_options
-            // 
-            this.pan_options.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.pan_options.AutoScroll = true;
-            this.pan_options.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pan_options.Location = new System.Drawing.Point(256, 393);
-            this.pan_options.Name = "pan_options";
-            this.pan_options.Size = new System.Drawing.Size(352, 231);
-            this.pan_options.TabIndex = 2;
-            this.pan_options.ControlAdded += new System.Windows.Forms.ControlEventHandler(this.pan_options_ControlChanged);
-            this.pan_options.ControlRemoved += new System.Windows.Forms.ControlEventHandler(this.pan_options_ControlChanged);
-            // 
-            // txt_question_text
-            // 
-            this.txt_question_text.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txt_question_text.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txt_question_text.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_question_text.Location = new System.Drawing.Point(49, 60);
-            this.txt_question_text.Name = "txt_question_text";
-            this.txt_question_text.Size = new System.Drawing.Size(866, 85);
-            this.txt_question_text.TabIndex = 1;
-            this.txt_question_text.Text = "";
-            this.txt_question_text.Enter += new System.EventHandler(this.txt_question_text_Enter);
-            this.txt_question_text.Leave += new System.EventHandler(this.txt_question_text_Leave);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(16, 36);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(111, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Enter question details:";
-            // 
-            // contextMenuStrip
-            // 
-            this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.editToolStripMenuItem1});
-            this.contextMenuStrip.Name = "contextMenuStrip";
-            this.contextMenuStrip.ShowImageMargin = false;
-            this.contextMenuStrip.Size = new System.Drawing.Size(70, 26);
-            // 
-            // editToolStripMenuItem1
-            // 
-            this.editToolStripMenuItem1.Name = "editToolStripMenuItem1";
-            this.editToolStripMenuItem1.Size = new System.Drawing.Size(69, 22);
-            this.editToolStripMenuItem1.Text = "Edit";
-            this.editToolStripMenuItem1.Click += new System.EventHandler(this.editToolStripMenuItem1_Click);
-            // 
-            // svf_save_exam
-            // 
-            this.svf_save_exam.DefaultExt = "oef";
-            this.svf_save_exam.Filter = "Open Exam Files (*.oef)|*.oef";
-            this.svf_save_exam.Title = "Open Exam Creator";
-            // 
-            // opf_get_files
-            // 
-            this.opf_get_files.Filter = "Image Files |*.jpg";
-            this.opf_get_files.Title = "Select Question Picture";
-            // 
-            // opf_get_exam
-            // 
-            this.opf_get_exam.Filter = "OES Exam Files (.oef)|*.oef";
-            // 
-            // pntdlg_print
-            // 
-            this.pntdlg_print.Document = this.pntdoc_print;
-            this.pntdlg_print.UseEXDialog = true;
-            // 
-            // pntdoc_print
-            // 
-            this.pntdoc_print.DocumentName = "Open Exam";
-            this.pntdoc_print.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.pntdoc_print_PrintPage);
-            // 
-            // pntprvdlg_print
-            // 
-            this.pntprvdlg_print.AutoScrollMargin = new System.Drawing.Size(0, 0);
-            this.pntprvdlg_print.AutoScrollMinSize = new System.Drawing.Size(0, 0);
-            this.pntprvdlg_print.ClientSize = new System.Drawing.Size(400, 300);
-            this.pntprvdlg_print.Document = this.pntdoc_print;
-            this.pntprvdlg_print.Enabled = true;
-            this.pntprvdlg_print.Icon = ((System.Drawing.Icon)(resources.GetObject("pntprvdlg_print.Icon")));
-            this.pntprvdlg_print.Name = "pntprvdlg_print";
-            this.pntprvdlg_print.ShowIcon = false;
-            this.pntprvdlg_print.Visible = false;
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox3.Controls.Add(this.btn_clear_picture);
-            this.groupBox3.Controls.Add(this.btn_select_picture);
-            this.groupBox3.Controls.Add(this.pct_question_picture);
-            this.groupBox3.Location = new System.Drawing.Point(204, 151);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(413, 223);
-            this.groupBox3.TabIndex = 11;
-            this.groupBox3.TabStop = false;
-            // 
-            // btn_clear_picture
-            // 
-            this.btn_clear_picture.Image = global::Creator.Properties.Resources._6;
-            this.btn_clear_picture.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btn_clear_picture.Location = new System.Drawing.Point(9, 51);
-            this.btn_clear_picture.Name = "btn_clear_picture";
-            this.btn_clear_picture.Size = new System.Drawing.Size(64, 23);
-            this.btn_clear_picture.TabIndex = 10;
-            this.btn_clear_picture.Text = "Clear";
-            this.btn_clear_picture.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btn_clear_picture.UseVisualStyleBackColor = true;
-            this.btn_clear_picture.Visible = false;
-            // 
-            // btn_select_picture
-            // 
-            this.btn_select_picture.Image = global::Creator.Properties.Resources._5;
-            this.btn_select_picture.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btn_select_picture.Location = new System.Drawing.Point(9, 21);
-            this.btn_select_picture.Name = "btn_select_picture";
-            this.btn_select_picture.Size = new System.Drawing.Size(64, 23);
-            this.btn_select_picture.TabIndex = 9;
-            this.btn_select_picture.Text = "Select";
-            this.btn_select_picture.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btn_select_picture.UseVisualStyleBackColor = true;
-            this.btn_select_picture.Visible = false;
-            // 
-            // pct_question_picture
-            // 
-            this.pct_question_picture.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pct_question_picture.Location = new System.Drawing.Point(79, 19);
-            this.pct_question_picture.Name = "pct_question_picture";
-            this.pct_question_picture.Size = new System.Drawing.Size(328, 196);
-            this.pct_question_picture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pct_question_picture.TabIndex = 8;
-            this.pct_question_picture.TabStop = false;
-            this.pct_question_picture.Visible = false;
-            // 
-            // btn_add_image
-            // 
-            this.btn_add_image.Location = new System.Drawing.Point(111, 158);
-            this.btn_add_image.Name = "btn_add_image";
-            this.btn_add_image.Size = new System.Drawing.Size(78, 23);
-            this.btn_add_image.TabIndex = 12;
-            this.btn_add_image.Text = "Add Picture";
-            this.btn_add_image.UseVisualStyleBackColor = true;
-            this.btn_add_image.Click += new System.EventHandler(this.insertPictureToolStripMenuItem_Click);
+            // sfd_save_as_exam
+            // 
+            this.sfd_save_as_exam.Filter = "OEF File|*.oef";
+            // 
+            // ofd_select_image
+            // 
+            this.ofd_select_image.Filter = "JPEG Files|*.jpg|PNG Files|*.png";
+            this.ofd_select_image.Title = "Select Image";
+            // 
+            // ofd_open_exam
+            // 
+            this.ofd_open_exam.Filter = "OEF Files|*.oef";
+            // 
+            // pdg_print
+            // 
+            this.pdg_print.Document = this.pdc_doc;
+            this.pdg_print.UseEXDialog = true;
+            // 
+            // pdc_doc
+            // 
+            this.pdc_doc.DocumentName = "Exam";
+            this.pdc_doc.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.PrintPage);
+            // 
+            // ppd_print
+            // 
+            this.ppd_print.AutoScrollMargin = new System.Drawing.Size(0, 0);
+            this.ppd_print.AutoScrollMinSize = new System.Drawing.Size(0, 0);
+            this.ppd_print.ClientSize = new System.Drawing.Size(400, 300);
+            this.ppd_print.Document = this.pdc_doc;
+            this.ppd_print.Enabled = true;
+            this.ppd_print.Icon = ((System.Drawing.Icon)(resources.GetObject("ppd_print.Icon")));
+            this.ppd_print.Name = "ppd_print";
+            this.ppd_print.Visible = false;
+            // 
+            // cms_section
+            // 
+            this.cms_section.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btn_edit_section});
+            this.cms_section.Name = "cms_section";
+            this.cms_section.Size = new System.Drawing.Size(95, 26);
+            // 
+            // btn_edit_section
+            // 
+            this.btn_edit_section.Image = global::Creator.Properties.Resources.edit;
+            this.btn_edit_section.Name = "btn_edit_section";
+            this.btn_edit_section.Size = new System.Drawing.Size(94, 22);
+            this.btn_edit_section.Text = "Edit";
+            this.btn_edit_section.Click += new System.EventHandler(this.EditSection);
+            // 
+            // cms_question
+            // 
+            this.cms_question.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btn_delete_question});
+            this.cms_question.Name = "cms_question";
+            this.cms_question.Size = new System.Drawing.Size(132, 26);
+            // 
+            // btn_delete_question
+            // 
+            this.btn_delete_question.Image = global::Creator.Properties.Resources.remove;
+            this.btn_delete_question.Name = "btn_delete_question";
+            this.btn_delete_question.ShortcutKeyDisplayString = "Del";
+            this.btn_delete_question.ShortcutKeys = System.Windows.Forms.Keys.Delete;
+            this.btn_delete_question.Size = new System.Drawing.Size(131, 22);
+            this.btn_delete_question.Text = "Delete";
+            this.btn_delete_question.Click += new System.EventHandler(this.DeleteQuestion);
             // 
             // UI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1204, 707);
-            this.Controls.Add(this.splcn_main_view);
+            this.ClientSize = new System.Drawing.Size(880, 485);
             this.Controls.Add(this.toolStrip1);
+            this.Controls.Add(this.splitContainer2);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MainMenuStrip = this.menuStrip1;
-            this.MinimumSize = new System.Drawing.Size(900, 600);
             this.Name = "UI";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "CREATOR";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.UI_FormClosing);
-            this.Load += new System.EventHandler(this.UI_Load);
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
-            this.splcn_main_view.Panel1.ResumeLayout(false);
-            this.splcn_main_view.Panel2.ResumeLayout(false);
-            this.splcn_main_view.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splcn_main_view)).EndInit();
-            this.splcn_main_view.ResumeLayout(false);
+            this.Text = "Creator";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.UIFormClosing);
+            this.Shown += new System.EventHandler(this.LoadUI);
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgv_properties)).EndInit();
-            this.statusStrip.ResumeLayout(false);
-            this.statusStrip.PerformLayout();
-            this.contextMenuStrip.ResumeLayout(false);
-            this.groupBox3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pct_question_picture)).EndInit();
+            this.pan_display_questions.ResumeLayout(false);
+            this.pan_display_questions.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pct_image)).EndInit();
+            this.pan_splash.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.pan_exam_properties.ResumeLayout(false);
+            this.pan_exam_properties.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.num_time_limit)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_passmark)).EndInit();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
+            this.cms_section.ResumeLayout(false);
+            this.cms_question.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
+        private System.Windows.Forms.SplitContainer splitContainer2;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.TreeView trv_view_exam;
+        private System.Windows.Forms.Panel pan_exam_properties;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Button btn_save_properties;
+        private System.Windows.Forms.TextBox txt_instruction;
+        private System.Windows.Forms.NumericUpDown num_time_limit;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.NumericUpDown num_passmark;
+        private System.Windows.Forms.Label lbl_version;
+        private System.Windows.Forms.TextBox txt_code;
+        private System.Windows.Forms.TextBox txt_title;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Panel pan_splash;
+        private System.Windows.Forms.GroupBox grp_exam_history;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
+        private System.Windows.Forms.Panel pan_display_questions;
+        private System.Windows.Forms.PictureBox pct_image;
+        private System.Windows.Forms.Button btn_clear_image;
+        private System.Windows.Forms.Button btn_insert_image;
+        private System.Windows.Forms.Button btn_remove_option;
+        private System.Windows.Forms.Button btn_add_options;
+        private System.Windows.Forms.TextBox txt_explanation;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Panel pan_options;
+        private System.Windows.Forms.TextBox txt_question_text;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label lbl_section_question;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripButton newToolStripButton;
+        private System.Windows.Forms.ToolStripButton openToolStripButton;
+        private System.Windows.Forms.ToolStripButton saveToolStripButton;
+        private System.Windows.Forms.ToolStripButton printToolStripButton;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator14;
+        private System.Windows.Forms.ToolStripButton cutToolStripButton;
+        private System.Windows.Forms.ToolStripButton copyToolStripButton;
+        private System.Windows.Forms.ToolStripButton pasteToolStripButton;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator15;
+        private System.Windows.Forms.ToolStripButton helpToolStripButton;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
+        private System.Windows.Forms.ToolStripButton newSectionToolStripButton;
+        private System.Windows.Forms.ToolStripButton newQuestionToolStripButton;
+        private System.Windows.Forms.ImageList imglst_node_images;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem importToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem printToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem printPreviewToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem undoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem redoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem insertPictureToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem examToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem addOptionToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem newQuestionToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem newSectionToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem previousItemToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem nextItemToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem aboutCreatorToolStripMenuItem;
-        private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ToolStripButton btn_new_exam;
-        private System.Windows.Forms.ToolStripButton btn_open_exam;
-        private System.Windows.Forms.ToolStripButton btn_save_exam;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripButton btn_print_exam;
-        private System.Windows.Forms.ToolStripButton btn_print_preview;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripButton btn_undo;
-        private System.Windows.Forms.ToolStripButton btn_redo;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.SplitContainer splcn_main_view;
-        private System.Windows.Forms.SplitContainer splitContainer2;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.TreeView trv_explorer;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Button btn_remove_option;
-        private System.Windows.Forms.Button btn_add_option;
-        private System.Windows.Forms.Panel pan_options;
-        private System.Windows.Forms.RichTextBox txt_question_text;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.SaveFileDialog svf_save_exam;
-        private System.Windows.Forms.OpenFileDialog opf_get_files;
-        private System.Windows.Forms.ToolStripButton btn_cut;
-        private System.Windows.Forms.ToolStripButton btn_copy;
-        private System.Windows.Forms.ToolStripButton btn_paste;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
-        private System.Windows.Forms.ImageList ilst_images;
-        private System.Windows.Forms.ToolStripButton btn_new_section;
-        private System.Windows.Forms.ToolStripButton btn_new_question;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.StatusStrip statusStrip;
-        private System.Windows.Forms.ToolStripStatusLabel lbl_question_and_section;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
-        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripButton btn_save_as;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
+        private System.Windows.Forms.ToolStripMenuItem cutToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pasteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
-        private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
-        private System.Windows.Forms.Label lbl_save_status;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
-        private System.Windows.Forms.DataGridView dgv_properties;
-        private System.Windows.Forms.DataGridViewTextBoxColumn property;
-        private System.Windows.Forms.DataGridViewComboBoxColumn value;
-        private System.Windows.Forms.ToolStripButton helpToolStripButton;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
-        private System.Windows.Forms.OpenFileDialog opf_get_exam;
-        private System.Windows.Forms.PrintDialog pntdlg_print;
-        private System.Drawing.Printing.PrintDocument pntdoc_print;
-        private System.Windows.Forms.PrintPreviewDialog pntprvdlg_print;
-        private System.Windows.Forms.Button btn_add_image;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.Button btn_clear_picture;
-        private System.Windows.Forms.Button btn_select_picture;
-        private System.Windows.Forms.PictureBox pct_question_picture;
+        private System.Windows.Forms.SaveFileDialog sfd_save_as_exam;
+        private System.Windows.Forms.OpenFileDialog ofd_select_image;
+        private System.Windows.Forms.OpenFileDialog ofd_open_exam;
+        private System.Windows.Forms.PrintDialog pdg_print;
+        private System.Windows.Forms.PrintPreviewDialog ppd_print;
+        private System.Drawing.Printing.PrintDocument pdc_doc;
+        private System.Windows.Forms.ContextMenuStrip cms_section;
+        private System.Windows.Forms.ToolStripMenuItem btn_edit_section;
+        private System.Windows.Forms.ContextMenuStrip cms_question;
+        private System.Windows.Forms.ToolStripMenuItem btn_delete_question;
     }
 }
-
