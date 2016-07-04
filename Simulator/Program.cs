@@ -21,7 +21,7 @@ namespace Simulator
                     MessageBox.Show("An instance of Open Exam Simulator is already running, select the add button include more exams.","OES Simulator", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     return;
                 }
-                Application.Run(args.Length == 0 ? new UI() : new UI(args));
+                Application.Run(args.Length == 0 ? new UI() : new UI(args[0]));
             }
         }
 

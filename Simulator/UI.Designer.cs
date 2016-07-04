@@ -40,13 +40,13 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dgv_exams = new System.Windows.Forms.DataGridView();
+            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.path = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ofd_exam = new System.Windows.Forms.OpenFileDialog();
             this.btn_properties = new System.Windows.Forms.Button();
             this.btn_remove = new System.Windows.Forms.Button();
             this.btn_add = new System.Windows.Forms.Button();
             this.btn_start = new System.Windows.Forms.Button();
-            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.path = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_exams)).BeginInit();
             this.SuspendLayout();
@@ -77,19 +77,19 @@
             // 
             this.addExamToolStripMenuItem.Image = global::Simulator.Properties.Resources._1;
             this.addExamToolStripMenuItem.Name = "addExamToolStripMenuItem";
-            this.addExamToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.addExamToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.addExamToolStripMenuItem.Text = "Add Exam";
             this.addExamToolStripMenuItem.Click += new System.EventHandler(this.AddExam);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(124, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.Exit);
             // 
@@ -104,7 +104,7 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.About);
             // 
@@ -154,7 +154,22 @@
             this.dgv_exams.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgv_exams.Size = new System.Drawing.Size(630, 417);
             this.dgv_exams.TabIndex = 5;
+            this.dgv_exams.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Start);
             this.dgv_exams.SelectionChanged += new System.EventHandler(this.SelectionChanged);
+            // 
+            // name
+            // 
+            this.name.HeaderText = "Exam Name";
+            this.name.Name = "name";
+            this.name.ReadOnly = true;
+            this.name.Width = 189;
+            // 
+            // path
+            // 
+            this.path.HeaderText = "Exam Path";
+            this.path.Name = "path";
+            this.path.ReadOnly = true;
+            this.path.Width = 439;
             // 
             // ofd_exam
             // 
@@ -211,20 +226,6 @@
             this.btn_start.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btn_start.UseVisualStyleBackColor = true;
             this.btn_start.Click += new System.EventHandler(this.Start);
-            // 
-            // name
-            // 
-            this.name.HeaderText = "Exam Name";
-            this.name.Name = "name";
-            this.name.ReadOnly = true;
-            this.name.Width = 189;
-            // 
-            // path
-            // 
-            this.path.HeaderText = "Exam Path";
-            this.path.Name = "path";
-            this.path.ReadOnly = true;
-            this.path.Width = 439;
             // 
             // UI
             // 

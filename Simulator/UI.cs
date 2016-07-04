@@ -13,9 +13,19 @@ namespace Simulator
             InitializeComponent();
         }
 
-        public UI(string[] filePaths)
+        public UI(string filePath)
         {
             InitializeComponent();
+            //
+            if (string.IsNullOrWhiteSpace(filePath) || Path.GetExtension(filePath).ToLower() == ".oef")
+            {
+                Simulator.Properties.Settings.Default.ExamPaths.Add(filePath);
+                Simulator.Properties.Settings.Default.Save();
+            }
+            else
+            {
+                MessageBox.Show("Selected file is not an OES Exam File", "File Type Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
         }
 
         private void Exit(object sender, EventArgs e)
@@ -136,6 +146,21 @@ namespace Simulator
 
         private void LoadAppData(object sender, EventArgs e)
         {
+            if(Simulator.Properties.Settings.Default.FirstRun)
+            {
+                string suiteRootFolder = Application.StartupPath;
+                string samplesFolder = Path.Combine(suiteRootFolder, "Samples");
+                string gmatSample = Path.Combine(samplesFolder, "GMAT Sample.oef");
+                string basicScienceSample = Path.Combine(samplesFolder, "Basic Science.oef");
+                //
+                Simulator.Properties.Settings.Default.ExamPaths.Add(gmatSample);
+                Simulator.Properties.Settings.Default.ExamPaths.Add(basicScienceSample);
+                //
+                Simulator.Properties.Settings.Default.FirstRun = false;
+                //
+                Simulator.Properties.Settings.Default.Save();
+            }
+            //
             if (Simulator.Properties.Settings.Default.ExamPaths != null)
             {
                 foreach(string path in Simulator.Properties.Settings.Default.ExamPaths)
