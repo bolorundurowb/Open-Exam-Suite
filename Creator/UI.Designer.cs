@@ -36,9 +36,6 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.trv_view_exam = new System.Windows.Forms.TreeView();
             this.imglst_node_images = new System.Windows.Forms.ImageList(this.components);
-            this.pan_splash = new System.Windows.Forms.Panel();
-            this.grp_exam_history = new System.Windows.Forms.GroupBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pan_display_questions = new System.Windows.Forms.Panel();
             this.pct_image = new System.Windows.Forms.PictureBox();
             this.btn_clear_image = new System.Windows.Forms.Button();
@@ -51,6 +48,9 @@
             this.txt_question_text = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.lbl_section_question = new System.Windows.Forms.Label();
+            this.pan_splash = new System.Windows.Forms.Panel();
+            this.grp_exam_history = new System.Windows.Forms.GroupBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pan_exam_properties = new System.Windows.Forms.Panel();
             this.label10 = new System.Windows.Forms.Label();
             this.btn_save_properties = new System.Windows.Forms.Button();
@@ -120,10 +120,10 @@
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            this.pan_splash.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.pan_display_questions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pct_image)).BeginInit();
+            this.pan_splash.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.pan_exam_properties.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_time_limit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_passmark)).BeginInit();
@@ -196,40 +196,6 @@
             this.imglst_node_images.Images.SetKeyName(0, "Exam.png");
             this.imglst_node_images.Images.SetKeyName(1, "New_Section.png");
             this.imglst_node_images.Images.SetKeyName(2, "New_Question.png");
-            // 
-            // pan_splash
-            // 
-            this.pan_splash.Controls.Add(this.grp_exam_history);
-            this.pan_splash.Controls.Add(this.pictureBox1);
-            this.pan_splash.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pan_splash.Location = new System.Drawing.Point(0, 0);
-            this.pan_splash.Name = "pan_splash";
-            this.pan_splash.Size = new System.Drawing.Size(624, 431);
-            this.pan_splash.TabIndex = 0;
-            // 
-            // grp_exam_history
-            // 
-            this.grp_exam_history.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.grp_exam_history.Location = new System.Drawing.Point(4, 236);
-            this.grp_exam_history.Name = "grp_exam_history";
-            this.grp_exam_history.Size = new System.Drawing.Size(617, 192);
-            this.grp_exam_history.TabIndex = 1;
-            this.grp_exam_history.TabStop = false;
-            this.grp_exam_history.Text = "Exam History";
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox1.Image = global::Creator.Properties.Resources.splash;
-            this.pictureBox1.Location = new System.Drawing.Point(3, 3);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(618, 227);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
             // 
             // pan_display_questions
             // 
@@ -318,6 +284,7 @@
             this.txt_explanation.Name = "txt_explanation";
             this.txt_explanation.Size = new System.Drawing.Size(490, 20);
             this.txt_explanation.TabIndex = 5;
+            this.txt_explanation.TextChanged += new System.EventHandler(this.QuestionChanged);
             // 
             // label12
             // 
@@ -350,6 +317,7 @@
             this.txt_question_text.Name = "txt_question_text";
             this.txt_question_text.Size = new System.Drawing.Size(596, 57);
             this.txt_question_text.TabIndex = 2;
+            this.txt_question_text.TextChanged += new System.EventHandler(this.QuestionChanged);
             this.txt_question_text.Enter += new System.EventHandler(this.Editable);
             this.txt_question_text.Leave += new System.EventHandler(this.NotEditable);
             // 
@@ -370,6 +338,40 @@
             this.lbl_section_question.Name = "lbl_section_question";
             this.lbl_section_question.Size = new System.Drawing.Size(0, 17);
             this.lbl_section_question.TabIndex = 0;
+            // 
+            // pan_splash
+            // 
+            this.pan_splash.Controls.Add(this.grp_exam_history);
+            this.pan_splash.Controls.Add(this.pictureBox1);
+            this.pan_splash.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pan_splash.Location = new System.Drawing.Point(0, 0);
+            this.pan_splash.Name = "pan_splash";
+            this.pan_splash.Size = new System.Drawing.Size(624, 431);
+            this.pan_splash.TabIndex = 0;
+            // 
+            // grp_exam_history
+            // 
+            this.grp_exam_history.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.grp_exam_history.Location = new System.Drawing.Point(4, 236);
+            this.grp_exam_history.Name = "grp_exam_history";
+            this.grp_exam_history.Size = new System.Drawing.Size(617, 192);
+            this.grp_exam_history.TabIndex = 1;
+            this.grp_exam_history.TabStop = false;
+            this.grp_exam_history.Text = "Exam History";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox1.Image = global::Creator.Properties.Resources.splash;
+            this.pictureBox1.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(618, 227);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
             // 
             // pan_exam_properties
             // 
@@ -714,7 +716,7 @@
             this.undoToolStripMenuItem.Enabled = false;
             this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
             this.undoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.undoToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.undoToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.undoToolStripMenuItem.Text = "&Undo";
             this.undoToolStripMenuItem.Click += new System.EventHandler(this.Undo);
             // 
@@ -723,14 +725,14 @@
             this.redoToolStripMenuItem.Enabled = false;
             this.redoToolStripMenuItem.Name = "redoToolStripMenuItem";
             this.redoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            this.redoToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.redoToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.redoToolStripMenuItem.Text = "&Redo";
             this.redoToolStripMenuItem.Click += new System.EventHandler(this.Redo);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(141, 6);
             // 
             // cutToolStripMenuItem
             // 
@@ -739,7 +741,7 @@
             this.cutToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
             this.cutToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.cutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.cutToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.cutToolStripMenuItem.Text = "Cu&t";
             this.cutToolStripMenuItem.Click += new System.EventHandler(this.Cut);
             // 
@@ -750,7 +752,7 @@
             this.copyToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
             this.copyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.copyToolStripMenuItem.Text = "&Copy";
             this.copyToolStripMenuItem.Click += new System.EventHandler(this.Copy);
             // 
@@ -761,7 +763,7 @@
             this.pasteToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
             this.pasteToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.pasteToolStripMenuItem.Text = "&Paste";
             this.pasteToolStripMenuItem.Click += new System.EventHandler(this.Paste);
             // 
@@ -776,7 +778,7 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.aboutToolStripMenuItem.Text = "&About...";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.About);
             // 
@@ -1009,11 +1011,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
-            this.pan_splash.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.pan_display_questions.ResumeLayout(false);
             this.pan_display_questions.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pct_image)).EndInit();
+            this.pan_splash.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.pan_exam_properties.ResumeLayout(false);
             this.pan_exam_properties.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_time_limit)).EndInit();
