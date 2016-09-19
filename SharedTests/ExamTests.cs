@@ -29,7 +29,7 @@ namespace SharedTests
                     {
                         new Question
                         {
-                            No=1,
+                            No = 1,
                             Text = "Question 1",
                             Answer = 'A',
                             Options = new System.Collections.Generic.List<Option>
@@ -45,11 +45,11 @@ namespace SharedTests
                                     Alphabet = 'B'
                                 }
                             },
-                            Image = new Bitmap(@"C:\Users\bolorundurowb\Pictures\personality.PNG")
+                            Image = new Bitmap("test.png")
                         },
                         new Question
                         {
-                            No=1,
+                            No = 1,
                             Text = "Question 2",
                             Answer = 'B',
                             Options = new System.Collections.Generic.List<Option>
