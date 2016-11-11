@@ -59,6 +59,19 @@ Version three does not have backward support for exams created with the versions
 1. Full rewrite for stability sake.
 
 
+## Version 3.1 proposed features
+
+
+#### General improvements
+1. 
+
+#### Creator Section
+1. 
+
+#### Simulator Section
+1. 
+
+
 
 ##### SourceForge [link](https://sourceforge.net/projects/open-exam-suite).
 __I need community help with a way to convert existing *vce* exams to this *oef* format. Any input would be appreciated, a library, a word of advice, anything.__
