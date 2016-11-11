@@ -153,6 +153,10 @@ namespace Simulator
                 string gmatSample = Path.Combine(samplesFolder, "GMAT Sample.oef");
                 string basicScienceSample = Path.Combine(samplesFolder, "Basic Science.oef");
                 //
+                if(Simulator.Properties.Settings.Default.ExamPaths == null)
+                {
+                    Simulator.Properties.Settings.Default.ExamPaths = new StringCollection();
+                }
                 Simulator.Properties.Settings.Default.ExamPaths.Add(gmatSample);
                 Simulator.Properties.Settings.Default.ExamPaths.Add(basicScienceSample);
                 //
