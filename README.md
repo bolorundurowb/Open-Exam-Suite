@@ -1,6 +1,8 @@
 # Open Exam Suite
 [![Build status](https://ci.appveyor.com/api/projects/status/ll8d5i7l6f2p9siw?svg=true)](https://ci.appveyor.com/project/BolorunduroWinnerTimothy/open-exam-suite)   [![Download Open Exam Suite](https://img.shields.io/sourceforge/dm/open-exam-suite.svg)](https://sourceforge.net/projects/open-exam-suite/files/latest/download) [![NETFramework](https://img.shields.io/badge/.net-4.5-ff66b6.svg)](https://www.microsoft.com/en-us/download/details.aspx?id=17851)
-[![Mono](https://img.shields.io/badge/mono-4.2.1-0066b6.svg)](https://www.microsoft.com/en-us/download/details.aspx?id=17851)
+[![Mono](https://img.shields.io/badge/mono-4.2.1-0066b6.svg)](http://www.mono-project.com/download/)
+
+**If you have benefitted from this project, please star it.**
 
 This project is an answer to a call to develop an open source alternative to Avanset's Visual CertExam Suite. This project has an exam designer that creates an *oef* (Open Exam Format) file and an exam simulator that can read and simulate the exam. It aims to be the open source solace for those wanting to take computer based simulated examinations.
 Answering the call to design an open source alternative to Avanset's Visual CertExam Suite birthed version one of open exam suite and as I was still learning and getting a hang of the language, the code written is less than ideal which gave birth to version two of the software which based on the new knowledge was better written and had new features. The code resides [here](https://github.com/bolorundurowb/Open-Exam-Suite-2.0).
@@ -60,18 +62,16 @@ Version three does not have backward support for exams created with the versions
 
 
 ## Version 3.1 proposed features
-
+Version 3.1 will keep backward compatibility with v3.0 exams (obviously), but will aim to run better and faster. The upgrades will affect every part of the app from the shared library to the exam converter, the creator and the simulator.
 
 #### General improvements
-1. 
+1. A feature that has been requested multiple times would be implemented; support for questions with multiple answers would be added.
 
 #### Creator Section
-1. 
+1. Support for exporting exams as `JSON` would be added.
 
-#### Simulator Section
-1. 
 
 
 
 ##### SourceForge [link](https://sourceforge.net/projects/open-exam-suite).
-__I need community help with a way to convert existing *vce* exams to this *oef* format. Any input would be appreciated, a library, a word of advice, anything.__
+__The former aim to convert existing `VCE` exams to the `OEF` format has been dropped. If you want any feature in the next release, hit me up on twitter [@Mr_Bolorunduro](https://twitter.com/Mr_Bolorunduro) or create an [issue](https://github.com/bolorundurowb/Open-Exam-Suite/issues) here on Github.__
