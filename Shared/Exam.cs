@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace Shared
 {
@@ -120,6 +121,8 @@ namespace Shared
         public Bitmap Image { get; set; }
 
         public char Answer { get; set; }
+        
+        public char[] Answers { get; set; }
 
         public List<Option> Options { get; set; }
 
