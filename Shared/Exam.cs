@@ -120,6 +120,8 @@ namespace Shared
         public Bitmap Image { get; set; }
 
         public char Answer { get; set; }
+
+        public bool IsMultipleChoice { get; set; }
         
         public char[] Answers { get; set; }
 

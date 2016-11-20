@@ -154,6 +154,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Creator Alt.fw.ico" />
+    <None Include="Resources\rsz_actions-insert-image-icon.png" />
+    <None Include="Resources\rsz_clear.png" />
     <None Include="Resources\edit.png" />
     <None Include="Resources\splash.png" />
     <None Include="Resources\remove.png" />

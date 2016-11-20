@@ -135,6 +135,7 @@ namespace Creator
             question.Explanation = txt_explanation.Text;
             question.Image = (Bitmap)pct_image.Image;
             question.No = trv_view_exam.SelectedNode.Index + 1;
+            question.IsMultipleChoice = chkMulipleChoice.Checked;
             question.Options.Clear();
             foreach (var ctrl in pan_options.Controls.OfType<OptionControl>())
             {
@@ -498,6 +499,8 @@ namespace Creator
                 txt_question_text.Text = question.Text;
                 lbl_section_question.Text = "Section: " + trv_view_exam.SelectedNode.Parent.Text + " Question " + question.No;
                 pct_image.Image = question.Image;
+                //
+                chkMulipleChoice.Checked = question.IsMultipleChoice;
                 //
                 pan_options.Controls.Clear();
                 //
