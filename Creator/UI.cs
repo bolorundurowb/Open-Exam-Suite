@@ -553,8 +553,16 @@ namespace Creator
             properties.Title = txt_title.Text;
             properties.Version = int.Parse(lbl_version.Text);
             //
-            ExamNode examNode = new ExamNode(properties);
-            trv_view_exam.Nodes.Add(examNode);
+            if (trv_view_exam.Nodes.Count > 0)
+            {
+                ExamNode examNode = (ExamNode)trv_view_exam.Nodes[0];
+                examNode.Properties = properties;
+            }
+            else
+            {
+                ExamNode examNode = new ExamNode(properties);
+                trv_view_exam.Nodes.Add(examNode);
+            }
             //
             trv_view_exam.ExpandAll();
             //
@@ -809,11 +817,11 @@ namespace Creator
         {
             if (IsDirty)
             {
-                DialogResult result = MessageBox.Show("The current exam has not been saved, are you sure you want to close it?", "Unsaved Changes",
-                    MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (result == DialogResult.No)
+                DialogResult result = MessageBox.Show("The current exam has not been saved, do you want to save and close?", "Unsaved Changes",
+                    MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                if (result == DialogResult.Cancel)
                     e.Cancel = true;
-                else
+                else if (result == DialogResult.Yes)
                     Save(sender, e);
             }
         }
