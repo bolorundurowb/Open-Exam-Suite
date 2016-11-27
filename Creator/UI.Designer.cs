@@ -158,7 +158,7 @@
             // 
             // splitContainer2.Panel2
             // 
-            this.splitContainer2.Panel2.Controls.Add(this.pan_display_questions);
+            this.splitContainer2.Panel2.Controls.Add(this.pan_splash);
             this.splitContainer2.Size = new System.Drawing.Size(804, 502);
             this.splitContainer2.SplitterDistance = 230;
             this.splitContainer2.TabIndex = 3;

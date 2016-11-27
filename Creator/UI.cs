@@ -734,9 +734,6 @@ namespace Creator
                     return;
                 }
             }
-            this.exam = null;
-            this.undoRedo = null;
-            IsDirty = false;
             //
             ClearControls();
             trv_view_exam.Nodes.Clear();
@@ -752,6 +749,9 @@ namespace Creator
                 splitContainer2.Panel2.Controls.Remove(pan_exam_properties);
                 splitContainer2.Panel2.Controls.Add(pan_splash);
             }
+            this.exam = null;
+            this.undoRedo = null;
+            IsDirty = false;
             //
             LoadExamHistory();
         }
