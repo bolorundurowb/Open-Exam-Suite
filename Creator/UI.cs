@@ -706,28 +706,57 @@ namespace Creator
 
         private void RemoveOption(object sender, EventArgs e)
         {
-            pan_options.Controls.Remove(pan_options.Controls.OfType<OptionControl>().ElementAt(pan_options.Controls.OfType<OptionControl>().Count() - 1));
+            if (chkMulipleChoice.Checked)
+            {
+                pan_options.Controls.Remove(pan_options.Controls.OfType<OptionsControl>().ElementAt(pan_options.Controls.OfType<OptionsControl>().Count() - 1));
+            }
+            else
+            {
+                pan_options.Controls.Remove(pan_options.Controls.OfType<OptionControl>().ElementAt(pan_options.Controls.OfType<OptionControl>().Count() - 1));
+            }
             //
             QuestionChanged(sender, e);
         }
 
         private void AddOption(object sender, EventArgs e)
         {
-            if (pan_options.Controls.Count > 0)
+            if (chkMulipleChoice.Checked)
             {
-                OptionControl ctrl = new OptionControl();
-                ctrl.Name = "option" + (pan_options.Controls.Count - 1);
-                ctrl.Letter = (char)(Convert.ToInt32(((OptionControl)pan_options.Controls[pan_options.Controls.Count - 1]).Letter) + 1);
-                ctrl.Location = new Point(2, 2 + (pan_options.Controls.Count * 36));
-                pan_options.Controls.Add(ctrl);
+                if (pan_options.Controls.Count > 0)
+                {
+                    OptionsControl ctrl = new OptionsControl();
+                    ctrl.Name = "option" + (pan_options.Controls.Count - 1);
+                    ctrl.Letter = (char)(Convert.ToInt32(((OptionsControl)pan_options.Controls[pan_options.Controls.Count - 1]).Letter) + 1);
+                    ctrl.Location = new Point(2, 2 + (pan_options.Controls.Count * 36));
+                    pan_options.Controls.Add(ctrl);
+                }
+                else
+                {
+                    OptionsControl ctrl = new OptionsControl();
+                    ctrl.Location = new Point(2, 2);
+                    ctrl.Name = "option0";
+                    ctrl.Letter = 'A';
+                    pan_options.Controls.Add(ctrl);
+                }
             }
             else
             {
-                OptionControl ctrl = new OptionControl();
-                ctrl.Location = new Point(2, 2);
-                ctrl.Name = "option0";
-                ctrl.Letter = 'A';
-                pan_options.Controls.Add(ctrl);
+                if (pan_options.Controls.Count > 0)
+                {
+                    OptionControl ctrl = new OptionControl();
+                    ctrl.Name = "option" + (pan_options.Controls.Count - 1);
+                    ctrl.Letter = (char)(Convert.ToInt32(((OptionControl)pan_options.Controls[pan_options.Controls.Count - 1]).Letter) + 1);
+                    ctrl.Location = new Point(2, 2 + (pan_options.Controls.Count * 36));
+                    pan_options.Controls.Add(ctrl);
+                }
+                else
+                {
+                    OptionControl ctrl = new OptionControl();
+                    ctrl.Location = new Point(2, 2);
+                    ctrl.Name = "option0";
+                    ctrl.Letter = 'A';
+                    pan_options.Controls.Add(ctrl);
+                }
             }
             //
             QuestionChanged(sender, e);
