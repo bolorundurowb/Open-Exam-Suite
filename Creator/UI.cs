@@ -130,19 +130,40 @@ namespace Creator
         private void CommitQuestion()
         {
             Question question = ((QuestionNode)trv_view_exam.SelectedNode).Question;
-            var answerCtrl = pan_options.Controls.OfType<OptionControl>().FirstOrDefault(s => s.Checked);
-            question.Answer = answerCtrl == null ? '\0' : answerCtrl.Letter;
+            question.IsMultipleChoice = chkMulipleChoice.Checked;
+            if (question.IsMultipleChoice)
+            {
+                var answerCtrls = pan_options.Controls.OfType<OptionsControl>().Where(s => s.Checked);
+                question.Answers = answerCtrls.Select(x => x.Letter).ToArray();
+            }
+            else
+            {
+                var answerCtrl = pan_options.Controls.OfType<OptionControl>().FirstOrDefault(s => s.Checked);
+                question.Answer = answerCtrl == null ? '\0' : answerCtrl.Letter;
+            }
             question.Explanation = txt_explanation.Text;
             question.Image = (Bitmap)pct_image.Image;
             question.No = trv_view_exam.SelectedNode.Index + 1;
-            question.IsMultipleChoice = chkMulipleChoice.Checked;
             question.Options.Clear();
-            foreach (var ctrl in pan_options.Controls.OfType<OptionControl>())
+            if (question.IsMultipleChoice)
             {
-                Option option = new Option();
-                option.Alphabet = ctrl.Letter;
-                option.Text = ctrl.Text;
-                question.Options.Add(option);
+                foreach (var ctrl in pan_options.Controls.OfType<OptionsControl>())
+                {
+                    Option option = new Option();
+                    option.Alphabet = ctrl.Letter;
+                    option.Text = ctrl.Text;
+                    question.Options.Add(option);
+                }
+            }
+            else
+            {
+                foreach (var ctrl in pan_options.Controls.OfType<OptionControl>())
+                {
+                    Option option = new Option();
+                    option.Alphabet = ctrl.Letter;
+                    option.Text = ctrl.Text;
+                    question.Options.Add(option);
+                }
             }
             question.Text = txt_question_text.Text;
         }
@@ -505,19 +526,38 @@ namespace Creator
                 pan_options.Controls.Clear();
                 //
                 int i = 0;
-                foreach(var option in question.Options)
+                if (question.IsMultipleChoice)
                 {
-                    OptionControl ctrl = new OptionControl();
-                    ctrl.Letter = option.Alphabet;
-                    ctrl.Text = option.Text;
-                    ctrl.Location = new Point(2, i * 36);
-                    if (option.Alphabet == question.Answer)
+                    foreach (var option in question.Options)
                     {
-                        ctrl.Checked = true;
+                        OptionsControl ctrl = new OptionsControl();
+                        ctrl.Letter = option.Alphabet;
+                        ctrl.Text = option.Text;
+                        ctrl.Location = new Point(2, i * 36);
+                        if (question.Answers.Contains(option.Alphabet))
+                        {
+                            ctrl.Checked = true;
+                        }
+                        pan_options.Controls.Add(ctrl);
+                        i++;
                     }
-                    pan_options.Controls.Add(ctrl);
-                    i++;
-                } 
+                }
+                else
+                {
+                    foreach (var option in question.Options)
+                    {
+                        OptionControl ctrl = new OptionControl();
+                        ctrl.Letter = option.Alphabet;
+                        ctrl.Text = option.Text;
+                        ctrl.Location = new Point(2, i * 36);
+                        if (option.Alphabet == question.Answer)
+                        {
+                            ctrl.Checked = true;
+                        }
+                        pan_options.Controls.Add(ctrl);
+                        i++;
+                    }
+                }
             }
             //
             ReconnectHandlers();
@@ -950,19 +990,44 @@ namespace Creator
             obj.Action = ActionType.Modify;
             //
             Question question = new Question();
-            var answerCtrl = pan_options.Controls.OfType<OptionControl>().FirstOrDefault(s => s.Checked);
-            question.Answer = answerCtrl == null ? '\0' : answerCtrl.Letter;
+            question.IsMultipleChoice = chkMulipleChoice.Checked;
+            if (question.IsMultipleChoice)
+            {
+                var answerCtrls = pan_options.Controls.OfType<OptionsControl>().Where(s => s.Checked);
+                question.Answers = answerCtrls.Select(x => x.Letter).ToArray();
+            }
+            else
+            {
+                var answerCtrl = pan_options.Controls.OfType<OptionControl>().FirstOrDefault(s => s.Checked);
+                question.Answer = answerCtrl == null ? '\0' : answerCtrl.Letter;
+            }
             question.Explanation = txt_explanation.Text;
             question.Image = (Bitmap)pct_image.Image;
             question.No = trv_view_exam.SelectedNode.Index + 1;
             question.Options.Clear();
-            foreach (var ctrl in pan_options.Controls.OfType<OptionControl>())
+            if (question.IsMultipleChoice)
             {
-                Option option = new Option();
-                option.Alphabet = ctrl.Letter;
-                option.Text = ctrl.Text;
-                question.Options.Add(option);
+                var ctrls = pan_options.Controls.OfType<OptionsControl>();
+                foreach (var ctrl in ctrls)
+                {
+                    Option option = new Option();
+                    option.Alphabet = ctrl.Letter;
+                    option.Text = ctrl.Text;
+                    question.Options.Add(option);
+                }
             }
+            else
+            {
+                var ctrls = pan_options.Controls.OfType<OptionControl>();
+                foreach (var ctrl in ctrls)
+                {
+                    Option option = new Option();
+                    option.Alphabet = ctrl.Letter;
+                    option.Text = ctrl.Text;
+                    question.Options.Add(option);
+                }
+            }
+
             question.Text = txt_question_text.Text;
             //
             obj.Question = question;
