@@ -277,18 +277,37 @@ namespace Creator
                             pan_options.Controls.Clear();
                             //
                             int k = 0;
-                            foreach (var option in undoObject.Question.Options)
+                            if (undoObject.Question.IsMultipleChoice)
                             {
-                                OptionControl ctrl = new OptionControl();
-                                ctrl.Letter = option.Alphabet;
-                                ctrl.Text = option.Text;
-                                ctrl.Location = new Point(2, k * 36);
-                                if (option.Alphabet == undoObject.Question.Answer)
+                                foreach (var option in undoObject.Question.Options)
                                 {
-                                    ctrl.Checked = true;
+                                    OptionsControl ctrl = new OptionsControl();
+                                    ctrl.Letter = option.Alphabet;
+                                    ctrl.Text = option.Text;
+                                    ctrl.Location = new Point(2, k * 36);
+                                    if (undoObject.Question.Answers.Contains(option.Alphabet))
+                                    {
+                                        ctrl.Checked = true;
+                                    }
+                                    pan_options.Controls.Add(ctrl);
+                                    k++;
                                 }
-                                pan_options.Controls.Add(ctrl);
-                                k++;
+                            }
+                            else
+                            {
+                                foreach (var option in undoObject.Question.Options)
+                                {
+                                    OptionControl ctrl = new OptionControl();
+                                    ctrl.Letter = option.Alphabet;
+                                    ctrl.Text = option.Text;
+                                    ctrl.Location = new Point(2, k * 36);
+                                    if (option.Alphabet == undoObject.Question.Answer)
+                                    {
+                                        ctrl.Checked = true;
+                                    }
+                                    pan_options.Controls.Add(ctrl);
+                                    k++;
+                                }
                             }
                         }
                         break;
@@ -371,18 +390,37 @@ namespace Creator
                             pan_options.Controls.Clear();
                             //
                             int k = 0;
-                            foreach (var option in redoObject.Question.Options)
+                            if (redoObject.Question.IsMultipleChoice)
                             {
-                                OptionControl ctrl = new OptionControl();
-                                ctrl.Letter = option.Alphabet;
-                                ctrl.Text = option.Text;
-                                ctrl.Location = new Point(2, k * 36);
-                                if (option.Alphabet == redoObject.Question.Answer)
+                                foreach (var option in redoObject.Question.Options)
                                 {
-                                    ctrl.Checked = true;
+                                    OptionsControl ctrl = new OptionsControl();
+                                    ctrl.Letter = option.Alphabet;
+                                    ctrl.Text = option.Text;
+                                    ctrl.Location = new Point(2, k * 36);
+                                    if (redoObject.Question.Answers.Contains(option.Alphabet))
+                                    {
+                                        ctrl.Checked = true;
+                                    }
+                                    pan_options.Controls.Add(ctrl);
+                                    k++;
                                 }
-                                pan_options.Controls.Add(ctrl);
-                                k++;
+                            }
+                            else
+                            {
+                                foreach (var option in redoObject.Question.Options)
+                                {
+                                    OptionControl ctrl = new OptionControl();
+                                    ctrl.Letter = option.Alphabet;
+                                    ctrl.Text = option.Text;
+                                    ctrl.Location = new Point(2, k * 36);
+                                    if (option.Alphabet == redoObject.Question.Answer)
+                                    {
+                                        ctrl.Checked = true;
+                                    }
+                                    pan_options.Controls.Add(ctrl);
+                                    k++;
+                                }
                             }
                         }
                         break;
