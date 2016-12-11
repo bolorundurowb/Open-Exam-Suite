@@ -14,7 +14,7 @@ namespace Simulator
         private Settings settings;
         private int timeLeft;
         private int currentQuestionIndex;
-        private char[] userAnswers;
+        private object[] userAnswers;
         #endregion
 
         public Exam_UI(Exam _exam, Settings _settings)
@@ -23,10 +23,10 @@ namespace Simulator
             exam = _exam;
             settings = _settings;
             timeLeft = _settings.TimeLimit * 60;
-            userAnswers = new char[exam.NumberOfQuestions];
+            userAnswers = new object[exam.NumberOfQuestions];
         }
 
-        private void timer_Tick(object sender, EventArgs e)
+        private void TimerTick(object sender, EventArgs e)
         {
             timeLeft--;
             if (timeLeft <= 0)
@@ -162,7 +162,7 @@ namespace Simulator
                 int numOfCorrectAnswers = 0;
                 for(int i = 0; i < settings.Questions.Count; i++)
                 {
-                    if (userAnswers[i] == settings.Questions[i].Answer)
+                    if ((char)userAnswers[i] == settings.Questions[i].Answer)
                         numOfCorrectAnswers++;
                 }
                 settings.NumberOfCorrectAnswers = numOfCorrectAnswers;
@@ -176,7 +176,7 @@ namespace Simulator
                         if(section.Questions.Contains(settings.Questions[i]))
                         {
                             numOfQuestions++;
-                            if (userAnswers[i] == settings.Questions[i].Answer)
+                            if ((char)userAnswers[i] == settings.Questions[i].Answer)
                                 numOfCorrect++;
                         }
                     }
@@ -198,21 +198,39 @@ namespace Simulator
             lbl_explanation.Text = question.Explanation;
             txt_question.Text = question.Text;
             pct_image.Image = question.Image;
-            AddOptions(question.Options);
+            AddOptions(question.Options, question.IsMultipleChoice);
         }
 
-        private void AddOptions(List<Option> options)
+        private void AddOptions(List<Option> options, bool isMultipleChoice)
         {
             for (int i = 0; i < options.Count; i++)
             {
-                RadioButton rdb = new RadioButton();
-                rdb.AutoSize = true;
-                rdb.Text = options[i].Alphabet + ". - " + options[i].Text;
-                rdb.Name = "rdb" + options[i].Alphabet;
-                rdb.Location = new Point(51, 464 + (i * 22));
-                if (userAnswers[currentQuestionIndex] == options[i].Alphabet)
-                    rdb.Checked = true;
-                pan_display.Controls.Add(rdb);
+                if (isMultipleChoice)
+                {
+                    CheckBox chk = new CheckBox()
+                    {
+                        AutoSize = true,
+                        Text = options[i].Alphabet + ". - " + options[i].Text,
+                        Name = "chk" + options[i].Alphabet,
+                        Location = new Point(51, 464 + (i * 22))
+                    };
+                    if (((char[])userAnswers[currentQuestionIndex]).Contains(options[i].Alphabet))
+                        chk.Checked = true;
+                    pan_display.Controls.Add(chk);
+                }
+                else
+                {
+                    RadioButton rdb = new RadioButton()
+                    {
+                        AutoSize = true,
+                        Text = options[i].Alphabet + ". - " + options[i].Text,
+                        Name = "rdb" + options[i].Alphabet,
+                        Location = new Point(51, 464 + (i * 22))
+                    };
+                    if ((char)userAnswers[currentQuestionIndex] == options[i].Alphabet)
+                        rdb.Checked = true;
+                    pan_display.Controls.Add(rdb);
+                }
             }
         }
 
@@ -220,6 +238,12 @@ namespace Simulator
         {
             var controls = pan_display.Controls.OfType<RadioButton>();
             for(int j = pan_display.Controls.OfType<RadioButton>().Count() - 1; j >= 0; --j)
+            {
+                var control = controls.ElementAt(j);
+                pan_display.Controls.Remove(control);
+                control.Dispose();
+            }
+            for (int j = pan_display.Controls.OfType<CheckBox>().Count() - 1; j >= 0; --j)
             {
                 var control = controls.ElementAt(j);
                 pan_display.Controls.Remove(control);
