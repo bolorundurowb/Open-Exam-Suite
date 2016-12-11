@@ -243,8 +243,13 @@ namespace Simulator
             if (answer != null)
             {
                 int index = pan_display.Controls.IndexOf(answer);
-                ((RadioButton)pan_display.Controls[index]).Checked = true;
                 ((RadioButton)pan_display.Controls[index]).ForeColor = Color.Green;
+            }
+            RadioButton currentSelectedOption = pan_display.Controls.OfType<RadioButton>().FirstOrDefault(s => s.Checked);
+            if (currentSelectedOption != null && currentSelectedOption.Text != answer.Text)
+            {
+                int index = pan_display.Controls.IndexOf(currentSelectedOption);
+                ((RadioButton)pan_display.Controls[index]).ForeColor = Color.Red;
             }
         }
     }
