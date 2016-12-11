@@ -36,14 +36,6 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.trv_view_exam = new System.Windows.Forms.TreeView();
             this.imglst_node_images = new System.Windows.Forms.ImageList(this.components);
-            this.pan_display_questions = new System.Windows.Forms.Panel();
-            this.btn_insert_image = new System.Windows.Forms.Button();
-            this.txt_explanation = new System.Windows.Forms.TextBox();
-            this.label12 = new System.Windows.Forms.Label();
-            this.pan_options = new System.Windows.Forms.Panel();
-            this.txt_question_text = new System.Windows.Forms.TextBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.lbl_section_question = new System.Windows.Forms.Label();
             this.pan_splash = new System.Windows.Forms.Panel();
             this.grp_exam_history = new System.Windows.Forms.GroupBox();
             this.pan_exam_properties = new System.Windows.Forms.Panel();
@@ -63,6 +55,14 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.pan_display_questions = new System.Windows.Forms.Panel();
+            this.chkMulipleChoice = new System.Windows.Forms.CheckBox();
+            this.txt_explanation = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.pan_options = new System.Windows.Forms.Panel();
+            this.txt_question_text = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.lbl_section_question = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
@@ -90,7 +90,8 @@
             this.ppd_print = new System.Windows.Forms.PrintPreviewDialog();
             this.cms_section = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cms_question = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.chkMulipleChoice = new System.Windows.Forms.CheckBox();
+            this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.newToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -101,19 +102,21 @@
             this.copyToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.pasteToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.helpToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.pct_image = new System.Windows.Forms.PictureBox();
-            this.btn_clear_image = new System.Windows.Forms.Button();
-            this.btn_remove_option = new System.Windows.Forms.Button();
-            this.btn_add_options = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.asJsonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.printPreviewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pct_image = new System.Windows.Forms.PictureBox();
+            this.btn_clear_image = new System.Windows.Forms.Button();
+            this.btn_insert_image = new System.Windows.Forms.Button();
+            this.btn_remove_option = new System.Windows.Forms.Button();
+            this.btn_add_options = new System.Windows.Forms.Button();
             this.btn_edit_section = new System.Windows.Forms.ToolStripMenuItem();
             this.btn_delete_question = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
@@ -121,17 +124,17 @@
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            this.pan_display_questions.SuspendLayout();
             this.pan_splash.SuspendLayout();
             this.pan_exam_properties.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_time_limit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_passmark)).BeginInit();
+            this.pan_display_questions.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.cms_section.SuspendLayout();
             this.cms_question.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pct_image)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pct_image)).BeginInit();
             this.SuspendLayout();
             // 
             // toolStripSeparator4
@@ -198,6 +201,227 @@
             this.imglst_node_images.Images.SetKeyName(1, "New_Section.png");
             this.imglst_node_images.Images.SetKeyName(2, "New_Question.png");
             // 
+            // pan_splash
+            // 
+            this.pan_splash.Controls.Add(this.grp_exam_history);
+            this.pan_splash.Controls.Add(this.pictureBox1);
+            this.pan_splash.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pan_splash.Location = new System.Drawing.Point(0, 0);
+            this.pan_splash.Name = "pan_splash";
+            this.pan_splash.Size = new System.Drawing.Size(570, 502);
+            this.pan_splash.TabIndex = 0;
+            // 
+            // grp_exam_history
+            // 
+            this.grp_exam_history.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.grp_exam_history.Location = new System.Drawing.Point(4, 236);
+            this.grp_exam_history.Name = "grp_exam_history";
+            this.grp_exam_history.Size = new System.Drawing.Size(563, 263);
+            this.grp_exam_history.TabIndex = 1;
+            this.grp_exam_history.TabStop = false;
+            this.grp_exam_history.Text = "Exam History";
+            // 
+            // pan_exam_properties
+            // 
+            this.pan_exam_properties.Controls.Add(this.label10);
+            this.pan_exam_properties.Controls.Add(this.btn_save_properties);
+            this.pan_exam_properties.Controls.Add(this.txt_instruction);
+            this.pan_exam_properties.Controls.Add(this.num_time_limit);
+            this.pan_exam_properties.Controls.Add(this.label9);
+            this.pan_exam_properties.Controls.Add(this.num_passmark);
+            this.pan_exam_properties.Controls.Add(this.lbl_version);
+            this.pan_exam_properties.Controls.Add(this.txt_code);
+            this.pan_exam_properties.Controls.Add(this.txt_title);
+            this.pan_exam_properties.Controls.Add(this.label7);
+            this.pan_exam_properties.Controls.Add(this.label6);
+            this.pan_exam_properties.Controls.Add(this.label5);
+            this.pan_exam_properties.Controls.Add(this.label4);
+            this.pan_exam_properties.Controls.Add(this.label3);
+            this.pan_exam_properties.Controls.Add(this.label2);
+            this.pan_exam_properties.Controls.Add(this.label1);
+            this.pan_exam_properties.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pan_exam_properties.Location = new System.Drawing.Point(0, 0);
+            this.pan_exam_properties.Name = "pan_exam_properties";
+            this.pan_exam_properties.Size = new System.Drawing.Size(570, 502);
+            this.pan_exam_properties.TabIndex = 0;
+            // 
+            // label10
+            // 
+            this.label10.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(311, 238);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(55, 13);
+            this.label10.TabIndex = 15;
+            this.label10.Text = "(minute(s))";
+            // 
+            // btn_save_properties
+            // 
+            this.btn_save_properties.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btn_save_properties.Location = new System.Drawing.Point(255, 378);
+            this.btn_save_properties.Name = "btn_save_properties";
+            this.btn_save_properties.Size = new System.Drawing.Size(75, 23);
+            this.btn_save_properties.TabIndex = 14;
+            this.btn_save_properties.Text = "Save";
+            this.btn_save_properties.UseVisualStyleBackColor = true;
+            this.btn_save_properties.Click += new System.EventHandler(this.SaveProperties);
+            // 
+            // txt_instruction
+            // 
+            this.txt_instruction.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.txt_instruction.Location = new System.Drawing.Point(134, 294);
+            this.txt_instruction.Multiline = true;
+            this.txt_instruction.Name = "txt_instruction";
+            this.txt_instruction.Size = new System.Drawing.Size(294, 62);
+            this.txt_instruction.TabIndex = 13;
+            // 
+            // num_time_limit
+            // 
+            this.num_time_limit.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.num_time_limit.Location = new System.Drawing.Point(193, 235);
+            this.num_time_limit.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.num_time_limit.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.num_time_limit.Name = "num_time_limit";
+            this.num_time_limit.Size = new System.Drawing.Size(111, 20);
+            this.num_time_limit.TabIndex = 12;
+            this.num_time_limit.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.num_time_limit.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // label9
+            // 
+            this.label9.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(310, 207);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(103, 13);
+            this.label9.TabIndex = 11;
+            this.label9.Text = "(On a scale of 1000)";
+            // 
+            // num_passmark
+            // 
+            this.num_passmark.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.num_passmark.Location = new System.Drawing.Point(193, 204);
+            this.num_passmark.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.num_passmark.Name = "num_passmark";
+            this.num_passmark.Size = new System.Drawing.Size(111, 20);
+            this.num_passmark.TabIndex = 10;
+            this.num_passmark.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // lbl_version
+            // 
+            this.lbl_version.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lbl_version.AutoSize = true;
+            this.lbl_version.Location = new System.Drawing.Point(190, 175);
+            this.lbl_version.Name = "lbl_version";
+            this.lbl_version.Size = new System.Drawing.Size(22, 13);
+            this.lbl_version.TabIndex = 9;
+            this.lbl_version.Text = "3.1";
+            // 
+            // txt_code
+            // 
+            this.txt_code.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.txt_code.Location = new System.Drawing.Point(193, 140);
+            this.txt_code.Name = "txt_code";
+            this.txt_code.Size = new System.Drawing.Size(116, 20);
+            this.txt_code.TabIndex = 8;
+            // 
+            // txt_title
+            // 
+            this.txt_title.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.txt_title.Location = new System.Drawing.Point(193, 108);
+            this.txt_title.Name = "txt_title";
+            this.txt_title.Size = new System.Drawing.Size(240, 20);
+            this.txt_title.TabIndex = 7;
+            // 
+            // label7
+            // 
+            this.label7.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(131, 269);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(59, 13);
+            this.label7.TabIndex = 6;
+            this.label7.Text = "Instruction:";
+            // 
+            // label6
+            // 
+            this.label6.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(131, 237);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(57, 13);
+            this.label6.TabIndex = 5;
+            this.label6.Text = "Time Limit:";
+            // 
+            // label5
+            // 
+            this.label5.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(131, 206);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(56, 13);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "Passmark:";
+            // 
+            // label4
+            // 
+            this.label4.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(131, 175);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(45, 13);
+            this.label4.TabIndex = 3;
+            this.label4.Text = "Version:";
+            // 
+            // label3
+            // 
+            this.label3.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(131, 143);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(35, 13);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "Code:";
+            // 
+            // label2
+            // 
+            this.label2.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(131, 111);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(30, 13);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Title:";
+            // 
+            // label1
+            // 
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(219, 61);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(133, 18);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Exam Properties";
+            // 
             // pan_display_questions
             // 
             this.pan_display_questions.Controls.Add(this.chkMulipleChoice);
@@ -218,17 +442,16 @@
             this.pan_display_questions.Size = new System.Drawing.Size(570, 502);
             this.pan_display_questions.TabIndex = 0;
             // 
-            // btn_insert_image
+            // chkMulipleChoice
             // 
-            this.btn_insert_image.Image = global::Creator.Properties.Resources.rsz_actions_insert_image_icon;
-            this.btn_insert_image.Location = new System.Drawing.Point(53, 117);
-            this.btn_insert_image.Name = "btn_insert_image";
-            this.btn_insert_image.Size = new System.Drawing.Size(75, 23);
-            this.btn_insert_image.TabIndex = 8;
-            this.btn_insert_image.Text = "Insert";
-            this.btn_insert_image.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btn_insert_image.UseVisualStyleBackColor = true;
-            this.btn_insert_image.Click += new System.EventHandler(this.InsertImage);
+            this.chkMulipleChoice.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.chkMulipleChoice.AutoSize = true;
+            this.chkMulipleChoice.Location = new System.Drawing.Point(23, 275);
+            this.chkMulipleChoice.Name = "chkMulipleChoice";
+            this.chkMulipleChoice.Size = new System.Drawing.Size(175, 17);
+            this.chkMulipleChoice.TabIndex = 11;
+            this.chkMulipleChoice.Text = "Is this question multiple choice?";
+            this.chkMulipleChoice.UseVisualStyleBackColor = true;
             // 
             // txt_explanation
             // 
@@ -294,227 +517,6 @@
             this.lbl_section_question.Size = new System.Drawing.Size(0, 15);
             this.lbl_section_question.TabIndex = 0;
             // 
-            // pan_splash
-            // 
-            this.pan_splash.Controls.Add(this.grp_exam_history);
-            this.pan_splash.Controls.Add(this.pictureBox1);
-            this.pan_splash.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pan_splash.Location = new System.Drawing.Point(0, 0);
-            this.pan_splash.Name = "pan_splash";
-            this.pan_splash.Size = new System.Drawing.Size(624, 431);
-            this.pan_splash.TabIndex = 0;
-            // 
-            // grp_exam_history
-            // 
-            this.grp_exam_history.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.grp_exam_history.Location = new System.Drawing.Point(4, 236);
-            this.grp_exam_history.Name = "grp_exam_history";
-            this.grp_exam_history.Size = new System.Drawing.Size(617, 192);
-            this.grp_exam_history.TabIndex = 1;
-            this.grp_exam_history.TabStop = false;
-            this.grp_exam_history.Text = "Exam History";
-            // 
-            // pan_exam_properties
-            // 
-            this.pan_exam_properties.Controls.Add(this.label10);
-            this.pan_exam_properties.Controls.Add(this.btn_save_properties);
-            this.pan_exam_properties.Controls.Add(this.txt_instruction);
-            this.pan_exam_properties.Controls.Add(this.num_time_limit);
-            this.pan_exam_properties.Controls.Add(this.label9);
-            this.pan_exam_properties.Controls.Add(this.num_passmark);
-            this.pan_exam_properties.Controls.Add(this.lbl_version);
-            this.pan_exam_properties.Controls.Add(this.txt_code);
-            this.pan_exam_properties.Controls.Add(this.txt_title);
-            this.pan_exam_properties.Controls.Add(this.label7);
-            this.pan_exam_properties.Controls.Add(this.label6);
-            this.pan_exam_properties.Controls.Add(this.label5);
-            this.pan_exam_properties.Controls.Add(this.label4);
-            this.pan_exam_properties.Controls.Add(this.label3);
-            this.pan_exam_properties.Controls.Add(this.label2);
-            this.pan_exam_properties.Controls.Add(this.label1);
-            this.pan_exam_properties.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pan_exam_properties.Location = new System.Drawing.Point(0, 0);
-            this.pan_exam_properties.Name = "pan_exam_properties";
-            this.pan_exam_properties.Size = new System.Drawing.Size(611, 431);
-            this.pan_exam_properties.TabIndex = 0;
-            // 
-            // label10
-            // 
-            this.label10.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(331, 202);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(55, 13);
-            this.label10.TabIndex = 15;
-            this.label10.Text = "(minute(s))";
-            // 
-            // btn_save_properties
-            // 
-            this.btn_save_properties.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btn_save_properties.Location = new System.Drawing.Point(275, 342);
-            this.btn_save_properties.Name = "btn_save_properties";
-            this.btn_save_properties.Size = new System.Drawing.Size(75, 23);
-            this.btn_save_properties.TabIndex = 14;
-            this.btn_save_properties.Text = "Save";
-            this.btn_save_properties.UseVisualStyleBackColor = true;
-            this.btn_save_properties.Click += new System.EventHandler(this.SaveProperties);
-            // 
-            // txt_instruction
-            // 
-            this.txt_instruction.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.txt_instruction.Location = new System.Drawing.Point(154, 258);
-            this.txt_instruction.Multiline = true;
-            this.txt_instruction.Name = "txt_instruction";
-            this.txt_instruction.Size = new System.Drawing.Size(294, 62);
-            this.txt_instruction.TabIndex = 13;
-            // 
-            // num_time_limit
-            // 
-            this.num_time_limit.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.num_time_limit.Location = new System.Drawing.Point(213, 199);
-            this.num_time_limit.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-            this.num_time_limit.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.num_time_limit.Name = "num_time_limit";
-            this.num_time_limit.Size = new System.Drawing.Size(111, 20);
-            this.num_time_limit.TabIndex = 12;
-            this.num_time_limit.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.num_time_limit.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // label9
-            // 
-            this.label9.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(330, 171);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(103, 13);
-            this.label9.TabIndex = 11;
-            this.label9.Text = "(On a scale of 1000)";
-            // 
-            // num_passmark
-            // 
-            this.num_passmark.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.num_passmark.Location = new System.Drawing.Point(213, 168);
-            this.num_passmark.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.num_passmark.Name = "num_passmark";
-            this.num_passmark.Size = new System.Drawing.Size(111, 20);
-            this.num_passmark.TabIndex = 10;
-            this.num_passmark.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // lbl_version
-            // 
-            this.lbl_version.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.lbl_version.AutoSize = true;
-            this.lbl_version.Location = new System.Drawing.Point(210, 139);
-            this.lbl_version.Name = "lbl_version";
-            this.lbl_version.Size = new System.Drawing.Size(13, 13);
-            this.lbl_version.TabIndex = 9;
-            this.lbl_version.Text = "3";
-            // 
-            // txt_code
-            // 
-            this.txt_code.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.txt_code.Location = new System.Drawing.Point(213, 104);
-            this.txt_code.Name = "txt_code";
-            this.txt_code.Size = new System.Drawing.Size(116, 20);
-            this.txt_code.TabIndex = 8;
-            // 
-            // txt_title
-            // 
-            this.txt_title.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.txt_title.Location = new System.Drawing.Point(213, 72);
-            this.txt_title.Name = "txt_title";
-            this.txt_title.Size = new System.Drawing.Size(240, 20);
-            this.txt_title.TabIndex = 7;
-            // 
-            // label7
-            // 
-            this.label7.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(151, 233);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(59, 13);
-            this.label7.TabIndex = 6;
-            this.label7.Text = "Instruction:";
-            // 
-            // label6
-            // 
-            this.label6.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(151, 201);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(57, 13);
-            this.label6.TabIndex = 5;
-            this.label6.Text = "Time Limit:";
-            // 
-            // label5
-            // 
-            this.label5.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(151, 170);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(56, 13);
-            this.label5.TabIndex = 4;
-            this.label5.Text = "Passmark:";
-            // 
-            // label4
-            // 
-            this.label4.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(151, 139);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(45, 13);
-            this.label4.TabIndex = 3;
-            this.label4.Text = "Version:";
-            // 
-            // label3
-            // 
-            this.label3.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(151, 107);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(35, 13);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "Code:";
-            // 
-            // label2
-            // 
-            this.label2.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(151, 75);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(30, 13);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Title:";
-            // 
-            // label1
-            // 
-            this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(239, 25);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(133, 18);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Exam Properties";
-            // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -536,6 +538,8 @@
             this.saveToolStripMenuItem,
             this.saveAsToolStripMenuItem,
             this.toolStripSeparator1,
+            this.exportToolStripMenuItem,
+            this.toolStripSeparator5,
             this.printToolStripMenuItem,
             this.printPreviewToolStripMenuItem,
             this.toolStripSeparator2,
@@ -549,43 +553,43 @@
             // toolStripSeparator
             // 
             this.toolStripSeparator.Name = "toolStripSeparator";
-            this.toolStripSeparator.Size = new System.Drawing.Size(143, 6);
+            this.toolStripSeparator.Size = new System.Drawing.Size(149, 6);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Enabled = false;
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.saveAsToolStripMenuItem.Text = "Save &As";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.SaveAs);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(143, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(143, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(149, 6);
             // 
             // closeToolStripMenuItem
             // 
             this.closeToolStripMenuItem.Enabled = false;
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.closeToolStripMenuItem.Text = "&Close";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.Close);
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(143, 6);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(149, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.Exit);
             // 
@@ -725,16 +729,19 @@
             this.cms_question.Name = "cms_question";
             this.cms_question.Size = new System.Drawing.Size(132, 26);
             // 
-            // chkMulipleChoice
+            // exportToolStripMenuItem
             // 
-            this.chkMulipleChoice.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.chkMulipleChoice.AutoSize = true;
-            this.chkMulipleChoice.Location = new System.Drawing.Point(23, 275);
-            this.chkMulipleChoice.Name = "chkMulipleChoice";
-            this.chkMulipleChoice.Size = new System.Drawing.Size(175, 17);
-            this.chkMulipleChoice.TabIndex = 11;
-            this.chkMulipleChoice.Text = "Is this question multiple choice?";
-            this.chkMulipleChoice.UseVisualStyleBackColor = true;
+            this.exportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.asJsonToolStripMenuItem});
+            this.exportToolStripMenuItem.Enabled = false;
+            this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exportToolStripMenuItem.Text = "Export";
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(149, 6);
             // 
             // newToolStripButton
             // 
@@ -843,57 +850,17 @@
             this.helpToolStripButton.Text = "He&lp";
             this.helpToolStripButton.Click += new System.EventHandler(this.Help);
             // 
-            // pct_image
+            // pictureBox1
             // 
-            this.pct_image.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.pct_image.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pct_image.Location = new System.Drawing.Point(135, 117);
-            this.pct_image.Name = "pct_image";
-            this.pct_image.Size = new System.Drawing.Size(338, 153);
-            this.pct_image.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pct_image.TabIndex = 10;
-            this.pct_image.TabStop = false;
-            // 
-            // btn_clear_image
-            // 
-            this.btn_clear_image.Image = global::Creator.Properties.Resources.rsz_clear;
-            this.btn_clear_image.Location = new System.Drawing.Point(53, 147);
-            this.btn_clear_image.Name = "btn_clear_image";
-            this.btn_clear_image.Size = new System.Drawing.Size(75, 23);
-            this.btn_clear_image.TabIndex = 9;
-            this.btn_clear_image.Text = "Clear";
-            this.btn_clear_image.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btn_clear_image.UseVisualStyleBackColor = true;
-            this.btn_clear_image.Click += new System.EventHandler(this.ClearImage);
-            // 
-            // btn_remove_option
-            // 
-            this.btn_remove_option.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.btn_remove_option.Enabled = false;
-            this.btn_remove_option.Image = global::Creator.Properties.Resources.remove;
-            this.btn_remove_option.Location = new System.Drawing.Point(440, 327);
-            this.btn_remove_option.Name = "btn_remove_option";
-            this.btn_remove_option.Size = new System.Drawing.Size(75, 23);
-            this.btn_remove_option.TabIndex = 7;
-            this.btn_remove_option.Text = "Remove";
-            this.btn_remove_option.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btn_remove_option.UseVisualStyleBackColor = true;
-            this.btn_remove_option.Click += new System.EventHandler(this.RemoveOption);
-            // 
-            // btn_add_options
-            // 
-            this.btn_add_options.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.btn_add_options.Image = global::Creator.Properties.Resources.add;
-            this.btn_add_options.Location = new System.Drawing.Point(440, 297);
-            this.btn_add_options.Name = "btn_add_options";
-            this.btn_add_options.Size = new System.Drawing.Size(75, 23);
-            this.btn_add_options.TabIndex = 6;
-            this.btn_add_options.Text = "Add";
-            this.btn_add_options.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btn_add_options.UseVisualStyleBackColor = true;
-            this.btn_add_options.Click += new System.EventHandler(this.AddOption);
+            this.pictureBox1.Image = global::Creator.Properties.Resources.splash;
+            this.pictureBox1.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(564, 227);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
             // 
             // newToolStripMenuItem
             // 
@@ -901,7 +868,7 @@
             this.newToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
             this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.newToolStripMenuItem.Text = "&New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.New);
             // 
@@ -911,7 +878,7 @@
             this.openToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.openToolStripMenuItem.Text = "&Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.Open);
             // 
@@ -922,9 +889,17 @@
             this.saveToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.saveToolStripMenuItem.Text = "&Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.Save);
+            // 
+            // asJsonToolStripMenuItem
+            // 
+            this.asJsonToolStripMenuItem.Image = global::Creator.Properties.Resources.json;
+            this.asJsonToolStripMenuItem.Name = "asJsonToolStripMenuItem";
+            this.asJsonToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.asJsonToolStripMenuItem.Text = "As JSON";
+            this.asJsonToolStripMenuItem.Click += new System.EventHandler(this.ExportAtJson);
             // 
             // printToolStripMenuItem
             // 
@@ -933,7 +908,7 @@
             this.printToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.printToolStripMenuItem.Name = "printToolStripMenuItem";
             this.printToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
-            this.printToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.printToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.printToolStripMenuItem.Text = "&Print";
             this.printToolStripMenuItem.Click += new System.EventHandler(this.Print);
             // 
@@ -943,7 +918,7 @@
             this.printPreviewToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("printPreviewToolStripMenuItem.Image")));
             this.printPreviewToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.printPreviewToolStripMenuItem.Name = "printPreviewToolStripMenuItem";
-            this.printPreviewToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.printPreviewToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.printPreviewToolStripMenuItem.Text = "Print Pre&view";
             this.printPreviewToolStripMenuItem.Click += new System.EventHandler(this.PrintPreview);
             // 
@@ -980,17 +955,69 @@
             this.pasteToolStripMenuItem.Text = "&Paste";
             this.pasteToolStripMenuItem.Click += new System.EventHandler(this.Paste);
             // 
-            // pictureBox1
+            // pct_image
             // 
-            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.pct_image.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox1.Image = global::Creator.Properties.Resources.splash;
-            this.pictureBox1.Location = new System.Drawing.Point(3, 3);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(618, 227);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
+            this.pct_image.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pct_image.Location = new System.Drawing.Point(135, 117);
+            this.pct_image.Name = "pct_image";
+            this.pct_image.Size = new System.Drawing.Size(338, 153);
+            this.pct_image.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pct_image.TabIndex = 10;
+            this.pct_image.TabStop = false;
+            // 
+            // btn_clear_image
+            // 
+            this.btn_clear_image.Image = global::Creator.Properties.Resources.rsz_clear;
+            this.btn_clear_image.Location = new System.Drawing.Point(53, 147);
+            this.btn_clear_image.Name = "btn_clear_image";
+            this.btn_clear_image.Size = new System.Drawing.Size(75, 23);
+            this.btn_clear_image.TabIndex = 9;
+            this.btn_clear_image.Text = "Clear";
+            this.btn_clear_image.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btn_clear_image.UseVisualStyleBackColor = true;
+            this.btn_clear_image.Click += new System.EventHandler(this.ClearImage);
+            // 
+            // btn_insert_image
+            // 
+            this.btn_insert_image.Image = global::Creator.Properties.Resources.rsz_actions_insert_image_icon;
+            this.btn_insert_image.Location = new System.Drawing.Point(53, 117);
+            this.btn_insert_image.Name = "btn_insert_image";
+            this.btn_insert_image.Size = new System.Drawing.Size(75, 23);
+            this.btn_insert_image.TabIndex = 8;
+            this.btn_insert_image.Text = "Insert";
+            this.btn_insert_image.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btn_insert_image.UseVisualStyleBackColor = true;
+            this.btn_insert_image.Click += new System.EventHandler(this.InsertImage);
+            // 
+            // btn_remove_option
+            // 
+            this.btn_remove_option.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.btn_remove_option.Enabled = false;
+            this.btn_remove_option.Image = global::Creator.Properties.Resources.remove;
+            this.btn_remove_option.Location = new System.Drawing.Point(440, 327);
+            this.btn_remove_option.Name = "btn_remove_option";
+            this.btn_remove_option.Size = new System.Drawing.Size(75, 23);
+            this.btn_remove_option.TabIndex = 7;
+            this.btn_remove_option.Text = "Remove";
+            this.btn_remove_option.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btn_remove_option.UseVisualStyleBackColor = true;
+            this.btn_remove_option.Click += new System.EventHandler(this.RemoveOption);
+            // 
+            // btn_add_options
+            // 
+            this.btn_add_options.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.btn_add_options.Image = global::Creator.Properties.Resources.add;
+            this.btn_add_options.Location = new System.Drawing.Point(440, 297);
+            this.btn_add_options.Name = "btn_add_options";
+            this.btn_add_options.Size = new System.Drawing.Size(75, 23);
+            this.btn_add_options.TabIndex = 6;
+            this.btn_add_options.Text = "Add";
+            this.btn_add_options.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btn_add_options.UseVisualStyleBackColor = true;
+            this.btn_add_options.Click += new System.EventHandler(this.AddOption);
             // 
             // btn_edit_section
             // 
@@ -1029,21 +1056,21 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
-            this.pan_display_questions.ResumeLayout(false);
-            this.pan_display_questions.PerformLayout();
             this.pan_splash.ResumeLayout(false);
             this.pan_exam_properties.ResumeLayout(false);
             this.pan_exam_properties.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_time_limit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_passmark)).EndInit();
+            this.pan_display_questions.ResumeLayout(false);
+            this.pan_display_questions.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.cms_section.ResumeLayout(false);
             this.cms_question.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pct_image)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pct_image)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1136,5 +1163,8 @@
         private System.Windows.Forms.ContextMenuStrip cms_question;
         private System.Windows.Forms.ToolStripMenuItem btn_delete_question;
         private System.Windows.Forms.CheckBox chkMulipleChoice;
+        private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem asJsonToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
     }
 }

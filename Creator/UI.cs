@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System;
 using System.IO;
 using System.Diagnostics;
+using Newtonsoft.Json;
 
 namespace Creator
 {
@@ -657,6 +658,8 @@ namespace Creator
         {
             closeToolStripMenuItem.Enabled = true;
             //
+            exportToolStripMenuItem.Enabled = true;
+            //
             saveAsToolStripMenuItem.Enabled = true;
             saveToolStripButton.Enabled = true;
             saveToolStripMenuItem.Enabled = true;
@@ -697,6 +700,8 @@ namespace Creator
         private void DisableAllControls()
         {
             closeToolStripMenuItem.Enabled = false;
+            //
+            exportToolStripMenuItem.Enabled = false;
             //
             saveAsToolStripMenuItem.Enabled = false;
             saveToolStripButton.Enabled = false;
@@ -1083,6 +1088,27 @@ namespace Creator
         {
             txt_question_text.TextChanged += QuestionChanged;
             txt_explanation.TextChanged += QuestionChanged;
+        }
+
+        private void ExportAtJson(object sender, EventArgs e)
+        {
+            if (this.exam != null)
+            {
+                string examJsonString = JsonConvert.SerializeObject(this.exam, Formatting.Indented);
+                if (!string.IsNullOrWhiteSpace(examJsonString))
+                {
+                    SaveFileDialog sfdExportJson = new SaveFileDialog();
+                    sfdExportJson.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                    sfdExportJson.Filter = "JSON File|*.json";
+                    sfdExportJson.FilterIndex = 1;
+                    sfdExportJson.FileName = this.exam.Properties.Title;
+                    if (sfdExportJson.ShowDialog() == DialogResult.OK)
+                    {
+                        File.WriteAllText(sfdExportJson.FileName, examJsonString);
+                        MessageBox.Show("JSON successfully exported.", "Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
         }
     }
 }
