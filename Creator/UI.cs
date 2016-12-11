@@ -1099,7 +1099,7 @@ namespace Creator
                 {
                     SaveFileDialog sfdExportJson = new SaveFileDialog();
                     sfdExportJson.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                    sfdExportJson.Filter = "JSON File|*.json";
+                    sfdExportJson.Filter = "JSON Files|*.json";
                     sfdExportJson.FilterIndex = 1;
                     sfdExportJson.FileName = this.exam.Properties.Title;
                     if (sfdExportJson.ShowDialog() == DialogResult.OK)
@@ -1107,6 +1107,26 @@ namespace Creator
                         File.WriteAllText(sfdExportJson.FileName, examJsonString);
                         MessageBox.Show("JSON successfully exported.", "Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
+                }
+            }
+        }
+
+        private void ExportXML(object sender, EventArgs e)
+        {
+            if (this.exam != null)
+            {
+                var examXmlStringWriter = new System.IO.StringWriter();
+                var serializer = new System.Xml.Serialization.XmlSerializer(this.exam.GetType());
+                SaveFileDialog sfdExportXml = new SaveFileDialog();
+                sfdExportXml.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                sfdExportXml.Filter = "XML Files|*.Xml";
+                sfdExportXml.FilterIndex = 1;
+                sfdExportXml.FileName = this.exam.Properties.Title;
+                if (sfdExportXml.ShowDialog() == DialogResult.OK)
+                {
+                    serializer.Serialize(examXmlStringWriter, this.exam);
+                    File.WriteAllText(sfdExportXml.FileName, examXmlStringWriter.ToString());
+                    MessageBox.Show("XML successfully exported.", "Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
         }
