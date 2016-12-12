@@ -131,7 +131,6 @@ namespace Simulator
             }
             catch(NullReferenceException)
             {
-                throw;
                 MessageBox.Show("Sorry, the selected exam is not a supported version. You can convert it using  the upgrade tool at:\n" + "https://sourceforge.net/projects/exam-upgrade-tool/", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Remove(sender, e);
             }

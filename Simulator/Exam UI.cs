@@ -288,17 +288,40 @@ namespace Simulator
         private void ShowAnswer(object sender, EventArgs e)
         {
             lbl_explanation.Visible = true;
-            RadioButton answer = pan_display.Controls.OfType<RadioButton>().FirstOrDefault(s => s.Name.Replace("rdb", "") == settings.Questions[currentQuestionIndex].Answer.ToString());
-            if (answer != null)
+            //
+            var chks = pan_display.Controls.OfType<CheckBox>();
+            if (chks.Count() > 0)
             {
-                int index = pan_display.Controls.IndexOf(answer);
-                ((RadioButton)pan_display.Controls[index]).ForeColor = Color.Green;
+                var answers = chks.Where(s => settings.Questions[currentQuestionIndex].Answers.Contains(Convert.ToChar(s.Name.Replace("chk", ""))));
+                foreach(var answer in answers)
+                {
+                    int index = pan_display.Controls.IndexOf(answer);
+                    ((CheckBox)pan_display.Controls[index]).ForeColor = Color.Green;
+                }
+                var selectedOptions = chks.Where(s => s.Checked);
+                foreach (var selectedOption in selectedOptions)
+                {
+                    if (!settings.Questions[currentQuestionIndex].Answers.Contains(Convert.ToChar(selectedOption.Name.Replace("chk", ""))))
+                    {
+                        int index = pan_display.Controls.IndexOf(selectedOption);
+                        ((CheckBox)pan_display.Controls[index]).ForeColor = Color.Red;
+                    }
+                }
             }
-            RadioButton currentSelectedOption = pan_display.Controls.OfType<RadioButton>().FirstOrDefault(s => s.Checked);
-            if (currentSelectedOption != null && currentSelectedOption.Text != answer.Text)
+            else
             {
-                int index = pan_display.Controls.IndexOf(currentSelectedOption);
-                ((RadioButton)pan_display.Controls[index]).ForeColor = Color.Red;
+                RadioButton answer = pan_display.Controls.OfType<RadioButton>().FirstOrDefault(s => s.Name.Replace("rdb", "") == settings.Questions[currentQuestionIndex].Answer.ToString());
+                if (answer != null)
+                {
+                    int index = pan_display.Controls.IndexOf(answer);
+                    ((RadioButton)pan_display.Controls[index]).ForeColor = Color.Green;
+                }
+                RadioButton currentSelectedOption = pan_display.Controls.OfType<RadioButton>().FirstOrDefault(s => s.Checked);
+                if (currentSelectedOption != null && currentSelectedOption.Text != answer.Text)
+                {
+                    int index = pan_display.Controls.IndexOf(currentSelectedOption);
+                    ((RadioButton)pan_display.Controls[index]).ForeColor = Color.Red;
+                }
             }
         }
     }
