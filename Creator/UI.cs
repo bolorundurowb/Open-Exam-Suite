@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System;
 using System.IO;
 using System.Diagnostics;
+using Newtonsoft.Json;
 
 namespace Creator
 {
@@ -54,16 +55,20 @@ namespace Creator
             EnableExamControls();
             EnableSectionControls();
             //
-            ExamNode examNode = new ExamNode(this.exam.Properties);
+            ExamNode examNode = new ExamNode(exam.Properties);
             trv_view_exam.Nodes.Add(examNode);
             foreach(Section section in exam.Sections)
             {
-                SectionNode sectionNode = new SectionNode(section.Title);
-                sectionNode.ContextMenuStrip = cms_section;
-                foreach(Question question in section.Questions)
+                SectionNode sectionNode = new SectionNode(section.Title)
                 {
-                    QuestionNode questionNode = new QuestionNode(question);
-                    questionNode.ContextMenuStrip = cms_question;
+                    ContextMenuStrip = cms_section
+                };
+                foreach (Question question in section.Questions)
+                {
+                    QuestionNode questionNode = new QuestionNode(question)
+                    {
+                        ContextMenuStrip = cms_question
+                    };
                     //
                     sectionNode.Nodes.Add(questionNode);
                 }
@@ -103,9 +108,11 @@ namespace Creator
                 this.exam.Sections.Clear();
                 foreach(SectionNode sectionNode in examNode.Nodes)
                 {
-                    Section section = new Section();
-                    section.Title = sectionNode.Title;
-                    foreach(QuestionNode questionNode in sectionNode.Nodes)
+                    Section section = new Section()
+                    {
+                        Title = sectionNode.Title
+                    };
+                    foreach (QuestionNode questionNode in sectionNode.Nodes)
                     {
                         Question question = new Question();
                         question = questionNode.Question;
@@ -130,18 +137,44 @@ namespace Creator
         private void CommitQuestion()
         {
             Question question = ((QuestionNode)trv_view_exam.SelectedNode).Question;
-            var answerCtrl = pan_options.Controls.OfType<OptionControl>().FirstOrDefault(s => s.Checked);
-            question.Answer = answerCtrl == null ? '\0' : answerCtrl.Letter;
+            question.IsMultipleChoice = chkMulipleChoice.Checked;
+            if (question.IsMultipleChoice)
+            {
+                var answerCtrls = pan_options.Controls.OfType<OptionsControl>().Where(s => s.Checked);
+                question.Answers = answerCtrls.Select(x => x.Letter).ToArray();
+            }
+            else
+            {
+                var answerCtrl = pan_options.Controls.OfType<OptionControl>().FirstOrDefault(s => s.Checked);
+                question.Answer = answerCtrl == null ? '\0' : answerCtrl.Letter;
+            }
             question.Explanation = txt_explanation.Text;
             question.Image = (Bitmap)pct_image.Image;
             question.No = trv_view_exam.SelectedNode.Index + 1;
             question.Options.Clear();
-            foreach (var ctrl in pan_options.Controls.OfType<OptionControl>())
+            if (question.IsMultipleChoice)
             {
-                Option option = new Option();
-                option.Alphabet = ctrl.Letter;
-                option.Text = ctrl.Text;
-                question.Options.Add(option);
+                foreach (var ctrl in pan_options.Controls.OfType<OptionsControl>())
+                {
+                    Option option = new Option()
+                    {
+                        Alphabet = ctrl.Letter,
+                        Text = ctrl.Text
+                    };
+                    question.Options.Add(option);
+                }
+            }
+            else
+            {
+                foreach (var ctrl in pan_options.Controls.OfType<OptionControl>())
+                {
+                    Option option = new Option()
+                    {
+                        Alphabet = ctrl.Letter,
+                        Text = ctrl.Text
+                    };
+                    question.Options.Add(option);
+                }
             }
             question.Text = txt_question_text.Text;
         }
@@ -213,11 +246,15 @@ namespace Creator
                         SectionNode sectionNode = trv_view_exam.Nodes[0].Nodes.Cast<SectionNode>().FirstOrDefault(s => s.Title == undoObject.SectionTitle);
                         if (sectionNode == null)
                         {
-                            sectionNode = new SectionNode(undoObject.SectionTitle);
-                            sectionNode.ContextMenuStrip = cms_section;
+                            sectionNode = new SectionNode(undoObject.SectionTitle)
+                            {
+                                ContextMenuStrip = cms_section
+                            };
                             //
-                            QuestionNode questionNode = new QuestionNode(undoObject.Question);
-                            questionNode.ContextMenuStrip = cms_question;
+                            QuestionNode questionNode = new QuestionNode(undoObject.Question)
+                            {
+                                ContextMenuStrip = cms_question
+                            };
                             sectionNode.Nodes.Add(questionNode);
                             //
                             trv_view_exam.Nodes[0].Nodes.Add(sectionNode);
@@ -225,8 +262,10 @@ namespace Creator
                         }
                         else
                         {
-                            QuestionNode questionNode = new QuestionNode(undoObject.Question);
-                            questionNode.ContextMenuStrip = cms_question;
+                            QuestionNode questionNode = new QuestionNode(undoObject.Question)
+                            {
+                                ContextMenuStrip = cms_question
+                            };
                             sectionNode.Nodes.Insert(questionNode.Question.No - 1, questionNode);
                             //
                             trv_view_exam.ExpandAll();
@@ -255,18 +294,41 @@ namespace Creator
                             pan_options.Controls.Clear();
                             //
                             int k = 0;
-                            foreach (var option in undoObject.Question.Options)
+                            if (undoObject.Question.IsMultipleChoice)
                             {
-                                OptionControl ctrl = new OptionControl();
-                                ctrl.Letter = option.Alphabet;
-                                ctrl.Text = option.Text;
-                                ctrl.Location = new Point(2, k * 36);
-                                if (option.Alphabet == undoObject.Question.Answer)
+                                foreach (var option in undoObject.Question.Options)
                                 {
-                                    ctrl.Checked = true;
+                                    OptionsControl ctrl = new OptionsControl()
+                                    {
+                                        Letter = option.Alphabet,
+                                        Text = option.Text,
+                                        Location = new Point(2, k * 36)
+                                    };
+                                    if (undoObject.Question.Answers.Contains(option.Alphabet))
+                                    {
+                                        ctrl.Checked = true;
+                                    }
+                                    pan_options.Controls.Add(ctrl);
+                                    k++;
                                 }
-                                pan_options.Controls.Add(ctrl);
-                                k++;
+                            }
+                            else
+                            {
+                                foreach (var option in undoObject.Question.Options)
+                                {
+                                    OptionControl ctrl = new OptionControl()
+                                    {
+                                        Letter = option.Alphabet,
+                                        Text = option.Text,
+                                        Location = new Point(2, k * 36)
+                                    };
+                                    if (option.Alphabet == undoObject.Question.Answer)
+                                    {
+                                        ctrl.Checked = true;
+                                    }
+                                    pan_options.Controls.Add(ctrl);
+                                    k++;
+                                }
                             }
                         }
                         break;
@@ -286,11 +348,15 @@ namespace Creator
                         SectionNode sectionNode = trv_view_exam.Nodes[0].Nodes.Cast<SectionNode>().FirstOrDefault(s => s.Title == redoObject.SectionTitle);
                         if(sectionNode == null)
                         {
-                            sectionNode = new SectionNode(redoObject.SectionTitle);
-                            sectionNode.ContextMenuStrip = cms_section;
+                            sectionNode = new SectionNode(redoObject.SectionTitle)
+                            {
+                                ContextMenuStrip = cms_section
+                            };
                             //
-                            QuestionNode questionNode = new QuestionNode(redoObject.Question);
-                            questionNode.ContextMenuStrip = cms_question;
+                            QuestionNode questionNode = new QuestionNode(redoObject.Question)
+                            {
+                                ContextMenuStrip = cms_question
+                            };
                             sectionNode.Nodes.Add(questionNode);
                             //
                             trv_view_exam.Nodes[0].Nodes.Add(sectionNode);
@@ -300,8 +366,10 @@ namespace Creator
                         {
                             sectionNode.ContextMenuStrip = cms_section;
                             //
-                            QuestionNode questionNode = new QuestionNode(redoObject.Question);
-                            questionNode.ContextMenuStrip = cms_question;
+                            QuestionNode questionNode = new QuestionNode(redoObject.Question)
+                            {
+                                ContextMenuStrip = cms_question
+                            };
                             sectionNode.Nodes.Add(questionNode);
                             //
                             trv_view_exam.ExpandAll();
@@ -349,18 +417,41 @@ namespace Creator
                             pan_options.Controls.Clear();
                             //
                             int k = 0;
-                            foreach (var option in redoObject.Question.Options)
+                            if (redoObject.Question.IsMultipleChoice)
                             {
-                                OptionControl ctrl = new OptionControl();
-                                ctrl.Letter = option.Alphabet;
-                                ctrl.Text = option.Text;
-                                ctrl.Location = new Point(2, k * 36);
-                                if (option.Alphabet == redoObject.Question.Answer)
+                                foreach (var option in redoObject.Question.Options)
                                 {
-                                    ctrl.Checked = true;
+                                    OptionsControl ctrl = new OptionsControl()
+                                    {
+                                        Letter = option.Alphabet,
+                                        Text = option.Text,
+                                        Location = new Point(2, k * 36)
+                                    };
+                                    if (redoObject.Question.Answers.Contains(option.Alphabet))
+                                    {
+                                        ctrl.Checked = true;
+                                    }
+                                    pan_options.Controls.Add(ctrl);
+                                    k++;
                                 }
-                                pan_options.Controls.Add(ctrl);
-                                k++;
+                            }
+                            else
+                            {
+                                foreach (var option in redoObject.Question.Options)
+                                {
+                                    OptionControl ctrl = new OptionControl()
+                                    {
+                                        Letter = option.Alphabet,
+                                        Text = option.Text,
+                                        Location = new Point(2, k * 36)
+                                    };
+                                    if (option.Alphabet == redoObject.Question.Answer)
+                                    {
+                                        ctrl.Checked = true;
+                                    }
+                                    pan_options.Controls.Add(ctrl);
+                                    k++;
+                                }
                             }
                         }
                         break;
@@ -373,8 +464,10 @@ namespace Creator
             AddSection addSection = new AddSection();
             addSection.ShowDialog();
             //
-            SectionNode sectionNode = new SectionNode(addSection.Title);
-            sectionNode.ContextMenuStrip = cms_section;
+            SectionNode sectionNode = new SectionNode(addSection.Title)
+            {
+                ContextMenuStrip = cms_section
+            };
             trv_view_exam.Nodes[0].Nodes.Add(sectionNode);
             //
             trv_view_exam.ExpandAll();
@@ -385,19 +478,25 @@ namespace Creator
         private void NewQuestion(object sender, EventArgs e)
         {
             SectionNode nodeToBeAddedTo = trv_view_exam.SelectedNode.GetType() == typeof(SectionNode) ? (SectionNode)trv_view_exam.SelectedNode : (SectionNode)trv_view_exam.SelectedNode.Parent;
-            Question question = new Question();
-            question.No = nodeToBeAddedTo.Nodes.Count + 1;
+            Question question = new Question()
+            {
+                No = nodeToBeAddedTo.Nodes.Count + 1
+            };
             //
-            QuestionNode questionNode = new QuestionNode(question);
-            questionNode.ContextMenuStrip = cms_question;
+            QuestionNode questionNode = new QuestionNode(question)
+            {
+                ContextMenuStrip = cms_question
+            };
             nodeToBeAddedTo.Nodes.Add(questionNode);
             //
             trv_view_exam.ExpandAll();
             //
-            ChangeRepresentationObject obj = new ChangeRepresentationObject();
-            obj.Action = ActionType.Add;
-            obj.Question = question;
-            obj.SectionTitle = nodeToBeAddedTo.Title;
+            ChangeRepresentationObject obj = new ChangeRepresentationObject()
+            {
+                Action = ActionType.Add,
+                Question = question,
+                SectionTitle = nodeToBeAddedTo.Title
+            };
             undoRedo.InsertObjectforUndoRedo(obj);
             //
             IsDirty = true;
@@ -499,22 +598,47 @@ namespace Creator
                 lbl_section_question.Text = "Section: " + trv_view_exam.SelectedNode.Parent.Text + " Question " + question.No;
                 pct_image.Image = question.Image;
                 //
+                chkMulipleChoice.Checked = question.IsMultipleChoice;
+                //
                 pan_options.Controls.Clear();
                 //
                 int i = 0;
-                foreach(var option in question.Options)
+                if (question.IsMultipleChoice)
                 {
-                    OptionControl ctrl = new OptionControl();
-                    ctrl.Letter = option.Alphabet;
-                    ctrl.Text = option.Text;
-                    ctrl.Location = new Point(2, i * 36);
-                    if (option.Alphabet == question.Answer)
+                    foreach (var option in question.Options)
                     {
-                        ctrl.Checked = true;
+                        OptionsControl ctrl = new OptionsControl()
+                        {
+                            Letter = option.Alphabet,
+                            Text = option.Text,
+                            Location = new Point(2, i * 36)
+                        };
+                        if (question.Answers.Contains(option.Alphabet))
+                        {
+                            ctrl.Checked = true;
+                        }
+                        pan_options.Controls.Add(ctrl);
+                        i++;
                     }
-                    pan_options.Controls.Add(ctrl);
-                    i++;
-                } 
+                }
+                else
+                {
+                    foreach (var option in question.Options)
+                    {
+                        OptionControl ctrl = new OptionControl()
+                        {
+                            Letter = option.Alphabet,
+                            Text = option.Text,
+                            Location = new Point(2, i * 36)
+                        };
+                        if (option.Alphabet == question.Answer)
+                        {
+                            ctrl.Checked = true;
+                        }
+                        pan_options.Controls.Add(ctrl);
+                        i++;
+                    }
+                }
             }
             //
             ReconnectHandlers();
@@ -545,16 +669,26 @@ namespace Creator
 
         private void SaveProperties(object sender, EventArgs e)
         {
-            Shared.Properties properties = new Shared.Properties();
-            properties.Code = txt_code.Text;
-            properties.Instructions = txt_instruction.Text;
-            properties.Passmark = (int)num_passmark.Value;
-            properties.TimeLimit = (int)num_time_limit.Value;
-            properties.Title = txt_title.Text;
-            properties.Version = int.Parse(lbl_version.Text);
+            Shared.Properties properties = new Shared.Properties()
+            {
+                Code = txt_code.Text,
+                Instructions = txt_instruction.Text,
+                Passmark = (int)num_passmark.Value,
+                TimeLimit = (int)num_time_limit.Value,
+                Title = txt_title.Text,
+                Version = int.Parse(lbl_version.Text)
+            };
             //
-            ExamNode examNode = new ExamNode(properties);
-            trv_view_exam.Nodes.Add(examNode);
+            if (trv_view_exam.Nodes.Count > 0)
+            {
+                ExamNode examNode = (ExamNode)trv_view_exam.Nodes[0];
+                examNode.Properties = properties;
+            }
+            else
+            {
+                ExamNode examNode = new ExamNode(properties);
+                trv_view_exam.Nodes.Add(examNode);
+            }
             //
             trv_view_exam.ExpandAll();
             //
@@ -567,6 +701,8 @@ namespace Creator
         private void EnableExamControls()
         {
             closeToolStripMenuItem.Enabled = true;
+            //
+            exportToolStripMenuItem.Enabled = true;
             //
             saveAsToolStripMenuItem.Enabled = true;
             saveToolStripButton.Enabled = true;
@@ -609,6 +745,8 @@ namespace Creator
         {
             closeToolStripMenuItem.Enabled = false;
             //
+            exportToolStripMenuItem.Enabled = false;
+            //
             saveAsToolStripMenuItem.Enabled = false;
             saveToolStripButton.Enabled = false;
             saveToolStripMenuItem.Enabled = false;
@@ -645,9 +783,6 @@ namespace Creator
                     return;
                 }
             }
-            this.exam = null;
-            this.undoRedo = null;
-            IsDirty = false;
             //
             ClearControls();
             trv_view_exam.Nodes.Clear();
@@ -663,6 +798,9 @@ namespace Creator
                 splitContainer2.Panel2.Controls.Remove(pan_exam_properties);
                 splitContainer2.Panel2.Controls.Add(pan_splash);
             }
+            this.exam = null;
+            this.undoRedo = null;
+            IsDirty = false;
             //
             LoadExamHistory();
         }
@@ -695,28 +833,65 @@ namespace Creator
 
         private void RemoveOption(object sender, EventArgs e)
         {
-            pan_options.Controls.Remove(pan_options.Controls.OfType<OptionControl>().ElementAt(pan_options.Controls.OfType<OptionControl>().Count() - 1));
+            if (chkMulipleChoice.Checked)
+            {
+                pan_options.Controls.Remove(pan_options.Controls.OfType<OptionsControl>().ElementAt(pan_options.Controls.OfType<OptionsControl>().Count() - 1));
+            }
+            else
+            {
+                pan_options.Controls.Remove(pan_options.Controls.OfType<OptionControl>().ElementAt(pan_options.Controls.OfType<OptionControl>().Count() - 1));
+            }
             //
             QuestionChanged(sender, e);
         }
 
         private void AddOption(object sender, EventArgs e)
         {
-            if (pan_options.Controls.Count > 0)
+            if (chkMulipleChoice.Checked)
             {
-                OptionControl ctrl = new OptionControl();
-                ctrl.Name = "option" + (pan_options.Controls.Count - 1);
-                ctrl.Letter = (char)(Convert.ToInt32(((OptionControl)pan_options.Controls[pan_options.Controls.Count - 1]).Letter) + 1);
-                ctrl.Location = new Point(2, 2 + (pan_options.Controls.Count * 36));
-                pan_options.Controls.Add(ctrl);
+                if (pan_options.Controls.Count > 0)
+                {
+                    OptionsControl ctrl = new OptionsControl()
+                    {
+                        Name = "option" + (pan_options.Controls.Count - 1),
+                        Letter = (char)(Convert.ToInt32(((OptionsControl)pan_options.Controls[pan_options.Controls.Count - 1]).Letter) + 1),
+                        Location = new Point(2, 2 + (pan_options.Controls.Count * 36))
+                    };
+                    pan_options.Controls.Add(ctrl);
+                }
+                else
+                {
+                    OptionsControl ctrl = new OptionsControl()
+                    {
+                        Location = new Point(2, 2),
+                        Name = "option0",
+                        Letter = 'A'
+                    };
+                    pan_options.Controls.Add(ctrl);
+                }
             }
             else
             {
-                OptionControl ctrl = new OptionControl();
-                ctrl.Location = new Point(2, 2);
-                ctrl.Name = "option0";
-                ctrl.Letter = 'A';
-                pan_options.Controls.Add(ctrl);
+                if (pan_options.Controls.Count > 0)
+                {
+                    OptionControl ctrl = new OptionControl()
+                    {
+                        Name = "option" + (pan_options.Controls.Count - 1),
+                        Letter = (char)(Convert.ToInt32(((OptionControl)pan_options.Controls[pan_options.Controls.Count - 1]).Letter) + 1),
+                        Location = new Point(2, 2 + (pan_options.Controls.Count * 36))
+                    };
+                    pan_options.Controls.Add(ctrl);
+                }
+                else
+                {
+                    OptionControl ctrl = new OptionControl()
+                    {
+                        Location = new Point(2, 2),
+                        Name = "option0",
+                        Letter = 'A'
+                    };
+                    pan_options.Controls.Add(ctrl);
+                }
             }
             //
             QuestionChanged(sender, e);
@@ -809,11 +984,11 @@ namespace Creator
         {
             if (IsDirty)
             {
-                DialogResult result = MessageBox.Show("The current exam has not been saved, are you sure you want to close it?", "Unsaved Changes",
-                    MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (result == DialogResult.No)
+                DialogResult result = MessageBox.Show("The current exam has not been saved, do you want to save and close?", "Unsaved Changes",
+                    MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                if (result == DialogResult.Cancel)
                     e.Cancel = true;
-                else
+                else if (result == DialogResult.Yes)
                     Save(sender, e);
             }
         }
@@ -829,18 +1004,20 @@ namespace Creator
                 int i = 0;
                 foreach (string exam in Properties.Settings.Default.Exams)
                 {
-                    LinkLabel examLink = new LinkLabel();
-                    examLink.Location = new Point(10, (25 + (i * 25)));
-                    examLink.AutoSize = true;
-                    examLink.Text = exam;
-                    examLink.Click += examLink_Click;
+                    LinkLabel examLink = new LinkLabel()
+                    {
+                        Location = new Point(10, (25 + (i * 25))),
+                        AutoSize = true,
+                        Text = exam
+                    };
+                    examLink.Click += ExamLinkClick;
                     grp_exam_history.Controls.Add(examLink);
                     i++;
                 }
             }
         }
 
-        void examLink_Click(object sender, EventArgs e)
+        void ExamLinkClick(object sender, EventArgs e)
         {
             if (File.Exists(((LinkLabel)sender).Text))
             {
@@ -865,10 +1042,12 @@ namespace Creator
         {
             var sectionNode = trv_view_exam.SelectedNode.Parent;
             //
-            ChangeRepresentationObject obj = new ChangeRepresentationObject();
-            obj.Action = ActionType.Delete;
-            obj.Question = ((QuestionNode)trv_view_exam.SelectedNode).Question;
-            obj.SectionTitle = ((SectionNode)sectionNode).Title;
+            ChangeRepresentationObject obj = new ChangeRepresentationObject()
+            {
+                Action = ActionType.Delete,
+                Question = ((QuestionNode)trv_view_exam.SelectedNode).Question,
+                SectionTitle = ((SectionNode)sectionNode).Title
+            };
             undoRedo.InsertObjectforUndoRedo(obj);
             //
             sectionNode.Nodes.Remove(trv_view_exam.SelectedNode);
@@ -906,23 +1085,56 @@ namespace Creator
         {
             IsDirty = true;
             //
-            ChangeRepresentationObject obj = new ChangeRepresentationObject();
-            obj.Action = ActionType.Modify;
+            ChangeRepresentationObject obj = new ChangeRepresentationObject()
+            {
+                Action = ActionType.Modify
+            };
             //
-            Question question = new Question();
-            var answerCtrl = pan_options.Controls.OfType<OptionControl>().FirstOrDefault(s => s.Checked);
-            question.Answer = answerCtrl == null ? '\0' : answerCtrl.Letter;
+            Question question = new Question()
+            {
+                IsMultipleChoice = chkMulipleChoice.Checked
+            };
+            if (question.IsMultipleChoice)
+            {
+                var answerCtrls = pan_options.Controls.OfType<OptionsControl>().Where(s => s.Checked);
+                question.Answers = answerCtrls.Select(x => x.Letter).ToArray();
+            }
+            else
+            {
+                var answerCtrl = pan_options.Controls.OfType<OptionControl>().FirstOrDefault(s => s.Checked);
+                question.Answer = answerCtrl == null ? '\0' : answerCtrl.Letter;
+            }
             question.Explanation = txt_explanation.Text;
             question.Image = (Bitmap)pct_image.Image;
             question.No = trv_view_exam.SelectedNode.Index + 1;
             question.Options.Clear();
-            foreach (var ctrl in pan_options.Controls.OfType<OptionControl>())
+            if (question.IsMultipleChoice)
             {
-                Option option = new Option();
-                option.Alphabet = ctrl.Letter;
-                option.Text = ctrl.Text;
-                question.Options.Add(option);
+                var ctrls = pan_options.Controls.OfType<OptionsControl>();
+                foreach (var ctrl in ctrls)
+                {
+                    Option option = new Option()
+                    {
+                        Alphabet = ctrl.Letter,
+                        Text = ctrl.Text
+                    };
+                    question.Options.Add(option);
+                }
             }
+            else
+            {
+                var ctrls = pan_options.Controls.OfType<OptionControl>();
+                foreach (var ctrl in ctrls)
+                {
+                    Option option = new Option()
+                    {
+                        Alphabet = ctrl.Letter,
+                        Text = ctrl.Text
+                    };
+                    question.Options.Add(option);
+                }
+            }
+
             question.Text = txt_question_text.Text;
             //
             obj.Question = question;
@@ -940,6 +1152,51 @@ namespace Creator
         {
             txt_question_text.TextChanged += QuestionChanged;
             txt_explanation.TextChanged += QuestionChanged;
+        }
+
+        private void ExportAtJson(object sender, EventArgs e)
+        {
+            if (this.exam != null)
+            {
+                string examJsonString = JsonConvert.SerializeObject(this.exam, Formatting.Indented);
+                if (!string.IsNullOrWhiteSpace(examJsonString))
+                {
+                    SaveFileDialog sfdExportJson = new SaveFileDialog()
+                    {
+                        InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                        Filter = "JSON Files|*.json",
+                        FilterIndex = 1,
+                        FileName = this.exam.Properties.Title
+                    };
+                    if (sfdExportJson.ShowDialog() == DialogResult.OK)
+                    {
+                        File.WriteAllText(sfdExportJson.FileName, examJsonString);
+                        MessageBox.Show("JSON successfully exported.", "Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
+        }
+
+        private void ExportXML(object sender, EventArgs e)
+        {
+            if (this.exam != null)
+            {
+                var examXmlStringWriter = new System.IO.StringWriter();
+                var serializer = new System.Xml.Serialization.XmlSerializer(this.exam.GetType());
+                SaveFileDialog sfdExportXml = new SaveFileDialog()
+                {
+                    InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                    Filter = "XML Files|*.Xml",
+                    FilterIndex = 1,
+                    FileName = this.exam.Properties.Title
+                };
+                if (sfdExportXml.ShowDialog() == DialogResult.OK)
+                {
+                    serializer.Serialize(examXmlStringWriter, this.exam);
+                    File.WriteAllText(sfdExportXml.FileName, examXmlStringWriter.ToString());
+                    MessageBox.Show("XML successfully exported.", "Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
         }
     }
 }

@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Creator</RootNamespace>
     <AssemblyName>Creator</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <IsWebBootstrapper>false</IsWebBootstrapper>
@@ -71,6 +71,10 @@
     <SignManifests>false</SignManifests>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
@@ -139,6 +143,7 @@
       <DependentUpon>UI.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Creator_TemporaryKey.pfx" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -154,6 +159,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Creator Alt.fw.ico" />
+    <None Include="Resources\xml.jpg" />
+    <None Include="Resources\json.png" />
+    <None Include="Resources\rsz_actions-insert-image-icon.png" />
+    <None Include="Resources\rsz_clear.png" />
     <None Include="Resources\edit.png" />
     <None Include="Resources\splash.png" />
     <None Include="Resources\remove.png" />

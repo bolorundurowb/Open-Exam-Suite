@@ -121,6 +121,10 @@ namespace Shared
 
         public char Answer { get; set; }
 
+        public bool IsMultipleChoice { get; set; }
+        
+        public char[] Answers { get; set; }
+
         public List<Option> Options { get; set; }
 
         public string Explanation { get; set; }

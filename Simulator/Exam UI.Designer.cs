@@ -255,7 +255,7 @@ namespace Simulator
             // timer
             // 
             this.timer.Interval = 1000;
-            this.timer.Tick += new System.EventHandler(this.timer_Tick);
+            this.timer.Tick += new System.EventHandler(this.TimerTick);
             // 
             // btn_show_answer
             // 
@@ -296,7 +296,6 @@ namespace Simulator
             this.Controls.Add(this.label1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Exam_UI";
-            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Open Exam Simulator";
             this.Load += new System.EventHandler(this.Start);

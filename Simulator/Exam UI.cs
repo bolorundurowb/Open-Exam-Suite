@@ -14,7 +14,7 @@ namespace Simulator
         private Settings settings;
         private int timeLeft;
         private int currentQuestionIndex;
-        private char[] userAnswers;
+        private object[] userAnswers;
         #endregion
 
         public Exam_UI(Exam _exam, Settings _settings)
@@ -23,10 +23,10 @@ namespace Simulator
             exam = _exam;
             settings = _settings;
             timeLeft = _settings.TimeLimit * 60;
-            userAnswers = new char[exam.NumberOfQuestions];
+            userAnswers = new object[exam.NumberOfQuestions];
         }
 
-        private void timer_Tick(object sender, EventArgs e)
+        private void TimerTick(object sender, EventArgs e)
         {
             timeLeft--;
             if (timeLeft <= 0)
@@ -162,8 +162,17 @@ namespace Simulator
                 int numOfCorrectAnswers = 0;
                 for(int i = 0; i < settings.Questions.Count; i++)
                 {
-                    if (userAnswers[i] == settings.Questions[i].Answer)
+                    if (userAnswers[i].GetType().IsArray)
+                    {
+                        if (((char[])userAnswers[i]).SequenceEqual(settings.Questions[i].Answers))
+                        {
+                            numOfCorrectAnswers++;
+                        }
+                    }
+                    else if ((char)userAnswers[i] == settings.Questions[i].Answer)
+                    {
                         numOfCorrectAnswers++;
+                    }
                 }
                 settings.NumberOfCorrectAnswers = numOfCorrectAnswers;
                 //
@@ -176,8 +185,17 @@ namespace Simulator
                         if(section.Questions.Contains(settings.Questions[i]))
                         {
                             numOfQuestions++;
-                            if (userAnswers[i] == settings.Questions[i].Answer)
+                            if (userAnswers[i].GetType().IsArray)
+                            {
+                                if (((char[])userAnswers[i]).SequenceEqual(settings.Questions[i].Answers))
+                                {
+                                    numOfCorrect++;
+                                }
+                            }
+                            else if ((char)userAnswers[i] == settings.Questions[i].Answer)
+                            {
                                 numOfCorrect++;
+                            }
                         }
                     }
                     settings.ResultSpread.Add(new Tuple<string, int, int>(section.Title, numOfQuestions, numOfCorrect));
@@ -198,40 +216,71 @@ namespace Simulator
             lbl_explanation.Text = question.Explanation;
             txt_question.Text = question.Text;
             pct_image.Image = question.Image;
-            AddOptions(question.Options);
+            AddOptions(question.Options, question.IsMultipleChoice);
         }
 
-        private void AddOptions(List<Option> options)
+        private void AddOptions(List<Option> options, bool isMultipleChoice)
         {
             for (int i = 0; i < options.Count; i++)
             {
-                RadioButton rdb = new RadioButton();
-                rdb.AutoSize = true;
-                rdb.Text = options[i].Alphabet + ". - " + options[i].Text;
-                rdb.Name = "rdb" + options[i].Alphabet;
-                rdb.Location = new Point(51, 464 + (i * 22));
-                if (userAnswers[currentQuestionIndex] == options[i].Alphabet)
-                    rdb.Checked = true;
-                pan_display.Controls.Add(rdb);
+                if (isMultipleChoice)
+                {
+                    CheckBox chk = new CheckBox()
+                    {
+                        AutoSize = true,
+                        Text = options[i].Alphabet + ". - " + options[i].Text,
+                        Name = "chk" + options[i].Alphabet,
+                        Location = new Point(51, 464 + (i * 22))
+                    };
+                    if (userAnswers[currentQuestionIndex] != null && ((char[])userAnswers[currentQuestionIndex]).Contains(options[i].Alphabet))
+                        chk.Checked = true;
+                    pan_display.Controls.Add(chk);
+                }
+                else
+                {
+                    RadioButton rdb = new RadioButton()
+                    {
+                        AutoSize = true,
+                        Text = options[i].Alphabet + ". - " + options[i].Text,
+                        Name = "rdb" + options[i].Alphabet,
+                        Location = new Point(51, 464 + (i * 22))
+                    };
+                    if (userAnswers[currentQuestionIndex] != null && (char)userAnswers[currentQuestionIndex] == options[i].Alphabet)
+                        rdb.Checked = true;
+                    pan_display.Controls.Add(rdb);
+                }
             }
         }
 
         private void RemoveOptions()
         {
-            var controls = pan_display.Controls.OfType<RadioButton>();
             for(int j = pan_display.Controls.OfType<RadioButton>().Count() - 1; j >= 0; --j)
             {
+                var controls = pan_display.Controls.OfType<RadioButton>();
+                var control = controls.ElementAt(j);
+                pan_display.Controls.Remove(control);
+                control.Dispose();
+            }
+            for (int j = pan_display.Controls.OfType<CheckBox>().Count() - 1; j >= 0; --j)
+            {
+                var controls = pan_display.Controls.OfType<CheckBox>();
                 var control = controls.ElementAt(j);
                 pan_display.Controls.Remove(control);
                 control.Dispose();
             }
         }
 
-        private char SelectedAnswer()
+        private object SelectedAnswer()
         {
             var rdb = pan_display.Controls.OfType<RadioButton>().FirstOrDefault(s => s.Checked);
             if (rdb == null)
-                return '\0';
+            {
+                var chks = pan_display.Controls.OfType<CheckBox>().Where(s => s.Checked);
+                if (chks == null || chks.Count() == 0)
+                    return '\0';
+                else
+                    return chks.Select(s => Convert.ToChar(s.Text.Substring(0, 1))).ToArray();
+            }
             else
                 return Convert.ToChar(rdb.Text.Substring(0, 1));
         }
@@ -239,12 +288,40 @@ namespace Simulator
         private void ShowAnswer(object sender, EventArgs e)
         {
             lbl_explanation.Visible = true;
-            RadioButton answer = pan_display.Controls.OfType<RadioButton>().FirstOrDefault(s => s.Name.Replace("rdb", "") == settings.Questions[currentQuestionIndex].Answer.ToString());
-            if (answer != null)
+            //
+            var chks = pan_display.Controls.OfType<CheckBox>();
+            if (chks.Count() > 0)
             {
-                int index = pan_display.Controls.IndexOf(answer);
-                ((RadioButton)pan_display.Controls[index]).Checked = true;
-                ((RadioButton)pan_display.Controls[index]).ForeColor = Color.Green;
+                var answers = chks.Where(s => settings.Questions[currentQuestionIndex].Answers.Contains(Convert.ToChar(s.Name.Replace("chk", ""))));
+                foreach(var answer in answers)
+                {
+                    int index = pan_display.Controls.IndexOf(answer);
+                    ((CheckBox)pan_display.Controls[index]).ForeColor = Color.Green;
+                }
+                var selectedOptions = chks.Where(s => s.Checked);
+                foreach (var selectedOption in selectedOptions)
+                {
+                    if (!settings.Questions[currentQuestionIndex].Answers.Contains(Convert.ToChar(selectedOption.Name.Replace("chk", ""))))
+                    {
+                        int index = pan_display.Controls.IndexOf(selectedOption);
+                        ((CheckBox)pan_display.Controls[index]).ForeColor = Color.Red;
+                    }
+                }
+            }
+            else
+            {
+                RadioButton answer = pan_display.Controls.OfType<RadioButton>().FirstOrDefault(s => s.Name.Replace("rdb", "") == settings.Questions[currentQuestionIndex].Answer.ToString());
+                if (answer != null)
+                {
+                    int index = pan_display.Controls.IndexOf(answer);
+                    ((RadioButton)pan_display.Controls[index]).ForeColor = Color.Green;
+                }
+                RadioButton currentSelectedOption = pan_display.Controls.OfType<RadioButton>().FirstOrDefault(s => s.Checked);
+                if (currentSelectedOption != null && currentSelectedOption.Text != answer.Text)
+                {
+                    int index = pan_display.Controls.IndexOf(currentSelectedOption);
+                    ((RadioButton)pan_display.Controls[index]).ForeColor = Color.Red;
+                }
             }
         }
     }

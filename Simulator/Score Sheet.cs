@@ -27,7 +27,7 @@ namespace Simulator
 
         private void LoadDataToUI(object sender, EventArgs e)
         {
-            int normalizedScore = (settings.NumberOfCorrectAnswers / settings.Questions.Count) * 1000;
+            int normalizedScore = (settings.NumberOfCorrectAnswers * 1000 / settings.Questions.Count);
             if (normalizedScore >= exam.Properties.Passmark)
             {
                 lbl_status.Text = "Passed";
@@ -62,7 +62,7 @@ namespace Simulator
 
         private void Print(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
-            int normalizedScore = (settings.NumberOfCorrectAnswers / settings.Questions.Count) * 1000;
+            int normalizedScore = (settings.NumberOfCorrectAnswers * 1000 / settings.Questions.Count);
             //
             Font headerFont = new Font("Segoe UI", 12F, FontStyle.Bold);
             Font subFont = new Font("Segoe UI", 10F, FontStyle.Regular);
