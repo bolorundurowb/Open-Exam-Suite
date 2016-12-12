@@ -162,8 +162,17 @@ namespace Simulator
                 int numOfCorrectAnswers = 0;
                 for(int i = 0; i < settings.Questions.Count; i++)
                 {
-                    if ((char)userAnswers[i] == settings.Questions[i].Answer)
+                    if (userAnswers[i].GetType().IsArray)
+                    {
+                        if (((char[])userAnswers[i]).SequenceEqual(settings.Questions[i].Answers))
+                        {
+                            numOfCorrectAnswers++;
+                        }
+                    }
+                    else if ((char)userAnswers[i] == settings.Questions[i].Answer)
+                    {
                         numOfCorrectAnswers++;
+                    }
                 }
                 settings.NumberOfCorrectAnswers = numOfCorrectAnswers;
                 //
@@ -176,8 +185,17 @@ namespace Simulator
                         if(section.Questions.Contains(settings.Questions[i]))
                         {
                             numOfQuestions++;
-                            if ((char)userAnswers[i] == settings.Questions[i].Answer)
+                            if (userAnswers[i].GetType().IsArray)
+                            {
+                                if (((char[])userAnswers[i]).SequenceEqual(settings.Questions[i].Answers))
+                                {
+                                    numOfCorrect++;
+                                }
+                            }
+                            else if ((char)userAnswers[i] == settings.Questions[i].Answer)
+                            {
                                 numOfCorrect++;
+                            }
                         }
                     }
                     settings.ResultSpread.Add(new Tuple<string, int, int>(section.Title, numOfQuestions, numOfCorrect));
@@ -214,7 +232,7 @@ namespace Simulator
                         Name = "chk" + options[i].Alphabet,
                         Location = new Point(51, 464 + (i * 22))
                     };
-                    if (((char[])userAnswers[currentQuestionIndex]).Contains(options[i].Alphabet))
+                    if (userAnswers[currentQuestionIndex] != null && ((char[])userAnswers[currentQuestionIndex]).Contains(options[i].Alphabet))
                         chk.Checked = true;
                     pan_display.Controls.Add(chk);
                 }
@@ -227,7 +245,7 @@ namespace Simulator
                         Name = "rdb" + options[i].Alphabet,
                         Location = new Point(51, 464 + (i * 22))
                     };
-                    if ((char)userAnswers[currentQuestionIndex] == options[i].Alphabet)
+                    if (userAnswers[currentQuestionIndex] != null && (char)userAnswers[currentQuestionIndex] == options[i].Alphabet)
                         rdb.Checked = true;
                     pan_display.Controls.Add(rdb);
                 }
@@ -236,26 +254,33 @@ namespace Simulator
 
         private void RemoveOptions()
         {
-            var controls = pan_display.Controls.OfType<RadioButton>();
             for(int j = pan_display.Controls.OfType<RadioButton>().Count() - 1; j >= 0; --j)
             {
+                var controls = pan_display.Controls.OfType<RadioButton>();
                 var control = controls.ElementAt(j);
                 pan_display.Controls.Remove(control);
                 control.Dispose();
             }
             for (int j = pan_display.Controls.OfType<CheckBox>().Count() - 1; j >= 0; --j)
             {
+                var controls = pan_display.Controls.OfType<CheckBox>();
                 var control = controls.ElementAt(j);
                 pan_display.Controls.Remove(control);
                 control.Dispose();
             }
         }
 
-        private char SelectedAnswer()
+        private object SelectedAnswer()
         {
             var rdb = pan_display.Controls.OfType<RadioButton>().FirstOrDefault(s => s.Checked);
             if (rdb == null)
-                return '\0';
+            {
+                var chks = pan_display.Controls.OfType<CheckBox>().Where(s => s.Checked);
+                if (chks == null || chks.Count() == 0)
+                    return '\0';
+                else
+                    return chks.Select(s => Convert.ToChar(s.Text.Substring(0, 1))).ToArray();
+            }
             else
                 return Convert.ToChar(rdb.Text.Substring(0, 1));
         }

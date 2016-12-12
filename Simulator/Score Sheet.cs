@@ -27,7 +27,7 @@ namespace Simulator
 
         private void LoadDataToUI(object sender, EventArgs e)
         {
-            int normalizedScore = (settings.NumberOfCorrectAnswers / settings.Questions.Count) * 1000;
+            int normalizedScore = (settings.NumberOfCorrectAnswers * 1000 / settings.Questions.Count);
             if (normalizedScore >= exam.Properties.Passmark)
             {
                 lbl_status.Text = "Passed";
