@@ -3,13 +3,29 @@
   background-color: #F86E33;
   border-color: #F86E33;
 }
+
 .button-orange.button-outline {
   color: #F86E33;
 }
+
 .button-orange.button-clear {
   color: #F86E33;
 }
 
 .navigation-link-orange {
   color: #F86E33;
+}
+
+body {
+  font-family: 'Yanone Kaffeesatz', sans-serif; 
+  font-size: 22px;
+}
+
+h1 {
+  font-family: 'Yanone Kaffeesatz', sans-serif; 
+  font-size: 60px;
+}
+
+.title {
+  font-family: 'Yanone Kaffeesatz', sans-serif; !important
 }
