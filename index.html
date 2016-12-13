@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Open Exam Suite - Documentation</title>
+    <title>Open Exam suite - Documentation</title>
     <script src="scripts/jquery-2.2.4.min.js"></script>
     <!-- Google Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
-    <!-- CSS Reset -->
+    <!-- Css Reset -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css">
-    <!-- Milligram CSS minified -->
-    <link rel="stylesheet" href="Styles/milligram.min.css" />
-    <link rel="stylesheet" href="Styles/milligram-ext.css" />
-    <link rel="stylesheet" href="Styles/style.css" />
-    <link rel="icon" href="Images/favicon.ico" />
+    <!-- Milligram Css minified -->
+    <link rel="stylesheet" href="styles/milligram.min.css" />
+    <link rel="stylesheet" href="styles/milligram-ext.css" />
+    <link rel="stylesheet" href="styles/style.css" />
+    <link rel="icon" href="images/favicon.ico" />
 	<meta charset="utf-8" />
 </head>
 <body>
@@ -19,9 +19,9 @@
     <nav class="navigation">
 				<section class="container">
 
-					<a class="navigation-title" href="https://bolorundurowb.github.io/Open-Exam-Suite">
-						<img class="img" src="Images/favicon.ico" height="30" alt="Open Exam Suite" title="Open Exam Suite">
-						<h1 class="title">Open Exam Suite</h1>
+					<a class="navigation-title" href="https://bolorundurowb.github.io/Open-Exam-suite">
+						<img class="img" src="images/favicon.ico" height="30" alt="Open Exam suite" title="Open Exam suite">
+						<h1 class="title">Open Exam suite</h1>
 					</a>
 
 					<ul class="navigation-list float-right">
@@ -29,7 +29,7 @@
               <a class="navigation-link navigation-link-orange" href="creator.html" >Creator</a>
             </li>
 						<li class="navigation-item">
-							<a class="navigation-link navigation-link-orange" href="simulator.html" >Simulator</a>
+							<a class="navigation-link navigation-link-orange" href="simulator.html" >simulator</a>
 						</li>
 						<li class="navigation-item">
 							<a class="navigation-link navigation-link-orange" href="exams.html" >Exams</a>
@@ -40,14 +40,28 @@
 
 			<header class="header" id="home">
 				<section class="container">
-					<img class="img" src="Images/icon.png" alt="Milligram" title="Milligram">
-					<h1 class="title">Open Exam Suite</h1>
+					<img class="img" src="images/icon.png" alt="Milligram" title="Milligram">
+					<h1 class="title">Open Exam suite</h1>
 					<p class="description">A free and open source tool to create, simulate and distribute examinations in an electronic format.</p>
           <a class="button button-orange" href="https://sourceforge.net/projects/open-exam-suite/">Download Installer</a>
-          <a class="button button-orange button-outline" href="https://github.com/bolorundurowb/Open-Exam-Suite">Source Code</a>
+          <a class="button button-orange button-outline" href="https://github.com/bolorundurowb/Open-Exam-suite">source Code</a>
 				</section>
 			</header>
     <div class="container">
+      <h4>Version 3.1 is out</h4>
+
+      <blockquote><em>Version 3.1 keeps backward compatibility with v3.0 exams (obviously), but runs better and faster. The upgrades affect every part of the app from the shared library to the exam converter, the creator and the simulator.</em></blockquote>
+
+      <h5>General improvements</h5>
+      <ol>
+        <li>A feature that has been requested multiple times would be implemented; support for questions with multiple answers has been added.</li>
+      </ol>
+      <h5>Creator section</h5>
+      <ol>
+        <li>support for exporting exams as JsON has be added.</li>
+        <li>support for exporting exams as XML has be added.</li>
+      </ol>
+
       <h4>Version 3 added features</h4>
 
       <blockquote><em>Version three does not have backward support for exams created with the versions 1 and 2 creator apps. But I have written and added a converter that can easily upgrade the old exam files to the newer form that is readable by the version 3 simulator. The converter can be gotten <a href="https://sourceforge.net/projects/exam-upgrade-tool/">here</a>.</em></blockquote>
@@ -58,15 +72,15 @@
           <li>Coded using TDD.</li>
           <li>Exam file (oef) type changed from zip based to a serializable binary.</li>
       </ol>
-      <h5>Creator Section</h5>
+      <h5>Creator section</h5>
       <ol>
         <li>UI overhaul to make it even more intuitive and better.</li>
         <li>Faster response</li>
-        <li>Support for Undo and Redo.</li>
-        <li>Support for Copying, Cutting and Pasting.</li>
-        <li>Support documentation in the help section.</li>
+        <li>support for Undo and Redo.</li>
+        <li>support for Copying, Cutting and Pasting.</li>
+        <li>support documentation in the help section.</li>
       </ol>
-      <h5>Simulator Section</h5>
+      <h5>simulator section</h5>
       <ol>
         <li>Full rewrite for stability sake.</li>
       </ol>
