@@ -847,54 +847,61 @@ namespace Creator
 
         private void AddOption(object sender, EventArgs e)
         {
-            if (chkMulipleChoice.Checked)
+            try
             {
-                if (pan_options.Controls.Count > 0)
+                if (chkMulipleChoice.Checked)
                 {
-                    OptionsControl ctrl = new OptionsControl()
+                    if (pan_options.Controls.Count > 0)
                     {
-                        Name = "option" + (pan_options.Controls.Count - 1),
-                        Letter = (char)(Convert.ToInt32(((OptionsControl)pan_options.Controls[pan_options.Controls.Count - 1]).Letter) + 1),
-                        Location = new Point(2, 2 + (pan_options.Controls.Count * 36))
-                    };
-                    pan_options.Controls.Add(ctrl);
+                        OptionsControl ctrl = new OptionsControl()
+                        {
+                            Name = "option" + (pan_options.Controls.Count - 1),
+                            Letter = (char)(Convert.ToInt32(((OptionsControl)pan_options.Controls[pan_options.Controls.Count - 1]).Letter) + 1),
+                            Location = new Point(2, 2 + (pan_options.Controls.Count * 36))
+                        };
+                        pan_options.Controls.Add(ctrl);
+                    }
+                    else
+                    {
+                        OptionsControl ctrl = new OptionsControl()
+                        {
+                            Location = new Point(2, 2),
+                            Name = "option0",
+                            Letter = 'A'
+                        };
+                        pan_options.Controls.Add(ctrl);
+                    }
                 }
                 else
                 {
-                    OptionsControl ctrl = new OptionsControl()
+                    if (pan_options.Controls.Count > 0)
                     {
-                        Location = new Point(2, 2),
-                        Name = "option0",
-                        Letter = 'A'
-                    };
-                    pan_options.Controls.Add(ctrl);
+                        OptionControl ctrl = new OptionControl()
+                        {
+                            Name = "option" + (pan_options.Controls.Count - 1),
+                            Letter = (char)(Convert.ToInt32(((OptionControl)pan_options.Controls[pan_options.Controls.Count - 1]).Letter) + 1),
+                            Location = new Point(2, 2 + (pan_options.Controls.Count * 36))
+                        };
+                        pan_options.Controls.Add(ctrl);
+                    }
+                    else
+                    {
+                        OptionControl ctrl = new OptionControl()
+                        {
+                            Location = new Point(2, 2),
+                            Name = "option0",
+                            Letter = 'A'
+                        };
+                        pan_options.Controls.Add(ctrl);
+                    }
                 }
+                //
+                QuestionChanged(sender, e);
             }
-            else
+            catch (Exception)
             {
-                if (pan_options.Controls.Count > 0)
-                {
-                    OptionControl ctrl = new OptionControl()
-                    {
-                        Name = "option" + (pan_options.Controls.Count - 1),
-                        Letter = (char)(Convert.ToInt32(((OptionControl)pan_options.Controls[pan_options.Controls.Count - 1]).Letter) + 1),
-                        Location = new Point(2, 2 + (pan_options.Controls.Count * 36))
-                    };
-                    pan_options.Controls.Add(ctrl);
-                }
-                else
-                {
-                    OptionControl ctrl = new OptionControl()
-                    {
-                        Location = new Point(2, 2),
-                        Name = "option0",
-                        Letter = 'A'
-                    };
-                    pan_options.Controls.Add(ctrl);
-                }
+                MessageBox.Show("Sorry, you cannot mix option types. First remove the existing options then replace them.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            //
-            QuestionChanged(sender, e);
         }
 
         private void Editable(object sender, EventArgs e)
