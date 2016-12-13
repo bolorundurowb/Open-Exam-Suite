@@ -61,14 +61,15 @@ Version three does not have backward support for exams created with the versions
 1. Full rewrite for stability sake.
 
 
-## Version 3.1 proposed features
-Version 3.1 will keep backward compatibility with v3.0 exams (obviously), but will aim to run better and faster. The upgrades will affect every part of the app from the shared library to the exam converter, the creator and the simulator.
+## Version 3.1 features
+Version 3.1 keeps backward compatibility with v3.0 exams (obviously), but aims to run better and faster. The upgrades affect every part of the app from the shared library to the exam converter, the creator and the simulator.
 
 #### General improvements
-1. A feature that has been requested multiple times would be implemented; support for questions with multiple answers would be added.
+1. A feature that has been requested multiple times would be implemented; support for questions with multiple answers has been added.
 
 #### Creator Section
-1. Support for exporting exams as `JSON` would be added.
+1. Support for exporting exams as `JSON` has be added.
+2. Support for exporting exams as `XML` has be added.
 
 
 
