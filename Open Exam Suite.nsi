@@ -2,7 +2,7 @@
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "Open Exam Suite"
-!define PRODUCT_VERSION "3.1.1"
+!define PRODUCT_VERSION "3.1.1.1"
 !define PRODUCT_PUBLISHER "Bolorunduro Winner-Timothy"
 !define PRODUCT_WEB_SITE "http://www.github.com/bolorundurowb/Open-Exam-Suite"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\Creator.exe"
@@ -21,7 +21,7 @@
 ; Welcome page
 !insertmacro MUI_PAGE_WELCOME
 ; License page
-!insertmacro MUI_PAGE_LICENSE "..\Software Licenses\GPLv3.txt"
+!insertmacro MUI_PAGE_LICENSE "LICENSE"
 ; Components page
 !insertmacro MUI_PAGE_COMPONENTS
 ; Directory page
@@ -50,25 +50,25 @@ ShowUnInstDetails show
 Section "Creator" SEC01
   SetOutPath "$INSTDIR"
   SetOverwrite ifnewer
-  File "..\..\..\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Creator\bin\Release\Shared.dll"
-  File "..\..\..\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Creator\bin\Release\Newtonsoft.Json.dll"
-  File "..\..\..\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Creator\bin\Release\Creator.exe"
+  File "Creator\bin\Release\Shared.dll"
+  File "Creator\bin\Release\Newtonsoft.Json.dll"
+  File "Creator\bin\Release\Creator.exe"
   CreateDirectory "$SMPROGRAMS\Open Exam Suite"
   CreateShortCut "$SMPROGRAMS\Open Exam Suite\Creator.lnk" "$INSTDIR\Creator.exe"
   CreateShortCut "$DESKTOP\Creator.lnk" "$INSTDIR\Creator.exe"
 SectionEnd
 
 Section "Simulator" SEC02
-  File "..\..\..\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Simulator\bin\Release\Simulator.exe"
+  File "Simulator\bin\Release\Simulator.exe"
   CreateShortCut "$SMPROGRAMS\Open Exam Suite\Simulator.lnk" "$INSTDIR\Simulator.exe"
   CreateShortCut "$DESKTOP\Simulator.lnk" "$INSTDIR\Simulator.exe"
-  File "..\..\..\Documents\Visual Studio 2015\Projects\Open-Exam-Suite\Simulator\bin\Release\Shared.dll"
+  File "Simulator\bin\Release\Shared.dll"
   ${registerExtension} "$INSTDIR\Simulator.exe" ".oef" "Open Exam Files"
 SectionEnd
 
 Section "Samples" SEC03
-  File "..\OEF Files\GMAT Sample.oef"
-  File "..\OEF Files\Basic Science.oef"
+  File "C:\Users\bolorundurowb\OneDrive\Documents\OEF Files\GMAT Sample.oef"
+  File "C:\Users\bolorundurowb\OneDrive\Documents\OEF Files\Basic Science.oef"
 SectionEnd
 
 Section -AdditionalIcons
@@ -110,11 +110,12 @@ Section Uninstall
   Delete "$INSTDIR\${PRODUCT_NAME}.url"
   Delete "$INSTDIR\uninst.exe"
   Delete "$INSTDIR\Basic Science.oef"
-  Delete "$INSTDIR\GMAT Sample-new.oef"
+  Delete "$INSTDIR\GMAT Sample.oef"
   Delete "$INSTDIR\Shared.dll"
   Delete "$INSTDIR\Simulator.exe"
   Delete "$INSTDIR\Creator.exe"
   Delete "$INSTDIR\Shared.dll"
+  Delete "$INSTDIR\Newtonsoft.Json.dll"
 
   Delete "$SMPROGRAMS\Open Exam Suite\Uninstall.lnk"
   Delete "$SMPROGRAMS\Open Exam Suite\Website.lnk"
