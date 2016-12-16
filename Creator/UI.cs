@@ -665,6 +665,10 @@ namespace Creator
             pct_image.Image = null;
             //
             pan_options.Controls.Clear();
+            //
+            txt_code.Clear();
+            txt_instruction.Clear();
+            txt_title.Clear();
         }
 
         private void SaveProperties(object sender, EventArgs e)
@@ -676,7 +680,7 @@ namespace Creator
                 Passmark = (int)num_passmark.Value,
                 TimeLimit = (int)num_time_limit.Value,
                 Title = txt_title.Text,
-                Version = int.Parse(lbl_version.Text)
+                Version = (int) float.Parse(lbl_version.Text)
             };
             //
             if (trv_view_exam.Nodes.Count > 0)
