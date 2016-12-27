@@ -1,505 +1,348 @@
-﻿using Shared;
-using Shared.Controls;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using System;
+using System.Xml;
+using System.Xml.XPath;
+using Ionic.Zip;
 using System.IO;
-using System.Diagnostics;
-using Newtonsoft.Json;
 
 namespace Creator
 {
     public partial class UI : Form
     {
-        #region Class Variables
-        private Exam exam;
-        private string currentExamFile;
+        #region Classwise Variables
+        /* 
+         * Compared to the v1.0 I've significantly reduced
+         * my use of classwise variables, but as I'm not
+         * yet the programmer I intend to be, these few are necessary.
+         * 
+         */
+        List<Question> rawQuestionList;
+        private bool allChangesSaved;
+        private bool savedAs;
         private PrintOption whatToPrint;
-        private UndoRedo undoRedo;
-
-        private bool IsDirty { get; set; }
+        private int count;
+        IEnumerable<Question> sectionQuestions;
+        List<Question> allQuestions;
+        private bool firstPage;
+        private string sectionName;
         #endregion
+
+        private bool AllChangesSaved
+        {
+            get
+            {
+                return allChangesSaved;
+            }
+            set
+            {
+                allChangesSaved = value;
+                if (allChangesSaved)
+                {
+                    saveToolStripButton.Enabled = false;
+                    saveToolStripMenuItem.Enabled = false;
+                    if (trv_explorer.Nodes[0].Text.Contains('*'))
+                        trv_explorer.Nodes[0].Text = trv_explorer.Nodes[0].Text.Remove(0, 2);
+                    lbl_show_save_status.Text = "Exam saved successfully!";
+                }
+                else
+                {
+                    if (savedAs)
+                    {
+                        saveToolStripButton.Enabled = true;
+                        saveToolStripMenuItem.Enabled = true;
+                    }
+                    if (trv_explorer.Nodes.Count > 0)
+                        if (!trv_explorer.Nodes[0].Text.Contains('*'))
+                            trv_explorer.Nodes[0].Text = "* " + trv_explorer.Nodes[0].Text;
+                    lbl_show_save_status.Text = "";
+                }
+            }
+        }
+
+        private string CurrentFileNameWithExtension { get; set; }
 
         public UI()
         {
             InitializeComponent();
         }
 
-        private void New(object sender, EventArgs e)
+        private void UI_Load(object sender, EventArgs e)
         {
-            Close(sender, e);
-            //
-            this.exam = new Exam();
-            splitContainer2.Panel2.Controls.Remove(pan_splash);
-            splitContainer2.Panel2.Controls.Add(pan_exam_properties);
-            //
-            this.undoRedo = new UndoRedo();
-        }
-
-        private void Open(object sender, EventArgs e)
-        {
-            if (ofd_open_exam.ShowDialog() == DialogResult.OK)
+            tab_display_questions.Enabled = false;
+            tab_exam_properties.Enabled = false;
+            if (Properties.Settings.Default.ExamHistory != null)
             {
-                Close(sender, e);
-                currentExamFile = ofd_open_exam.FileName;
-                Open();
-            }
-        }
-
-        private void Open()
-        {
-            this.exam = Helper.GetExamFromFile(currentExamFile);
-            //
-            trv_view_exam.Nodes.Clear();
-            EnableExamControls();
-            EnableSectionControls();
-            //
-            ExamNode examNode = new ExamNode(exam.Properties);
-            trv_view_exam.Nodes.Add(examNode);
-            foreach(Section section in exam.Sections)
-            {
-                SectionNode sectionNode = new SectionNode(section.Title)
+                foreach (Control link in grp_exam_list.Controls.OfType<LinkLabel>())
                 {
-                    ContextMenuStrip = cms_section
-                };
-                foreach (Question question in section.Questions)
-                {
-                    QuestionNode questionNode = new QuestionNode(question)
-                    {
-                        ContextMenuStrip = cms_question
-                    };
-                    //
-                    sectionNode.Nodes.Add(questionNode);
+                    grp_exam_list.Controls.Remove(link);
                 }
-                examNode.Nodes.Add(sectionNode);
+                int i = 0;
+                foreach (string exam in Properties.Settings.Default.ExamHistory)
+                {
+                    LinkLabel examLink = new LinkLabel();
+                    examLink.Location = new Point(12, (55 + (i * 24)));
+                    examLink.AutoSize = true;
+                    examLink.Text = exam;
+                    examLink.Click += examLink_Click;
+                    grp_exam_list.Controls.Add(examLink);
+                    i++;
+                }
             }
-            trv_view_exam.ExpandAll();
-            //
-            if (splitContainer2.Panel2.Controls.Contains(pan_splash))
-            {
-                splitContainer2.Panel2.Controls.Remove(pan_splash);
-                splitContainer2.Panel2.Controls.Add(pan_exam_properties);
-            }
-            //
-            txt_code.Text = exam.Properties.Code;
-            txt_instruction.Text = exam.Properties.Instructions;
-            txt_title.Text = exam.Properties.Title;
-            num_passmark.Value = (decimal)exam.Properties.Passmark;
-            num_time_limit.Value = exam.Properties.TimeLimit;
-            //
-            this.undoRedo = new UndoRedo();
         }
 
-        private void Save(object sender, EventArgs e)
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(currentExamFile))
+            Application.Exit();
+        }
+
+        private void New_Exam(object sender, EventArgs e)
+        {
+            this.rawQuestionList = new List<Question>();
+            tab_exam_properties.Enabled = true;
+            tabControl.TabPages.Remove(tab_start);
+            tabControl.SelectedIndex = 0;
+        }
+
+        private void Open_Click(object sender, EventArgs e)
+        {
+            ofd_open_exam.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            ofd_open_exam.ShowDialog();
+            Open(ofd_open_exam.FileName);
+        }
+
+        private void Open(string examFilePath)
+        {
+            CloseExam(null, null);
+            New_Exam(null, null);
+
+            CurrentFileNameWithExtension = examFilePath;
+            string foldername = Path.GetFileNameWithoutExtension(examFilePath);
+            string extractionFolderPath = Path.Combine(GlobalPathVariables.creatorFolderPath, foldername);
+            if (Directory.Exists(extractionFolderPath))
             {
-                SaveAs(sender, e);
+                Directory.Delete(extractionFolderPath, true);
+                Directory.CreateDirectory(extractionFolderPath);
             }
             else
             {
-                if (trv_view_exam.SelectedNode != null)
-                    if (trv_view_exam.SelectedNode.GetType() == typeof(QuestionNode))
-                        CommitQuestion();
-                //
-                ExamNode examNode = (ExamNode)trv_view_exam.Nodes[0];
-                this.exam.Properties = examNode.Properties;
-                this.exam.Sections.Clear();
-                foreach(SectionNode sectionNode in examNode.Nodes)
+                Directory.CreateDirectory(extractionFolderPath);
+            }
+            using (ZipFile zip = new ZipFile(examFilePath))
+            {
+                zip.ExtractAll(extractionFolderPath, ExtractExistingFileAction.OverwriteSilently);
+            }
+
+            string[] temp = Directory.GetFiles(extractionFolderPath, "*.xml", SearchOption.TopDirectoryOnly);
+            string xmlFilePath = null;
+            if (temp.Length > 0)
+                xmlFilePath = temp[0];
+            
+            if (string.IsNullOrWhiteSpace(xmlFilePath))
+            {
+                MessageBox.Show("Sorry, the selected exam file is invalid!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                XPathDocument doc = new XPathDocument(xmlFilePath);
+                XPathNavigator navigator = doc.CreateNavigator();
+                string version = "";
+                XPathExpression expression = navigator.Compile("//FileVersion");
+                XPathNodeIterator iterator = navigator.Select(expression);
+                while (iterator.MoveNext())
                 {
-                    Section section = new Section()
-                    {
-                        Title = sectionNode.Title
-                    };
-                    foreach (QuestionNode questionNode in sectionNode.Nodes)
+                    version = iterator.Current.Value;
+                }
+                expression = navigator.Compile("//ExamTitle");
+                iterator = navigator.Select(expression);
+                while (iterator.MoveNext())
+                {
+                    txt_exam_title.Text = iterator.Current.Value;
+                }
+                expression = navigator.Compile("//TimeAllowed");
+                iterator = navigator.Select(expression);
+                while (iterator.MoveNext())
+                {
+                    num_time_limit.Value = Convert.ToDecimal(iterator.Current.Value);
+                }
+                expression = navigator.Compile("//PassingScore");
+                iterator = navigator.Select(expression);
+                while (iterator.MoveNext())
+                {
+                    num_passing_score.Value = Convert.ToDecimal(iterator.Current.Value);
+                }
+                expression = navigator.Compile("//ExamCode");
+                iterator = navigator.Select(expression);
+                while (iterator.MoveNext())
+                {
+                    txt_exam_code.Text = iterator.Current.Value;
+                }
+                expression = navigator.Compile("//ExamInstructions");
+                iterator = navigator.Select(expression);
+                while (iterator.MoveNext())
+                {
+                    txt_exam_instructions.Text = iterator.Current.Value;
+                }
+                expression = navigator.Compile("//Section");
+                iterator = navigator.Select(expression);
+                while (iterator.MoveNext())
+                {
+                    TreeNode secNode = new TreeNode();
+                    secNode.Name = "sectionNode" + (trv_explorer.Nodes[0].Nodes.Count);
+                    secNode.Text = iterator.Current.GetAttribute("Title", "");
+                    secNode.ImageIndex = 1;
+                    secNode.SelectedImageIndex = 1;
+                    secNode.ContextMenuStrip = cms_explorer;
+
+                    XPathNodeIterator subIterator = iterator.Current.SelectChildren(XPathNodeType.Element);
+                    while (subIterator.MoveNext())
                     {
                         Question question = new Question();
-                        question = questionNode.Question;
-                        //
-                        section.Questions.Add(question);
+                        question.SectionTitle = iterator.Current.GetAttribute("Title", "");
+                        question.QuestionNumber = Convert.ToInt32(subIterator.Current.GetAttribute("No", ""));
+                        Dictionary<char, string> options = new Dictionary<char, string>();
+                        XPathNodeIterator subIter = subIterator.Current.SelectChildren(XPathNodeType.Element);
+                        while (subIter.MoveNext())
+                        {
+                            if (subIter.Current.LocalName == "Text")
+                            {
+                                question.QuestionText = subIter.Current.Value;
+                            }
+                            else if (subIter.Current.LocalName == "Image")
+                            {
+                                if (!string.IsNullOrWhiteSpace(subIter.Current.Value))
+                                    question.QuestionImagePath = extractionFolderPath + Path.DirectorySeparatorChar + subIter.Current.Value;
+                            }
+                            else if (subIter.Current.LocalName == "Answer")
+                            {
+                                question.QuestionAnswer = Convert.ToChar(subIter.Current.Value);
+                            }
+                            if (subIter.Current.LocalName == "Options")
+                            {
+                                XPathNodeIterator ite = subIter.Current.SelectChildren(XPathNodeType.Element);
+                                while (ite.MoveNext())
+                                {
+                                    char option;
+                                    string optionText;
+                                    string tempp = ite.Current.GetAttribute("Title", "");
+                                    option = Convert.ToChar(tempp);
+                                    optionText = ite.Current.Value;
+                                    options.Add(option, optionText);
+                                }
+                                question.QuestionOptions = options;
+                            }
+                            if (version == "1.0")
+                            {
+                                question.AnswerExplanation = "Version 1.0 files do not support explanations";
+                            }
+                            else
+                            {
+                                if (iterator.Current.LocalName == "AnswerExplanation")
+                                    question.AnswerExplanation = iterator.Current.Value;
+                            }
+                        }
+                        rawQuestionList.Add(question);
+
+                        TreeNode quesNode = new TreeNode();
+                        quesNode.ImageIndex = 2;
+                        quesNode.SelectedImageIndex = 2;
+                        quesNode.ContextMenuStrip = cms_explorer;
+                        quesNode.Text = "Question " + (secNode.Nodes.Count + 1);
+                        quesNode.Name = "questionNode" + secNode.Nodes.Count;
+                        secNode.Nodes.Add(quesNode);
                     }
-                    this.exam.Sections.Add(section);
+                    trv_explorer.Nodes[0].Nodes.Add(secNode);
                 }
-                //
-                Helper.WriteExamToFile(this.exam, currentExamFile);
-                MessageBox.Show("Exam has been sucessfully saved.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                IsDirty = false;
-            }
-            //
-            if (Properties.Settings.Default.Exams == null)
-                Properties.Settings.Default.Exams = new System.Collections.Specialized.StringCollection();
-            if (!Properties.Settings.Default.Exams.Contains(currentExamFile))
-                Properties.Settings.Default.Exams.Add(currentExamFile);
-            Properties.Settings.Default.Save();
-        }
 
-        private void CommitQuestion()
-        {
-            Question question = ((QuestionNode)trv_view_exam.SelectedNode).Question;
-            question.IsMultipleChoice = chkMulipleChoice.Checked;
-            if (question.IsMultipleChoice)
-            {
-                var answerCtrls = pan_options.Controls.OfType<OptionsControl>().Where(s => s.Checked);
-                question.Answers = answerCtrls.Select(x => x.Letter).ToArray();
-            }
-            else
-            {
-                var answerCtrl = pan_options.Controls.OfType<OptionControl>().FirstOrDefault(s => s.Checked);
-                question.Answer = answerCtrl == null ? '\0' : answerCtrl.Letter;
-            }
-            question.Explanation = txt_explanation.Text;
-            question.Image = (Bitmap)pct_image.Image;
-            question.No = trv_view_exam.SelectedNode.Index + 1;
-            question.Options.Clear();
-            if (question.IsMultipleChoice)
-            {
-                foreach (var ctrl in pan_options.Controls.OfType<OptionsControl>())
-                {
-                    Option option = new Option()
-                    {
-                        Alphabet = ctrl.Letter,
-                        Text = ctrl.Text
-                    };
-                    question.Options.Add(option);
-                }
-            }
-            else
-            {
-                foreach (var ctrl in pan_options.Controls.OfType<OptionControl>())
-                {
-                    Option option = new Option()
-                    {
-                        Alphabet = ctrl.Letter,
-                        Text = ctrl.Text
-                    };
-                    question.Options.Add(option);
-                }
-            }
-            question.Text = txt_question_text.Text;
-        }
+                trv_explorer.ExpandAll();
+                closeExamToolStripMenuItem.Enabled = true;
+                printPreviewToolStripMenuItem.Enabled = true;
+                printToolStripButton.Enabled = true;
+                printToolStripMenuItem.Enabled = true;
 
-        private void SaveAs(object sender, EventArgs e)
-        {
-            sfd_save_as_exam.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            sfd_save_as_exam.ShowDialog();
-            if (string.IsNullOrWhiteSpace(sfd_save_as_exam.FileName))
-            {
-                MessageBox.Show("Improper file name, Exam not saved!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else
-            {
-                currentExamFile = sfd_save_as_exam.FileName;
-                Save(sender, e);
+                savedAs = true;
+                AllChangesSaved = true;
             }
         }
 
         private void Print(object sender, EventArgs e)
         {
-            PrintOptions po = new PrintOptions(trv_view_exam.SelectedNode);
+            PrintOptions po = new PrintOptions(trv_explorer.SelectedNode);
             po.ShowDialog();
             whatToPrint = po.SelectedPrintOption;
             pdg_print.ShowDialog();
+            count = 0;
+            sectionName = "";
         }
 
-        private void PrintPreview(object sender, EventArgs e)
+        private void Print_Preview(object sender, EventArgs e)
         {
-            PrintOptions po = new PrintOptions(trv_view_exam.SelectedNode);
+            PrintOptions po = new PrintOptions(trv_explorer.SelectedNode);
             po.ShowDialog();
             whatToPrint = po.SelectedPrintOption;
             ppd_print.ShowDialog();
+            count = 0;
+            sectionName = "";
         }
 
-        private void Exit(object sender, EventArgs e)
+        private void Save_As(object sender, EventArgs e)
         {
-            Application.Exit();
-        }
-
-        private void Undo(object sender, EventArgs e)
-        {
-            ChangeRepresentationObject undoObject = undoRedo.Undo();
-            if (undoObject == null) return;
+            sfd_save_as_exam.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            sfd_save_as_exam.FileName = txt_exam_title.Text;
+            sfd_save_as_exam.ShowDialog();
+            if (string.IsNullOrWhiteSpace(sfd_save_as_exam.FileName))
+            {
+                lbl_show_save_status.Text = "Improper file name, Exam not saved!";
+            }
             else
             {
-                switch(undoObject.Action)
-                {
-                    case ActionType.Add:
-                        SectionNode _sectionNode = trv_view_exam.Nodes[0].Nodes.Cast<SectionNode>().FirstOrDefault(s => s.Title == undoObject.SectionTitle);
-                        if (_sectionNode != null)
-                        {
-                            if (_sectionNode.Nodes.Count >= undoObject.Question.No)
-                            {
-                                exam.Sections.First(s => s.Title == undoObject.SectionTitle).Questions.RemoveAt(undoObject.Question.No - 1);
-                                _sectionNode.Nodes.RemoveAt(undoObject.Question.No - 1);
-                            }
-                        }
-                        //
-                        int j = 1;
-                        foreach (QuestionNode questionNode_ in _sectionNode.Nodes)
-                        {
-                            questionNode_.Text = "Question " + j;
-                            questionNode_.Question.No = j;
-                            j++;
-                        }
-                        break;
-                    case ActionType.Delete:
-                        SectionNode sectionNode = trv_view_exam.Nodes[0].Nodes.Cast<SectionNode>().FirstOrDefault(s => s.Title == undoObject.SectionTitle);
-                        if (sectionNode == null)
-                        {
-                            sectionNode = new SectionNode(undoObject.SectionTitle)
-                            {
-                                ContextMenuStrip = cms_section
-                            };
-                            //
-                            QuestionNode questionNode = new QuestionNode(undoObject.Question)
-                            {
-                                ContextMenuStrip = cms_question
-                            };
-                            sectionNode.Nodes.Add(questionNode);
-                            //
-                            trv_view_exam.Nodes[0].Nodes.Add(sectionNode);
-                            trv_view_exam.ExpandAll();
-                        }
-                        else
-                        {
-                            QuestionNode questionNode = new QuestionNode(undoObject.Question)
-                            {
-                                ContextMenuStrip = cms_question
-                            };
-                            sectionNode.Nodes.Insert(questionNode.Question.No - 1, questionNode);
-                            //
-                            trv_view_exam.ExpandAll();
-                        }
-                        //
-                        int i = 1;
-                        foreach (QuestionNode questionNode_ in sectionNode.Nodes)
-                        {
-                            questionNode_.Text = "Question " + i;
-                            questionNode_.Question.No = i;
-                            i++;
-                        }
-                        break;
-                    case ActionType.Modify:
-                        SectionNode sectionNode_ = trv_view_exam.Nodes[0].Nodes.Cast<SectionNode>().FirstOrDefault(s => s.Title == undoObject.SectionTitle);
-                        if (sectionNode_ != null)
-                        {
-                            QuestionNode questionNode = (QuestionNode)sectionNode_.Nodes[undoObject.Question.No - 1];
-                            questionNode.Question = undoObject.Question;
-                            //
-                            txt_explanation.Text = undoObject.Question.Explanation;
-                            txt_question_text.Text = undoObject.Question.Text;
-                            lbl_section_question.Text = "Section: " + trv_view_exam.SelectedNode.Parent.Text + " Question " + undoObject.Question.No;
-                            pct_image.Image = undoObject.Question.Image;
-                            //
-                            pan_options.Controls.Clear();
-                            //
-                            int k = 0;
-                            if (undoObject.Question.IsMultipleChoice)
-                            {
-                                foreach (var option in undoObject.Question.Options)
-                                {
-                                    OptionsControl ctrl = new OptionsControl()
-                                    {
-                                        Letter = option.Alphabet,
-                                        Text = option.Text,
-                                        Location = new Point(2, k * 36)
-                                    };
-                                    if (undoObject.Question.Answers.Contains(option.Alphabet))
-                                    {
-                                        ctrl.Checked = true;
-                                    }
-                                    pan_options.Controls.Add(ctrl);
-                                    k++;
-                                }
-                            }
-                            else
-                            {
-                                foreach (var option in undoObject.Question.Options)
-                                {
-                                    OptionControl ctrl = new OptionControl()
-                                    {
-                                        Letter = option.Alphabet,
-                                        Text = option.Text,
-                                        Location = new Point(2, k * 36)
-                                    };
-                                    if (option.Alphabet == undoObject.Question.Answer)
-                                    {
-                                        ctrl.Checked = true;
-                                    }
-                                    pan_options.Controls.Add(ctrl);
-                                    k++;
-                                }
-                            }
-                        }
-                        break;
-                }
+                Directory.CreateDirectory(Path.Combine(GlobalPathVariables.creatorFolderPath, Path.GetFileNameWithoutExtension(sfd_save_as_exam.FileName)));
+                CurrentFileNameWithExtension = sfd_save_as_exam.FileName;
+                Save(sender, null);
             }
+            savedAs = true;
+            saveAsToolStripMenuItem.Enabled = false;
         }
 
-        private void Redo(object sender, EventArgs e)
+        private void Save(object sender, EventArgs e)
         {
-            ChangeRepresentationObject redoObject = undoRedo.Redo();
-            if (redoObject == null) return;
+            //Save the currently edited question
+            if (trv_explorer.SelectedNode != null)
+                if (trv_explorer.SelectedNode.Name.Contains("questionNode"))
+                    PushPreviousQuestion(trv_explorer.SelectedNode);
+
+            SaveXMLFromDictionary(GetDictionaryFromQuestionList(rawQuestionList));
+            using (ZipFile oefFile = new ZipFile())
+            {
+                foreach (string file in Directory.GetFiles(Path.Combine(GlobalPathVariables.creatorFolderPath,
+                Path.GetFileNameWithoutExtension(CurrentFileNameWithExtension))))
+                {
+                    oefFile.AddFile(file, "");
+                }
+                if (File.Exists(CurrentFileNameWithExtension))
+                {
+                    File.Delete(CurrentFileNameWithExtension);
+                }
+                oefFile.Save(CurrentFileNameWithExtension);
+            }
+            //Show that the changes have been committed
+            AllChangesSaved = true;
+            //Save exam in previous work list
+            if (Properties.Settings.Default.ExamHistory == null)
+            {
+                Properties.Settings.Default.ExamHistory = new System.Collections.Specialized.StringCollection();
+                Properties.Settings.Default.ExamHistory.Add(CurrentFileNameWithExtension);
+                Properties.Settings.Default.Save();
+            }
             else
             {
-                switch (redoObject.Action)
-                {
-                    case ActionType.Add:
-                        SectionNode sectionNode = trv_view_exam.Nodes[0].Nodes.Cast<SectionNode>().FirstOrDefault(s => s.Title == redoObject.SectionTitle);
-                        if(sectionNode == null)
-                        {
-                            sectionNode = new SectionNode(redoObject.SectionTitle)
-                            {
-                                ContextMenuStrip = cms_section
-                            };
-                            //
-                            QuestionNode questionNode = new QuestionNode(redoObject.Question)
-                            {
-                                ContextMenuStrip = cms_question
-                            };
-                            sectionNode.Nodes.Add(questionNode);
-                            //
-                            trv_view_exam.Nodes[0].Nodes.Add(sectionNode);
-                            trv_view_exam.ExpandAll();
-                        }
-                        else
-                        {
-                            sectionNode.ContextMenuStrip = cms_section;
-                            //
-                            QuestionNode questionNode = new QuestionNode(redoObject.Question)
-                            {
-                                ContextMenuStrip = cms_question
-                            };
-                            sectionNode.Nodes.Add(questionNode);
-                            //
-                            trv_view_exam.ExpandAll();
-                        }
-                        //
-                        int i = 1;
-                        foreach (QuestionNode questionNode_ in sectionNode.Nodes)
-                        {
-                            questionNode_.Text = "Question " + i;
-                            questionNode_.Question.No = i;
-                            i++;
-                        }
-                        break;
-                    case ActionType.Delete:
-                        SectionNode _sectionNode = trv_view_exam.Nodes[0].Nodes.Cast<SectionNode>().FirstOrDefault(s => s.Title == redoObject.SectionTitle);
-                        if (_sectionNode != null)
-                        {
-                            if(_sectionNode.Nodes.Count >= redoObject.Question.No)
-                            {
-                                exam.Sections.First(s => s.Title == redoObject.SectionTitle).Questions.RemoveAt(redoObject.Question.No - 1);
-                                _sectionNode.Nodes.RemoveAt(redoObject.Question.No - 1);
-                            }
-                        }
-                        //
-                        int j = 1;
-                        foreach (QuestionNode questionNode_ in _sectionNode.Nodes)
-                        {
-                            questionNode_.Text = "Question " + j;
-                            questionNode_.Question.No = j;
-                            j++;
-                        }
-                        break;
-                    case ActionType.Modify:
-                        SectionNode sectionNode_ = trv_view_exam.Nodes[0].Nodes.Cast<SectionNode>().FirstOrDefault(s => s.Title == redoObject.SectionTitle);
-                        if (sectionNode_ != null)
-                        {
-                            QuestionNode questionNode = (QuestionNode)sectionNode_.Nodes[redoObject.Question.No - 1];
-                            questionNode.Question = redoObject.Question;
-                            //
-                            txt_explanation.Text = redoObject.Question.Explanation;
-                            txt_question_text.Text = redoObject.Question.Text;
-                            lbl_section_question.Text = "Section: " + trv_view_exam.SelectedNode.Parent.Text + " Question " + redoObject.Question.No;
-                            pct_image.Image = redoObject.Question.Image;
-                            //
-                            pan_options.Controls.Clear();
-                            //
-                            int k = 0;
-                            if (redoObject.Question.IsMultipleChoice)
-                            {
-                                foreach (var option in redoObject.Question.Options)
-                                {
-                                    OptionsControl ctrl = new OptionsControl()
-                                    {
-                                        Letter = option.Alphabet,
-                                        Text = option.Text,
-                                        Location = new Point(2, k * 36)
-                                    };
-                                    if (redoObject.Question.Answers.Contains(option.Alphabet))
-                                    {
-                                        ctrl.Checked = true;
-                                    }
-                                    pan_options.Controls.Add(ctrl);
-                                    k++;
-                                }
-                            }
-                            else
-                            {
-                                foreach (var option in redoObject.Question.Options)
-                                {
-                                    OptionControl ctrl = new OptionControl()
-                                    {
-                                        Letter = option.Alphabet,
-                                        Text = option.Text,
-                                        Location = new Point(2, k * 36)
-                                    };
-                                    if (option.Alphabet == redoObject.Question.Answer)
-                                    {
-                                        ctrl.Checked = true;
-                                    }
-                                    pan_options.Controls.Add(ctrl);
-                                    k++;
-                                }
-                            }
-                        }
-                        break;
-                }
+                if (!Properties.Settings.Default.ExamHistory.Contains(CurrentFileNameWithExtension))
+                    Properties.Settings.Default.ExamHistory.Add(CurrentFileNameWithExtension);
+                Properties.Settings.Default.Save();
             }
-        }
-
-        private void NewSection(object sender, EventArgs e)
-        {
-            AddSection addSection = new AddSection();
-            addSection.ShowDialog();
-            //
-            SectionNode sectionNode = new SectionNode(addSection.Title)
-            {
-                ContextMenuStrip = cms_section
-            };
-            trv_view_exam.Nodes[0].Nodes.Add(sectionNode);
-            //
-            trv_view_exam.ExpandAll();
-            //
-            IsDirty = true;
-        }
-
-        private void NewQuestion(object sender, EventArgs e)
-        {
-            SectionNode nodeToBeAddedTo = trv_view_exam.SelectedNode.GetType() == typeof(SectionNode) ? (SectionNode)trv_view_exam.SelectedNode : (SectionNode)trv_view_exam.SelectedNode.Parent;
-            Question question = new Question()
-            {
-                No = nodeToBeAddedTo.Nodes.Count + 1
-            };
-            //
-            QuestionNode questionNode = new QuestionNode(question)
-            {
-                ContextMenuStrip = cms_question
-            };
-            nodeToBeAddedTo.Nodes.Add(questionNode);
-            //
-            trv_view_exam.ExpandAll();
-            //
-            ChangeRepresentationObject obj = new ChangeRepresentationObject()
-            {
-                Action = ActionType.Add,
-                Question = question,
-                SectionTitle = nodeToBeAddedTo.Title
-            };
-            undoRedo.InsertObjectforUndoRedo(obj);
-            //
-            IsDirty = true;
         }
 
         private void Cut(object sender, EventArgs e)
@@ -510,7 +353,7 @@ namespace Creator
             }
         }
 
-        private void Copy(object sender, System.EventArgs e)
+        private void Copy(object sender, EventArgs e)
         {
             if (txt_question_text.SelectionLength > 0)
             {
@@ -518,7 +361,7 @@ namespace Creator
             }
         }
 
-        private void Paste(object sender, System.EventArgs e)
+        private void Paste(object sender, EventArgs e)
         {
             if (Clipboard.GetDataObject().GetDataPresent(DataFormats.Text))
             {
@@ -531,432 +374,626 @@ namespace Creator
             }
         }
 
-        private void Help(object sender, EventArgs e)
+        private void txt_exam_title_TextChanged(object sender, EventArgs e)
         {
-            ProcessStartInfo sInfo = new ProcessStartInfo(@"https://bolorundurowb.github.io/Open-Exam-Suite");
-            Process.Start(sInfo);
+            if (string.IsNullOrWhiteSpace(txt_exam_title.Text))
+            {
+                newSectionToolStripButton.Enabled = false;
+            }
+            else
+            {
+                if (trv_explorer.Nodes.Count == 0)
+                {
+                    trv_explorer.Nodes.Add("examNode", txt_exam_title.Text, 0, 0);
+                }
+                else
+                {
+                    trv_explorer.Nodes[0].Text = txt_exam_title.Text;
+                }
+                trv_explorer.ExpandAll();
+                newSectionToolStripButton.Enabled = true;
+            }
+            AllChangesSaved = false;
         }
 
-        private void About(object sender, EventArgs e)
+        private void newSectionToolStripButton_Click(object sender, EventArgs e)
+        {
+            New_Section section = new New_Section();
+            section.ShowDialog();
+            bool exists = false;
+            for (int i = 0; i < trv_explorer.Nodes[0].Nodes.Count; i++)
+            {
+                if (trv_explorer.Nodes[0].Nodes[i].Text == section.SectionName)
+                {
+                    exists = true;
+                }
+            }
+            if (!exists)
+            {
+                TreeNode secNode = new TreeNode();
+                secNode.Name = "sectionNode" + (trv_explorer.Nodes[0].Nodes.Count);
+                secNode.Text = section.SectionName;
+                secNode.ImageIndex = 1;
+                secNode.SelectedImageIndex = 1;
+                secNode.ContextMenuStrip = cms_explorer;
+                trv_explorer.Nodes[0].Nodes.Add(secNode);
+            }
+            trv_explorer.ExpandAll();
+        }
+
+        private void After_Select(object sender, TreeViewEventArgs e)
+        {
+            if (trv_explorer.SelectedNode.Name.Contains("examNode"))
+            {
+                newQuestionToolStripButton.Enabled = false;
+            }
+            else
+            {
+                newQuestionToolStripButton.Enabled = true;
+            }
+            if (trv_explorer.SelectedNode.Name.Contains("questionNode"))
+            {
+                tab_display_questions.Enabled = true;
+                tabControl.SelectedIndex = 1;
+                tab_display_questions.Text = "Section: " + trv_explorer.SelectedNode.Parent.Text + ", " + trv_explorer.SelectedNode.Text;
+                PullNextQuestion(trv_explorer.SelectedNode);
+            }
+            else
+            {
+                tab_display_questions.Enabled = false;
+            }
+        }
+
+        private void Before_Select(object sender, TreeViewCancelEventArgs e)
+        {
+            if (trv_explorer.SelectedNode != null)
+                if (trv_explorer.SelectedNode.Name.Contains("questionNode"))
+                    PushPreviousQuestion(trv_explorer.SelectedNode);
+        }
+
+        private void Add_Question(object sender, EventArgs e)
+        {
+            TreeNode quesNode = new TreeNode();
+            quesNode.ImageIndex = 2;
+            quesNode.SelectedImageIndex = 2;
+            quesNode.ContextMenuStrip = cms_explorer;
+            if (trv_explorer.SelectedNode.Name.Contains("questionNode"))
+            {
+                quesNode.Text = "Question " + (trv_explorer.SelectedNode.Parent.Nodes.Count + 1);
+                quesNode.Name = "questionNode" + trv_explorer.SelectedNode.Parent.Nodes.Count;
+                trv_explorer.SelectedNode.Parent.Nodes.Add(quesNode);
+            }
+            else
+            {
+                quesNode.Text = "Question " + (trv_explorer.SelectedNode.Nodes.Count + 1);
+                quesNode.Name = "questionNode" + trv_explorer.SelectedNode.Nodes.Count;
+                trv_explorer.SelectedNode.Nodes.Add(quesNode);
+            }
+            trv_explorer.ExpandAll();
+            NodeChanged(trv_explorer, null);
+        }
+
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string sectionTitle;
+            if (trv_explorer.SelectedNode.Name.Contains("ques"))
+            {
+                sectionTitle = trv_explorer.SelectedNode.Parent.Text;
+                trv_explorer.SelectedNode.Parent.Nodes.RemoveAt(trv_explorer.SelectedNode.Index);
+                rawQuestionList.Remove(rawQuestionList.Find(s => s.SectionTitle == sectionTitle && s.QuestionNumber == int.Parse(trv_explorer.SelectedNode.Text.Replace("Question ", ""))));
+            }
+            else if (trv_explorer.SelectedNode.Name.Contains("sec"))
+            {
+                sectionTitle = trv_explorer.SelectedNode.Text;
+                List<Question> sectionQuestions = new List<Question>();
+                trv_explorer.SelectedNode.Parent.Nodes.RemoveAt(trv_explorer.SelectedNode.Index);
+                sectionQuestions = rawQuestionList.Where(s => s.SectionTitle == sectionTitle).ToList();
+                foreach (var sectionQuestion in sectionQuestions)
+                    rawQuestionList.Remove(sectionQuestion);
+            }
+            NodeChanged(trv_explorer, null);
+        }
+
+        private void NodeChanged(object sender, ControlEventArgs e)
+        {
+            bool atLeastOneQuestionExists = false;
+            foreach (TreeNode node in trv_explorer.Nodes[0].Nodes)
+            {
+                if (node.Nodes.Count > 0)
+                    atLeastOneQuestionExists = true;
+            }
+            if (atLeastOneQuestionExists)
+            {
+                saveAsToolStripMenuItem.Enabled = true;
+                closeExamToolStripMenuItem.Enabled = true;
+                printPreviewToolStripMenuItem.Enabled = true;
+                printToolStripButton.Enabled = true;
+                printToolStripMenuItem.Enabled = true;
+            }
+            else
+            {
+                saveAsToolStripMenuItem.Enabled = false;
+                closeExamToolStripMenuItem.Enabled = false;
+                printPreviewToolStripMenuItem.Enabled = false;
+                printToolStripButton.Enabled = false;
+                printToolStripMenuItem.Enabled = false;
+            }
+        }
+
+        private void PushPreviousQuestion(TreeNode questionNode)
+        {
+            Question queryResult = rawQuestionList.FirstOrDefault(s => s.SectionTitle == questionNode.Parent.Text && s.QuestionNumber == Convert.ToInt32(questionNode.Text.Replace("Question ", "")));
+            if (queryResult != null)
+            {
+                int questionIndex = rawQuestionList.IndexOf(queryResult);
+                rawQuestionList[questionIndex].AnswerExplanation = txt_answer_explanation.Text;
+                if (pan_options.Controls.Count > 0)
+                {
+                    if ((pan_options.Controls.OfType<OptionControl>().First(p => p.IsChecked == true)) != null)
+                    {
+                        rawQuestionList[questionIndex].QuestionAnswer = (pan_options.Controls.OfType<OptionControl>().First<OptionControl>(p => p.IsChecked == true)).OptionLetter;
+                    }
+                    else
+                    {
+                        rawQuestionList[questionIndex].QuestionAnswer = 'A';
+                    }
+                }
+                rawQuestionList[questionIndex].QuestionImagePath = pct_question_picture.ImageLocation;
+                rawQuestionList[questionIndex].QuestionNumber = Int32.Parse(questionNode.Text.Replace("Question ", ""));
+                Dictionary<char, string> questionOptionList = new Dictionary<char, string>();
+                foreach (OptionControl option in (pan_options.Controls.OfType<OptionControl>()))
+                {
+                    questionOptionList.Add(option.OptionLetter, option.OptionText);
+                }
+                rawQuestionList[questionIndex].QuestionOptions = questionOptionList;
+                rawQuestionList[questionIndex].QuestionText = txt_question_text.Text;
+                rawQuestionList[questionIndex].SectionTitle = questionNode.Parent.Text;
+            }
+            else
+            {
+                Question question = new Question();
+                question.AnswerExplanation = txt_answer_explanation.Text;
+                if (pan_options.Controls.Count > 0)
+                {
+                    try
+                    {
+                        if ((pan_options.Controls.OfType<OptionControl>().First(p => p.IsChecked == true)) != null)
+                        {
+                            question.QuestionAnswer = (pan_options.Controls.OfType<OptionControl>().First<OptionControl>(p => p.IsChecked == true)).OptionLetter;
+                        }
+                        else
+                        {
+                            question.QuestionAnswer = 'A';
+                        }
+                    }
+                    catch(InvalidOperationException)
+                    {
+                        question.QuestionAnswer = 'A';
+                    }
+                }
+                question.QuestionImagePath = pct_question_picture.ImageLocation;
+                question.QuestionNumber = Int32.Parse(questionNode.Text.Replace("Question ", ""));
+                Dictionary<char, string> questionOptionList = new Dictionary<char, string>();
+                foreach (OptionControl option in (pan_options.Controls.OfType<OptionControl>()))
+                {
+                    questionOptionList.Add(option.OptionLetter, option.OptionText);
+                }
+                question.QuestionOptions = questionOptionList;
+                question.QuestionText = txt_question_text.Text;
+                question.SectionTitle = questionNode.Parent.Text;
+                rawQuestionList.Add(question);
+            }
+        }
+
+        private void PullNextQuestion(TreeNode questionNode)
+        {
+            Question queryResult = rawQuestionList.FirstOrDefault(s => s.SectionTitle == questionNode.Parent.Text && s.QuestionNumber == Convert.ToInt32(questionNode.Text.Replace("Question ", "")));
+            if (queryResult != null)
+            {
+                ClearControls();
+                int questionIndex = rawQuestionList.IndexOf(queryResult);
+                txt_question_text.Text = rawQuestionList[questionIndex].QuestionText;
+                txt_answer_explanation.Text = rawQuestionList[questionIndex].AnswerExplanation;
+                if (string.IsNullOrWhiteSpace(rawQuestionList[questionIndex].QuestionImagePath))
+                {
+                    pct_question_picture.Image = null;
+                    pct_question_picture.ImageLocation = null;
+                    btn_clear_picture.Visible = false;
+                    btn_select_picture.Visible = false;
+                    pct_question_picture.Visible = false;
+                }
+                else
+                {
+                    pct_question_picture.Image = new Bitmap(rawQuestionList[questionIndex].QuestionImagePath);
+                    pct_question_picture.ImageLocation = rawQuestionList[questionIndex].QuestionImagePath;
+                    btn_clear_picture.Visible = true;
+                    btn_select_picture.Visible = true;
+                    pct_question_picture.Visible = true;
+                }
+                int i = 0;
+                foreach(var option in rawQuestionList[questionIndex].QuestionOptions)
+                {
+                    OptionControl oc = new OptionControl();
+                    oc.OptionLetter = option.Key;
+                    oc.OptionText = option.Value;
+                    oc.Location = new Point(2, i * 36);
+                    if (option.Key == rawQuestionList[questionIndex].QuestionAnswer)
+                    {
+                        oc.IsChecked = true;
+                    }
+                    pan_options.Controls.Add(oc);
+                    i++;
+                }
+            }
+            else
+            {
+                ClearControls();
+            }
+        }
+
+        private void ClearControls()
+        {
+            txt_answer_explanation.Clear();
+            txt_question_text.Clear();
+            pct_question_picture.ImageLocation = null;
+            pct_question_picture.Visible = false;
+            btn_clear_picture.Visible = false;
+            btn_select_picture.Visible = false;
+            pan_options.Controls.Clear();
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             About about = new About();
             about.ShowDialog();
         }
 
-        private void AfterSelect(object sender, TreeViewEventArgs e)
+        private void CloseExam(object sender, EventArgs e)
         {
-            if(trv_view_exam.SelectedNode.GetType() == typeof(ExamNode))
-            {
-                newQuestionToolStripButton.Enabled = false;
-                //
-                if (splitContainer2.Panel2.Controls.Contains(pan_display_questions))
+            if (trv_explorer.Nodes.Count > 0)
+                //To make sure user saves changes before closing
+                if (!AllChangesSaved)
                 {
-                    splitContainer2.Panel2.Controls.Remove(pan_display_questions);
-                    splitContainer2.Panel2.Controls.Add(pan_exam_properties);
+                    DialogResult result = MessageBox.Show("The current exam has not been saved, are you sure you want to close it?", "Unsaved Changes",
+                        MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (result == DialogResult.No)
+                        return;
                 }
-                else if (splitContainer2.Panel2.Controls.Contains(pan_splash))
-                {
-                    splitContainer2.Panel2.Controls.Remove(pan_splash);
-                    splitContainer2.Panel2.Controls.Add(pan_exam_properties);
-                }
-            }
-            else if(trv_view_exam.SelectedNode.GetType() == typeof(SectionNode))
-            {
-                newQuestionToolStripButton.Enabled = true;
-                //
-                if (splitContainer2.Panel2.Controls.Contains(pan_exam_properties))
-                {
-                    splitContainer2.Panel2.Controls.Remove(pan_exam_properties);
-                    splitContainer2.Panel2.Controls.Add(pan_display_questions);
-                }
-                else if (splitContainer2.Panel2.Controls.Contains(pan_splash))
-                {
-                    splitContainer2.Panel2.Controls.Remove(pan_splash);
-                    splitContainer2.Panel2.Controls.Add(pan_display_questions);
-                }
-                pan_display_questions.Enabled = false;
-            }
-            else
-            {
-                newQuestionToolStripButton.Enabled = true;
-                //
-                if (splitContainer2.Panel2.Controls.Contains(pan_exam_properties))
-                {
-                    splitContainer2.Panel2.Controls.Remove(pan_exam_properties);
-                    splitContainer2.Panel2.Controls.Add(pan_display_questions);
-                }
-                else if (splitContainer2.Panel2.Controls.Contains(pan_splash))
-                {
-                    splitContainer2.Panel2.Controls.Remove(pan_splash);
-                    splitContainer2.Panel2.Controls.Add(pan_display_questions);
-                }
-                pan_display_questions.Enabled = true;
-                //
-                Question question = ((QuestionNode)trv_view_exam.SelectedNode).Question;
-                txt_explanation.Text = question.Explanation;
-                txt_question_text.Text = question.Text;
-                lbl_section_question.Text = "Section: " + trv_view_exam.SelectedNode.Parent.Text + " Question " + question.No;
-                pct_image.Image = question.Image;
-                //
-                chkMulipleChoice.Checked = question.IsMultipleChoice;
-                //
-                pan_options.Controls.Clear();
-                //
-                int i = 0;
-                if (question.IsMultipleChoice)
-                {
-                    foreach (var option in question.Options)
-                    {
-                        OptionsControl ctrl = new OptionsControl()
-                        {
-                            Letter = option.Alphabet,
-                            Text = option.Text,
-                            Location = new Point(2, i * 36)
-                        };
-                        if (question.Answers.Contains(option.Alphabet))
-                        {
-                            ctrl.Checked = true;
-                        }
-                        pan_options.Controls.Add(ctrl);
-                        i++;
-                    }
-                }
-                else
-                {
-                    foreach (var option in question.Options)
-                    {
-                        OptionControl ctrl = new OptionControl()
-                        {
-                            Letter = option.Alphabet,
-                            Text = option.Text,
-                            Location = new Point(2, i * 36)
-                        };
-                        if (option.Alphabet == question.Answer)
-                        {
-                            ctrl.Checked = true;
-                        }
-                        pan_options.Controls.Add(ctrl);
-                        i++;
-                    }
-                }
-            }
-            //
-            ReconnectHandlers();
-        }
 
-        private void BeforeSelect(object sender, TreeViewCancelEventArgs e)
-        {
-            DisconnectHandlers();
-            //
-            if (trv_view_exam.SelectedNode != null)
-                if (trv_view_exam.SelectedNode.GetType() == typeof(QuestionNode))
-                {
-                    CommitQuestion();
-                    //
-                    ClearControls();
-                }
-        }
+            /*
+             * Exam closing statements
+             * resetting variables
+             * resetting controls etc
+             */
+            ClearControls();
+            savedAs = false;
+            if (tabControl.TabPages.Count == 2)
+                tabControl.TabPages.Insert(0, tab_start);
+            AllChangesSaved = false;
+            rawQuestionList = null;
+            CurrentFileNameWithExtension = null;
 
-        private void ClearControls()
-        {
-            lbl_section_question.Text = "";
+            txt_answer_explanation.Clear();
+            txt_exam_code.Clear();
+            txt_exam_instructions.Clear();
+            txt_exam_title.Clear();
             txt_question_text.Clear();
-            txt_explanation.Clear();
-            pct_image.Image = null;
-            //
-            pan_options.Controls.Clear();
-            //
-            txt_code.Clear();
-            txt_instruction.Clear();
-            txt_title.Clear();
-        }
+            num_passing_score.Value = 0;
+            num_time_limit.Value = 1;
+            trv_explorer.Nodes.Clear();
+            tabControl.SelectedIndex = 0;
 
-        private void SaveProperties(object sender, EventArgs e)
-        {
-            Shared.Properties properties = new Shared.Properties()
-            {
-                Code = txt_code.Text,
-                Instructions = txt_instruction.Text,
-                Passmark = (int)num_passmark.Value,
-                TimeLimit = (int)num_time_limit.Value,
-                Title = txt_title.Text,
-                Version = (int) float.Parse(lbl_version.Text)
-            };
-            //
-            if (trv_view_exam.Nodes.Count > 0)
-            {
-                ExamNode examNode = (ExamNode)trv_view_exam.Nodes[0];
-                examNode.Properties = properties;
-            }
-            else
-            {
-                ExamNode examNode = new ExamNode(properties);
-                trv_view_exam.Nodes.Add(examNode);
-            }
-            //
-            trv_view_exam.ExpandAll();
-            //
-            EnableExamControls();
-            EnableSectionControls();
-            //
-            IsDirty = true;
-        }
-
-        private void EnableExamControls()
-        {
-            closeToolStripMenuItem.Enabled = true;
-            //
-            exportToolStripMenuItem.Enabled = true;
-            //
-            saveAsToolStripMenuItem.Enabled = true;
-            saveToolStripButton.Enabled = true;
-            saveToolStripMenuItem.Enabled = true;
-            //
-            printPreviewToolStripMenuItem.Enabled = true;
-            printToolStripButton.Enabled = true;
-            printToolStripMenuItem.Enabled = true;
-            //
-            undoToolStripMenuItem.Enabled = true;
-            redoToolStripMenuItem.Enabled = true;
-        }
-
-        private void EnableSectionControls()
-        {
-            newSectionToolStripButton.Enabled = true;
-        }
-
-        private void EnableQuestionControls()
-        {
-            cutToolStripButton.Enabled = true;
-            cutToolStripMenuItem.Enabled = true;
-            pasteToolStripButton.Enabled = true;
-            pasteToolStripMenuItem.Enabled = true;
-            copyToolStripButton.Enabled = true;
-            copyToolStripMenuItem.Enabled = true;
-        }
-
-        private void DisableQuestionControls()
-        {
-            cutToolStripButton.Enabled = false;
-            cutToolStripMenuItem.Enabled = false;
-            pasteToolStripButton.Enabled = false;
-            pasteToolStripMenuItem.Enabled = false;
-            copyToolStripButton.Enabled = false;
-            copyToolStripMenuItem.Enabled = false;
-        }
-
-        private void DisableAllControls()
-        {
-            closeToolStripMenuItem.Enabled = false;
-            //
-            exportToolStripMenuItem.Enabled = false;
-            //
             saveAsToolStripMenuItem.Enabled = false;
             saveToolStripButton.Enabled = false;
             saveToolStripMenuItem.Enabled = false;
-            //
+            newSectionToolStripButton.Enabled = false;
+            newQuestionToolStripButton.Enabled = false;
+            closeExamToolStripMenuItem.Enabled = false;
             printPreviewToolStripMenuItem.Enabled = false;
             printToolStripButton.Enabled = false;
             printToolStripMenuItem.Enabled = false;
-            //
-            newQuestionToolStripButton.Enabled = false;
-            newSectionToolStripButton.Enabled = false;
-            //
-            undoToolStripMenuItem.Enabled = false;
-            redoToolStripMenuItem.Enabled = false;
-            //
-            cutToolStripButton.Enabled = false;
-            cutToolStripMenuItem.Enabled = false;
-            pasteToolStripButton.Enabled = false;
-            pasteToolStripMenuItem.Enabled = false;
-            copyToolStripButton.Enabled = false;
-            copyToolStripMenuItem.Enabled = false;
+
+            tab_display_questions.Enabled = false;
+            tab_exam_properties.Enabled = false;
+            tab_display_questions.Text = "Section:";
         }
 
-        private void Close(object sender, EventArgs e)
+        private void btn_add_image_Click(object sender, EventArgs e)
         {
-            if(IsDirty)
-            {
-                var response = MessageBox.Show("There are unsaved changes in your project. Do you want to save the changes before closing it?", "Unsaved Changes", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
-                if(response == DialogResult.Yes)
-                {
-                    Save(sender, e);
-                }
-                else if(response == DialogResult.Cancel)
-                {
-                    return;
-                }
-            }
-            //
-            ClearControls();
-            trv_view_exam.Nodes.Clear();
-            DisableAllControls();
-            //
-            if (splitContainer2.Panel2.Contains(pan_display_questions))
-            {
-                splitContainer2.Panel2.Controls.Remove(pan_display_questions);
-                splitContainer2.Panel2.Controls.Add(pan_splash);
-            }
-            else if (splitContainer2.Panel2.Contains(pan_exam_properties))
-            {
-                splitContainer2.Panel2.Controls.Remove(pan_exam_properties);
-                splitContainer2.Panel2.Controls.Add(pan_splash);
-            }
-            this.exam = null;
-            this.undoRedo = null;
-            IsDirty = false;
-            //
-            LoadExamHistory();
+            btn_clear_picture.Visible = true;
+            btn_select_picture.Visible = true;
+            pct_question_picture.Visible = true;
         }
 
-        private void OptionsChanged(object sender, ControlEventArgs e)
+        private void btn_clear_picture_Click(object sender, EventArgs e)
         {
-            if (pan_options.Controls.Count > 0)
-                btn_remove_option.Enabled = true;
-            else
-                btn_remove_option.Enabled = false;
+            pct_question_picture.ImageLocation = null;
         }
 
-        private void InsertImage(object sender, EventArgs e)
+        private void btn_select_picture_Click(object sender, EventArgs e)
         {
             ofd_select_image.ShowDialog();
             if (!string.IsNullOrWhiteSpace(ofd_select_image.FileName))
             {
-                pct_image.ImageLocation = ofd_select_image.FileName;
+                pct_question_picture.ImageLocation = ofd_select_image.FileName;
+                AllChangesSaved = false;
             }
-            //
-            QuestionChanged(sender, e);
         }
 
-        private void ClearImage(object sender, EventArgs e)
+        private void btn_remove_option_Click(object sender, EventArgs e)
         {
-            pct_image.Image = null;
-            //
-            QuestionChanged(sender, e);
+            pan_options.Controls.Remove(pan_options.Controls.OfType<OptionControl>().ElementAt(pan_options.Controls.OfType<OptionControl>().Count() - 1));
         }
 
-        private void RemoveOption(object sender, EventArgs e)
+        private void btn_add_option_Click(object sender, EventArgs e)
         {
-            if (chkMulipleChoice.Checked)
+            if (pan_options.Controls.Count > 0)
             {
-                pan_options.Controls.Remove(pan_options.Controls.OfType<OptionsControl>().ElementAt(pan_options.Controls.OfType<OptionsControl>().Count() - 1));
+                    OptionControl oc = new OptionControl();
+                    oc.Name = "option" + (pan_options.Controls.Count - 1);
+                    oc.OptionLetter = (char)(Convert.ToInt32(((OptionControl)pan_options.Controls[(pan_options.Controls.Count - 1)]).OptionLetter) + 1);
+                    oc.Location = new Point(2, 2 + ((pan_options.Controls.Count) * 36));
+                    pan_options.Controls.Add(oc);
             }
             else
             {
-                pan_options.Controls.Remove(pan_options.Controls.OfType<OptionControl>().ElementAt(pan_options.Controls.OfType<OptionControl>().Count() - 1));
+                OptionControl oc = new OptionControl();
+                oc.Location = new Point(2, 2);
+                oc.Name = "option0";
+                oc.OptionLetter = 'A';
+                pan_options.Controls.Add(oc);
             }
-            //
-            QuestionChanged(sender, e);
         }
 
-        private void AddOption(object sender, EventArgs e)
+        private void Control_Changed(object sender, ControlEventArgs e)
         {
-            try
+            if (pan_options.Controls.Count <= 0)
             {
-                if (chkMulipleChoice.Checked)
-                {
-                    if (pan_options.Controls.Count > 0)
-                    {
-                        OptionsControl ctrl = new OptionsControl()
-                        {
-                            Name = "option" + (pan_options.Controls.Count - 1),
-                            Letter = (char)(Convert.ToInt32(((OptionsControl)pan_options.Controls[pan_options.Controls.Count - 1]).Letter) + 1),
-                            Location = new Point(2, 2 + (pan_options.Controls.Count * 36))
-                        };
-                        pan_options.Controls.Add(ctrl);
-                    }
-                    else
-                    {
-                        OptionsControl ctrl = new OptionsControl()
-                        {
-                            Location = new Point(2, 2),
-                            Name = "option0",
-                            Letter = 'A'
-                        };
-                        pan_options.Controls.Add(ctrl);
-                    }
-                }
-                else
-                {
-                    if (pan_options.Controls.Count > 0)
-                    {
-                        OptionControl ctrl = new OptionControl()
-                        {
-                            Name = "option" + (pan_options.Controls.Count - 1),
-                            Letter = (char)(Convert.ToInt32(((OptionControl)pan_options.Controls[pan_options.Controls.Count - 1]).Letter) + 1),
-                            Location = new Point(2, 2 + (pan_options.Controls.Count * 36))
-                        };
-                        pan_options.Controls.Add(ctrl);
-                    }
-                    else
-                    {
-                        OptionControl ctrl = new OptionControl()
-                        {
-                            Location = new Point(2, 2),
-                            Name = "option0",
-                            Letter = 'A'
-                        };
-                        pan_options.Controls.Add(ctrl);
-                    }
-                }
-                //
-                QuestionChanged(sender, e);
+                btn_remove_option.Enabled = false;
             }
-            catch (Exception)
+            else
             {
-                MessageBox.Show("Sorry, you cannot mix option types. First remove the existing options then replace them.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                btn_remove_option.Enabled = true;
+            }
+            AllChangesSaved = false;
+        }
+
+        private Dictionary<string,List<Question>> GetDictionaryFromQuestionList(List<Question> questionList)
+        {
+            Dictionary<string, List<Question>> dictionary = new Dictionary<string, List<Question>>();
+            foreach(TreeNode sectionNode in trv_explorer.Nodes[0].Nodes)
+            {
+                dictionary.Add(sectionNode.Text, questionList.FindAll(s => s.SectionTitle == sectionNode.Text));
+            }
+            return dictionary;
+        }
+
+        private void SaveXMLFromDictionary (Dictionary<string,List<Question>> questionDictionary)
+        {
+            XmlDocument exam = new XmlDocument();
+
+            XmlNode rootNode = exam.CreateElement("OpenExamDocument");
+            exam.AppendChild(rootNode);
+
+            XmlNode fileVersion = exam.CreateElement("FileVersion");
+            fileVersion.InnerText = "2.0";
+            rootNode.AppendChild(fileVersion);
+
+            XmlNode comment = exam.CreateComment("This document contains the details of an Open Exam Suite exam, please do not modify!");
+            rootNode.AppendChild(comment);
+
+            //Exam Details
+            XmlNode examDetails = exam.CreateElement("ExamDetails");
+            rootNode.AppendChild(examDetails);
+
+            XmlNode examTitle = exam.CreateElement("ExamTitle");
+            examTitle.InnerText = txt_exam_title.Text;
+            examDetails.AppendChild(examTitle);
+
+            XmlNode timeAllowed = exam.CreateElement("TimeAllowed");
+            timeAllowed.InnerText = num_time_limit.Value.ToString();
+            examDetails.AppendChild(timeAllowed);
+
+            XmlNode passingScore = exam.CreateElement("PassingScore");
+            passingScore.InnerText = num_passing_score.Value.ToString();
+            examDetails.AppendChild(passingScore);
+
+            XmlNode examCode = exam.CreateElement("ExamCode");
+            examCode.InnerText = txt_exam_code.Text;
+            examDetails.AppendChild(examCode);
+
+            XmlNode examInstructions = exam.CreateElement("ExamInstructions");
+            examInstructions.InnerText = txt_exam_instructions.Text;
+            examDetails.AppendChild(examInstructions);
+
+            //Questions Group
+            XmlNode questions = exam.CreateElement("Questions");
+            rootNode.AppendChild(questions);
+
+            //Sections and Questions
+            foreach (var sectionAndQuestions in questionDictionary)
+            {
+                //Sections
+                XmlNode sectionNode = exam.CreateElement("Section");
+                XmlAttribute sectionAttribute = exam.CreateAttribute("Title");
+                sectionAttribute.Value = sectionAndQuestions.Key;
+                sectionNode.Attributes.Append(sectionAttribute);
+                questions.AppendChild(sectionNode);
+
+                //Questions
+                foreach (Question quest in sectionAndQuestions.Value)
+                {
+                    XmlNode questionNode = exam.CreateElement("Question");
+                    XmlAttribute attrib = exam.CreateAttribute("No");
+                    attrib.Value = quest.QuestionNumber.ToString();
+                    questionNode.Attributes.Append(attrib);
+                    sectionNode.AppendChild(questionNode);
+
+                    XmlNode questionText = exam.CreateElement("Text");
+                    questionText.InnerText = quest.QuestionText;
+                    questionNode.AppendChild(questionText);
+
+                    XmlNode questionImage = exam.CreateElement("Image");
+                    questionImage.InnerText = Path.GetFileName(quest.QuestionImagePath);
+                    questionNode.AppendChild(questionImage);
+                    CopyImageToOutputFolder(quest.QuestionImagePath);
+
+                    XmlNode questionOptions = exam.CreateElement("Options");
+                    questionNode.AppendChild(questionOptions);
+
+                    foreach (var option in quest.QuestionOptions)
+                    {
+                        XmlNode questionOption = exam.CreateElement("Option");
+                        XmlAttribute optionAttribute = exam.CreateAttribute("Title");
+                        optionAttribute.Value = option.Key.ToString();
+                        questionOption.Attributes.Append(optionAttribute);
+                        questionOption.InnerText = option.Value;
+                        questionOptions.AppendChild(questionOption);
+                    }
+
+                    XmlNode questionAnswer = exam.CreateElement("Answer");
+                    questionAnswer.InnerText = quest.QuestionAnswer.ToString();
+                    questionNode.AppendChild(questionAnswer);
+
+                    XmlNode answerExplanation = exam.CreateElement("AnswerExplanation");
+                    answerExplanation.InnerText = quest.AnswerExplanation;
+                    questionNode.AppendChild(answerExplanation);
+                }
+            }
+            string path = Path.Combine(Path.Combine(GlobalPathVariables.creatorFolderPath,
+                Path.GetFileNameWithoutExtension(CurrentFileNameWithExtension)), Path.GetFileNameWithoutExtension(CurrentFileNameWithExtension) + ".xml");
+            string[] xmlfiles = Directory.GetFiles(Path.Combine(GlobalPathVariables.creatorFolderPath,
+                Path.GetFileNameWithoutExtension(CurrentFileNameWithExtension)), "*.xml", SearchOption.TopDirectoryOnly);
+            foreach (string xmlfile in xmlfiles)
+                File.Delete(xmlfile);
+            exam.Save(path);
+        }
+
+        private void CopyImageToOutputFolder(string imagePath)
+        {
+            if (!string.IsNullOrWhiteSpace(imagePath))
+                try
+                {
+                    File.Copy(imagePath, Path.Combine(Path.Combine(GlobalPathVariables.creatorFolderPath,
+                        Path.GetFileNameWithoutExtension(CurrentFileNameWithExtension)), Path.GetFileName(imagePath)), true);
+                }
+                catch (IOException)
+                { }
+        }
+
+        private void Changes_Made(object sender, EventArgs e)
+        {
+            AllChangesSaved = false;
+        }
+
+        private void tab_start_Enter(object sender, EventArgs e)
+        {
+            if (Properties.Settings.Default.ExamHistory != null)
+            {
+                foreach(Control link in grp_exam_list.Controls.OfType<LinkLabel>())
+                {
+                    grp_exam_list.Controls.Remove(link);
+                }
+                int i = 0;
+                foreach(string exam in Properties.Settings.Default.ExamHistory)
+                {
+                    LinkLabel examLink = new LinkLabel();
+                    examLink.Location = new Point(12, (55 + (i * 24)));
+                    examLink.AutoSize = true;
+                    examLink.Text = exam;
+                    examLink.Click += examLink_Click;
+                    grp_exam_list.Controls.Add(examLink);
+                    i++;
+                }
             }
         }
 
-        private void Editable(object sender, EventArgs e)
+        void examLink_Click(object sender, EventArgs e)
         {
-            EnableQuestionControls();
+            if (File.Exists(((LinkLabel)sender).Text))
+            {
+                Open(((LinkLabel)sender).Text);
+            }
+            else
+            {
+                MessageBox.Show("Sorry, the selected file has been moved or deleted.", "Access error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                Properties.Settings.Default.ExamHistory.Remove(((LinkLabel)sender).Text);
+                Properties.Settings.Default.Save();
+                grp_exam_list.Controls.Remove(((Control)sender));
+            }
         }
 
-        private void NotEditable(object sender, EventArgs e)
+        private void UI_FormClosing(object sender, FormClosingEventArgs e)
         {
-            DisableQuestionControls();
+            if (trv_explorer.Nodes.Count > 0)
+                //To make sure user saves changes before closing
+                if (!AllChangesSaved)
+                {
+                    DialogResult result = MessageBox.Show("The current exam has not been saved, are you sure you want to close it?", "Unsaved Changes",
+                        MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (result == System.Windows.Forms.DialogResult.No)
+                        throw new NotImplementedException("Prevent form from closing");
+                }
         }
 
-        private void PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
+        private void EnableEditTools(object sender, EventArgs e)
         {
+            pasteToolStripButton.Enabled = true;
+            pasteToolStripMenuItem.Enabled = true;
+            cutToolStripButton.Enabled = true;
+            cutToolStripMenuItem.Enabled = true;
+            copyToolStripButton.Enabled = true;
+            copyToolStripMenuItem.Enabled = true;
+        }
+
+        private void DisableEditTools(object sender, EventArgs e)
+        {
+            pasteToolStripButton.Enabled = false;
+            pasteToolStripMenuItem.Enabled = false;
+            cutToolStripButton.Enabled = false;
+            cutToolStripMenuItem.Enabled = false;
+            copyToolStripButton.Enabled = false;
+            copyToolStripMenuItem.Enabled = false;
+        }
+        
+        private void pdc_doc_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
+        {
+
             if (whatToPrint == PrintOption.CurrentQuestion)
             {
                 float yPos = e.MarginBounds.Top;
                 float leftMargin = e.MarginBounds.Left;
-                Font normFont = new Font("Calibri", 12);
-                Font subHeadFont = new Font("Calibri", 13F);
-                Font headerFont = new Font("Cambria", 14, FontStyle.Bold);
+                Font normFont = new System.Drawing.Font("Calibri", 12);
+                Font subHeadFont = new System.Drawing.Font("Calibri", 13F);
+                Font headerFont = new System.Drawing.Font("Cambria", 14, FontStyle.Bold);
 
                 e.Graphics.DrawString("OPEN EXAM SUITE - CREATOR", headerFont, Brushes.Purple, new PointF(250, yPos));
                 yPos += 2 * headerFont.GetHeight(e.Graphics);
 
-                e.Graphics.DrawString("EXAM: " + exam.Properties.Title + "  EXAM CODE: " + exam.Properties.Code, subHeadFont, Brushes.Green, new PointF(200, yPos));
+                e.Graphics.DrawString("EXAM: " + txt_exam_title.Text + "  EXAM CODE: " + txt_exam_code.Text, subHeadFont, Brushes.Green, new PointF(200, yPos));
                 yPos += 2 * subHeadFont.GetHeight(e.Graphics);
 
-                e.Graphics.DrawString("Section: " + trv_view_exam.SelectedNode.Parent.Text, subHeadFont, Brushes.Green, new PointF(leftMargin, yPos));
+                e.Graphics.DrawString("Section: " + trv_explorer.SelectedNode.Parent.Text, subHeadFont, Brushes.Green, new PointF(leftMargin, yPos));
                 yPos += 2 * subHeadFont.GetHeight(e.Graphics);
 
-                e.Graphics.DrawString(trv_view_exam.SelectedNode.Text, subHeadFont, Brushes.Black, new PointF(leftMargin, yPos));
+                e.Graphics.DrawString(trv_explorer.SelectedNode.Text, subHeadFont, Brushes.Black, new PointF(leftMargin, yPos));
                 yPos += subHeadFont.GetHeight(e.Graphics);
 
-                for (int i = 0; i < txt_question_text.Lines.Length; i++)
-                {
-                    e.Graphics.DrawString(txt_question_text.Lines[i], normFont, Brushes.Black, new RectangleF(leftMargin, yPos, e.MarginBounds.Width + 60, 150),
-                        StringFormat.GenericTypographic);
-                    yPos += subHeadFont.GetHeight(e.Graphics);
-                }
+                e.Graphics.DrawString(txt_question_text.Text, normFont, Brushes.Black, new RectangleF(leftMargin, yPos, e.MarginBounds.Width + 60, 150),
+                    StringFormat.GenericTypographic);
+                yPos += 150;
+
                 yPos += subHeadFont.GetHeight(e.Graphics);
-                if (pct_image.Image != null)
+                if (pct_question_picture.Image != null)
                 {
                     yPos += 50;
-                    e.Graphics.DrawImage(pct_image.Image, new Rectangle(Convert.ToInt32(leftMargin + 100), Convert.ToInt32(yPos + 15), 450, 400));
+                    e.Graphics.DrawImage(pct_question_picture.Image, new Rectangle(Convert.ToInt32(leftMargin + 100), Convert.ToInt32(yPos + 15), 450, 400));
                     yPos += 400;
                 }
 
                 foreach (OptionControl control in pan_options.Controls)
                 {
-                    string temp = control.Letter + ". -  " + control.Text;
+                    string temp = control.OptionLetter + ". -  " + control.OptionText;
                     e.Graphics.DrawString(temp, normFont, Brushes.Black, new PointF(leftMargin + 35, yPos));
                     yPos += normFont.GetHeight(e.Graphics);
                 }
@@ -965,249 +1002,133 @@ namespace Creator
             {
                 float yPos = e.MarginBounds.Top;
                 float leftMargin = e.MarginBounds.Left;
-                Font normFont = new Font("Calibri", 12);
-                Font subHeadFont = new Font("Calibri", 13F);
-                Font headerFont = new Font("Cambria", 14, FontStyle.Bold);
+                Font normFont = new System.Drawing.Font("Calibri", 12);
+                Font subHeadFont = new System.Drawing.Font("Calibri", 13F);
+                Font headerFont = new System.Drawing.Font("Cambria", 14, FontStyle.Bold);
 
-                e.Graphics.DrawString("OPEN EXAM SUITE - CREATOR", headerFont, Brushes.Purple, new PointF(250, yPos));
-                yPos += 2 * headerFont.GetHeight(e.Graphics);
+                if (firstPage)
+                {
+                    e.Graphics.DrawString("OPEN EXAM SUITE - CREATOR", headerFont, Brushes.Purple, new PointF(250, yPos));
+                    yPos += 2 * headerFont.GetHeight(e.Graphics);
 
-                e.Graphics.DrawString("EXAM: " + exam.Properties.Title + "  EXAM CODE: " + exam.Properties.Code, subHeadFont, Brushes.Green, new PointF(200, yPos));
-                yPos += 2 * subHeadFont.GetHeight(e.Graphics);
+                    e.Graphics.DrawString("EXAM: " + txt_exam_title.Text + "  EXAM CODE: " + txt_exam_code.Text, subHeadFont, Brushes.Green, new PointF(200, yPos));
+                    yPos += 2 * subHeadFont.GetHeight(e.Graphics);
+
+                    if (trv_explorer.SelectedNode.Name.Contains("ques"))
+                    {
+                        e.Graphics.DrawString("Section: " + trv_explorer.SelectedNode.Parent.Text, subHeadFont, Brushes.Green, new PointF(leftMargin, yPos));
+                        yPos += 2 * subHeadFont.GetHeight(e.Graphics);
+                        sectionQuestions = rawQuestionList.Where(s => s.SectionTitle == trv_explorer.SelectedNode.Parent.Text);
+                    }
+                    else
+                    {
+                        e.Graphics.DrawString("Section: " + trv_explorer.SelectedNode.Text, subHeadFont, Brushes.Green, new PointF(leftMargin, yPos));
+                        yPos += 2 * subHeadFont.GetHeight(e.Graphics);
+                        sectionQuestions = rawQuestionList.Where(s => s.SectionTitle == trv_explorer.SelectedNode.Text);
+                    }
+                    firstPage = false;
+                }
+
+                for (; count < sectionQuestions.Count(); count++)
+                {
+                    if (yPos > e.MarginBounds.Bottom -50)
+                    {
+                        e.HasMorePages = true;
+                        return;
+                    }
+                    e.Graphics.DrawString("Question " + sectionQuestions.ElementAt(count).QuestionNumber, subHeadFont, Brushes.Black, new PointF(leftMargin, yPos));
+                    yPos += subHeadFont.GetHeight(e.Graphics);
+
+                    e.Graphics.DrawString(sectionQuestions.ElementAt(count).QuestionText, normFont, Brushes.Black, new RectangleF(leftMargin, yPos, e.MarginBounds.Width + 60, 100),
+                        StringFormat.GenericTypographic);
+
+                    yPos += 3 * subHeadFont.GetHeight(e.Graphics);
+                    if (!string.IsNullOrWhiteSpace(sectionQuestions.ElementAt(count).QuestionImagePath))
+                    {
+                        yPos += 50;
+                        e.Graphics.DrawImage(new Bitmap(sectionQuestions.ElementAt(count).QuestionImagePath), new Rectangle(Convert.ToInt32(leftMargin + 100), Convert.ToInt32(yPos + 15), 450, 400));
+                        yPos += 400;
+                    }
+
+                    foreach (KeyValuePair<char,string> control in sectionQuestions.ElementAt(count).QuestionOptions)
+                    {
+                        string temp = control.Key + ". -  " + control.Value;
+                        e.Graphics.DrawString(temp, normFont, Brushes.Black, new PointF(leftMargin + 35, yPos));
+                        yPos += normFont.GetHeight(e.Graphics);
+                    }
+                }
+                e.HasMorePages = false;
             }
             else
             {
                 float yPos = e.MarginBounds.Top;
                 float leftMargin = e.MarginBounds.Left;
-                Font normFont = new Font("Calibri", 12);
-                Font subHeadFont = new Font("Calibri", 13F);
-                Font headerFont = new Font("Cambria", 14, FontStyle.Bold);
+                Font normFont = new System.Drawing.Font("Calibri", 12);
+                Font subHeadFont = new System.Drawing.Font("Calibri", 13F);
+                Font headerFont = new System.Drawing.Font("Cambria", 14, FontStyle.Bold);
 
-                e.Graphics.DrawString("OPEN EXAM SUITE - CREATOR", headerFont, Brushes.Purple, new PointF(250, yPos));
-                yPos += 2 * headerFont.GetHeight(e.Graphics);
-
-                e.Graphics.DrawString("EXAM: " + exam.Properties.Title + "  EXAM CODE: " + exam.Properties.Code, subHeadFont, Brushes.Green, new PointF(200, yPos));
-                yPos += 2 * subHeadFont.GetHeight(e.Graphics);
-            }
-        }
-
-        private void UIFormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (IsDirty)
-            {
-                DialogResult result = MessageBox.Show("The current exam has not been saved, do you want to save and close?", "Unsaved Changes",
-                    MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
-                if (result == DialogResult.Cancel)
-                    e.Cancel = true;
-                else if (result == DialogResult.Yes)
-                    Save(sender, e);
-            }
-        }
-
-        private void LoadExamHistory()
-        {
-            if (Properties.Settings.Default.Exams != null)
-            {
-                foreach (Control link in grp_exam_history.Controls.OfType<LinkLabel>())
+                if (firstPage)
                 {
-                    grp_exam_history.Controls.Remove(link);
+                    e.Graphics.DrawString("OPEN EXAM SUITE - CREATOR", headerFont, Brushes.Purple, new PointF(250, yPos));
+                    yPos += 2 * headerFont.GetHeight(e.Graphics);
+
+                    e.Graphics.DrawString("EXAM: " + txt_exam_title.Text + "  EXAM CODE: " + txt_exam_code.Text, subHeadFont, Brushes.Green, new PointF(200, yPos));
+                    yPos += 2 * subHeadFont.GetHeight(e.Graphics);
+
+                    Dictionary<string, List<Question>> questionDictionary = GetDictionaryFromQuestionList(rawQuestionList);
+                    allQuestions = GlobalPathVariables.GetListFromDictionaryList(questionDictionary.ToList());
+
+                    firstPage = false;
                 }
-                int i = 0;
-                foreach (string exam in Properties.Settings.Default.Exams)
+
+                for (; count < allQuestions.Count; count++)
                 {
-                    LinkLabel examLink = new LinkLabel()
+                    if (allQuestions.ElementAt(count).SectionTitle != sectionName)
                     {
-                        Location = new Point(10, (25 + (i * 25))),
-                        AutoSize = true,
-                        Text = exam
-                    };
-                    examLink.Click += ExamLinkClick;
-                    grp_exam_history.Controls.Add(examLink);
-                    i++;
-                }
-            }
-        }
+                        e.Graphics.DrawString("Section: " + allQuestions.ElementAt(count).SectionTitle, subHeadFont, Brushes.Green, new PointF(leftMargin, yPos));
+                        yPos += 2 * subHeadFont.GetHeight(e.Graphics);
+                        sectionName = allQuestions.ElementAt(count).SectionTitle;
+                    }
 
-        void ExamLinkClick(object sender, EventArgs e)
-        {
-            if (File.Exists(((LinkLabel)sender).Text))
-            {
-                currentExamFile = ((LinkLabel)sender).Text;
-                Open();
-            }
-            else
-            {
-                MessageBox.Show("Sorry, the selected file has been moved or deleted.", "Access error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                Properties.Settings.Default.Exams.Remove(((LinkLabel)sender).Text);
-                Properties.Settings.Default.Save();
-                grp_exam_history.Controls.Remove(((Control)sender));
-            }
-        }
-
-        private void LoadUI(object sender, EventArgs e)
-        {
-            LoadExamHistory();
-        }
-
-        private void DeleteQuestion(object sender, EventArgs e)
-        {
-            var sectionNode = trv_view_exam.SelectedNode.Parent;
-            //
-            ChangeRepresentationObject obj = new ChangeRepresentationObject()
-            {
-                Action = ActionType.Delete,
-                Question = ((QuestionNode)trv_view_exam.SelectedNode).Question,
-                SectionTitle = ((SectionNode)sectionNode).Title
-            };
-            undoRedo.InsertObjectforUndoRedo(obj);
-            //
-            sectionNode.Nodes.Remove(trv_view_exam.SelectedNode);
-            //
-            int i = 1;
-            foreach(QuestionNode questionNode in sectionNode.Nodes)
-            {
-                questionNode.Question.No = 1;
-                questionNode.Text = "Question " + i;
-                i++;
-            }
-            //
-            IsDirty = true;
-        }
-
-        private void EditSection(object sender, EventArgs e)
-        {
-            SectionNode sectionNode = (SectionNode)trv_view_exam.SelectedNode;
-            //
-            EditSection editSection = new Creator.EditSection(sectionNode.Title);
-            editSection.ShowDialog();
-            //
-            sectionNode.Title = editSection.Title;
-            sectionNode.Text = editSection.Title;
-            //
-            IsDirty = true;
-        }
-
-        private void MakeSureNodeSelected(object sender, TreeNodeMouseClickEventArgs e)
-        {
-            trv_view_exam.SelectedNode = e.Node;
-        }
-
-        private void QuestionChanged(object sender, EventArgs e)
-        {
-            IsDirty = true;
-            //
-            ChangeRepresentationObject obj = new ChangeRepresentationObject()
-            {
-                Action = ActionType.Modify
-            };
-            //
-            Question question = new Question()
-            {
-                IsMultipleChoice = chkMulipleChoice.Checked
-            };
-            if (question.IsMultipleChoice)
-            {
-                var answerCtrls = pan_options.Controls.OfType<OptionsControl>().Where(s => s.Checked);
-                question.Answers = answerCtrls.Select(x => x.Letter).ToArray();
-            }
-            else
-            {
-                var answerCtrl = pan_options.Controls.OfType<OptionControl>().FirstOrDefault(s => s.Checked);
-                question.Answer = answerCtrl == null ? '\0' : answerCtrl.Letter;
-            }
-            question.Explanation = txt_explanation.Text;
-            question.Image = (Bitmap)pct_image.Image;
-            question.No = trv_view_exam.SelectedNode.Index + 1;
-            question.Options.Clear();
-            if (question.IsMultipleChoice)
-            {
-                var ctrls = pan_options.Controls.OfType<OptionsControl>();
-                foreach (var ctrl in ctrls)
-                {
-                    Option option = new Option()
+                    if (yPos > e.MarginBounds.Bottom - 50)
                     {
-                        Alphabet = ctrl.Letter,
-                        Text = ctrl.Text
-                    };
-                    question.Options.Add(option);
-                }
-            }
-            else
-            {
-                var ctrls = pan_options.Controls.OfType<OptionControl>();
-                foreach (var ctrl in ctrls)
-                {
-                    Option option = new Option()
+                        e.HasMorePages = true;
+                        return;
+                    }
+
+                    e.Graphics.DrawString("Question " + allQuestions.ElementAt(count).QuestionNumber, subHeadFont, Brushes.Black, new PointF(leftMargin, yPos));
+                    yPos += subHeadFont.GetHeight(e.Graphics);
+
+                    e.Graphics.DrawString(allQuestions.ElementAt(count).QuestionText, normFont, Brushes.Black, new RectangleF(leftMargin, yPos, e.MarginBounds.Width + 60, 100),
+                        StringFormat.GenericTypographic);
+
+                    yPos += 3 * subHeadFont.GetHeight(e.Graphics);
+                    if (!string.IsNullOrWhiteSpace(allQuestions.ElementAt(count).QuestionImagePath))
                     {
-                        Alphabet = ctrl.Letter,
-                        Text = ctrl.Text
-                    };
-                    question.Options.Add(option);
-                }
-            }
+                        yPos += 50;
+                        e.Graphics.DrawImage(new Bitmap(allQuestions.ElementAt(count).QuestionImagePath), new Rectangle(Convert.ToInt32(leftMargin + 100), Convert.ToInt32(yPos + 15), 450, 400));
+                        yPos += 400;
+                    }
 
-            question.Text = txt_question_text.Text;
-            //
-            obj.Question = question;
-            obj.SectionTitle = ((SectionNode)trv_view_exam.SelectedNode.Parent).Title;
-            undoRedo.InsertObjectforUndoRedo(obj);
-        }
-
-        private void DisconnectHandlers()
-        {
-            txt_question_text.TextChanged -= QuestionChanged;
-            txt_explanation.TextChanged -= QuestionChanged;
-        }
-
-        private void ReconnectHandlers()
-        {
-            txt_question_text.TextChanged += QuestionChanged;
-            txt_explanation.TextChanged += QuestionChanged;
-        }
-
-        private void ExportAtJson(object sender, EventArgs e)
-        {
-            if (this.exam != null)
-            {
-                string examJsonString = JsonConvert.SerializeObject(this.exam, Formatting.Indented);
-                if (!string.IsNullOrWhiteSpace(examJsonString))
-                {
-                    SaveFileDialog sfdExportJson = new SaveFileDialog()
+                    foreach (KeyValuePair<char, string> control in allQuestions.ElementAt(count).QuestionOptions)
                     {
-                        InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                        Filter = "JSON Files|*.json",
-                        FilterIndex = 1,
-                        FileName = this.exam.Properties.Title
-                    };
-                    if (sfdExportJson.ShowDialog() == DialogResult.OK)
-                    {
-                        File.WriteAllText(sfdExportJson.FileName, examJsonString);
-                        MessageBox.Show("JSON successfully exported.", "Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        string temp = control.Key + ". -  " + control.Value;
+                        e.Graphics.DrawString(temp, normFont, Brushes.Black, new PointF(leftMargin + 35, yPos));
+                        yPos += normFont.GetHeight(e.Graphics);
                     }
                 }
+                e.HasMorePages = false;
             }
         }
 
-        private void ExportXML(object sender, EventArgs e)
+        private void examPropertiesChanged(object sender, EventArgs e)
         {
-            if (this.exam != null)
-            {
-                var examXmlStringWriter = new System.IO.StringWriter();
-                var serializer = new System.Xml.Serialization.XmlSerializer(this.exam.GetType());
-                SaveFileDialog sfdExportXml = new SaveFileDialog()
-                {
-                    InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                    Filter = "XML Files|*.Xml",
-                    FilterIndex = 1,
-                    FileName = this.exam.Properties.Title
-                };
-                if (sfdExportXml.ShowDialog() == DialogResult.OK)
-                {
-                    serializer.Serialize(examXmlStringWriter, this.exam);
-                    File.WriteAllText(sfdExportXml.FileName, examXmlStringWriter.ToString());
-                    MessageBox.Show("XML successfully exported.", "Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-            }
+            AllChangesSaved = false;
+        }
+
+        private void pdc_doc_BeginPrint(object sender, System.Drawing.Printing.PrintEventArgs e)
+        {
+            firstPage = true;
         }
     }
 }

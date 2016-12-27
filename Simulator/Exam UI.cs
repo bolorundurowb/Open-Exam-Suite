@@ -1,336 +1,367 @@
-﻿using Shared;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.XPath;
+using System.IO;
 
 namespace Simulator
 {
     public partial class Exam_UI : Form
     {
-        #region Global Variables
-        private Exam exam;
-        private Settings settings;
-        private int timeLeft;
-        private int currentQuestionIndex;
-        private object[] userAnswers;
-        #endregion
+        //Global Variables
+        List<Question> questions;
+        char[] givenAnswers;
+        int currentQuestionIndex;
+        int timeLeft;
+        string filename;
+        int totalSeconds;
+        string examCode;
 
-        public Exam_UI(Exam _exam, Settings _settings)
+        public enum NavigationOption
+        {
+        	Next,
+        	Previous,
+        	Begin,
+        	End
+        };
+        
+        public Exam_UI(string fileName)
         {
             InitializeComponent();
-            exam = _exam;
-            settings = _settings;
-            timeLeft = _settings.TimeLimit * 60;
-            userAnswers = new object[exam.NumberOfQuestions];
+            timeLeft = Properties.Settings.Default.TimerValue * 60;
+            this.filename = fileName;
         }
 
-        private void TimerTick(object sender, EventArgs e)
+        private void btn_pause_Click(object sender, EventArgs e)
         {
-            timeLeft--;
-            if (timeLeft <= 0)
+            timer.Stop();
+            DialogResult result = MessageBox.Show("Exam paused, Click 'OK' to continue.", "Paused", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if (result == DialogResult.OK)
             {
-                timer.Stop();
-                lbl_elapsed_time.Text = "Time Up!";
-                MessageBox.Show("Your time ran out!", "Time out", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                NavigateExam(NavOption.End);
-            }
-            else
-            {
-                TimeSpan timeSpan = TimeSpan.FromSeconds(timeLeft);
-                lbl_elapsed_time.Text = timeSpan.Hours.ToString("00") + ":" + timeSpan.Minutes.ToString("00") + ":" + timeSpan.Seconds.ToString("00");
+                timer.Start(); 
             }
         }
 
-        private void Start(object sender, EventArgs e)
+        private void btn_end_Click(object sender, EventArgs e)
         {
-            lbl_exam_code.Text = exam.Properties.Code;
-            lbl_exam_title.Text = exam.Properties.Title;
-            lbl_exam_instructions.Text = exam.Properties.Instructions;
+            DisplayQuestion(NavigationOption.End);
         }
 
-        private void EnableControls()
+        private void btn_next_Click(object sender, EventArgs e)
         {
-            label1.Visible = true;
-            label2.Visible = true;
-            label3.Visible = true;
-            lbl_question_number.Visible = true;
-            lbl_section_title.Visible = true;
-            lbl_elapsed_time.Visible = true;
-            //
+            DisplayQuestion(NavigationOption.Next);
+        }
+
+        private void btn_previous_Click(object sender, EventArgs e)
+        {
+            DisplayQuestion(NavigationOption.Previous);
+        }
+
+        private void btn_begin_Click(object sender, EventArgs e)
+        {
             lbl_exam_code.Visible = false;
             lbl_exam_instructions.Visible = false;
             lbl_exam_title.Visible = false;
-            //
+            btn_begin.Enabled = false;
             btn_begin.Visible = false;
-            //
+            btn_end.Enabled = true;
             btn_end.Visible = true;
-            btn_next.Visible = true;
+            btn_pause.Enabled = true;
             btn_pause.Visible = true;
+            btn_previous.Enabled = false;
             btn_previous.Visible = true;
+            btn_next.Enabled = true;
+            btn_next.Visible = true;
             btn_show_answer.Visible = true;
-            //
-            pct_image.Visible = true;
-            //
-            txt_question.Visible = true;
-        }
-
-        private void PauseExam(object sender, EventArgs e)
-        {
-            timer.Stop();
-            MessageBox.Show("Your exam has been paused. Click 'OK' to continue.", "Paused", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            btn_show_answer.Enabled = true;
+            lbl_elapsed_time.Visible = true;
+            lbl_elapsed_time.Enabled = true;
+            label1.Enabled = true;
+            label1.Visible = true;
             timer.Start();
+            DisplayQuestion(NavigationOption.Begin);
         }
 
-        private void Begin(object sender, EventArgs e)
+        private void timer_Tick(object sender, EventArgs e)
         {
-            timer.Start();
-            EnableControls();
-            NavigateExam(NavOption.Begin);
-        }
-
-        private void Next(object sender, EventArgs e)
-        {
-            NavigateExam(NavOption.Next);
-        }
-
-        private void Previous(object sender, EventArgs e)
-        {
-            NavigateExam(NavOption.Previous);
-        }
-
-        private void End(object sender, EventArgs e)
-        {
-            NavigateExam(NavOption.End);
-        }
-
-        private void NavigateExam(NavOption option)
-        {
-            lbl_explanation.Visible = false;
-            //
-            if (option == NavOption.Begin)
+            if (timeLeft > 0)
             {
-                if(settings.Questions.Count > 0)
-                {
-                    currentQuestionIndex = 0;
-                    PrintQuestionToScreen();
-                }
-                //
-                if(settings.Questions.Count > 1)
-                {
-                    btn_next.Enabled = true;
-                }
+                timeLeft = timeLeft - 1;
+                double x = timeLeft/3600;
+                double hours = Math.Floor(x);
+                double y = (timeLeft % 3600) / 60;
+                double minutes = Math.Floor(y);
+                double seconds = timeLeft % 60;
+                string temp = String.Format("{0}:{1}:{2}", hours.ToString("00"), minutes.ToString("00"), seconds.ToString("00"));
+                lbl_elapsed_time.Text = temp;
+                this.totalSeconds += 1;
             }
-            else if (option == NavOption.Next)
+            else
             {
-                //Save current answer
-                userAnswers[currentQuestionIndex] = SelectedAnswer();
-                //
-                RemoveOptions();
-                //
-                currentQuestionIndex++;
-                PrintQuestionToScreen();
-                //
-                btn_previous.Enabled = true;
-                //
-                if (currentQuestionIndex == settings.Questions.Count - 1)
-                    btn_next.Enabled = false;
+                timer.Stop();
+                lbl_elapsed_time.Text = "Time's up!";
+                MessageBox.Show("Your time ran out!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                btn_end_Click(btn_end, null);
             }
-            else if (option == NavOption.Previous)
+        }
+
+        private void Exam_UI_Load(object sender, EventArgs e)
+        {
+            try
             {
-                //Save current answer
-                userAnswers[currentQuestionIndex] = SelectedAnswer();
-                //
-                RemoveOptions();
-                //
-                currentQuestionIndex--;
-                PrintQuestionToScreen();
-                //
-                btn_next.Enabled = true;
-                //
-                if (currentQuestionIndex == 0)
-                    btn_previous.Enabled = false;
+                XPathDocument doc = new XPathDocument(GlobalPathVariables.GetXmlFilePath(GlobalPathVariables.GetExamFilesFolder(filename)));
+                XPathNavigator nav = doc.CreateNavigator();
+                XPathExpression expr;
+                expr = nav.Compile("//ExamTitle");
+                XPathNodeIterator iterator = nav.Select(expr);
+                while (iterator.MoveNext())
+                {
+                    lbl_exam_title.Text = iterator.Current.Value;
+                }
+                expr = nav.Compile("//ExamCode");
+                iterator = nav.Select(expr);
+                while (iterator.MoveNext())
+                {
+                    lbl_exam_code.Text = iterator.Current.Value;
+                    this.examCode = iterator.Current.Value;
+                }
+                expr = nav.Compile("//ExamInstructions");
+                iterator = nav.Select(expr);
+                while (iterator.MoveNext())
+                {
+                    lbl_exam_instructions.Text = iterator.Current.Value;
+                }
+                expr = nav.Compile("//PassingScore");
+                iterator = nav.Select(expr);
+                while (iterator.MoveNext())
+                {
+                    Properties.Settings.Default.RequiredScore = Convert.ToInt32(iterator.Current.Value);
+                }
+                Properties.Settings.Default.Save();
             }
-            else if (option == NavOption.End)
+            catch (ArgumentNullException ex)
             {
-                //Save current answer
-                userAnswers[currentQuestionIndex] = SelectedAnswer();
-                //
-                settings.ElapsedTime = TimeSpan.FromSeconds(exam.Properties.TimeLimit * 60 - timeLeft);
-                //
-                int numOfCorrectAnswers = 0;
-                for(int i = 0; i < settings.Questions.Count; i++)
-                {
-                    if (userAnswers[i].GetType().IsArray)
-                    {
-                        if (((char[])userAnswers[i]).SequenceEqual(settings.Questions[i].Answers))
-                        {
-                            numOfCorrectAnswers++;
-                        }
-                    }
-                    else if ((char)userAnswers[i] == settings.Questions[i].Answer)
-                    {
-                        numOfCorrectAnswers++;
-                    }
-                }
-                settings.NumberOfCorrectAnswers = numOfCorrectAnswers;
-                //
-                foreach(var section in settings.Sections)
-                {
-                    int numOfQuestions = 0;
-                    int numOfCorrect = 0;
-                    for (int i = 0; i < settings.Questions.Count; i++)
-                    {
-                        if(section.Questions.Contains(settings.Questions[i]))
-                        {
-                            numOfQuestions++;
-                            if (userAnswers[i].GetType().IsArray)
-                            {
-                                if (((char[])userAnswers[i]).SequenceEqual(settings.Questions[i].Answers))
-                                {
-                                    numOfCorrect++;
-                                }
-                            }
-                            else if ((char)userAnswers[i] == settings.Questions[i].Answer)
-                            {
-                                numOfCorrect++;
-                            }
-                        }
-                    }
-                    settings.ResultSpread.Add(new Tuple<string, int, int>(section.Title, numOfQuestions, numOfCorrect));
-                }
-                //
-                Score_Sheet ss = new Score_Sheet(settings, exam);
-                this.Hide();
-                ss.ShowDialog();
+                MessageBox.Show("Sorry, the selected exam was corrupted, please re-add the exam before retrying.", "Exam Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                GlobalPathVariables.WriteError(ex, this.Name);
                 this.Close();
             }
-        }
 
-        private void PrintQuestionToScreen()
-        {
-            Question question = settings.Questions[currentQuestionIndex];
-            lbl_question_number.Text = question.No.ToString();
-            lbl_section_title.Text = settings.Sections.First(s => s.Questions.Contains(question)).Title;
-            lbl_explanation.Text = question.Explanation;
-            txt_question.Text = question.Text;
-            pct_image.Image = question.Image;
-            AddOptions(question.Options, question.IsMultipleChoice);
+            questions = new List<Question>();
+            questions = Question.GetQuestions(GlobalPathVariables.GetExamFilesFolder(filename));
+            givenAnswers = new char[questions.Count];
         }
-
-        private void AddOptions(List<Option> options, bool isMultipleChoice)
+        
+        public void DisplayQuestion (NavigationOption option)
         {
-            for (int i = 0; i < options.Count; i++)
+            lbl_question_number.Visible = true;
+            lbl_answer_explanation.Visible = false;
+            lbl_section_title.Visible = true;
+            label2.Visible = true;
+            label3.Visible = true;
+            txt_question.Visible = true;
+            pic_image.Visible = true;
+            
+            if (option == NavigationOption.Begin)
             {
-                if (isMultipleChoice)
+                currentQuestionIndex = 0;
+                Question question = questions.ElementAt(currentQuestionIndex);
+                lbl_question_number.Text = question.QuestionNumber.ToString();
+                lbl_section_title.Text = question.SectionTitle;
+                txt_question.Text = question.QuestionText;
+                lbl_answer_explanation.Text = question.AnswerExplanation;
+                if (!(string.IsNullOrWhiteSpace(question.QuestionImagePath)))
                 {
-                    CheckBox chk = new CheckBox()
+                    string imagePath = Path.Combine(GlobalPathVariables.GetExamFilesFolder(filename), question.QuestionImagePath);
+                    pic_image.ImageLocation = imagePath;
+                }
+                for (int i = 0; i < question.QuestionOptions.Count; i++)
+                {
+                    RadioButton rdb = new RadioButton();
+                    rdb.AutoSize = true;
+                    rdb.Text = question.QuestionOptions.ElementAt(i).Key + ". - " + question.QuestionOptions.ElementAt(i).Value;
+                    rdb.Name = "rdb_" + question.QuestionOptions.ElementAt(i).Key;
+                    rdb.Location = new Point(51, 464 + (i * 22));
+                    pan_display.Controls.Add(rdb);
+                }
+                if ((Exam_Settings.ExamType.SelectedSections.ToString() == Properties.Settings.Default.ExamType && questions.Count == 1) || (Exam_Settings.ExamType.SelectedNumber.ToString() == Properties.Settings.Default.ExamType && Properties.Settings.Default.NumOfQuestions == 1))
+                    btn_next.Enabled = false;
+                this.Invalidate();
+            }
+
+            if (option == NavigationOption.Previous)
+            {
+                //determine the selected answer for this question and save it before moving to the previous question
+                for (int j = pan_display.Controls.OfType<RadioButton>().Count() - 1; j >= 0; --j)
+                {
+                    var ctrls = pan_display.Controls.OfType<RadioButton>();
+                    var ctrl = ctrls.ElementAt(j);
+                    if (((RadioButton)ctrl).Checked)
                     {
-                        AutoSize = true,
-                        Text = options[i].Alphabet + ". - " + options[i].Text,
-                        Name = "chk" + options[i].Alphabet,
-                        Location = new Point(51, 464 + (i * 22))
-                    };
-                    if (userAnswers[currentQuestionIndex] != null && ((char[])userAnswers[currentQuestionIndex]).Contains(options[i].Alphabet))
-                        chk.Checked = true;
-                    pan_display.Controls.Add(chk);
+                        givenAnswers[currentQuestionIndex] = Convert.ToChar(ctrl.Name.Replace("rdb_", ""));
+                    }
+                    pan_display.Controls.Remove(ctrl);
+                    ctrl.Dispose();
+                }
+                if (currentQuestionIndex > 0)
+                {
+                    currentQuestionIndex -= 1;
+                    Question question = questions.ElementAt(currentQuestionIndex);
+                    lbl_question_number.Text = question.QuestionNumber.ToString();
+                    lbl_section_title.Text = question.SectionTitle;
+                    txt_question.Text = question.QuestionText;
+                    lbl_answer_explanation.Text = question.AnswerExplanation;
+                    if (string.IsNullOrWhiteSpace(question.QuestionImagePath))
+                    {
+                        pic_image.ImageLocation = "";
+                    }
+                    else
+                    {
+                        pic_image.ImageLocation = Path.Combine(GlobalPathVariables.GetExamFilesFolder(filename), question.QuestionImagePath);
+                    }
+                    for (int i = 0; i < question.QuestionOptions.Count; i++)
+                    {
+                        RadioButton rdb = new RadioButton();
+                        rdb.AutoSize = true;
+                        rdb.Text = question.QuestionOptions.ElementAt(i).Key + ". - " + question.QuestionOptions.ElementAt(i).Value;
+                        rdb.Name = "rdb_" + question.QuestionOptions.ElementAt(i).Key;
+                        rdb.Location = new Point(51, 464 + (i * 22));
+                        if (question.QuestionOptions.ElementAt(i).Key == givenAnswers[currentQuestionIndex])
+                            rdb.Checked = true;
+                        pan_display.Controls.Add(rdb);
+                    }
+                    if (currentQuestionIndex == 0)
+                    {
+                        btn_previous.Enabled = false;
+                    }
+                }
+            }
+
+            if (option == NavigationOption.Next)
+            {
+                //determine the selected answer for this question and save it before moving to the next question
+                for (int j = pan_display.Controls.OfType<RadioButton>().Count() - 1; j >= 0; --j)
+                {
+                    var ctrls = pan_display.Controls.OfType<RadioButton>();
+                    var ctrl = ctrls.ElementAt(j);
+                    if (((RadioButton)ctrl).Checked)
+                    { 
+                        givenAnswers[currentQuestionIndex] = Convert.ToChar(ctrl.Name.Replace("rdb_", ""));
+                    }
+                    pan_display.Controls.Remove(ctrl);
+                    ctrl.Dispose();
+                }
+                currentQuestionIndex += 1;
+                Question question = questions.ElementAt(currentQuestionIndex);
+                lbl_question_number.Text = question.QuestionNumber.ToString();
+                lbl_section_title.Text = question.SectionTitle;
+                txt_question.Text = question.QuestionText;
+                lbl_answer_explanation.Text = question.AnswerExplanation;
+                if (string.IsNullOrWhiteSpace(question.QuestionImagePath))
+                {
+                    pic_image.ImageLocation = "";
                 }
                 else
                 {
-                    RadioButton rdb = new RadioButton()
-                    {
-                        AutoSize = true,
-                        Text = options[i].Alphabet + ". - " + options[i].Text,
-                        Name = "rdb" + options[i].Alphabet,
-                        Location = new Point(51, 464 + (i * 22))
-                    };
-                    if (userAnswers[currentQuestionIndex] != null && (char)userAnswers[currentQuestionIndex] == options[i].Alphabet)
+                    pic_image.ImageLocation = Path.Combine(GlobalPathVariables.GetExamFilesFolder(filename), question.QuestionImagePath);
+                }
+                for (int i = 0; i < question.QuestionOptions.Count; i++)
+                {
+                    RadioButton rdb = new RadioButton();
+                    rdb.AutoSize = true;
+                    rdb.Text = question.QuestionOptions.ElementAt(i).Key + ". - " + question.QuestionOptions.ElementAt(i).Value;
+                    rdb.Name = "rdb_" + question.QuestionOptions.ElementAt(i).Key;
+                    rdb.Location = new Point(51, 464 + (i * 22));
+                    if (question.QuestionOptions.ElementAt(i).Key == givenAnswers[currentQuestionIndex])
                         rdb.Checked = true;
                     pan_display.Controls.Add(rdb);
                 }
-            }
-        }
-
-        private void RemoveOptions()
-        {
-            for(int j = pan_display.Controls.OfType<RadioButton>().Count() - 1; j >= 0; --j)
+                btn_previous.Enabled = true;
+                if ((Exam_Settings.ExamType.SelectedSections.ToString() == Properties.Settings.Default.ExamType && currentQuestionIndex == questions.Count - 1) || (Exam_Settings.ExamType.SelectedNumber.ToString() == Properties.Settings.Default.ExamType && currentQuestionIndex == Properties.Settings.Default.NumOfQuestions))
+                    btn_next.Enabled = false;
+                this.Invalidate();
+            }           
+ 
+            if (option == NavigationOption.End)
             {
-                var controls = pan_display.Controls.OfType<RadioButton>();
-                var control = controls.ElementAt(j);
-                pan_display.Controls.Remove(control);
-                control.Dispose();
-            }
-            for (int j = pan_display.Controls.OfType<CheckBox>().Count() - 1; j >= 0; --j)
-            {
-                var controls = pan_display.Controls.OfType<CheckBox>();
-                var control = controls.ElementAt(j);
-                pan_display.Controls.Remove(control);
-                control.Dispose();
-            }
-        }
-
-        private object SelectedAnswer()
-        {
-            var rdb = pan_display.Controls.OfType<RadioButton>().FirstOrDefault(s => s.Checked);
-            if (rdb == null)
-            {
-                var chks = pan_display.Controls.OfType<CheckBox>().Where(s => s.Checked);
-                if (chks == null || chks.Count() == 0)
-                    return '\0';
-                else
-                    return chks.Select(s => Convert.ToChar(s.Text.Substring(0, 1))).ToArray();
-            }
-            else
-                return Convert.ToChar(rdb.Text.Substring(0, 1));
-        }
-
-        private void ShowAnswer(object sender, EventArgs e)
-        {
-            lbl_explanation.Visible = true;
-            //
-            var chks = pan_display.Controls.OfType<CheckBox>();
-            if (chks.Count() > 0)
-            {
-                var answers = chks.Where(s => settings.Questions[currentQuestionIndex].Answers.Contains(Convert.ToChar(s.Name.Replace("chk", ""))));
-                foreach(var answer in answers)
+                //determine the selected answer for this question and save it before ending the exam
+                for (int j = pan_display.Controls.OfType<RadioButton>().Count() - 1; j >= 0; --j)
                 {
-                    int index = pan_display.Controls.IndexOf(answer);
-                    ((CheckBox)pan_display.Controls[index]).ForeColor = Color.Green;
-                }
-                var selectedOptions = chks.Where(s => s.Checked);
-                foreach (var selectedOption in selectedOptions)
-                {
-                    if (!settings.Questions[currentQuestionIndex].Answers.Contains(Convert.ToChar(selectedOption.Name.Replace("chk", ""))))
+                    var ctrls = pan_display.Controls.OfType<RadioButton>();
+                    var ctrl = ctrls.ElementAt(j);
+                    if (((RadioButton)ctrl).Checked)
                     {
-                        int index = pan_display.Controls.IndexOf(selectedOption);
-                        ((CheckBox)pan_display.Controls[index]).ForeColor = Color.Red;
+                        givenAnswers[currentQuestionIndex] = Convert.ToChar(ctrl.Name.Replace("rdb_", ""));
+                    }
+                    pan_display.Controls.Remove(ctrl);
+                    ctrl.Dispose();
+                }
+                //Stop the countdown timer
+                timer.Stop();
+                //determine how many answers are correct and get section details
+                int numOfCorrect = 0;
+                int total;
+                Dictionary<string, int> totalQuestionsPerSection = new Dictionary<string, int>();
+                Dictionary<string, int> rightQuestionsPerSection = new Dictionary<string, int>();
+                for (int i = 0; i < questions.Count; i++)
+                {
+                    if (totalQuestionsPerSection.ContainsKey(questions.ElementAt(i).SectionTitle))
+                    {
+                        totalQuestionsPerSection[questions.ElementAt(i).SectionTitle] += 1;
+                    }
+                    else
+                    {
+                        totalQuestionsPerSection.Add(questions.ElementAt(i).SectionTitle, 1);
+                    }
+                    if (rightQuestionsPerSection.ContainsKey(questions.ElementAt(i).SectionTitle))
+                    {
+                        if (questions.ElementAt(i).QuestionAnswer == givenAnswers[i])
+                        {
+                            rightQuestionsPerSection[questions.ElementAt(i).SectionTitle] += 1;
+                            numOfCorrect += 1;
+                        }
+                    }
+                    else
+                    {
+                        rightQuestionsPerSection.Add(questions.ElementAt(i).SectionTitle, 0);
+                        if (questions.ElementAt(i).QuestionAnswer == givenAnswers[i])
+                        {
+                            rightQuestionsPerSection[questions.ElementAt(i).SectionTitle] += 1;
+                            numOfCorrect += 1;
+                        }
                     }
                 }
-            }
-            else
-            {
-                RadioButton answer = pan_display.Controls.OfType<RadioButton>().FirstOrDefault(s => s.Name.Replace("rdb", "") == settings.Questions[currentQuestionIndex].Answer.ToString());
-                if (answer != null)
+                total = questions.Count;
+                Score_Sheet scs;
+                if (Properties.Settings.Default.ExamType == Exam_Settings.ExamType.SelectedNumber.ToString())
                 {
-                    int index = pan_display.Controls.IndexOf(answer);
-                    ((RadioButton)pan_display.Controls[index]).ForeColor = Color.Green;
+                    scs = new Score_Sheet(totalSeconds / 60.0, examCode, ((numOfCorrect * 1000) / Properties.Settings.Default.NumOfQuestions), totalQuestionsPerSection, rightQuestionsPerSection);
                 }
-                RadioButton currentSelectedOption = pan_display.Controls.OfType<RadioButton>().FirstOrDefault(s => s.Checked);
-                if (currentSelectedOption != null && currentSelectedOption.Text != answer.Text)
+                else
                 {
-                    int index = pan_display.Controls.IndexOf(currentSelectedOption);
-                    ((RadioButton)pan_display.Controls[index]).ForeColor = Color.Red;
+                    scs = new Score_Sheet(totalSeconds / 60.0, examCode, ((numOfCorrect * 1000) / total), totalQuestionsPerSection, rightQuestionsPerSection);
                 }
+                this.Hide();
+                scs.ShowDialog();
+                this.Close();
             }
         }
-    }
-
-    enum NavOption
-    {
-        Begin,
-        Next,
-        Previous,
-        End
+        
+        private void btn_show_answer_Click(object sender, EventArgs e)
+        {
+            lbl_answer_explanation.Visible = true;
+            RadioButton answer = pan_display.Controls.OfType<RadioButton>().FirstOrDefault(s => s.Name.Replace("rdb_", "") == questions[currentQuestionIndex].QuestionAnswer.ToString());
+            if (answer != null)
+            {
+                int index = pan_display.Controls.IndexOf(answer);
+                ((RadioButton)pan_display.Controls[index]).Checked = true;
+                ((RadioButton)pan_display.Controls[index]).ForeColor = Color.Green;
+            }
+        }
     }
 }

@@ -28,12 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Exam_Settings));
             this.label1 = new System.Windows.Forms.Label();
             this.txt_candidate_name = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.clb_section_options = new System.Windows.Forms.CheckedListBox();
-            this.num_questions = new System.Windows.Forms.NumericUpDown();
+            this.num_exam_number = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
             this.btn_deselect_all = new System.Windows.Forms.Button();
             this.btn_select_all = new System.Windows.Forms.Button();
@@ -47,7 +46,7 @@
             this.btn_ok = new System.Windows.Forms.Button();
             this.btn_cancel = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.num_questions)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_exam_number)).BeginInit();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_time_limit)).BeginInit();
             this.SuspendLayout();
@@ -72,7 +71,7 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.clb_section_options);
-            this.groupBox1.Controls.Add(this.num_questions);
+            this.groupBox1.Controls.Add(this.num_exam_number);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.btn_deselect_all);
             this.groupBox1.Controls.Add(this.btn_select_all);
@@ -96,20 +95,20 @@
             this.clb_section_options.Size = new System.Drawing.Size(452, 167);
             this.clb_section_options.TabIndex = 7;
             // 
-            // num_questions
+            // num_exam_number
             // 
-            this.num_questions.Enabled = false;
-            this.num_questions.Location = new System.Drawing.Point(74, 265);
-            this.num_questions.Minimum = new decimal(new int[] {
+            this.num_exam_number.Enabled = false;
+            this.num_exam_number.Location = new System.Drawing.Point(74, 265);
+            this.num_exam_number.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.num_questions.Name = "num_questions";
-            this.num_questions.Size = new System.Drawing.Size(53, 20);
-            this.num_questions.TabIndex = 6;
-            this.num_questions.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.num_questions.Value = new decimal(new int[] {
+            this.num_exam_number.Name = "num_exam_number";
+            this.num_exam_number.Size = new System.Drawing.Size(53, 20);
+            this.num_exam_number.TabIndex = 6;
+            this.num_exam_number.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.num_exam_number.Value = new decimal(new int[] {
             1,
             0,
             0,
@@ -132,7 +131,7 @@
             this.btn_deselect_all.TabIndex = 4;
             this.btn_deselect_all.Text = "Deselect All";
             this.btn_deselect_all.UseVisualStyleBackColor = true;
-            this.btn_deselect_all.Click += new System.EventHandler(this.DeselectAll);
+            this.btn_deselect_all.Click += new System.EventHandler(this.btn_deselect_all_Click);
             // 
             // btn_select_all
             // 
@@ -142,7 +141,7 @@
             this.btn_select_all.TabIndex = 3;
             this.btn_select_all.Text = "Select All";
             this.btn_select_all.UseVisualStyleBackColor = true;
-            this.btn_select_all.Click += new System.EventHandler(this.SelectAll);
+            this.btn_select_all.Click += new System.EventHandler(this.btn_select_all_Click);
             // 
             // rdb_fixed_number_questions
             // 
@@ -153,7 +152,7 @@
             this.rdb_fixed_number_questions.TabIndex = 1;
             this.rdb_fixed_number_questions.Text = "Take";
             this.rdb_fixed_number_questions.UseVisualStyleBackColor = true;
-            this.rdb_fixed_number_questions.CheckedChanged += new System.EventHandler(this.ChooseNumOfQuestions);
+            this.rdb_fixed_number_questions.CheckedChanged += new System.EventHandler(this.rdb_fixed_number_questions_CheckedChanged);
             // 
             // rdb_selected_sections
             // 
@@ -166,7 +165,7 @@
             this.rdb_selected_sections.TabStop = true;
             this.rdb_selected_sections.Text = "Take questions from selected sections only:";
             this.rdb_selected_sections.UseVisualStyleBackColor = true;
-            this.rdb_selected_sections.CheckedChanged += new System.EventHandler(this.ChooseSections);
+            this.rdb_selected_sections.CheckedChanged += new System.EventHandler(this.rdb_selected_sections_CheckedChanged);
             // 
             // groupBox2
             // 
@@ -225,9 +224,9 @@
             this.chk_enable_timer.Name = "chk_enable_timer";
             this.chk_enable_timer.Size = new System.Drawing.Size(118, 17);
             this.chk_enable_timer.TabIndex = 0;
-            this.chk_enable_timer.Text = "Set exam time limit?";
+            this.chk_enable_timer.Text = "Enable exam timer?";
             this.chk_enable_timer.UseVisualStyleBackColor = true;
-            this.chk_enable_timer.CheckedChanged += new System.EventHandler(this.CustomTimer);
+            this.chk_enable_timer.CheckedChanged += new System.EventHandler(this.chk_enable_timer_CheckedChanged);
             // 
             // btn_ok
             // 
@@ -237,7 +236,7 @@
             this.btn_ok.TabIndex = 4;
             this.btn_ok.Text = "OK";
             this.btn_ok.UseVisualStyleBackColor = true;
-            this.btn_ok.Click += new System.EventHandler(this.Proceed);
+            this.btn_ok.Click += new System.EventHandler(this.btn_ok_Click);
             // 
             // btn_cancel
             // 
@@ -247,7 +246,7 @@
             this.btn_cancel.TabIndex = 5;
             this.btn_cancel.Text = "CANCEL";
             this.btn_cancel.UseVisualStyleBackColor = true;
-            this.btn_cancel.Click += new System.EventHandler(this.Close);
+            this.btn_cancel.Click += new System.EventHandler(this.btn_cancel_Click);
             // 
             // Exam_Settings
             // 
@@ -262,16 +261,17 @@
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.HelpButton = true;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Exam_Settings";
             this.ShowIcon = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Settings";
+            this.Load += new System.EventHandler(this.Exam_Settings_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.num_questions)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_exam_number)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_time_limit)).EndInit();
@@ -296,7 +296,7 @@
         private System.Windows.Forms.Button btn_ok;
         private System.Windows.Forms.Button btn_cancel;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.NumericUpDown num_questions;
+        private System.Windows.Forms.NumericUpDown num_exam_number;
         private System.Windows.Forms.NumericUpDown num_time_limit;
         private System.Windows.Forms.CheckedListBox clb_section_options;
     }

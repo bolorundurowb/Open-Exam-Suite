@@ -84,7 +84,7 @@
             // btn_ok
             // 
             this.btn_ok.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_ok.Image = global::Creator.Properties.Resources.ok;
+            this.btn_ok.Image = global::Creator.Properties.Resources._4;
             this.btn_ok.Location = new System.Drawing.Point(220, 115);
             this.btn_ok.Name = "btn_ok";
             this.btn_ok.Size = new System.Drawing.Size(75, 23);
@@ -98,7 +98,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(303, 146);
+            this.ClientSize = new System.Drawing.Size(307, 150);
             this.ControlBox = false;
             this.Controls.Add(this.btn_ok);
             this.Controls.Add(this.groupBox1);

@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Creator
@@ -17,18 +10,26 @@ namespace Creator
         public PrintOptions(TreeNode selectedNode)
         {
             InitializeComponent();
-            if (selectedNode.Name.Contains("sec"))
-                rdb_current_question.Enabled = false;
-            else if (selectedNode.Name.Contains("exam"))
+            if (selectedNode != null)
             {
-                rdb_current_question.Enabled = false;
-                rdb_current_section.Enabled = false;
+                if (selectedNode.Name.Contains("sec"))
+                    rdb_current_question.Enabled = false;
+                else if (selectedNode.Name.Contains("exam"))
+                {
+                    rdb_current_question.Enabled = false;
+                    rdb_current_section.Enabled = false;
+                }
+                else
+                {
+                    rdb_current_question.Enabled = true;
+                    rdb_current_section.Enabled = true;
+                    rdb_all_questions.Enabled = true;
+                }
             }
             else
             {
-                rdb_current_question.Enabled = true;
-                rdb_current_section.Enabled = true;
-                rdb_all_questions.Enabled = true;
+                rdb_current_question.Enabled = false;
+                rdb_current_section.Enabled = false;
             }
         }
 
@@ -43,11 +44,4 @@ namespace Creator
             this.Close();
         }
     }
-
-    internal enum PrintOption
-    {
-        CurrentQuestion,
-        CurrentSection,
-        AllQuestions
-    };
 }

@@ -135,7 +135,7 @@
             this.btn_retake.TabIndex = 7;
             this.btn_retake.Text = "Retake";
             this.btn_retake.UseVisualStyleBackColor = true;
-            this.btn_retake.Click += new System.EventHandler(this.Retake);
+            this.btn_retake.Click += new System.EventHandler(this.btn_retake_Click);
             // 
             // btn_exit
             // 
@@ -146,14 +146,14 @@
             this.btn_exit.TabIndex = 9;
             this.btn_exit.Text = "Exit";
             this.btn_exit.UseVisualStyleBackColor = true;
-            this.btn_exit.Click += new System.EventHandler(this.Exit);
+            this.btn_exit.Click += new System.EventHandler(this.btn_exit_Click);
             // 
             // chr_display_score
             // 
             this.chr_display_score.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chr_display_score.BackColor = System.Drawing.SystemColors.Control;
             customLabel1.FromPosition = 0.5D;
-            customLabel1.Text = "Pass Mark";
+            customLabel1.Text = "Required Score";
             customLabel1.ToPosition = 1.5D;
             customLabel2.FromPosition = -0.5D;
             customLabel2.Text = "Your Score";
@@ -163,7 +163,6 @@
             chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.Transparent;
             chartArea1.AxisX.Maximum = 2D;
             chartArea1.AxisY.Maximum = 1000D;
-            chartArea1.BackColor = System.Drawing.SystemColors.Control;
             chartArea1.Name = "ChartArea1";
             this.chr_display_score.ChartAreas.Add(chartArea1);
             this.chr_display_score.Location = new System.Drawing.Point(184, 169);
@@ -174,14 +173,15 @@
         System.Drawing.Color.Green};
             series1.ChartArea = "ChartArea1";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bar;
-            series1.Name = "Pass Mark";
+            series1.Name = "Required Score";
             series2.ChartArea = "ChartArea1";
             series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bar;
-            series2.Name = "Your Score";
+            series2.Name = "Score";
             this.chr_display_score.Series.Add(series1);
             this.chr_display_score.Series.Add(series2);
             this.chr_display_score.Size = new System.Drawing.Size(542, 171);
             this.chr_display_score.TabIndex = 10;
+            this.chr_display_score.Text = "chart1";
             // 
             // dgv_show_breakdown
             // 
@@ -239,7 +239,7 @@
             // 
             // accuracy
             // 
-            this.accuracy.HeaderText = "Correct";
+            this.accuracy.HeaderText = "Accuracy";
             this.accuracy.Name = "accuracy";
             this.accuracy.ReadOnly = true;
             this.accuracy.Width = 75;
@@ -313,7 +313,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(627, 69);
+            this.label8.Location = new System.Drawing.Point(626, 70);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(34, 13);
             this.label8.TabIndex = 19;
@@ -322,7 +322,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(630, 102);
+            this.label9.Location = new System.Drawing.Point(622, 102);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(34, 13);
             this.label9.TabIndex = 20;
@@ -337,7 +337,7 @@
             this.btn_print_score.TabIndex = 21;
             this.btn_print_score.Text = "Print";
             this.btn_print_score.UseVisualStyleBackColor = true;
-            this.btn_print_score.Click += new System.EventHandler(this.PrintResult);
+            this.btn_print_score.Click += new System.EventHandler(this.btn_print_score_Click);
             // 
             // pnt_prv_dlg
             // 
@@ -353,7 +353,7 @@
             // 
             // pnt_doc
             // 
-            this.pnt_doc.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.Print);
+            this.pnt_doc.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.pnt_doc_PrintPage);
             // 
             // Score_Sheet
             // 
@@ -380,12 +380,11 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Score_Sheet";
             this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Score Sheet";
-            this.Load += new System.EventHandler(this.LoadDataToUI);
             ((System.ComponentModel.ISupportInitialize)(this.chr_display_score)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_show_breakdown)).EndInit();
             this.ResumeLayout(false);
@@ -410,6 +409,9 @@
         private System.Windows.Forms.Label lbl_exam_number;
         private System.Windows.Forms.Label lbl_elapsed_time;
         private System.Windows.Forms.Label lbl_time_allowed;
+        private System.Windows.Forms.DataGridViewTextBoxColumn section;
+        private System.Windows.Forms.DataGridViewTextBoxColumn number;
+        private System.Windows.Forms.DataGridViewTextBoxColumn accuracy;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label lbl_status;
         private System.Windows.Forms.Label label8;
@@ -417,8 +419,5 @@
         private System.Windows.Forms.Button btn_print_score;
         private System.Windows.Forms.PrintPreviewDialog pnt_prv_dlg;
         private System.Drawing.Printing.PrintDocument pnt_doc;
-        private System.Windows.Forms.DataGridViewTextBoxColumn section;
-        private System.Windows.Forms.DataGridViewTextBoxColumn number;
-        private System.Windows.Forms.DataGridViewTextBoxColumn accuracy;
     }
 }

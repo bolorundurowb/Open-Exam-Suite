@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Creator")]
-[assembly: AssemblyDescription("A tool to create exam files in the oef format")]
+[assembly: AssemblyTitle("CreatorTests")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Invenio Technologies")]
-[assembly: AssemblyProduct("Creator")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("CreatorTests")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("d126bbf6-e295-4ba1-8cc8-bdd3d013c559")]
+[assembly: Guid("dba43c05-2679-4e83-a34a-19fe88527416")]
 
 // Version information for an assembly consists of the following four values:
 //

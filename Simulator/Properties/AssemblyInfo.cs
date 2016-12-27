@@ -6,10 +6,10 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Simulator")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Take Open Exam Suite (OES) exams in the *.oef format")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Invenio Technologies")]
-[assembly: AssemblyProduct("OpenExam Suite")]
+[assembly: AssemblyProduct("Simulator")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("954807a1-2fd8-4141-af4b-c203be6dc7ed")]
+[assembly: Guid("ca6cd623-26dd-4e25-8ef5-2ed7fedd1532")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("2.0.1.0256")]
+[assembly: AssemblyFileVersion("2.0.0.0")]
