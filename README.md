@@ -1,6 +1,5 @@
 # Open Exam Suite
-[![Build status](https://ci.appveyor.com/api/projects/status/ll8d5i7l6f2p9siw?svg=true)](https://ci.appveyor.com/project/BolorunduroWinnerTimothy/open-exam-suite)   [![Download Open Exam Suite](https://img.shields.io/sourceforge/dm/open-exam-suite.svg)](https://sourceforge.net/projects/open-exam-suite/files/latest/download) [![NETFramework](https://img.shields.io/badge/.net-4.0-ff66b6.svg)](https://www.microsoft.com/en-us/download/details.aspx?id=17851)
-[![Mono](https://img.shields.io/badge/mono-4.2.1-0066b6.svg)](http://www.mono-project.com/download/)
+[![Build status](https://ci.appveyor.com/api/projects/status/ll8d5i7l6f2p9siw?svg=true)](https://ci.appveyor.com/project/BolorunduroWinnerTimothy/open-exam-suite)   [![Download Open Exam Suite](https://img.shields.io/sourceforge/dm/open-exam-suite.svg)](https://sourceforge.net/projects/open-exam-suite/files/latest/download) [![NETFramework](https://img.shields.io/badge/.net-4.0-0066b6.svg)](https://www.microsoft.com/en-us/download/details.aspx?id=17851)
 
 **If you have benefitted from this project, please star it.**
 
