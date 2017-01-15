@@ -272,7 +272,9 @@ namespace Simulator
 
         private object SelectedAnswer()
         {
+            // Get the current question
             Question currentQuestion = settings.Questions[currentQuestionIndex];
+            // Determine the question type and return an answer
             if (currentQuestion.IsMultipleChoice)
             {
                 var chks = pan_display.Controls.OfType<CheckBox>().Where(s => s.Checked);
