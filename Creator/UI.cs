@@ -7,6 +7,7 @@ using System;
 using System.IO;
 using System.Diagnostics;
 using Newtonsoft.Json;
+using System.Runtime.Serialization;
 
 namespace Creator
 {
@@ -50,45 +51,53 @@ namespace Creator
         private void Open()
         {
             this.exam = Helper.GetExamFromFile(currentExamFile);
-            //
-            trv_view_exam.Nodes.Clear();
-            EnableExamControls();
-            EnableSectionControls();
-            //
-            ExamNode examNode = new ExamNode(exam.Properties);
-            trv_view_exam.Nodes.Add(examNode);
-            foreach(Section section in exam.Sections)
+            if (this.exam != null)
             {
-                SectionNode sectionNode = new SectionNode(section.Title)
+                //
+                trv_view_exam.Nodes.Clear();
+                EnableExamControls();
+                EnableSectionControls();
+                //
+                ExamNode examNode = new ExamNode(exam.Properties);
+                trv_view_exam.Nodes.Add(examNode);
+                foreach (Section section in exam.Sections)
                 {
-                    ContextMenuStrip = cms_section
-                };
-                foreach (Question question in section.Questions)
-                {
-                    QuestionNode questionNode = new QuestionNode(question)
+                    SectionNode sectionNode = new SectionNode(section.Title)
                     {
-                        ContextMenuStrip = cms_question
+                        ContextMenuStrip = cms_section
                     };
-                    //
-                    sectionNode.Nodes.Add(questionNode);
+                    foreach (Question question in section.Questions)
+                    {
+                        QuestionNode questionNode = new QuestionNode(question)
+                        {
+                            ContextMenuStrip = cms_question
+                        };
+                        //
+                        sectionNode.Nodes.Add(questionNode);
+                    }
+                    examNode.Nodes.Add(sectionNode);
                 }
-                examNode.Nodes.Add(sectionNode);
+                trv_view_exam.ExpandAll();
+                //
+                if (splitContainer2.Panel2.Controls.Contains(pan_splash))
+                {
+                    splitContainer2.Panel2.Controls.Remove(pan_splash);
+                    splitContainer2.Panel2.Controls.Add(pan_exam_properties);
+                }
+                //
+                txt_code.Text = exam.Properties.Code;
+                txt_instruction.Text = exam.Properties.Instructions;
+                txt_title.Text = exam.Properties.Title;
+                num_passmark.Value = (decimal)exam.Properties.Passmark;
+                num_time_limit.Value = exam.Properties.TimeLimit;
+                //
+                this.undoRedo = new UndoRedo();
             }
-            trv_view_exam.ExpandAll();
-            //
-            if (splitContainer2.Panel2.Controls.Contains(pan_splash))
+            else
             {
-                splitContainer2.Panel2.Controls.Remove(pan_splash);
-                splitContainer2.Panel2.Controls.Add(pan_exam_properties);
-            }
-            //
-            txt_code.Text = exam.Properties.Code;
-            txt_instruction.Text = exam.Properties.Instructions;
-            txt_title.Text = exam.Properties.Title;
-            num_passmark.Value = (decimal)exam.Properties.Passmark;
-            num_time_limit.Value = exam.Properties.TimeLimit;
-            //
-            this.undoRedo = new UndoRedo();
+                MessageBox.Show("Sorry, the exam selected is either old or corrupt. If it is an old exam, please upgrade it with the upgrade tool at:\nhttps://sourceforge.net/projects/exam-upgrade-tool/", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }   
+            
         }
 
         private void Save(object sender, EventArgs e)
