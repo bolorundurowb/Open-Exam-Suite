@@ -272,17 +272,31 @@ namespace Simulator
 
         private object SelectedAnswer()
         {
-            var rdb = pan_display.Controls.OfType<RadioButton>().FirstOrDefault(s => s.Checked);
-            if (rdb == null)
+            Question currentQuestion = settings.Questions[currentQuestionIndex];
+            if (currentQuestion.IsMultipleChoice)
             {
                 var chks = pan_display.Controls.OfType<CheckBox>().Where(s => s.Checked);
                 if (chks == null || chks.Count() == 0)
-                    return '\0';
+                {
+                    return new List<char>().ToArray();
+                }
                 else
+                {
                     return chks.Select(s => Convert.ToChar(s.Text.Substring(0, 1))).ToArray();
+                }
             }
             else
-                return Convert.ToChar(rdb.Text.Substring(0, 1));
+            {
+                var rdb = pan_display.Controls.OfType<RadioButton>().FirstOrDefault(s => s.Checked);
+                if (rdb == null)
+                {
+                    return '\0';
+                }
+                else
+                {
+                    return Convert.ToChar(rdb.Text.Substring(0, 1));
+                }
+            }
         }
 
         private void ShowAnswer(object sender, EventArgs e)

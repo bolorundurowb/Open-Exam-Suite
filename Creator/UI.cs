@@ -663,9 +663,9 @@ namespace Creator
             txt_question_text.Clear();
             txt_explanation.Clear();
             pct_image.Image = null;
-            //
+            // Clear all the options
             pan_options.Controls.Clear();
-            //
+            // Remove test in the text boxes
             txt_code.Clear();
             txt_instruction.Clear();
             txt_title.Clear();
