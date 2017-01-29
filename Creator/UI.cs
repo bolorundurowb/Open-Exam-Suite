@@ -7,6 +7,7 @@ using System;
 using System.IO;
 using System.Diagnostics;
 using Newtonsoft.Json;
+using System.Xml.Serialization;
 
 namespace Creator
 {
@@ -1173,7 +1174,7 @@ namespace Creator
             txt_explanation.TextChanged += QuestionChanged;
         }
 
-        private void ExportAtJson(object sender, EventArgs e)
+        private void ExportAsJson(object sender, EventArgs e)
         {
             if (this.exam != null)
             {
@@ -1196,12 +1197,12 @@ namespace Creator
             }
         }
 
-        private void ExportXML(object sender, EventArgs e)
+        private void ExportAsXml(object sender, EventArgs e)
         {
             if (this.exam != null)
             {
-                var examXmlStringWriter = new System.IO.StringWriter();
-                var serializer = new System.Xml.Serialization.XmlSerializer(this.exam.GetType());
+                var examXmlStringWriter = new StringWriter();
+                var serializer = new XmlSerializer(this.exam.GetType());
                 SaveFileDialog sfdExportXml = new SaveFileDialog()
                 {
                     InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
@@ -1214,6 +1215,55 @@ namespace Creator
                     serializer.Serialize(examXmlStringWriter, this.exam);
                     File.WriteAllText(sfdExportXml.FileName, examXmlStringWriter.ToString());
                     MessageBox.Show("XML successfully exported.", "Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+        }
+
+        private void ImportFromJson(object sender, EventArgs e)
+        {
+            if (this.exam != null)
+            {
+                OpenFileDialog ofdImportJson = new OpenFileDialog()
+                {
+                    InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                    Filter = "JSON Files|*.json",
+                    FilterIndex = 1,
+                    FileName = "",
+                    Multiselect = false
+                };
+                if (ofdImportJson.ShowDialog() == DialogResult.OK)
+                {
+                    string filePath = ofdImportJson.FileName;
+                }
+            }
+        }
+
+        private void ImportFromXml(object sender, EventArgs e)
+        {
+            if (this.exam != null)
+            {
+                OpenFileDialog ofdImportXml = new OpenFileDialog()
+                {
+                    InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                    Filter = "XML Files|*.xml",
+                    FilterIndex = 1,
+                    FileName = "",
+                    Multiselect = false
+                };
+                if (ofdImportXml.ShowDialog() == DialogResult.OK)
+                {
+                    string filePath = ofdImportXml.FileName;
+                    var serializer = new XmlSerializer(this.exam.GetType());
+                    Stream fileStream = new FileStream(filePath, FileMode.Open);
+                    try
+                    {
+                        var deserializedExam = (Exam) serializer.Deserialize(fileStream);
+                    }
+                    catch (Exception)
+                    {
+
+                        throw;
+                    }
                 }
             }
         }
