@@ -8,8 +8,9 @@ using System.IO;
 using System.Diagnostics;
 using Newtonsoft.Json;
 using System.Xml.Serialization;
+using Creator.Util;
 
-namespace Creator
+namespace Creator.Forms
 {
     public partial class UI : Form
     {

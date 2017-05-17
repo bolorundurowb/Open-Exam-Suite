@@ -1,7 +1,7 @@
 ﻿using Shared;
 using System.Collections.Generic;
 
-namespace Creator
+namespace Creator.Util
 {
     public class UndoRedo : IUndoRedo
     {

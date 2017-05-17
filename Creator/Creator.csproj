@@ -84,28 +84,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="About.cs">
+    <Compile Include="GUI\Forms\About.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="About.Designer.cs">
+    <Compile Include="GUI\Forms\About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
-    <Compile Include="EditSection.cs">
+    <Compile Include="GUI\Dialogs\EditSection.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="EditSection.Designer.cs">
+    <Compile Include="GUI\Dialogs\EditSection.Designer.cs">
       <DependentUpon>EditSection.cs</DependentUpon>
     </Compile>
-    <Compile Include="AddSection.cs">
+    <Compile Include="GUI\Dialogs\AddSection.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AddSection.Designer.cs">
+    <Compile Include="GUI\Dialogs\AddSection.Designer.cs">
       <DependentUpon>AddSection.cs</DependentUpon>
     </Compile>
-    <Compile Include="PrintOptions.cs">
+    <Compile Include="GUI\Dialogs\PrintOptions.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PrintOptions.Designer.cs">
+    <Compile Include="GUI\Dialogs\PrintOptions.Designer.cs">
       <DependentUpon>PrintOptions.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
@@ -115,23 +115,23 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="UI.cs">
+    <Compile Include="GUI\Forms\UI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI.Designer.cs">
+    <Compile Include="GUI\Forms\UI.Designer.cs">
       <DependentUpon>UI.cs</DependentUpon>
     </Compile>
-    <Compile Include="UndoRedo.cs" />
-    <EmbeddedResource Include="About.resx">
+    <Compile Include="Util\UndoRedo.cs" />
+    <EmbeddedResource Include="GUI\Forms\About.resx">
       <DependentUpon>About.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="EditSection.resx">
+    <EmbeddedResource Include="GUI\Dialogs\EditSection.resx">
       <DependentUpon>EditSection.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AddSection.resx">
+    <EmbeddedResource Include="GUI\Dialogs\AddSection.resx">
       <DependentUpon>AddSection.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PrintOptions.resx">
+    <EmbeddedResource Include="GUI\Dialogs\PrintOptions.resx">
       <DependentUpon>PrintOptions.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -139,7 +139,7 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI.resx">
+    <EmbeddedResource Include="GUI\Forms\UI.resx">
       <DependentUpon>UI.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Creator_TemporaryKey.pfx" />
@@ -200,6 +200,7 @@
       <Name>Shared</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
