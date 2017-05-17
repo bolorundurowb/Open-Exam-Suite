@@ -1,4 +1,4 @@
-﻿namespace Creator
+﻿namespace Creator.Dialogs
 {
     partial class AddSection
     {

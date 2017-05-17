@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Creator
+namespace Creator.Dialogs
 {
     public partial class PrintOptions : Form
     {

@@ -9,6 +9,7 @@ using System.Diagnostics;
 using Newtonsoft.Json;
 using System.Xml.Serialization;
 using Creator.Util;
+using Creator.Dialogs;
 
 namespace Creator.Forms
 {
@@ -1088,7 +1089,7 @@ namespace Creator.Forms
         {
             SectionNode sectionNode = (SectionNode)trv_view_exam.SelectedNode;
             //
-            EditSection editSection = new Creator.EditSection(sectionNode.Title);
+            EditSection editSection = new EditSection(sectionNode.Title);
             editSection.ShowDialog();
             //
             sectionNode.Title = editSection.Title;
