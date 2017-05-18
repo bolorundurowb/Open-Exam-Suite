@@ -1,9 +1,9 @@
-﻿using Shared;
-using System;
+﻿using System;
 using System.Linq;
 using System.Windows.Forms;
+using Shared;
 
-namespace Simulator
+namespace Simulator.GUI.Forms
 {
     public partial class Exam_Settings : Form
     {

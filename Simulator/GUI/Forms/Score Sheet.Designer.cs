@@ -1,4 +1,4 @@
-﻿namespace Simulator
+﻿namespace Simulator.GUI.Forms
 {
     partial class Score_Sheet
     {

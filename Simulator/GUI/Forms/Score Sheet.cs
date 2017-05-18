@@ -1,10 +1,10 @@
-﻿using Shared;
-using System;
+﻿using System;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using Shared;
 
-namespace Simulator
+namespace Simulator.GUI.Forms
 {
     public partial class Score_Sheet : Form
     {

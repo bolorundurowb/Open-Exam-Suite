@@ -105,16 +105,16 @@
     <Compile Include="GUI\Forms\Exam UI.Designer.cs">
       <DependentUpon>Exam UI.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Forms\Score Sheet.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Forms\Score Sheet.Designer.cs">
+      <DependentUpon>Score Sheet.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
-    <Compile Include="Score Sheet.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Score Sheet.Designer.cs">
-      <DependentUpon>Score Sheet.cs</DependentUpon>
     </Compile>
     <Compile Include="UI.cs">
       <SubType>Form</SubType>
@@ -136,7 +136,7 @@
     <EmbeddedResource Include="GUI\Forms\Exam UI.resx">
       <DependentUpon>Exam UI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Score Sheet.resx">
+    <EmbeddedResource Include="GUI\Forms\Score Sheet.resx">
       <DependentUpon>Score Sheet.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI.resx">

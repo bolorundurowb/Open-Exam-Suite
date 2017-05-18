@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Simulator
+﻿namespace Simulator.GUI.Forms
 {
     partial class Exam_UI
     {

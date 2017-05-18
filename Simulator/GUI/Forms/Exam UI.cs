@@ -1,11 +1,11 @@
-﻿using Shared;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using Shared;
 
-namespace Simulator
+namespace Simulator.GUI.Forms
 {
     public partial class Exam_UI : Form
     {
