@@ -1,7 +1,7 @@
-﻿using System.Windows.Forms;
-using System.Diagnostics;
+﻿using System.Diagnostics;
+using System.Windows.Forms;
 
-namespace Creator.Forms
+namespace Creator.GUI.Forms
 {
     public partial class About : Form
     {

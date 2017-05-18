@@ -1,17 +1,17 @@
-﻿using Shared;
-using Shared.Controls;
+﻿using System;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using System;
-using System.IO;
-using System.Diagnostics;
-using Newtonsoft.Json;
 using System.Xml.Serialization;
+using Creator.GUI.Dialogs;
 using Creator.Util;
-using Creator.Dialogs;
+using Newtonsoft.Json;
+using Shared;
+using Shared.Controls;
 
-namespace Creator.Forms
+namespace Creator.GUI.Forms
 {
     public partial class UI : Form
     {

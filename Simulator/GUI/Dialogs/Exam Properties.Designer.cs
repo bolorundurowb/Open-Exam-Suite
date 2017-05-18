@@ -1,4 +1,4 @@
-﻿namespace Simulator
+﻿namespace Simulator.GUI.Dialogs
 {
     partial class Exam_Properties
     {

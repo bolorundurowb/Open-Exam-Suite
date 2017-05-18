@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace Creator.Dialogs
+namespace Creator.GUI.Dialogs
 {
     public partial class EditSection : Form
     {

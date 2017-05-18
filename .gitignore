@@ -156,3 +156,6 @@ $RECYCLE.BIN/
 .DS_Store
 /OESv3.1.2-Setup.exe
 /OESv3.1.2-Setup.exe
+
+# Rider Files
+.idea/

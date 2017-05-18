@@ -1,4 +1,4 @@
-﻿namespace Creator.Dialogs
+﻿namespace Creator.GUI.Dialogs
 {
     partial class EditSection
     {

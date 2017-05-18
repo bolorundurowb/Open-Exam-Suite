@@ -3,6 +3,8 @@ using System;
 using System.Collections.Specialized;
 using System.IO;
 using System.Windows.Forms;
+using Simulator.GUI.Dialogs;
+using Simulator.GUI.Forms;
 
 namespace Simulator
 {

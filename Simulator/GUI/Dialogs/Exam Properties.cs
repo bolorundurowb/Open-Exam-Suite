@@ -1,8 +1,8 @@
-﻿using Shared;
-using System.IO;
+﻿using System.IO;
 using System.Windows.Forms;
+using Shared;
 
-namespace Simulator
+namespace Simulator.GUI.Dialogs
 {
     public partial class Exam_Properties : Form
     {

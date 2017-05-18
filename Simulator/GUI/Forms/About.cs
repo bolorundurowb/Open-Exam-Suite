@@ -1,8 +1,8 @@
-﻿namespace Simulator
-{
-    using System.Diagnostics;
-    using System.Windows.Forms;
+﻿using System.Diagnostics;
+using System.Windows.Forms;
 
+namespace Simulator.GUI.Forms
+{
     public partial class About : Form
     {
         public About()
