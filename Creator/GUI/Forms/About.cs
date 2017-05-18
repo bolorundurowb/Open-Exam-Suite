@@ -12,19 +12,19 @@ namespace Creator.GUI.Forms
 
         private void lnk_web_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            ProcessStartInfo sInfo = new ProcessStartInfo(lnk_web.Text);
+            var sInfo = new ProcessStartInfo(lnk_web.Text);
             Process.Start(sInfo);
         }
 
         private void lnk_issues_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            ProcessStartInfo sInfo = new ProcessStartInfo(lnk_issues.Text);
+            var sInfo = new ProcessStartInfo(lnk_issues.Text);
             Process.Start(sInfo);
         }
 
         private void lnk_wiki_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            ProcessStartInfo sInfo = new ProcessStartInfo(lnk_wiki.Text);
+            var sInfo = new ProcessStartInfo(lnk_wiki.Text);
             Process.Start(sInfo);
         }
 

@@ -5,13 +5,7 @@ namespace Creator.GUI.Dialogs
 {
     public partial class AddSection : Form
     {
-        public string Title
-        {
-            get
-            {
-                return txt_title.Text;
-            }
-        }
+        public string Title => txt_title.Text;
 
         public AddSection()
         {
@@ -20,7 +14,7 @@ namespace Creator.GUI.Dialogs
 
         private void btn_add_section_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
     }
 }

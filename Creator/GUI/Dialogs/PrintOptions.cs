@@ -33,7 +33,7 @@ namespace Creator.GUI.Dialogs
                 SelectedPrintOption = PrintOption.CurrentQuestion;
             else
                 SelectedPrintOption = PrintOption.CurrentSection;
-            this.Close();
+            Close();
         }
     }
 
