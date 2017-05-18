@@ -4,6 +4,7 @@ using System;
 using System.Drawing;
 using System.IO;
 using System.Xml.XPath;
+using Shared.Models;
 
 namespace Exam_Upgrade_Tool
 {

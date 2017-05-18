@@ -3,6 +3,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Shared;
 using System.IO;
 using System.Drawing;
+using Shared.Models;
+using Shared.Util;
 
 namespace SharedTests
 {

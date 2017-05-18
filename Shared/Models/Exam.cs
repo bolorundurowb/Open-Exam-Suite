@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 
-namespace Shared
+namespace Shared.Models
 {
     [Serializable]
     public class Exam

@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Windows.Forms;
 using Shared;
+using Shared.Models;
 
 namespace Simulator.GUI.Dialogs
 {

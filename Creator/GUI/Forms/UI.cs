@@ -10,6 +10,10 @@ using Creator.Util;
 using Newtonsoft.Json;
 using Shared;
 using Shared.Controls;
+using Shared.Enums;
+using Shared.Interfaces;
+using Shared.Models;
+using Shared.Util;
 
 namespace Creator.GUI.Forms
 {
@@ -684,7 +688,7 @@ namespace Creator.GUI.Forms
 
         private void SaveProperties(object sender, EventArgs e)
         {
-            Shared.Properties properties = new Shared.Properties()
+            Shared.Models.Properties properties = new Shared.Models.Properties()
             {
                 Code = txt_code.Text,
                 Instructions = txt_instruction.Text,

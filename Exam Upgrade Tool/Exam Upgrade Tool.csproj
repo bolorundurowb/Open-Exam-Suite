@@ -46,16 +46,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Helper.cs" />
-    <Compile Include="UI.cs">
+      <Compile Include="GUI\Forms\UI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI.Designer.cs">
+      <Compile Include="GUI\Forms\UI.Designer.cs">
       <DependentUpon>UI.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="UI.resx">
+      <Compile Include="Util\Helper.cs"/>
+      <EmbeddedResource Include="GUI\Forms\UI.resx">
       <DependentUpon>UI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

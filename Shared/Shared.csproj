@@ -30,7 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="ChangeRepresentationObject.cs" />
     <Compile Include="Controls\OptionControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -44,11 +43,13 @@
       <DependentUpon>OptionsControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\TreeNodes.cs" />
-    <Compile Include="Exam.cs" />
-    <Compile Include="Helper.cs" />
-    <Compile Include="IUndoRedo.cs" />
+      <Compile Include="Enums\ActionType.cs"/>
+      <Compile Include="Interfaces\IUndoRedo.cs"/>
+      <Compile Include="Models\ChangeRepresentationObject.cs"/>
+      <Compile Include="Models\Exam.cs"/>
+      <Compile Include="Models\Settings.cs"/>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Settings.cs" />
+      <Compile Include="Util\Helper.cs"/>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

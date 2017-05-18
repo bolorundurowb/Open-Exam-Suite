@@ -1,4 +1,7 @@
-﻿namespace Shared
+﻿using Shared.Enums;
+using Shared.Interfaces;
+
+namespace Shared.Models
 {
     public class ChangeRepresentationObject
     {
