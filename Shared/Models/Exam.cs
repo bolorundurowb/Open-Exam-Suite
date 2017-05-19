@@ -29,8 +29,7 @@ namespace Shared.Models
         {
             var section = Sections.FirstOrDefault(s => s.Title == sectionName);
             if (section != null) return;
-            section = new Section();
-            section.Title = sectionName;
+            section = new Section {Title = sectionName};
             Sections.Add(section);
         }
 
@@ -46,8 +45,7 @@ namespace Shared.Models
             var section = Sections.FirstOrDefault(s => s.Title == sectionName);
             if (section == null)
             {
-                section = new Section();
-                section.Title = sectionName;
+                section = new Section {Title = sectionName};
                 Sections.Add(section);
                 question.No = 1;
                 section.Questions.Add(question);
