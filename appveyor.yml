@@ -14,11 +14,11 @@ configuration: Debug
 
 build:
   parallel: true
-  project: Open-Exam-Suite.sln
+  project: Open Exam Suite.sln
   verbosity: minimal
 
 install:
-  - nuget restore "Open-Exam-Suite.sln"
+  - nuget restore "Open Exam Suite.sln"
 
 test_script:
   - cd C:\projects\
