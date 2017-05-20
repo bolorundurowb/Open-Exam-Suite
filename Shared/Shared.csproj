@@ -43,17 +43,13 @@
       <DependentUpon>OptionsControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\TreeNodes.cs" />
-      <Compile Include="Enums\ActionType.cs"/>
-      <Compile Include="Interfaces\IUndoRedo.cs"/>
-      <Compile Include="Models\ChangeRepresentationObject.cs"/>
-      <Compile Include="Models\Exam.cs"/>
-      <Compile Include="Models\Option.cs"/>
-      <Compile Include="Models\Properties.cs"/>
-      <Compile Include="Models\Question.cs"/>
-      <Compile Include="Models\Section.cs"/>
-      <Compile Include="Models\Settings.cs"/>
+    <Compile Include="Enums\ActionType.cs" />
+    <Compile Include="Exam.cs" />
+    <Compile Include="Interfaces\IUndoRedo.cs" />
+    <Compile Include="Models\ChangeRepresentationObject.cs" />
+    <Compile Include="Models\Settings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-      <Compile Include="Util\Helper.cs"/>
+    <Compile Include="Util\Helper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

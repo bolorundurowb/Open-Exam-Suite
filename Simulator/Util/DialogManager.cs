@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 using System.Windows.Forms;
-using Shared.Models;
+using Shared;
 using Shared.Util;
 using Simulator.Enums;
 using Simulator.GUI.Dialogs;

@@ -17,7 +17,7 @@ namespace Shared.Models
 
         public int NumberOfCorrectAnswers { get; set; }
 
-        public List<Tuple<string,int,int>> ResultSpread { get; set; }
+        public List<Tuple<string, int, int>> ResultSpread { get; set; }
 
         public Settings()
         {
