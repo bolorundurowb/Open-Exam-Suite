@@ -56,14 +56,34 @@ namespace Creator.GUI.Forms
 
         private void Open()
         {
-            var fileExt = Path.GetExtension(_currentExamFile);
+            var fileExt = Path.GetExtension(_currentExamFile).ToLower();
             if (fileExt == ".json")
             {
                 _exam = Reader.FromJsonFile(_currentExamFile);
+                _currentExamFile = null;
+                if (_exam.NumberOfQuestions == 0)
+                {
+                    MessageBox.Show("Sorry, the JSON file selected is empty or invalid.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
             }
             else if (fileExt == ".xml")
             {
-
+                try
+                {
+                    _exam = Reader.FromXmlFile(_currentExamFile);
+                    _currentExamFile = null;
+                    if (_exam.NumberOfQuestions == 0)
+                    {
+                        MessageBox.Show("Sorry, the XML file selected is empty or invalid.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+                catch(Exception)
+                {
+                    MessageBox.Show("Sorry, the XML file selected is invalid.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
             }
             else
             {

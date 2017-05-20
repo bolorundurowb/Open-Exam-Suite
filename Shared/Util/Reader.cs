@@ -2,6 +2,7 @@
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Xml.Serialization;
 using Newtonsoft.Json;
 
 namespace Shared.Util
@@ -44,6 +45,17 @@ namespace Shared.Util
             {
                 string jsonString = streamReader.ReadToEnd();
                 exam = JsonConvert.DeserializeObject<Exam>(jsonString);
+            }
+            return exam;
+        }
+
+        public static Exam FromXmlFile(string filePath)
+        {
+            Exam exam = null;
+            var xmlSerializer = new XmlSerializer(typeof(Exam));
+            using (StreamReader streamReader = new StreamReader(filePath))
+            {
+                exam = (Exam)xmlSerializer.Deserialize(streamReader);
             }
             return exam;
         }
