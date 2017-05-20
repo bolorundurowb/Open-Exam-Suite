@@ -1129,7 +1129,6 @@ namespace Creator.GUI.Forms
             }
 
             question.Text = txt_question_text.Text;
-            //
             obj.Question = question;
             obj.SectionTitle = ((SectionNode)trv_view_exam.SelectedNode.Parent).Title;
             _undoRedo.InsertObjectforUndoRedo(obj);
