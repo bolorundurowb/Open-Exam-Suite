@@ -69,7 +69,7 @@ namespace Exam_Upgrade_Tool
                     }
                     string xmlFilePath = Helper.GetXmlFilePath(folderPath);
                     Exam exam = Helper.CreateExamFromXml(xmlFilePath);
-                    Shared.Util.Helper.WriteExamToFile(exam, txt_new_exam.Text);
+                    Shared.Util.Reader.WriteExamToOefFile(exam, txt_new_exam.Text);
                     lbl_status.Text = "The exam was successfully converted.";
                 }
                 catch (Exception ex)

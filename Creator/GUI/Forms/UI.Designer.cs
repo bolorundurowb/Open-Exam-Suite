@@ -76,10 +76,6 @@
             this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
-            this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.importFromJsonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.importFromXmlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportAsJsonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -618,8 +614,6 @@
             this.toolStripSeparator,
             this.saveToolStripMenuItem,
             this.saveAsToolStripMenuItem,
-            this.toolStripSeparator7,
-            this.importToolStripMenuItem,
             this.toolStripSeparator1,
             this.exportToolStripMenuItem,
             this.toolStripSeparator5,
@@ -677,37 +671,6 @@
             this.saveAsToolStripMenuItem.Text = "Save &As";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.SaveAs);
             // 
-            // toolStripSeparator7
-            // 
-            this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(149, 6);
-            // 
-            // importToolStripMenuItem
-            // 
-            this.importToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.importFromJsonToolStripMenuItem,
-            this.importFromXmlToolStripMenuItem});
-            this.importToolStripMenuItem.Enabled = false;
-            this.importToolStripMenuItem.Name = "importToolStripMenuItem";
-            this.importToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.importToolStripMenuItem.Text = "Import";
-            // 
-            // importFromJsonToolStripMenuItem
-            // 
-            this.importFromJsonToolStripMenuItem.Image = global::Creator.Properties.Resources.json;
-            this.importFromJsonToolStripMenuItem.Name = "importFromJsonToolStripMenuItem";
-            this.importFromJsonToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.importFromJsonToolStripMenuItem.Text = "From JSON";
-            this.importFromJsonToolStripMenuItem.Click += new System.EventHandler(this.ImportFromJson);
-            // 
-            // importFromXmlToolStripMenuItem
-            // 
-            this.importFromXmlToolStripMenuItem.Image = global::Creator.Properties.Resources.xml;
-            this.importFromXmlToolStripMenuItem.Name = "importFromXmlToolStripMenuItem";
-            this.importFromXmlToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.importFromXmlToolStripMenuItem.Text = "From XML";
-            this.importFromXmlToolStripMenuItem.Click += new System.EventHandler(this.ImportFromXml);
-            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
@@ -727,7 +690,7 @@
             // 
             this.exportAsJsonToolStripMenuItem.Image = global::Creator.Properties.Resources.json;
             this.exportAsJsonToolStripMenuItem.Name = "exportAsJsonToolStripMenuItem";
-            this.exportAsJsonToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
+            this.exportAsJsonToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exportAsJsonToolStripMenuItem.Text = "As JSON";
             this.exportAsJsonToolStripMenuItem.Click += new System.EventHandler(this.ExportAsJson);
             // 
@@ -735,7 +698,7 @@
             // 
             this.exportAsXMLToolStripMenuItem.Image = global::Creator.Properties.Resources.xml;
             this.exportAsXMLToolStripMenuItem.Name = "exportAsXMLToolStripMenuItem";
-            this.exportAsXMLToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
+            this.exportAsXMLToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exportAsXMLToolStripMenuItem.Text = "As XML";
             this.exportAsXMLToolStripMenuItem.Click += new System.EventHandler(this.ExportAsXml);
             // 
@@ -1029,7 +992,7 @@
             // 
             // ofd_open_exam
             // 
-            this.ofd_open_exam.Filter = "OEF Files|*.oef";
+            this.ofd_open_exam.Filter = "OEF Files|*.oef|JSON Files|*.json|XML Files|*.xml";
             // 
             // pdg_print
             // 
@@ -1214,9 +1177,5 @@
         private System.Windows.Forms.ToolStripMenuItem exportAsJsonToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripMenuItem exportAsXMLToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
-        private System.Windows.Forms.ToolStripMenuItem importToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem importFromJsonToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem importFromXmlToolStripMenuItem;
     }
 }

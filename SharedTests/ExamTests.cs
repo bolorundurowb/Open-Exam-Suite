@@ -77,7 +77,7 @@ namespace SharedTests
         public void ExamGetsSerialized()
         {
             string filepath = Environment.CurrentDirectory + Path.DirectorySeparatorChar + "test.oef";
-            Helper.WriteExamToFile(exam, filepath);
+            Reader.WriteExamToOefFile(exam, filepath);
             Assert.IsTrue(File.Exists(filepath));
         }
 
@@ -85,7 +85,7 @@ namespace SharedTests
         public void ExamGetsDeserialized()
         {
             string filepath = Environment.CurrentDirectory + Path.DirectorySeparatorChar + "test.oef";
-            Exam exam = Helper.GetExamFromFile(filepath);
+            Exam exam = Reader.FromOefFile(filepath);
             Assert.IsInstanceOfType(exam, typeof(Exam));
         }
 
@@ -94,14 +94,14 @@ namespace SharedTests
         public void NullExamPassed()
         {
             Exam nullExam = null;
-            Assert.IsTrue(Helper.WriteExamToFile(nullExam, @"C:\"));
+            Assert.IsTrue(Reader.WriteExamToOefFile(nullExam, @"C:\"));
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
         public void EmptyFilePath()
         {
-            Assert.IsTrue(Helper.WriteExamToFile(exam, string.Empty));
+            Assert.IsTrue(Reader.WriteExamToOefFile(exam, string.Empty));
         }
     }
 }

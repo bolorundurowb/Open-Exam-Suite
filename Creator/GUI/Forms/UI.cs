@@ -56,7 +56,19 @@ namespace Creator.GUI.Forms
 
         private void Open()
         {
-            _exam = Helper.GetExamFromFile(_currentExamFile);
+            var fileExt = Path.GetExtension(_currentExamFile);
+            if (fileExt == ".json")
+            {
+                _exam = Reader.FromJsonFile(_currentExamFile);
+            }
+            else if (fileExt == ".xml")
+            {
+
+            }
+            else
+            {
+                _exam = Reader.FromOefFile(_currentExamFile);
+            }           
             if (_exam != null)
             {
                 trv_view_exam.Nodes.Clear();
@@ -128,7 +140,7 @@ namespace Creator.GUI.Forms
                     }
                     _exam.Sections.Add(section);
                 }
-                Helper.WriteExamToFile(_exam, _currentExamFile);
+                Reader.WriteExamToOefFile(_exam, _currentExamFile);
                 MessageBox.Show("Exam has been sucessfully saved.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 IsDirty = false;
             }

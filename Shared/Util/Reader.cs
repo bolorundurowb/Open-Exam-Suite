@@ -2,13 +2,13 @@
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-using Shared.Models;
+using Newtonsoft.Json;
 
 namespace Shared.Util
 {
-    public class Helper
+    public class Reader
     {
-        public static Exam GetExamFromFile (string filePath)
+        public static Exam FromOefFile (string filePath)
         {
             if (string.IsNullOrWhiteSpace(filePath))
                 throw new ArgumentException("Empty filepath");
@@ -37,7 +37,18 @@ namespace Shared.Util
             }            
         }
 
-        public static bool WriteExamToFile (Exam exam, string filePath)
+        public static Exam FromJsonFile(string filePath)
+        {
+            Exam exam = null;
+            using (StreamReader streamReader = new StreamReader(filePath))
+            {
+                string jsonString = streamReader.ReadToEnd();
+                exam = JsonConvert.DeserializeObject<Exam>(jsonString);
+            }
+            return exam;
+        }
+
+        public static bool WriteExamToOefFile (Exam exam, string filePath)
         {
             if (exam == null)
                 throw new NullReferenceException("The exam to be written cannot be null.");

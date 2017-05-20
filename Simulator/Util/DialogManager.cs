@@ -16,7 +16,7 @@ namespace Simulator.Util
             try
             {
                 var filePath = dataGridView.SelectedRows[0].Cells[1].Value.ToString();
-                var exam = Helper.GetExamFromFile(filePath);
+                var exam = Reader.FromOefFile(filePath);
                 if (dialogType == DialogType.ExamSettings)
                 {
                     InitilaizeExamSettings(exam);
