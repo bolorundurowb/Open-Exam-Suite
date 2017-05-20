@@ -10,6 +10,7 @@ using System.Xml.Serialization;
 using Creator.GUI.Dialogs;
 using Creator.Util;
 using Newtonsoft.Json;
+using Shared;
 using Shared.Controls;
 using Shared.Enums;
 using Shared.Models;
@@ -637,7 +638,7 @@ namespace Creator.GUI.Forms
 
         private void SaveProperties(object sender, EventArgs e)
         {
-            Shared.Models.Properties properties = new Shared.Models.Properties
+            Shared.Properties properties = new Shared.Properties
             {
                 Code = txt_code.Text,
                 Instructions = txt_instruction.Text,
