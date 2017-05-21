@@ -1,11 +1,10 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Shared;
 using System.IO;
 using System.Drawing;
 using Shared.Util;
 
-namespace SharedTests
+namespace Shared.Tests
 {
     [TestClass]
     public class ExamTests

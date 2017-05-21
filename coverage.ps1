@@ -1,1 +1,1 @@
-vstest.console /logger:Appveyor .\SharedTests\bin\Debug\SharedTests.dll
+vstest.console /logger:Appveyor .\Shared.Tests\bin\Debug\Shared.Tests.dll
