@@ -990,7 +990,7 @@ namespace Creator.GUI.Forms
         {
             if (Settings.Default.Exams != null)
             {
-                foreach (Control link in grp_exam_history.Controls.OfType<LinkLabel>())
+                foreach (LinkLabel link in grp_exam_history.Controls.OfType<LinkLabel>())
                 {
                     grp_exam_history.Controls.Remove(link);
                 }
@@ -1148,95 +1148,68 @@ namespace Creator.GUI.Forms
 
         private void ExportAsJson(object sender, EventArgs e)
         {
-            if (_exam != null)
+            if (_exam == null) return;
+            var sfdExportJson = new SaveFileDialog
             {
-                string examJsonString = JsonConvert.SerializeObject(_exam, Formatting.Indented);
-                if (!string.IsNullOrWhiteSpace(examJsonString))
-                {
-                    SaveFileDialog sfdExportJson = new SaveFileDialog
-                    {
-                        InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                        Filter = "JSON Files|*.json",
-                        FilterIndex = 1,
-                        FileName = _exam.Properties.Title
-                    };
-                    if (sfdExportJson.ShowDialog() == DialogResult.OK)
-                    {
-                        File.WriteAllText(sfdExportJson.FileName, examJsonString);
-                        MessageBox.Show("JSON successfully exported.", "Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                }
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                Filter = "JSON Files|*.json",
+                FilterIndex = 1,
+                FileName = _exam.Properties.Title
+            };
+            if (sfdExportJson.ShowDialog() != DialogResult.OK) return;
+            if (Writer.ToJson(_exam, sfdExportJson.FileName))
+            {
+                MessageBox.Show("JSON successfully exported.", "Export", MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("JSON file could not be exported.", "Export", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
         }
 
         private void ExportAsXml(object sender, EventArgs e)
         {
-            if (_exam != null)
+            if (_exam == null) return;
+            var sfdExportXml = new SaveFileDialog
             {
-                var examXmlStringWriter = new StringWriter();
-                var serializer = new XmlSerializer(_exam.GetType());
-                SaveFileDialog sfdExportXml = new SaveFileDialog
-                {
-                    InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                    Filter = "XML Files|*.Xml",
-                    FilterIndex = 1,
-                    FileName = _exam.Properties.Title
-                };
-                if (sfdExportXml.ShowDialog() == DialogResult.OK)
-                {
-                    serializer.Serialize(examXmlStringWriter, _exam);
-                    File.WriteAllText(sfdExportXml.FileName, examXmlStringWriter.ToString());
-                    MessageBox.Show("XML successfully exported.", "Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                Filter = "XML Files|*.xml",
+                FilterIndex = 1,
+                FileName = _exam.Properties.Title
+            };
+            if (sfdExportXml.ShowDialog() != DialogResult.OK) return;
+            if (Writer.ToXml(_exam, sfdExportXml.FileName))
+            {
+                MessageBox.Show("XML successfully exported.", "Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("XML could not be exported.", "Export", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void ImportFromJson(object sender, EventArgs e)
+        private void ExportAsPdf(object sender, EventArgs e)
         {
-            if (_exam != null)
+            if (_exam == null) return;
+            var sfdExportPdf = new SaveFileDialog
             {
-                OpenFileDialog ofdImportJson = new OpenFileDialog
-                {
-                    InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                    Filter = "JSON Files|*.json",
-                    FilterIndex = 1,
-                    FileName = "",
-                    Multiselect = false
-                };
-                if (ofdImportJson.ShowDialog() == DialogResult.OK)
-                {
-                    string filePath = ofdImportJson.FileName;
-                }
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                Filter = "PDF Files|*.pdf",
+                FilterIndex = 1,
+                FileName = _exam.Properties.Title
+            };
+            if (sfdExportPdf.ShowDialog() != DialogResult.OK) return;
+            if (Writer.ToPdf(_exam, sfdExportPdf.FileName))
+            {
+                MessageBox.Show("PDF successfully exported.", "Export", MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
             }
-        }
-
-        private void ImportFromXml(object sender, EventArgs e)
-        {
-            if (_exam != null)
+            else
             {
-                OpenFileDialog ofdImportXml = new OpenFileDialog
-                {
-                    InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                    Filter = "XML Files|*.xml",
-                    FilterIndex = 1,
-                    FileName = "",
-                    Multiselect = false
-                };
-                if (ofdImportXml.ShowDialog() == DialogResult.OK)
-                {
-                    string filePath = ofdImportXml.FileName;
-                    var serializer = new XmlSerializer(_exam.GetType());
-                    Stream fileStream = new FileStream(filePath, FileMode.Open);
-                    try
-                    {
-                        var deserializedExam = (Exam) serializer.Deserialize(fileStream);
-                    }
-                    catch (Exception)
-                    {
-
-                        throw;
-                    }
-                }
+                MessageBox.Show("PDF file could not be exported.", "Export", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
         }
     }
