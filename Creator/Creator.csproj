@@ -120,6 +120,7 @@
     <Compile Include="GUI\Forms\UI.Designer.cs">
       <DependentUpon>UI.cs</DependentUpon>
     </Compile>
+    <Compile Include="Util\ExportManager.cs" />
     <Compile Include="Util\UndoRedo.cs" />
     <EmbeddedResource Include="GUI\Dialogs\About.resx">
       <DependentUpon>About.cs</DependentUpon>
