@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Windows.Forms;
 
-namespace Creator.GUI.Forms
+namespace Creator.GUI.Dialogs
 {
     public partial class About : Form
     {

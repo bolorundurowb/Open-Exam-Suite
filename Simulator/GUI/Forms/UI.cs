@@ -3,6 +3,7 @@ using System.IO;
 using System.Windows.Forms;
 using Simulator.Enums;
 using Simulator.Util;
+using Simulator.GUI.Dialogs;
 
 namespace Simulator.GUI.Forms
 {

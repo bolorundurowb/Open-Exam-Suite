@@ -83,10 +83,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GUI\Forms\About.cs">
+    <Compile Include="GUI\Dialogs\About.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\Forms\About.Designer.cs">
+    <Compile Include="GUI\Dialogs\About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\Dialogs\EditSection.cs">
@@ -121,7 +121,7 @@
       <DependentUpon>UI.cs</DependentUpon>
     </Compile>
     <Compile Include="Util\UndoRedo.cs" />
-    <EmbeddedResource Include="GUI\Forms\About.resx">
+    <EmbeddedResource Include="GUI\Dialogs\About.resx">
       <DependentUpon>About.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Dialogs\EditSection.resx">
