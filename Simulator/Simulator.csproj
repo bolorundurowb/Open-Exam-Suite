@@ -81,65 +81,69 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="About.cs">
+    <Compile Include="Enums\DialogType.cs" />
+    <Compile Include="GUI\Dialogs\About.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="About.Designer.cs">
+    <Compile Include="GUI\Dialogs\About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
-    <Compile Include="Exam Properties.cs">
+    <Compile Include="GUI\Forms\Exam Properties.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Exam Properties.Designer.cs">
+    <Compile Include="GUI\Forms\Exam Properties.Designer.cs">
       <DependentUpon>Exam Properties.cs</DependentUpon>
     </Compile>
-    <Compile Include="Exam Settings.cs">
+    <Compile Include="GUI\Forms\Exam Settings.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Exam Settings.Designer.cs">
+    <Compile Include="GUI\Forms\Exam Settings.Designer.cs">
       <DependentUpon>Exam Settings.cs</DependentUpon>
     </Compile>
-    <Compile Include="Exam UI.cs">
+    <Compile Include="GUI\Forms\Exam UI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Exam UI.Designer.cs">
+    <Compile Include="GUI\Forms\Exam UI.Designer.cs">
       <DependentUpon>Exam UI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Forms\Score Sheet.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Forms\Score Sheet.Designer.cs">
+      <DependentUpon>Score Sheet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Forms\UI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Forms\UI.Designer.cs">
+      <DependentUpon>UI.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Score Sheet.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Score Sheet.Designer.cs">
-      <DependentUpon>Score Sheet.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI.Designer.cs">
-      <DependentUpon>UI.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="About.resx">
+    <Compile Include="Util\AppDataManager.cs" />
+    <Compile Include="Util\DialogManager.cs" />
+    <Compile Include="Util\RowManager.cs" />
+    <EmbeddedResource Include="GUI\Dialogs\About.resx">
       <DependentUpon>About.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Exam Properties.resx">
+    <EmbeddedResource Include="GUI\Forms\Exam Properties.resx">
       <DependentUpon>Exam Properties.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Exam Settings.resx">
+    <EmbeddedResource Include="GUI\Forms\Exam Settings.resx">
       <DependentUpon>Exam Settings.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Exam UI.resx">
+    <EmbeddedResource Include="GUI\Forms\Exam UI.resx">
       <DependentUpon>Exam UI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Score Sheet.resx">
+    <EmbeddedResource Include="GUI\Forms\Score Sheet.resx">
       <DependentUpon>Score Sheet.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI.resx">
+    <EmbeddedResource Include="GUI\Forms\UI.resx">
       <DependentUpon>UI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

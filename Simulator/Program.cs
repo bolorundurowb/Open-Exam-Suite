@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Threading;
+using Simulator.GUI.Forms;
 
 namespace Simulator
 {
@@ -14,18 +15,18 @@ namespace Simulator
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            using (Mutex mutex = new Mutex(false, "Global\\" + GetGUID()))
+            using (Mutex mutex = new Mutex(false, "Global\\" + GetGuid()))
             {
                 if (!mutex.WaitOne(0, false))
                 {
                     MessageBox.Show("An instance of Open Exam Simulator is already running, select the add button include more exams.","OES Simulator", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     return;
                 }
-                Application.Run(args.Length == 0 ? new UI() : new UI(args[0]));
+                Application.Run(args.Length == 0 ? new Ui() : new Ui(args[0]));
             }
         }
 
-        static string GetGUID ()
+        static string GetGuid ()
         {
             Guid assemblyGuid = Guid.Empty;
             object[] assemblyObjects = System.Reflection.Assembly.GetEntryAssembly().GetCustomAttributes(typeof(System.Runtime.InteropServices.GuidAttribute), true);

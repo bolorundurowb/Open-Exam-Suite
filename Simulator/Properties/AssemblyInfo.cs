@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Simulator")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("The Open Exam Suite Simulator")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Invenio Technologies")]
-[assembly: AssemblyProduct("OpenExam Suite")]
-[assembly: AssemblyCopyright("Copyright ©  2015")]
+[assembly: AssemblyProduct("Open Exam Suite")]
+[assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

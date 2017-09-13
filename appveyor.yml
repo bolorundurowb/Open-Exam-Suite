@@ -1,0 +1,25 @@
+version: '1.0.{build}'
+
+branches:
+  except:
+    - gh-pages
+
+image: Visual Studio 2015
+
+clone_folder: c:\projects\
+
+platform: Any CPU
+
+configuration: Debug
+
+build:
+  parallel: true
+  project: Open Exam Suite.sln
+  verbosity: minimal
+
+install:
+  - nuget restore "Open Exam Suite.sln"
+
+test_script:
+  - cd C:\projects\
+  - ps: .\coverage.ps1 

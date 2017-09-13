@@ -33,7 +33,7 @@ namespace Shared
         public void AddSection(string sectionName)
         {
             Section section = Sections.FirstOrDefault(s => s.Title == sectionName);
-            if(section == null)
+            if (section == null)
             {
                 section = new Section();
                 section.Title = sectionName;
@@ -82,7 +82,7 @@ namespace Shared
         public string Title { get; set; }
 
         public string Code { get; set; }
-        
+
         public int Version { get; set; }
 
         public double Passmark { get; set; }
@@ -122,7 +122,7 @@ namespace Shared
         public char Answer { get; set; }
 
         public bool IsMultipleChoice { get; set; }
-        
+
         public char[] Answers { get; set; }
 
         public List<Option> Options { get; set; }
