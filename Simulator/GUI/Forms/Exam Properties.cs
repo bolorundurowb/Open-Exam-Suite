@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using Shared;
 
-namespace Simulator.GUI.Dialogs
+namespace Simulator.GUI.Forms
 {
     public partial class Exam_Properties : Form
     {
