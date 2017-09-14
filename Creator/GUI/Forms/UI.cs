@@ -490,6 +490,7 @@ namespace Creator.GUI.Forms
 
         private void NewQuestion(object sender, EventArgs e)
         {
+            // add question to section node
             SectionNode nodeToBeAddedTo = trv_view_exam.SelectedNode.GetType() == typeof(SectionNode) ? (SectionNode)trv_view_exam.SelectedNode : (SectionNode)trv_view_exam.SelectedNode.Parent;
             Question question = new Question
             {
@@ -501,6 +502,9 @@ namespace Creator.GUI.Forms
             };
             nodeToBeAddedTo.Nodes.Add(questionNode);
             trv_view_exam.ExpandAll();
+            trv_view_exam.SelectedNode = questionNode;
+
+            // add to stack to enable undo and redo
             ChangeRepresentationObject obj = new ChangeRepresentationObject
             {
                 Action = ActionType.Add,
@@ -508,6 +512,8 @@ namespace Creator.GUI.Forms
                 SectionTitle = nodeToBeAddedTo.Title
             };
             _undoRedo.InsertObjectforUndoRedo(obj);
+
+            // indicate there are unsaved changes
             IsDirty = true;
         }
 
