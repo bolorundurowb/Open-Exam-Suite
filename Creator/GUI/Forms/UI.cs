@@ -484,6 +484,9 @@ namespace Creator.GUI.Forms
                 };
                 trv_view_exam.Nodes[0].Nodes.Add(sectionNode);
                 trv_view_exam.ExpandAll();
+                trv_view_exam.SelectedNode = sectionNode;
+
+                // indicate that there are unsaved changes
                 IsDirty = true;
             }            
         }
