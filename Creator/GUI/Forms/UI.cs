@@ -475,13 +475,17 @@ namespace Creator.GUI.Forms
         {
             AddSection addSection = new AddSection();
             addSection.ShowDialog();
-            SectionNode sectionNode = new SectionNode(addSection.Title)
+
+            if (!string.IsNullOrWhiteSpace(addSection.Title))
             {
-                ContextMenuStrip = cms_section
-            };
-            trv_view_exam.Nodes[0].Nodes.Add(sectionNode);
-            trv_view_exam.ExpandAll();
-            IsDirty = true;
+                SectionNode sectionNode = new SectionNode(addSection.Title)
+                {
+                    ContextMenuStrip = cms_section
+                };
+                trv_view_exam.Nodes[0].Nodes.Add(sectionNode);
+                trv_view_exam.ExpandAll();
+                IsDirty = true;
+            }            
         }
 
         private void NewQuestion(object sender, EventArgs e)
