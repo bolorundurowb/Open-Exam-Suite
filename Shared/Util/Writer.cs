@@ -16,8 +16,10 @@ namespace Shared.Util
             {
                 Document document = Pdf.CreateDocument(exam);
                 document.UseCmykColor = true;
-                PdfDocumentRenderer pdfDocumentRenderer = new PdfDocumentRenderer(true, PdfFontEmbedding.Always);
-                pdfDocumentRenderer.Document = document;
+                PdfDocumentRenderer pdfDocumentRenderer = new PdfDocumentRenderer(true, PdfFontEmbedding.Always)
+                {
+                    Document = document
+                };
                 pdfDocumentRenderer.RenderDocument();
                 pdfDocumentRenderer.PdfDocument.Save(filePath);
                 return true;
