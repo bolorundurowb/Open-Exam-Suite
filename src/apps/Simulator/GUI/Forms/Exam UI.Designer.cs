@@ -1,6 +1,6 @@
 ﻿namespace Simulator.GUI.Forms
 {
-    partial class Exam_UI
+    partial class ExamUi
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Exam_UI));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ExamUi));
             this.label1 = new System.Windows.Forms.Label();
             this.lbl_elapsed_time = new System.Windows.Forms.Label();
             this.btn_begin = new System.Windows.Forms.Button();
@@ -293,7 +293,7 @@
             this.Controls.Add(this.lbl_elapsed_time);
             this.Controls.Add(this.label1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "Exam_UI";
+            this.Name = "ExamUi";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Open Exam Simulator";
             this.Load += new System.EventHandler(this.Start);

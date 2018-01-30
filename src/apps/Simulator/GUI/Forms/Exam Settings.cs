@@ -6,12 +6,12 @@ using Shared.Models;
 
 namespace Simulator.GUI.Forms
 {
-    public partial class Exam_Settings : Form
+    public partial class ExamSettings : Form
     {
         private readonly Exam _exam;
         private Settings _settings;
 
-        public Exam_Settings(Exam exam)
+        public ExamSettings(Exam exam)
         {
             InitializeComponent();
             //
@@ -103,7 +103,7 @@ namespace Simulator.GUI.Forms
                 }
             }
             //
-            var ui = new Exam_UI(_exam, _settings);
+            var ui = new ExamUi(_exam, _settings);
             Hide();
             ui.ShowDialog();
             Close();

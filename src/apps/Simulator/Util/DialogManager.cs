@@ -46,7 +46,7 @@ namespace Simulator.Util
 
         private static void InitilaizeExamSettings(Exam exam)
         {
-            var settings = new Exam_Settings(exam);
+            var settings = new ExamSettings(exam);
             settings.ShowDialog();
         }
     }

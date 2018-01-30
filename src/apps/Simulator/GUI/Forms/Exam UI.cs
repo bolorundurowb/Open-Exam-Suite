@@ -8,29 +8,29 @@ using Shared.Models;
 
 namespace Simulator.GUI.Forms
 {
-    public partial class Exam_UI : Form
+    public partial class ExamUi : Form
     {
         #region Global Variables
-        private Exam exam;
-        private Settings settings;
-        private int timeLeft;
-        private int currentQuestionIndex;
-        private object[] userAnswers;
+        private Exam _exam;
+        private Settings _settings;
+        private int _timeLeft;
+        private int _currentQuestionIndex;
+        private object[] _userAnswers;
         #endregion
 
-        public Exam_UI(Exam _exam, Settings _settings)
+        public ExamUi(Exam exam, Settings settings)
         {
             InitializeComponent();
-            exam = _exam;
-            settings = _settings;
-            timeLeft = _settings.TimeLimit * 60;
-            userAnswers = new object[exam.NumberOfQuestions];
+            _exam = exam;
+            _settings = settings;
+            _timeLeft = settings.TimeLimit * 60;
+            _userAnswers = new object[_exam.NumberOfQuestions];
         }
 
         private void TimerTick(object sender, EventArgs e)
         {
-            timeLeft--;
-            if (timeLeft <= 0)
+            _timeLeft--;
+            if (_timeLeft <= 0)
             {
                 timer.Stop();
                 lbl_elapsed_time.Text = "Time Up!";
@@ -39,16 +39,16 @@ namespace Simulator.GUI.Forms
             }
             else
             {
-                TimeSpan timeSpan = TimeSpan.FromSeconds(timeLeft);
+                TimeSpan timeSpan = TimeSpan.FromSeconds(_timeLeft);
                 lbl_elapsed_time.Text = timeSpan.Hours.ToString("00") + ":" + timeSpan.Minutes.ToString("00") + ":" + timeSpan.Seconds.ToString("00");
             }
         }
 
         private void Start(object sender, EventArgs e)
         {
-            lbl_exam_code.Text = exam.Properties.Code;
-            lbl_exam_title.Text = exam.Properties.Title;
-            lbl_exam_instructions.Text = exam.Properties.Instructions;
+            lbl_exam_code.Text = _exam.Properties.Code;
+            lbl_exam_title.Text = _exam.Properties.Title;
+            lbl_exam_instructions.Text = _exam.Properties.Instructions;
         }
 
         private void EnableControls()
@@ -112,13 +112,13 @@ namespace Simulator.GUI.Forms
             //
             if (option == NavOption.Begin)
             {
-                if(settings.Questions.Count > 0)
+                if(_settings.Questions.Count > 0)
                 {
-                    currentQuestionIndex = 0;
+                    _currentQuestionIndex = 0;
                     PrintQuestionToScreen();
                 }
                 //
-                if(settings.Questions.Count > 1)
+                if(_settings.Questions.Count > 1)
                 {
                     btn_next.Enabled = true;
                 }
@@ -126,94 +126,94 @@ namespace Simulator.GUI.Forms
             else if (option == NavOption.Next)
             {
                 //Save current answer
-                userAnswers[currentQuestionIndex] = SelectedAnswer();
+                _userAnswers[_currentQuestionIndex] = SelectedAnswer();
                 //
                 RemoveOptions();
                 //
-                currentQuestionIndex++;
+                _currentQuestionIndex++;
                 PrintQuestionToScreen();
                 //
                 btn_previous.Enabled = true;
                 //
-                if (currentQuestionIndex == settings.Questions.Count - 1)
+                if (_currentQuestionIndex == _settings.Questions.Count - 1)
                     btn_next.Enabled = false;
             }
             else if (option == NavOption.Previous)
             {
                 //Save current answer
-                userAnswers[currentQuestionIndex] = SelectedAnswer();
+                _userAnswers[_currentQuestionIndex] = SelectedAnswer();
                 //
                 RemoveOptions();
                 //
-                currentQuestionIndex--;
+                _currentQuestionIndex--;
                 PrintQuestionToScreen();
                 //
                 btn_next.Enabled = true;
                 //
-                if (currentQuestionIndex == 0)
+                if (_currentQuestionIndex == 0)
                     btn_previous.Enabled = false;
             }
             else if (option == NavOption.End)
             {
                 //Save current answer
-                userAnswers[currentQuestionIndex] = SelectedAnswer();
+                _userAnswers[_currentQuestionIndex] = SelectedAnswer();
                 //
-                settings.ElapsedTime = TimeSpan.FromSeconds(exam.Properties.TimeLimit * 60 - timeLeft);
+                _settings.ElapsedTime = TimeSpan.FromSeconds(_exam.Properties.TimeLimit * 60 - _timeLeft);
                 //
                 int numOfCorrectAnswers = 0;
-                for(int i = 0; i < settings.Questions.Count; i++)
+                for(int i = 0; i < _settings.Questions.Count; i++)
                 {
-                    if (userAnswers[i].GetType().IsArray)
+                    if (_userAnswers[i].GetType().IsArray)
                     {
-                        if (((char[])userAnswers[i]).SequenceEqual(settings.Questions[i].Answers))
+                        if (((char[])_userAnswers[i]).SequenceEqual(_settings.Questions[i].Answers))
                         {
                             numOfCorrectAnswers++;
                         }
                     }
-                    else if ((char)userAnswers[i] == settings.Questions[i].Answer)
+                    else if ((char)_userAnswers[i] == _settings.Questions[i].Answer)
                     {
                         numOfCorrectAnswers++;
                     }
                 }
-                settings.NumberOfCorrectAnswers = numOfCorrectAnswers;
+                _settings.NumberOfCorrectAnswers = numOfCorrectAnswers;
                 //
-                foreach(var section in settings.Sections)
+                foreach(var section in _settings.Sections)
                 {
                     int numOfQuestions = 0;
                     int numOfCorrect = 0;
-                    for (int i = 0; i < settings.Questions.Count; i++)
+                    for (int i = 0; i < _settings.Questions.Count; i++)
                     {
-                        if(section.Questions.Contains(settings.Questions[i]))
+                        if(section.Questions.Contains(_settings.Questions[i]))
                         {
                             numOfQuestions++;
-                            if (userAnswers[i].GetType().IsArray)
+                            if (_userAnswers[i].GetType().IsArray)
                             {
-                                if (((char[])userAnswers[i]).SequenceEqual(settings.Questions[i].Answers))
+                                if (((char[])_userAnswers[i]).SequenceEqual(_settings.Questions[i].Answers))
                                 {
                                     numOfCorrect++;
                                 }
                             }
-                            else if ((char)userAnswers[i] == settings.Questions[i].Answer)
+                            else if ((char)_userAnswers[i] == _settings.Questions[i].Answer)
                             {
                                 numOfCorrect++;
                             }
                         }
                     }
-                    settings.ResultSpread.Add(new Tuple<string, int, int>(section.Title, numOfQuestions, numOfCorrect));
+                    _settings.ResultSpread.Add(new Tuple<string, int, int>(section.Title, numOfQuestions, numOfCorrect));
                 }
                 //
-                Score_Sheet ss = new Score_Sheet(settings, exam);
-                this.Hide();
+                Score_Sheet ss = new Score_Sheet(_settings, _exam);
+                Hide();
                 ss.ShowDialog();
-                this.Close();
+                Close();
             }
         }
 
         private void PrintQuestionToScreen()
         {
-            Question question = settings.Questions[currentQuestionIndex];
+            Question question = _settings.Questions[_currentQuestionIndex];
             lbl_question_number.Text = question.No.ToString();
-            lbl_section_title.Text = settings.Sections.First(s => s.Questions.Contains(question)).Title;
+            lbl_section_title.Text = _settings.Sections.First(s => s.Questions.Contains(question)).Title;
             lbl_explanation.Text = question.Explanation;
             txt_question.Text = question.Text;
             pct_image.Image = question.Image;
@@ -233,7 +233,7 @@ namespace Simulator.GUI.Forms
                         Name = "chk" + options[i].Alphabet,
                         Location = new Point(51, 464 + (i * 22))
                     };
-                    if (userAnswers[currentQuestionIndex] != null && ((char[])userAnswers[currentQuestionIndex]).Contains(options[i].Alphabet))
+                    if (_userAnswers[_currentQuestionIndex] != null && ((char[])_userAnswers[_currentQuestionIndex]).Contains(options[i].Alphabet))
                         chk.Checked = true;
                     pan_display.Controls.Add(chk);
                 }
@@ -246,7 +246,7 @@ namespace Simulator.GUI.Forms
                         Name = "rdb" + options[i].Alphabet,
                         Location = new Point(51, 464 + (i * 22))
                     };
-                    if (userAnswers[currentQuestionIndex] != null && (char)userAnswers[currentQuestionIndex] == options[i].Alphabet)
+                    if (_userAnswers[_currentQuestionIndex] != null && (char)_userAnswers[_currentQuestionIndex] == options[i].Alphabet)
                         rdb.Checked = true;
                     pan_display.Controls.Add(rdb);
                 }
@@ -274,7 +274,7 @@ namespace Simulator.GUI.Forms
         private object SelectedAnswer()
         {
             // Get the current question
-            Question currentQuestion = settings.Questions[currentQuestionIndex];
+            Question currentQuestion = _settings.Questions[_currentQuestionIndex];
             // Determine the question type and return an answer
             if (currentQuestion.IsMultipleChoice)
             {
@@ -309,7 +309,7 @@ namespace Simulator.GUI.Forms
             var chks = pan_display.Controls.OfType<CheckBox>();
             if (chks.Count() > 0)
             {
-                var answers = chks.Where(s => settings.Questions[currentQuestionIndex].Answers.Contains(Convert.ToChar(s.Name.Replace("chk", ""))));
+                var answers = chks.Where(s => _settings.Questions[_currentQuestionIndex].Answers.Contains(Convert.ToChar(s.Name.Replace("chk", ""))));
                 foreach(var answer in answers)
                 {
                     int index = pan_display.Controls.IndexOf(answer);
@@ -318,7 +318,7 @@ namespace Simulator.GUI.Forms
                 var selectedOptions = chks.Where(s => s.Checked);
                 foreach (var selectedOption in selectedOptions)
                 {
-                    if (!settings.Questions[currentQuestionIndex].Answers.Contains(Convert.ToChar(selectedOption.Name.Replace("chk", ""))))
+                    if (!_settings.Questions[_currentQuestionIndex].Answers.Contains(Convert.ToChar(selectedOption.Name.Replace("chk", ""))))
                     {
                         int index = pan_display.Controls.IndexOf(selectedOption);
                         ((CheckBox)pan_display.Controls[index]).ForeColor = Color.Red;
@@ -327,7 +327,7 @@ namespace Simulator.GUI.Forms
             }
             else
             {
-                RadioButton answer = pan_display.Controls.OfType<RadioButton>().FirstOrDefault(s => s.Name.Replace("rdb", "") == settings.Questions[currentQuestionIndex].Answer.ToString());
+                RadioButton answer = pan_display.Controls.OfType<RadioButton>().FirstOrDefault(s => s.Name.Replace("rdb", "") == _settings.Questions[_currentQuestionIndex].Answer.ToString());
                 if (answer != null)
                 {
                     int index = pan_display.Controls.IndexOf(answer);
