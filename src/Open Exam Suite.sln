@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simulator", "Simulator\Simulator.csproj", "{888D291C-6BA2-4B2B-831E-3A8BF56F96B6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simulator", "apps\Simulator\Simulator.csproj", "{888D291C-6BA2-4B2B-831E-3A8BF56F96B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Creator", "Creator\Creator.csproj", "{B1D48494-AF78-4810-861A-1AD9FA30FABF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Creator", "apps\Creator\Creator.csproj", "{B1D48494-AF78-4810-861A-1AD9FA30FABF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{3FAC1A95-FEAC-4E9A-92C8-1D0C48815E32}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "lib\Shared\Shared.csproj", "{3FAC1A95-FEAC-4E9A-92C8-1D0C48815E32}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Tests", "Shared.Tests\Shared.Tests.csproj", "{479EEAFC-E04A-42C4-A478-DDEFCD7F5287}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Tests", "..\tests\Shared.Tests\Shared.Tests.csproj", "{479EEAFC-E04A-42C4-A478-DDEFCD7F5287}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exam Upgrade Tool", "Exam Upgrade Tool\Exam Upgrade Tool.csproj", "{981147F8-3CFB-4C37-8698-6D303AC13B7B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exam Upgrade Tool", "apps\Exam Upgrade Tool\Exam Upgrade Tool.csproj", "{981147F8-3CFB-4C37-8698-6D303AC13B7B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
