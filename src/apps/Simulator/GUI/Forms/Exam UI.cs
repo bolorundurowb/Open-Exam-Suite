@@ -202,7 +202,7 @@ namespace Simulator.GUI.Forms
                     _settings.ResultSpread.Add(new Tuple<string, int, int>(section.Title, numOfQuestions, numOfCorrect));
                 }
                 //
-                Score_Sheet ss = new Score_Sheet(_settings, _exam);
+                ScoreSheet ss = new ScoreSheet(_settings, _exam);
                 Hide();
                 ss.ShowDialog();
                 Close();

@@ -7,29 +7,29 @@ using Shared.Models;
 
 namespace Simulator.GUI.Forms
 {
-    public partial class Score_Sheet : Form
+    public partial class ScoreSheet : Form
     {
         #region Global Variables
-        private Settings settings;
-        private Exam exam;
+        private readonly Settings _settings;
+        private readonly Exam _exam;
         #endregion
 
-        public Score_Sheet(Settings _settings, Exam _exam)
+        public ScoreSheet(Settings settings, Exam exam)
         {
             InitializeComponent();
-            settings = _settings;
-            exam = _exam;
-            lbl_candidate_name.Text = _settings.CandidateName;
+            _settings = settings;
+            _exam = exam;
+            lbl_candidate_name.Text = settings.CandidateName;
             lbl_date.Text = DateTime.Now.ToShortDateString();
-            lbl_elapsed_time.Text = _settings.ElapsedTime.TotalMinutes.ToString("F");
-            lbl_exam_number.Text = _exam.Properties.Code;
-            lbl_time_allowed.Text = _settings.TimeLimit.ToString();
+            lbl_elapsed_time.Text = settings.ElapsedTime.TotalMinutes.ToString("F");
+            lbl_exam_number.Text = exam.Properties.Code;
+            lbl_time_allowed.Text = settings.TimeLimit.ToString();
         }
 
-        private void LoadDataToUI(object sender, EventArgs e)
+        private void LoadDataToUi(object sender, EventArgs e)
         {
-            int normalizedScore = (settings.NumberOfCorrectAnswers * 1000 / settings.Questions.Count);
-            if (normalizedScore >= exam.Properties.Passmark)
+            int normalizedScore = (_settings.NumberOfCorrectAnswers * 1000 / _settings.Questions.Count);
+            if (normalizedScore >= _exam.Properties.Passmark)
             {
                 lbl_status.Text = "Passed";
                 lbl_status.Font = new Font("Microsoft Sans Serif", 8.25F);
@@ -42,10 +42,10 @@ namespace Simulator.GUI.Forms
                 lbl_status.ForeColor = Color.Red;
             }
             //
-            chr_display_score.Series["Pass Mark"].Points.AddXY(1, exam.Properties.Passmark);
+            chr_display_score.Series["Pass Mark"].Points.AddXY(1, _exam.Properties.Passmark);
             chr_display_score.Series["Your Score"].Points.AddXY(0, normalizedScore);
             //
-            foreach(var spread in settings.ResultSpread)
+            foreach(var spread in _settings.ResultSpread)
             {
                 dgv_show_breakdown.Rows.Add(spread.Item1, spread.Item2, spread.Item3);
             }
@@ -58,12 +58,12 @@ namespace Simulator.GUI.Forms
 
         private void Retake(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }        
 
         private void Print(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
-            int normalizedScore = (settings.NumberOfCorrectAnswers * 1000 / settings.Questions.Count);
+            int normalizedScore = (_settings.NumberOfCorrectAnswers * 1000 / _settings.Questions.Count);
             //
             Font headerFont = new Font("Segoe UI", 12F, FontStyle.Bold);
             Font subFont = new Font("Segoe UI", 10F, FontStyle.Regular);
@@ -88,12 +88,12 @@ namespace Simulator.GUI.Forms
             e.Graphics.DrawImage(bmp, new PointF(e.MarginBounds.Left + 50, ypos));
             ypos += ((2 * subFont.GetHeight(e.Graphics)) + (bmp.Height));
 
-            e.Graphics.DrawString("Required Score: " + exam.Properties.Passmark, subFont, Brushes.DarkSlateBlue, new PointF(e.MarginBounds.Left, ypos));
+            e.Graphics.DrawString("Required Score: " + _exam.Properties.Passmark, subFont, Brushes.DarkSlateBlue, new PointF(e.MarginBounds.Left, ypos));
             e.Graphics.DrawString("Your Score: " + normalizedScore, subFont, Brushes.DarkSlateBlue, new PointF((e.MarginBounds.Width / 2) + 175, ypos));
             ypos += (2 * subFont.GetHeight(e.Graphics));
             e.Graphics.DrawString("STATUS: ", subFont, Brushes.DarkSlateBlue, new PointF(e.MarginBounds.Left, ypos));
-            Brush brush = normalizedScore < exam.Properties.Passmark ? Brushes.Red : Brushes.Green;
-            string status = normalizedScore < exam.Properties.Passmark ? "Failed" : "Passed";
+            Brush brush = normalizedScore < _exam.Properties.Passmark ? Brushes.Red : Brushes.Green;
+            string status = normalizedScore < _exam.Properties.Passmark ? "Failed" : "Passed";
             e.Graphics.DrawString(status, subFont, brush, new PointF(e.MarginBounds.Left + 70, ypos));
             ypos += (2 * subFont.GetHeight(e.Graphics));
 

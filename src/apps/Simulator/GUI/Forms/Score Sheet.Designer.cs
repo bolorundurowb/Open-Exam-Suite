@@ -1,6 +1,6 @@
 ﻿namespace Simulator.GUI.Forms
 {
-    partial class Score_Sheet
+    partial class ScoreSheet
     {
         /// <summary>
         /// Required designer variable.
@@ -35,7 +35,7 @@
             System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Score_Sheet));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ScoreSheet));
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -381,11 +381,11 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "Score_Sheet";
+            this.Name = "ScoreSheet";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Score Sheet";
-            this.Load += new System.EventHandler(this.LoadDataToUI);
+            this.Load += new System.EventHandler(this.LoadDataToUi);
             ((System.ComponentModel.ISupportInitialize)(this.chr_display_score)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_show_breakdown)).EndInit();
             this.ResumeLayout(false);
