@@ -4,9 +4,9 @@ using Shared;
 
 namespace Simulator.GUI.Forms
 {
-    public partial class Exam_Properties : Form
+    public partial class ExamProperties : Form
     {
-        public Exam_Properties(Exam exam, string filePath)
+        public ExamProperties(Exam exam, string filePath)
         {
             InitializeComponent();
             //

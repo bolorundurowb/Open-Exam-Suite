@@ -40,7 +40,7 @@ namespace Simulator.Util
 
         private static void InitilaizeExamProperties(Exam exam, string filePath)
         {
-            var properties = new Exam_Properties(exam, filePath);
+            var properties = new ExamProperties(exam, filePath);
             properties.ShowDialog();
         }
 

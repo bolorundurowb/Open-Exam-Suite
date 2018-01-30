@@ -1,6 +1,6 @@
 ﻿namespace Simulator.GUI.Forms
 {
-    partial class Exam_Properties
+    partial class ExamProperties
     {
         /// <summary>
         /// Required designer variable.
@@ -253,7 +253,7 @@
             this.HelpButton = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "Exam_Properties";
+            this.Name = "ExamProperties";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
