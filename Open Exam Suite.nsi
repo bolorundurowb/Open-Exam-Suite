@@ -67,8 +67,7 @@ Section "Simulator" SEC02
 SectionEnd
 
 Section "Samples" SEC03
-  File "C:\Users\bolorundurowb\OneDrive\Documents\OEF Files\GMAT Sample.oef"
-  File "C:\Users\bolorundurowb\OneDrive\Documents\OEF Files\Basic Science.oef"
+  File "OEF Files\GMAT Sample.oef"
 SectionEnd
 
 Section -AdditionalIcons
@@ -109,7 +108,6 @@ FunctionEnd
 Section Uninstall
   Delete "$INSTDIR\${PRODUCT_NAME}.url"
   Delete "$INSTDIR\uninst.exe"
-  Delete "$INSTDIR\Basic Science.oef"
   Delete "$INSTDIR\GMAT Sample.oef"
   Delete "$INSTDIR\Shared.dll"
   Delete "$INSTDIR\Simulator.exe"

@@ -159,6 +159,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Creator Alt.fw.ico" />
+    <None Include="Resources\pdf.png" />
     <None Include="Resources\xml.jpg" />
     <None Include="Resources\json.png" />
     <None Include="Resources\rsz_actions-insert-image-icon.png" />

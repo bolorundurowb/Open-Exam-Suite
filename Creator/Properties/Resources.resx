@@ -118,11 +118,14 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="splash" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\splash.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="xml" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\xml.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="remove" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\remove.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Exam" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Exam.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="json" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\json.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -148,10 +151,10 @@
   <data name="New_Question" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\New_Question.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Exam" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Exam.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="splash" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\splash.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="xml" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\xml.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="pdf" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pdf.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
