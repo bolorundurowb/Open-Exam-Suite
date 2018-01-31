@@ -1,12 +1,11 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using System.Drawing;
 using Shared.Util;
+using Xunit;
 
 namespace Shared.Tests
 {
-    [TestClass]
     public class ExamTests
     {
         Exam exam = new Exam
@@ -71,35 +70,33 @@ namespace Shared.Tests
             }
         };
 
-        [TestMethod]
+        [Fact]
         public void ExamGetsSerialized()
         {
             string filepath = Environment.CurrentDirectory + Path.DirectorySeparatorChar + "test.oef";
             Reader.WriteExamToOefFile(exam, filepath);
-            Assert.IsTrue(File.Exists(filepath));
+            Assert.Equal(true, File.Exists(filepath));
         }
 
-        [TestMethod]
+        [Fact]
         public void ExamGetsDeserialized()
         {
             string filepath = Environment.CurrentDirectory + Path.DirectorySeparatorChar + "test.oef";
             Exam exam = Reader.FromOefFile(filepath);
-            Assert.IsInstanceOfType(exam, typeof(Exam));
+            Assert.NotNull(exam);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(NullReferenceException))]
+        [Fact]
         public void NullExamPassed()
         {
             Exam nullExam = null;
-            Assert.IsTrue(Reader.WriteExamToOefFile(nullExam, @"C:\"));
+            Assert.Throws<NullReferenceException>(() => { Reader.WriteExamToOefFile(nullExam, @"C:\"); });
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [Fact]
         public void EmptyFilePath()
         {
-            Assert.IsTrue(Reader.WriteExamToOefFile(exam, string.Empty));
+            Assert.Throws<ArgumentException>(() => { Reader.WriteExamToOefFile(exam, string.Empty); });
         }
     }
 }
