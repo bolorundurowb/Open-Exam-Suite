@@ -56,7 +56,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Shared\Shared.csproj">
+    <ProjectReference Include="..\..\src\lib\Shared\Shared.csproj">
       <Project>{3FAC1A95-FEAC-4E9A-92C8-1D0C48815E32}</Project>
       <Name>Shared</Name>
     </ProjectReference>

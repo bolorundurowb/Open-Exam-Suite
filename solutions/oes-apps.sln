@@ -3,19 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simulator", "..\apps\Simulator\Simulator.csproj", "{888D291C-6BA2-4B2B-831E-3A8BF56F96B6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simulator", "..\src\apps\Simulator\Simulator.csproj", "{888D291C-6BA2-4B2B-831E-3A8BF56F96B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Creator", "..\apps\Creator\Creator.csproj", "{B1D48494-AF78-4810-861A-1AD9FA30FABF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Creator", "..\src\apps\Creator\Creator.csproj", "{B1D48494-AF78-4810-861A-1AD9FA30FABF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "..\lib\Shared\Shared.csproj", "{3FAC1A95-FEAC-4E9A-92C8-1D0C48815E32}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Tests", "..\..\tests\Shared.Tests\Shared.Tests.csproj", "{479EEAFC-E04A-42C4-A478-DDEFCD7F5287}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "..\src\lib\Shared\Shared.csproj", "{3FAC1A95-FEAC-4E9A-92C8-1D0C48815E32}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "apps", "apps", "{4C6EC22D-76F2-4926-8BA1-D0DCB561CCC7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{39D52BDA-1A90-4D37-B1B0-368DA18755DB}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0D1D26A4-9760-49DC-B364-58A55BD80AE6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
