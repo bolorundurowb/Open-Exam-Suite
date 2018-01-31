@@ -9,79 +9,82 @@ namespace Shared.Util
 {
     public class Reader
     {
-        public static Exam FromOefFile (string filePath)
+        public static Exam FromOefFile(string filePath, bool throwOnError = false)
         {
             if (string.IsNullOrWhiteSpace(filePath))
                 throw new ArgumentException("Empty filepath");
-            else if (!File.Exists(filePath))
+            if (!File.Exists(filePath))
                 throw new FileNotFoundException("File specified does not exist");
-            else
+
+            IFormatter formatter = new BinaryFormatter();
+            try
             {
-                Stream stream = null;
-                try
+                using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.None))
                 {
-                    
-                    IFormatter formatter = new BinaryFormatter();
-                    stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.None);
-                    Exam exam = (Exam)formatter.Deserialize(stream);
+                    Exam exam = (Exam) formatter.Deserialize(stream);
                     return exam;
                 }
-                catch(Exception)
+            }
+            catch (Exception)
+            {
+                if (throwOnError)
                 {
-                    return null;
+                    throw;
                 }
-                finally
-                {
-                    if (stream != null)
-                        stream.Close();
-                }
-            }            
+
+                return null;
+            }
         }
 
         public static Exam FromJsonFile(string filePath)
         {
-            Exam exam = null;
+            Exam exam;
             using (StreamReader streamReader = new StreamReader(filePath))
             {
                 string jsonString = streamReader.ReadToEnd();
                 exam = JsonConvert.DeserializeObject<Exam>(jsonString);
             }
+
             return exam;
         }
 
         public static Exam FromXmlFile(string filePath)
         {
-            Exam exam = null;
+            Exam exam;
             var xmlSerializer = new XmlSerializer(typeof(Exam));
             using (StreamReader streamReader = new StreamReader(filePath))
             {
-                exam = (Exam)xmlSerializer.Deserialize(streamReader);
+                exam = (Exam) xmlSerializer.Deserialize(streamReader);
             }
+
             return exam;
         }
 
-        public static bool WriteExamToOefFile (Exam exam, string filePath)
+        public static bool WriteExamToOefFile(Exam exam, string filePath, bool throwOnError = false)
         {
             if (exam == null)
                 throw new NullReferenceException("The exam to be written cannot be null.");
-            else if (string.IsNullOrWhiteSpace(filePath))
+            if (string.IsNullOrWhiteSpace(filePath))
                 throw new ArgumentException("Empty filepath");
-            Stream stream = null;
+
+
+            IFormatter formatter = new BinaryFormatter();
             try
             {
-                IFormatter formatter = new BinaryFormatter();
-                stream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
-                formatter.Serialize(stream, exam);
-                return true;
+                using (var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None))
+                {
+                    formatter.Serialize(stream, exam);
+                    return true;
+                }
             }
-            catch(Exception)
+            catch (Exception)
             {
+                if (throwOnError)
+                {
+                    throw;
+                }
+
                 return false;
-            }
-            finally
-            {
-                if (stream != null)
-                    stream.Close();
             }
         }
     }
