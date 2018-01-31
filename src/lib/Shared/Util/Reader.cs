@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace Shared.Util
 {
-    public class Reader
+    public static class Reader
     {
         public static Exam FromOefFile(string filePath, bool throwOnError = false)
         {
