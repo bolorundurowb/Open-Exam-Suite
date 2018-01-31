@@ -54,9 +54,6 @@
     <Compile Include="Util\Writer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Controls\OptionControl.resx">
       <DependentUpon>OptionControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -74,27 +71,30 @@
   -->
   <ItemGroup>
     <Reference Include="MigraDoc.DocumentObjectModel, Version=1.32.4334.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\PDFsharp-MigraDoc-GDI.1.32.4334.0\lib\net20\MigraDoc.DocumentObjectModel.dll</HintPath>
+      <HintPath>..\..\..\solutions\packages\PDFsharp-MigraDoc-GDI.1.32.4334.0\lib\net20\MigraDoc.DocumentObjectModel.dll</HintPath>
     </Reference>
     <Reference Include="MigraDoc.Rendering, Version=1.32.4334.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\PDFsharp-MigraDoc-GDI.1.32.4334.0\lib\net20\MigraDoc.Rendering.dll</HintPath>
+      <HintPath>..\..\..\solutions\packages\PDFsharp-MigraDoc-GDI.1.32.4334.0\lib\net20\MigraDoc.Rendering.dll</HintPath>
     </Reference>
     <Reference Include="MigraDoc.RtfRendering, Version=1.32.4334.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\PDFsharp-MigraDoc-GDI.1.32.4334.0\lib\net20\MigraDoc.RtfRendering.dll</HintPath>
+      <HintPath>..\..\..\solutions\packages\PDFsharp-MigraDoc-GDI.1.32.4334.0\lib\net20\MigraDoc.RtfRendering.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\..\solutions\packages\Newtonsoft.Json.10.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PdfSharp, Version=1.32.3057.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\PDFsharp-MigraDoc-GDI.1.32.4334.0\lib\net20\PdfSharp.dll</HintPath>
+      <HintPath>..\..\..\solutions\packages\PDFsharp-MigraDoc-GDI.1.32.4334.0\lib\net20\PdfSharp.dll</HintPath>
     </Reference>
     <Reference Include="PdfSharp.Charting, Version=1.32.3057.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\PDFsharp-MigraDoc-GDI.1.32.4334.0\lib\net20\PdfSharp.Charting.dll</HintPath>
+      <HintPath>..\..\..\solutions\packages\PDFsharp-MigraDoc-GDI.1.32.4334.0\lib\net20\PdfSharp.Charting.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>
