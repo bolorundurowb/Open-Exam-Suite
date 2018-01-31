@@ -4,7 +4,7 @@ branches:
   except:
     - gh-pages
 
-image: Visual Studio 2015
+image: Visual Studio 2017
 
 clone_folder: c:\projects\
 
@@ -14,11 +14,11 @@ configuration: Debug
 
 build:
   parallel: true
-  project: Open Exam Suite.sln
+  project: solutions\oes-all.sln
   verbosity: minimal
 
 install:
-  - nuget restore "Open Exam Suite.sln"
+  - nuget restore solutions\oes-all.sln
 
 test_script:
   - cd C:\projects\
