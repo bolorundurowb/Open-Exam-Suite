@@ -74,7 +74,7 @@ namespace Shared.Tests
         public void ExamGetsSerialized()
         {
             string filepath = Environment.CurrentDirectory + Path.DirectorySeparatorChar + "test.oef";
-            Reader.WriteExamToOefFile(exam, filepath);
+            Reader.WriteExamToOefFile(exam, filepath, true);
             Assert.Equal(true, File.Exists(filepath));
         }
 
@@ -82,7 +82,7 @@ namespace Shared.Tests
         public void ExamGetsDeserialized()
         {
             string filepath = Environment.CurrentDirectory + Path.DirectorySeparatorChar + "test.oef";
-            Exam exam = Reader.FromOefFile(filepath);
+            Exam exam = Reader.FromOefFile(filepath, true);
             Assert.NotNull(exam);
         }
 

@@ -67,12 +67,6 @@
     <Compile Include="ExamTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\lib\Shared\Shared.csproj">
-      <Project>{3FAC1A95-FEAC-4E9A-92C8-1D0C48815E32}</Project>
-      <Name>Shared</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
@@ -102,9 +96,15 @@
   -->
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="test.png">
+    <Content Include="test.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\lib\Shared\Shared.csproj">
+      <Project>{3fac1a95-feac-4e9a-92c8-1d0c48815e32}</Project>
+      <Name>Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="..\..\solutions\packages\xunit.core.2.3.1\build\xunit.core.targets" Condition="Exists('..\..\solutions\packages\xunit.core.2.3.1\build\xunit.core.targets')" />
 </Project>
