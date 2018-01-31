@@ -22,4 +22,4 @@ install:
 
 test_script:
   - cd C:\projects\
-  - ps: .\coverage.ps1 
+  - cmd: .\coverage.cmd 
