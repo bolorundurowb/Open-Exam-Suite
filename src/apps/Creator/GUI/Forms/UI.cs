@@ -157,9 +157,16 @@ namespace Creator.GUI.Forms
                     }
                     _exam.Sections.Add(section);
                 }
-                Reader.WriteExamToOefFile(_exam, _currentExamFile);
-                MessageBox.Show("Exam has been successfully saved.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                IsDirty = false;
+                var writeResult = Writer.ToOef(_exam, _currentExamFile);
+                if (writeResult)
+                {
+                    MessageBox.Show("Exam has been successfully saved.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    IsDirty = false;
+                }
+                else
+                {
+                    MessageBox.Show("Sorry, the exam could not be saved.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
 
             // add the saved exam to the exam history

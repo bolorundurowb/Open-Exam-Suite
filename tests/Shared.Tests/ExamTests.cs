@@ -1,105 +1,114 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using System.Drawing;
+using System.Reflection;
 using Shared.Util;
+using Xunit;
 
 namespace Shared.Tests
 {
-    [TestClass]
     public class ExamTests
     {
-        Exam exam = new Exam
+        private readonly Exam _exam;
+
+        public ExamTests()
         {
-            Properties = new Properties
+            var assembly = Assembly.GetExecutingAssembly();
+
+            using (var stream = assembly.GetManifestResourceStream("Shared.Tests.test.png"))
             {
-                Title = "Test",
-                Version = 3,
-                Code = "T01",
-                Instructions = "Goodluck! Make good use of your time.",
-                Passmark = 650,
-                TimeLimit = 5
-            },
-            Sections = new System.Collections.Generic.List<Section>
-            {
-                new Section
+                var image = (Bitmap) Image.FromStream(stream);
+                _exam = new Exam
                 {
-                    Title = "Section A",
-                    Questions = new System.Collections.Generic.List<Question>
+                    Properties = new Properties
                     {
-                        new Question
+                        Title = "Test",
+                        Version = 3,
+                        Code = "T01",
+                        Instructions = "Goodluck! Make good use of your time.",
+                        Passmark = 650,
+                        TimeLimit = 5
+                    },
+                    Sections = new System.Collections.Generic.List<Section>
+                    {
+                        new Section
                         {
-                            No = 1,
-                            Text = "Question 1",
-                            Answer = 'A',
-                            Options = new System.Collections.Generic.List<Option>
+                            Title = "Section A",
+                            Questions = new System.Collections.Generic.List<Question>
                             {
-                                new Option
+                                new Question
                                 {
-                                    Text = "Option 1",
-                                    Alphabet = 'A'
+                                    No = 1,
+                                    Text = "Question 1",
+                                    Answer = 'A',
+                                    Options = new System.Collections.Generic.List<Option>
+                                    {
+                                        new Option
+                                        {
+                                            Text = "Option 1",
+                                            Alphabet = 'A'
+                                        },
+                                        new Option
+                                        {
+                                            Text = "Option 2",
+                                            Alphabet = 'B'
+                                        }
+                                    },
+                                    Image = image
                                 },
-                                new Option
+                                new Question
                                 {
-                                    Text = "Option 2",
-                                    Alphabet = 'B'
-                                }
-                            },
-                            Image = new Bitmap("test.png")
-                        },
-                        new Question
-                        {
-                            No = 1,
-                            Text = "Question 2",
-                            Answer = 'B',
-                            Options = new System.Collections.Generic.List<Option>
-                            {
-                                new Option
-                                {
-                                    Text = "Option 1",
-                                    Alphabet = 'A'
-                                },
-                                new Option
-                                {
-                                    Text = "Option 2",
-                                    Alphabet = 'B'
+                                    No = 1,
+                                    Text = "Question 2",
+                                    Answer = 'B',
+                                    Options = new System.Collections.Generic.List<Option>
+                                    {
+                                        new Option
+                                        {
+                                            Text = "Option 1",
+                                            Alphabet = 'A'
+                                        },
+                                        new Option
+                                        {
+                                            Text = "Option 2",
+                                            Alphabet = 'B'
+                                        }
+                                    }
                                 }
                             }
                         }
                     }
-                }
+                };
             }
-        };
+        }
 
-        [TestMethod]
+        [Fact]
         public void ExamGetsSerialized()
         {
-            string filepath = Environment.CurrentDirectory + Path.DirectorySeparatorChar + "test.oef";
-            Reader.WriteExamToOefFile(exam, filepath);
-            Assert.IsTrue(File.Exists(filepath));
+            var filepath = Environment.CurrentDirectory + Path.DirectorySeparatorChar + "test.oef";
+            Writer.ToOef(_exam, filepath, true);
+            Assert.Equal(true, File.Exists(filepath));
         }
 
-        [TestMethod]
+        [Fact]
         public void ExamGetsDeserialized()
         {
-            string filepath = Environment.CurrentDirectory + Path.DirectorySeparatorChar + "test.oef";
-            Exam exam = Reader.FromOefFile(filepath);
-            Assert.IsInstanceOfType(exam, typeof(Exam));
+            var filepath = Environment.CurrentDirectory + Path.DirectorySeparatorChar + "test.oef";
+            var exam = Reader.FromOefFile(filepath, true);
+            Assert.NotNull(exam);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(NullReferenceException))]
+        [Fact]
         public void NullExamPassed()
         {
             Exam nullExam = null;
-            Assert.IsTrue(Reader.WriteExamToOefFile(nullExam, @"C:\"));
+            Assert.Throws<NullReferenceException>(() => { Writer.ToOef(nullExam, @"C:\"); });
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [Fact]
         public void EmptyFilePath()
         {
-            Assert.IsTrue(Reader.WriteExamToOefFile(exam, string.Empty));
+            Assert.Throws<ArgumentException>(() => { Writer.ToOef(_exam, string.Empty); });
         }
     }
 }
