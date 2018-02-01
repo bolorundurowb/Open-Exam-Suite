@@ -6,6 +6,6 @@ namespace Storage.Interfaces
     {
         void Add(ISettings settings);
         void Clear();
-        List<ISettings> GetAll();
+        IEnumerable<ISettings> GetAll();
     }
 }

@@ -43,7 +43,7 @@
   <ItemGroup>
     <Compile Include="Interfaces\ISettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\CreatorSettings.cs" />
+    <Compile Include="Models\CreatorSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
