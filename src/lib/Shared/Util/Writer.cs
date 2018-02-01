@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml.Serialization;
 using MigraDoc.DocumentObjectModel;
 using MigraDoc.Rendering;
@@ -8,8 +10,35 @@ using PdfSharp.Pdf;
 
 namespace Shared.Util
 {
-    public class Writer
+    public static class Writer
     {
+        public static bool ToOef(Exam exam, string filePath, bool throwOnError = false)
+        {
+            if (exam == null)
+                throw new NullReferenceException("The exam to be written cannot be null.");
+            if (string.IsNullOrWhiteSpace(filePath))
+                throw new ArgumentException("Empty filepath");
+
+            IFormatter formatter = new BinaryFormatter();
+            try
+            {
+                using (var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None))
+                {
+                    formatter.Serialize(stream, exam);
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+                if (throwOnError)
+                {
+                    throw;
+                }
+
+                return false;
+            }
+        }
+        
         public static bool ToPdf(Exam exam, string filePath)
         {
             try

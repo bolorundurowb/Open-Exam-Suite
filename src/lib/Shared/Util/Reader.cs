@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml.Serialization;
@@ -17,6 +18,7 @@ namespace Shared.Util
                 throw new FileNotFoundException("File specified does not exist");
 
             IFormatter formatter = new BinaryFormatter();
+            formatter.Binder = new DeserializationBinder();
             try
             {
                 using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.None))
@@ -58,34 +60,6 @@ namespace Shared.Util
             }
 
             return exam;
-        }
-
-        public static bool WriteExamToOefFile(Exam exam, string filePath, bool throwOnError = false)
-        {
-            if (exam == null)
-                throw new NullReferenceException("The exam to be written cannot be null.");
-            if (string.IsNullOrWhiteSpace(filePath))
-                throw new ArgumentException("Empty filepath");
-
-
-            IFormatter formatter = new BinaryFormatter();
-            try
-            {
-                using (var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None))
-                {
-                    formatter.Serialize(stream, exam);
-                    return true;
-                }
-            }
-            catch (Exception)
-            {
-                if (throwOnError)
-                {
-                    throw;
-                }
-
-                return false;
-            }
         }
     }
 }

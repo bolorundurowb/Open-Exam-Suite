@@ -197,11 +197,10 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\lib\Shared\Shared.csproj">
-      <Project>{3FAC1A95-FEAC-4E9A-92C8-1D0C48815E32}</Project>
+      <Project>{3fac1a95-feac-4e9a-92c8-1d0c48815e32}</Project>
       <Name>Shared</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

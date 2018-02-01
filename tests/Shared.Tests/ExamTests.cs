@@ -86,7 +86,7 @@ namespace Shared.Tests
         public void ExamGetsSerialized()
         {
             var filepath = Environment.CurrentDirectory + Path.DirectorySeparatorChar + "test.oef";
-            Reader.WriteExamToOefFile(_exam, filepath, true);
+            Writer.ToOef(_exam, filepath, true);
             Assert.Equal(true, File.Exists(filepath));
         }
 
@@ -102,13 +102,13 @@ namespace Shared.Tests
         public void NullExamPassed()
         {
             Exam nullExam = null;
-            Assert.Throws<NullReferenceException>(() => { Reader.WriteExamToOefFile(nullExam, @"C:\"); });
+            Assert.Throws<NullReferenceException>(() => { Writer.ToOef(nullExam, @"C:\"); });
         }
 
         [Fact]
         public void EmptyFilePath()
         {
-            Assert.Throws<ArgumentException>(() => { Reader.WriteExamToOefFile(_exam, string.Empty); });
+            Assert.Throws<ArgumentException>(() => { Writer.ToOef(_exam, string.Empty); });
         }
     }
 }
