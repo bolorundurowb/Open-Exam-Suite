@@ -4,7 +4,6 @@ using System.Windows.Forms;
 using Shared;
 using Shared.Util;
 using Simulator.Enums;
-using Simulator.GUI.Dialogs;
 using Simulator.GUI.Forms;
 
 namespace Simulator.Util

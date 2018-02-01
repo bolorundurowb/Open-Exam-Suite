@@ -11,40 +11,22 @@ namespace Shared.Controls
         [Browsable(true), DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public char Letter
         {
-            get
-            {
-                return Convert.ToChar(chkLetter.Text);
-            }
-            set
-            {
-                chkLetter.Text = value.ToString();
-            }
+            get => Convert.ToChar(chkLetter.Text);
+            set => chkLetter.Text = value.ToString();
         }
 
         [Browsable(true), DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public override string Text
         {
-            get
-            {
-                return txtText.Text;
-            }
-            set
-            {
-                txtText.Text = value;
-            }
+            get => txtText.Text;
+            set => txtText.Text = value;
         }
 
         [Browsable(true), DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public bool Checked
         {
-            get
-            {
-                return chkLetter.Checked;
-            }
-            set
-            {
-                chkLetter.Checked = value;
-            }
+            get => chkLetter.Checked;
+            set => chkLetter.Checked = value;
         }
         #endregion
         public OptionsControl()
