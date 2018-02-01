@@ -1,4 +1,4 @@
-﻿namespace Creator.GUI.Forms
+﻿namespace Creator.GUI
 {
     partial class UI
     {

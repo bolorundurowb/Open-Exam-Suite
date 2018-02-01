@@ -82,11 +82,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enums\DialogType.cs" />
-    <Compile Include="GUI\AboutUi.cs">
+    <Compile Include="GUI\About.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GUI\About.Designer.cs">
-      <DependentUpon>AboutUi.cs</DependentUpon>
+      <DependentUpon>About.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\Exam Properties.cs">
       <SubType>Form</SubType>
@@ -129,7 +129,7 @@
     <Compile Include="Util\DialogManager.cs" />
     <Compile Include="Util\RowManager.cs" />
     <EmbeddedResource Include="GUI\About.resx">
-      <DependentUpon>AboutUi.cs</DependentUpon>
+      <DependentUpon>About.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Exam Properties.resx">
       <DependentUpon>Exam Properties.cs</DependentUpon>

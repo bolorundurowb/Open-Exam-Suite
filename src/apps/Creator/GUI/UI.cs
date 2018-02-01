@@ -15,7 +15,7 @@ using Shared.Models;
 using Shared.Util;
 using Settings = Creator.Properties.Settings;
 
-namespace Creator.GUI.Forms
+namespace Creator.GUI
 {
     public partial class UI : Form
     {

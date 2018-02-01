@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
-using Creator.GUI.Forms;
+using Creator.GUI;
 
 namespace Creator
 {

@@ -1,4 +1,4 @@
-﻿namespace Creator.GUI.Dialogs
+﻿namespace Creator.GUI
 {
     partial class About
     {
