@@ -4,7 +4,7 @@ namespace Storage.Interfaces
 {
     public interface ISettings
     {
-        void Save();
+        void Add(ISettings settings);
         void Clear();
         List<ISettings> GetAll();
     }
