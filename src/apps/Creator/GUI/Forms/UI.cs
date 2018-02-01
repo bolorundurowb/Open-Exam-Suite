@@ -161,13 +161,12 @@ namespace Creator.GUI.Forms
                 if (writeResult)
                 {
                     MessageBox.Show("Exam has been successfully saved.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    IsDirty = false;
                 }
                 else
                 {
                     MessageBox.Show("Sorry, the exam could not be saved.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                
-                IsDirty = false;
             }
 
             // add the saved exam to the exam history
