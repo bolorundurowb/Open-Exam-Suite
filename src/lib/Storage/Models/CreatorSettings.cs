@@ -14,18 +14,26 @@ namespace Storage.Models
     public class CreatorSettings : ISettings
     {
         #region Variables
+
         private readonly string CollectionName = "CreatorSettings";
 
         private readonly string Database =
             $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}{Path.DirectorySeparatorChar}OpenExamSuite";
+
         #endregion
 
         #region Properties
 
-        
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+
+        public string FilePath { get; set; }
 
         #endregion
-        
+
+        #region Methods
+
         public void Add(ISettings settings)
         {
             using (var db = new LiteDatabase(Database))
@@ -51,5 +59,7 @@ namespace Storage.Models
                 return collection.FindAll();
             }
         }
+
+        #endregion
     }
 }
