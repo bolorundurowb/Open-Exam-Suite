@@ -96,9 +96,7 @@
   -->
   <ItemGroup>
     <None Include="packages.config" />
-    <Content Include="test.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <EmbeddedResource Include="test.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\lib\Shared\Shared.csproj">

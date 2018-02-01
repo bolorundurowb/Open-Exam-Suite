@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Drawing;
+using System.Reflection;
 using Shared.Util;
 using Xunit;
 
@@ -8,67 +9,78 @@ namespace Shared.Tests
 {
     public class ExamTests
     {
-        readonly Exam _exam = new Exam
+        private readonly Exam _exam;
+
+        public ExamTests()
         {
-            Properties = new Properties
+            var assembly = Assembly.GetExecutingAssembly();
+
+            using (var stream = assembly.GetManifestResourceStream("Shared.Tests.test.png"))
             {
-                Title = "Test",
-                Version = 3,
-                Code = "T01",
-                Instructions = "Goodluck! Make good use of your time.",
-                Passmark = 650,
-                TimeLimit = 5
-            },
-            Sections = new System.Collections.Generic.List<Section>
-            {
-                new Section
+                var image = (Bitmap) Image.FromStream(stream);
+                _exam = new Exam
                 {
-                    Title = "Section A",
-                    Questions = new System.Collections.Generic.List<Question>
+                    Properties = new Properties
                     {
-                        new Question
+                        Title = "Test",
+                        Version = 3,
+                        Code = "T01",
+                        Instructions = "Goodluck! Make good use of your time.",
+                        Passmark = 650,
+                        TimeLimit = 5
+                    },
+                    Sections = new System.Collections.Generic.List<Section>
+                    {
+                        new Section
                         {
-                            No = 1,
-                            Text = "Question 1",
-                            Answer = 'A',
-                            Options = new System.Collections.Generic.List<Option>
+                            Title = "Section A",
+                            Questions = new System.Collections.Generic.List<Question>
                             {
-                                new Option
+                                new Question
                                 {
-                                    Text = "Option 1",
-                                    Alphabet = 'A'
+                                    No = 1,
+                                    Text = "Question 1",
+                                    Answer = 'A',
+                                    Options = new System.Collections.Generic.List<Option>
+                                    {
+                                        new Option
+                                        {
+                                            Text = "Option 1",
+                                            Alphabet = 'A'
+                                        },
+                                        new Option
+                                        {
+                                            Text = "Option 2",
+                                            Alphabet = 'B'
+                                        }
+                                    },
+                                    Image = image
                                 },
-                                new Option
+                                new Question
                                 {
-                                    Text = "Option 2",
-                                    Alphabet = 'B'
-                                }
-                            },
-                            Image = new Bitmap("test.png")
-                        },
-                        new Question
-                        {
-                            No = 1,
-                            Text = "Question 2",
-                            Answer = 'B',
-                            Options = new System.Collections.Generic.List<Option>
-                            {
-                                new Option
-                                {
-                                    Text = "Option 1",
-                                    Alphabet = 'A'
-                                },
-                                new Option
-                                {
-                                    Text = "Option 2",
-                                    Alphabet = 'B'
+                                    No = 1,
+                                    Text = "Question 2",
+                                    Answer = 'B',
+                                    Options = new System.Collections.Generic.List<Option>
+                                    {
+                                        new Option
+                                        {
+                                            Text = "Option 1",
+                                            Alphabet = 'A'
+                                        },
+                                        new Option
+                                        {
+                                            Text = "Option 2",
+                                            Alphabet = 'B'
+                                        }
+                                    }
                                 }
                             }
                         }
                     }
-                }
+                };
             }
-        };
+        }
 
         [Fact]
         public void ExamGetsSerialized()
