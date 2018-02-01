@@ -8,7 +8,7 @@ namespace Shared.Tests
 {
     public class ExamTests
     {
-        Exam exam = new Exam
+        readonly Exam _exam = new Exam
         {
             Properties = new Properties
             {
@@ -73,16 +73,16 @@ namespace Shared.Tests
         [Fact]
         public void ExamGetsSerialized()
         {
-            string filepath = Environment.CurrentDirectory + Path.DirectorySeparatorChar + "test.oef";
-            Reader.WriteExamToOefFile(exam, filepath, true);
+            var filepath = Environment.CurrentDirectory + Path.DirectorySeparatorChar + "test.oef";
+            Reader.WriteExamToOefFile(_exam, filepath, true);
             Assert.Equal(true, File.Exists(filepath));
         }
 
         [Fact]
         public void ExamGetsDeserialized()
         {
-            string filepath = Environment.CurrentDirectory + Path.DirectorySeparatorChar + "test.oef";
-            Exam exam = Reader.FromOefFile(filepath, true);
+            var filepath = Environment.CurrentDirectory + Path.DirectorySeparatorChar + "test.oef";
+            var exam = Reader.FromOefFile(filepath, true);
             Assert.NotNull(exam);
         }
 
@@ -96,7 +96,7 @@ namespace Shared.Tests
         [Fact]
         public void EmptyFilePath()
         {
-            Assert.Throws<ArgumentException>(() => { Reader.WriteExamToOefFile(exam, string.Empty); });
+            Assert.Throws<ArgumentException>(() => { Reader.WriteExamToOefFile(_exam, string.Empty); });
         }
     }
 }
