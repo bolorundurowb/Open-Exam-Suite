@@ -1,5 +1,4 @@
 ﻿using System.Windows.Forms;
-using Shared.Models;
 
 namespace Shared.Controls
 {
