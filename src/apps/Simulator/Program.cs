@@ -22,7 +22,7 @@ namespace Simulator
                     MessageBox.Show("An instance of Open Exam Simulator is already running, select the add button include more exams.","OES Simulator", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     return;
                 }
-                Application.Run(args.Length == 0 ? new Ui() : new Ui(args[0]));
+                Application.Run(args.Length == 0 ? new HomeUi() : new HomeUi(args[0]));
             }
         }
 

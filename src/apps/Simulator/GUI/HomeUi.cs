@@ -8,16 +8,16 @@ using Storage.Models;
 
 namespace Simulator.GUI
 {
-    public partial class Ui : Form
+    public partial class HomeUi : Form
     {
         Settings _settings = new Settings(SettingsType.Simulator);
         
-        public Ui()
+        public HomeUi()
         {
             InitializeComponent();
         }
 
-        public Ui(string filePath)
+        public HomeUi(string filePath)
         {
             InitializeComponent();
             if (string.IsNullOrWhiteSpace(filePath) || Path.GetExtension(filePath).ToLower() == ".oef")
@@ -96,7 +96,7 @@ namespace Simulator.GUI
 
         private void About(object sender, EventArgs e)
         {
-            About about = new About();
+            AboutUi about = new AboutUi();
             about.ShowDialog();
         }
 

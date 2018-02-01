@@ -8,7 +8,7 @@ using Shared.Models;
 
 namespace Simulator.GUI
 {
-    public partial class ExamUi : Form
+    public partial class AssessmentUi : Form
     {
         #region Global Variables
         private Exam _exam;
@@ -18,7 +18,7 @@ namespace Simulator.GUI
         private object[] _userAnswers;
         #endregion
 
-        public ExamUi(Exam exam, Settings settings)
+        public AssessmentUi(Exam exam, Settings settings)
         {
             InitializeComponent();
             _exam = exam;
@@ -202,7 +202,7 @@ namespace Simulator.GUI
                     _settings.ResultSpread.Add(new Tuple<string, int, int>(section.Title, numOfQuestions, numOfCorrect));
                 }
                 //
-                ScoreSheet ss = new ScoreSheet(_settings, _exam);
+                ScoreSheetUi ss = new ScoreSheetUi(_settings, _exam);
                 Hide();
                 ss.ShowDialog();
                 Close();

@@ -1,6 +1,6 @@
 ﻿namespace Simulator.GUI
 {
-    partial class About
+    partial class AboutUi
     {
         /// <summary>
         /// Required designer variable.

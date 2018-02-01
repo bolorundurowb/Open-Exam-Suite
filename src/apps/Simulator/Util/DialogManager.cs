@@ -8,7 +8,7 @@ using Simulator.GUI;
 
 namespace Simulator.Util
 {
-    public class DialogManager
+    public static class DialogManager
     {
         public static void DisplayDialog(DialogType dialogType, DataGridView dataGridView)
         {
@@ -39,13 +39,13 @@ namespace Simulator.Util
 
         private static void InitilaizeExamProperties(Exam exam, string filePath)
         {
-            var properties = new ExamProperties(exam, filePath);
+            var properties = new ExamPropertiesUi(exam, filePath);
             properties.ShowDialog();
         }
 
         private static void InitilaizeExamSettings(Exam exam)
         {
-            var settings = new ExamSettings(exam);
+            var settings = new ExamSettingsUi(exam);
             settings.ShowDialog();
         }
     }

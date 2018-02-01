@@ -7,14 +7,14 @@ using Shared.Models;
 
 namespace Simulator.GUI
 {
-    public partial class ScoreSheet : Form
+    public partial class ScoreSheetUi : Form
     {
         #region Global Variables
         private readonly Settings _settings;
         private readonly Exam _exam;
         #endregion
 
-        public ScoreSheet(Settings settings, Exam exam)
+        public ScoreSheetUi(Settings settings, Exam exam)
         {
             InitializeComponent();
             _settings = settings;

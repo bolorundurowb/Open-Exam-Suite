@@ -1,6 +1,6 @@
 ﻿namespace Simulator.GUI
 {
-    partial class ExamSettings
+    partial class ExamSettingsUi
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ExamSettings));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ExamSettingsUi));
             this.label1 = new System.Windows.Forms.Label();
             this.txt_candidate_name = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();

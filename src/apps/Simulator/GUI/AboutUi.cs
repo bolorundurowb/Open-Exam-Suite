@@ -3,9 +3,9 @@ using System.Windows.Forms;
 
 namespace Simulator.GUI
 {
-    public partial class About : Form
+    public partial class AboutUi : Form
     {
-        public About()
+        public AboutUi()
         {
             InitializeComponent();
         }
