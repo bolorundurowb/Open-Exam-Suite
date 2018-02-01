@@ -5,19 +5,18 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using LiteDB;
 using Storage.Interfaces;
 
 namespace Storage.Models
 {
-    public class CreatorSettings : ISettings
+    public class Settings : ISettings
     {
         #region Variables
 
         private readonly string CollectionName = "CreatorSettings";
 
-        private readonly string Database =
+        private readonly string _database =
             $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}{Path.DirectorySeparatorChar}OpenExamSuite";
 
         #endregion
@@ -36,16 +35,16 @@ namespace Storage.Models
 
         public void Add(ISettings settings)
         {
-            using (var db = new LiteDatabase(Database))
+            using (var db = new LiteDatabase(_database))
             {
-                var collection = db.GetCollection<CreatorSettings>(CollectionName);
-                collection.Insert((CreatorSettings) settings);
+                var collection = db.GetCollection<Settings>(CollectionName);
+                collection.Insert((Settings) settings);
             }
         }
 
         public void Clear()
         {
-            using (var db = new LiteDatabase(Database))
+            using (var db = new LiteDatabase(_database))
             {
                 db.DropCollection(CollectionName);
             }
@@ -53,9 +52,9 @@ namespace Storage.Models
 
         public IEnumerable<ISettings> GetAll()
         {
-            using (var db = new LiteDatabase(Database))
+            using (var db = new LiteDatabase(_database))
             {
-                var collection = db.GetCollection<CreatorSettings>();
+                var collection = db.GetCollection<Settings>();
                 return collection.FindAll();
             }
         }
