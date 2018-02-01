@@ -83,11 +83,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GUI\About.cs">
+    <Compile Include="GUI\AboutUi.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\About.Designer.cs">
-      <DependentUpon>About.cs</DependentUpon>
+    <Compile Include="GUI\AboutUi.Designer.cs">
+      <DependentUpon>AboutUi.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\Dialogs\EditSection.cs">
       <SubType>Form</SubType>
@@ -107,11 +107,11 @@
     <Compile Include="GUI\Dialogs\PrintOptions.Designer.cs">
       <DependentUpon>PrintOptions.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\UI.cs">
+    <Compile Include="GUI\HomeUi.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\UI.Designer.cs">
-      <DependentUpon>UI.cs</DependentUpon>
+    <Compile Include="GUI\HomeUi.Designer.cs">
+      <DependentUpon>HomeUi.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -122,8 +122,8 @@
     </Compile>
     <Compile Include="Util\ExportManager.cs" />
     <Compile Include="Util\UndoRedo.cs" />
-    <EmbeddedResource Include="GUI\About.resx">
-      <DependentUpon>About.cs</DependentUpon>
+    <EmbeddedResource Include="GUI\AboutUi.resx">
+      <DependentUpon>AboutUi.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Dialogs\EditSection.resx">
       <DependentUpon>EditSection.cs</DependentUpon>
@@ -134,8 +134,8 @@
     <EmbeddedResource Include="GUI\Dialogs\PrintOptions.resx">
       <DependentUpon>PrintOptions.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\UI.resx">
-      <DependentUpon>UI.cs</DependentUpon>
+    <EmbeddedResource Include="GUI\HomeUi.resx">
+      <DependentUpon>HomeUi.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

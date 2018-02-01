@@ -17,7 +17,7 @@ using Settings = Creator.Properties.Settings;
 
 namespace Creator.GUI
 {
-    public partial class UI : Form
+    public partial class HomeUi : Form
     {
         #region Class Variables
         private Exam _exam;
@@ -28,7 +28,7 @@ namespace Creator.GUI
         private bool IsDirty { get; set; }
         #endregion
 
-        public UI()
+        public HomeUi()
         {
             InitializeComponent();
         }
@@ -571,7 +571,7 @@ namespace Creator.GUI
 
         private void About(object sender, EventArgs e)
         {
-            var about = new About();
+            var about = new AboutUi();
             about.ShowDialog();
         }
 

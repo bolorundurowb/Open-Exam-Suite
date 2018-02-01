@@ -1,6 +1,6 @@
 ﻿namespace Creator.GUI
 {
-    partial class UI
+    partial class HomeUi
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UI));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HomeUi));
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
