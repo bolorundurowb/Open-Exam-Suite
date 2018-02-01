@@ -3,12 +3,15 @@ using System.IO;
 using System.Windows.Forms;
 using Simulator.Enums;
 using Simulator.Util;
-using Simulator.GUI.Dialogs;
+using Storage.Enums;
+using Storage.Models;
 
-namespace Simulator.GUI.Forms
+namespace Simulator.GUI
 {
     public partial class Ui : Form
     {
+        Settings _settings = new Settings(SettingsType.Simulator);
+        
         public Ui()
         {
             InitializeComponent();
@@ -19,8 +22,11 @@ namespace Simulator.GUI.Forms
             InitializeComponent();
             if (string.IsNullOrWhiteSpace(filePath) || Path.GetExtension(filePath).ToLower() == ".oef")
             {
-                Simulator.Properties.Settings.Default.ExamPaths.Add(filePath);
-                Simulator.Properties.Settings.Default.Save();
+                _settings.Add(new Settings
+                {
+                    Name = Path.GetFileNameWithoutExtension(filePath),
+                    FilePath = filePath
+                });
             }
             else
             {

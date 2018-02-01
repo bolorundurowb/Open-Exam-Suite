@@ -24,6 +24,10 @@ namespace Storage.Models
 
         #region Constructor
 
+        public Settings()
+        {
+        }
+
         public Settings(SettingsType settingsType)
         {
             if (settingsType == SettingsType.Creator)

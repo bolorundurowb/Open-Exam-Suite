@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using Shared;
 using Shared.Util;
 using Simulator.Enums;
-using Simulator.GUI.Forms;
+using Simulator.GUI;
 
 namespace Simulator.Util
 {

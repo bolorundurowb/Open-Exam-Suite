@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using Shared;
 using Shared.Models;
 
-namespace Simulator.GUI.Forms
+namespace Simulator.GUI
 {
     public partial class ExamUi : Form
     {

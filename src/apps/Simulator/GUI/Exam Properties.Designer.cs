@@ -1,4 +1,4 @@
-﻿namespace Simulator.GUI.Forms
+﻿namespace Simulator.GUI
 {
     partial class ExamProperties
     {
