@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using LiteDB;
+using Storage.Enums;
 using Storage.Interfaces;
 
 namespace Storage.Models
@@ -14,10 +15,27 @@ namespace Storage.Models
     {
         #region Variables
 
-        private readonly string CollectionName = "CreatorSettings";
+        private readonly string _collectionName;
 
         private readonly string _database =
             $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}{Path.DirectorySeparatorChar}OpenExamSuite";
+
+        #endregion
+
+        #region Constructor
+
+        public Settings(SettingsType settingsType)
+        {
+            if (settingsType == SettingsType.Creator)
+            {
+                _collectionName = "CreatorSettings";
+            }
+
+            if (settingsType == SettingsType.Simulator)
+            {
+                _collectionName = "SimulatorSettings";
+            }
+        }
 
         #endregion
 
@@ -37,7 +55,7 @@ namespace Storage.Models
         {
             using (var db = new LiteDatabase(_database))
             {
-                var collection = db.GetCollection<Settings>(CollectionName);
+                var collection = db.GetCollection<Settings>(_collectionName);
                 collection.Insert((Settings) settings);
             }
         }
@@ -46,7 +64,7 @@ namespace Storage.Models
         {
             using (var db = new LiteDatabase(_database))
             {
-                db.DropCollection(CollectionName);
+                db.DropCollection(_collectionName);
             }
         }
 
