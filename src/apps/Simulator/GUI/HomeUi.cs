@@ -105,11 +105,6 @@ namespace Simulator.GUI
             DialogManager.DisplayDialog(DialogType.ExamSettings, dgv_exams);
         }
 
-        private void SaveAppData(object sender, FormClosingEventArgs e)
-        {
-            AppDataManager.SaveAppData(dgv_exams);
-        }
-
         private void LoadAppData(object sender, EventArgs e)
         {
             AppDataManager.LoadAppData(dgv_exams);

@@ -10,14 +10,6 @@ namespace Simulator.Util
 {
     public static class AppDataManager
     {
-        public static void SaveAppData(DataGridView dataGridView)
-        {
-            Settings.Default.ExamPaths = new StringCollection();
-            foreach (DataGridViewRow row in dataGridView.Rows)
-                Settings.Default.ExamPaths.Add(row.Cells[1].Value.ToString());
-            Settings.Default.Save();
-        }
-
         public static void LoadAppData(DataGridView dataGridView)
         {
             var settingsService = AppSettingsService.Instance;

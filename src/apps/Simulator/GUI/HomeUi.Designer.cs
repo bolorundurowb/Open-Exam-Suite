@@ -244,7 +244,6 @@
             this.Name = "Ui";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Simulator";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SaveAppData);
             this.Shown += new System.EventHandler(this.LoadAppData);
             this.SizeChanged += new System.EventHandler(this.ChangeHeaderSize);
             this.menuStrip1.ResumeLayout(false);
