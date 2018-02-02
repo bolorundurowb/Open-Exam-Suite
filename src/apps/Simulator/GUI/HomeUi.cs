@@ -47,6 +47,13 @@ namespace Simulator.GUI
                 if (!CheckIfExamExists(fileName))
                 {
                     dgv_exams.Rows.Add(Path.GetFileNameWithoutExtension(fileName), fileName);
+
+                    var settingsService = AppSettingsService.Instance;
+                    settingsService.Add(new AppSetting
+                    {
+                        Name = Path.GetFileNameWithoutExtension(fileName),
+                        FilePath = fileName
+                    }, AppSettingsType.Simulator);
                 }
             }
         }
