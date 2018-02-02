@@ -96,7 +96,7 @@ namespace Simulator.GUI
 
         private void About(object sender, EventArgs e)
         {
-            AboutUi about = new AboutUi();
+            var about = new AboutUi();
             about.ShowDialog();
         }
 

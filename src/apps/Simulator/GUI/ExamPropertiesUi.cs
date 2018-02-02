@@ -10,7 +10,7 @@ namespace Simulator.GUI
         {
             InitializeComponent();
             //
-            FileInfo info = new FileInfo(filePath);
+            var info = new FileInfo(filePath);
             lbl_created.Text = info.CreationTime.ToShortDateString();
             lbl_file_size.Text = info.Length > 1022976 ? (info.Length / 1048576.0).ToString("F") + " MB" : (info.Length / 1024.0).ToString("F") + " KB";
 

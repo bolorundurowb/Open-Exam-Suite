@@ -28,7 +28,7 @@ namespace Simulator.GUI
 
         private void LoadDataToUi(object sender, EventArgs e)
         {
-            int normalizedScore = (_settings.NumberOfCorrectAnswers * 1000 / _settings.Questions.Count);
+            var normalizedScore = (_settings.NumberOfCorrectAnswers * 1000 / _settings.Questions.Count);
             if (normalizedScore >= _exam.Properties.Passmark)
             {
                 lbl_status.Text = "Passed";
@@ -63,16 +63,16 @@ namespace Simulator.GUI
 
         private void Print(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
-            int normalizedScore = (_settings.NumberOfCorrectAnswers * 1000 / _settings.Questions.Count);
+            var normalizedScore = (_settings.NumberOfCorrectAnswers * 1000 / _settings.Questions.Count);
             //
-            Font headerFont = new Font("Segoe UI", 12F, FontStyle.Bold);
-            Font subFont = new Font("Segoe UI", 10F, FontStyle.Regular);
-            Font specialFont = new Font("Segoe UI", 10F, FontStyle.Bold);
+            var headerFont = new Font("Segoe UI", 12F, FontStyle.Bold);
+            var subFont = new Font("Segoe UI", 10F, FontStyle.Regular);
+            var specialFont = new Font("Segoe UI", 10F, FontStyle.Bold);
             //
             float ypos = e.MarginBounds.Top;
             e.Graphics.DrawString("EXAMINATION SCORE SHEET", headerFont, Brushes.Black, new PointF((e.MarginBounds.Width / 2) - 50, ypos));
             ypos += (2 * headerFont.GetHeight(e.Graphics));
-            string name = lbl_candidate_name.Text.Length < 35 ? lbl_candidate_name.Text : lbl_candidate_name.Text.Substring(0, 35);
+            var name = lbl_candidate_name.Text.Length < 35 ? lbl_candidate_name.Text : lbl_candidate_name.Text.Substring(0, 35);
             e.Graphics.DrawString("CANDIDATE NAME: " + name, subFont, Brushes.DarkSlateBlue, new PointF(e.MarginBounds.Left, ypos));
             e.Graphics.DrawString("TIME ALLOWED: " + lbl_time_allowed.Text + " min(s)", subFont, Brushes.DarkSlateBlue, new PointF((e.MarginBounds.Width / 2) + 175, ypos));
             ypos += (2 * subFont.GetHeight(e.Graphics));
@@ -82,9 +82,9 @@ namespace Simulator.GUI
             e.Graphics.DrawString("EXAM CODE: " + lbl_exam_number.Text, subFont, Brushes.DarkSlateBlue, new PointF(e.MarginBounds.Left, ypos));
             ypos += (2 * subFont.GetHeight(e.Graphics));
             //
-            MemoryStream imgStream = new MemoryStream();
+            var imgStream = new MemoryStream();
             chr_display_score.SaveImage(imgStream, System.Drawing.Imaging.ImageFormat.Jpeg);
-            Bitmap bmp = new Bitmap(imgStream);
+            var bmp = new Bitmap(imgStream);
             e.Graphics.DrawImage(bmp, new PointF(e.MarginBounds.Left + 50, ypos));
             ypos += ((2 * subFont.GetHeight(e.Graphics)) + (bmp.Height));
 
@@ -92,8 +92,8 @@ namespace Simulator.GUI
             e.Graphics.DrawString("Your Score: " + normalizedScore, subFont, Brushes.DarkSlateBlue, new PointF((e.MarginBounds.Width / 2) + 175, ypos));
             ypos += (2 * subFont.GetHeight(e.Graphics));
             e.Graphics.DrawString("STATUS: ", subFont, Brushes.DarkSlateBlue, new PointF(e.MarginBounds.Left, ypos));
-            Brush brush = normalizedScore < _exam.Properties.Passmark ? Brushes.Red : Brushes.Green;
-            string status = normalizedScore < _exam.Properties.Passmark ? "Failed" : "Passed";
+            var brush = normalizedScore < _exam.Properties.Passmark ? Brushes.Red : Brushes.Green;
+            var status = normalizedScore < _exam.Properties.Passmark ? "Failed" : "Passed";
             e.Graphics.DrawString(status, subFont, brush, new PointF(e.MarginBounds.Left + 70, ypos));
             ypos += (2 * subFont.GetHeight(e.Graphics));
 

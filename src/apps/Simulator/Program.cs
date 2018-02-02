@@ -15,7 +15,7 @@ namespace Simulator
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            using (Mutex mutex = new Mutex(false, "Global\\" + GetGuid()))
+            using (var mutex = new Mutex(false, "Global\\" + GetGuid()))
             {
                 if (!mutex.WaitOne(0, false))
                 {
@@ -28,8 +28,8 @@ namespace Simulator
 
         static string GetGuid ()
         {
-            Guid assemblyGuid = Guid.Empty;
-            object[] assemblyObjects = System.Reflection.Assembly.GetEntryAssembly().GetCustomAttributes(typeof(System.Runtime.InteropServices.GuidAttribute), true);
+            var assemblyGuid = Guid.Empty;
+            var assemblyObjects = System.Reflection.Assembly.GetEntryAssembly().GetCustomAttributes(typeof(System.Runtime.InteropServices.GuidAttribute), true);
             if (assemblyObjects.Length > 0)
             {
                 assemblyGuid = new Guid(((System.Runtime.InteropServices.GuidAttribute)assemblyObjects[0]).Value);
