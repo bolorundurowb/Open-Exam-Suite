@@ -41,11 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Enums\SettingsType.cs" />
-      <Compile Include="Interfaces\IAppSettingsCollection.cs"/>
+      <Compile Include="Enums\AppSettingsType.cs"/>
+      <Compile Include="Interfaces\IAppSettingsService.cs"/>
     <Compile Include="Properties\AssemblyInfo.cs" />
       <Compile Include="Models\AppSetting.cs"/>
-      <Compile Include="Services\SettingsCollection.cs"/>
+      <Compile Include="Services\AppSettingsService.cs"/>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
