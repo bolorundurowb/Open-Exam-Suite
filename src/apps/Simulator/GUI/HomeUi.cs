@@ -22,7 +22,7 @@ namespace Simulator.GUI
             if (string.IsNullOrWhiteSpace(filePath) || Path.GetExtension(filePath).ToLower() == ".oef")
             {
                 var settingsService = AppSettingsService.Instance;
-                settingsService.Add(new AppSetting()
+                settingsService.Add(new AppSetting
                 {
                     Name = Path.GetFileNameWithoutExtension(filePath),
                     FilePath = filePath

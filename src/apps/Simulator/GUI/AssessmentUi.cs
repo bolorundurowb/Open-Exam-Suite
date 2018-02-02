@@ -226,7 +226,7 @@ namespace Simulator.GUI
             {
                 if (isMultipleChoice)
                 {
-                    CheckBox chk = new CheckBox()
+                    CheckBox chk = new CheckBox
                     {
                         AutoSize = true,
                         Text = options[i].Alphabet + ". - " + options[i].Text,
@@ -239,7 +239,7 @@ namespace Simulator.GUI
                 }
                 else
                 {
-                    RadioButton rdb = new RadioButton()
+                    RadioButton rdb = new RadioButton
                     {
                         AutoSize = true,
                         Text = options[i].Alphabet + ". - " + options[i].Text,
