@@ -5,6 +5,7 @@ using Simulator.Enums;
 using Simulator.Util;
 using Storage.Enums;
 using Storage.Models;
+using Storage.Services;
 
 namespace Simulator.GUI
 {
@@ -20,11 +21,12 @@ namespace Simulator.GUI
             InitializeComponent();
             if (string.IsNullOrWhiteSpace(filePath) || Path.GetExtension(filePath).ToLower() == ".oef")
             {
-                _settings.Add(new Settings
+                var settingsService = AppSettingsService.Instance;
+                settingsService.Add(new AppSetting()
                 {
                     Name = Path.GetFileNameWithoutExtension(filePath),
                     FilePath = filePath
-                });
+                }, AppSettingsType.Simulator);
             }
             else
             {
