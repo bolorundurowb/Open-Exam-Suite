@@ -10,8 +10,6 @@ namespace Simulator.GUI
 {
     public partial class HomeUi : Form
     {
-        Settings _settings = new Settings(SettingsType.Simulator);
-        
         public HomeUi()
         {
             InitializeComponent();

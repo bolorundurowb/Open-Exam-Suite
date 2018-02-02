@@ -12,7 +12,19 @@ namespace Storage.Services
     {
         private string _database =
             $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}{Path.DirectorySeparatorChar}OpemExamSuite.db";
-        
+
+        private static AppSettingsService _appSettingsService;
+
+        public static AppSettingsService Instance
+        {
+            get
+            {
+                if (_appSettingsService != null) return _appSettingsService;
+                _appSettingsService = new AppSettingsService();
+                return _appSettingsService;
+            }
+        }
+
         public void Add(AppSetting settings, AppSettingsType type)
         {
             using (var db = new LiteDatabase(_database))
