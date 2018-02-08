@@ -1098,13 +1098,11 @@ namespace Creator.GUI
                 grp_exam_history.Controls.Remove(link);
             }
 
-            if (Settings.Default.Exams == null)
-            {
-                return;
-            }
-
-            var i = 0;
-            foreach (var exam in Settings.Default.Exams)
+            // retrieve the app settings
+            var appSettingsService = AppSettingsService.Instance;
+            var settings = appSettingsService.GetAll(AppSettingsType.Creator);
+            var appSettings = settings as AppSetting[] ?? settings.ToArray();
+            for (int j = 0; j < appSettings.Length; j++)
             {
                 var examLink = new LinkLabel
                 {
@@ -1114,7 +1112,7 @@ namespace Creator.GUI
                 };
                 examLink.Click += ExamLinkClick;
                 grp_exam_history.Controls.Add(examLink);
-                i++;
+                j++;
             }
         }
 
