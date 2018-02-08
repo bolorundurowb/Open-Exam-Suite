@@ -34,6 +34,15 @@ namespace Storage.Services
             }
         }
 
+        public void Remove(string filePath, AppSettingsType type)
+        {
+            using (var db = new LiteDatabase(_database))
+            {
+                var collection = db.GetCollection<AppSetting>(GetTableNameFromType(type));
+                collection.Delete(x => x.FilePath == filePath);
+            }
+        }
+
         public void Clear(AppSettingsType type)
         {
             using (var db = new LiteDatabase(_database))
