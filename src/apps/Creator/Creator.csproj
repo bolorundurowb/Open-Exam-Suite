@@ -200,6 +200,10 @@
       <Project>{3fac1a95-feac-4e9a-92c8-1d0c48815e32}</Project>
       <Name>Shared</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\lib\Storage\Storage.csproj">
+      <Project>{4c8bda0f-8194-4cea-9571-56c18d681bc9}</Project>
+      <Name>Storage</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
