@@ -931,7 +931,7 @@ namespace Creator.GUI
                             Letter = (char) (Convert.ToInt32(
                                                  ((OptionsControl) pan_options.Controls[pan_options.Controls.Count - 1])
                                                  .Letter) + 1),
-                            Location = new Point(2, 2 + (pan_options.Controls.Count * 36))
+                            Location = new Point(2, 2 + pan_options.Controls.Count * 36)
                         };
                         pan_options.Controls.Add(ctrl);
                     }
@@ -956,7 +956,7 @@ namespace Creator.GUI
                             Letter = (char) (Convert.ToInt32(
                                                  ((OptionControl) pan_options.Controls[pan_options.Controls.Count - 1])
                                                  .Letter) + 1),
-                            Location = new Point(2, 2 + (pan_options.Controls.Count * 36))
+                            Location = new Point(2, 2 + pan_options.Controls.Count * 36)
                         };
                         pan_options.Controls.Add(ctrl);
                     }
@@ -1106,9 +1106,9 @@ namespace Creator.GUI
             {
                 var examLink = new LinkLabel
                 {
-                    Location = new Point(10, (40 + (i * 25))),
+                    Location = new Point(10, 40 + j * 25),
                     AutoSize = true,
-                    Text = exam
+                    Text = appSettings[j].FilePath
                 };
                 examLink.Click += ExamLinkClick;
                 grp_exam_history.Controls.Add(examLink);
@@ -1127,9 +1127,13 @@ namespace Creator.GUI
             {
                 MessageBox.Show("Sorry, the selected file has been moved or deleted.", "Access error",
                     MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                Settings.Default.Exams.Remove(((LinkLabel) sender).Text);
-                Settings.Default.Save();
-                grp_exam_history.Controls.Remove(((Control) sender));
+
+                // remove the setting from storage
+                var appSettingService = AppSettingsService.Instance;
+                appSettingService.Remove(((LinkLabel) sender).Text, AppSettingsType.Creator);
+
+                // remove the link
+                grp_exam_history.Controls.Remove((Control) sender);
             }
         }
 
@@ -1328,8 +1332,8 @@ namespace Creator.GUI
 
         private void ClearExamHistory(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Settings.Default.Exams = null;
-            Settings.Default.Save();
+            var appSettingService = AppSettingsService.Instance;
+            appSettingService.Clear(AppSettingsType.Creator);
 
             // re-render the history UI
             LoadExamHistory();
