@@ -3,24 +3,30 @@ using System.IO;
 using System.Windows.Forms;
 using Simulator.Enums;
 using Simulator.Util;
-using Simulator.GUI.Dialogs;
+using Storage.Enums;
+using Storage.Models;
+using Storage.Services;
 
-namespace Simulator.GUI.Forms
+namespace Simulator.GUI
 {
-    public partial class Ui : Form
+    public partial class HomeUi : Form
     {
-        public Ui()
+        public HomeUi()
         {
             InitializeComponent();
         }
 
-        public Ui(string filePath)
+        public HomeUi(string filePath)
         {
             InitializeComponent();
             if (string.IsNullOrWhiteSpace(filePath) || Path.GetExtension(filePath).ToLower() == ".oef")
             {
-                Simulator.Properties.Settings.Default.ExamPaths.Add(filePath);
-                Simulator.Properties.Settings.Default.Save();
+                var settingsService = AppSettingsService.Instance;
+                settingsService.Add(new AppSetting
+                {
+                    Name = Path.GetFileNameWithoutExtension(filePath),
+                    FilePath = filePath
+                }, AppSettingsType.Simulator);
             }
             else
             {
@@ -41,6 +47,13 @@ namespace Simulator.GUI.Forms
                 if (!CheckIfExamExists(fileName))
                 {
                     dgv_exams.Rows.Add(Path.GetFileNameWithoutExtension(fileName), fileName);
+
+                    var settingsService = AppSettingsService.Instance;
+                    settingsService.Add(new AppSetting
+                    {
+                        Name = Path.GetFileNameWithoutExtension(fileName),
+                        FilePath = fileName
+                    }, AppSettingsType.Simulator);
                 }
             }
         }
@@ -90,18 +103,13 @@ namespace Simulator.GUI.Forms
 
         private void About(object sender, EventArgs e)
         {
-            About about = new About();
+            var about = new AboutUi();
             about.ShowDialog();
         }
 
         private void Start(object sender, EventArgs e)
         {
             DialogManager.DisplayDialog(DialogType.ExamSettings, dgv_exams);
-        }
-
-        private void SaveAppData(object sender, FormClosingEventArgs e)
-        {
-            AppDataManager.SaveAppData(dgv_exams);
         }
 
         private void LoadAppData(object sender, EventArgs e)

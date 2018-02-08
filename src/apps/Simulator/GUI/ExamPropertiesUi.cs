@@ -2,15 +2,15 @@
 using System.Windows.Forms;
 using Shared;
 
-namespace Simulator.GUI.Forms
+namespace Simulator.GUI
 {
-    public partial class ExamProperties : Form
+    public partial class ExamPropertiesUi : Form
     {
-        public ExamProperties(Exam exam, string filePath)
+        public ExamPropertiesUi(Exam exam, string filePath)
         {
             InitializeComponent();
             //
-            FileInfo info = new FileInfo(filePath);
+            var info = new FileInfo(filePath);
             lbl_created.Text = info.CreationTime.ToShortDateString();
             lbl_file_size.Text = info.Length > 1022976 ? (info.Length / 1048576.0).ToString("F") + " MB" : (info.Length / 1024.0).ToString("F") + " KB";
 

@@ -6,9 +6,9 @@ using System.Windows.Forms;
 using Shared;
 using Shared.Models;
 
-namespace Simulator.GUI.Forms
+namespace Simulator.GUI
 {
-    public partial class ExamUi : Form
+    public partial class AssessmentUi : Form
     {
         #region Global Variables
         private Exam _exam;
@@ -18,7 +18,7 @@ namespace Simulator.GUI.Forms
         private object[] _userAnswers;
         #endregion
 
-        public ExamUi(Exam exam, Settings settings)
+        public AssessmentUi(Exam exam, Settings settings)
         {
             InitializeComponent();
             _exam = exam;
@@ -39,7 +39,7 @@ namespace Simulator.GUI.Forms
             }
             else
             {
-                TimeSpan timeSpan = TimeSpan.FromSeconds(_timeLeft);
+                var timeSpan = TimeSpan.FromSeconds(_timeLeft);
                 lbl_elapsed_time.Text = timeSpan.Hours.ToString("00") + ":" + timeSpan.Minutes.ToString("00") + ":" + timeSpan.Seconds.ToString("00");
             }
         }
@@ -160,8 +160,8 @@ namespace Simulator.GUI.Forms
                 //
                 _settings.ElapsedTime = TimeSpan.FromSeconds(_exam.Properties.TimeLimit * 60 - _timeLeft);
                 //
-                int numOfCorrectAnswers = 0;
-                for(int i = 0; i < _settings.Questions.Count; i++)
+                var numOfCorrectAnswers = 0;
+                for(var i = 0; i < _settings.Questions.Count; i++)
                 {
                     if (_userAnswers[i].GetType().IsArray)
                     {
@@ -179,9 +179,9 @@ namespace Simulator.GUI.Forms
                 //
                 foreach(var section in _settings.Sections)
                 {
-                    int numOfQuestions = 0;
-                    int numOfCorrect = 0;
-                    for (int i = 0; i < _settings.Questions.Count; i++)
+                    var numOfQuestions = 0;
+                    var numOfCorrect = 0;
+                    for (var i = 0; i < _settings.Questions.Count; i++)
                     {
                         if(section.Questions.Contains(_settings.Questions[i]))
                         {
@@ -202,7 +202,7 @@ namespace Simulator.GUI.Forms
                     _settings.ResultSpread.Add(new Tuple<string, int, int>(section.Title, numOfQuestions, numOfCorrect));
                 }
                 //
-                ScoreSheet ss = new ScoreSheet(_settings, _exam);
+                var ss = new ScoreSheetUi(_settings, _exam);
                 Hide();
                 ss.ShowDialog();
                 Close();
@@ -211,7 +211,7 @@ namespace Simulator.GUI.Forms
 
         private void PrintQuestionToScreen()
         {
-            Question question = _settings.Questions[_currentQuestionIndex];
+            var question = _settings.Questions[_currentQuestionIndex];
             lbl_question_number.Text = question.No.ToString();
             lbl_section_title.Text = _settings.Sections.First(s => s.Questions.Contains(question)).Title;
             lbl_explanation.Text = question.Explanation;
@@ -222,11 +222,11 @@ namespace Simulator.GUI.Forms
 
         private void AddOptions(List<Option> options, bool isMultipleChoice)
         {
-            for (int i = 0; i < options.Count; i++)
+            for (var i = 0; i < options.Count; i++)
             {
                 if (isMultipleChoice)
                 {
-                    CheckBox chk = new CheckBox()
+                    var chk = new CheckBox
                     {
                         AutoSize = true,
                         Text = options[i].Alphabet + ". - " + options[i].Text,
@@ -239,7 +239,7 @@ namespace Simulator.GUI.Forms
                 }
                 else
                 {
-                    RadioButton rdb = new RadioButton()
+                    var rdb = new RadioButton
                     {
                         AutoSize = true,
                         Text = options[i].Alphabet + ". - " + options[i].Text,
@@ -255,14 +255,14 @@ namespace Simulator.GUI.Forms
 
         private void RemoveOptions()
         {
-            for(int j = pan_display.Controls.OfType<RadioButton>().Count() - 1; j >= 0; --j)
+            for(var j = pan_display.Controls.OfType<RadioButton>().Count() - 1; j >= 0; --j)
             {
                 var controls = pan_display.Controls.OfType<RadioButton>();
                 var control = controls.ElementAt(j);
                 pan_display.Controls.Remove(control);
                 control.Dispose();
             }
-            for (int j = pan_display.Controls.OfType<CheckBox>().Count() - 1; j >= 0; --j)
+            for (var j = pan_display.Controls.OfType<CheckBox>().Count() - 1; j >= 0; --j)
             {
                 var controls = pan_display.Controls.OfType<CheckBox>();
                 var control = controls.ElementAt(j);
@@ -274,7 +274,7 @@ namespace Simulator.GUI.Forms
         private object SelectedAnswer()
         {
             // Get the current question
-            Question currentQuestion = _settings.Questions[_currentQuestionIndex];
+            var currentQuestion = _settings.Questions[_currentQuestionIndex];
             // Determine the question type and return an answer
             if (currentQuestion.IsMultipleChoice)
             {
@@ -312,7 +312,7 @@ namespace Simulator.GUI.Forms
                 var answers = chks.Where(s => _settings.Questions[_currentQuestionIndex].Answers.Contains(Convert.ToChar(s.Name.Replace("chk", ""))));
                 foreach(var answer in answers)
                 {
-                    int index = pan_display.Controls.IndexOf(answer);
+                    var index = pan_display.Controls.IndexOf(answer);
                     ((CheckBox)pan_display.Controls[index]).ForeColor = Color.Green;
                 }
                 var selectedOptions = chks.Where(s => s.Checked);
@@ -320,23 +320,23 @@ namespace Simulator.GUI.Forms
                 {
                     if (!_settings.Questions[_currentQuestionIndex].Answers.Contains(Convert.ToChar(selectedOption.Name.Replace("chk", ""))))
                     {
-                        int index = pan_display.Controls.IndexOf(selectedOption);
+                        var index = pan_display.Controls.IndexOf(selectedOption);
                         ((CheckBox)pan_display.Controls[index]).ForeColor = Color.Red;
                     }
                 }
             }
             else
             {
-                RadioButton answer = pan_display.Controls.OfType<RadioButton>().FirstOrDefault(s => s.Name.Replace("rdb", "") == _settings.Questions[_currentQuestionIndex].Answer.ToString());
+                var answer = pan_display.Controls.OfType<RadioButton>().FirstOrDefault(s => s.Name.Replace("rdb", "") == _settings.Questions[_currentQuestionIndex].Answer.ToString());
                 if (answer != null)
                 {
-                    int index = pan_display.Controls.IndexOf(answer);
+                    var index = pan_display.Controls.IndexOf(answer);
                     ((RadioButton)pan_display.Controls[index]).ForeColor = Color.Green;
                 }
-                RadioButton currentSelectedOption = pan_display.Controls.OfType<RadioButton>().FirstOrDefault(s => s.Checked);
+                var currentSelectedOption = pan_display.Controls.OfType<RadioButton>().FirstOrDefault(s => s.Checked);
                 if (currentSelectedOption != null && currentSelectedOption.Text != answer.Text)
                 {
-                    int index = pan_display.Controls.IndexOf(currentSelectedOption);
+                    var index = pan_display.Controls.IndexOf(currentSelectedOption);
                     ((RadioButton)pan_display.Controls[index]).ForeColor = Color.Red;
                 }
             }

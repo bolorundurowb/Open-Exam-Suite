@@ -2,40 +2,44 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Windows.Forms;
 using Simulator.Properties;
+using Storage.Enums;
+using Storage.Models;
+using Storage.Services;
 
 namespace Simulator.Util
 {
-    public class AppDataManager
+    public static class AppDataManager
     {
-        public static void SaveAppData(DataGridView dataGridView)
-        {
-            Settings.Default.ExamPaths = new StringCollection();
-            foreach (DataGridViewRow row in dataGridView.Rows)
-                Settings.Default.ExamPaths.Add(row.Cells[1].Value.ToString());
-            Settings.Default.Save();
-        }
-
         public static void LoadAppData(DataGridView dataGridView)
         {
-            if(Settings.Default.FirstRun)
+            var settingsService = AppSettingsService.Instance;
+
+            if (Settings.Default.FirstRun)
             {
                 var suiteRootFolder = Application.StartupPath;
                 var samplesFolder = Path.Combine(suiteRootFolder, "Samples");
                 var gmatSample = Path.Combine(samplesFolder, "GMAT Sample.oef");
                 var basicScienceSample = Path.Combine(samplesFolder, "Basic Science.oef");
-                if(Settings.Default.ExamPaths == null)
+
+                settingsService.Add(new AppSetting
                 {
-                    Settings.Default.ExamPaths = new StringCollection();
-                }
-                Settings.Default.ExamPaths.Add(gmatSample);
-                Settings.Default.ExamPaths.Add(basicScienceSample);
+                    Name = Path.GetFileNameWithoutExtension(gmatSample),
+                    FilePath = gmatSample
+                }, AppSettingsType.Simulator);
+                settingsService.Add(new AppSetting
+                {
+                    Name = Path.GetFileNameWithoutExtension(basicScienceSample),
+                    FilePath = basicScienceSample
+                }, AppSettingsType.Simulator);
+
+                // save first run data
                 Settings.Default.FirstRun = false;
                 Settings.Default.Save();
             }
-            if (Settings.Default.ExamPaths == null) return;
-            foreach(var path in Settings.Default.ExamPaths)
+
+            foreach (var settings in settingsService.GetAll(AppSettingsType.Simulator))
             {
-                dataGridView.Rows.Add(Path.GetFileNameWithoutExtension(path), path);
+                dataGridView.Rows.Add(settings.Name, settings.FilePath);
             }
         }
     }

@@ -1,6 +1,6 @@
-﻿namespace Simulator.GUI.Dialogs
+﻿namespace Creator.GUI
 {
-    partial class About
+    partial class AboutUi
     {
         /// <summary>
         /// Required designer variable.
@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutUi));
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -44,9 +45,9 @@
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(94, 13);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(171, 15);
+            this.label1.Size = new System.Drawing.Size(156, 15);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Open Exam Simulator 3.1.2";
+            this.label1.Text = "Open Exam Creator 3.1.2";
             // 
             // label2
             // 
@@ -113,21 +114,19 @@
             this.richTextBox1.BackColor = System.Drawing.SystemColors.Control;
             this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.richTextBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.richTextBox1.Location = new System.Drawing.Point(22, 142);
+            this.richTextBox1.Location = new System.Drawing.Point(22, 137);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
             this.richTextBox1.Size = new System.Drawing.Size(352, 74);
             this.richTextBox1.TabIndex = 9;
-            this.richTextBox1.Text = "This software is developed to create and support and open and free exam simulatio" +
-    "n environment. The file extension would be *.oef. It is my hope that this would " +
-    "start an electronic exam revolution";
+            this.richTextBox1.Text = resources.GetString("richTextBox1.Text");
             // 
             // About
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(387, 225);
+            this.ClientSize = new System.Drawing.Size(391, 214);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.lnk_wiki);
             this.Controls.Add(this.lnk_issues);

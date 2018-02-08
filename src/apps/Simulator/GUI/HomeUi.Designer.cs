@@ -1,6 +1,6 @@
-﻿namespace Simulator.GUI.Forms
+﻿namespace Simulator.GUI
 {
-    partial class Ui
+    partial class HomeUi
     {
         /// <summary>
         /// Required designer variable.
@@ -31,7 +31,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Ui));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HomeUi));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addExamToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -244,7 +244,6 @@
             this.Name = "Ui";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Simulator";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SaveAppData);
             this.Shown += new System.EventHandler(this.LoadAppData);
             this.SizeChanged += new System.EventHandler(this.ChangeHeaderSize);
             this.menuStrip1.ResumeLayout(false);

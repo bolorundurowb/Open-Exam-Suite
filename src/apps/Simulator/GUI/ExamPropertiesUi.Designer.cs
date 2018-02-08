@@ -1,6 +1,6 @@
-﻿namespace Simulator.GUI.Forms
+﻿namespace Simulator.GUI
 {
-    partial class ExamProperties
+    partial class ExamPropertiesUi
     {
         /// <summary>
         /// Required designer variable.

@@ -1,11 +1,11 @@
 ﻿using System.Diagnostics;
 using System.Windows.Forms;
 
-namespace Creator.GUI.Dialogs
+namespace Creator.GUI
 {
-    public partial class About : Form
+    public partial class AboutUi : Form
     {
-        public About()
+        public AboutUi()
         {
             InitializeComponent();
         }

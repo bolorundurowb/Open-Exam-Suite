@@ -1,6 +1,6 @@
-﻿namespace Simulator.GUI.Forms
+﻿namespace Simulator.GUI
 {
-    partial class ExamUi
+    partial class AssessmentUi
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ExamUi));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AssessmentUi));
             this.label1 = new System.Windows.Forms.Label();
             this.lbl_elapsed_time = new System.Windows.Forms.Label();
             this.btn_begin = new System.Windows.Forms.Button();

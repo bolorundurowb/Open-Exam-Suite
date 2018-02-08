@@ -4,14 +4,14 @@ using System.Windows.Forms;
 using Shared;
 using Shared.Models;
 
-namespace Simulator.GUI.Forms
+namespace Simulator.GUI
 {
-    public partial class ExamSettings : Form
+    public partial class ExamSettingsUi : Form
     {
         private readonly Exam _exam;
         private Settings _settings;
 
-        public ExamSettings(Exam exam)
+        public ExamSettingsUi(Exam exam)
         {
             InitializeComponent();
             //
@@ -103,7 +103,7 @@ namespace Simulator.GUI.Forms
                 }
             }
             //
-            var ui = new ExamUi(_exam, _settings);
+            var ui = new AssessmentUi(_exam, _settings);
             Hide();
             ui.ShowDialog();
             Close();

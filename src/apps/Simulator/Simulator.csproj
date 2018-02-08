@@ -82,41 +82,41 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enums\DialogType.cs" />
-    <Compile Include="GUI\Dialogs\About.cs">
+    <Compile Include="GUI\AboutUi.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\Dialogs\About.Designer.cs">
-      <DependentUpon>About.cs</DependentUpon>
+    <Compile Include="GUI\AboutUi.Designer.cs">
+      <DependentUpon>AboutUi.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Forms\Exam Properties.cs">
+    <Compile Include="GUI\ExamPropertiesUi.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\Forms\Exam Properties.Designer.cs">
-      <DependentUpon>Exam Properties.cs</DependentUpon>
+    <Compile Include="GUI\ExamPropertiesUi.Designer.cs">
+      <DependentUpon>ExamPropertiesUi.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Forms\Exam Settings.cs">
+    <Compile Include="GUI\ExamSettingsUi.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\Forms\Exam Settings.Designer.cs">
-      <DependentUpon>Exam Settings.cs</DependentUpon>
+    <Compile Include="GUI\ExamSettingsUi.Designer.cs">
+      <DependentUpon>ExamSettingsUi.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Forms\Exam UI.cs">
+    <Compile Include="GUI\AssessmentUi.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\Forms\Exam UI.Designer.cs">
-      <DependentUpon>Exam UI.cs</DependentUpon>
+    <Compile Include="GUI\AssessmentUi.Designer.cs">
+      <DependentUpon>AssessmentUi.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Forms\Score Sheet.cs">
+    <Compile Include="GUI\ScoreSheetUi.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\Forms\Score Sheet.Designer.cs">
-      <DependentUpon>Score Sheet.cs</DependentUpon>
+    <Compile Include="GUI\ScoreSheetUi.Designer.cs">
+      <DependentUpon>ScoreSheetUi.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Forms\UI.cs">
+    <Compile Include="GUI\HomeUi.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\Forms\UI.Designer.cs">
-      <DependentUpon>UI.cs</DependentUpon>
+    <Compile Include="GUI\HomeUi.Designer.cs">
+      <DependentUpon>HomeUi.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -128,23 +128,23 @@
     <Compile Include="Util\AppDataManager.cs" />
     <Compile Include="Util\DialogManager.cs" />
     <Compile Include="Util\RowManager.cs" />
-    <EmbeddedResource Include="GUI\Dialogs\About.resx">
-      <DependentUpon>About.cs</DependentUpon>
+    <EmbeddedResource Include="GUI\AboutUi.resx">
+      <DependentUpon>AboutUi.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Forms\Exam Properties.resx">
-      <DependentUpon>Exam Properties.cs</DependentUpon>
+    <EmbeddedResource Include="GUI\ExamPropertiesUi.resx">
+      <DependentUpon>ExamPropertiesUi.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Forms\Exam Settings.resx">
-      <DependentUpon>Exam Settings.cs</DependentUpon>
+    <EmbeddedResource Include="GUI\ExamSettingsUi.resx">
+      <DependentUpon>ExamSettingsUi.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Forms\Exam UI.resx">
-      <DependentUpon>Exam UI.cs</DependentUpon>
+    <EmbeddedResource Include="GUI\AssessmentUi.resx">
+      <DependentUpon>AssessmentUi.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Forms\Score Sheet.resx">
-      <DependentUpon>Score Sheet.cs</DependentUpon>
+    <EmbeddedResource Include="GUI\ScoreSheetUi.resx">
+      <DependentUpon>ScoreSheetUi.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Forms\UI.resx">
-      <DependentUpon>UI.cs</DependentUpon>
+    <EmbeddedResource Include="GUI\HomeUi.resx">
+      <DependentUpon>HomeUi.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -202,6 +202,10 @@
     <ProjectReference Include="..\..\lib\Shared\Shared.csproj">
       <Project>{3fac1a95-feac-4e9a-92c8-1d0c48815e32}</Project>
       <Name>Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\lib\Storage\Storage.csproj">
+      <Project>{4c8bda0f-8194-4cea-9571-56c18d681bc9}</Project>
+      <Name>Storage</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

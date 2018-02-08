@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
-using Creator.GUI.Forms;
+using Creator.GUI;
 
 namespace Creator
 {
@@ -14,7 +14,7 @@ namespace Creator
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new UI());
+            Application.Run(new HomeUi());
         }
     }
 }
