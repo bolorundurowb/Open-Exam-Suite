@@ -30,6 +30,12 @@ namespace Storage.Services
             using (var db = new LiteDatabase(_database))
             {
                 var collection = db.GetCollection<AppSetting>(GetTableNameFromType(type));
+                var record = collection.FindOne(x => x.FilePath == settings.FilePath);
+                if (record != null)
+                {
+                    return;
+                }
+
                 collection.Insert(settings);
             }
         }
