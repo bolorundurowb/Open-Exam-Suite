@@ -36,6 +36,10 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.trv_view_exam = new System.Windows.Forms.TreeView();
             this.imglst_node_images = new System.Windows.Forms.ImageList(this.components);
+            this.pan_splash = new System.Windows.Forms.Panel();
+            this.grp_exam_history = new System.Windows.Forms.GroupBox();
+            this.lnkClearHistory = new System.Windows.Forms.LinkLabel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pan_display_questions = new System.Windows.Forms.Panel();
             this.chkMulipleChoice = new System.Windows.Forms.CheckBox();
             this.pct_image = new System.Windows.Forms.PictureBox();
@@ -49,10 +53,6 @@
             this.txt_question_text = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.lbl_section_question = new System.Windows.Forms.Label();
-            this.pan_splash = new System.Windows.Forms.Panel();
-            this.grp_exam_history = new System.Windows.Forms.GroupBox();
-            this.lnkClearHistory = new System.Windows.Forms.LinkLabel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pan_exam_properties = new System.Windows.Forms.Panel();
             this.label10 = new System.Windows.Forms.Label();
             this.btn_save_properties = new System.Windows.Forms.Button();
@@ -127,11 +127,11 @@
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            this.pan_display_questions.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pct_image)).BeginInit();
             this.pan_splash.SuspendLayout();
             this.grp_exam_history.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.pan_display_questions.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pct_image)).BeginInit();
             this.pan_exam_properties.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_time_limit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_passmark)).BeginInit();
@@ -166,7 +166,7 @@
             // 
             // splitContainer2.Panel2
             // 
-            this.splitContainer2.Panel2.Controls.Add(this.pan_display_questions);
+            this.splitContainer2.Panel2.Controls.Add(this.pan_splash);
             this.splitContainer2.Size = new System.Drawing.Size(1206, 831);
             this.splitContainer2.SplitterDistance = 345;
             this.splitContainer2.SplitterWidth = 6;
@@ -209,6 +209,53 @@
             this.imglst_node_images.Images.SetKeyName(0, "Exam.png");
             this.imglst_node_images.Images.SetKeyName(1, "New_Section.png");
             this.imglst_node_images.Images.SetKeyName(2, "New_Question.png");
+            // 
+            // pan_splash
+            // 
+            this.pan_splash.Controls.Add(this.grp_exam_history);
+            this.pan_splash.Controls.Add(this.pictureBox1);
+            this.pan_splash.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pan_splash.Location = new System.Drawing.Point(0, 0);
+            this.pan_splash.Name = "pan_splash";
+            this.pan_splash.Size = new System.Drawing.Size(855, 831);
+            this.pan_splash.TabIndex = 0;
+            // 
+            // grp_exam_history
+            // 
+            this.grp_exam_history.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.grp_exam_history.Controls.Add(this.lnkClearHistory);
+            this.grp_exam_history.Location = new System.Drawing.Point(4, 301);
+            this.grp_exam_history.Name = "grp_exam_history";
+            this.grp_exam_history.Size = new System.Drawing.Size(848, 527);
+            this.grp_exam_history.TabIndex = 1;
+            this.grp_exam_history.TabStop = false;
+            this.grp_exam_history.Text = "Exam History";
+            // 
+            // lnkClearHistory
+            // 
+            this.lnkClearHistory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lnkClearHistory.AutoSize = true;
+            this.lnkClearHistory.Location = new System.Drawing.Point(740, 22);
+            this.lnkClearHistory.Name = "lnkClearHistory";
+            this.lnkClearHistory.Size = new System.Drawing.Size(99, 20);
+            this.lnkClearHistory.TabIndex = 0;
+            this.lnkClearHistory.TabStop = true;
+            this.lnkClearHistory.Text = "Clear History";
+            this.lnkClearHistory.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.ClearExamHistory);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox1.Image = global::Creator.Properties.Resources.splash;
+            this.pictureBox1.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(849, 290);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
             // 
             // pan_display_questions
             // 
@@ -383,53 +430,6 @@
             this.lbl_section_question.Name = "lbl_section_question";
             this.lbl_section_question.Size = new System.Drawing.Size(0, 22);
             this.lbl_section_question.TabIndex = 0;
-            // 
-            // pan_splash
-            // 
-            this.pan_splash.Controls.Add(this.grp_exam_history);
-            this.pan_splash.Controls.Add(this.pictureBox1);
-            this.pan_splash.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pan_splash.Location = new System.Drawing.Point(0, 0);
-            this.pan_splash.Name = "pan_splash";
-            this.pan_splash.Size = new System.Drawing.Size(570, 502);
-            this.pan_splash.TabIndex = 0;
-            // 
-            // grp_exam_history
-            // 
-            this.grp_exam_history.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.grp_exam_history.Controls.Add(this.lnkClearHistory);
-            this.grp_exam_history.Location = new System.Drawing.Point(4, 236);
-            this.grp_exam_history.Name = "grp_exam_history";
-            this.grp_exam_history.Size = new System.Drawing.Size(563, 263);
-            this.grp_exam_history.TabIndex = 1;
-            this.grp_exam_history.TabStop = false;
-            this.grp_exam_history.Text = "Exam History";
-            // 
-            // lnkClearHistory
-            // 
-            this.lnkClearHistory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lnkClearHistory.AutoSize = true;
-            this.lnkClearHistory.Location = new System.Drawing.Point(491, 13);
-            this.lnkClearHistory.Name = "lnkClearHistory";
-            this.lnkClearHistory.Size = new System.Drawing.Size(99, 20);
-            this.lnkClearHistory.TabIndex = 0;
-            this.lnkClearHistory.TabStop = true;
-            this.lnkClearHistory.Text = "Clear History";
-            this.lnkClearHistory.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.ClearExamHistory);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox1.Image = global::Creator.Properties.Resources.splash;
-            this.pictureBox1.Location = new System.Drawing.Point(3, 3);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(564, 227);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
             // 
             // pan_exam_properties
             // 
@@ -1119,13 +1119,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
-            this.pan_display_questions.ResumeLayout(false);
-            this.pan_display_questions.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pct_image)).EndInit();
             this.pan_splash.ResumeLayout(false);
             this.grp_exam_history.ResumeLayout(false);
             this.grp_exam_history.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.pan_display_questions.ResumeLayout(false);
+            this.pan_display_questions.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pct_image)).EndInit();
             this.pan_exam_properties.ResumeLayout(false);
             this.pan_exam_properties.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_time_limit)).EndInit();
