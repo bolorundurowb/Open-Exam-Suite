@@ -212,6 +212,7 @@
             // 
             // pan_display_questions
             // 
+            this.pan_display_questions.AutoScroll = true;
             this.pan_display_questions.Controls.Add(this.chkMulipleChoice);
             this.pan_display_questions.Controls.Add(this.pct_image);
             this.pan_display_questions.Controls.Add(this.btn_clear_image);
