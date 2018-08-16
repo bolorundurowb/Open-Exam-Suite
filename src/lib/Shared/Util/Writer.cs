@@ -3,10 +3,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml.Serialization;
-using MigraDoc.DocumentObjectModel;
-using MigraDoc.Rendering;
 using Newtonsoft.Json;
-using PdfSharp.Pdf;
 
 namespace Shared.Util
 {
@@ -43,14 +40,7 @@ namespace Shared.Util
         {
             try
             {
-                Document document = Pdf.CreateDocument(exam);
-                document.UseCmykColor = true;
-                PdfDocumentRenderer pdfDocumentRenderer = new PdfDocumentRenderer(true, PdfFontEmbedding.Always)
-                {
-                    Document = document
-                };
-                pdfDocumentRenderer.RenderDocument();
-                pdfDocumentRenderer.PdfDocument.Save(filePath);
+                
                 return true;
             }
             catch (Exception)

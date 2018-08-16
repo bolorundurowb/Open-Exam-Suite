@@ -1074,7 +1074,7 @@ namespace Creator.GUI
             }
         }
 
-        private void UIFormClosing(object sender, FormClosingEventArgs e)
+        private void UiFormClosing(object sender, FormClosingEventArgs e)
         {
             if (IsDirty)
             {
