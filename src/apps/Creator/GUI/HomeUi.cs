@@ -1022,9 +1022,9 @@ namespace Creator.GUI
                     new PointF(leftMargin, yPos));
                 yPos += subHeadFont.GetHeight(e.Graphics);
 
-                for (var i = 0; i < txt_question_text.Lines.Length; i++)
+                foreach (var line in txt_question_text.Lines)
                 {
-                    e.Graphics.DrawString(txt_question_text.Lines[i], normFont, Brushes.Black,
+                    e.Graphics.DrawString(line, normFont, Brushes.Black,
                         new RectangleF(leftMargin, yPos, e.MarginBounds.Width + 60, 150),
                         StringFormat.GenericTypographic);
                     yPos += subHeadFont.GetHeight(e.Graphics);
@@ -1080,16 +1080,14 @@ namespace Creator.GUI
 
         private void UiFormClosing(object sender, FormClosingEventArgs e)
         {
-            if (IsDirty)
-            {
-                var result = MessageBox.Show("The current exam has not been saved, do you want to save and close?",
-                    "Unsaved Changes",
-                    MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
-                if (result == DialogResult.Cancel)
-                    e.Cancel = true;
-                else if (result == DialogResult.Yes)
-                    Save(sender, e);
-            }
+            if (!IsDirty) return;
+            var result = MessageBox.Show("The current exam has not been saved, do you want to save and close?",
+                "Unsaved Changes",
+                MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+            if (result == DialogResult.Cancel)
+                e.Cancel = true;
+            else if (result == DialogResult.Yes)
+                Save(sender, e);
         }
 
         private void LoadExamHistory()
@@ -1120,7 +1118,7 @@ namespace Creator.GUI
             }
         }
 
-        void ExamLinkClick(object sender, EventArgs e)
+        private void ExamLinkClick(object sender, EventArgs e)
         {
             if (File.Exists(((LinkLabel) sender).Text))
             {
@@ -1141,7 +1139,7 @@ namespace Creator.GUI
             }
         }
 
-        private void LoadUI(object sender, EventArgs e)
+        private void LoadUi(object sender, EventArgs e)
         {
             LoadExamHistory();
         }
@@ -1174,13 +1172,10 @@ namespace Creator.GUI
         private void EditSection(object sender, EventArgs e)
         {
             var sectionNode = (SectionNode) trv_view_exam.SelectedNode;
-            //
             var editSection = new EditSection(sectionNode.Title);
             editSection.ShowDialog();
-            //
             sectionNode.Title = editSection.Title;
             sectionNode.Text = editSection.Title;
-            //
             IsDirty = true;
         }
 
@@ -1192,12 +1187,12 @@ namespace Creator.GUI
         private void QuestionChanged(object sender, EventArgs e)
         {
             IsDirty = true;
-            //
+            
             var obj = new ChangeRepresentationObject
             {
                 Action = ActionType.Modify
             };
-            //
+            
             var question = new Question
             {
                 IsMultipleChoice = chkMulipleChoice.Checked
@@ -1210,7 +1205,7 @@ namespace Creator.GUI
             else
             {
                 var answerCtrl = pan_options.Controls.OfType<OptionControl>().FirstOrDefault(s => s.Checked);
-                question.Answer = answerCtrl == null ? '\0' : answerCtrl.Letter;
+                question.Answer = answerCtrl?.Letter ?? '\0';
             }
 
             question.Explanation = txt_explanation.Text;

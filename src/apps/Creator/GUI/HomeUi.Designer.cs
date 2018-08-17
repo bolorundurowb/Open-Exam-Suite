@@ -1113,7 +1113,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Creator";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.UiFormClosing);
-            this.Shown += new System.EventHandler(this.LoadUI);
+            this.Shown += new System.EventHandler(this.LoadUi);
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();

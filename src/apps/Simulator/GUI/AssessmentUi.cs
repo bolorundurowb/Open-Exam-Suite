@@ -343,7 +343,7 @@ namespace Simulator.GUI
         }
     }
 
-    enum NavOption
+    internal enum NavOption
     {
         Begin,
         Next,

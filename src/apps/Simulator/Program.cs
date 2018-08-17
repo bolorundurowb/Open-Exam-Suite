@@ -5,13 +5,13 @@ using Simulator.GUI;
 
 namespace Simulator
 {
-    static class Program
+    internal static class Program
     {
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -26,7 +26,7 @@ namespace Simulator
             }
         }
 
-        static string GetGuid ()
+        private static string GetGuid ()
         {
             var assemblyGuid = Guid.Empty;
             var assemblyObjects = System.Reflection.Assembly.GetEntryAssembly().GetCustomAttributes(typeof(System.Runtime.InteropServices.GuidAttribute), true);
