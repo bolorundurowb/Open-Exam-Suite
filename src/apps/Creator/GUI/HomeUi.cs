@@ -1102,7 +1102,7 @@ namespace Creator.GUI
             var appSettingsService = AppSettingsService.Instance;
             var settings = appSettingsService.GetAll(AppSettingsType.Creator);
             var appSettings = settings as AppSetting[] ?? settings.ToArray();
-            for (int j = 0; j < appSettings.Length; j++)
+            for (var j = 0; j < appSettings.Length; j++)
             {
                 var examLink = new LinkLabel
                 {

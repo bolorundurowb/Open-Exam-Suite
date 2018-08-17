@@ -12,7 +12,7 @@ namespace Shared
         {
             get
             {
-                int numOfQuestions = 0;
+                var numOfQuestions = 0;
                 foreach (var section in this.Sections)
                     numOfQuestions += section.Questions.Count;
                 return numOfQuestions;
@@ -32,25 +32,24 @@ namespace Shared
         //Methods
         public void AddSection(string sectionName)
         {
-            Section section = Sections.FirstOrDefault(s => s.Title == sectionName);
+            var section = Sections.FirstOrDefault(s => s.Title == sectionName);
             if (section == null)
             {
-                section = new Section();
-                section.Title = sectionName;
+                section = new Section {Title = sectionName};
                 Sections.Add(section);
             }
         }
 
         public void RemoveSection(string sectionName)
         {
-            Section section = Sections.FirstOrDefault(s => s.Title == sectionName);
+            var section = Sections.FirstOrDefault(s => s.Title == sectionName);
             if (section != null)
                 Sections.Remove(section);
         }
 
         public void AddQuestion(string sectionName, Question question)
         {
-            Section section = Sections.FirstOrDefault(s => s.Title == sectionName);
+            var section = Sections.FirstOrDefault(s => s.Title == sectionName);
             if (section == null)
             {
                 section = new Section();
@@ -68,11 +67,8 @@ namespace Shared
 
         public void RemoveQuestion(string sectionName, Question question)
         {
-            Section section = Sections.FirstOrDefault(s => s.Title == sectionName);
-            if (section != null)
-            {
-                section.Questions.Remove(question);
-            }
+            var section = Sections.FirstOrDefault(s => s.Title == sectionName);
+            section?.Questions.Remove(question);
         }
     }
 

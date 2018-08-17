@@ -22,7 +22,7 @@ namespace Shared.Util
             {
                 using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.None))
                 {
-                    Exam exam = (Exam) formatter.Deserialize(stream);
+                    var exam = (Exam) formatter.Deserialize(stream);
                     return exam;
                 }
             }
@@ -40,9 +40,9 @@ namespace Shared.Util
         public static Exam FromJsonFile(string filePath)
         {
             Exam exam;
-            using (StreamReader streamReader = new StreamReader(filePath))
+            using (var streamReader = new StreamReader(filePath))
             {
-                string jsonString = streamReader.ReadToEnd();
+                var jsonString = streamReader.ReadToEnd();
                 exam = JsonConvert.DeserializeObject<Exam>(jsonString);
             }
 
@@ -53,7 +53,7 @@ namespace Shared.Util
         {
             Exam exam;
             var xmlSerializer = new XmlSerializer(typeof(Exam));
-            using (StreamReader streamReader = new StreamReader(filePath))
+            using (var streamReader = new StreamReader(filePath))
             {
                 exam = (Exam) xmlSerializer.Deserialize(streamReader);
             }
