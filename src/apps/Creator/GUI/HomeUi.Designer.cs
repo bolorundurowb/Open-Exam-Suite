@@ -1112,7 +1112,7 @@
             this.Name = "HomeUi";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Creator";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.UIFormClosing);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.UiFormClosing);
             this.Shown += new System.EventHandler(this.LoadUI);
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);

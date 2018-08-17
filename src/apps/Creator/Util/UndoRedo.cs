@@ -18,7 +18,7 @@ namespace Creator.Util
         public ChangeRepresentationObject Redo()
         {
             if (RedoCollection.Count == 0) return null;
-            ChangeRepresentationObject redoObject = RedoCollection.Pop();
+            var redoObject = RedoCollection.Pop();
             UndoCollection.Push(redoObject);
             return redoObject;
         }
@@ -26,7 +26,7 @@ namespace Creator.Util
         public ChangeRepresentationObject Undo()
         {
             if (UndoCollection.Count == 0) return null;
-            ChangeRepresentationObject undoObject = UndoCollection.Pop();
+            var undoObject = UndoCollection.Pop();
             RedoCollection.Push(undoObject);
             return undoObject;
         }

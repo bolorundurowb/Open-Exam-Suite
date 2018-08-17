@@ -134,6 +134,15 @@ namespace Creator.GUI
                 num_passmark.Value = (decimal) _exam.Properties.Passmark;
                 num_time_limit.Value = _exam.Properties.TimeLimit;
                 _undoRedo = new UndoRedo();
+
+                // add the opened exam to the exam history
+                var appSettingsService = AppSettingsService.Instance;
+                var settings = new AppSetting
+                {
+                    FilePath = _currentExamFile,
+                    Name = Path.GetFileNameWithoutExtension(_currentExamFile)
+                };
+                appSettingsService.Add(settings, AppSettingsType.Creator);
             }
             else
             {
@@ -598,7 +607,7 @@ namespace Creator.GUI
             {
                 if (txt_question_text.SelectionLength > 0)
                 {
-                    if (MessageBox.Show("Do you want to paste over current selection?", "Confirmation",
+                    if (MessageBox.Show(@"Do you want to paste over current selection?", @"Confirmation",
                             MessageBoxButtons.YesNo) == DialogResult.No)
                         txt_question_text.SelectionStart =
                             txt_question_text.SelectionStart + txt_question_text.SelectionLength;
@@ -671,7 +680,7 @@ namespace Creator.GUI
                 txt_explanation.Text = question.Explanation;
                 txt_question_text.Text = question.Text;
                 lbl_section_question.Text =
-                    "Section: " + trv_view_exam.SelectedNode.Parent.Text + " Question " + question.No;
+                    @"Section: " + trv_view_exam.SelectedNode.Parent.Text + @" Question " + question.No;
                 pct_image.Image = question.Image;
                 chkMulipleChoice.Checked = question.IsMultipleChoice;
                 pan_options.Controls.Clear();
@@ -736,8 +745,10 @@ namespace Creator.GUI
             txt_question_text.Clear();
             txt_explanation.Clear();
             pct_image.Image = null;
+            
             // Clear all the options
             pan_options.Controls.Clear();
+            
             // Remove test in the text boxes
             txt_code.Clear();
             txt_instruction.Clear();
@@ -869,16 +880,13 @@ namespace Creator.GUI
             _exam = null;
             _undoRedo = null;
             IsDirty = false;
-            //
+            
             LoadExamHistory();
         }
 
         private void OptionsChanged(object sender, ControlEventArgs e)
         {
-            if (pan_options.Controls.Count > 0)
-                btn_remove_option.Enabled = true;
-            else
-                btn_remove_option.Enabled = false;
+            btn_remove_option.Enabled = pan_options.Controls.Count > 0;
         }
 
         private void InsertImage(object sender, EventArgs e)
@@ -889,14 +897,12 @@ namespace Creator.GUI
                 pct_image.ImageLocation = ofd_select_image.FileName;
             }
 
-            //
             QuestionChanged(sender, e);
         }
 
         private void ClearImage(object sender, EventArgs e)
         {
             pct_image.Image = null;
-            //
             QuestionChanged(sender, e);
         }
 
@@ -913,7 +919,6 @@ namespace Creator.GUI
                     .ElementAt(pan_options.Controls.OfType<OptionControl>().Count() - 1));
             }
 
-            //
             QuestionChanged(sender, e);
         }
 
@@ -972,13 +977,12 @@ namespace Creator.GUI
                     }
                 }
 
-                //
                 QuestionChanged(sender, e);
             }
             catch (Exception)
             {
                 MessageBox.Show(
-                    "Sorry, you cannot mix option types. First remove the existing options then replace them.", "Error",
+                    @"Sorry, you cannot mix option types. First remove the existing options then replace them.", "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -1074,7 +1078,7 @@ namespace Creator.GUI
             }
         }
 
-        private void UIFormClosing(object sender, FormClosingEventArgs e)
+        private void UiFormClosing(object sender, FormClosingEventArgs e)
         {
             if (IsDirty)
             {
@@ -1102,7 +1106,7 @@ namespace Creator.GUI
             var appSettingsService = AppSettingsService.Instance;
             var settings = appSettingsService.GetAll(AppSettingsType.Creator);
             var appSettings = settings as AppSetting[] ?? settings.ToArray();
-            for (int j = 0; j < appSettings.Length; j++)
+            for (var j = 0; j < appSettings.Length; j++)
             {
                 var examLink = new LinkLabel
                 {
