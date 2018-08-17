@@ -3,6 +3,8 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml.Serialization;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 using Newtonsoft.Json;
 
 namespace Shared.Util
@@ -38,15 +40,37 @@ namespace Shared.Util
         
         public static bool ToPdf(Exam exam, string filePath)
         {
+            FileStream fs = null;
+            Document doc = null;
+            PdfWriter writer = null;
+
             try
             {
+                fs = new FileStream(filePath, FileMode.OpenOrCreate);
+                doc = new Document(PageSize.A4, 25, 25, 30, 30);
+                writer = PdfWriter.GetInstance(doc, fs);
                 
-                return true;
+                doc.AddCreationDate();
+                doc.AddCreator("Open Exam Suite");
+                doc.AddSubject(exam.Properties.Code);
+                doc.AddTitle(exam.Properties.Title);
+                
+                doc.Open();
+                doc.Add(new Paragraph(exam.Properties.Title));
+
+                doc.Close();
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return false;
             }
+            finally
+            {
+                writer?.Close();
+                fs?.Close();
+            }
+
+            return true;
         }
 
         public static bool ToJson(Exam exam, string filePath)
