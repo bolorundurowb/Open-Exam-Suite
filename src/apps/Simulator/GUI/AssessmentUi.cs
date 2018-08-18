@@ -23,6 +23,7 @@ namespace Simulator.GUI
             InitializeComponent();
             _exam = exam;
             _settings = settings;
+            // convert to seconds
             _timeLeft = settings.TimeLimit * 60;
             _userAnswers = new object[_exam.NumberOfQuestions];
         }
@@ -59,21 +60,19 @@ namespace Simulator.GUI
             lbl_question_number.Visible = true;
             lbl_section_title.Visible = true;
             lbl_elapsed_time.Visible = true;
-            //
+            
             lbl_exam_code.Visible = false;
             lbl_exam_instructions.Visible = false;
             lbl_exam_title.Visible = false;
-            //
             btn_begin.Visible = false;
-            //
+            
             btn_end.Visible = true;
             btn_next.Visible = true;
             btn_pause.Visible = true;
             btn_previous.Visible = true;
             btn_show_answer.Visible = true;
-            //
             pct_image.Visible = true;
-            //
+            
             txt_question.Visible = true;
         }
 
@@ -109,7 +108,7 @@ namespace Simulator.GUI
         private void NavigateExam(NavOption option)
         {
             lbl_explanation.Visible = false;
-            //
+            
             if (option == NavOption.Begin)
             {
                 if(_settings.Questions.Count > 0)
@@ -117,7 +116,7 @@ namespace Simulator.GUI
                     _currentQuestionIndex = 0;
                     PrintQuestionToScreen();
                 }
-                //
+                
                 if(_settings.Questions.Count > 1)
                 {
                     btn_next.Enabled = true;
@@ -127,14 +126,14 @@ namespace Simulator.GUI
             {
                 //Save current answer
                 _userAnswers[_currentQuestionIndex] = SelectedAnswer();
-                //
+                
                 RemoveOptions();
-                //
+                
                 _currentQuestionIndex++;
                 PrintQuestionToScreen();
-                //
+                
                 btn_previous.Enabled = true;
-                //
+                
                 if (_currentQuestionIndex == _settings.Questions.Count - 1)
                     btn_next.Enabled = false;
             }
@@ -142,14 +141,14 @@ namespace Simulator.GUI
             {
                 //Save current answer
                 _userAnswers[_currentQuestionIndex] = SelectedAnswer();
-                //
+                
                 RemoveOptions();
-                //
+                
                 _currentQuestionIndex--;
                 PrintQuestionToScreen();
-                //
+                
                 btn_next.Enabled = true;
-                //
+                
                 if (_currentQuestionIndex == 0)
                     btn_previous.Enabled = false;
             }
@@ -157,9 +156,9 @@ namespace Simulator.GUI
             {
                 //Save current answer
                 _userAnswers[_currentQuestionIndex] = SelectedAnswer();
-                //
+                
                 _settings.ElapsedTime = TimeSpan.FromSeconds(_exam.Properties.TimeLimit * 60 - _timeLeft);
-                //
+                
                 var numOfCorrectAnswers = 0;
                 for(var i = 0; i < _settings.Questions.Count; i++)
                 {
@@ -176,7 +175,7 @@ namespace Simulator.GUI
                     }
                 }
                 _settings.NumberOfCorrectAnswers = numOfCorrectAnswers;
-                //
+                
                 foreach(var section in _settings.Sections)
                 {
                     var numOfQuestions = 0;
@@ -201,7 +200,7 @@ namespace Simulator.GUI
                     }
                     _settings.ResultSpread.Add(new Tuple<string, int, int>(section.Title, numOfQuestions, numOfCorrect));
                 }
-                //
+                
                 var ss = new ScoreSheetUi(_settings, _exam);
                 Hide();
                 ss.ShowDialog();
@@ -305,7 +304,7 @@ namespace Simulator.GUI
         private void ShowAnswer(object sender, EventArgs e)
         {
             lbl_explanation.Visible = true;
-            //
+            
             var chks = pan_display.Controls.OfType<CheckBox>();
             if (chks.Count() > 0)
             {
