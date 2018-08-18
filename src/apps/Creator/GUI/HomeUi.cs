@@ -1022,9 +1022,9 @@ namespace Creator.GUI
                     new PointF(leftMargin, yPos));
                 yPos += subHeadFont.GetHeight(e.Graphics);
 
-                for (var i = 0; i < txt_question_text.Lines.Length; i++)
+                foreach (var line in txt_question_text.Lines)
                 {
-                    e.Graphics.DrawString(txt_question_text.Lines[i], normFont, Brushes.Black,
+                    e.Graphics.DrawString(line, normFont, Brushes.Black,
                         new RectangleF(leftMargin, yPos, e.MarginBounds.Width + 60, 150),
                         StringFormat.GenericTypographic);
                     yPos += subHeadFont.GetHeight(e.Graphics);
@@ -1049,8 +1049,6 @@ namespace Creator.GUI
             else if (_whatToPrint == PrintOption.CurrentSection)
             {
                 float yPos = e.MarginBounds.Top;
-                float leftMargin = e.MarginBounds.Left;
-                var normFont = new Font("Calibri", 12);
                 var subHeadFont = new Font("Calibri", 13F);
                 var headerFont = new Font("Cambria", 14, FontStyle.Bold);
 
@@ -1085,10 +1083,15 @@ namespace Creator.GUI
                 var result = MessageBox.Show("The current exam has not been saved, do you want to save and close?",
                     "Unsaved Changes",
                     MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
-                if (result == DialogResult.Cancel)
-                    e.Cancel = true;
-                else if (result == DialogResult.Yes)
-                    Save(sender, e);
+                switch (result)
+                {
+                    case DialogResult.Cancel:
+                        e.Cancel = true;
+                        break;
+                    case DialogResult.Yes:
+                        Save(sender, e);
+                        break;
+                }
             }
         }
 

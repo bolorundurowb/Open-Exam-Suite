@@ -30,7 +30,8 @@ namespace Simulator.GUI
             }
             else
             {
-                MessageBox.Show("Selected file is not an OES Exam File", "File Type Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Selected file is not an OES Exam File", "File Type Error", MessageBoxButtons.OK,
+                    MessageBoxIcon.Exclamation);
             }
         }
 
@@ -66,6 +67,7 @@ namespace Simulator.GUI
                 if (row.Cells[1].Value.ToString() == fileName)
                     exists = true;
             }
+
             return exists;
         }
 
