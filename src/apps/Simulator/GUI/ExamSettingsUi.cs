@@ -14,13 +14,13 @@ namespace Simulator.GUI
         public ExamSettingsUi(Exam exam)
         {
             InitializeComponent();
-            //
+
             _exam = exam;
-            //
+
             clb_section_options.Items.AddRange(_exam.Sections.ToArray());
-            //
+
             num_questions.Maximum = _exam.NumberOfQuestions;
-            //
+
             SelectAll(null, null);
         }
 
@@ -64,22 +64,22 @@ namespace Simulator.GUI
         {
             _settings = new Settings {CandidateName = txt_candidate_name.Text};
             if (chk_enable_timer.Checked)
-                _settings.TimeLimit = (int)num_time_limit.Value;
+                _settings.TimeLimit = (int) num_time_limit.Value;
             else
                 _settings.TimeLimit = _exam.Properties.TimeLimit;
-            //
+
             if (rdb_selected_sections.Checked)
             {
-                _settings.Sections = clb_section_options.CheckedItems.Cast<Section>().ToList(); 
+                _settings.Sections = clb_section_options.CheckedItems.Cast<Section>().ToList();
                 foreach (var section in _settings.Sections)
                     _settings.Questions.AddRange(section.Questions.ToArray());
             }
-            //
-            if(rdb_fixed_number_questions.Checked)
+
+            if (rdb_fixed_number_questions.Checked)
             {
-                var numOfQuestions = (int)num_questions.Value;
+                var numOfQuestions = (int) num_questions.Value;
                 var sum = 0;
-                foreach(var section in _exam.Sections)
+                foreach (var section in _exam.Sections)
                 {
                     if (sum + section.Questions.Count < numOfQuestions)
                     {
@@ -102,7 +102,15 @@ namespace Simulator.GUI
                     }
                 }
             }
-            //
+
+            if (_settings.Questions.Count == 0)
+            {
+                MessageBox.Show(
+                    "There are no questions to be displayed based on your selection. Please make a different selection.",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             var ui = new AssessmentUi(_exam, _settings);
             Hide();
             ui.ShowDialog();
