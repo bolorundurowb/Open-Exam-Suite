@@ -199,6 +199,10 @@
     </FileAssociation>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\solutions\Logging\Logging.csproj">
+      <Project>{b78656b9-3aee-4d84-989d-d9d610fb6861}</Project>
+      <Name>Logging</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\lib\Shared\Shared.csproj">
       <Project>{3fac1a95-feac-4e9a-92c8-1d0c48815e32}</Project>
       <Name>Shared</Name>
