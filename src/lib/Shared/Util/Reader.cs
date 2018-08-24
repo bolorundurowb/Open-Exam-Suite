@@ -26,8 +26,9 @@ namespace Shared.Util
                     return exam;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                
                 if (throwOnError)
                 {
                     throw;
