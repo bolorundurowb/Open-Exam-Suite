@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Printing;
@@ -8,6 +7,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Creator.GUI.Dialogs;
 using Creator.Util;
+using Logging;
 using Shared;
 using Shared.Controls;
 using Shared.Enums;
@@ -16,7 +16,6 @@ using Shared.Util;
 using Storage.Enums;
 using Storage.Models;
 using Storage.Services;
-using Settings = Creator.Properties.Settings;
 
 namespace Creator.GUI
 {
@@ -84,8 +83,9 @@ namespace Creator.GUI
                         return;
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    Logger.LogException(ex);
                     MessageBox.Show("Sorry, the XML file selected is invalid.", "Error", MessageBoxButtons.OK,
                         MessageBoxIcon.Error);
                     return;
@@ -865,7 +865,7 @@ namespace Creator.GUI
             ClearControls();
             trv_view_exam.Nodes.Clear();
             DisableAllControls();
-            //
+            
             if (splitContainer2.Panel2.Contains(pan_display_questions))
             {
                 splitContainer2.Panel2.Controls.Remove(pan_display_questions);
@@ -1177,13 +1177,13 @@ namespace Creator.GUI
         private void EditSection(object sender, EventArgs e)
         {
             var sectionNode = (SectionNode) trv_view_exam.SelectedNode;
-            //
+            
             var editSection = new EditSection(sectionNode.Title);
             editSection.ShowDialog();
-            //
+            
             sectionNode.Title = editSection.Title;
             sectionNode.Text = editSection.Title;
-            //
+            
             IsDirty = true;
         }
 
@@ -1195,12 +1195,12 @@ namespace Creator.GUI
         private void QuestionChanged(object sender, EventArgs e)
         {
             IsDirty = true;
-            //
+            
             var obj = new ChangeRepresentationObject
             {
                 Action = ActionType.Modify
             };
-            //
+            
             var question = new Question
             {
                 IsMultipleChoice = chkMulipleChoice.Checked
@@ -1298,6 +1298,7 @@ namespace Creator.GUI
                 FilterIndex = 1,
                 FileName = _exam.Properties.Title
             };
+
             if (sfdExportXml.ShowDialog() != DialogResult.OK) return;
             if (Writer.ToXml(_exam, sfdExportXml.FileName))
             {
@@ -1320,6 +1321,7 @@ namespace Creator.GUI
                 FilterIndex = 1,
                 FileName = _exam.Properties.Title
             };
+
             if (sfdExportPdf.ShowDialog() != DialogResult.OK)
             {
                 return;

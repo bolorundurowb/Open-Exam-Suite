@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Windows.Forms;
+using Logging;
 using Shared;
 using Shared.Util;
 using Simulator.Enums;
@@ -25,13 +26,17 @@ namespace Simulator.Util
                     InitilaizeExamProperties(exam, filePath);
                 }
             }
-            catch (FileNotFoundException)
+            catch (FileNotFoundException ex)
             {
+                Logger.LogException(ex);
+
                 MessageBox.Show("Sorry, the selected exam does not exist. It may have been moved or deleted.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 RowManager.RemoveRow(dataGridView);
             }
-            catch(NullReferenceException)
+            catch(NullReferenceException ex)
             {
+                Logger.LogException(ex);
+
                 MessageBox.Show("Sorry, the exam selected is either old or corrupt. If it is an old exam, please upgrade it with the upgrade tool at:\nhttps://sourceforge.net/projects/exam-upgrade-tool/", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 RowManager.RemoveRow(dataGridView);
             }

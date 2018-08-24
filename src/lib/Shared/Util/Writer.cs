@@ -6,6 +6,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml.Serialization;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
+using Logging;
 using Newtonsoft.Json;
 using Font = iTextSharp.text.Font;
 using Image = iTextSharp.text.Image;
@@ -30,8 +31,10 @@ namespace Shared.Util
                     return true;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger.LogException(ex);
+
                 if (throwOnError)
                 {
                     throw;
@@ -107,8 +110,10 @@ namespace Shared.Util
 
                 doc.Close();
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
+                Logger.LogException(ex);
+
                 return false;
             }
             finally
@@ -153,6 +158,7 @@ namespace Shared.Util
         private static byte[] BitmapToByteArray(Bitmap bitmap)
         {
             byte[] result = null;
+
             if (bitmap != null)
             {
                 using (var stream = new MemoryStream())

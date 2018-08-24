@@ -3,6 +3,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml.Serialization;
+using Logging;
 using Newtonsoft.Json;
 
 namespace Shared.Util
@@ -13,6 +14,7 @@ namespace Shared.Util
         {
             if (string.IsNullOrWhiteSpace(filePath))
                 throw new ArgumentException("Empty filepath");
+
             if (!File.Exists(filePath))
                 throw new FileNotFoundException("File specified does not exist");
 
@@ -26,8 +28,10 @@ namespace Shared.Util
                     return exam;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger.LogException(ex);
+
                 if (throwOnError)
                 {
                     throw;
