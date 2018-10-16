@@ -86,6 +86,8 @@ namespace Shared
         public int TimeLimit { get; set; }
 
         public string Instructions { get; set; }
+
+        public int NumberOfQuestionsToTake { get; set; }
     }
 
     [Serializable]
@@ -104,6 +106,8 @@ namespace Shared
         {
             return Title;
         }
+
+        public int NumberOfQuestionsToTake { get; set; }
     }
 
     [Serializable]

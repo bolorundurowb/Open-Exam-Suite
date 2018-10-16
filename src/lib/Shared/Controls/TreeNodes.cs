@@ -18,13 +18,15 @@ namespace Shared.Controls
     public class SectionNode : TreeNode
     {
         public string Title { get; set; }
+        public int DefaultNumberOfQuestions { get; set; }
 
-        public SectionNode(string title)
+        public SectionNode(string title, int defaultNumberOfQuestions)
         {
             this.Text = title;
             this.Title = title;
             this.ImageIndex = 1;
             this.SelectedImageIndex = 1;
+            this.DefaultNumberOfQuestions = defaultNumberOfQuestions;
         }
     }
 

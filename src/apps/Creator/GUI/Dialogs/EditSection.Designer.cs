@@ -31,6 +31,9 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txt_title = new System.Windows.Forms.TextBox();
             this.btn_add_section = new System.Windows.Forms.Button();
+            this.num_numberOfQuestions = new System.Windows.Forms.NumericUpDown();
+            this.label2 = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.num_numberOfQuestions)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -61,12 +64,35 @@
             this.btn_add_section.UseVisualStyleBackColor = true;
             this.btn_add_section.Click += new System.EventHandler(this.btn_add_section_Click);
             // 
+            // num_numberOfQuestions
+            // 
+            this.num_numberOfQuestions.Location = new System.Drawing.Point(154, 35);
+            this.num_numberOfQuestions.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.num_numberOfQuestions.Name = "num_numberOfQuestions";
+            this.num_numberOfQuestions.Size = new System.Drawing.Size(117, 20);
+            this.num_numberOfQuestions.TabIndex = 6;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 37);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(142, 13);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "Default number of questions:";
+            // 
             // EditSection
             // 
             this.AcceptButton = this.btn_add_section;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(340, 37);
+            this.ClientSize = new System.Drawing.Size(340, 65);
+            this.Controls.Add(this.num_numberOfQuestions);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.btn_add_section);
             this.Controls.Add(this.txt_title);
             this.Controls.Add(this.label1);
@@ -77,6 +103,7 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Edit Section";
+            ((System.ComponentModel.ISupportInitialize)(this.num_numberOfQuestions)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -87,5 +114,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txt_title;
         private System.Windows.Forms.Button btn_add_section;
+        private System.Windows.Forms.NumericUpDown num_numberOfQuestions;
+        private System.Windows.Forms.Label label2;
     }
 }

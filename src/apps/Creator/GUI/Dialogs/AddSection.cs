@@ -7,6 +7,8 @@ namespace Creator.GUI.Dialogs
     {
         public string Title => txt_title.Text;
 
+        public int DefaultNumberOfQuestions => (int)num_numberOfQuestions.Value;
+
         public AddSection()
         {
             InitializeComponent();

@@ -32,7 +32,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txt_candidate_name = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.clb_section_options = new System.Windows.Forms.CheckedListBox();
             this.num_questions = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
             this.btn_deselect_all = new System.Windows.Forms.Button();
@@ -46,6 +45,7 @@
             this.chk_enable_timer = new System.Windows.Forms.CheckBox();
             this.btn_ok = new System.Windows.Forms.Button();
             this.btn_cancel = new System.Windows.Forms.Button();
+            this.pan_sectionSelection = new System.Windows.Forms.Panel();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_questions)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -71,7 +71,7 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.clb_section_options);
+            this.groupBox1.Controls.Add(this.pan_sectionSelection);
             this.groupBox1.Controls.Add(this.num_questions);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.btn_deselect_all);
@@ -84,17 +84,6 @@
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Exam";
-            // 
-            // clb_section_options
-            // 
-            this.clb_section_options.BackColor = System.Drawing.SystemColors.Control;
-            this.clb_section_options.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.clb_section_options.CheckOnClick = true;
-            this.clb_section_options.FormattingEnabled = true;
-            this.clb_section_options.Location = new System.Drawing.Point(38, 51);
-            this.clb_section_options.Name = "clb_section_options";
-            this.clb_section_options.Size = new System.Drawing.Size(452, 167);
-            this.clb_section_options.TabIndex = 7;
             // 
             // num_questions
             // 
@@ -249,7 +238,15 @@
             this.btn_cancel.UseVisualStyleBackColor = true;
             this.btn_cancel.Click += new System.EventHandler(this.Close);
             // 
-            // Exam_Settings
+            // pan_sectionSelection
+            // 
+            this.pan_sectionSelection.AutoScroll = true;
+            this.pan_sectionSelection.Location = new System.Drawing.Point(38, 51);
+            this.pan_sectionSelection.Name = "pan_sectionSelection";
+            this.pan_sectionSelection.Size = new System.Drawing.Size(471, 151);
+            this.pan_sectionSelection.TabIndex = 8;
+            // 
+            // ExamSettingsUi
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -265,7 +262,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "ExamSettings";
+            this.Name = "ExamSettingsUi";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Settings";
@@ -298,6 +295,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.NumericUpDown num_questions;
         private System.Windows.Forms.NumericUpDown num_time_limit;
-        private System.Windows.Forms.CheckedListBox clb_section_options;
+        private System.Windows.Forms.Panel pan_sectionSelection;
     }
 }

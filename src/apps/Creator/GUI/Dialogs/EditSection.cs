@@ -7,11 +7,14 @@ namespace Creator.GUI.Dialogs
     {
         public string Title => txt_title.Text;
 
-        public EditSection(string currentTitle)
+        public int DefaultNumberOfQuestions => (int)num_numberOfQuestions.Value;
+
+        public EditSection(string currentTitle, int defaultNumberOfQuestions)
         {
             InitializeComponent();
             txt_title.Text = currentTitle;
             txt_title.SelectAll();
+            num_numberOfQuestions.Value = defaultNumberOfQuestions;
         }
 
         private void btn_add_section_Click(object sender, EventArgs e)
