@@ -157,7 +157,14 @@ namespace Simulator.GUI
             {
                 //Save current answer
                 _userAnswers[_currentQuestionIndex] = SelectedAnswer();
-                
+                for (int i = 0; i < _userAnswers.Length; i++)
+                {
+                    if (_userAnswers[i] == null)
+                    {
+                        _userAnswers[i] = '\0';
+                    }
+                }
+
                 _settings.ElapsedTime = TimeSpan.FromSeconds(_exam.Properties.TimeLimit * 60 - _timeLeft);
                 
                 var numOfCorrectAnswers = 0;
