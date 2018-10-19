@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.ComponentModel;
+using System.Linq;
 
 namespace Shared.Controls
 {
@@ -39,6 +40,13 @@ namespace Shared.Controls
         private void rdb_letter_Click(object sender, EventArgs e)
         {
             rdb_letter.Checked = !rdb_letter.Checked;
+            if (((CheckBox)this.Parent.Parent.Controls.Find("chkMulipleChoice", false)[0]).Checked == false)
+            {
+                foreach (var rdb in this.Parent.Controls.OfType<OptionControl>().Where(x => !x.Equals(this)))
+                {
+                    rdb.Checked = false;
+                }
+            }
         }
     }
 }
