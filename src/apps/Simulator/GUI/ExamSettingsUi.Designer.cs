@@ -46,6 +46,7 @@
             this.chk_enable_timer = new System.Windows.Forms.CheckBox();
             this.btn_ok = new System.Windows.Forms.Button();
             this.btn_cancel = new System.Windows.Forms.Button();
+            this.chk_RandomizeAnswers = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_questions)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -71,6 +72,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.chk_RandomizeAnswers);
             this.groupBox1.Controls.Add(this.clb_section_options);
             this.groupBox1.Controls.Add(this.num_questions);
             this.groupBox1.Controls.Add(this.label4);
@@ -80,7 +82,7 @@
             this.groupBox1.Controls.Add(this.rdb_selected_sections);
             this.groupBox1.Location = new System.Drawing.Point(13, 42);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(515, 301);
+            this.groupBox1.Size = new System.Drawing.Size(515, 354);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Exam";
@@ -174,7 +176,7 @@
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Controls.Add(this.chk_enable_timer);
-            this.groupBox2.Location = new System.Drawing.Point(13, 350);
+            this.groupBox2.Location = new System.Drawing.Point(13, 402);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(515, 51);
             this.groupBox2.TabIndex = 3;
@@ -231,7 +233,7 @@
             // 
             // btn_ok
             // 
-            this.btn_ok.Location = new System.Drawing.Point(371, 412);
+            this.btn_ok.Location = new System.Drawing.Point(371, 464);
             this.btn_ok.Name = "btn_ok";
             this.btn_ok.Size = new System.Drawing.Size(75, 23);
             this.btn_ok.TabIndex = 4;
@@ -241,7 +243,7 @@
             // 
             // btn_cancel
             // 
-            this.btn_cancel.Location = new System.Drawing.Point(453, 412);
+            this.btn_cancel.Location = new System.Drawing.Point(453, 464);
             this.btn_cancel.Name = "btn_cancel";
             this.btn_cancel.Size = new System.Drawing.Size(75, 23);
             this.btn_cancel.TabIndex = 5;
@@ -249,11 +251,21 @@
             this.btn_cancel.UseVisualStyleBackColor = true;
             this.btn_cancel.Click += new System.EventHandler(this.Close);
             // 
-            // Exam_Settings
+            // chk_RandomizeAnswers
+            // 
+            this.chk_RandomizeAnswers.AutoSize = true;
+            this.chk_RandomizeAnswers.Location = new System.Drawing.Point(21, 331);
+            this.chk_RandomizeAnswers.Name = "chk_RandomizeAnswers";
+            this.chk_RandomizeAnswers.Size = new System.Drawing.Size(121, 17);
+            this.chk_RandomizeAnswers.TabIndex = 8;
+            this.chk_RandomizeAnswers.Text = "Randomize answers";
+            this.chk_RandomizeAnswers.UseVisualStyleBackColor = true;
+            // 
+            // ExamSettingsUi
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(540, 449);
+            this.ClientSize = new System.Drawing.Size(540, 499);
             this.Controls.Add(this.btn_cancel);
             this.Controls.Add(this.btn_ok);
             this.Controls.Add(this.groupBox2);
@@ -265,7 +277,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "ExamSettings";
+            this.Name = "ExamSettingsUi";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Settings";
@@ -299,5 +311,6 @@
         private System.Windows.Forms.NumericUpDown num_questions;
         private System.Windows.Forms.NumericUpDown num_time_limit;
         private System.Windows.Forms.CheckedListBox clb_section_options;
+        private System.Windows.Forms.CheckBox chk_RandomizeAnswers;
     }
 }
