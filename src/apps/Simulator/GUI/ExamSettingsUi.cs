@@ -90,13 +90,42 @@ namespace Simulator.GUI
 
         private void Proceed(object sender, EventArgs e)
         {
+            Exam tmp_exam;
+            if (chk_RandomizeAnswers.Checked)
+            {
+                Random rnd = new Random();
+                tmp_exam = new Exam(_exam);
+                for(int isec = 0; isec < tmp_exam.Sections.Count; isec++)
+                {
+                    for (int ique = 0; ique < tmp_exam.Sections[isec].Questions.Count; ique++)
+                    {
+                        tmp_exam.Sections[isec].Questions[ique].Options = tmp_exam.Sections[isec].Questions[ique].Options.OrderBy(x => rnd.Next()).ToList();
+                        char alphabet = 'A';
+                        char newAlphabet = '\0';
+                        for (int i = 0; i < tmp_exam.Sections[isec].Questions[ique].Options.Count; i++)
+                        {
+                            if(tmp_exam.Sections[isec].Questions[ique].Answer == tmp_exam.Sections[isec].Questions[ique].Options[i].Alphabet)
+                            {
+                                newAlphabet = alphabet;
+                            }
+                            tmp_exam.Sections[isec].Questions[ique].Options[i].Alphabet = alphabet++;
+                        }
+                        tmp_exam.Sections[isec].Questions[ique].Answer = newAlphabet;
+                    }
+                }
+            }
+            else
+            {
+                tmp_exam = _exam;
+            }
+
             _settings = new Settings {CandidateName = txt_candidate_name.Text};
             Random rnd = new Random();
 
             if (chk_enable_timer.Checked)
                 _settings.TimeLimit = (int) num_time_limit.Value;
             else
-                _settings.TimeLimit = _exam.Properties.TimeLimit;
+                _settings.TimeLimit = tmp_exam.Properties.TimeLimit;
 
             if (rdb_selected_sections.Checked)
             {
@@ -180,7 +209,7 @@ namespace Simulator.GUI
                 return;
             }
 
-            var ui = new AssessmentUi(_exam, _settings);
+            var ui = new AssessmentUi(tmp_exam, _settings);
             Hide();
             ui.ShowDialog();
             Close();
