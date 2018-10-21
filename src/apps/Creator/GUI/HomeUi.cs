@@ -105,7 +105,7 @@ namespace Creator.GUI
                 trv_view_exam.Nodes.Add(examNode);
                 foreach (var section in _exam.Sections)
                 {
-                    var sectionNode = new SectionNode(section.Title)
+                    var sectionNode = new SectionNode(section.Title, section.NumberOfQuestionsToTake)
                     {
                         ContextMenuStrip = cms_section
                     };
@@ -170,7 +170,8 @@ namespace Creator.GUI
                 {
                     var section = new Section
                     {
-                        Title = sectionNode.Title
+                        Title = sectionNode.Title,
+                        NumberOfQuestionsToTake = sectionNode.DefaultNumberOfQuestions
                     };
                     foreach (QuestionNode questionNode in sectionNode.Nodes)
                     {
@@ -322,7 +323,7 @@ namespace Creator.GUI
                         .FirstOrDefault(s => s.Title == undoObject.SectionTitle);
                     if (sectionNode == null)
                     {
-                        sectionNode = new SectionNode(undoObject.SectionTitle)
+                        sectionNode = new SectionNode(undoObject.SectionTitle, 0)
                         {
                             ContextMenuStrip = cms_section
                         };
@@ -422,7 +423,7 @@ namespace Creator.GUI
                         .FirstOrDefault(s => s.Title == redoObject.SectionTitle);
                     if (sectionNode == null)
                     {
-                        sectionNode = new SectionNode(redoObject.SectionTitle)
+                        sectionNode = new SectionNode(redoObject.SectionTitle, 0)
                         {
                             ContextMenuStrip = cms_section
                         };
@@ -541,7 +542,7 @@ namespace Creator.GUI
 
             if (!string.IsNullOrWhiteSpace(addSection.Title))
             {
-                var sectionNode = new SectionNode(addSection.Title)
+                var sectionNode = new SectionNode(addSection.Title, addSection.DefaultNumberOfQuestions)
                 {
                     ContextMenuStrip = cms_section
                 };
@@ -1178,11 +1179,12 @@ namespace Creator.GUI
         {
             var sectionNode = (SectionNode) trv_view_exam.SelectedNode;
             
-            var editSection = new EditSection(sectionNode.Title);
+            var editSection = new EditSection(sectionNode.Title, sectionNode.DefaultNumberOfQuestions);
             editSection.ShowDialog();
             
             sectionNode.Title = editSection.Title;
             sectionNode.Text = editSection.Title;
+            sectionNode.DefaultNumberOfQuestions = editSection.DefaultNumberOfQuestions;
             
             IsDirty = true;
         }
@@ -1347,5 +1349,6 @@ namespace Creator.GUI
             // re-render the history UI
             LoadExamHistory();
         }
+
     }
 }

@@ -17,14 +17,14 @@ namespace Shared.Models
 
         public int NumberOfCorrectAnswers { get; set; }
 
-        public List<Tuple<string, int, int>> ResultSpread { get; set; }
+        public List<Tuple<string, int, int, int>> ResultSpread { get; set; }
 
         public Settings()
         {
             Sections = new List<Section>();
             Questions = new List<Question>();
             CandidateName = string.Empty;
-            ResultSpread = new List<Tuple<string, int, int>>();
+            ResultSpread = new List<Tuple<string, int, int, int>>();
             TimeLimit = 0;
         }
     }

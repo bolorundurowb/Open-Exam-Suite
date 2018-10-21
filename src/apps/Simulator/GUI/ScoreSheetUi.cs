@@ -51,7 +51,7 @@ namespace Simulator.GUI
             
             foreach (var spread in _settings.ResultSpread)
             {
-                dgv_show_breakdown.Rows.Add(spread.Item1, spread.Item2, spread.Item3);
+                dgv_show_breakdown.Rows.Add(spread.Item1, spread.Item2, spread.Item3, spread.Item4);
             }
         }
 

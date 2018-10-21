@@ -29,6 +29,17 @@ namespace Shared
             Properties = new Properties();
         }
 
+        public Exam(Exam exam)
+        {
+            Sections = new List<Section>();
+            foreach (Section section in exam.Sections)
+            {
+                Sections.Add(new Section(section));
+            }
+            Properties = new Properties(exam.Properties);
+
+        }
+
         //Methods
         public void AddSection(string sectionName)
         {
@@ -86,6 +97,23 @@ namespace Shared
         public int TimeLimit { get; set; }
 
         public string Instructions { get; set; }
+
+        public int NumberOfQuestionsToTake { get; set; }
+
+        public Properties()
+        {
+
+        }
+
+        public Properties (Properties properties)
+        {
+            Title = properties.Title;
+            Code = properties.Code;
+            Version = properties.Version;
+            Passmark = properties.Passmark;
+            TimeLimit = properties.TimeLimit;
+            Instructions = properties.Instructions;
+        }
     }
 
     [Serializable]
@@ -100,10 +128,22 @@ namespace Shared
             Questions = new List<Question>();
         }
 
+        public Section(Section section)
+        {
+            Title = section.Title;
+            Questions = new List<Question>();
+            foreach(Question question in section.Questions)
+            {
+                Questions.Add(new Question(question));
+            }
+        }
+
         public override string ToString()
         {
             return Title;
         }
+
+        public int NumberOfQuestionsToTake { get; set; }
     }
 
     [Serializable]
@@ -129,6 +169,29 @@ namespace Shared
         {
             Options = new List<Option>();
         }
+
+        public Question (Question question)
+        {
+            No = question.No;
+            Text = question.Text;
+            if (question.Image != null)
+            {
+                Image = (Bitmap)question.Image.Clone();
+            }
+            Answer = question.Answer;
+            IsMultipleChoice = question.IsMultipleChoice;
+            if (question.Answers != null)
+            {
+                question.Answers.CopyTo(Answers, 0);
+            }
+            Options = new List<Option>();
+            foreach(Option option in question.Options)
+            {
+                Options.Add(new Option(option));
+            }
+            Explanation = question.Explanation;
+
+        }
     }
 
     [Serializable]
@@ -137,5 +200,13 @@ namespace Shared
         public char Alphabet { get; set; }
 
         public string Text { get; set; }
+
+        public Option() { }
+
+        public Option (Option option)
+        {
+            Alphabet = option.Alphabet;
+            Text = option.Text;
+        }
     }
 }

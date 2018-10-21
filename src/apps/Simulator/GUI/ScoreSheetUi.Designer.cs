@@ -46,9 +46,6 @@
             this.btn_exit = new System.Windows.Forms.Button();
             this.chr_display_score = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.dgv_show_breakdown = new System.Windows.Forms.DataGridView();
-            this.section = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.number = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.accuracy = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lbl_candidate_name = new System.Windows.Forms.Label();
             this.lbl_date = new System.Windows.Forms.Label();
             this.lbl_exam_number = new System.Windows.Forms.Label();
@@ -61,6 +58,10 @@
             this.btn_print_score = new System.Windows.Forms.Button();
             this.pnt_prv_dlg = new System.Windows.Forms.PrintPreviewDialog();
             this.pnt_doc = new System.Drawing.Printing.PrintDocument();
+            this.section = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.number = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.accuracy = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Score = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.chr_display_score)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_show_breakdown)).BeginInit();
             this.SuspendLayout();
@@ -129,7 +130,7 @@
             // btn_retake
             // 
             this.btn_retake.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btn_retake.Location = new System.Drawing.Point(23, 645);
+            this.btn_retake.Location = new System.Drawing.Point(23, 629);
             this.btn_retake.Name = "btn_retake";
             this.btn_retake.Size = new System.Drawing.Size(75, 23);
             this.btn_retake.TabIndex = 7;
@@ -140,7 +141,7 @@
             // btn_exit
             // 
             this.btn_exit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_exit.Location = new System.Drawing.Point(829, 645);
+            this.btn_exit.Location = new System.Drawing.Point(829, 629);
             this.btn_exit.Name = "btn_exit";
             this.btn_exit.Size = new System.Drawing.Size(75, 23);
             this.btn_exit.TabIndex = 9;
@@ -205,7 +206,8 @@
             this.dgv_show_breakdown.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.section,
             this.number,
-            this.accuracy});
+            this.accuracy,
+            this.Score});
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -214,35 +216,13 @@
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgv_show_breakdown.DefaultCellStyle = dataGridViewCellStyle2;
-            this.dgv_show_breakdown.Location = new System.Drawing.Point(206, 400);
+            this.dgv_show_breakdown.Location = new System.Drawing.Point(212, 379);
             this.dgv_show_breakdown.Name = "dgv_show_breakdown";
             this.dgv_show_breakdown.ReadOnly = true;
             this.dgv_show_breakdown.RowHeadersVisible = false;
             this.dgv_show_breakdown.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgv_show_breakdown.Size = new System.Drawing.Size(495, 228);
             this.dgv_show_breakdown.TabIndex = 11;
-            // 
-            // section
-            // 
-            this.section.HeaderText = "Section";
-            this.section.Name = "section";
-            this.section.ReadOnly = true;
-            this.section.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.section.Width = 345;
-            // 
-            // number
-            // 
-            this.number.HeaderText = "Number";
-            this.number.Name = "number";
-            this.number.ReadOnly = true;
-            this.number.Width = 75;
-            // 
-            // accuracy
-            // 
-            this.accuracy.HeaderText = "Correct";
-            this.accuracy.Name = "accuracy";
-            this.accuracy.ReadOnly = true;
-            this.accuracy.Width = 75;
             // 
             // lbl_candidate_name
             // 
@@ -331,7 +311,7 @@
             // btn_print_score
             // 
             this.btn_print_score.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btn_print_score.Location = new System.Drawing.Point(127, 645);
+            this.btn_print_score.Location = new System.Drawing.Point(127, 629);
             this.btn_print_score.Name = "btn_print_score";
             this.btn_print_score.Size = new System.Drawing.Size(75, 23);
             this.btn_print_score.TabIndex = 21;
@@ -355,7 +335,36 @@
             // 
             this.pnt_doc.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.Print);
             // 
-            // Score_Sheet
+            // section
+            // 
+            this.section.HeaderText = "Section";
+            this.section.Name = "section";
+            this.section.ReadOnly = true;
+            this.section.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.section.Width = 270;
+            // 
+            // number
+            // 
+            this.number.HeaderText = "Number";
+            this.number.Name = "number";
+            this.number.ReadOnly = true;
+            this.number.Width = 75;
+            // 
+            // accuracy
+            // 
+            this.accuracy.HeaderText = "Correct";
+            this.accuracy.Name = "accuracy";
+            this.accuracy.ReadOnly = true;
+            this.accuracy.Width = 75;
+            // 
+            // Score
+            // 
+            this.Score.HeaderText = "Score";
+            this.Score.Name = "Score";
+            this.Score.ReadOnly = true;
+            this.Score.Width = 75;
+            // 
+            // ScoreSheetUi
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -381,7 +390,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "ScoreSheet";
+            this.Name = "ScoreSheetUi";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Score Sheet";
@@ -420,5 +429,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn section;
         private System.Windows.Forms.DataGridViewTextBoxColumn number;
         private System.Windows.Forms.DataGridViewTextBoxColumn accuracy;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Score;
     }
 }

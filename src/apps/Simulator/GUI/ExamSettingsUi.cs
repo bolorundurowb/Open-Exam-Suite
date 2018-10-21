@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Shared;
 using Shared.Models;
+using System.Collections.Generic;
 
 namespace Simulator.GUI
 {
@@ -17,11 +18,30 @@ namespace Simulator.GUI
 
             _exam = exam;
 
-            clb_section_options.Items.AddRange(_exam.Sections.ToArray());
-
             num_questions.Maximum = _exam.NumberOfQuestions;
 
             SelectAll(null, null);
+
+            int ypos = 0;
+            foreach(var section in _exam.Sections)
+            {
+                CheckBox cbSection = new CheckBox();
+                cbSection.Name = "cbSection_" + section.Title.Replace(" ","");
+                cbSection.Checked = true;
+                cbSection.Text = section.Title;
+                cbSection.Width = 200;
+                cbSection.Location = new System.Drawing.Point(0, 24 * ypos);
+                pan_sectionSelection.Controls.Add(cbSection);
+
+                NumericUpDown numSectionQuestions = new NumericUpDown();
+                numSectionQuestions.Name = "numUD_" + section.Title.Replace(" ", "");
+                numSectionQuestions.Value = section.NumberOfQuestionsToTake;
+                numSectionQuestions.DecimalPlaces = 0;
+                numSectionQuestions.Location = new System.Drawing.Point(205, 24 * ypos);
+                pan_sectionSelection.Controls.Add(numSectionQuestions);
+
+                ypos++;
+            }
         }
 
         private void Close(object sender, EventArgs e)
@@ -41,44 +61,121 @@ namespace Simulator.GUI
 
         private void ChooseSections(object sender, EventArgs e)
         {
-            clb_section_options.Enabled = rdb_selected_sections.Checked;
+            pan_sectionSelection.Enabled = rdb_selected_sections.Checked;
         }
 
         private void SelectAll(object sender, EventArgs e)
         {
-            for (var i = 0; i < clb_section_options.Items.Count; i++)
+            foreach (var con in pan_sectionSelection.Controls)
             {
-                clb_section_options.SetItemChecked(i, true);
+                if (con.GetType() == typeof(CheckBox))
+                {
+                    CheckBox cb = (CheckBox)con;
+                    cb.Checked = true;
+                }
             }
         }
 
         private void DeselectAll(object sender, EventArgs e)
         {
-            for (var i = 0; i < clb_section_options.Items.Count; i++)
+            foreach(var con in pan_sectionSelection.Controls)
             {
-                clb_section_options.SetItemChecked(i, false);
+                if(con.GetType() == typeof(CheckBox))
+                {
+                    CheckBox cb = (CheckBox)con;
+                    cb.Checked = false;
+                }
             }
         }
 
         private void Proceed(object sender, EventArgs e)
         {
+            Exam tmp_exam;
+            if (chk_RandomizeAnswers.Checked)
+            {
+                Random rnd = new Random();
+                tmp_exam = new Exam(_exam);
+                for(int isec = 0; isec < tmp_exam.Sections.Count; isec++)
+                {
+                    for (int ique = 0; ique < tmp_exam.Sections[isec].Questions.Count; ique++)
+                    {
+                        tmp_exam.Sections[isec].Questions[ique].Options = tmp_exam.Sections[isec].Questions[ique].Options.OrderBy(x => rnd.Next()).ToList();
+                        char alphabet = 'A';
+                        char newAlphabet = '\0';
+                        for (int i = 0; i < tmp_exam.Sections[isec].Questions[ique].Options.Count; i++)
+                        {
+                            if(tmp_exam.Sections[isec].Questions[ique].Answer == tmp_exam.Sections[isec].Questions[ique].Options[i].Alphabet)
+                            {
+                                newAlphabet = alphabet;
+                            }
+                            tmp_exam.Sections[isec].Questions[ique].Options[i].Alphabet = alphabet++;
+                        }
+                        tmp_exam.Sections[isec].Questions[ique].Answer = newAlphabet;
+                    }
+                }
+            }
+            else
+            {
+                tmp_exam = _exam;
+            }
+
             _settings = new Settings {CandidateName = txt_candidate_name.Text};
+            Random rnd = new Random();
+
             if (chk_enable_timer.Checked)
                 _settings.TimeLimit = (int) num_time_limit.Value;
             else
-                _settings.TimeLimit = _exam.Properties.TimeLimit;
+                _settings.TimeLimit = tmp_exam.Properties.TimeLimit;
 
             if (rdb_selected_sections.Checked)
             {
-                _settings.Sections = clb_section_options.CheckedItems.Cast<Section>().ToList();
-                foreach (var section in _settings.Sections)
-                    _settings.Questions.AddRange(section.Questions.ToArray());
+                foreach (var sec in _exam.Sections)
+                {
+                    if (((CheckBox)pan_sectionSelection.Controls["cbSection_" + sec.Title.Replace(" ","")]).Checked)
+                    {
+                        Section newSec = new Section();
+                        newSec.Title = sec.Title;
+                        newSec = sec;
+                        _settings.Sections.Add(newSec);
+
+                        int numQuestions = (int)((NumericUpDown)pan_sectionSelection.Controls["numUD_" + sec.Title.Replace(" ", "")]).Value;
+                        _settings.Questions.AddRange(_exam.Sections.Where(x=>x.Title == sec.Title).FirstOrDefault().Questions.OrderBy(x => rnd.Next()).Take(numQuestions));
+                    }
+                }
             }
 
             if (rdb_fixed_number_questions.Checked)
             {
                 var numOfQuestions = (int) num_questions.Value;
-                var sum = 0;
+                int[] numSectionQuestions = new int[_exam.Sections.Count];
+                float[] numSectionQuestionsCalc = new float[_exam.Sections.Count];
+                int sumNumSectionQuestions = 0;
+                int totalQuestions = _exam.NumberOfQuestions;
+
+                //compute number of questions per section
+                for (int i = 0; i < _exam.Sections.Count; i++)
+                {
+                    numSectionQuestionsCalc[i] = (float) _exam.Sections[i].Questions.Count / totalQuestions * numOfQuestions;
+                    numSectionQuestions[i] = (int) numSectionQuestionsCalc[i];
+                    sumNumSectionQuestions += numSectionQuestions[i];
+                    numSectionQuestionsCalc[i] = numSectionQuestionsCalc[i] - numSectionQuestions[i];
+                }
+                //fix calculation rounding error 
+                if(numOfQuestions != sumNumSectionQuestions)
+                {
+                    int i = numSectionQuestionsCalc.ToList().IndexOf(numSectionQuestionsCalc.Max());
+                    numSectionQuestions[i] += 1;
+                }
+                //for each section get random proportional size set of questions
+                for (int i = 0; i < _exam.Sections.Count; i++)
+                {
+                    _settings.Sections.Add(_exam.Sections[i]);
+                    _settings.Questions.AddRange(_exam.Sections[i].Questions.OrderBy(x => rnd.Next()).Take(numSectionQuestions[i]));
+                }
+                
+                
+
+                /*
                 foreach (var section in _exam.Sections)
                 {
                     if (sum + section.Questions.Count < numOfQuestions)
@@ -101,6 +198,7 @@ namespace Simulator.GUI
                         break;
                     }
                 }
+                */
             }
 
             if (_settings.Questions.Count == 0)
@@ -111,7 +209,7 @@ namespace Simulator.GUI
                 return;
             }
 
-            var ui = new AssessmentUi(_exam, _settings);
+            var ui = new AssessmentUi(tmp_exam, _settings);
             Hide();
             ui.ShowDialog();
             Close();

@@ -206,7 +206,8 @@ namespace Simulator.GUI
                             }
                         }
                     }
-                    _settings.ResultSpread.Add(new Tuple<string, int, int>(section.Title, numOfQuestions, numOfCorrect));
+                    _settings.ResultSpread.Add(new Tuple<string, int, int, int>(section.Title, numOfQuestions, numOfCorrect,
+                        numOfQuestions > 0 ? (1000 * numOfCorrect / numOfQuestions) : 0 ));
                 }
                 
                 var ss = new ScoreSheetUi(_settings, _exam);
