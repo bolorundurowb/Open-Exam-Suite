@@ -42,45 +42,50 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(94, 13);
+            this.label1.Location = new System.Drawing.Point(141, 20);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(171, 15);
+            this.label1.Size = new System.Drawing.Size(254, 22);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Open Exam Simulator 3.1.2";
+            this.label1.Text = "Open Exam Simulator 3.1.3";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(19, 49);
+            this.label2.Location = new System.Drawing.Point(28, 75);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(30, 13);
+            this.label2.Size = new System.Drawing.Size(42, 20);
             this.label2.TabIndex = 1;
             this.label2.Text = "Web";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(19, 78);
+            this.label3.Location = new System.Drawing.Point(28, 120);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(37, 13);
+            this.label3.Size = new System.Drawing.Size(56, 20);
             this.label3.TabIndex = 2;
             this.label3.Text = "Issues";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(19, 110);
+            this.label4.Location = new System.Drawing.Point(28, 169);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(28, 13);
+            this.label4.Size = new System.Drawing.Size(38, 20);
             this.label4.TabIndex = 3;
             this.label4.Text = "Wiki";
             // 
             // lnk_web
             // 
             this.lnk_web.AutoSize = true;
-            this.lnk_web.Location = new System.Drawing.Point(64, 49);
+            this.lnk_web.Location = new System.Drawing.Point(96, 75);
+            this.lnk_web.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lnk_web.Name = "lnk_web";
-            this.lnk_web.Size = new System.Drawing.Size(257, 13);
+            this.lnk_web.Size = new System.Drawing.Size(374, 20);
             this.lnk_web.TabIndex = 5;
             this.lnk_web.TabStop = true;
             this.lnk_web.Text = "https://github.com/bolorundurowb/Open-Exam-Suite";
@@ -89,9 +94,10 @@
             // lnk_issues
             // 
             this.lnk_issues.AutoSize = true;
-            this.lnk_issues.Location = new System.Drawing.Point(64, 78);
+            this.lnk_issues.Location = new System.Drawing.Point(96, 120);
+            this.lnk_issues.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lnk_issues.Name = "lnk_issues";
-            this.lnk_issues.Size = new System.Drawing.Size(291, 13);
+            this.lnk_issues.Size = new System.Drawing.Size(423, 20);
             this.lnk_issues.TabIndex = 6;
             this.lnk_issues.TabStop = true;
             this.lnk_issues.Text = "https://github.com/bolorundurowb/Open-Exam-Suite/issues";
@@ -100,9 +106,10 @@
             // lnk_wiki
             // 
             this.lnk_wiki.AutoSize = true;
-            this.lnk_wiki.Location = new System.Drawing.Point(64, 110);
+            this.lnk_wiki.Location = new System.Drawing.Point(96, 169);
+            this.lnk_wiki.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lnk_wiki.Name = "lnk_wiki";
-            this.lnk_wiki.Size = new System.Drawing.Size(280, 13);
+            this.lnk_wiki.Size = new System.Drawing.Size(403, 20);
             this.lnk_wiki.TabIndex = 7;
             this.lnk_wiki.TabStop = true;
             this.lnk_wiki.Text = "https://github.com/bolorundurowb/Open-Exam-Suite/wiki";
@@ -113,10 +120,11 @@
             this.richTextBox1.BackColor = System.Drawing.SystemColors.Control;
             this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.richTextBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.richTextBox1.Location = new System.Drawing.Point(22, 142);
+            this.richTextBox1.Location = new System.Drawing.Point(33, 218);
+            this.richTextBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(352, 74);
+            this.richTextBox1.Size = new System.Drawing.Size(528, 114);
             this.richTextBox1.TabIndex = 9;
             this.richTextBox1.Text = "This software is developed to create and support and open and free exam simulatio" +
     "n environment. The file extension would be *.oef. It is my hope that this would " +
@@ -124,10 +132,10 @@
             // 
             // About
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(387, 225);
+            this.ClientSize = new System.Drawing.Size(580, 346);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.lnk_wiki);
             this.Controls.Add(this.lnk_issues);
@@ -137,6 +145,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "About";
