@@ -354,7 +354,7 @@ namespace Simulator.GUI
 
         private void HideAnswer(object sender, EventArgs e)
         {
-            lbl_explanation.Visible = true;
+            lbl_explanation.Visible = false;
             
             var checkBoxes = pan_display.Controls
                 .OfType<CheckBox>()
@@ -363,6 +363,15 @@ namespace Simulator.GUI
             foreach (var checkBox in checkBoxes)
             {
                 checkBox.ForeColor = Color.Black;
+            }
+            
+            var radioButtons = pan_display.Controls
+                .OfType<RadioButton>()
+                .ToList();
+
+            foreach (var radioButton in radioButtons)
+            {
+                radioButton.ForeColor = Color.Black;
             }
         }
     }
