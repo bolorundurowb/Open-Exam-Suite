@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources =
-                new System.ComponentModel.ComponentResourceManager(typeof(AssessmentUi));
+                new System.ComponentModel.ComponentResourceManager(typeof(Simulator.GUI.AssessmentUi));
             this.label1 = new System.Windows.Forms.Label();
             this.lbl_elapsed_time = new System.Windows.Forms.Label();
             this.btn_begin = new System.Windows.Forms.Button();
@@ -57,9 +57,6 @@
             this.pan_display.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize) (this.pct_image)).BeginInit();
             this.SuspendLayout();
-            // 
-            // label1
-            // 
             this.label1.Anchor =
                 ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Top |
                                                        System.Windows.Forms.AnchorStyles.Right)));
@@ -71,9 +68,6 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Time Left:";
             this.label1.Visible = false;
-            // 
-            // lbl_elapsed_time
-            // 
             this.lbl_elapsed_time.Anchor =
                 ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Top |
                                                        System.Windows.Forms.AnchorStyles.Right)));
@@ -84,9 +78,6 @@
             this.lbl_elapsed_time.Size = new System.Drawing.Size(0, 25);
             this.lbl_elapsed_time.TabIndex = 1;
             this.lbl_elapsed_time.Visible = false;
-            // 
-            // btn_begin
-            // 
             this.btn_begin.Anchor =
                 ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Bottom |
                                                        System.Windows.Forms.AnchorStyles.Left)));
@@ -98,9 +89,6 @@
             this.btn_begin.Text = "Begin";
             this.btn_begin.UseVisualStyleBackColor = true;
             this.btn_begin.Click += new System.EventHandler(this.Begin);
-            // 
-            // btn_previous
-            // 
             this.btn_previous.Anchor =
                 ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Bottom |
                                                        System.Windows.Forms.AnchorStyles.Left)));
@@ -114,9 +102,6 @@
             this.btn_previous.UseVisualStyleBackColor = true;
             this.btn_previous.Visible = false;
             this.btn_previous.Click += new System.EventHandler(this.Previous);
-            // 
-            // btn_next
-            // 
             this.btn_next.Anchor =
                 ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Bottom |
                                                        System.Windows.Forms.AnchorStyles.Left)));
@@ -130,9 +115,6 @@
             this.btn_next.UseVisualStyleBackColor = true;
             this.btn_next.Visible = false;
             this.btn_next.Click += new System.EventHandler(this.Next);
-            // 
-            // btn_pause
-            // 
             this.btn_pause.Anchor =
                 ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Bottom |
                                                        System.Windows.Forms.AnchorStyles.Right)));
@@ -145,9 +127,6 @@
             this.btn_pause.UseVisualStyleBackColor = true;
             this.btn_pause.Visible = false;
             this.btn_pause.Click += new System.EventHandler(this.PauseExam);
-            // 
-            // btn_end
-            // 
             this.btn_end.Anchor =
                 ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Bottom |
                                                        System.Windows.Forms.AnchorStyles.Right)));
@@ -160,9 +139,6 @@
             this.btn_end.UseVisualStyleBackColor = true;
             this.btn_end.Visible = false;
             this.btn_end.Click += new System.EventHandler(this.End);
-            // 
-            // pan_display
-            // 
             this.pan_display.Anchor =
                 ((System.Windows.Forms.AnchorStyles) ((((System.Windows.Forms.AnchorStyles.Top |
                                                          System.Windows.Forms.AnchorStyles.Bottom) |
@@ -183,9 +159,6 @@
             this.pan_display.Name = "pan_display";
             this.pan_display.Size = new System.Drawing.Size(1864, 1084);
             this.pan_display.TabIndex = 7;
-            // 
-            // pct_image
-            // 
             this.pct_image.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.pct_image.Location = new System.Drawing.Point(124, 298);
             this.pct_image.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
@@ -195,9 +168,6 @@
             this.pct_image.TabIndex = 12;
             this.pct_image.TabStop = false;
             this.pct_image.Visible = false;
-            // 
-            // txt_question
-            // 
             this.txt_question.Anchor =
                 ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Top |
                                                         System.Windows.Forms.AnchorStyles.Left) |
@@ -211,9 +181,6 @@
             this.txt_question.Size = new System.Drawing.Size(1691, 139);
             this.txt_question.TabIndex = 11;
             this.txt_question.Visible = false;
-            // 
-            // lbl_question_number
-            // 
             this.lbl_question_number.AutoSize = true;
             this.lbl_question_number.Location = new System.Drawing.Point(147, 90);
             this.lbl_question_number.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -222,9 +189,6 @@
             this.lbl_question_number.TabIndex = 10;
             this.lbl_question_number.Text = "lbl_question_number";
             this.lbl_question_number.Visible = false;
-            // 
-            // label3
-            // 
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(50, 90);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -233,9 +197,6 @@
             this.label3.TabIndex = 9;
             this.label3.Text = "Question:";
             this.label3.Visible = false;
-            // 
-            // lbl_section_title
-            // 
             this.lbl_section_title.AutoSize = true;
             this.lbl_section_title.Location = new System.Drawing.Point(137, 39);
             this.lbl_section_title.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -244,9 +205,6 @@
             this.lbl_section_title.TabIndex = 8;
             this.lbl_section_title.Text = "lbl_section_title";
             this.lbl_section_title.Visible = false;
-            // 
-            // label2
-            // 
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(50, 39);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -255,9 +213,6 @@
             this.label2.TabIndex = 7;
             this.label2.Text = "Section:";
             this.label2.Visible = false;
-            // 
-            // lbl_exam_code
-            // 
             this.lbl_exam_code.AutoSize = true;
             this.lbl_exam_code.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F,
                 System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
@@ -267,9 +222,6 @@
             this.lbl_exam_code.Size = new System.Drawing.Size(133, 20);
             this.lbl_exam_code.TabIndex = 2;
             this.lbl_exam_code.Text = "lbl_exam_code";
-            // 
-            // lbl_exam_instructions
-            // 
             this.lbl_exam_instructions.AutoSize = true;
             this.lbl_exam_instructions.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F,
                 System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
@@ -279,9 +231,6 @@
             this.lbl_exam_instructions.Size = new System.Drawing.Size(53, 20);
             this.lbl_exam_instructions.TabIndex = 1;
             this.lbl_exam_instructions.Text = "label4";
-            // 
-            // lbl_exam_title
-            // 
             this.lbl_exam_title.AutoSize = true;
             this.lbl_exam_title.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F,
                 System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
@@ -291,14 +240,8 @@
             this.lbl_exam_title.Size = new System.Drawing.Size(137, 24);
             this.lbl_exam_title.TabIndex = 0;
             this.lbl_exam_title.Text = "lbl_exam_title";
-            // 
-            // timer
-            // 
             this.timer.Interval = 1000;
             this.timer.Tick += new System.EventHandler(this.TimerTick);
-            // 
-            // btn_show_answer
-            // 
             this.btn_show_answer.Anchor =
                 ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Top |
                                                        System.Windows.Forms.AnchorStyles.Right)));
@@ -311,9 +254,6 @@
             this.btn_show_answer.UseVisualStyleBackColor = true;
             this.btn_show_answer.Visible = false;
             this.btn_show_answer.Click += new System.EventHandler(this.ShowAnswer);
-            // 
-            // lbl_explanation
-            // 
             this.lbl_explanation.Anchor =
                 ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Bottom |
                                                         System.Windows.Forms.AnchorStyles.Left) |
@@ -330,9 +270,6 @@
             this.lbl_explanation.TabIndex = 9;
             this.lbl_explanation.Text = "lbl_explanation";
             this.lbl_explanation.Visible = false;
-            // 
-            // btnHideAnswers
-            // 
             this.btnHideAnswers.Anchor =
                 ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Top |
                                                        System.Windows.Forms.AnchorStyles.Right)));
@@ -345,9 +282,6 @@
             this.btnHideAnswers.UseVisualStyleBackColor = true;
             this.btnHideAnswers.Visible = false;
             this.btnHideAnswers.Click += new System.EventHandler(this.HideAnswer);
-            // 
-            // dspExamProgress
-            // 
             this.dspExamProgress.Anchor =
                 ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Top |
                                                        System.Windows.Forms.AnchorStyles.Right)));
@@ -358,9 +292,6 @@
             this.dspExamProgress.Size = new System.Drawing.Size(0, 25);
             this.dspExamProgress.TabIndex = 12;
             this.dspExamProgress.Visible = false;
-            // 
-            // lblExamProgress
-            // 
             this.lblExamProgress.Anchor =
                 ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Top |
                                                        System.Windows.Forms.AnchorStyles.Right)));
@@ -372,14 +303,9 @@
             this.lblExamProgress.TabIndex = 11;
             this.lblExamProgress.Text = " Exam Progress:";
             this.lblExamProgress.Visible = false;
-            // 
-            // AssessmentUi
-            // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1962, 1358);
-            this.Controls.Add(this.dspExamProgress);
-            this.Controls.Add(this.lblExamProgress);
             this.Controls.Add(this.btnHideAnswers);
             this.Controls.Add(this.lbl_explanation);
             this.Controls.Add(this.btn_show_answer);
