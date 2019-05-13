@@ -313,6 +313,7 @@ namespace Simulator.GUI
         private void ShowAnswer(object sender, EventArgs e)
         {
             lbl_explanation.Visible = true;
+            btnHideAnswers.Visible = true;
             
             var checkBoxes = pan_display.Controls
                 .OfType<CheckBox>()
@@ -354,8 +355,6 @@ namespace Simulator.GUI
 
         private void HideAnswer(object sender, EventArgs e)
         {
-            lbl_explanation.Visible = false;
-            
             var checkBoxes = pan_display.Controls
                 .OfType<CheckBox>()
                 .ToList();
@@ -373,6 +372,10 @@ namespace Simulator.GUI
             {
                 radioButton.ForeColor = Color.Black;
             }
+            
+            lbl_explanation.Visible = false;
+            btn_show_answer.Visible = true;
+            btnHideAnswers.Visible = false;
         }
     }
 
