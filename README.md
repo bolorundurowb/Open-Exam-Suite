@@ -1,6 +1,8 @@
 # Open Exam Suite
 [![Build status](https://ci.appveyor.com/api/projects/status/ll8d5i7l6f2p9siw?svg=true)](https://ci.appveyor.com/project/BolorunduroWinnerTimothy/open-exam-suite)   [![Download Open Exam Suite](https://img.shields.io/sourceforge/dm/open-exam-suite.svg)](https://sourceforge.net/projects/open-exam-suite/files/latest/download) [![NETFramework](https://img.shields.io/badge/.net-4.0-0066b6.svg)](https://www.microsoft.com/en-us/download/details.aspx?id=17851) [![License](https://img.shields.io/badge/license-GPLv3-orange.svg)]()
 
+Please join the discussion abotu the future of this project [here](https://github.com/bolorundurowb/Open-Exam-Suite/issues/85)
+
 __The former aim to convert existing `VCE` exams to the `OEF` format has been dropped. If you want any feature in the next release, create an [issue](https://github.com/bolorundurowb/Open-Exam-Suite/issues) here on Github or hit me up on twitter [@Mr_Bolorunduro](https://twitter.com/Mr_Bolorunduro).__ **If this project has been of benefit to you, feel free to give it a star so others can find it too.**
 
 This project is an answer to a call to develop an open source alternative to Avanset's Visual CertExam Suite. This project has an exam designer that creates an *oef* (Open Exam Format) file and an exam simulator that can read and simulate the exam. It aims to be the open source solace for those wanting to take computer based simulated examinations.
