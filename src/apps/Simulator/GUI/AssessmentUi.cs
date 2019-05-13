@@ -64,6 +64,7 @@ namespace Simulator.GUI
             lbl_exam_code.Visible = false;
             lbl_exam_instructions.Visible = false;
             lbl_exam_title.Visible = false;
+            
             btn_begin.Visible = false;
             
             btn_end.Visible = true;
@@ -156,7 +157,13 @@ namespace Simulator.GUI
             {
                 //Save current answer
                 _userAnswers[_currentQuestionIndex] = SelectedAnswer();
-                
+                for (int i = 0; i < _userAnswers.Length; i++)
+                {
+                    if (_userAnswers[i] == null)
+                    {
+                        _userAnswers[i] = '\0';
+                    }
+                }
                 _settings.ElapsedTime = TimeSpan.FromSeconds(_exam.Properties.TimeLimit * 60 - _timeLeft);
                 
                 var numOfCorrectAnswers = 0;
@@ -274,6 +281,7 @@ namespace Simulator.GUI
         {
             // Get the current question
             var currentQuestion = _settings.Questions[_currentQuestionIndex];
+
             // Determine the question type and return an answer
             if (currentQuestion.IsMultipleChoice)
             {

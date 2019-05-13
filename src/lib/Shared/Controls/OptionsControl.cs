@@ -29,6 +29,7 @@ namespace Shared.Controls
             set => chkLetter.Checked = value;
         }
         #endregion
+
         public OptionsControl()
         {
             InitializeComponent();

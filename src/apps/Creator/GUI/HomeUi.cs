@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Printing;
@@ -8,6 +7,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Creator.GUI.Dialogs;
 using Creator.Util;
+using Logging;
 using Shared;
 using Shared.Controls;
 using Shared.Enums;
@@ -16,7 +16,6 @@ using Shared.Util;
 using Storage.Enums;
 using Storage.Models;
 using Storage.Services;
-using Settings = Creator.Properties.Settings;
 
 namespace Creator.GUI
 {
@@ -84,8 +83,9 @@ namespace Creator.GUI
                         return;
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    Logger.LogException(ex);
                     MessageBox.Show("Sorry, the XML file selected is invalid.", "Error", MessageBoxButtons.OK,
                         MessageBoxIcon.Error);
                     return;
@@ -865,7 +865,7 @@ namespace Creator.GUI
             ClearControls();
             trv_view_exam.Nodes.Clear();
             DisableAllControls();
-            //
+            
             if (splitContainer2.Panel2.Contains(pan_display_questions))
             {
                 splitContainer2.Panel2.Controls.Remove(pan_display_questions);
@@ -1049,8 +1049,6 @@ namespace Creator.GUI
             else if (_whatToPrint == PrintOption.CurrentSection)
             {
                 float yPos = e.MarginBounds.Top;
-                float leftMargin = e.MarginBounds.Left;
-                var normFont = new Font("Calibri", 12);
                 var subHeadFont = new Font("Calibri", 13F);
                 var headerFont = new Font("Cambria", 14, FontStyle.Bold);
 
@@ -1080,7 +1078,8 @@ namespace Creator.GUI
 
         private void UiFormClosing(object sender, FormClosingEventArgs e)
         {
-            if (!IsDirty) return;
+            if (!IsDirty)
+                return;
             var result = MessageBox.Show("The current exam has not been saved, do you want to save and close?",
                 "Unsaved Changes",
                 MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
@@ -1176,6 +1175,7 @@ namespace Creator.GUI
             editSection.ShowDialog();
             sectionNode.Title = editSection.Title;
             sectionNode.Text = editSection.Title;
+
             IsDirty = true;
         }
 
@@ -1290,6 +1290,7 @@ namespace Creator.GUI
                 FilterIndex = 1,
                 FileName = _exam.Properties.Title
             };
+
             if (sfdExportXml.ShowDialog() != DialogResult.OK) return;
             if (Writer.ToXml(_exam, sfdExportXml.FileName))
             {
@@ -1312,6 +1313,7 @@ namespace Creator.GUI
                 FilterIndex = 1,
                 FileName = _exam.Properties.Title
             };
+
             if (sfdExportPdf.ShowDialog() != DialogResult.OK)
             {
                 return;
