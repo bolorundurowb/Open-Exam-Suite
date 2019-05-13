@@ -314,16 +314,18 @@ namespace Simulator.GUI
         {
             lbl_explanation.Visible = true;
             
-            var chks = pan_display.Controls.OfType<CheckBox>();
-            if (chks.Count() > 0)
+            var checkBoxes = pan_display.Controls
+                .OfType<CheckBox>()
+                .ToList();
+            if (checkBoxes.Any())
             {
-                var answers = chks.Where(s => _settings.Questions[_currentQuestionIndex].Answers.Contains(Convert.ToChar(s.Name.Replace("chk", ""))));
+                var answers = checkBoxes.Where(s => _settings.Questions[_currentQuestionIndex].Answers.Contains(Convert.ToChar(s.Name.Replace("chk", ""))));
                 foreach(var answer in answers)
                 {
                     var index = pan_display.Controls.IndexOf(answer);
                     ((CheckBox)pan_display.Controls[index]).ForeColor = Color.Green;
                 }
-                var selectedOptions = chks.Where(s => s.Checked);
+                var selectedOptions = checkBoxes.Where(s => s.Checked);
                 foreach (var selectedOption in selectedOptions)
                 {
                     if (!_settings.Questions[_currentQuestionIndex].Answers.Contains(Convert.ToChar(selectedOption.Name.Replace("chk", ""))))
@@ -347,6 +349,20 @@ namespace Simulator.GUI
                     var index = pan_display.Controls.IndexOf(currentSelectedOption);
                     ((RadioButton)pan_display.Controls[index]).ForeColor = Color.Red;
                 }
+            }
+        }
+
+        private void HideAnswer(object sender, EventArgs e)
+        {
+            lbl_explanation.Visible = true;
+            
+            var checkBoxes = pan_display.Controls
+                .OfType<CheckBox>()
+                .ToList();
+
+            foreach (var checkBox in checkBoxes)
+            {
+                checkBox.ForeColor = Color.Black;
             }
         }
     }
