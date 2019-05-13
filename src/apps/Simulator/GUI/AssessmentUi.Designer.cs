@@ -317,6 +317,8 @@
             this.Controls.Add(this.btn_begin);
             this.Controls.Add(this.lbl_elapsed_time);
             this.Controls.Add(this.label1);
+            this.Controls.Add(this.lblExamProgress);
+            this.Controls.Add(this.dspExamProgress);
             this.Icon = ((System.Drawing.Icon) (resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.Name = "AssessmentUi";

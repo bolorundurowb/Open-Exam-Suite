@@ -78,6 +78,8 @@ namespace Simulator.GUI
             pct_image.Visible = true;
 
             txt_question.Visible = true;
+            lblExamProgress.Visible = true;
+            dspExamProgress.Visible = true;
         }
 
         private void PauseExam(object sender, EventArgs e)
@@ -232,6 +234,13 @@ namespace Simulator.GUI
             txt_question.Text = question.Text;
             pct_image.Image = question.Image;
             AddOptions(question.Options, question.IsMultipleChoice);
+            ShowExamProgress();
+        }
+
+        private void ShowExamProgress()
+        {
+            dspExamProgress.Text =
+                $"{_userAnswers.Where(x => x != null).Count()} / {_settings.Questions.Count} answered";
         }
 
         private void AddOptions(List<Option> options, bool isMultipleChoice)
@@ -300,7 +309,9 @@ namespace Simulator.GUI
                     .OfType<CheckBox>()
                     .Where(s => s.Checked)
                     .ToList();
-                return !chks.Any() ? new List<char>().ToArray() : chks.Select(s => Convert.ToChar(s.Text.Substring(0, 1))).ToArray();
+                return !chks.Any()
+                    ? new List<char>().ToArray()
+                    : chks.Select(s => Convert.ToChar(s.Text.Substring(0, 1))).ToArray();
             }
 
             var rdb = pan_display.Controls.OfType<RadioButton>().FirstOrDefault(s => s.Checked);
