@@ -254,7 +254,7 @@ namespace Simulator.GUI
                         AutoSize = true,
                         Text = $"{options[i].Alphabet}. - {options[i].Text}",
                         Name = "chk" + options[i].Alphabet,
-                        Location = new Point(51, 464 + (i * 22))
+                        Location = new Point(51, 364 + (i * 22))
                     };
                     if (_userAnswers[_currentQuestionIndex] != null &&
                         ((char[]) _userAnswers[_currentQuestionIndex]).Contains(options[i].Alphabet))
@@ -268,7 +268,7 @@ namespace Simulator.GUI
                         AutoSize = true,
                         Text = options[i].Alphabet + ". - " + options[i].Text,
                         Name = "rdb" + options[i].Alphabet,
-                        Location = new Point(51, 464 + (i * 22))
+                        Location = new Point(51, 364 + (i * 22))
                     };
                     if (_userAnswers[_currentQuestionIndex] != null &&
                         (char) _userAnswers[_currentQuestionIndex] == options[i].Alphabet)
