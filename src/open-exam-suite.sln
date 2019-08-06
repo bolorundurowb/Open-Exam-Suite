@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "creator", "creator\creator.csproj", "{B16ED540-3601-471D-BD7B-0FEDF4593973}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "simulator", "simulator\simulator.csproj", "{5011204D-5371-45A9-83CC-BE57973903C0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B16ED540-3601-471D-BD7B-0FEDF4593973}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B16ED540-3601-471D-BD7B-0FEDF4593973}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B16ED540-3601-471D-BD7B-0FEDF4593973}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B16ED540-3601-471D-BD7B-0FEDF4593973}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5011204D-5371-45A9-83CC-BE57973903C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5011204D-5371-45A9-83CC-BE57973903C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5011204D-5371-45A9-83CC-BE57973903C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5011204D-5371-45A9-83CC-BE57973903C0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
