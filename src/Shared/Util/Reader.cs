@@ -3,7 +3,6 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml.Serialization;
-using Logging;
 using Newtonsoft.Json;
 
 namespace Shared.Util
@@ -30,8 +29,6 @@ namespace Shared.Util
             }
             catch (Exception ex)
             {
-                Logger.LogException(ex);
-
                 if (throwOnError)
                 {
                     throw;

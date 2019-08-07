@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Drawing;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml.Serialization;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
-using Logging;
 using Newtonsoft.Json;
 using Font = iTextSharp.text.Font;
 using Image = iTextSharp.text.Image;
@@ -33,8 +31,6 @@ namespace Shared.Util
             }
             catch (Exception ex)
             {
-                Logger.LogException(ex);
-
                 if (throwOnError)
                 {
                     throw;
@@ -112,8 +108,6 @@ namespace Shared.Util
             }
             catch (Exception ex)
             {
-                Logger.LogException(ex);
-
                 return false;
             }
             finally
