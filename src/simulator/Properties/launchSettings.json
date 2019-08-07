@@ -3,8 +3,8 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:14350",
-      "sslPort": 44322
+      "applicationUrl": "http://localhost:21957",
+      "sslPort": 44332
     }
   },
   "profiles": {
@@ -21,7 +21,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "electron_react_testbed": {
+    "Simulator": {
       "commandName": "Project",
       "launchBrowser": true,
       "applicationUrl": "https://localhost:5001;http://localhost:5000",

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace electron_react_testbed
+namespace Simulator
 {
     public class Startup
     {
@@ -40,7 +40,6 @@ namespace electron_react_testbed
             {
                 app.UseExceptionHandler("/Error");
             }
-            
 
             app.UseStaticFiles();
             app.UseSpaStaticFiles();

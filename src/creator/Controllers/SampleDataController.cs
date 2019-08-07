@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace electron_react_testbed.Controllers
+namespace Creator.Controllers
 {
     [Route("api/[controller]")]
     public class SampleDataController : Controller

@@ -1,6 +1,6 @@
 {
-  "short_name": "electron_react_testbed",
-  "name": "electron_react_testbed",
+  "short_name": "Simulator",
+  "name": "Simulator",
   "icons": [
     {
       "src": "favicon.ico",
