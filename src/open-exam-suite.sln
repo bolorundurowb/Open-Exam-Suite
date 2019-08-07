@@ -4,6 +4,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Creator", "Creator\Creator.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simulator", "Simulator\Simulator.csproj", "{A92E820C-87AE-46D4-9569-219CD91546AE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{3FAC1A95-FEAC-4E9A-92C8-1D0C48815E32}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Storage", "Storage\Storage.csproj", "{4C8BDA0F-8194-4CEA-9571-56C18D681BC9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +22,13 @@ Global
 		{A92E820C-87AE-46D4-9569-219CD91546AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A92E820C-87AE-46D4-9569-219CD91546AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A92E820C-87AE-46D4-9569-219CD91546AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FAC1A95-FEAC-4E9A-92C8-1D0C48815E32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FAC1A95-FEAC-4E9A-92C8-1D0C48815E32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FAC1A95-FEAC-4E9A-92C8-1D0C48815E32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FAC1A95-FEAC-4E9A-92C8-1D0C48815E32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C8BDA0F-8194-4CEA-9571-56C18D681BC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C8BDA0F-8194-4CEA-9571-56C18D681BC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C8BDA0F-8194-4CEA-9571-56C18D681BC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C8BDA0F-8194-4CEA-9571-56C18D681BC9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
