@@ -1,4 +1,4 @@
-{
+﻿{
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
@@ -8,12 +8,11 @@
     }
   },
   "profiles": {
-"Electron.NET App": {
-"commandName": "Executable",
-"executablePath": "C:\\Program Files\\dotnet\\dotnet.exe",
-"commandLineArgs": "electronize start"
-},
-
+    "Electron.NET App": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Program Files\\dotnet\\dotnet.exe",
+      "commandLineArgs": "electronize start"
+    },
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
