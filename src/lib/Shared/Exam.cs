@@ -35,7 +35,7 @@ namespace Shared
             var section = Sections.FirstOrDefault(s => s.Title == sectionName);
             if (section == null)
             {
-                section = new Section {Title = sectionName};
+                section = new Section { Title = sectionName };
                 Sections.Add(section);
             }
         }
@@ -69,6 +69,19 @@ namespace Shared
         {
             var section = Sections.FirstOrDefault(s => s.Title == sectionName);
             section?.Questions.Remove(question);
+        }
+
+        public Question FindQuestionById(Guid id)
+        {
+            foreach (Section section in Sections)
+            {
+                Question question = section.Questions.FirstOrDefault(q => q.Id.Equals(id));
+
+                if (question != null)
+                    return question;
+            }
+
+            return null;
         }
     }
 
@@ -109,6 +122,8 @@ namespace Shared
     [Serializable]
     public class Question
     {
+        public Guid Id { get; set; }
+
         public int No { get; set; }
 
         public string Text { get; set; }
@@ -124,6 +139,8 @@ namespace Shared
         public List<Option> Options { get; set; }
 
         public string Explanation { get; set; }
+
+        public bool Review { get; set; }
 
         public Question()
         {
