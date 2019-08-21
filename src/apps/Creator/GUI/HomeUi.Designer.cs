@@ -541,7 +541,7 @@
             this.lbl_version.Name = "lbl_version";
             this.lbl_version.Size = new System.Drawing.Size(31, 20);
             this.lbl_version.TabIndex = 9;
-            this.lbl_version.Text = "3.1";
+            this.lbl_version.Text = "4.0";
             // 
             // txt_code
             // 
