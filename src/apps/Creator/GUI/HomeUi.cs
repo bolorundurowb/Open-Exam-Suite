@@ -131,7 +131,7 @@ namespace Creator.GUI
                 txt_code.Text = _exam.Properties.Code;
                 txt_instruction.Text = _exam.Properties.Instructions;
                 txt_title.Text = _exam.Properties.Title;
-                num_passmark.Value = (decimal) _exam.Properties.Passmark;
+                num_passmark.Value = (decimal)_exam.Properties.Passmark;
                 num_time_limit.Value = _exam.Properties.TimeLimit;
                 _undoRedo = new UndoRedo();
 
@@ -163,7 +163,7 @@ namespace Creator.GUI
                 if (trv_view_exam.SelectedNode != null)
                     if (trv_view_exam.SelectedNode.GetType() == typeof(QuestionNode))
                         CommitQuestion();
-                var examNode = (ExamNode) trv_view_exam.Nodes[0];
+                var examNode = (ExamNode)trv_view_exam.Nodes[0];
                 _exam.Properties = examNode.Properties;
                 _exam.Sections.Clear();
                 foreach (SectionNode sectionNode in examNode.Nodes)
@@ -207,7 +207,7 @@ namespace Creator.GUI
 
         private void CommitQuestion()
         {
-            var question = ((QuestionNode) trv_view_exam.SelectedNode).Question;
+            var question = ((QuestionNode)trv_view_exam.SelectedNode).Question;
             question.IsMultipleChoice = chkMulipleChoice.Checked;
             if (question.IsMultipleChoice)
             {
@@ -221,7 +221,7 @@ namespace Creator.GUI
             }
 
             question.Explanation = txt_explanation.Text;
-            question.Image = (Bitmap) pct_image.Image;
+            question.Image = (Bitmap)pct_image.Image;
             question.No = trv_view_exam.SelectedNode.Index + 1;
             question.Options.Clear();
             if (question.IsMultipleChoice)
@@ -358,7 +358,7 @@ namespace Creator.GUI
                         .FirstOrDefault(s => s.Title == undoObject.SectionTitle);
                     if (sectionNode_ != null)
                     {
-                        var questionNode = (QuestionNode) sectionNode_.Nodes[undoObject.Question.No - 1];
+                        var questionNode = (QuestionNode)sectionNode_.Nodes[undoObject.Question.No - 1];
                         questionNode.Question = undoObject.Question;
                         txt_explanation.Text = undoObject.Question.Explanation;
                         txt_question_text.Text = undoObject.Question.Text;
@@ -481,7 +481,7 @@ namespace Creator.GUI
                         .FirstOrDefault(s => s.Title == redoObject.SectionTitle);
                     if (sectionNode_ != null)
                     {
-                        var questionNode = (QuestionNode) sectionNode_.Nodes[redoObject.Question.No - 1];
+                        var questionNode = (QuestionNode)sectionNode_.Nodes[redoObject.Question.No - 1];
                         questionNode.Question = redoObject.Question;
                         txt_explanation.Text = redoObject.Question.Explanation;
                         txt_question_text.Text = redoObject.Question.Text;
@@ -558,10 +558,11 @@ namespace Creator.GUI
         {
             // add question to section node
             var nodeToBeAddedTo = trv_view_exam.SelectedNode.GetType() == typeof(SectionNode)
-                ? (SectionNode) trv_view_exam.SelectedNode
-                : (SectionNode) trv_view_exam.SelectedNode.Parent;
+                ? (SectionNode)trv_view_exam.SelectedNode
+                : (SectionNode)trv_view_exam.SelectedNode.Parent;
             var question = new Question
             {
+                Id = Guid.NewGuid(),
                 No = nodeToBeAddedTo.Nodes.Count + 1
             };
             var questionNode = new QuestionNode(question)
@@ -676,7 +677,7 @@ namespace Creator.GUI
                 }
 
                 pan_display_questions.Enabled = true;
-                var question = ((QuestionNode) trv_view_exam.SelectedNode).Question;
+                var question = ((QuestionNode)trv_view_exam.SelectedNode).Question;
                 txt_explanation.Text = question.Explanation;
                 txt_question_text.Text = question.Text;
                 lbl_section_question.Text =
@@ -745,10 +746,10 @@ namespace Creator.GUI
             txt_question_text.Clear();
             txt_explanation.Clear();
             pct_image.Image = null;
-            
+
             // Clear all the options
             pan_options.Controls.Clear();
-            
+
             // Remove test in the text boxes
             txt_code.Clear();
             txt_instruction.Clear();
@@ -761,14 +762,14 @@ namespace Creator.GUI
             {
                 Code = txt_code.Text,
                 Instructions = txt_instruction.Text,
-                Passmark = (int) num_passmark.Value,
-                TimeLimit = (int) num_time_limit.Value,
+                Passmark = (int)num_passmark.Value,
+                TimeLimit = (int)num_time_limit.Value,
                 Title = txt_title.Text,
-                Version = (int) float.Parse(lbl_version.Text)
+                Version = (int)float.Parse(lbl_version.Text)
             };
             if (trv_view_exam.Nodes.Count > 0)
             {
-                var examNode = (ExamNode) trv_view_exam.Nodes[0];
+                var examNode = (ExamNode)trv_view_exam.Nodes[0];
                 examNode.Properties = properties;
             }
             else
@@ -865,7 +866,7 @@ namespace Creator.GUI
             ClearControls();
             trv_view_exam.Nodes.Clear();
             DisableAllControls();
-            
+
             if (splitContainer2.Panel2.Contains(pan_display_questions))
             {
                 splitContainer2.Panel2.Controls.Remove(pan_display_questions);
@@ -880,7 +881,7 @@ namespace Creator.GUI
             _exam = null;
             _undoRedo = null;
             IsDirty = false;
-            
+
             LoadExamHistory();
         }
 
@@ -933,8 +934,8 @@ namespace Creator.GUI
                         var ctrl = new OptionsControl
                         {
                             Name = "option" + (pan_options.Controls.Count - 1),
-                            Letter = (char) (Convert.ToInt32(
-                                                 ((OptionsControl) pan_options.Controls[pan_options.Controls.Count - 1])
+                            Letter = (char)(Convert.ToInt32(
+                                                 ((OptionsControl)pan_options.Controls[pan_options.Controls.Count - 1])
                                                  .Letter) + 1),
                             Location = new Point(2, 2 + pan_options.Controls.Count * 36)
                         };
@@ -958,8 +959,8 @@ namespace Creator.GUI
                         var ctrl = new OptionControl
                         {
                             Name = "option" + (pan_options.Controls.Count - 1),
-                            Letter = (char) (Convert.ToInt32(
-                                                 ((OptionControl) pan_options.Controls[pan_options.Controls.Count - 1])
+                            Letter = (char)(Convert.ToInt32(
+                                                 ((OptionControl)pan_options.Controls[pan_options.Controls.Count - 1])
                                                  .Letter) + 1),
                             Location = new Point(2, 2 + pan_options.Controls.Count * 36)
                         };
@@ -1125,9 +1126,9 @@ namespace Creator.GUI
 
         void ExamLinkClick(object sender, EventArgs e)
         {
-            if (File.Exists(((LinkLabel) sender).Text))
+            if (File.Exists(((LinkLabel)sender).Text))
             {
-                _currentExamFile = ((LinkLabel) sender).Text;
+                _currentExamFile = ((LinkLabel)sender).Text;
                 Open();
             }
             else
@@ -1137,10 +1138,10 @@ namespace Creator.GUI
 
                 // remove the setting from storage
                 var appSettingService = AppSettingsService.Instance;
-                appSettingService.Remove(((LinkLabel) sender).Text, AppSettingsType.Creator);
+                appSettingService.Remove(((LinkLabel)sender).Text, AppSettingsType.Creator);
 
                 // remove the link
-                grp_exam_history.Controls.Remove((Control) sender);
+                grp_exam_history.Controls.Remove((Control)sender);
             }
         }
 
@@ -1156,8 +1157,8 @@ namespace Creator.GUI
             var obj = new ChangeRepresentationObject
             {
                 Action = ActionType.Delete,
-                Question = ((QuestionNode) trv_view_exam.SelectedNode).Question,
-                SectionTitle = ((SectionNode) sectionNode).Title
+                Question = ((QuestionNode)trv_view_exam.SelectedNode).Question,
+                SectionTitle = ((SectionNode)sectionNode).Title
             };
             _undoRedo.InsertObjectforUndoRedo(obj);
 
@@ -1176,14 +1177,14 @@ namespace Creator.GUI
 
         private void EditSection(object sender, EventArgs e)
         {
-            var sectionNode = (SectionNode) trv_view_exam.SelectedNode;
-            
+            var sectionNode = (SectionNode)trv_view_exam.SelectedNode;
+
             var editSection = new EditSection(sectionNode.Title);
             editSection.ShowDialog();
-            
+
             sectionNode.Title = editSection.Title;
             sectionNode.Text = editSection.Title;
-            
+
             IsDirty = true;
         }
 
@@ -1195,12 +1196,12 @@ namespace Creator.GUI
         private void QuestionChanged(object sender, EventArgs e)
         {
             IsDirty = true;
-            
+
             var obj = new ChangeRepresentationObject
             {
                 Action = ActionType.Modify
             };
-            
+
             var question = new Question
             {
                 IsMultipleChoice = chkMulipleChoice.Checked
@@ -1217,7 +1218,7 @@ namespace Creator.GUI
             }
 
             question.Explanation = txt_explanation.Text;
-            question.Image = (Bitmap) pct_image.Image;
+            question.Image = (Bitmap)pct_image.Image;
             question.No = trv_view_exam.SelectedNode.Index + 1;
             question.Options.Clear();
             if (question.IsMultipleChoice)
@@ -1249,7 +1250,7 @@ namespace Creator.GUI
 
             question.Text = txt_question_text.Text;
             obj.Question = question;
-            obj.SectionTitle = ((SectionNode) trv_view_exam.SelectedNode.Parent).Title;
+            obj.SectionTitle = ((SectionNode)trv_view_exam.SelectedNode.Parent).Title;
             _undoRedo.InsertObjectforUndoRedo(obj);
         }
 

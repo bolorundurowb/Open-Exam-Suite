@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CompatibilityProvider\CompatibilityProvider.cs" />
+    <Compile Include="CompatibilityProvider\ICompatibilityPatcher.cs" />
+    <Compile Include="CompatibilityProvider\Patches\QuestionIdPatcher.cs" />
     <Compile Include="Controls\OptionControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -45,6 +48,7 @@
     <Compile Include="Controls\TreeNodes.cs" />
     <Compile Include="Enums\ActionType.cs" />
     <Compile Include="Exam.cs" />
+    <Compile Include="Extensions\DefaultExtensions.cs" />
     <Compile Include="Interfaces\IUndoRedo.cs" />
     <Compile Include="Models\ChangeRepresentationObject.cs" />
     <Compile Include="Models\Settings.cs" />

@@ -9,13 +9,15 @@ namespace Simulator.GUI
     public partial class ExamSettingsUi : Form
     {
         private readonly Exam _exam;
+        private readonly string _filePath;
         private Settings _settings;
 
-        public ExamSettingsUi(Exam exam)
+        public ExamSettingsUi(Exam exam, string filePath)
         {
             InitializeComponent();
 
             _exam = exam;
+            _filePath = filePath;
 
             clb_section_options.Items.AddRange(_exam.Sections.ToArray());
 
@@ -111,7 +113,7 @@ namespace Simulator.GUI
                 return;
             }
 
-            var ui = new AssessmentUi(_exam, _settings);
+            var ui = new AssessmentUi(_exam, _settings, _filePath);
             Hide();
             ui.ShowDialog();
             Close();
