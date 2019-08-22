@@ -1,4 +1,6 @@
-﻿namespace Creator.GUI
+﻿using System.Windows.Forms;
+
+namespace Creator.GUI
 {
     partial class HomeUi
     {
@@ -309,11 +311,12 @@
             // 
             this.btn_clear_image.Image = global::Creator.Properties.Resources.rsz_clear;
             this.btn_clear_image.Location = new System.Drawing.Point(80, 226);
+            this.btn_clear_image.Dock = DockStyle.Top;
             this.btn_clear_image.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btn_clear_image.Name = "btn_clear_image";
             this.btn_clear_image.Size = new System.Drawing.Size(112, 35);
             this.btn_clear_image.TabIndex = 9;
-            this.btn_clear_image.Text = "Clear";
+            this.btn_clear_image.Text = "Clear Image";
             this.btn_clear_image.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btn_clear_image.UseVisualStyleBackColor = true;
             this.btn_clear_image.Click += new System.EventHandler(this.ClearImage);
@@ -322,11 +325,12 @@
             // 
             this.btn_insert_image.Image = global::Creator.Properties.Resources.rsz_actions_insert_image_icon;
             this.btn_insert_image.Location = new System.Drawing.Point(80, 180);
+            this.btn_insert_image.Dock = DockStyle.Top;
             this.btn_insert_image.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btn_insert_image.Name = "btn_insert_image";
             this.btn_insert_image.Size = new System.Drawing.Size(112, 35);
             this.btn_insert_image.TabIndex = 8;
-            this.btn_insert_image.Text = "Insert";
+            this.btn_insert_image.Text = "Insert Image";
             this.btn_insert_image.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btn_insert_image.UseVisualStyleBackColor = true;
             this.btn_insert_image.Click += new System.EventHandler(this.InsertImage);
