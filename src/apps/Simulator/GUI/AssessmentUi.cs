@@ -31,7 +31,6 @@ namespace Simulator.GUI
             _filePath = filePath;
             _timeLeft = settings.TimeLimit * 60;
             _userAnswers = new object[_exam.NumberOfQuestions];
-
             chkQuestionReview.Visible = false;
             chkQuestionReview.Checked = false;
         }
@@ -237,6 +236,12 @@ namespace Simulator.GUI
 
         private void PrintQuestionToScreen()
         {
+            if (_settings.Questions.Count == 0 || _currentQuestionIndex == _settings.Questions.Count)
+            {
+                NavigateExam(NavOption.End);
+                return;
+            }
+
             var question = _settings.Questions[_currentQuestionIndex];
             _currentQuestionId = question.Id;
             chkQuestionReview.Checked = question.Review;
@@ -311,8 +316,12 @@ namespace Simulator.GUI
 
         private object SelectedAnswer()
         {
+            Question currentQuestion;
             // Get the current question
-            var currentQuestion = _settings.Questions[_currentQuestionIndex];
+            if (_settings.Questions.Count > _currentQuestionIndex)
+                currentQuestion = _settings.Questions[_currentQuestionIndex];
+            else
+                return null;
 
             // Determine the question type and return an answer
             if (currentQuestion.IsMultipleChoice)

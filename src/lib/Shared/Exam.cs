@@ -23,6 +23,31 @@ namespace Shared
 
         public List<Section> Sections { get; set; }
 
+        public int QuestionsMarkedForReviewCount
+        {
+            get
+            {
+                int count = 0;
+                foreach (Section section in Sections)
+                    count += section.Questions.Count(q => q.Review);
+
+                return count;
+            }
+        }
+
+        public IEnumerable<Question> AllQuestions
+        {
+            get
+            {
+                var questions = new List<Question>();
+
+                foreach (Section section in Sections)
+                    questions.AddRange(section.Questions);
+
+                return questions;
+            }
+        }
+
         public Exam()
         {
             Sections = new List<Section>();

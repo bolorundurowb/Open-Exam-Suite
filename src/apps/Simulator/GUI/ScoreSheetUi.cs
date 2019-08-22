@@ -19,7 +19,7 @@ namespace Simulator.GUI
         public ScoreSheetUi(Settings settings, Exam exam)
         {
             InitializeComponent();
-            
+
             _settings = settings;
             _exam = exam;
             lbl_candidate_name.Text = settings.CandidateName;
@@ -31,7 +31,7 @@ namespace Simulator.GUI
 
         private void LoadDataToUi(object sender, EventArgs e)
         {
-            var normalizedScore = (_settings.NumberOfCorrectAnswers * 1000 / _settings.Questions.Count);
+            var normalizedScore = (_settings.NumberOfCorrectAnswers == 0) ? 0 : (_settings.NumberOfCorrectAnswers * 1000 / _settings.Questions.Count);
             if (normalizedScore >= _exam.Properties.Passmark)
             {
                 lbl_status.Text = "Passed";
@@ -45,10 +45,10 @@ namespace Simulator.GUI
                 lbl_status.ForeColor = Color.Red;
             }
 
-            
+
             chr_display_score.Series["Pass Mark"].Points.AddXY(1, _exam.Properties.Passmark);
             chr_display_score.Series["Your Score"].Points.AddXY(0, normalizedScore);
-            
+
             foreach (var spread in _settings.ResultSpread)
             {
                 dgv_show_breakdown.Rows.Add(spread.Item1, spread.Item2, spread.Item3);
@@ -68,11 +68,11 @@ namespace Simulator.GUI
         private void Print(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
             var normalizedScore = (_settings.NumberOfCorrectAnswers * 1000 / _settings.Questions.Count);
-            
+
             var headerFont = new Font("Segoe UI", 12F, FontStyle.Bold);
             var subFont = new Font("Segoe UI", 10F, FontStyle.Regular);
             var specialFont = new Font("Segoe UI", 10F, FontStyle.Bold);
-            
+
             float ypos = e.MarginBounds.Top;
             e.Graphics.DrawString("EXAMINATION SCORE SHEET", headerFont, Brushes.Black,
                 new PointF((e.MarginBounds.Width / 2) - 50, ypos));
@@ -93,7 +93,7 @@ namespace Simulator.GUI
             e.Graphics.DrawString("EXAM CODE: " + lbl_exam_number.Text, subFont, Brushes.DarkSlateBlue,
                 new PointF(e.MarginBounds.Left, ypos));
             ypos += (2 * subFont.GetHeight(e.Graphics));
-            
+
             var imgStream = new MemoryStream();
             chr_display_score.SaveImage(imgStream, System.Drawing.Imaging.ImageFormat.Jpeg);
             var bmp = new Bitmap(imgStream);
