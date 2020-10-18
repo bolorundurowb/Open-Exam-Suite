@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Storage", "Storage\Storage.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "oes.Models", "oes.Models\oes.Models.csproj", "{069CC6E9-3853-4731-AE66-14290D027120}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "oes.IO", "oes.IO\oes.IO.csproj", "{C9C5DB22-537F-406E-88B6-AE8F9397D04F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{069CC6E9-3853-4731-AE66-14290D027120}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{069CC6E9-3853-4731-AE66-14290D027120}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{069CC6E9-3853-4731-AE66-14290D027120}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9C5DB22-537F-406E-88B6-AE8F9397D04F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9C5DB22-537F-406E-88B6-AE8F9397D04F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9C5DB22-537F-406E-88B6-AE8F9397D04F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9C5DB22-537F-406E-88B6-AE8F9397D04F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
