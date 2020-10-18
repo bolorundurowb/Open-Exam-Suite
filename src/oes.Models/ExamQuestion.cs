@@ -20,7 +20,9 @@ namespace oes.Models
 
         public string AnswerExplanation { get; private set; }
 
-        public bool IsMultipleChoice => Answers?.Count > 1;
+        public bool IsMultipleChoice => HasAnswers && Answers.Count > 1;
+
+        public bool HasAnswers => Answers != null && Answers.Any();
 
         private ExamQuestion()
         {
@@ -57,6 +59,11 @@ namespace oes.Models
             }
 
             Answers.Add(label);
+        }
+
+        public void AddAnswerExplanation(string answerExplanation)
+        {
+            AnswerExplanation = answerExplanation;
         }
     }
 }
