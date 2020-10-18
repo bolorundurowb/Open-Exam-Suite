@@ -1,6 +1,6 @@
 ﻿namespace oes.Models
 {
-    public class Option
+    public class QuestionOption
     {
         public char Alphabet { get; set; }
 

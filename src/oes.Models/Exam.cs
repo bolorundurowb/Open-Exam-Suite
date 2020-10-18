@@ -107,13 +107,13 @@ namespace oes.Models
 
         public char[] Answers { get; set; }
 
-        public List<Option> Options { get; set; }
+        public List<QuestionOption> Options { get; set; }
 
         public string Explanation { get; set; }
 
         public Question()
         {
-            Options = new List<Option>();
+            Options = new List<QuestionOption>();
         }
     }
 }

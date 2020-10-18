@@ -1,4 +1,6 @@
-﻿namespace oes.Models
+﻿using System.Collections.Generic;
+
+namespace oes.Models
 {
     public class ExamSection
     {
@@ -6,16 +8,11 @@
 
         public string Instructions { get; set; }
 
-        public List<Question> Questions { get; set; }
+        public List<ExamQuestion> Questions { get; set; }
 
         public ExamSection()
         {
-            Questions = new List<Question>();
-        }
-
-        public override string ToString()
-        {
-            return Title;
+            Questions = new List<ExamQuestion>();
         }
     }
 }
