@@ -2,8 +2,18 @@
 {
     public class QuestionOption
     {
-        public char Alphabet { get; set; }
+        public char Label { get; private set; }
 
-        public string Text { get; set; }
+        public string Text { get; private set; }
+
+        private QuestionOption()
+        {
+        }
+
+        public QuestionOption(char label, string text)
+        {
+            Label = label;
+            Text = text;
+        }
     }
 }

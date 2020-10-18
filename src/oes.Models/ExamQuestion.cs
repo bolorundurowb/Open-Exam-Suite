@@ -4,22 +4,29 @@ namespace oes.Models
 {
     public class ExamQuestion
     {
-        public int QuestionNumber { get; set; }
+        public int QuestionNumber { get; private set; }
 
-        public string Text { get; set; }
+        public string Text { get; private set; }
 
-        public byte[] Image { get; set; }
+        public byte[] Image { get; private set; }
 
-        public bool IsMultipleChoice { get; set; }
+        public List<char> Answers { get; private set; }
 
-        public List<char> Answers { get; set; }
+        public List<QuestionOption> Options { get; private set; }
 
-        public List<QuestionOption> Options { get; set; }
+        public string AnswerExplanation { get; private set; }
 
-        public string AnswerExplanation { get; set; }
+        public bool IsMultipleChoice => Answers?.Count > 1;
 
-        public ExamQuestion()
+        private ExamQuestion()
         {
+        }
+
+        public ExamQuestion(int questionNumber, string text, byte[] image = null)
+        {
+            QuestionNumber = questionNumber;
+            Text = text;
+            Image = image;
             Options = new List<QuestionOption>();
             Answers = new List<char>();
         }

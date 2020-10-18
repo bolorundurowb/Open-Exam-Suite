@@ -1,30 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 
 namespace oes.Models
 {
     public class Exam
     {
-        public int NumberOfQuestions => Sections.Sum(section => section.Questions.Count);
+        public int? NumberOfQuestions => Sections?.Sum(section => section.Questions.Count);
 
-        public Properties Properties { get; set; }
+        public ExamMetadata Metadata { get; private set; }
 
-        public List<Section> Sections { get; set; }
+        public List<ExamSection> Sections { get; private set; }
 
-        public Exam()
+        private Exam()
         {
-            Sections = new List<Section>();
-            Properties = new Properties();
         }
 
-        //Methods
+        public Exam(ExamMetadata metadata)
+        {
+            Metadata = metadata;
+            Sections = new List<ExamSection>();
+        }
+
+        // Methods
         public void AddSection(string sectionName)
         {
             var section = Sections.FirstOrDefault(s => s.Title == sectionName);
             if (section == null)
             {
-                section = new Section {Title = sectionName};
+                section = new BitVector32.Section
+                {
+                    Title = sectionName
+                };
                 Sections.Add(section);
             }
         }
@@ -41,7 +48,7 @@ namespace oes.Models
             var section = Sections.FirstOrDefault(s => s.Title == sectionName);
             if (section == null)
             {
-                section = new Section();
+                section = new BitVector32.Section();
                 section.Title = sectionName;
                 Sections.Add(section);
                 question.No = 1;
@@ -58,62 +65,6 @@ namespace oes.Models
         {
             var section = Sections.FirstOrDefault(s => s.Title == sectionName);
             section?.Questions.Remove(question);
-        }
-    }
-
-    public class Properties
-    {
-        public string Title { get; set; }
-
-        public string Code { get; set; }
-
-        public int Version { get; set; }
-
-        public double Passmark { get; set; }
-
-        public int TimeLimit { get; set; }
-
-        public string Instructions { get; set; }
-    }
-
-    public class Section
-    {
-        public string Title { get; set; }
-
-        public List<Question> Questions { get; set; }
-
-        public Section()
-        {
-            Questions = new List<Question>();
-        }
-
-        public override string ToString()
-        {
-            return Title;
-        }
-    }
-
-    public class Question
-    {
-        public int No { get; set; }
-
-        public string Text { get; set; }
-
-        public byte[] Image { get; set; }
-
-        public char Answer { get; set; }
-
-        public bool IsMultipleChoice { get; set; }
-
-        public char[] Answers { get; set; }
-
-        public List<QuestionOption> Options { get; set; }
-
-        public string Explanation { get; set; }
-
-        public Question()
-        {
-            Options = new List<QuestionOption>();
         }
     }
 }
