@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Storage", "Storage\Storage.csproj", "{4C8BDA0F-8194-4CEA-9571-56C18D681BC9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "oes.Models", "oes.Models\oes.Models.csproj", "{069CC6E9-3853-4731-AE66-14290D027120}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{4C8BDA0F-8194-4CEA-9571-56C18D681BC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C8BDA0F-8194-4CEA-9571-56C18D681BC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C8BDA0F-8194-4CEA-9571-56C18D681BC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{069CC6E9-3853-4731-AE66-14290D027120}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{069CC6E9-3853-4731-AE66-14290D027120}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{069CC6E9-3853-4731-AE66-14290D027120}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{069CC6E9-3853-4731-AE66-14290D027120}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
