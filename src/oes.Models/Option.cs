@@ -1,6 +1,6 @@
 ﻿namespace oes.Models
 {
-    public class SingleChoiceOption
+    public class Option
     {
         public char Alphabet { get; set; }
 

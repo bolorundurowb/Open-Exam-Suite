@@ -116,11 +116,4 @@ namespace oes.Models
             Options = new List<Option>();
         }
     }
-
-    public class Option
-    {
-        public char Alphabet { get; set; }
-
-        public string Text { get; set; }
-    }
 }
