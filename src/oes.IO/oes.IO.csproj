@@ -4,4 +4,12 @@
         <TargetFramework>netstandard2.1</TargetFramework>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Folder Include="Implementations" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\oes.Models\oes.Models.csproj" />
+    </ItemGroup>
+
 </Project>
