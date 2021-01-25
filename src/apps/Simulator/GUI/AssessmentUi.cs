@@ -263,6 +263,11 @@ namespace Simulator.GUI
 
         private void AddOptions(List<Option> options, bool isMultipleChoice)
         {
+            if (options != null)
+            {
+                Shuffle(options);
+            }
+            
             for (var i = 0; i < options.Count; i++)
             {
                 if (isMultipleChoice)
