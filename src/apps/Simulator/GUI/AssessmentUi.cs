@@ -243,6 +243,24 @@ namespace Simulator.GUI
                 $"{_userAnswers.Where(x => x != null).Count()} / {_settings.Questions.Count} answered";
         }
 
+        private static Random rng = new Random();
+
+        private void Shuffle(List<Option> list)
+        {
+            if (list != null)
+            {
+                int n = list.Count;
+                while (n > 1)
+                {
+                    n--;
+                    int k = rng.Next(n + 1);
+                    Option value = list[k];
+                    list[k] = list[n];
+                    list[n] = value;
+                }
+            }
+        }
+
         private void AddOptions(List<Option> options, bool isMultipleChoice)
         {
             for (var i = 0; i < options.Count; i++)
@@ -252,7 +270,7 @@ namespace Simulator.GUI
                     var chk = new CheckBox
                     {
                         AutoSize = true,
-                        Text = $"{options[i].Alphabet}. - {options[i].Text}",
+                        Text = $"{options[i].Text}",
                         Name = "chk" + options[i].Alphabet,
                         Location = new Point(51, 364 + (i * 22))
                     };
@@ -266,7 +284,7 @@ namespace Simulator.GUI
                     var rdb = new RadioButton
                     {
                         AutoSize = true,
-                        Text = options[i].Alphabet + ". - " + options[i].Text,
+                        Text = options[i].Text,
                         Name = "rdb" + options[i].Alphabet,
                         Location = new Point(51, 364 + (i * 22))
                     };
