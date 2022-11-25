@@ -38,7 +38,9 @@
             this.btn_pause = new System.Windows.Forms.Button();
             this.btn_end = new System.Windows.Forms.Button();
             this.pan_display = new System.Windows.Forms.Panel();
+            this.chkQuestionReview = new System.Windows.Forms.CheckBox();
             this.pct_image = new System.Windows.Forms.PictureBox();
+            this.lbl_explanation = new System.Windows.Forms.TextBox();
             this.txt_question = new System.Windows.Forms.TextBox();
             this.lbl_question_number = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -49,19 +51,20 @@
             this.lbl_exam_title = new System.Windows.Forms.Label();
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.btn_show_answer = new System.Windows.Forms.Button();
-            this.lbl_explanation = new System.Windows.Forms.TextBox();
             this.btnHideAnswers = new System.Windows.Forms.Button();
             this.dspExamProgress = new System.Windows.Forms.Label();
             this.lblExamProgress = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.pan_display.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pct_image)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(1037, 9);
+            this.label1.Location = new System.Drawing.Point(1044, 9);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(54, 13);
@@ -73,7 +76,7 @@
             // 
             this.lbl_elapsed_time.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lbl_elapsed_time.AutoSize = true;
-            this.lbl_elapsed_time.Location = new System.Drawing.Point(1096, 9);
+            this.lbl_elapsed_time.Location = new System.Drawing.Point(1103, 9);
             this.lbl_elapsed_time.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbl_elapsed_time.Name = "lbl_elapsed_time";
             this.lbl_elapsed_time.Size = new System.Drawing.Size(0, 13);
@@ -83,7 +86,7 @@
             // btn_begin
             // 
             this.btn_begin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btn_begin.Location = new System.Drawing.Point(910, 532);
+            this.btn_begin.Location = new System.Drawing.Point(186, 598);
             this.btn_begin.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_begin.Name = "btn_begin";
             this.btn_begin.Size = new System.Drawing.Size(74, 23);
@@ -96,7 +99,7 @@
             // 
             this.btn_previous.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btn_previous.Enabled = false;
-            this.btn_previous.Location = new System.Drawing.Point(32, 532);
+            this.btn_previous.Location = new System.Drawing.Point(30, 598);
             this.btn_previous.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_previous.Name = "btn_previous";
             this.btn_previous.Size = new System.Drawing.Size(74, 23);
@@ -110,7 +113,7 @@
             // 
             this.btn_next.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btn_next.Enabled = false;
-            this.btn_next.Location = new System.Drawing.Point(110, 532);
+            this.btn_next.Location = new System.Drawing.Point(108, 598);
             this.btn_next.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_next.Name = "btn_next";
             this.btn_next.Size = new System.Drawing.Size(74, 23);
@@ -123,7 +126,7 @@
             // btn_pause
             // 
             this.btn_pause.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_pause.Location = new System.Drawing.Point(990, 532);
+            this.btn_pause.Location = new System.Drawing.Point(1004, 598);
             this.btn_pause.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_pause.Name = "btn_pause";
             this.btn_pause.Size = new System.Drawing.Size(74, 23);
@@ -136,7 +139,7 @@
             // btn_end
             // 
             this.btn_end.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_end.Location = new System.Drawing.Point(1068, 532);
+            this.btn_end.Location = new System.Drawing.Point(1082, 598);
             this.btn_end.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_end.Name = "btn_end";
             this.btn_end.Size = new System.Drawing.Size(74, 23);
@@ -151,9 +154,8 @@
             this.pan_display.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.pan_display.AutoScroll = true;
-            this.pan_display.AutoSize = true;
             this.pan_display.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pan_display.Controls.Add(this.panel1);
             this.pan_display.Controls.Add(this.pct_image);
             this.pan_display.Controls.Add(this.lbl_explanation);
             this.pan_display.Controls.Add(this.txt_question);
@@ -167,6 +169,27 @@
             this.pan_display.Location = new System.Drawing.Point(30, 34);
             this.pan_display.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.pan_display.Name = "pan_display";
+            this.pan_display.Size = new System.Drawing.Size(1126, 558);
+            this.pan_display.TabIndex = 7;
+            // 
+            // chkQuestionReview
+            // 
+            this.chkQuestionReview.AutoSize = true;
+            this.chkQuestionReview.Location = new System.Drawing.Point(3, 3);
+            this.chkQuestionReview.Name = "chkQuestionReview";
+            this.chkQuestionReview.Size = new System.Drawing.Size(62, 17);
+            this.chkQuestionReview.TabIndex = 13;
+            this.chkQuestionReview.Text = "Review";
+            this.chkQuestionReview.UseVisualStyleBackColor = true;
+            this.chkQuestionReview.CheckedChanged += new System.EventHandler(this.chkQuestionReview_CheckedChanged);
+            // 
+            // pct_image
+            // 
+            this.pct_image.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.pct_image.Location = new System.Drawing.Point(77, 117);
+            this.pct_image.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.pct_image.Name = "pct_image";
+            this.pct_image.Size = new System.Drawing.Size(337, 144);
             this.pan_display.Size = new System.Drawing.Size(1112, 479);
             this.pan_display.TabIndex = 7;
             // 
@@ -184,6 +207,23 @@
             this.pct_image.TabStop = false;
             this.pct_image.Visible = false;
             // 
+            // lbl_explanation
+            // 
+            this.lbl_explanation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbl_explanation.BackColor = System.Drawing.SystemColors.Control;
+            this.lbl_explanation.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.lbl_explanation.Cursor = System.Windows.Forms.Cursors.Default;
+            this.lbl_explanation.Location = new System.Drawing.Point(28, 435);
+            this.lbl_explanation.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lbl_explanation.Multiline = true;
+            this.lbl_explanation.Name = "lbl_explanation";
+            this.lbl_explanation.ReadOnly = true;
+            this.lbl_explanation.Size = new System.Drawing.Size(1071, 109);
+            this.lbl_explanation.TabIndex = 9;
+            this.lbl_explanation.Text = "lbl_explanation";
+            this.lbl_explanation.Visible = false;
+            // 
             // txt_question
             // 
             this.txt_question.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -194,7 +234,7 @@
             this.txt_question.Multiline = true;
             this.txt_question.Name = "txt_question";
             this.txt_question.ReadOnly = true;
-            this.txt_question.Size = new System.Drawing.Size(967, 72);
+            this.txt_question.Size = new System.Drawing.Size(1022, 72);
             this.txt_question.TabIndex = 11;
             this.txt_question.Visible = false;
             // 
@@ -283,7 +323,7 @@
             // btn_show_answer
             // 
             this.btn_show_answer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_show_answer.Location = new System.Drawing.Point(938, 4);
+            this.btn_show_answer.Location = new System.Drawing.Point(945, 4);
             this.btn_show_answer.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_show_answer.Name = "btn_show_answer";
             this.btn_show_answer.Size = new System.Drawing.Size(86, 23);
@@ -293,6 +333,10 @@
             this.btn_show_answer.Visible = false;
             this.btn_show_answer.Click += new System.EventHandler(this.ShowAnswer);
             // 
+            // btnHideAnswers
+            // 
+            this.btnHideAnswers.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnHideAnswers.Location = new System.Drawing.Point(945, 4);
             // lbl_explanation
             // 
             this.lbl_explanation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -327,7 +371,7 @@
             // 
             this.dspExamProgress.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.dspExamProgress.AutoSize = true;
-            this.dspExamProgress.Location = new System.Drawing.Point(815, 9);
+            this.dspExamProgress.Location = new System.Drawing.Point(822, 9);
             this.dspExamProgress.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.dspExamProgress.Name = "dspExamProgress";
             this.dspExamProgress.Size = new System.Drawing.Size(0, 13);
@@ -338,7 +382,7 @@
             // 
             this.lblExamProgress.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblExamProgress.AutoSize = true;
-            this.lblExamProgress.Location = new System.Drawing.Point(728, 9);
+            this.lblExamProgress.Location = new System.Drawing.Point(735, 9);
             this.lblExamProgress.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblExamProgress.Name = "lblExamProgress";
             this.lblExamProgress.Size = new System.Drawing.Size(83, 13);
@@ -346,11 +390,19 @@
             this.lblExamProgress.Text = " Exam Progress:";
             this.lblExamProgress.Visible = false;
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.chkQuestionReview);
+            this.panel1.Location = new System.Drawing.Point(1056, 3);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(65, 23);
+            this.panel1.TabIndex = 14;
+            // 
             // AssessmentUi
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1154, 564);
+            this.ClientSize = new System.Drawing.Size(1184, 633);
             this.Controls.Add(this.btnHideAnswers);
             this.Controls.Add(this.btn_show_answer);
             this.Controls.Add(this.pan_display);
@@ -372,6 +424,8 @@
             this.pan_display.ResumeLayout(false);
             this.pan_display.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pct_image)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -402,5 +456,7 @@
         private System.Windows.Forms.Label dspExamProgress;
         private System.Windows.Forms.Label lblExamProgress;
         private System.Windows.Forms.TextBox lbl_explanation;
+        private System.Windows.Forms.CheckBox chkQuestionReview;
+        private System.Windows.Forms.Panel panel1;
     }
 }

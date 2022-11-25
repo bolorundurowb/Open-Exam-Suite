@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using Shared;
@@ -9,13 +10,18 @@ namespace Simulator.GUI
     public partial class ExamSettingsUi : Form
     {
         private readonly Exam _exam;
+        private readonly string _filePath;
         private Settings _settings;
+        private string _reviewQuestionsTemplateString = @"Take all questions marked for review {0}";
 
-        public ExamSettingsUi(Exam exam)
+        public ExamSettingsUi(Exam exam, string filePath)
         {
             InitializeComponent();
 
             _exam = exam;
+            _filePath = filePath;
+
+            rdbTakeAllMarkedQuestions.Text = string.Format(_reviewQuestionsTemplateString, exam.QuestionsMarkedForReviewCount);
 
             clb_section_options.Items.AddRange(_exam.Sections.ToArray());
 
@@ -32,6 +38,11 @@ namespace Simulator.GUI
         private void CustomTimer(object sender, EventArgs e)
         {
             num_time_limit.Enabled = chk_enable_timer.Checked;
+        }
+
+        private void rdbTakeAllMarkedQuestions_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
 
         private void ChooseNumOfQuestions(object sender, EventArgs e)
@@ -62,9 +73,9 @@ namespace Simulator.GUI
 
         private void Proceed(object sender, EventArgs e)
         {
-            _settings = new Settings {CandidateName = txt_candidate_name.Text};
+            _settings = new Settings { CandidateName = txt_candidate_name.Text };
             if (chk_enable_timer.Checked)
-                _settings.TimeLimit = (int) num_time_limit.Value;
+                _settings.TimeLimit = (int)num_time_limit.Value;
             else
                 _settings.TimeLimit = _exam.Properties.TimeLimit;
 
@@ -77,7 +88,7 @@ namespace Simulator.GUI
 
             if (rdb_fixed_number_questions.Checked)
             {
-                var numOfQuestions = (int) num_questions.Value;
+                var numOfQuestions = (int)num_questions.Value;
                 var sum = 0;
                 foreach (var section in _exam.Sections)
                 {
@@ -103,6 +114,13 @@ namespace Simulator.GUI
                 }
             }
 
+            if (rdbTakeAllMarkedQuestions.Checked)
+            {
+                _settings.Sections.AddRange(_exam.Sections);
+                _settings.Questions.AddRange(_exam.AllQuestions);
+                _settings.MarkedForReviewQuestionsOnly = true;
+            }
+
             if (_settings.Questions.Count == 0)
             {
                 MessageBox.Show(
@@ -111,10 +129,11 @@ namespace Simulator.GUI
                 return;
             }
 
-            var ui = new AssessmentUi(_exam, _settings);
+            var ui = new AssessmentUi(_exam, _settings, _filePath);
             Hide();
             ui.ShowDialog();
             Close();
         }
+
     }
 }

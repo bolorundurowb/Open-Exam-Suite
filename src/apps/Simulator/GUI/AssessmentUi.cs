@@ -5,28 +5,34 @@ using System.Linq;
 using System.Windows.Forms;
 using Shared;
 using Shared.Models;
+using Shared.Util;
 
 namespace Simulator.GUI
 {
     public partial class AssessmentUi : Form
     {
-#region Global Variables
+        #region Global Variables
 
         private Exam _exam;
         private Settings _settings;
+        private readonly string _filePath;
         private int _timeLeft;
         private int _currentQuestionIndex;
+        private Guid _currentQuestionId;
         private object[] _userAnswers;
 
-#endregion
+        #endregion
 
-        public AssessmentUi(Exam exam, Settings settings)
+        public AssessmentUi(Exam exam, Settings settings, string filePath)
         {
             InitializeComponent();
             _exam = exam;
             _settings = settings;
+            _filePath = filePath;
             _timeLeft = settings.TimeLimit * 60;
             _userAnswers = new object[_exam.NumberOfQuestions];
+            chkQuestionReview.Visible = false;
+            chkQuestionReview.Checked = false;
         }
 
         private void TimerTick(object sender, EventArgs e)
@@ -80,6 +86,9 @@ namespace Simulator.GUI
             txt_question.Visible = true;
             lblExamProgress.Visible = true;
             dspExamProgress.Visible = true;
+
+            chkQuestionReview.Visible = true;
+            chkQuestionReview.Checked = false;
         }
 
         private void PauseExam(object sender, EventArgs e)
@@ -178,12 +187,12 @@ namespace Simulator.GUI
                 {
                     if (_userAnswers[i].GetType().IsArray)
                     {
-                        if (((char[]) _userAnswers[i]).SequenceEqual(_settings.Questions[i].Answers))
+                        if (((char[])_userAnswers[i]).SequenceEqual(_settings.Questions[i].Answers))
                         {
                             numOfCorrectAnswers++;
                         }
                     }
-                    else if ((char) _userAnswers[i] == _settings.Questions[i].Answer)
+                    else if ((char)_userAnswers[i] == _settings.Questions[i].Answer)
                     {
                         numOfCorrectAnswers++;
                     }
@@ -202,12 +211,12 @@ namespace Simulator.GUI
                             numOfQuestions++;
                             if (_userAnswers[i].GetType().IsArray)
                             {
-                                if (((char[]) _userAnswers[i]).SequenceEqual(_settings.Questions[i].Answers))
+                                if (((char[])_userAnswers[i]).SequenceEqual(_settings.Questions[i].Answers))
                                 {
                                     numOfCorrect++;
                                 }
                             }
-                            else if ((char) _userAnswers[i] == _settings.Questions[i].Answer)
+                            else if ((char)_userAnswers[i] == _settings.Questions[i].Answer)
                             {
                                 numOfCorrect++;
                             }
@@ -227,7 +236,15 @@ namespace Simulator.GUI
 
         private void PrintQuestionToScreen()
         {
+            if (_settings.Questions.Count == 0 || _currentQuestionIndex == _settings.Questions.Count)
+            {
+                NavigateExam(NavOption.End);
+                return;
+            }
+
             var question = _settings.Questions[_currentQuestionIndex];
+            _currentQuestionId = question.Id;
+            chkQuestionReview.Checked = question.Review;
             lbl_question_number.Text = question.No.ToString();
             lbl_section_title.Text = _settings.Sections.First(s => s.Questions.Contains(question)).Title;
             lbl_explanation.Text = question.Explanation;
@@ -254,10 +271,10 @@ namespace Simulator.GUI
                         AutoSize = true,
                         Text = $"{options[i].Alphabet}. - {options[i].Text}",
                         Name = "chk" + options[i].Alphabet,
-                        Location = new Point(51, 364 + (i * 22))
+                        Location = new Point(51, 300 + (i * 22))
                     };
                     if (_userAnswers[_currentQuestionIndex] != null &&
-                        ((char[]) _userAnswers[_currentQuestionIndex]).Contains(options[i].Alphabet))
+                        ((char[])_userAnswers[_currentQuestionIndex]).Contains(options[i].Alphabet))
                         chk.Checked = true;
                     pan_display.Controls.Add(chk);
                 }
@@ -268,10 +285,10 @@ namespace Simulator.GUI
                         AutoSize = true,
                         Text = options[i].Alphabet + ". - " + options[i].Text,
                         Name = "rdb" + options[i].Alphabet,
-                        Location = new Point(51, 364 + (i * 22))
+                        Location = new Point(51, 300 + (i * 22))
                     };
                     if (_userAnswers[_currentQuestionIndex] != null &&
-                        (char) _userAnswers[_currentQuestionIndex] == options[i].Alphabet)
+                        (char)_userAnswers[_currentQuestionIndex] == options[i].Alphabet)
                         rdb.Checked = true;
                     pan_display.Controls.Add(rdb);
                 }
@@ -299,8 +316,12 @@ namespace Simulator.GUI
 
         private object SelectedAnswer()
         {
+            Question currentQuestion;
             // Get the current question
-            var currentQuestion = _settings.Questions[_currentQuestionIndex];
+            if (_settings.Questions.Count > _currentQuestionIndex)
+                currentQuestion = _settings.Questions[_currentQuestionIndex];
+            else
+                return null;
 
             // Determine the question type and return an answer
             if (currentQuestion.IsMultipleChoice)
@@ -340,7 +361,7 @@ namespace Simulator.GUI
                 foreach (var answer in answers)
                 {
                     var index = pan_display.Controls.IndexOf(answer);
-                    ((CheckBox) pan_display.Controls[index]).ForeColor = Color.Green;
+                    ((CheckBox)pan_display.Controls[index]).ForeColor = Color.Green;
                 }
 
                 var selectedOptions = checkBoxes.Where(s => s.Checked);
@@ -350,7 +371,7 @@ namespace Simulator.GUI
                         .Contains(Convert.ToChar(selectedOption.Name.Replace("chk", ""))))
                     {
                         var index = pan_display.Controls.IndexOf(selectedOption);
-                        ((CheckBox) pan_display.Controls[index]).ForeColor = Color.Red;
+                        ((CheckBox)pan_display.Controls[index]).ForeColor = Color.Red;
                     }
                 }
             }
@@ -361,14 +382,14 @@ namespace Simulator.GUI
                 if (answer != null)
                 {
                     var index = pan_display.Controls.IndexOf(answer);
-                    ((RadioButton) pan_display.Controls[index]).ForeColor = Color.Green;
+                    ((RadioButton)pan_display.Controls[index]).ForeColor = Color.Green;
                 }
 
                 var currentSelectedOption = pan_display.Controls.OfType<RadioButton>().FirstOrDefault(s => s.Checked);
                 if (currentSelectedOption != null && currentSelectedOption.Text != answer.Text)
                 {
                     var index = pan_display.Controls.IndexOf(currentSelectedOption);
-                    ((RadioButton) pan_display.Controls[index]).ForeColor = Color.Red;
+                    ((RadioButton)pan_display.Controls[index]).ForeColor = Color.Red;
                 }
             }
         }
@@ -396,6 +417,16 @@ namespace Simulator.GUI
             lbl_explanation.Visible = false;
             btn_show_answer.Visible = true;
             btnHideAnswers.Visible = false;
+        }
+
+        private void chkQuestionReview_CheckedChanged(object sender, EventArgs e)
+        {
+            Question question = _exam.FindQuestionById(_currentQuestionId);
+
+            if (question != null)
+                question.Review = chkQuestionReview.Checked;
+
+            Writer.ToOef(_exam, _filePath);
         }
     }
 
