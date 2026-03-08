@@ -1,17 +1,16 @@
-﻿namespace Creator.GUI.Dialogs
+﻿namespace Creator.GUI.Dialogs;
+
+public partial class AddSection : Form
 {
-    public partial class AddSection : Form
+    public string Title => txt_title.Text;
+
+    public AddSection()
     {
-        public string Title => txt_title.Text;
+        InitializeComponent();
+    }
 
-        public AddSection()
-        {
-            InitializeComponent();
-        }
-
-        private void btn_add_section_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
+    private void btn_add_section_Click(object sender, EventArgs e)
+    {
+        Close();
     }
 }

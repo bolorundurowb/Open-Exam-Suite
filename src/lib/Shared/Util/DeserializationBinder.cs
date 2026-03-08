@@ -5,17 +5,16 @@
 using System.Reflection;
 using System.Runtime.Serialization;
 
-namespace Shared.Util
+namespace Shared.Util;
+
+public class DeserializationBinder : SerializationBinder
 {
-    public class DeserializationBinder : SerializationBinder
+    public override Type BindToType(string assemblyName, string typeName)
     {
-        public override Type BindToType(string assemblyName, string typeName)
-        {
-            var assembly = Assembly.GetExecutingAssembly().FullName;
+        var assembly = Assembly.GetExecutingAssembly().FullName;
 
-            var type = Type.GetType(assemblyName.Contains("Shared") ? $"{typeName}, {assembly}" : $"{typeName}, {assemblyName}");
+        var type = Type.GetType(assemblyName.Contains("Shared") ? $"{typeName}, {assembly}" : $"{typeName}, {assemblyName}");
 
-            return type;
-        }
+        return type;
     }
 }

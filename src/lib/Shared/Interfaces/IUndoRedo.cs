@@ -1,11 +1,10 @@
 ﻿using Shared.Models;
 
-namespace Shared.Interfaces
+namespace Shared.Interfaces;
+
+public interface IUndoRedo
 {
-    public interface IUndoRedo
-    {
-        ChangeRepresentationObject Undo();
-        ChangeRepresentationObject Redo();
-        void InsertObjectforUndoRedo(ChangeRepresentationObject dataobject);
-    }
+    ChangeRepresentationObject Undo();
+    ChangeRepresentationObject Redo();
+    void InsertObjectforUndoRedo(ChangeRepresentationObject dataobject);
 }

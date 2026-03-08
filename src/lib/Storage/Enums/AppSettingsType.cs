@@ -1,9 +1,8 @@
-﻿namespace Storage.Enums
+﻿namespace Storage.Enums;
+
+public enum AppSettingsType
 {
-    public enum AppSettingsType
-    {
-        Simulator,
-        Creator,
-        Other
-    }
+    Simulator,
+    Creator,
+    Other
 }

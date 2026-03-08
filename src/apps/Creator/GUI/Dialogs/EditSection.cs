@@ -1,19 +1,18 @@
-﻿namespace Creator.GUI.Dialogs
+﻿namespace Creator.GUI.Dialogs;
+
+public partial class EditSection : Form
 {
-    public partial class EditSection : Form
+    public string Title => txt_title.Text;
+
+    public EditSection(string currentTitle)
     {
-        public string Title => txt_title.Text;
+        InitializeComponent();
+        txt_title.Text = currentTitle;
+        txt_title.SelectAll();
+    }
 
-        public EditSection(string currentTitle)
-        {
-            InitializeComponent();
-            txt_title.Text = currentTitle;
-            txt_title.SelectAll();
-        }
-
-        private void btn_add_section_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
+    private void btn_add_section_Click(object sender, EventArgs e)
+    {
+        Close();
     }
 }

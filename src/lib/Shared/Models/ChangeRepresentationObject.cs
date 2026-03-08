@@ -1,11 +1,10 @@
 ﻿using Shared.Enums;
 
-namespace Shared.Models
+namespace Shared.Models;
+
+public class ChangeRepresentationObject
 {
-    public class ChangeRepresentationObject
-    {
-        public ActionType Action;
-        public Question Question;
-        public string SectionTitle;
-    }
+    public ActionType Action;
+    public Question Question;
+    public string SectionTitle;
 }
