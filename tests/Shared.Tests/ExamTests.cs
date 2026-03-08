@@ -2,114 +2,113 @@
 using System.IO;
 using System.Drawing;
 using System.Reflection;
-using Shared.Util;
+using Shared.Utilities;
 using Xunit;
 
-namespace Shared.Tests
+namespace Shared.Tests;
+
+public class ExamTests
 {
-    public class ExamTests
+    private readonly Exam _exam;
+
+    public ExamTests()
     {
-        private readonly Exam _exam;
+        var assembly = Assembly.GetExecutingAssembly();
 
-        public ExamTests()
+        using var stream = assembly.GetManifestResourceStream("Shared.Tests.test.png");
+        var image = (Bitmap) Image.FromStream(stream);
+        _exam = new Exam
         {
-            var assembly = Assembly.GetExecutingAssembly();
-
-            using var stream = assembly.GetManifestResourceStream("Shared.Tests.test.png");
-            var image = (Bitmap) Image.FromStream(stream);
-            _exam = new Exam
+            Properties = new Properties
             {
-                Properties = new Properties
+                Title = "Test",
+                Version = 3,
+                Code = "T01",
+                Instructions = "Goodluck! Make good use of your time.",
+                Passmark = 650,
+                TimeLimit = 5
+            },
+            Sections =
+            [
+                new Section
                 {
-                    Title = "Test",
-                    Version = 3,
-                    Code = "T01",
-                    Instructions = "Goodluck! Make good use of your time.",
-                    Passmark = 650,
-                    TimeLimit = 5
-                },
-                Sections =
-                [
-                    new Section
-                    {
-                        Title = "Section A",
-                        Questions =
-                        [
-                            new Question
-                            {
-                                No = 1,
-                                Text = "Question 1",
-                                Answer = 'A',
-                                Options =
-                                [
-                                    new Option
-                                    {
-                                        Text = "Option 1",
-                                        Alphabet = 'A'
-                                    },
+                    Title = "Section A",
+                    Questions =
+                    [
+                        new Question
+                        {
+                            No = 1,
+                            Text = "Question 1",
+                            Answer = 'A',
+                            Options =
+                            [
+                                new Option
+                                {
+                                    Text = "Option 1",
+                                    Alphabet = 'A'
+                                },
 
-                                    new Option
-                                    {
-                                        Text = "Option 2",
-                                        Alphabet = 'B'
-                                    }
-                                ],
-                                Image = image
-                            },
+                                new Option
+                                {
+                                    Text = "Option 2",
+                                    Alphabet = 'B'
+                                }
+                            ],
+                            Image = image
+                        },
 
-                            new Question
-                            {
-                                No = 1,
-                                Text = "Question 2",
-                                Answer = 'B',
-                                Options =
-                                [
-                                    new Option
-                                    {
-                                        Text = "Option 1",
-                                        Alphabet = 'A'
-                                    },
+                        new Question
+                        {
+                            No = 1,
+                            Text = "Question 2",
+                            Answer = 'B',
+                            Options =
+                            [
+                                new Option
+                                {
+                                    Text = "Option 1",
+                                    Alphabet = 'A'
+                                },
 
-                                    new Option
-                                    {
-                                        Text = "Option 2",
-                                        Alphabet = 'B'
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                ]
-            };
-        }
+                                new Option
+                                {
+                                    Text = "Option 2",
+                                    Alphabet = 'B'
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        };
+    }
 
-        [Fact]
-        public void ExamGetsSerialized()
-        {
-            var filepath = Environment.CurrentDirectory + Path.DirectorySeparatorChar + "test.oef";
-            Writer.ToOef(_exam, filepath, true);
-            Assert.Equal(true, File.Exists(filepath));
-        }
+    [Fact]
+    public void ExamGetsSerialized()
+    {
+        var filepath = Environment.CurrentDirectory + Path.DirectorySeparatorChar + "test.oef";
+        Writer.ToOef(_exam, filepath, true);
+        Assert.Equal(true, File.Exists(filepath));
+    }
 
-        [Fact]
-        public void ExamGetsDeserialized()
-        {
-            var filepath = Environment.CurrentDirectory + Path.DirectorySeparatorChar + "test.oef";
-            var exam = Reader.FromOefFile(filepath, true);
-            Assert.NotNull(exam);
-        }
+    [Fact]
+    public void ExamGetsDeserialized()
+    {
+        var filepath = Environment.CurrentDirectory + Path.DirectorySeparatorChar + "test.oef";
+        var exam = Reader.FromOefFile(filepath, true);
+        Assert.NotNull(exam);
+    }
 
-        [Fact]
-        public void NullExamPassed()
-        {
-            Exam nullExam = null;
-            Assert.Throws<NullReferenceException>(() => { Writer.ToOef(nullExam, @"C:\"); });
-        }
+    [Fact]
+    public void NullExamPassed()
+    {
+        Exam nullExam = null;
+        Assert.Throws<NullReferenceException>(() => { Writer.ToOef(nullExam, @"C:\"); });
+    }
 
-        [Fact]
-        public void EmptyFilePath()
-        {
-            Assert.Throws<ArgumentException>(() => { Writer.ToOef(_exam, string.Empty); });
-        }
+    [Fact]
+    public void EmptyFilePath()
+    {
+        Assert.Throws<ArgumentException>(() => { Writer.ToOef(_exam, string.Empty); });
     }
 }
