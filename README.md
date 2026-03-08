@@ -1,6 +1,7 @@
 # Open Exam Suite
 
-![Build and Test](https://github.com/bolorundurowb/Open-Exam-Suite/actions/workflows/build-and-test.yml/badge.svg) [![Download Open Exam Suite](https://img.shields.io/sourceforge/dm/open-exam-suite.svg)](https://sourceforge.net/projects/open-exam-suite/files/latest/download) [![.NET 10](https://img.shields.io/badge/.net-10.0-0066b6.svg)](https://dotnet.microsoft.com/download/dotnet/10.0) [![License](https://img.shields.io/badge/license-GPLv3-orange.svg)](./LICENSE)
+[![Build, Test & Coverage](https://github.com/bolorundurowb/Open-Exam-Suite/actions/workflows/build-and-test.yml/badge.svg)](https://github.com/bolorundurowb/Open-Exam-Suite/actions/workflows/build-and-test.yml)
+[![Download Open Exam Suite](https://img.shields.io/sourceforge/dm/open-exam-suite.svg)](https://sourceforge.net/projects/open-exam-suite/files/latest/download) [![.NET 10](https://img.shields.io/badge/.net-10.0-0066b6.svg)](https://dotnet.microsoft.com/download/dotnet/10.0) [![License](https://img.shields.io/badge/license-GPLv3-orange.svg)](./LICENSE)
 
 Open Exam Suite is an open-source alternative to Avanset's Visual CertExam Suite. It provides a platform for designing, creating, and simulating computer-based exams, offering a complete solution for anyone looking to build or take practice tests.
 
