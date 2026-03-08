@@ -1,19 +1,18 @@
-﻿name: Build and Test
+﻿name: Build, Test & Coverage
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ master ]
   pull_request:
-    branches: [ main, master ]
+  workflow_dispatch:
 
 jobs:
-  build:
+  build-and-test:
     runs-on: windows-latest
-
     steps:
     - uses: actions/checkout@v4
 
-    - name: Setup .NET
+    - name: Setup .NET 10 SDK
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '10.0.x'
