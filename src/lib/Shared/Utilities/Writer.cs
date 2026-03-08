@@ -129,8 +129,9 @@ public static class Writer
             File.WriteAllText(filePath, examJsonString);
             return true;
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            Logger.LogException(ex);
             return false;
         }
     }
@@ -145,23 +146,20 @@ public static class Writer
             File.WriteAllText(filePath, examXmlStringWriter.ToString());
             return true;
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            Logger.LogException(ex);
             return false;
         }
     }
         
-    private static byte[]? BitmapToByteArray(Bitmap? bitmap)
+    public static byte[]? BitmapToByteArray(Bitmap? bitmap)
     {
-        byte[] result = null;
+        if (bitmap == null)
+            return null;
 
-        if (bitmap != null)
-        {
-            using var stream = new MemoryStream();
-            bitmap.Save(stream, bitmap.RawFormat);
-            result = stream.ToArray();
-        }
-            
-        return result;
+        using var stream = new MemoryStream();
+        bitmap.Save(stream, bitmap.RawFormat);
+        return stream.ToArray();
     }
 }

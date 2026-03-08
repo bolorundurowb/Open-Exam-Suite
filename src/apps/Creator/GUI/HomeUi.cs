@@ -131,13 +131,7 @@ public partial class HomeUi : Form
             _undoRedo = new UndoRedo();
 
             // add the opened exam to the exam history
-            var appSettingsService = AppSettingsService.Instance;
-            var settings = new AppSetting
-            {
-                FilePath = _currentExamFile,
-                Name = Path.GetFileNameWithoutExtension(_currentExamFile)
-            };
-            appSettingsService.Add(settings, AppSettingsType.Creator);
+            AddToHistory(_currentExamFile);
         }
         else
         {
@@ -145,6 +139,19 @@ public partial class HomeUi : Form
                 "Sorry, the exam selected is either old or corrupt. If it is an old exam, please upgrade it with the upgrade tool at:\nhttps://sourceforge.net/projects/exam-upgrade-tool/",
                 "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
+    }
+
+    private void AddToHistory(string? filePath)
+    {
+        if (string.IsNullOrEmpty(filePath)) return;
+        
+        var appSettingsService = AppSettingsService.Instance;
+        var settings = new AppSetting
+        {
+            FilePath = filePath,
+            Name = Path.GetFileNameWithoutExtension(filePath)
+        };
+        appSettingsService.Add(settings, AppSettingsType.Creator);
     }
 
     private void Save(object sender, EventArgs e)
@@ -191,60 +198,53 @@ public partial class HomeUi : Form
         }
 
         // add the saved exam to the exam history
-        var appSettingsService = AppSettingsService.Instance;
-        var settings = new AppSetting
-        {
-            FilePath = _currentExamFile,
-            Name = Path.GetFileNameWithoutExtension(_currentExamFile)
-        };
-        appSettingsService.Add(settings, AppSettingsType.Creator);
+        AddToHistory(_currentExamFile);
     }
 
-    private void CommitQuestion()
+    private Question BuildQuestion()
     {
-        var question = ((QuestionNode) trv_view_exam.SelectedNode).Question;
-        question.IsMultipleChoice = chkMulipleChoice.Checked;
+        var question = new Question
+        {
+            IsMultipleChoice = chkMulipleChoice.Checked
+        };
         if (question.IsMultipleChoice)
         {
             var answerCtrls = pan_options.Controls.OfType<OptionsControl>().Where(s => s.Checked);
             question.Answers = answerCtrls.Select(x => x.Letter).ToArray();
+            foreach (var ctrl in pan_options.Controls.OfType<OptionsControl>())
+            {
+                question.Options.Add(new Option { Alphabet = ctrl.Letter, Text = ctrl.Text });
+            }
         }
         else
         {
             var answerCtrl = pan_options.Controls.OfType<OptionControl>().FirstOrDefault(s => s.Checked);
             question.Answer = answerCtrl == null ? '\0' : answerCtrl.Letter;
+            foreach (var ctrl in pan_options.Controls.OfType<OptionControl>())
+            {
+                question.Options.Add(new Option { Alphabet = ctrl.Letter, Text = ctrl.Text });
+            }
         }
 
         question.Explanation = txt_explanation.Text;
-        question.Image = (Bitmap) pct_image.Image;
-        question.No = trv_view_exam.SelectedNode.Index + 1;
-        question.Options.Clear();
-        if (question.IsMultipleChoice)
-        {
-            foreach (var ctrl in pan_options.Controls.OfType<OptionsControl>())
-            {
-                var option = new Option
-                {
-                    Alphabet = ctrl.Letter,
-                    Text = ctrl.Text
-                };
-                question.Options.Add(option);
-            }
-        }
-        else
-        {
-            foreach (var ctrl in pan_options.Controls.OfType<OptionControl>())
-            {
-                var option = new Option
-                {
-                    Alphabet = ctrl.Letter,
-                    Text = ctrl.Text
-                };
-                question.Options.Add(option);
-            }
-        }
-
+        question.Image = (Bitmap)pct_image.Image;
         question.Text = txt_question_text.Text;
+        return question;
+    }
+
+    private void CommitQuestion()
+    {
+        var currentQuestion = ((QuestionNode)trv_view_exam.SelectedNode).Question;
+        var newQuestion = BuildQuestion();
+        
+        currentQuestion.IsMultipleChoice = newQuestion.IsMultipleChoice;
+        currentQuestion.Answers = newQuestion.Answers;
+        currentQuestion.Answer = newQuestion.Answer;
+        currentQuestion.Explanation = newQuestion.Explanation;
+        currentQuestion.Image = newQuestion.Image;
+        currentQuestion.Options = newQuestion.Options;
+        currentQuestion.Text = newQuestion.Text;
+        currentQuestion.No = trv_view_exam.SelectedNode.Index + 1;
     }
 
     private void SaveAs(object sender, EventArgs e)
@@ -974,8 +974,9 @@ public partial class HomeUi : Form
 
             QuestionChanged(sender, e);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            Logger.LogException(ex);
             MessageBox.Show(
                 @"Sorry, you cannot mix option types. First remove the existing options then replace them.", "Error",
                 MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -1103,7 +1104,7 @@ public partial class HomeUi : Form
         // retrieve the app settings
         var appSettingsService = AppSettingsService.Instance;
         var appSettings = appSettingsService.GetAll(AppSettingsType.Creator);
-        for (var j = 0; j < appSettings.Length; j++)
+        for (var j = 0; j < appSettings.Count; j++)
         {
             var examLink = new LinkLabel
             {
@@ -1194,55 +1195,9 @@ public partial class HomeUi : Form
         {
             Action = ActionType.Modify
         };
-            
-        var question = new Question
-        {
-            IsMultipleChoice = chkMulipleChoice.Checked
-        };
-        if (question.IsMultipleChoice)
-        {
-            var answerCtrls = pan_options.Controls.OfType<OptionsControl>().Where(s => s.Checked);
-            question.Answers = answerCtrls.Select(x => x.Letter).ToArray();
-        }
-        else
-        {
-            var answerCtrl = pan_options.Controls.OfType<OptionControl>().FirstOrDefault(s => s.Checked);
-            question.Answer = answerCtrl == null ? '\0' : answerCtrl.Letter;
-        }
 
-        question.Explanation = txt_explanation.Text;
-        question.Image = (Bitmap) pct_image.Image;
-        question.No = trv_view_exam.SelectedNode.Index + 1;
-        question.Options.Clear();
-        if (question.IsMultipleChoice)
-        {
-            var ctrls = pan_options.Controls.OfType<OptionsControl>();
-            foreach (var ctrl in ctrls)
-            {
-                var option = new Option
-                {
-                    Alphabet = ctrl.Letter,
-                    Text = ctrl.Text
-                };
-                question.Options.Add(option);
-            }
-        }
-        else
-        {
-            var ctrls = pan_options.Controls.OfType<OptionControl>();
-            foreach (var ctrl in ctrls)
-            {
-                var option = new Option
-                {
-                    Alphabet = ctrl.Letter,
-                    Text = ctrl.Text
-                };
-                question.Options.Add(option);
-            }
-        }
-
-        question.Text = txt_question_text.Text;
-        obj.Question = question;
+        obj.Question = BuildQuestion();
+        obj.Question.No = trv_view_exam.SelectedNode.Index + 1;
         obj.SectionTitle = ((SectionNode) trv_view_exam.SelectedNode.Parent).Title;
         _undoRedo.InsertObjectforUndoRedo(obj);
     }

@@ -8,17 +8,24 @@ namespace Storage.Services;
 public class AppSettingsService : IAppSettingsService
 {
     private string _database =
-        $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}{Path.DirectorySeparatorChar}OpenExamSuite.db";
-
-    private static AppSettingsService _appSettingsService;
+        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "OpenExamSuite", "OpenExamSuite.db");
 
     public static AppSettingsService Instance
     {
         get
         {
-            if (_appSettingsService != null) return _appSettingsService;
-            _appSettingsService = new AppSettingsService();
-            return _appSettingsService;
+            if (field != null)
+                return field;
+
+            field = new AppSettingsService();
+
+            var directory = Path.GetDirectoryName(field._database);
+            if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+
+            return field;
         }
     }
 
@@ -27,10 +34,9 @@ public class AppSettingsService : IAppSettingsService
         using var db = new LiteDatabase(_database);
         var collection = db.GetCollection<AppSetting>(GetTableNameFromType(type));
         var record = collection.FindOne(x => x.FilePath == settings.FilePath);
+
         if (record != null)
-        {
             return;
-        }
 
         collection.Insert(settings);
     }
@@ -57,14 +63,11 @@ public class AppSettingsService : IAppSettingsService
 
     private string GetTableNameFromType(AppSettingsType type)
     {
-        switch (type)
+        return type switch
         {
-            case AppSettingsType.Creator:
-                return "CreatorSettings";
-            case AppSettingsType.Simulator:
-                return "SimulatorSettings";
-            default:
-                return "OtherSettings";
-        }
+            AppSettingsType.Creator => "CreatorSettings",
+            AppSettingsType.Simulator => "SimulatorSettings",
+            _ => "OtherSettings"
+        };
     }
 }

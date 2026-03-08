@@ -39,14 +39,30 @@ public static class Reader
 
     public static Exam? FromJsonFile(string filePath)
     {
-        var jsonString = File.ReadAllText(filePath);
-        return JsonConvert.DeserializeObject<Exam>(jsonString);
+        try
+        {
+            var jsonString = File.ReadAllText(filePath);
+            return JsonConvert.DeserializeObject<Exam>(jsonString);
+        }
+        catch (Exception ex)
+        {
+            Logger.LogException(ex);
+            return null;
+        }
     }
 
     public static Exam? FromXmlFile(string filePath)
     {
-        var xmlSerializer = new XmlSerializer(typeof(Exam));
-        using var streamReader = new StreamReader(filePath);
-        return xmlSerializer.Deserialize(streamReader) as Exam;
+        try
+        {
+            var xmlSerializer = new XmlSerializer(typeof(Exam));
+            using var streamReader = new StreamReader(filePath);
+            return xmlSerializer.Deserialize(streamReader) as Exam;
+        }
+        catch (Exception ex)
+        {
+            Logger.LogException(ex);
+            return null;
+        }
     }
 }

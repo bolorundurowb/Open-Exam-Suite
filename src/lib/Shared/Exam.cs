@@ -47,15 +47,9 @@ public class Exam
         }
     }
 
-    public Properties Properties { get; set; }
+    public Properties Properties { get; set; } = new();
 
-    public List<Section> Sections { get; set; }
-
-    public Exam()
-    {
-        Sections = [];
-        Properties = new Properties();
-    }
+    public List<Section> Sections { get; set; } = [];
 
     // Methods
     public void AddSection(string sectionName)
@@ -103,9 +97,9 @@ public class Exam
 [Serializable]
 public class Properties
 {
-    public string Title { get; set; }
+    public string Title { get; set; } = string.Empty;
 
-    public string Code { get; set; }
+    public string Code { get; set; } = string.Empty;
 
     public int Version { get; set; }
 
@@ -113,20 +107,15 @@ public class Properties
 
     public int TimeLimit { get; set; }
 
-    public string Instructions { get; set; }
+    public string Instructions { get; set; } = string.Empty;
 }
 
 [Serializable]
 public class Section
 {
-    public string Title { get; set; }
+    public string Title { get; set; } = string.Empty;
 
-    public List<Question> Questions { get; set; }
-
-    public Section()
-    {
-        Questions = [];
-    }
+    public List<Question> Questions { get; set; } = [];
 
     public override string ToString()
     {
@@ -139,7 +128,7 @@ public class Question
 {
     public int No { get; set; }
 
-    public string Text { get; set; }
+    public string Text { get; set; } = string.Empty;
         
     [JsonConverter(typeof(BitmapConverter))]
     public Bitmap? Image { get; set; }
@@ -148,16 +137,11 @@ public class Question
 
     public bool IsMultipleChoice { get; set; }
 
-    public char[] Answers { get; set; }
+    public char[] Answers { get; set; } = [];
 
-    public List<Option> Options { get; set; }
+    public List<Option> Options { get; set; } = [];
 
-    public string Explanation { get; set; }
-
-    public Question()
-    {
-        Options = [];
-    }
+    public string Explanation { get; set; } = string.Empty;
 }
 
 [Serializable]
@@ -165,5 +149,5 @@ public class Option
 {
     public char Alphabet { get; set; }
 
-    public string Text { get; set; }
+    public string Text { get; set; } = string.Empty;
 }

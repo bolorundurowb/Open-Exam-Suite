@@ -4,17 +4,23 @@ public static class Logger
 {
     private const string LogFileName = "oes-log.log";
 
-    private static readonly string LogFilePath =
-        $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}{Path.DirectorySeparatorChar}{LogFileName}";
-        
+    private static readonly string LogDirectory =
+        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "OpenExamSuite");
+
+    private static readonly string LogFilePath = Path.Combine(LogDirectory, LogFileName);
+
     public static void LogException(Exception exception)
     {
         try
         {
+            if (!Directory.Exists(LogDirectory))
+            {
+                Directory.CreateDirectory(LogDirectory);
+            }
+
             using var stream = new FileStream(LogFilePath, FileMode.Append, FileAccess.Write);
-            var streamWriter = new StreamWriter(stream);
-            streamWriter.WriteLine($"{DateTime.Now.ToString()} - {exception.Message} - {exception.StackTrace}");
-            streamWriter.Close();
+            using var streamWriter = new StreamWriter(stream);
+            streamWriter.WriteLine($"{DateTime.Now:G} - {exception.Message} - {exception.StackTrace}");
         }
         catch (Exception e)
         {
