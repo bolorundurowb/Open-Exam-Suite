@@ -13,8 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\solutions\Logging\Logging.csproj" />
-    <ProjectReference Include="..\..\lib\Shared\Shared.csproj" />
-    <ProjectReference Include="..\..\lib\Storage\Storage.csproj" />
+    <ProjectReference Include="..\..\Libraries\Logging\Logging.csproj" />
+    <ProjectReference Include="..\..\Libraries\Shared\Shared.csproj" />
+    <ProjectReference Include="..\..\Libraries\Storage\Storage.csproj" />
   </ItemGroup>
 </Project>
