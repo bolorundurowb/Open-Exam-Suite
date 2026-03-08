@@ -1,4 +1,4 @@
-﻿namespace Simulator.GUI
+﻿namespace OpenExamSuite.Simulator.GUI
 {
     partial class ExamSettingsUi
     {

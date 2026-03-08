@@ -1,4 +1,4 @@
-﻿namespace Creator.GUI
+﻿namespace OpenExamSuite.Creator.GUI
 {
     partial class HomeUi
     {
@@ -249,7 +249,7 @@
             // 
             this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox1.Image = global::Creator.Properties.Resources.splash;
+            this.pictureBox1.Image = global::OpenExamSuite.Creator.Properties.Resources.splash;
             this.pictureBox1.Location = new System.Drawing.Point(3, 3);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(849, 290);
@@ -307,7 +307,7 @@
             // 
             // btn_clear_image
             // 
-            this.btn_clear_image.Image = global::Creator.Properties.Resources.rsz_clear;
+            this.btn_clear_image.Image = global::OpenExamSuite.Creator.Properties.Resources.rsz_clear;
             this.btn_clear_image.Location = new System.Drawing.Point(80, 226);
             this.btn_clear_image.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btn_clear_image.Name = "btn_clear_image";
@@ -320,7 +320,7 @@
             // 
             // btn_insert_image
             // 
-            this.btn_insert_image.Image = global::Creator.Properties.Resources.rsz_actions_insert_image_icon;
+            this.btn_insert_image.Image = global::OpenExamSuite.Creator.Properties.Resources.rsz_actions_insert_image_icon;
             this.btn_insert_image.Location = new System.Drawing.Point(80, 180);
             this.btn_insert_image.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btn_insert_image.Name = "btn_insert_image";
@@ -335,7 +335,7 @@
             // 
             this.btn_remove_option.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btn_remove_option.Enabled = false;
-            this.btn_remove_option.Image = global::Creator.Properties.Resources.remove;
+            this.btn_remove_option.Image = global::OpenExamSuite.Creator.Properties.Resources.remove;
             this.btn_remove_option.Location = new System.Drawing.Point(660, 526);
             this.btn_remove_option.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btn_remove_option.Name = "btn_remove_option";
@@ -349,7 +349,7 @@
             // btn_add_options
             // 
             this.btn_add_options.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.btn_add_options.Image = global::Creator.Properties.Resources.add;
+            this.btn_add_options.Image = global::OpenExamSuite.Creator.Properties.Resources.add;
             this.btn_add_options.Location = new System.Drawing.Point(660, 480);
             this.btn_add_options.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btn_add_options.Name = "btn_add_options";
@@ -727,7 +727,7 @@
             // 
             // exportAsJsonToolStripMenuItem
             // 
-            this.exportAsJsonToolStripMenuItem.Image = global::Creator.Properties.Resources.json;
+            this.exportAsJsonToolStripMenuItem.Image = global::OpenExamSuite.Creator.Properties.Resources.json;
             this.exportAsJsonToolStripMenuItem.Name = "exportAsJsonToolStripMenuItem";
             this.exportAsJsonToolStripMenuItem.Size = new System.Drawing.Size(164, 30);
             this.exportAsJsonToolStripMenuItem.Text = "As JSON";
@@ -735,7 +735,7 @@
             // 
             // exportAsXmlToolStripMenuItem
             // 
-            this.exportAsXmlToolStripMenuItem.Image = global::Creator.Properties.Resources.xml;
+            this.exportAsXmlToolStripMenuItem.Image = global::OpenExamSuite.Creator.Properties.Resources.xml;
             this.exportAsXmlToolStripMenuItem.Name = "exportAsXmlToolStripMenuItem";
             this.exportAsXmlToolStripMenuItem.Size = new System.Drawing.Size(164, 30);
             this.exportAsXmlToolStripMenuItem.Text = "As XML";
@@ -743,7 +743,7 @@
             // 
             // asPdfToolStripMenuItem
             // 
-            this.asPdfToolStripMenuItem.Image = global::Creator.Properties.Resources.pdf;
+            this.asPdfToolStripMenuItem.Image = global::OpenExamSuite.Creator.Properties.Resources.pdf;
             this.asPdfToolStripMenuItem.Name = "asPdfToolStripMenuItem";
             this.asPdfToolStripMenuItem.Size = new System.Drawing.Size(164, 30);
             this.asPdfToolStripMenuItem.Text = "As PDF";
@@ -959,7 +959,7 @@
             // 
             this.newSectionToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.newSectionToolStripButton.Enabled = false;
-            this.newSectionToolStripButton.Image = global::Creator.Properties.Resources.New_Section;
+            this.newSectionToolStripButton.Image = global::OpenExamSuite.Creator.Properties.Resources.New_Section;
             this.newSectionToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.newSectionToolStripButton.Name = "newSectionToolStripButton";
             this.newSectionToolStripButton.Size = new System.Drawing.Size(28, 28);
@@ -970,7 +970,7 @@
             // 
             this.newQuestionToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.newQuestionToolStripButton.Enabled = false;
-            this.newQuestionToolStripButton.Image = global::Creator.Properties.Resources.New_Question;
+            this.newQuestionToolStripButton.Image = global::OpenExamSuite.Creator.Properties.Resources.New_Question;
             this.newQuestionToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.newQuestionToolStripButton.Name = "newQuestionToolStripButton";
             this.newQuestionToolStripButton.Size = new System.Drawing.Size(28, 28);
@@ -1074,7 +1074,7 @@
             // 
             // btn_edit_section
             // 
-            this.btn_edit_section.Image = global::Creator.Properties.Resources.edit;
+            this.btn_edit_section.Image = global::OpenExamSuite.Creator.Properties.Resources.edit;
             this.btn_edit_section.Name = "btn_edit_section";
             this.btn_edit_section.Size = new System.Drawing.Size(122, 30);
             this.btn_edit_section.Text = "Edit";
@@ -1090,7 +1090,7 @@
             // 
             // btn_delete_question
             // 
-            this.btn_delete_question.Image = global::Creator.Properties.Resources.remove;
+            this.btn_delete_question.Image = global::OpenExamSuite.Creator.Properties.Resources.remove;
             this.btn_delete_question.Name = "btn_delete_question";
             this.btn_delete_question.ShortcutKeyDisplayString = "Del";
             this.btn_delete_question.ShortcutKeys = System.Windows.Forms.Keys.Delete;

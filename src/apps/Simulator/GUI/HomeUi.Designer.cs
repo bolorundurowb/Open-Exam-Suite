@@ -1,4 +1,4 @@
-﻿namespace Simulator.GUI
+﻿namespace OpenExamSuite.Simulator.GUI
 {
     partial class HomeUi
     {
@@ -75,7 +75,7 @@
             // 
             // addExamToolStripMenuItem
             // 
-            this.addExamToolStripMenuItem.Image = global::Simulator.Properties.Resources._1;
+            this.addExamToolStripMenuItem.Image = global::OpenExamSuite.Simulator.Properties.Resources._1;
             this.addExamToolStripMenuItem.Name = "addExamToolStripMenuItem";
             this.addExamToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.addExamToolStripMenuItem.Text = "Add Exam";
@@ -179,7 +179,7 @@
             // btn_properties
             // 
             this.btn_properties.Enabled = false;
-            this.btn_properties.Image = global::Simulator.Properties.Resources._5;
+            this.btn_properties.Image = global::OpenExamSuite.Simulator.Properties.Resources._5;
             this.btn_properties.Location = new System.Drawing.Point(12, 162);
             this.btn_properties.Name = "btn_properties";
             this.btn_properties.Size = new System.Drawing.Size(85, 23);
@@ -192,7 +192,7 @@
             // btn_remove
             // 
             this.btn_remove.Enabled = false;
-            this.btn_remove.Image = global::Simulator.Properties.Resources._2;
+            this.btn_remove.Image = global::OpenExamSuite.Simulator.Properties.Resources._2;
             this.btn_remove.Location = new System.Drawing.Point(12, 122);
             this.btn_remove.Name = "btn_remove";
             this.btn_remove.Size = new System.Drawing.Size(85, 23);
@@ -204,7 +204,7 @@
             // 
             // btn_add
             // 
-            this.btn_add.Image = global::Simulator.Properties.Resources._1;
+            this.btn_add.Image = global::OpenExamSuite.Simulator.Properties.Resources._1;
             this.btn_add.Location = new System.Drawing.Point(12, 81);
             this.btn_add.Name = "btn_add";
             this.btn_add.Size = new System.Drawing.Size(85, 23);
@@ -217,7 +217,7 @@
             // btn_start
             // 
             this.btn_start.Enabled = false;
-            this.btn_start.Image = global::Simulator.Properties.Resources._4;
+            this.btn_start.Image = global::OpenExamSuite.Simulator.Properties.Resources._4;
             this.btn_start.Location = new System.Drawing.Point(12, 40);
             this.btn_start.Name = "btn_start";
             this.btn_start.Size = new System.Drawing.Size(85, 23);

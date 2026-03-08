@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
-using Shared;
+using OpenExamSuite.Shared;
 
-namespace Simulator.GUI;
+namespace OpenExamSuite.Simulator.GUI;
 
 public partial class ExamPropertiesUi : Form
 {

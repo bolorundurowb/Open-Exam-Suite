@@ -1,18 +1,18 @@
 ﻿using System.Diagnostics;
 using System.Drawing.Printing;
-using Creator.GUI.Dialogs;
-using Creator.Util;
-using Logging;
-using Shared;
-using Shared.Controls;
-using Shared.Enums;
-using Shared.Models;
-using Shared.Utilities;
-using Storage.Enums;
-using Storage.Models;
-using Storage.Services;
+using OpenExamSuite.Creator.GUI.Dialogs;
+using OpenExamSuite.Creator.Utilities;
+using OpenExamSuite.Logging;
+using OpenExamSuite.Shared;
+using OpenExamSuite.Shared.Controls;
+using OpenExamSuite.Shared.Enums;
+using OpenExamSuite.Shared.Models;
+using OpenExamSuite.Shared.Utilities;
+using OpenExamSuite.Storage.Enums;
+using OpenExamSuite.Storage.Models;
+using OpenExamSuite.Storage.Services;
 
-namespace Creator.GUI;
+namespace OpenExamSuite.Creator.GUI;
 
 public partial class HomeUi : Form
 {

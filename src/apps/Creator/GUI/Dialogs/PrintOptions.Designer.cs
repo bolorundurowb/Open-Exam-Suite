@@ -1,4 +1,4 @@
-﻿namespace Creator.GUI.Dialogs
+﻿namespace OpenExamSuite.Creator.GUI.Dialogs
 {
     partial class PrintOptions
     {
@@ -84,7 +84,7 @@
             // btn_ok
             // 
             this.btn_ok.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_ok.Image = global::Creator.Properties.Resources.ok;
+            this.btn_ok.Image = global::OpenExamSuite.Creator.Properties.Resources.ok;
             this.btn_ok.Location = new System.Drawing.Point(220, 115);
             this.btn_ok.Name = "btn_ok";
             this.btn_ok.Size = new System.Drawing.Size(75, 23);

@@ -1,4 +1,4 @@
-﻿namespace Creator.GUI.Dialogs;
+﻿namespace OpenExamSuite.Creator.GUI.Dialogs;
 
 public partial class AddSection : Form
 {

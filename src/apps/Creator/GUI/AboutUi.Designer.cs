@@ -1,4 +1,4 @@
-﻿namespace Creator.GUI
+﻿namespace OpenExamSuite.Creator.GUI
 {
     partial class AboutUi
     {

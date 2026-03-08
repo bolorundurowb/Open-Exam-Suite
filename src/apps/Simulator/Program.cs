@@ -1,6 +1,6 @@
-﻿using Simulator.GUI;
+﻿using OpenExamSuite.Simulator.GUI;
 
-namespace Simulator;
+namespace OpenExamSuite.Simulator;
 
 static class Program
 {
