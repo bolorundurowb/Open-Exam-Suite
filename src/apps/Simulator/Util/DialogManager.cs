@@ -1,6 +1,6 @@
 using Logging;
 using Shared;
-using Shared.Util;
+using Shared.Utilities;
 using Simulator.Enums;
 using Simulator.GUI;
 
