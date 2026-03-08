@@ -15,71 +15,72 @@ namespace Shared.Tests
         {
             var assembly = Assembly.GetExecutingAssembly();
 
-            using (var stream = assembly.GetManifestResourceStream("Shared.Tests.test.png"))
+            using var stream = assembly.GetManifestResourceStream("Shared.Tests.test.png");
+            var image = (Bitmap) Image.FromStream(stream);
+            _exam = new Exam
             {
-                var image = (Bitmap) Image.FromStream(stream);
-                _exam = new Exam
+                Properties = new Properties
                 {
-                    Properties = new Properties
+                    Title = "Test",
+                    Version = 3,
+                    Code = "T01",
+                    Instructions = "Goodluck! Make good use of your time.",
+                    Passmark = 650,
+                    TimeLimit = 5
+                },
+                Sections =
+                [
+                    new Section
                     {
-                        Title = "Test",
-                        Version = 3,
-                        Code = "T01",
-                        Instructions = "Goodluck! Make good use of your time.",
-                        Passmark = 650,
-                        TimeLimit = 5
-                    },
-                    Sections = new System.Collections.Generic.List<Section>
-                    {
-                        new Section
-                        {
-                            Title = "Section A",
-                            Questions = new System.Collections.Generic.List<Question>
+                        Title = "Section A",
+                        Questions =
+                        [
+                            new Question
                             {
-                                new Question
-                                {
-                                    No = 1,
-                                    Text = "Question 1",
-                                    Answer = 'A',
-                                    Options = new System.Collections.Generic.List<Option>
+                                No = 1,
+                                Text = "Question 1",
+                                Answer = 'A',
+                                Options =
+                                [
+                                    new Option
                                     {
-                                        new Option
-                                        {
-                                            Text = "Option 1",
-                                            Alphabet = 'A'
-                                        },
-                                        new Option
-                                        {
-                                            Text = "Option 2",
-                                            Alphabet = 'B'
-                                        }
+                                        Text = "Option 1",
+                                        Alphabet = 'A'
                                     },
-                                    Image = image
-                                },
-                                new Question
-                                {
-                                    No = 1,
-                                    Text = "Question 2",
-                                    Answer = 'B',
-                                    Options = new System.Collections.Generic.List<Option>
+
+                                    new Option
                                     {
-                                        new Option
-                                        {
-                                            Text = "Option 1",
-                                            Alphabet = 'A'
-                                        },
-                                        new Option
-                                        {
-                                            Text = "Option 2",
-                                            Alphabet = 'B'
-                                        }
+                                        Text = "Option 2",
+                                        Alphabet = 'B'
                                     }
-                                }
+                                ],
+                                Image = image
+                            },
+
+                            new Question
+                            {
+                                No = 1,
+                                Text = "Question 2",
+                                Answer = 'B',
+                                Options =
+                                [
+                                    new Option
+                                    {
+                                        Text = "Option 1",
+                                        Alphabet = 'A'
+                                    },
+
+                                    new Option
+                                    {
+                                        Text = "Option 2",
+                                        Alphabet = 'B'
+                                    }
+                                ]
                             }
-                        }
+                        ]
                     }
-                };
-            }
+                ]
+            };
         }
 
         [Fact]

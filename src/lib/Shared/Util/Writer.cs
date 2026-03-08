@@ -1,9 +1,4 @@
-﻿using System;
-using System.Drawing;
-using System.IO;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using Logging;
@@ -161,11 +156,9 @@ namespace Shared.Util
 
             if (bitmap != null)
             {
-                using (var stream = new MemoryStream())
-                {
-                    bitmap.Save(stream, bitmap.RawFormat);
-                    result = stream.ToArray();
-                }
+                using var stream = new MemoryStream();
+                bitmap.Save(stream, bitmap.RawFormat);
+                result = stream.ToArray();
             }
             
             return result;

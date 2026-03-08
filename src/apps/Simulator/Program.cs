@@ -12,15 +12,13 @@ namespace Simulator
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            using (var mutex = new Mutex(false, "Global\\" + GetGuid()))
+            using var mutex = new Mutex(false, "Global\\" + GetGuid());
+            if (!mutex.WaitOne(0, false))
             {
-                if (!mutex.WaitOne(0, false))
-                {
-                    MessageBox.Show("An instance of Open Exam Simulator is already running, select the add button include more exams.","OES Simulator", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    return;
-                }
-                Application.Run(args.Length == 0 ? new HomeUi() : new HomeUi(args[0]));
+                MessageBox.Show("An instance of Open Exam Simulator is already running, select the add button include more exams.","OES Simulator", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
             }
+            Application.Run(args.Length == 0 ? new HomeUi() : new HomeUi(args[0]));
         }
 
         static string GetGuid ()

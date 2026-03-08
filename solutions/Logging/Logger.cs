@@ -11,12 +11,10 @@
         {
             try
             {
-                using (var stream = new FileStream(LogFilePath, FileMode.Append, FileAccess.Write))
-                {
-                    var streamWriter = new StreamWriter(stream);
-                    streamWriter.WriteLine($"{DateTime.Now.ToString()} - {exception.Message} - {exception.StackTrace}");
-                    streamWriter.Close();
-                }
+                using var stream = new FileStream(LogFilePath, FileMode.Append, FileAccess.Write);
+                var streamWriter = new StreamWriter(stream);
+                streamWriter.WriteLine($"{DateTime.Now.ToString()} - {exception.Message} - {exception.StackTrace}");
+                streamWriter.Close();
             }
             catch (Exception e)
             {

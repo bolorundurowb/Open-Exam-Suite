@@ -18,10 +18,10 @@
 
         public Settings()
         {
-            Sections = new List<Section>();
-            Questions = new List<Question>();
+            Sections = [];
+            Questions = [];
             CandidateName = string.Empty;
-            ResultSpread = new List<Tuple<string, int, int>>();
+            ResultSpread = [];
             TimeLimit = 0;
         }
     }
