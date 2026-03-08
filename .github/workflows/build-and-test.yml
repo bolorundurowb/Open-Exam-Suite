@@ -15,13 +15,23 @@ jobs:
     - name: Setup .NET 10 SDK
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '10.0.x'
+        dotnet-version: '10.x'
 
     - name: Restore dependencies
-      run: dotnet restore solutions/oes-all.sln
+      run: dotnet restore
+      working-directory: ./src
 
-    - name: Build
-      run: dotnet build solutions/oes-all.sln --no-restore --configuration Release
+    - name: Build all projects
+      run: dotnet build --configuration Release --no-restore
+      working-directory: ./src
 
-    - name: Test
-      run: dotnet test solutions/oes-all.sln --no-build --configuration Release --verbosity normal
+    - name: Run tests with code coverage
+      run: dotnet test --configuration Release --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=../../coverage/coverage.cobertura.xml
+      working-directory: ./src
+
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v5
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        directory: ./coverage/
+        fail_ci_if_error: true

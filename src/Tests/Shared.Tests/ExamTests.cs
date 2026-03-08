@@ -1,0 +1,112 @@
+﻿using System;
+using System.Drawing;
+using System.IO;
+using System.Reflection;
+using OpenExamSuite.Shared.Utilities;
+using Xunit;
+
+namespace OpenExamSuite.Shared.Tests;
+
+public class ExamTests
+{
+    private readonly Exam _exam;
+
+    public ExamTests()
+    {
+        using var fileStream = new FileStream("./Resources/ExamTestImage.png", FileMode.Open);
+        var image = (Bitmap) Image.FromStream(fileStream);
+        _exam = new Exam
+        {
+            Properties = new Properties
+            {
+                Title = "Test",
+                Version = 3,
+                Code = "T01",
+                Instructions = "Goodluck! Make good use of your time.",
+                Passmark = 650,
+                TimeLimit = 5
+            },
+            Sections =
+            [
+                new Section
+                {
+                    Title = "Section A",
+                    Questions =
+                    [
+                        new Question
+                        {
+                            No = 1,
+                            Text = "Question 1",
+                            Answer = 'A',
+                            Options =
+                            [
+                                new Option
+                                {
+                                    Text = "Option 1",
+                                    Alphabet = 'A'
+                                },
+
+                                new Option
+                                {
+                                    Text = "Option 2",
+                                    Alphabet = 'B'
+                                }
+                            ],
+                            Image = image
+                        },
+
+                        new Question
+                        {
+                            No = 1,
+                            Text = "Question 2",
+                            Answer = 'B',
+                            Options =
+                            [
+                                new Option
+                                {
+                                    Text = "Option 1",
+                                    Alphabet = 'A'
+                                },
+
+                                new Option
+                                {
+                                    Text = "Option 2",
+                                    Alphabet = 'B'
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        };
+    }
+
+    [Fact]
+    public void ExamGetsSerialized()
+    {
+        var filepath = Environment.CurrentDirectory + Path.DirectorySeparatorChar + "test.oef";
+        Writer.ToOef(_exam, filepath, true);
+        Assert.Equal(true, File.Exists(filepath));
+    }
+
+    [Fact]
+    public void ExamGetsDeserialized()
+    {
+        var filepath = Environment.CurrentDirectory + Path.DirectorySeparatorChar + "test.oef";
+        var exam = Reader.FromOefFile(filepath, true);
+        Assert.NotNull(exam);
+    }
+
+    [Fact]
+    public void NullExamPassed()
+    {
+        Exam nullExam = null;
+        Assert.Throws<NullReferenceException>(() => { Writer.ToOef(nullExam, @"C:\"); });
+    }
+
+    [Fact]
+    public void EmptyFilePath()
+    {
+        Assert.Throws<ArgumentException>(() => { Writer.ToOef(_exam, string.Empty); });
+    }
+}

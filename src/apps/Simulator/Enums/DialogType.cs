@@ -1,4 +1,4 @@
-namespace Simulator.Enums;
+namespace OpenExamSuite.Simulator.Enums;
 
 public enum DialogType
 {

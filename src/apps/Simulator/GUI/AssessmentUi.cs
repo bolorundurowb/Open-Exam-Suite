@@ -1,7 +1,7 @@
-﻿using Shared;
-using Shared.Models;
+﻿using OpenExamSuite.Shared;
+using OpenExamSuite.Shared.Models;
 
-namespace Simulator.GUI;
+namespace OpenExamSuite.Simulator.GUI;
 
 public partial class AssessmentUi : Form
 {

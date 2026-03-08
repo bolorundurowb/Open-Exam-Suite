@@ -1,6 +1,6 @@
-﻿using Creator.GUI;
+﻿using OpenExamSuite.Creator.GUI;
 
-namespace Creator;
+namespace OpenExamSuite.Creator;
 
 static class Program
 {

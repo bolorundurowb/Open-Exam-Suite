@@ -1,10 +1,10 @@
-﻿using Simulator.Enums;
-using Simulator.Util;
-using Storage.Enums;
-using Storage.Models;
-using Storage.Services;
+﻿using OpenExamSuite.Simulator.Enums;
+using OpenExamSuite.Simulator.Utilities;
+using OpenExamSuite.Storage.Enums;
+using OpenExamSuite.Storage.Models;
+using OpenExamSuite.Storage.Services;
 
-namespace Simulator.GUI;
+namespace OpenExamSuite.Simulator.GUI;
 
 public partial class HomeUi : Form
 {

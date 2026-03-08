@@ -7,15 +7,17 @@
     <Nullable>enable</Nullable>
     <ApplicationIcon>Creator Alt.fw.ico</ApplicationIcon>
     <NoWarn>$(NoWarn);WFO1000</NoWarn>
+    <AssemblyName>OpenExamSuite.Creator</AssemblyName>
+    <RootNamespace>OpenExamSuite.Creator</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\solutions\Logging\Logging.csproj" />
-    <ProjectReference Include="..\..\lib\Shared\Shared.csproj" />
-    <ProjectReference Include="..\..\lib\Storage\Storage.csproj" />
+    <ProjectReference Include="..\..\Libraries\Logging\Logging.csproj" />
+    <ProjectReference Include="..\..\Libraries\Shared\Shared.csproj" />
+    <ProjectReference Include="..\..\Libraries\Storage\Storage.csproj" />
   </ItemGroup>
 </Project>

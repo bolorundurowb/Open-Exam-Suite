@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace Simulator.GUI;
+namespace OpenExamSuite.Simulator.GUI;
 
 public partial class AboutUi : Form
 {

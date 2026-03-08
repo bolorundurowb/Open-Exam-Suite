@@ -6,6 +6,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <ApplicationIcon>Simulator Alt.fw.ico</ApplicationIcon>
+    <AssemblyName>OpenExamSuite.Simulator</AssemblyName>
+    <RootNamespace>OpenExamSuite.Simulator</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,8 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\solutions\Logging\Logging.csproj" />
-    <ProjectReference Include="..\..\lib\Shared\Shared.csproj" />
-    <ProjectReference Include="..\..\lib\Storage\Storage.csproj" />
+    <ProjectReference Include="..\..\Libraries\Logging\Logging.csproj" />
+    <ProjectReference Include="..\..\Libraries\Shared\Shared.csproj" />
+    <ProjectReference Include="..\..\Libraries\Storage\Storage.csproj" />
   </ItemGroup>
 </Project>
