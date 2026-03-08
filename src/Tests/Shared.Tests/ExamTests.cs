@@ -13,10 +13,8 @@ public class ExamTests
 
     public ExamTests()
     {
-        var assembly = Assembly.GetExecutingAssembly();
-
-        using var stream = assembly.GetManifestResourceStream("Shared.Tests.test.png");
-        var image = (Bitmap) Image.FromStream(stream);
+        using var fileStream = new FileStream("./Resources/ExamTestImage.png", FileMode.Open);
+        var image = (Bitmap) Image.FromStream(fileStream);
         _exam = new Exam
         {
             Properties = new Properties
