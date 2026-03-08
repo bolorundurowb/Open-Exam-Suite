@@ -1,11 +1,11 @@
 ﻿using System;
-using System.IO;
 using System.Drawing;
+using System.IO;
 using System.Reflection;
-using Shared.Utilities;
+using OpenExamSuite.Shared.Utilities;
 using Xunit;
 
-namespace Shared.Tests;
+namespace OpenExamSuite.Shared.Tests;
 
 public class ExamTests
 {

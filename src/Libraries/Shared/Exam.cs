@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Shared;
+namespace OpenExamSuite.Shared;
 
 public class BitmapConverter : JsonConverter<Bitmap>
 {

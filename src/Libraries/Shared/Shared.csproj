@@ -5,6 +5,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <NoWarn>$(NoWarn);SYSLIB0011</NoWarn>
+    <AssemblyName>OpenExamSuite.Shared</AssemblyName>
+    <RootNamespace>OpenExamSuite.Shared</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

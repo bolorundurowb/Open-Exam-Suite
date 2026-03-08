@@ -7,6 +7,8 @@
     <Nullable>enable</Nullable>
     <ApplicationIcon>Creator Alt.fw.ico</ApplicationIcon>
     <NoWarn>$(NoWarn);WFO1000</NoWarn>
+    <AssemblyName>OpenExamSuite.Creator</AssemblyName>
+    <RootNamespace>OpenExamSuite.Creator</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

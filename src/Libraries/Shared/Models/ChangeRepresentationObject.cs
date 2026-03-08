@@ -1,6 +1,6 @@
-﻿using Shared.Enums;
+﻿using OpenExamSuite.Shared.Enums;
 
-namespace Shared.Models;
+namespace OpenExamSuite.Shared.Models;
 
 public class ChangeRepresentationObject
 {

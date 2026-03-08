@@ -1,4 +1,4 @@
-﻿namespace Shared.Models;
+﻿namespace OpenExamSuite.Shared.Models;
 
 public class Settings
 {

@@ -2,6 +2,8 @@
   <PropertyGroup>
     <TargetFramework>net10.0-windows</TargetFramework>
     <IsPackable>false</IsPackable>
+    <AssemblyName>OpenExamSuite.Shared.Tests</AssemblyName>
+    <RootNamespace>OpenExamSuite.Shared.Tests</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

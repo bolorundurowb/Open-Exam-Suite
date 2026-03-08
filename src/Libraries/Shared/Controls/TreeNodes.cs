@@ -1,4 +1,4 @@
-﻿namespace Shared.Controls;
+﻿namespace OpenExamSuite.Shared.Controls;
 
 public class ExamNode : TreeNode
 {

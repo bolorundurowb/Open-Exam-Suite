@@ -1,10 +1,10 @@
-using Logging;
-using Shared;
-using Shared.Utilities;
-using Simulator.Enums;
-using Simulator.GUI;
+using OpenExamSuite.Logging;
+using OpenExamSuite.Shared;
+using OpenExamSuite.Shared.Utilities;
+using OpenExamSuite.Simulator.Enums;
+using OpenExamSuite.Simulator.GUI;
 
-namespace Simulator.Util;
+namespace OpenExamSuite.Simulator.Utilities;
 
 public static class DialogManager
 {

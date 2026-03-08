@@ -1,7 +1,7 @@
-using Storage.Enums;
-using Storage.Services;
+using OpenExamSuite.Storage.Enums;
+using OpenExamSuite.Storage.Services;
 
-namespace Simulator.Util;
+namespace OpenExamSuite.Simulator.Utilities;
 
 public class RowManager
 {

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Shared.Controls;
+namespace OpenExamSuite.Shared.Controls;
 
 public partial class OptionControl : UserControl
 {

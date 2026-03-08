@@ -1,6 +1,6 @@
-﻿using Shared.Models;
+﻿using OpenExamSuite.Shared.Models;
 
-namespace Shared.Interfaces;
+namespace OpenExamSuite.Shared.Interfaces;
 
 public interface IUndoRedo
 {

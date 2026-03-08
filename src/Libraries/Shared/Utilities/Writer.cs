@@ -3,12 +3,12 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml.Serialization;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
-using Logging;
 using Newtonsoft.Json;
+using OpenExamSuite.Logging;
 using Font = iTextSharp.text.Font;
 using Image = iTextSharp.text.Image;
 
-namespace Shared.Utilities;
+namespace OpenExamSuite.Shared.Utilities;
 
 public static class Writer
 {

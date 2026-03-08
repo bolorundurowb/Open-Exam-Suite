@@ -1,4 +1,4 @@
-﻿namespace Shared.Enums;
+﻿namespace OpenExamSuite.Shared.Enums;
 
 public enum ActionType
 {

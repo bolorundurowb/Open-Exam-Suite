@@ -1,9 +1,9 @@
+using OpenExamSuite.Storage.Enums;
+using OpenExamSuite.Storage.Models;
+using OpenExamSuite.Storage.Services;
 using Simulator.Properties;
-using Storage.Enums;
-using Storage.Models;
-using Storage.Services;
 
-namespace Simulator.Util;
+namespace OpenExamSuite.Simulator.Utilities;
 
 public static class AppDataManager
 {

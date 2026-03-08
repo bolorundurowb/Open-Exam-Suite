@@ -1,4 +1,4 @@
-﻿namespace Logging;
+﻿namespace OpenExamSuite.Logging;
 
 public static class Logger
 {

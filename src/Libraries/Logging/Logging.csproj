@@ -4,5 +4,7 @@
     <OutputType>Library</OutputType>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <AssemblyName>OpenExamSuite.Logging</AssemblyName>
+    <RootNamespace>OpenExamSuite.Logging</RootNamespace>
   </PropertyGroup>
 </Project>

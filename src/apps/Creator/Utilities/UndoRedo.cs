@@ -1,7 +1,7 @@
-﻿using Shared.Interfaces;
-using Shared.Models;
+﻿using OpenExamSuite.Shared.Interfaces;
+using OpenExamSuite.Shared.Models;
 
-namespace Creator.Util;
+namespace OpenExamSuite.Creator.Utilities;
 
 public class UndoRedo : IUndoRedo
 {

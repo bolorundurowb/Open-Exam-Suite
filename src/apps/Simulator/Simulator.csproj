@@ -6,6 +6,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <ApplicationIcon>Simulator Alt.fw.ico</ApplicationIcon>
+    <AssemblyName>OpenExamSuite.Simulator</AssemblyName>
+    <RootNamespace>OpenExamSuite.Simulator</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

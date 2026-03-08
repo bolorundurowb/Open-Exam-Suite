@@ -1,9 +1,9 @@
 ﻿using LiteDB;
-using Storage.Enums;
-using Storage.Interfaces;
-using Storage.Models;
+using OpenExamSuite.Storage.Enums;
+using OpenExamSuite.Storage.Interfaces;
+using OpenExamSuite.Storage.Models;
 
-namespace Storage.Services;
+namespace OpenExamSuite.Storage.Services;
 
 public class AppSettingsService : IAppSettingsService
 {

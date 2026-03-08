@@ -5,7 +5,7 @@
 using System.Reflection;
 using System.Runtime.Serialization;
 
-namespace Shared.Utilities;
+namespace OpenExamSuite.Shared.Utilities;
 
 public class DeserializationBinder : SerializationBinder
 {

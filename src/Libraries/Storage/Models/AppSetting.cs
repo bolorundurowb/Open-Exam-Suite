@@ -2,7 +2,7 @@
  *  Created by bolorundurowb on 2/1/2018
  */
 
-namespace Storage.Models;
+namespace OpenExamSuite.Storage.Models;
 
 public class AppSetting
 {

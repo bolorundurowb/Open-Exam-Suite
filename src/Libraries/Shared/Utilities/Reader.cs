@@ -1,10 +1,10 @@
 ﻿using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml.Serialization;
-using Logging;
 using Newtonsoft.Json;
+using OpenExamSuite.Logging;
 
-namespace Shared.Utilities;
+namespace OpenExamSuite.Shared.Utilities;
 
 public static class Reader
 {

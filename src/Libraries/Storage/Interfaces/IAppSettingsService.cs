@@ -1,7 +1,7 @@
-﻿using Storage.Enums;
-using Storage.Models;
+﻿using OpenExamSuite.Storage.Enums;
+using OpenExamSuite.Storage.Models;
 
-namespace Storage.Interfaces;
+namespace OpenExamSuite.Storage.Interfaces;
 
 public interface IAppSettingsService
 {

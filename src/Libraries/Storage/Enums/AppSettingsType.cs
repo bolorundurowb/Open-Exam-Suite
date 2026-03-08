@@ -1,4 +1,4 @@
-﻿namespace Storage.Enums;
+﻿namespace OpenExamSuite.Storage.Enums;
 
 public enum AppSettingsType
 {
