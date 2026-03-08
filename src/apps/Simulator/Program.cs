@@ -1,7 +1,4 @@
-﻿using System;
-using System.Windows.Forms;
-using System.Threading;
-using Simulator.GUI;
+﻿using Simulator.GUI;
 
 namespace Simulator
 {

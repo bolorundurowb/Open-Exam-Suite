@@ -1,10 +1,5 @@
-﻿using System;
-using System.Diagnostics;
-using System.Drawing;
+﻿using System.Diagnostics;
 using System.Drawing.Printing;
-using System.IO;
-using System.Linq;
-using System.Windows.Forms;
 using Creator.GUI.Dialogs;
 using Creator.Util;
 using Logging;
@@ -1107,8 +1102,7 @@ namespace Creator.GUI
 
             // retrieve the app settings
             var appSettingsService = AppSettingsService.Instance;
-            var settings = appSettingsService.GetAll(AppSettingsType.Creator);
-            var appSettings = settings as AppSetting[] ?? settings.ToArray();
+            var appSettings = appSettingsService.GetAll(AppSettingsType.Creator);
             for (var j = 0; j < appSettings.Length; j++)
             {
                 var examLink = new LinkLabel

@@ -1,6 +1,3 @@
-using System.Collections.Specialized;
-using System.IO;
-using System.Windows.Forms;
 using Simulator.Properties;
 using Storage.Enums;
 using Storage.Models;

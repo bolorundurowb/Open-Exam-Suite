@@ -1,6 +1,4 @@
-﻿using System.Windows.Forms;
-
-namespace Shared.Controls
+﻿namespace Shared.Controls
 {
     public class ExamNode : TreeNode
     {

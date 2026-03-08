@@ -1,8 +1,4 @@
-﻿using System;
-using System.Drawing;
-using System.IO;
-using System.Windows.Forms;
-using Shared;
+﻿using Shared;
 using Shared.Models;
 
 namespace Simulator.GUI

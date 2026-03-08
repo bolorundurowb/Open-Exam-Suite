@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using LiteDB;
+﻿using LiteDB;
 using Storage.Enums;
 using Storage.Interfaces;
 using Storage.Models;
@@ -45,7 +42,7 @@ namespace Storage.Services
             using (var db = new LiteDatabase(_database))
             {
                 var collection = db.GetCollection<AppSetting>(GetTableNameFromType(type));
-                collection.Delete(x => x.FilePath == filePath);
+                collection.DeleteMany(x => x.FilePath == filePath);
             }
         }
 
@@ -57,12 +54,12 @@ namespace Storage.Services
             }
         }
 
-        public IEnumerable<AppSetting> GetAll(AppSettingsType type)
+        public List<AppSetting> GetAll(AppSettingsType type)
         {
             using (var db = new LiteDatabase(_database))
             {
                 var collection = db.GetCollection<AppSetting>(GetTableNameFromType(type));
-                return collection.FindAll();
+                return collection.FindAll().ToList();
             }
         }
 

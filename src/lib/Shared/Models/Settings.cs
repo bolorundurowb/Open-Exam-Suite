@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Shared.Models
+﻿namespace Shared.Models
 {
     public class Settings
     {
