@@ -1,9 +1,8 @@
-﻿namespace Shared.Enums
+﻿namespace Shared.Enums;
+
+public enum ActionType
 {
-    public enum ActionType
-    {
-        Delete,
-        Modify,
-        Add
-    }
+    Delete,
+    Modify,
+    Add
 }

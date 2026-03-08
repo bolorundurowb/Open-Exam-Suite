@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
-using Storage.Enums;
+﻿using Storage.Enums;
 using Storage.Models;
 
-namespace Storage.Interfaces
+namespace Storage.Interfaces;
+
+public interface IAppSettingsService
 {
-    public interface IAppSettingsService
-    {
-        void Add(AppSetting settings, AppSettingsType type);
-        void Clear(AppSettingsType type);
-        IEnumerable<AppSetting> GetAll(AppSettingsType type);
-    }
+    void Add(AppSetting settings, AppSettingsType type);
+
+    void Clear(AppSettingsType type);
+
+    List<AppSetting> GetAll(AppSettingsType type);
 }

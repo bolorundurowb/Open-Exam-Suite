@@ -1,8 +1,7 @@
-namespace Simulator.Enums
+namespace Simulator.Enums;
+
+public enum DialogType
 {
-    public enum DialogType
-    {
-        ExamProperties,
-        ExamSettings
-    }
+    ExamProperties,
+    ExamSettings
 }

@@ -1,30 +1,24 @@
-﻿using System;
-using System.IO;
+﻿namespace Logging;
 
-namespace Logging
+public static class Logger
 {
-    public static class Logger
-    {
-        private const string LogFileName = "oes-log.log";
+    private const string LogFileName = "oes-log.log";
 
-        private static readonly string LogFilePath =
-            $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}{Path.DirectorySeparatorChar}{LogFileName}";
+    private static readonly string LogFilePath =
+        $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}{Path.DirectorySeparatorChar}{LogFileName}";
         
-        public static void LogException(Exception exception)
+    public static void LogException(Exception exception)
+    {
+        try
         {
-            try
-            {
-                using (var stream = new FileStream(LogFilePath, FileMode.Append, FileAccess.Write))
-                {
-                    var streamWriter = new StreamWriter(stream);
-                    streamWriter.WriteLine($"{DateTime.Now.ToString()} - {exception.Message} - {exception.StackTrace}");
-                    streamWriter.Close();
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
+            using var stream = new FileStream(LogFilePath, FileMode.Append, FileAccess.Write);
+            var streamWriter = new StreamWriter(stream);
+            streamWriter.WriteLine($"{DateTime.Now.ToString()} - {exception.Message} - {exception.StackTrace}");
+            streamWriter.Close();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
         }
     }
 }
