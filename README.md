@@ -28,8 +28,8 @@ This project has been modernized from .NET Framework 4.0 to **.NET 10**.
 
 - **Target Framework:** Upgraded all projects to `.net10.0-windows`.
 - **Project System:** Migrated to modern **SDK-style** project files.
+- **Project Structure:** Simplified the project structure.
 - **Dependency Management:** Converted to `PackageReference`.
-- **Serialization:** Replaced obsolete `BinaryFormatter` with `Newtonsoft.Json` for `.oef` files.
 - **CI/CD:** Powered by **GitHub Actions**.
 - **Testing:** Updated to `xUnit 2.9.2`.
 
