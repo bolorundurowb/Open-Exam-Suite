@@ -15,7 +15,7 @@ public static class Writer
     {
         if (exam == null)
             throw new ArgumentNullException(nameof(exam), "The exam to be written cannot be null.");
-        
+
         if (string.IsNullOrWhiteSpace(filePath))
             throw new ArgumentException("Empty filepath", nameof(filePath));
 
@@ -39,23 +39,23 @@ public static class Writer
             return false;
         }
     }
-        
+
     public static bool ToPdf(Exam exam, string filePath)
     {
         FileStream? fs = null;
-        PdfWriter? writer= null;
+        PdfWriter? writer = null;
 
         try
         {
             fs = new FileStream(filePath, FileMode.OpenOrCreate);
             var doc = new Document(PageSize.A4, 40, 40, 50, 50);
             writer = PdfWriter.GetInstance(doc, fs);
-                
+
             doc.AddCreationDate();
             doc.AddCreator("Open Exam Suite");
             doc.AddSubject(exam.Properties.Code);
             doc.AddTitle(exam.Properties.Title);
-                
+
             doc.Open();
             var headerFont = new Font(Font.FontFamily.HELVETICA, 13f, Font.BOLD);
             doc.Add(new Chunk("Exam Title: ", headerFont));
@@ -151,7 +151,7 @@ public static class Writer
             return false;
         }
     }
-        
+
     public static byte[]? BitmapToByteArray(Bitmap? bitmap)
     {
         if (bitmap == null)

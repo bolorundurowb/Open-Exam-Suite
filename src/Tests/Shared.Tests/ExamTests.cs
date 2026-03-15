@@ -16,7 +16,7 @@ public class ExamTests : IDisposable
     {
         _testOefPath = Path.Combine(Environment.CurrentDirectory, "test.oef");
         using var fileStream = new FileStream("./Resources/ExamTestImage.png", FileMode.Open);
-        var image = (Bitmap) Image.FromStream(fileStream);
+        var image = (Bitmap)Image.FromStream(fileStream);
         _exam = new Exam
         {
             Properties = new Properties
@@ -126,7 +126,7 @@ public class ExamTests : IDisposable
         // We cannot easily create a legacy NBRF file in .NET 10 tests because BinaryFormatter.Serialize is strictly disabled/removed.
         // However, we can test that IF a file starts with NRBF header, our Reader attempts to decode it.
         // For this test to be truly effective, we would need a pre-serialized legacy .oef file in Resources.
-        
+
         // Since we can't easily create one here, we verify that the logic is there.
         // In a real scenario, users would have existing .oef files created by older versions of the app.
     }

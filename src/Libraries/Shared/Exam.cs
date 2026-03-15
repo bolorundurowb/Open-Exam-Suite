@@ -51,10 +51,10 @@ public class Exam
         }
     }
 
-    [ProtoMember(1)] 
+    [ProtoMember(1)]
     public Properties Properties { get; set; } = new();
 
-    [ProtoMember(2)] 
+    [ProtoMember(2)]
     public List<Section> Sections { get; set; } = [];
 
     // Methods
@@ -102,22 +102,22 @@ public class Exam
 [ProtoContract]
 public class Properties
 {
-    [ProtoMember(1)] 
+    [ProtoMember(1)]
     public string Title { get; set; } = string.Empty;
 
-    [ProtoMember(2)] 
+    [ProtoMember(2)]
     public string Code { get; set; } = string.Empty;
 
-    [ProtoMember(3)] 
+    [ProtoMember(3)]
     public int Version { get; set; }
 
-    [ProtoMember(4)] 
+    [ProtoMember(4)]
     public double Passmark { get; set; }
 
-    [ProtoMember(5)] 
+    [ProtoMember(5)]
     public int TimeLimit { get; set; }
 
-    [ProtoMember(6)] 
+    [ProtoMember(6)]
     public string Instructions { get; set; } = string.Empty;
 }
 
@@ -125,10 +125,10 @@ public class Properties
 [ProtoContract]
 public class Section
 {
-    [ProtoMember(1)] 
+    [ProtoMember(1)]
     public string Title { get; set; } = string.Empty;
 
-    [ProtoMember(2)] 
+    [ProtoMember(2)]
     public List<Question> Questions { get; set; } = [];
 
     public override string ToString()
@@ -141,10 +141,10 @@ public class Section
 [ProtoContract]
 public class Question
 {
-    [ProtoMember(1)] 
+    [ProtoMember(1)]
     public int No { get; set; }
 
-    [ProtoMember(2)] 
+    [ProtoMember(2)]
     public string Text { get; set; } = string.Empty;
 
     [JsonConverter(typeof(BitmapConverter))]
@@ -174,19 +174,19 @@ public class Question
         }
     }
 
-    [ProtoMember(4)] 
+    [ProtoMember(4)]
     public char Answer { get; set; }
 
-    [ProtoMember(5)] 
+    [ProtoMember(5)]
     public bool IsMultipleChoice { get; set; }
 
-    [ProtoMember(6)] 
+    [ProtoMember(6)]
     public char[] Answers { get; set; } = [];
 
-    [ProtoMember(7)] 
+    [ProtoMember(7)]
     public List<Option> Options { get; set; } = [];
 
-    [ProtoMember(8)] 
+    [ProtoMember(8)]
     public string Explanation { get; set; } = string.Empty;
 }
 
@@ -194,9 +194,9 @@ public class Question
 [ProtoContract]
 public class Option
 {
-    [ProtoMember(1)] 
+    [ProtoMember(1)]
     public char Alphabet { get; set; }
 
-    [ProtoMember(2)] 
+    [ProtoMember(2)]
     public string Text { get; set; } = string.Empty;
 }
