@@ -8,6 +8,7 @@
     <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
     <AssemblyName>OpenExamSuite.Shared</AssemblyName>
     <RootNamespace>OpenExamSuite.Shared</RootNamespace>
+    <AssemblyVersion>4.0.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>

@@ -158,7 +158,7 @@ public partial class AssessmentUi : Form
         {
             //Save current answer
             _userAnswers[_currentQuestionIndex] = SelectedAnswer();
-            for (int i = 0; i < _userAnswers.Length; i++)
+            for (var i = 0; i < _userAnswers.Length; i++)
             {
                 if (_userAnswers[i] == null)
                 {

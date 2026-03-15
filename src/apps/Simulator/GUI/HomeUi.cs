@@ -13,9 +13,8 @@ public partial class HomeUi : Form
         InitializeComponent();
     }
 
-    public HomeUi(string filePath)
+    public HomeUi(string filePath):this()
     {
-        InitializeComponent();
         if (string.IsNullOrWhiteSpace(filePath) || Path.GetExtension(filePath).ToLower() == ".oef")
         {
             var settingsService = AppSettingsService.Instance;

@@ -6,5 +6,6 @@
     <Nullable>enable</Nullable>
     <AssemblyName>OpenExamSuite.Logging</AssemblyName>
     <RootNamespace>OpenExamSuite.Logging</RootNamespace>
+    <AssemblyVersion>4.0.0</AssemblyVersion>
   </PropertyGroup>
 </Project>
