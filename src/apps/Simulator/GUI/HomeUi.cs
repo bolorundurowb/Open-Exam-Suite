@@ -13,7 +13,7 @@ public partial class HomeUi : Form
         InitializeComponent();
     }
 
-    public HomeUi(string filePath):this()
+    public HomeUi(string filePath) : this()
     {
         if (string.IsNullOrWhiteSpace(filePath) || Path.GetExtension(filePath).ToLower() == ".oef")
         {

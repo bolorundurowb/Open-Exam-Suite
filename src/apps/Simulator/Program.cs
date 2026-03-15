@@ -15,13 +15,13 @@ static class Program
         using var mutex = new Mutex(false, "Global\\" + GetGuid());
         if (!mutex.WaitOne(0, false))
         {
-            MessageBox.Show("An instance of Open Exam Simulator is already running, select the add button include more exams.","OES Simulator", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            MessageBox.Show("An instance of Open Exam Simulator is already running, select the add button include more exams.", "OES Simulator", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             return;
         }
         Application.Run(args.Length == 0 ? new HomeUi() : new HomeUi(args[0]));
     }
 
-    static string GetGuid ()
+    static string GetGuid()
     {
         var assemblyGuid = Guid.Empty;
         var assemblyObjects = System.Reflection.Assembly.GetEntryAssembly().GetCustomAttributes(typeof(System.Runtime.InteropServices.GuidAttribute), true);

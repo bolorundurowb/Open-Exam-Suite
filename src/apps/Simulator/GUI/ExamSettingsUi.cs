@@ -59,9 +59,9 @@ public partial class ExamSettingsUi : Form
 
     private void Proceed(object sender, EventArgs e)
     {
-        _settings = new Settings {CandidateName = txt_candidate_name.Text};
+        _settings = new Settings { CandidateName = txt_candidate_name.Text };
         if (chk_enable_timer.Checked)
-            _settings.TimeLimit = (int) num_time_limit.Value;
+            _settings.TimeLimit = (int)num_time_limit.Value;
         else
             _settings.TimeLimit = _exam.Properties.TimeLimit;
 
@@ -74,7 +74,7 @@ public partial class ExamSettingsUi : Form
 
         if (rdb_fixed_number_questions.Checked)
         {
-            var numOfQuestions = (int) num_questions.Value;
+            var numOfQuestions = (int)num_questions.Value;
             var sum = 0;
             foreach (var section in _exam.Sections)
             {
