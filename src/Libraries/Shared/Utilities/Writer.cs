@@ -1,10 +1,9 @@
-﻿using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using Newtonsoft.Json;
 using OpenExamSuite.Logging;
+using ProtoBuf;
 using Font = iTextSharp.text.Font;
 using Image = iTextSharp.text.Image;
 
@@ -15,16 +14,16 @@ public static class Writer
     public static bool ToOef(Exam exam, string filePath, bool throwOnError = false)
     {
         if (exam == null)
-            throw new NullReferenceException("The exam to be written cannot be null.");
+            throw new ArgumentNullException(nameof(exam), "The exam to be written cannot be null.");
+        
         if (string.IsNullOrWhiteSpace(filePath))
-            throw new ArgumentException("Empty filepath");
+            throw new ArgumentException("Empty filepath", nameof(filePath));
 
-        IFormatter formatter = new BinaryFormatter();
         try
         {
             using (var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None))
             {
-                formatter.Serialize(stream, exam);
+                Serializer.Serialize(stream, exam);
                 return true;
             }
         }
@@ -34,7 +33,7 @@ public static class Writer
 
             if (throwOnError)
             {
-                throw;
+                throw new Exception("Failed to save .oef file in protobuf format.", ex);
             }
 
             return false;
