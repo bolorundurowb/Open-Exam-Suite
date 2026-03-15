@@ -12,6 +12,8 @@
   <ItemGroup>
     <PackageReference Include="iTextSharp" Version="5.5.13.5" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageReference Include="protobuf-net" Version="3.2.46" />
+    <PackageReference Include="System.Formats.Nrbf" Version="10.0.0" />
   </ItemGroup>
 
   <ItemGroup>
