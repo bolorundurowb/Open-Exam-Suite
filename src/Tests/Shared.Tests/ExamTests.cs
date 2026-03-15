@@ -11,10 +11,14 @@ public class ExamTests : IDisposable
 {
     private readonly Exam _exam;
     private readonly string _testOefPath;
+    private readonly string _testJsonPath;
+    private readonly string _testXmlPath;
 
     public ExamTests()
     {
         _testOefPath = Path.Combine(Environment.CurrentDirectory, "test.oef");
+        _testJsonPath = Path.Combine(Environment.CurrentDirectory, "test.json");
+        _testXmlPath = Path.Combine(Environment.CurrentDirectory, "test.xml");
         using var fileStream = new FileStream("./Resources/ExamTestImage.png", FileMode.Open);
         var image = (Bitmap)Image.FromStream(fileStream);
         _exam = new Exam
@@ -87,20 +91,30 @@ public class ExamTests : IDisposable
     {
         if (File.Exists(_testOefPath))
             File.Delete(_testOefPath);
+
+        if (File.Exists(_testJsonPath))
+            File.Delete(_testJsonPath);
+
+        if (File.Exists(_testXmlPath))
+            File.Delete(_testXmlPath);
     }
 
     [Fact]
-    public void ExamGetsSerialized()
+    public void ToOef_ValidExam_SerializesCorrectly()
     {
-        Writer.ToOef(_exam, _testOefPath, true);
+        var result = Writer.ToOef(_exam, _testOefPath, true);
+
+        result.ShouldBeTrue();
         File.Exists(_testOefPath).ShouldBeTrue();
     }
 
     [Fact]
-    public void ExamGetsDeserialized()
+    public void FromOefFile_ValidFile_DeserializesCorrectly()
     {
         Writer.ToOef(_exam, _testOefPath, true);
+
         var exam = Reader.FromOefFile(_testOefPath, true);
+
         exam.ShouldNotBeNull();
         exam.Properties.Title.ShouldBe(_exam.Properties.Title);
         exam.Sections.Count.ShouldBe(_exam.Sections.Count);
@@ -108,34 +122,65 @@ public class ExamTests : IDisposable
     }
 
     [Fact]
-    public void NullExamPassed()
+    public void ToOef_NullExam_ThrowsArgumentNullException()
     {
         Exam? nullExam = null;
-        Should.Throw<ArgumentNullException>(() => { Writer.ToOef(nullExam!, _testOefPath); });
+
+        Should.Throw<ArgumentNullException>(() => Writer.ToOef(nullExam!, _testOefPath));
     }
 
     [Fact]
-    public void EmptyFilePath()
+    public void ToOef_EmptyFilePath_ThrowsArgumentException()
     {
-        Should.Throw<ArgumentException>(() => { Writer.ToOef(_exam, string.Empty); });
+        Should.Throw<ArgumentException>(() => Writer.ToOef(_exam, string.Empty));
     }
 
     [Fact]
-    public void LegacyNbrfMigrationWorks()
-    {
-        // We cannot easily create a legacy NBRF file in .NET 10 tests because BinaryFormatter.Serialize is strictly disabled/removed.
-        // However, we can test that IF a file starts with NRBF header, our Reader attempts to decode it.
-        // For this test to be truly effective, we would need a pre-serialized legacy .oef file in Resources.
-
-        // Since we can't easily create one here, we verify that the logic is there.
-        // In a real scenario, users would have existing .oef files created by older versions of the app.
-    }
-
-    [Fact]
-    public void CorruptFileHandlingThrows()
+    public void FromOefFile_CorruptFile_ThrowsException()
     {
         File.WriteAllText(_testOefPath, "Not a valid format at all");
+
         var ex = Should.Throw<Exception>(() => Reader.FromOefFile(_testOefPath, true));
         ex.Message.ShouldBe("Unsupported or corrupted .oef file format.");
+    }
+
+    [Fact]
+    public void ToJson_ValidExam_SerializesCorrectly()
+    {
+        var result = Writer.ToJson(_exam, _testJsonPath);
+
+        result.ShouldBeTrue();
+        File.Exists(_testJsonPath).ShouldBeTrue();
+    }
+
+    [Fact]
+    public void FromJsonFile_ValidFile_DeserializesCorrectly()
+    {
+        Writer.ToJson(_exam, _testJsonPath);
+
+        var exam = Reader.FromJsonFile(_testJsonPath);
+
+        exam.ShouldNotBeNull();
+        exam.Properties.Title.ShouldBe(_exam.Properties.Title);
+    }
+
+    [Fact]
+    public void ToXml_ValidExam_SerializesCorrectly()
+    {
+        var result = Writer.ToXml(_exam, _testXmlPath);
+
+        result.ShouldBeTrue();
+        File.Exists(_testXmlPath).ShouldBeTrue();
+    }
+
+    [Fact]
+    public void FromXmlFile_ValidFile_DeserializesCorrectly()
+    {
+        Writer.ToXml(_exam, _testXmlPath);
+
+        var exam = Reader.FromXmlFile(_testXmlPath);
+
+        exam.ShouldNotBeNull();
+        exam.Properties.Title.ShouldBe(_exam.Properties.Title);
     }
 }

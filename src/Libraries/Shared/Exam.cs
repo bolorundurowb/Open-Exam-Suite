@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Xml.Serialization;
+using Newtonsoft.Json;
 using ProtoBuf;
 
 namespace OpenExamSuite.Shared;
