@@ -1,17 +1,22 @@
-﻿using System.Runtime.Serialization;
+using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Drawing.Imaging;
 using System.Xml.Serialization;
-using iTextSharp.text;
-using iTextSharp.text.pdf;
+using PdfSharp.Drawing;
+using PdfSharp.Drawing.Layout;
+using PdfSharp.Fonts;
+using PdfSharp.Pdf;
 using Newtonsoft.Json;
 using OpenExamSuite.Logging;
-using Font = iTextSharp.text.Font;
-using Image = iTextSharp.text.Image;
 
 namespace OpenExamSuite.Shared.Utilities;
 
 public static class Writer
 {
+    private static readonly object FontResolverLock = new();
+    private static bool _fontResolverConfigured;
+    private const string PdfFontFamily = "Noto Sans";
+
     public static bool ToOef(Exam exam, string filePath, bool throwOnError = false)
     {
         if (exam == null)
@@ -22,11 +27,9 @@ public static class Writer
         IFormatter formatter = new BinaryFormatter();
         try
         {
-            using (var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None))
-            {
-                formatter.Serialize(stream, exam);
-                return true;
-            }
+            using var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
+            formatter.Serialize(stream, exam);
+            return true;
         }
         catch (Exception ex)
         {
@@ -43,79 +46,66 @@ public static class Writer
         
     public static bool ToPdf(Exam exam, string filePath)
     {
-        FileStream? fs = null;
-        PdfWriter? writer= null;
-
         try
         {
-            fs = new FileStream(filePath, FileMode.OpenOrCreate);
-            var doc = new Document(PageSize.A4, 40, 40, 50, 50);
-            writer = PdfWriter.GetInstance(doc, fs);
-                
-            doc.AddCreationDate();
-            doc.AddCreator("Open Exam Suite");
-            doc.AddSubject(exam.Properties.Code);
-            doc.AddTitle(exam.Properties.Title);
-                
-            doc.Open();
-            var headerFont = new Font(Font.FontFamily.HELVETICA, 13f, Font.BOLD);
-            doc.Add(new Chunk("Exam Title: ", headerFont));
-            doc.Add(new Chunk(exam.Properties.Title + "" + Environment.NewLine));
-            doc.Add(new Paragraph());
-            doc.Add(new Chunk("Exam Code: ", headerFont));
-            doc.Add(new Chunk(exam.Properties.Code + "" + Environment.NewLine));
-            doc.Add(new Chunk("Passmark: ", headerFont));
-            doc.Add(new Chunk(exam.Properties.Passmark + " / 1000" + Environment.NewLine));
-            doc.Add(new Chunk("Time Limit: ", headerFont));
-            doc.Add(new Chunk(exam.Properties.TimeLimit + " (min)" + Environment.NewLine));
-            doc.Add(new Chunk("Instructions: ", headerFont));
-            doc.Add(new Chunk(exam.Properties.Instructions + "" + Environment.NewLine));
+            EnsurePdfFontsConfigured();
+            using var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
+            using var document = new PdfDocument();
+            document.Info.CreationDate = DateTime.Now;
+            document.Info.Creator = "Open Exam Suite";
+            document.Info.Subject = exam.Properties.Code;
+            document.Info.Title = exam.Properties.Title;
 
-            doc.Add(new Chunk("" + Environment.NewLine));
+            var bodyFont = new XFont(PdfFontFamily, 11f, XFontStyleEx.Regular);
+            var headerFont = new XFont(PdfFontFamily, 13f, XFontStyleEx.Bold);
+            var layout = PdfLayout.Create(document);
+
+            layout.DrawLabelAndValue("Exam Title: ", exam.Properties.Title, headerFont, bodyFont);
+            layout.DrawBlankLine(bodyFont);
+            layout.DrawLabelAndValue("Exam Code: ", exam.Properties.Code, headerFont, bodyFont);
+            layout.DrawLabelAndValue("Passmark: ", $"{exam.Properties.Passmark} / 1000", headerFont, bodyFont);
+            layout.DrawLabelAndValue("Time Limit: ", $"{exam.Properties.TimeLimit} (min)", headerFont, bodyFont);
+            layout.DrawLabelAndValue("Instructions: ", exam.Properties.Instructions, headerFont, bodyFont);
+            layout.DrawBlankLine(bodyFont);
+
             foreach (var section in exam.Sections)
             {
-                doc.Add(new Chunk("Section: ", headerFont));
-                doc.Add(new Chunk(section.Title + "" + Environment.NewLine));
+                layout.DrawLabelAndValue("Section: ", section.Title, headerFont, bodyFont);
 
                 foreach (var question in section.Questions)
                 {
-                    doc.Add(new Paragraph(question.No + ". " + question.Text));
+                    layout.DrawParagraph($"{question.No}. {question.Text}", bodyFont);
 
                     if (question.Image != null)
                     {
-                        doc.Add(Image.GetInstance(BitmapToByteArray(question.Image)));
+                        layout.DrawBitmap(question.Image);
                     }
 
                     foreach (var option in question.Options)
                     {
-                        doc.Add(new Paragraph(option.Alphabet + " - " + option.Text));
+                        layout.DrawParagraph($"{option.Alphabet} - {option.Text}", bodyFont);
                     }
 
-                    doc.Add(new Paragraph("Answer: " + question.Answer));
+                    layout.DrawParagraph($"Answer: {question.Answer}", bodyFont);
 
                     if (!string.IsNullOrWhiteSpace(question.Explanation))
                     {
-                        doc.Add(new Paragraph("Explanation: " + question.Explanation));
+                        layout.DrawParagraph($"Explanation: {question.Explanation}", bodyFont);
                     }
 
-                    doc.Add(new Chunk("" + Environment.NewLine));
+                    layout.DrawBlankLine(bodyFont);
                 }
 
-                doc.Add(new Chunk("" + Environment.NewLine));
+                layout.DrawBlankLine(bodyFont);
             }
 
-            doc.Close();
+            document.Save(stream, false);
         }
         catch (Exception ex)
         {
             Logger.LogException(ex);
 
             return false;
-        }
-        finally
-        {
-            writer?.Close();
-            fs?.Close();
         }
 
         return true;
@@ -161,5 +151,118 @@ public static class Writer
         using var stream = new MemoryStream();
         bitmap.Save(stream, bitmap.RawFormat);
         return stream.ToArray();
+    }
+
+    private static void EnsurePdfFontsConfigured()
+    {
+        if (_fontResolverConfigured)
+            return;
+
+        lock (FontResolverLock)
+        {
+            if (_fontResolverConfigured)
+                return;
+
+            GlobalFontSettings.FontResolver ??= new EmbeddedNotoSansFontResolver();
+            _fontResolverConfigured = true;
+        }
+    }
+
+    private sealed class PdfLayout
+    {
+        private const double LeftMargin = 40;
+        private const double RightMargin = 40;
+        private const double TopMargin = 50;
+        private const double BottomMargin = 50;
+        private const double LineGap = 6;
+
+        private readonly PdfDocument _document;
+        private PdfPage _page;
+        private XGraphics _graphics;
+        private double _contentWidth;
+        private double _contentBottom;
+        private double _cursorY;
+
+        private PdfLayout(PdfDocument document)
+        {
+            _document = document;
+            (_page, _graphics) = AddPage();
+            UpdateLayoutMetrics();
+            _cursorY = TopMargin;
+        }
+
+        public static PdfLayout Create(PdfDocument document) => new(document);
+
+        public void DrawLabelAndValue(string label, string? value, XFont labelFont, XFont valueFont)
+        {
+            DrawParagraph(label, labelFont);
+            DrawParagraph(value ?? string.Empty, valueFont);
+        }
+
+        public void DrawBlankLine(XFont font) => _cursorY += MeasureLineHeight(font);
+
+        public void DrawParagraph(string? text, XFont font)
+        {
+            var normalized = text ?? string.Empty;
+            var height = MeasureTextHeight(normalized, font);
+            EnsureSpace(height);
+
+            var drawRect = new XRect(LeftMargin, _cursorY, _contentWidth, height);
+            var formatter = new XTextFormatter(_graphics);
+            formatter.DrawString(normalized, font, XBrushes.Black, drawRect, XStringFormats.TopLeft);
+            _cursorY += height + LineGap;
+        }
+
+        public void DrawBitmap(Bitmap bitmap)
+        {
+            using var imageStream = new MemoryStream();
+            bitmap.Save(imageStream, ImageFormat.Png);
+            imageStream.Position = 0;
+
+            using var image = XImage.FromStream(imageStream);
+            var desiredWidth = Math.Min(_contentWidth, image.PointWidth);
+            var scale = image.PointWidth == 0 ? 1 : desiredWidth / image.PointWidth;
+            var desiredHeight = image.PointHeight * scale;
+
+            EnsureSpace(desiredHeight);
+            _graphics.DrawImage(image, LeftMargin, _cursorY, desiredWidth, desiredHeight);
+            _cursorY += desiredHeight + LineGap;
+        }
+
+        private double MeasureTextHeight(string text, XFont font)
+        {
+            if (string.IsNullOrEmpty(text))
+                return MeasureLineHeight(font);
+
+            var roughWidth = _graphics.MeasureString(text, font).Width;
+            var wrappedLines = Math.Max(1d, Math.Ceiling(roughWidth / _contentWidth));
+            return wrappedLines * MeasureLineHeight(font);
+        }
+
+        private double MeasureLineHeight(XFont font) => _graphics.MeasureString("Ag", font).Height;
+
+        private void EnsureSpace(double neededHeight)
+        {
+            if (_cursorY + neededHeight <= _contentBottom)
+                return;
+
+            _graphics.Dispose();
+            (_page, _graphics) = AddPage();
+            UpdateLayoutMetrics();
+            _cursorY = TopMargin;
+        }
+
+        private (PdfPage Page, XGraphics Graphics) AddPage()
+        {
+            var page = _document.AddPage();
+            page.Size = PdfSharp.PageSize.A4;
+            return (page, XGraphics.FromPdfPage(page));
+        }
+
+        private void UpdateLayoutMetrics()
+        {
+            _contentWidth = _page.Width.Point - LeftMargin - RightMargin;
+            _contentBottom = _page.Height.Point - BottomMargin;
+        }
     }
 }
