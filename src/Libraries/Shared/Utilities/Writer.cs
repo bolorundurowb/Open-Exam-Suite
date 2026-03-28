@@ -36,14 +36,12 @@ public static class Writer
             Logger.LogException(ex);
 
             if (throwOnError)
-            {
                 throw;
-            }
 
             return false;
         }
     }
-        
+
     public static bool ToPdf(Exam exam, string filePath)
     {
         try
@@ -77,21 +75,15 @@ public static class Writer
                     layout.DrawParagraph($"{question.No}. {question.Text}", bodyFont);
 
                     if (question.Image != null)
-                    {
                         layout.DrawBitmap(question.Image);
-                    }
 
                     foreach (var option in question.Options)
-                    {
                         layout.DrawParagraph($"{option.Alphabet} - {option.Text}", bodyFont);
-                    }
 
                     layout.DrawParagraph($"Answer: {question.Answer}", bodyFont);
 
                     if (!string.IsNullOrWhiteSpace(question.Explanation))
-                    {
                         layout.DrawParagraph($"Explanation: {question.Explanation}", bodyFont);
-                    }
 
                     layout.DrawBlankLine(bodyFont);
                 }
@@ -142,7 +134,7 @@ public static class Writer
             return false;
         }
     }
-        
+
     public static byte[]? BitmapToByteArray(Bitmap? bitmap)
     {
         if (bitmap == null)
