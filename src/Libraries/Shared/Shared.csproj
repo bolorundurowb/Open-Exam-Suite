@@ -17,4 +17,15 @@
   <ItemGroup>
     <ProjectReference Include="..\Logging\Logging.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="..\Storage\Resources\fonts\NotoSans-VariableFont.ttf">
+      <Link>Resources\fonts\NotoSans-VariableFont.ttf</Link>
+      <LogicalName>OpenExamSuite.Shared.Resources.fonts.NotoSans-VariableFont.ttf</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Storage\Resources\fonts\NotoSans-VariableFont-Italic.ttf">
+      <Link>Resources\fonts\NotoSans-VariableFont-Italic.ttf</Link>
+      <LogicalName>OpenExamSuite.Shared.Resources.fonts.NotoSans-VariableFont-Italic.ttf</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
 </Project>
