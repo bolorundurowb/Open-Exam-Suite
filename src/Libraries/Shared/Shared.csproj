@@ -19,13 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="..\Storage\Resources\fonts\NotoSans-VariableFont.ttf">
-      <Link>Resources\fonts\NotoSans-VariableFont.ttf</Link>
-      <LogicalName>OpenExamSuite.Shared.Resources.fonts.NotoSans-VariableFont.ttf</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Storage\Resources\fonts\NotoSans-VariableFont-Italic.ttf">
-      <Link>Resources\fonts\NotoSans-VariableFont-Italic.ttf</Link>
-      <LogicalName>OpenExamSuite.Shared.Resources.fonts.NotoSans-VariableFont-Italic.ttf</LogicalName>
-    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\fonts\NotoSans-VariableFont-Italic.ttf" />
+    <EmbeddedResource Include="Resources\fonts\NotoSans-VariableFont.ttf" />
   </ItemGroup>
 </Project>

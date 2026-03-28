@@ -13,8 +13,6 @@
 
   <ItemGroup>
     <None Remove="Resources\fonts\NotoSans-VariableFont.ttf" />
-    <EmbeddedResource Include="Resources\fonts\NotoSans-VariableFont.ttf" />
     <None Remove="Resources\fonts\NotoSans-VariableFont-Italic.ttf" />
-    <EmbeddedResource Include="Resources\fonts\NotoSans-VariableFont-Italic.ttf" />
   </ItemGroup>
 </Project>
