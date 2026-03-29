@@ -10,11 +10,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="iTextSharp" Version="5.5.13.5" />
+    <PackageReference Include="PDFsharp" Version="6.2.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Logging\Logging.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\fonts\NotoSans-VariableFont-Italic.ttf" />
+    <EmbeddedResource Include="Resources\fonts\NotoSans-VariableFont.ttf" />
   </ItemGroup>
 </Project>
