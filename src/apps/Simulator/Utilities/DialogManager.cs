@@ -30,7 +30,7 @@ public static class DialogManager
             MessageBox.Show("Sorry, the selected exam does not exist. It may have been moved or deleted.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             RowManager.RemoveRow(dataGridView);
         }
-        catch(NullReferenceException ex)
+        catch (NullReferenceException ex)
         {
             Logger.LogException(ex);
 

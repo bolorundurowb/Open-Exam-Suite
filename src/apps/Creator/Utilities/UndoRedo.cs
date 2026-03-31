@@ -5,9 +5,9 @@ namespace OpenExamSuite.Creator.Utilities;
 
 public class UndoRedo : IUndoRedo
 {
-    private Stack<ChangeRepresentationObject> UndoCollection = new Stack<ChangeRepresentationObject>();
-    private Stack<ChangeRepresentationObject> RedoCollection = new Stack<ChangeRepresentationObject>();
-        
+    private Stack<ChangeRepresentationObject> UndoCollection = new();
+    private Stack<ChangeRepresentationObject> RedoCollection = new();
+
     public void InsertObjectforUndoRedo(ChangeRepresentationObject dataobject)
     {
         UndoCollection.Push(dataobject);

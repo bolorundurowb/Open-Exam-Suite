@@ -27,4 +27,23 @@ public static class Logger
             Console.WriteLine(e);
         }
     }
+
+    public static void Log(string message)
+    {
+        try
+        {
+            if (!Directory.Exists(LogDirectory))
+            {
+                Directory.CreateDirectory(LogDirectory);
+            }
+
+            using var stream = new FileStream(LogFilePath, FileMode.Append, FileAccess.Write);
+            using var streamWriter = new StreamWriter(stream);
+            streamWriter.WriteLine($"{DateTime.Now:G} - {message}");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+    }
 }

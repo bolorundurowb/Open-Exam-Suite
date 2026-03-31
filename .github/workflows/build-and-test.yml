@@ -26,7 +26,7 @@ jobs:
       working-directory: ./src
 
     - name: Run tests with code coverage
-      run: dotnet test --configuration Release --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=../../coverage/coverage.cobertura.xml
+      run: dotnet test --configuration Release --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=../../../coverage/coverage.cobertura.xml
       working-directory: ./src
 
     - name: Upload coverage reports to Codecov

@@ -32,6 +32,7 @@ This project has been modernized from .NET Framework 4.0 to **.NET 10**.
 - **Dependency Management:** Converted to `PackageReference`.
 - **CI/CD:** Powered by **GitHub Actions**.
 - **Testing:** Updated to `xUnit 2.9.2`.
+- **.oef File Format:** Upgraded from deprecated `BinaryFormatter` to **Protobuf**. Legacy `.oef` files are automatically migrated upon reading for a seamless user experience.
 
 ## 🛠️ Getting Started
 
