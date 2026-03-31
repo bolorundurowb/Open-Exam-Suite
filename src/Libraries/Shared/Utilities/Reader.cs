@@ -21,16 +21,14 @@ public static class Reader
 
         try
         {
-            using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+            using var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+            if (NrbfDecoder.StartsWithPayloadHeader(stream))
             {
-                if (NrbfDecoder.StartsWithPayloadHeader(stream))
-                {
-                    isLegacy = true;
-                    // The BinaryFormatter is deprecated in .NET 10.
-                    // We try to decode it via NRBF.
-                    var result = (ClassRecord)NrbfDecoder.Decode(stream);
-                    exam = MapFromNrbf(result);
-                }
+                isLegacy = true;
+                // The BinaryFormatter is deprecated in .NET 10.
+                // We try to decode it via NRBF.
+                var result = (ClassRecord)NrbfDecoder.Decode(stream);
+                exam = MapFromNrbf(result);
             }
         }
         catch (Exception ex)
