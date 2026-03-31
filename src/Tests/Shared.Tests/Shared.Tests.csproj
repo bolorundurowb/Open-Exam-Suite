@@ -4,7 +4,6 @@
     <IsPackable>false</IsPackable>
     <AssemblyName>OpenExamSuite.Shared.Tests</AssemblyName>
     <RootNamespace>OpenExamSuite.Shared.Tests</RootNamespace>
-    <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
   </PropertyGroup>
 
   <ItemGroup>
