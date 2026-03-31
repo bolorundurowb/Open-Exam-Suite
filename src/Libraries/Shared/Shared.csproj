@@ -11,10 +11,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="PDFsharp" Version="6.2.2" />
+    <PackageReference Include="PDFsharp" Version="6.2.4" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-    <PackageReference Include="protobuf-net" Version="3.2.46" />
-    <PackageReference Include="System.Formats.Nrbf" Version="10.0.0" />
+    <PackageReference Include="protobuf-net" Version="3.2.56" />
+    <PackageReference Include="System.Formats.Nrbf" Version="10.0.5" />
   </ItemGroup>
 
   <ItemGroup>
