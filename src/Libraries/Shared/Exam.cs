@@ -148,6 +148,7 @@ public class Question
     [ProtoMember(2)]
     public string Text { get; set; } = string.Empty;
 
+    [XmlIgnore]
     [JsonConverter(typeof(BitmapConverter))]
     public Bitmap? Image { get; set; }
 

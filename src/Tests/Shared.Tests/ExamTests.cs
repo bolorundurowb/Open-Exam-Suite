@@ -115,10 +115,7 @@ public class ExamTests : IDisposable
 
         var exam = Reader.FromOefFile(_testOefPath, true);
 
-        exam.ShouldNotBeNull();
-        exam.Properties.Title.ShouldBe(_exam.Properties.Title);
-        exam.Sections.Count.ShouldBe(_exam.Sections.Count);
-        exam.Sections[0].Questions[0].Image.ShouldNotBeNull();
+        VerifyExamsMatch(exam, _exam);
     }
 
     [Fact]
@@ -160,8 +157,7 @@ public class ExamTests : IDisposable
 
         var exam = Reader.FromJsonFile(_testJsonPath);
 
-        exam.ShouldNotBeNull();
-        exam.Properties.Title.ShouldBe(_exam.Properties.Title);
+        VerifyExamsMatch(exam, _exam);
     }
 
     [Fact]
@@ -180,7 +176,61 @@ public class ExamTests : IDisposable
 
         var exam = Reader.FromXmlFile(_testXmlPath);
 
-        exam.ShouldNotBeNull();
-        exam.Properties.Title.ShouldBe(_exam.Properties.Title);
+        VerifyExamsMatch(exam, _exam);
+    }
+
+    private static void VerifyExamsMatch(Exam? actual, Exam? expected)
+    {
+        actual.ShouldNotBeNull();
+        expected.ShouldNotBeNull();
+
+        actual.Properties.Title.ShouldBe(expected.Properties.Title);
+        actual.Properties.Code.ShouldBe(expected.Properties.Code);
+        actual.Properties.Version.ShouldBe(expected.Properties.Version);
+        actual.Properties.Passmark.ShouldBe(expected.Properties.Passmark);
+        actual.Properties.TimeLimit.ShouldBe(expected.Properties.TimeLimit);
+        actual.Properties.Instructions.ShouldBe(expected.Properties.Instructions);
+
+        actual.Sections.Count.ShouldBe(expected.Sections.Count);
+
+        for (var i = 0; i < expected.Sections.Count; i++)
+        {
+            var expectedSection = expected.Sections[i];
+            var actualSection = actual.Sections[i];
+
+            actualSection.Title.ShouldBe(expectedSection.Title);
+            actualSection.Questions.Count.ShouldBe(expectedSection.Questions.Count);
+
+            for (var j = 0; j < expectedSection.Questions.Count; j++)
+            {
+                var expectedQuestion = expectedSection.Questions[j];
+                var actualQuestion = actualSection.Questions[j];
+
+                actualQuestion.No.ShouldBe(expectedQuestion.No);
+                actualQuestion.Text.ShouldBe(expectedQuestion.Text);
+                actualQuestion.Answer.ShouldBe(expectedQuestion.Answer);
+                actualQuestion.IsMultipleChoice.ShouldBe(expectedQuestion.IsMultipleChoice);
+                actualQuestion.Explanation.ShouldBe(expectedQuestion.Explanation);
+                actualQuestion.Answers.ShouldBe(expectedQuestion.Answers);
+
+                if (expectedQuestion.Image != null)
+                {
+                    actualQuestion.Image.ShouldNotBeNull();
+                    actualQuestion.Image.Width.ShouldBe(expectedQuestion.Image.Width);
+                    actualQuestion.Image.Height.ShouldBe(expectedQuestion.Image.Height);
+                }
+                else
+                {
+                    actualQuestion.Image.ShouldBeNull();
+                }
+
+                actualQuestion.Options.Count.ShouldBe(expectedQuestion.Options.Count);
+                for (var k = 0; k < expectedQuestion.Options.Count; k++)
+                {
+                    actualQuestion.Options[k].Alphabet.ShouldBe(expectedQuestion.Options[k].Alphabet);
+                    actualQuestion.Options[k].Text.ShouldBe(expectedQuestion.Options[k].Text);
+                }
+            }
+        }
     }
 }
