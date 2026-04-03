@@ -91,7 +91,8 @@ jobs:
           INSTALLER_VERSION: ${{ steps.version.outputs.installer_version }}
         run: |
           $iscc = Join-Path ${env:ProgramFiles(x86)} "Inno Setup 6\ISCC.exe"
-          & $iscc /DMyAppVersion=$env:INSTALLER_VERSION (Join-Path $PWD "installer\OpenExamSuite.iss")
+          $iss = Join-Path $PWD "installer\OpenExamSuite.iss"
+          & $iscc "/DMyAppVersion=$env:INSTALLER_VERSION" $iss
 
       - name: Upload release asset
         uses: softprops/action-gh-release@v2

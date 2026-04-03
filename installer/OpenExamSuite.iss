@@ -1,7 +1,9 @@
 #define MyAppName "Open Exam Suite"
 #define MyAppPublisher "Open Exam Suite"
 #define MyAppExeName "OpenExamSuite.Simulator.exe"
+#ifndef MyAppVersion
 #define MyAppVersion "0.0.0"
+#endif
 
 [Setup]
 AppId={{B4C7E2F1-8A3D-4B9E-9C2D-1E5F6A7B8C90}}
