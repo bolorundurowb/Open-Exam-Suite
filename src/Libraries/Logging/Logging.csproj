@@ -7,5 +7,6 @@
     <AssemblyName>OpenExamSuite.Logging</AssemblyName>
     <RootNamespace>OpenExamSuite.Logging</RootNamespace>
     <AssemblyVersion>4.0.0</AssemblyVersion>
+    <Version>4.0.0</Version>
   </PropertyGroup>
 </Project>
