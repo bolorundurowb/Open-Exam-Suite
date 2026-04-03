@@ -1,0 +1,78 @@
+name: Publish Windows installer
+
+on:
+  push:
+    tags:
+      - 'v*'
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  build-installer:
+    runs-on: windows-latest
+    steps:
+      - name: Resolve checkout ref
+        id: cref
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "release" ]; then
+            echo "ref=refs/tags/${{ github.event.release.tag_name }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "ref=${{ github.ref }}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.cref.outputs.ref }}
+
+      - name: Setup .NET 10 SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.x'
+
+      - name: Publish Simulator (win-x64, self-contained)
+        run: >
+          dotnet publish src/Apps/Simulator/Simulator.csproj
+          -c Release -r win-x64 --self-contained true
+          -o build/installer/staging/Simulator
+
+      - name: Publish Creator (win-x64, self-contained)
+        run: >
+          dotnet publish src/Apps/Creator/Creator.csproj
+          -c Release -r win-x64 --self-contained true
+          -o build/installer/staging/Creator
+
+      - name: Stage samples
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path build/installer/staging/Samples | Out-Null
+          Copy-Item -Path samples/* -Destination build/installer/staging/Samples -Recurse -Force
+
+      - name: Install Inno Setup
+        run: choco install innosetup -y
+
+      - name: Compute version from tag
+        id: ver
+        shell: bash
+        run: |
+          TAG='${{ github.event_name == 'release' && github.event.release.tag_name || github.ref_name }}'
+          VERSION="${TAG#v}"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Compile installer
+        shell: pwsh
+        run: |
+          $iscc = Join-Path ${env:ProgramFiles(x86)} "Inno Setup 6\ISCC.exe"
+          & $iscc /DMyAppVersion=${{ steps.ver.outputs.version }} (Join-Path $PWD "installer\OpenExamSuite.iss")
+
+      - name: Upload release asset
+        uses: softprops/action-gh-release@v2
+        with:
+          files: installer/Output/*.exe
+          tag_name: ${{ github.event_name == 'release' && github.event.release.tag_name || github.ref_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
