@@ -1,6 +1,6 @@
 ﻿using System.Formats.Nrbf;
+using System.Text.Json;
 using System.Xml.Serialization;
-using Newtonsoft.Json;
 using OpenExamSuite.Logging;
 using ProtoBuf;
 
@@ -69,7 +69,7 @@ public static class Reader
         try
         {
             var jsonString = File.ReadAllText(filePath);
-            return JsonConvert.DeserializeObject<Exam>(jsonString);
+            return JsonSerializer.Deserialize<Exam>(jsonString, ExamJsonSerialization.Options);
         }
         catch (Exception ex)
         {

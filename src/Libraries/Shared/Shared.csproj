@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <PackageReference Include="PDFsharp" Version="6.2.4" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="protobuf-net" Version="3.2.56" />
     <PackageReference Include="System.Formats.Nrbf" Version="10.0.5" />
   </ItemGroup>

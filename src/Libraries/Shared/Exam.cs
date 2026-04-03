@@ -1,38 +1,81 @@
-﻿using System.Xml.Serialization;
-using Newtonsoft.Json;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Xml.Serialization;
 using ProtoBuf;
 
 namespace OpenExamSuite.Shared;
 
-public class BitmapConverter : JsonConverter<Bitmap>
+public class BitmapConverter : JsonConverter<Bitmap?>
 {
-    public override void WriteJson(JsonWriter writer, Bitmap? value, JsonSerializer serializer)
+    public override Bitmap? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        if (value == null)
-        {
-            writer.WriteNull();
-            return;
-        }
-
-        using var ms = new MemoryStream();
-        value.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-        var bytes = ms.ToArray();
-        writer.WriteValue(Convert.ToBase64String(bytes));
-    }
-
-    public override Bitmap? ReadJson(JsonReader reader, Type objectType, Bitmap? existingValue, bool hasExistingValue,
-        JsonSerializer serializer)
-    {
-        if (reader.TokenType == JsonToken.Null)
+        if (reader.TokenType == JsonTokenType.Null)
             return null;
 
-        var base64 = (string?)reader.Value;
+        var base64 = reader.GetString();
         if (string.IsNullOrEmpty(base64))
             return null;
 
         var bytes = Convert.FromBase64String(base64);
         using var ms = new MemoryStream(bytes);
         return new Bitmap(ms);
+    }
+
+    public override void Write(Utf8JsonWriter writer, Bitmap? value, JsonSerializerOptions options)
+    {
+        if (value == null)
+        {
+            writer.WriteNullValue();
+            return;
+        }
+
+        using var ms = new MemoryStream();
+        value.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+        var bytes = ms.ToArray();
+        writer.WriteStringValue(Convert.ToBase64String(bytes));
+    }
+}
+
+/// <summary>
+/// Matches Newtonsoft.Json: <c>char[]</c> is serialized as a JSON string, not a JSON array.
+/// </summary>
+public sealed class CharArrayAsStringConverter : JsonConverter<char[]>
+{
+    public override char[]? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        switch (reader.TokenType)
+        {
+            case JsonTokenType.Null:
+                return null;
+            case JsonTokenType.String:
+                var s = reader.GetString();
+                return string.IsNullOrEmpty(s) ? [] : s.ToCharArray();
+            case JsonTokenType.StartArray:
+                var list = new List<char>();
+                while (reader.Read() && reader.TokenType != JsonTokenType.EndArray)
+                {
+                    if (reader.TokenType == JsonTokenType.String)
+                    {
+                        var cs = reader.GetString();
+                        if (!string.IsNullOrEmpty(cs))
+                            list.Add(cs[0]);
+                    }
+                    else if (reader.TokenType == JsonTokenType.Number)
+                        list.Add((char)reader.GetInt32());
+                }
+
+                return list.ToArray();
+            default:
+                throw new JsonException($"Unexpected token parsing char[]: {reader.TokenType}.");
+        }
+    }
+
+    public override void Write(Utf8JsonWriter writer, char[]? value, JsonSerializerOptions options)
+    {
+        if (value == null)
+            writer.WriteNullValue();
+        else
+            writer.WriteStringValue(new string(value));
     }
 }
 
@@ -183,6 +226,7 @@ public class Question
     public bool IsMultipleChoice { get; set; }
 
     [ProtoMember(6)]
+    [JsonConverter(typeof(CharArrayAsStringConverter))]
     public char[] Answers { get; set; } = [];
 
     [ProtoMember(7)]
