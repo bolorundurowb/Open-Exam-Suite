@@ -1,38 +1,68 @@
 name: Publish Windows installer
 
 on:
-  push:
-    tags:
-      - 'v*'
+  workflow_dispatch:
   release:
     types: [published]
 
 permissions:
   contents: write
 
+concurrency:
+  group: publish-installer-${{ github.repository }}
+  cancel-in-progress: false
+
 jobs:
   build-installer:
     runs-on: windows-latest
     steps:
-      - name: Resolve checkout ref
-        id: cref
-        shell: bash
-        run: |
-          if [ "${{ github.event_name }}" = "release" ]; then
-            echo "ref=refs/tags/${{ github.event.release.tag_name }}" >> "$GITHUB_OUTPUT"
-          else
-            echo "ref=${{ github.ref }}" >> "$GITHUB_OUTPUT"
-          fi
-
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          ref: ${{ steps.cref.outputs.ref }}
+          fetch-depth: 0
+          ref: ${{ github.event_name == 'release' && format('refs/tags/{0}', github.event.release.tag_name) || github.ref }}
 
       - name: Setup .NET 10 SDK
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '10.x'
+
+      - name: Compute installer version and tag
+        id: version
+        shell: pwsh
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          RELEASE_TAG: ${{ github.event_name == 'release' && github.event.release.tag_name || '' }}
+        run: |
+          if ($env:EVENT_NAME -eq 'release') {
+            $tagName = $env:RELEASE_TAG
+            if ([string]::IsNullOrWhiteSpace($tagName)) { throw "release event missing tag name" }
+            $installer = $tagName.TrimStart('v')
+            "Computed installer version from release tag: $installer"
+          } else {
+            $path = "src/Apps/Simulator/Simulator.csproj"
+            $node = Select-Xml -Path $path -XPath "//Project/PropertyGroup/Version" | Select-Object -First 1
+            if (-not $node) { throw "$path must define <Version> in a PropertyGroup" }
+            $base = $node.Node.InnerText.Trim()
+            if ([string]::IsNullOrWhiteSpace($base)) { throw "$path <Version> is empty" }
+            $sha = (git rev-parse --short=7 HEAD).Trim()
+            $installer = "$base-$sha"
+            $tagName = "v$installer"
+            "Computed installer version: $installer (tag: $tagName)"
+          }
+          "installer_version=$installer" >> $env:GITHUB_OUTPUT
+          "tag_name=$tagName" >> $env:GITHUB_OUTPUT
+
+      - name: Create and push version tag
+        if: github.event_name == 'workflow_dispatch'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          TAG="${{ steps.version.outputs.tag_name }}"
+          git tag "$TAG"
+          git push origin "$TAG"
 
       - name: Publish Simulator (win-x64, self-contained)
         run: >
@@ -55,24 +85,18 @@ jobs:
       - name: Install Inno Setup
         run: choco install innosetup -y
 
-      - name: Compute version from tag
-        id: ver
-        shell: bash
-        run: |
-          TAG='${{ github.event_name == 'release' && github.event.release.tag_name || github.ref_name }}'
-          VERSION="${TAG#v}"
-          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
-
       - name: Compile installer
         shell: pwsh
+        env:
+          INSTALLER_VERSION: ${{ steps.version.outputs.installer_version }}
         run: |
           $iscc = Join-Path ${env:ProgramFiles(x86)} "Inno Setup 6\ISCC.exe"
-          & $iscc /DMyAppVersion=${{ steps.ver.outputs.version }} (Join-Path $PWD "installer\OpenExamSuite.iss")
+          & $iscc /DMyAppVersion=$env:INSTALLER_VERSION (Join-Path $PWD "installer\OpenExamSuite.iss")
 
       - name: Upload release asset
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ github.event_name == 'release' && github.event.release.tag_name || steps.version.outputs.tag_name }}
           files: installer/Output/*.exe
-          tag_name: ${{ github.event_name == 'release' && github.event.release.tag_name || github.ref_name }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
