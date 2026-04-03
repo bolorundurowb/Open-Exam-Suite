@@ -45,8 +45,7 @@ jobs:
             if (-not $node) { throw "$path must define <Version> in a PropertyGroup" }
             $base = $node.Node.InnerText.Trim()
             if ([string]::IsNullOrWhiteSpace($base)) { throw "$path <Version> is empty" }
-            $sha = (git rev-parse --short=7 HEAD).Trim()
-            $installer = "$base-$sha"
+            $installer = $base
             $tagName = "v$installer"
             "Computed installer version: $installer (tag: $tagName)"
           }
