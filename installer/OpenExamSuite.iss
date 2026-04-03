@@ -30,8 +30,8 @@ Name: "custom"; Description: "Custom installation"; Flags: iscustom
 
 [Components]
 Name: "simulator"; Description: "Simulator (required)"; Types: full custom; Flags: fixed
-Name: "creator"; Description: "Creator"; Types: full custom; Flags: unchecked
-Name: "samples"; Description: "Sample exams"; Types: full custom; Flags: unchecked
+Name: "creator"; Description: "Creator"; Types: full
+Name: "samples"; Description: "Sample exams"; Types: full
 
 [Files]
 Source: "..\build\installer\staging\Simulator\*"; DestDir: "{app}\Simulator"; Flags: ignoreversion recursesubdirs createallsubdirs; Components: simulator
