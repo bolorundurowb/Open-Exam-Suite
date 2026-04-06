@@ -7,7 +7,7 @@ Open Exam Suite is an open-source alternative to Avanset's Visual CertExam Suite
 
 The project includes an **Exam Creator** for designing exams in the `oef` (Open Exam Format) and an **Exam Simulator** for conducting tests.
 
-## 🚀 Key Features
+## Key Features
 
 - **Exam Creator:**
     - Group questions into sections.
@@ -22,16 +22,15 @@ The project includes an **Exam Creator** for designing exams in the `oef` (Open 
 - **Compatibility:**
     - Built-in converter to upgrade older v1/v2 exam files to the modern v3 format.
 
-## 🏗️ Project Modernization (2026)
+## Project Modernisation (2026)
 
-This project has been modernized from .NET Framework 4.0 to **.NET 10**.
+This project has been modernised from .NET Framework 4.0 to **.NET 10**.
 
 - **Target Framework:** Upgraded all projects to `.net10.0-windows`.
 - **Project System:** Migrated to modern **SDK-style** project files.
 - **Project Structure:** Simplified the project structure.
 - **Dependency Management:** Converted to `PackageReference`.
 - **CI/CD:** Powered by **GitHub Actions**.
-- **Testing:** Updated to `xUnit 2.9.2`.
 - **.oef File Format:** Upgraded from deprecated `BinaryFormatter` to **Protobuf**. Legacy `.oef` files are automatically migrated upon reading for a seamless user experience.
 
 ## 🛠️ Getting Started
@@ -54,18 +53,18 @@ This project has been modernized from .NET Framework 4.0 to **.NET 10**.
    - **Creator:** `dotnet run --project src/Apps/Creator/Creator.csproj`
    - **Simulator:** `dotnet run --project src/Apps/Simulator/Simulator.csproj`
 
-## 📦 Downloads
-You can find pre-built installers on [SourceForge](https://sourceforge.net/projects/open-exam-suite).
+## Downloads
+You can find pre-built installers on [SourceForge](https://sourceforge.net/projects/open-exam-suite) and [GitHub Releases](https://github.com/bolorundurowb/Open-Exam-Suite/releases).
 
-## 🤝 Contributing
+## Contributing
 Feel free to create an [issue](https://github.com/bolorundurowb/Open-Exam-Suite/issues) for feature requests or bug reports. Contributions are welcome via Pull Requests.
 
 If this project has been of benefit to you, please give it a ⭐ on GitHub!
 
-## 📜 Changelog
+## Changelog
 For a detailed history of changes, see the [CHANGELOG.md](./CHANGELOG.md) file.
 
-## ⚖️ License
+## License
 This project is licensed under the **GPLv3** license. See the [LICENSE](./LICENSE) file for details.
 
 ---
