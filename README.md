@@ -51,8 +51,8 @@ This project has been modernized from .NET Framework 4.0 to **.NET 10**.
    dotnet build
    ```
 3. Run the applications:
-   - **Creator:** `dotnet run --project src/apps/Creator/Creator.csproj`
-   - **Simulator:** `dotnet run --project src/apps/Simulator/Simulator.csproj`
+   - **Creator:** `dotnet run --project src/Apps/Creator/Creator.csproj`
+   - **Simulator:** `dotnet run --project src/Apps/Simulator/Simulator.csproj`
 
 ## 📦 Downloads
 You can find pre-built installers on [SourceForge](https://sourceforge.net/projects/open-exam-suite).

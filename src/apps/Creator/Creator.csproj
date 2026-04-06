@@ -9,16 +9,17 @@
     <NoWarn>$(NoWarn);WFO1000</NoWarn>
     <AssemblyName>OpenExamSuite.Creator</AssemblyName>
     <RootNamespace>OpenExamSuite.Creator</RootNamespace>
-    <Version>4.0.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Libraries\Core\Core.csproj" />
+    <ProjectReference Include="..\..\Libraries\ExamIO\ExamIO.csproj" />
     <ProjectReference Include="..\..\Libraries\Logging\Logging.csproj" />
-    <ProjectReference Include="..\..\Libraries\Shared\Shared.csproj" />
+    <ProjectReference Include="..\..\Libraries\Shared.WinForms\Shared.WinForms.csproj" />
     <ProjectReference Include="..\..\Libraries\Storage\Storage.csproj" />
   </ItemGroup>
 </Project>

@@ -1,4 +1,7 @@
-﻿using OpenExamSuite.Creator.GUI;
+﻿using Microsoft.Extensions.DependencyInjection;
+using OpenExamSuite.Creator.GUI;
+using OpenExamSuite.Storage.Interfaces;
+using OpenExamSuite.Storage.Services;
 
 namespace OpenExamSuite.Creator;
 
@@ -12,6 +15,11 @@ static class Program
     {
         Application.EnableVisualStyles();
         Application.SetCompatibleTextRenderingDefault(false);
-        Application.Run(new HomeUi());
+
+        var services = new ServiceCollection();
+        services.AddSingleton<IAppSettingsService>(_ => new AppSettingsService());
+        using var provider = services.BuildServiceProvider();
+
+        Application.Run(new HomeUi(provider.GetRequiredService<IAppSettingsService>()));
     }
 }

@@ -1,19 +1,17 @@
 using OpenExamSuite.Storage.Enums;
-using OpenExamSuite.Storage.Services;
+using OpenExamSuite.Storage.Interfaces;
 
 namespace OpenExamSuite.Simulator.Utilities;
 
 public class RowManager
 {
-    public static void RemoveRow(DataGridView dataGridView)
+    public static void RemoveRow(DataGridView dataGridView, IAppSettingsService appSettingsService)
     {
         foreach (DataGridViewRow row in dataGridView.SelectedRows)
         {
             dataGridView.Rows.Remove(row);
 
-            // remove from storage
-            var appSettingService = AppSettingsService.Instance;
-            appSettingService.Remove(row.Cells[1].Value.ToString(), AppSettingsType.Simulator);
+            appSettingsService.Remove(row.Cells[1].Value.ToString()!, AppSettingsType.Simulator);
         }
     }
 }

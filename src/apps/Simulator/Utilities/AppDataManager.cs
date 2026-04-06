@@ -1,16 +1,14 @@
 using OpenExamSuite.Storage.Enums;
+using OpenExamSuite.Storage.Interfaces;
 using OpenExamSuite.Storage.Models;
-using OpenExamSuite.Storage.Services;
 using Simulator.Properties;
 
 namespace OpenExamSuite.Simulator.Utilities;
 
 public static class AppDataManager
 {
-    public static void LoadAppData(DataGridView dataGridView)
+    public static void LoadAppData(DataGridView dataGridView, IAppSettingsService settingsService)
     {
-        var settingsService = AppSettingsService.Instance;
-
         if (Settings.Default.FirstRun)
         {
             var suiteRootFolder = Application.StartupPath;
@@ -29,7 +27,6 @@ public static class AppDataManager
                 FilePath = basicScienceSample
             }, AppSettingsType.Simulator);
 
-            // save first run data
             Settings.Default.FirstRun = false;
             Settings.Default.Save();
         }

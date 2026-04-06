@@ -9,6 +9,7 @@ using OpenExamSuite.Shared.Enums;
 using OpenExamSuite.Shared.Models;
 using OpenExamSuite.Shared.Utilities;
 using OpenExamSuite.Storage.Enums;
+using OpenExamSuite.Storage.Interfaces;
 using OpenExamSuite.Storage.Models;
 using OpenExamSuite.Storage.Services;
 
@@ -18,6 +19,7 @@ public partial class HomeUi : Form
 {
     #region Class Variables
 
+    private readonly IAppSettingsService _appSettings;
     private Exam _exam;
     private string _currentExamFile;
     private PrintOption _whatToPrint;
@@ -27,8 +29,13 @@ public partial class HomeUi : Form
 
     #endregion
 
-    public HomeUi()
+    public HomeUi() : this(new AppSettingsService())
     {
+    }
+
+    public HomeUi(IAppSettingsService appSettings)
+    {
+        _appSettings = appSettings;
         InitializeComponent();
     }
 
@@ -53,105 +60,80 @@ public partial class HomeUi : Form
 
     private void Open()
     {
-        var fileExt = Path.GetExtension(_currentExamFile)?.ToLower();
-        if (fileExt == ".json")
+        var pathBeforeLoad = _currentExamFile;
+        var load = ExamFileLoader.TryLoad(pathBeforeLoad!);
+
+        if (!string.IsNullOrEmpty(load.ErrorMessage))
         {
-            _exam = Reader.FromJsonFile(_currentExamFile);
-            _currentExamFile = null;
-            if (_exam.NumberOfQuestions == 0)
-            {
-                MessageBox.Show("Sorry, the JSON file selected is empty or invalid.", "Error", MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-                return;
-            }
-        }
-        else if (fileExt == ".xml")
-        {
-            try
-            {
-                _exam = Reader.FromXmlFile(_currentExamFile);
-                _currentExamFile = null;
-                if (_exam.NumberOfQuestions == 0)
-                {
-                    MessageBox.Show("Sorry, the XML file selected is empty or invalid.", "Error",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.LogException(ex);
-                MessageBox.Show("Sorry, the XML file selected is invalid.", "Error", MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-                return;
-            }
-        }
-        else
-        {
-            _exam = Reader.FromOefFile(_currentExamFile);
+            MessageBox.Show(load.ErrorMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return;
         }
 
-        if (_exam != null)
-        {
-            trv_view_exam.Nodes.Clear();
-            EnableExamControls();
-            EnableSectionControls();
-            var examNode = new ExamNode(_exam.Properties);
-            trv_view_exam.Nodes.Add(examNode);
-            foreach (var section in _exam.Sections)
-            {
-                var sectionNode = new SectionNode(section.Title)
-                {
-                    ContextMenuStrip = cms_section
-                };
-                foreach (var question in section.Questions)
-                {
-                    var questionNode = new QuestionNode(question)
-                    {
-                        ContextMenuStrip = cms_question
-                    };
-                    sectionNode.Nodes.Add(questionNode);
-                }
-
-                examNode.Nodes.Add(sectionNode);
-            }
-
-            trv_view_exam.ExpandAll();
-            if (splitContainer2.Panel2.Controls.Contains(pan_splash))
-            {
-                splitContainer2.Panel2.Controls.Remove(pan_splash);
-                splitContainer2.Panel2.Controls.Add(pan_exam_properties);
-            }
-
-            txt_code.Text = _exam.Properties.Code;
-            txt_instruction.Text = _exam.Properties.Instructions;
-            txt_title.Text = _exam.Properties.Title;
-            num_passmark.Value = (decimal)_exam.Properties.Passmark;
-            num_time_limit.Value = _exam.Properties.TimeLimit;
-            _undoRedo = new UndoRedo();
-
-            // add the opened exam to the exam history
-            AddToHistory(_currentExamFile);
-        }
-        else
+        if (!load.Success || load.Exam == null)
         {
             MessageBox.Show(
                 "Sorry, the exam selected is either old or corrupt. If it is an old exam, please upgrade it with the upgrade tool at:\nhttps://sourceforge.net/projects/exam-upgrade-tool/",
                 "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return;
         }
+
+        _exam = load.Exam;
+        var fileExt = Path.GetExtension(pathBeforeLoad)?.ToLowerInvariant();
+        if (fileExt == ".json" || fileExt == ".xml")
+            _currentExamFile = null;
+        else
+            _currentExamFile = pathBeforeLoad;
+
+        trv_view_exam.Nodes.Clear();
+        EnableExamControls();
+        EnableSectionControls();
+        var examNode = new ExamNode(_exam.Properties);
+        trv_view_exam.Nodes.Add(examNode);
+        foreach (var section in _exam.Sections)
+        {
+            var sectionNode = new SectionNode(section.Title)
+            {
+                ContextMenuStrip = cms_section
+            };
+            foreach (var question in section.Questions)
+            {
+                var questionNode = new QuestionNode(question)
+                {
+                    ContextMenuStrip = cms_question
+                };
+                sectionNode.Nodes.Add(questionNode);
+            }
+
+            examNode.Nodes.Add(sectionNode);
+        }
+
+        trv_view_exam.ExpandAll();
+        if (splitContainer2.Panel2.Controls.Contains(pan_splash))
+        {
+            splitContainer2.Panel2.Controls.Remove(pan_splash);
+            splitContainer2.Panel2.Controls.Add(pan_exam_properties);
+        }
+
+        txt_code.Text = _exam.Properties.Code;
+        txt_instruction.Text = _exam.Properties.Instructions;
+        txt_title.Text = _exam.Properties.Title;
+        num_passmark.Value = (decimal)_exam.Properties.Passmark;
+        num_time_limit.Value = _exam.Properties.TimeLimit;
+        _undoRedo = new UndoRedo();
+
+        AddToHistory(load.PathForHistory);
     }
 
     private void AddToHistory(string? filePath)
     {
         if (string.IsNullOrEmpty(filePath)) return;
 
-        var appSettingsService = AppSettingsService.Instance;
         var settings = new AppSetting
         {
             FilePath = filePath,
             Name = Path.GetFileNameWithoutExtension(filePath)
         };
-        appSettingsService.Add(settings, AppSettingsType.Creator);
+        _appSettings.Add(settings, AppSettingsType.Creator);
     }
 
     private void Save(object sender, EventArgs e)
@@ -1102,8 +1084,7 @@ public partial class HomeUi : Form
         }
 
         // retrieve the app settings
-        var appSettingsService = AppSettingsService.Instance;
-        var appSettings = appSettingsService.GetAll(AppSettingsType.Creator);
+        var appSettings = _appSettings.GetAll(AppSettingsType.Creator);
         for (var j = 0; j < appSettings.Count; j++)
         {
             var examLink = new LinkLabel
@@ -1131,8 +1112,7 @@ public partial class HomeUi : Form
                 MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
             // remove the setting from storage
-            var appSettingService = AppSettingsService.Instance;
-            appSettingService.Remove(((LinkLabel)sender).Text, AppSettingsType.Creator);
+            _appSettings.Remove(((LinkLabel)sender).Text, AppSettingsType.Creator);
 
             // remove the link
             grp_exam_history.Controls.Remove((Control)sender);
@@ -1290,8 +1270,7 @@ public partial class HomeUi : Form
 
     private void ClearExamHistory(object sender, LinkLabelLinkClickedEventArgs e)
     {
-        var appSettingService = AppSettingsService.Instance;
-        appSettingService.Clear(AppSettingsType.Creator);
+        _appSettings.Clear(AppSettingsType.Creator);
 
         // re-render the history UI
         LoadExamHistory();
