@@ -1,4 +1,3 @@
-using System.IO;
 using OpenExamSuite.Shared.Utilities;
 using Shouldly;
 using Xunit;

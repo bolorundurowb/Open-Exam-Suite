@@ -1,6 +1,4 @@
-﻿using OpenExamSuite.Shared;
-
-namespace OpenExamSuite.Shared.Controls;
+﻿namespace OpenExamSuite.Shared.Controls;
 
 public class ExamNode : TreeNode
 {

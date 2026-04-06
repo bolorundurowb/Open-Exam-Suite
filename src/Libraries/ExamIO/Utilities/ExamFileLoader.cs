@@ -1,5 +1,4 @@
 using OpenExamSuite.Logging;
-using OpenExamSuite.Shared;
 
 namespace OpenExamSuite.Shared.Utilities;
 

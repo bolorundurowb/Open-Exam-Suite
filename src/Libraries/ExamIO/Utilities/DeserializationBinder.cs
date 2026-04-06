@@ -2,9 +2,7 @@
  *  Created by bolorundurowb on 2/1/2018
  */
 
-using System.Reflection;
 using System.Runtime.Serialization;
-using OpenExamSuite.Shared;
 
 namespace OpenExamSuite.Shared.Utilities;
 
