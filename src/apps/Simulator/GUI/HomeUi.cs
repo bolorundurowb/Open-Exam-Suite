@@ -1,6 +1,7 @@
 ﻿using OpenExamSuite.Simulator.Enums;
 using OpenExamSuite.Simulator.Utilities;
 using OpenExamSuite.Storage.Enums;
+using OpenExamSuite.Storage.Interfaces;
 using OpenExamSuite.Storage.Models;
 using OpenExamSuite.Storage.Services;
 
@@ -8,20 +9,30 @@ namespace OpenExamSuite.Simulator.GUI;
 
 public partial class HomeUi : Form
 {
-    public HomeUi()
+    private readonly IAppSettingsService _appSettings;
+
+    public HomeUi() : this(new AppSettingsService(), null)
     {
-        InitializeComponent();
     }
 
-    public HomeUi(string filePath) : this()
+    public HomeUi(IAppSettingsService appSettings) : this(appSettings, null)
     {
-        if (string.IsNullOrWhiteSpace(filePath) || Path.GetExtension(filePath).ToLower() == ".oef")
+    }
+
+    public HomeUi(IAppSettingsService appSettings, string? initialExamFile)
+    {
+        _appSettings = appSettings;
+        InitializeComponent();
+
+        if (string.IsNullOrWhiteSpace(initialExamFile))
+            return;
+
+        if (Path.GetExtension(initialExamFile).Equals(".oef", StringComparison.OrdinalIgnoreCase))
         {
-            var settingsService = AppSettingsService.Instance;
-            settingsService.Add(new AppSetting
+            _appSettings.Add(new AppSetting
             {
-                Name = Path.GetFileNameWithoutExtension(filePath),
-                FilePath = filePath
+                Name = Path.GetFileNameWithoutExtension(initialExamFile),
+                FilePath = initialExamFile
             }, AppSettingsType.Simulator);
         }
         else
@@ -45,8 +56,7 @@ public partial class HomeUi : Form
             {
                 dgv_exams.Rows.Add(Path.GetFileNameWithoutExtension(fileName), fileName);
 
-                var settingsService = AppSettingsService.Instance;
-                settingsService.Add(new AppSetting
+                _appSettings.Add(new AppSetting
                 {
                     Name = Path.GetFileNameWithoutExtension(fileName),
                     FilePath = fileName
@@ -91,12 +101,12 @@ public partial class HomeUi : Form
 
     private void Remove(object sender, EventArgs e)
     {
-        RowManager.RemoveRow(dgv_exams);
+        RowManager.RemoveRow(dgv_exams, _appSettings);
     }
 
     private void Properties(object sender, EventArgs e)
     {
-        DialogManager.DisplayDialog(DialogType.ExamProperties, dgv_exams);
+        DialogManager.DisplayDialog(DialogType.ExamProperties, dgv_exams, _appSettings);
     }
 
     private void About(object sender, EventArgs e)
@@ -107,17 +117,16 @@ public partial class HomeUi : Form
 
     private void Start(object sender, EventArgs e)
     {
-        DialogManager.DisplayDialog(DialogType.ExamSettings, dgv_exams);
+        DialogManager.DisplayDialog(DialogType.ExamSettings, dgv_exams, _appSettings);
     }
 
     private void LoadAppData(object sender, EventArgs e)
     {
-        AppDataManager.LoadAppData(dgv_exams);
+        AppDataManager.LoadAppData(dgv_exams, _appSettings);
     }
 
     private void ChangeHeaderSize(object sender, EventArgs e)
     {
         name.Width = dgv_exams.Width / 3;
-        path.Width = dgv_exams.Width * 2 / 3;
     }
 }

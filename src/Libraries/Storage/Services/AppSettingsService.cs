@@ -7,26 +7,18 @@ namespace OpenExamSuite.Storage.Services;
 
 public class AppSettingsService : IAppSettingsService
 {
-    private string _database =
-        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "OpenExamSuite", "OpenExamSuite.db");
+    private readonly string _database;
 
-    public static AppSettingsService Instance
+    public AppSettingsService(string? databasePath = null)
     {
-        get
-        {
-            if (field != null)
-                return field;
+        _database = databasePath ?? Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+            "OpenExamSuite",
+            "OpenExamSuite.db");
 
-            field = new AppSettingsService();
-
-            var directory = Path.GetDirectoryName(field._database);
-            if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
-            {
-                Directory.CreateDirectory(directory);
-            }
-
-            return field;
-        }
+        var directory = Path.GetDirectoryName(_database);
+        if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
+            Directory.CreateDirectory(directory);
     }
 
     public void Add(AppSetting settings, AppSettingsType type)
@@ -61,7 +53,7 @@ public class AppSettingsService : IAppSettingsService
         return collection.FindAll().ToList();
     }
 
-    private string GetTableNameFromType(AppSettingsType type)
+    private static string GetTableNameFromType(AppSettingsType type)
     {
         return type switch
         {

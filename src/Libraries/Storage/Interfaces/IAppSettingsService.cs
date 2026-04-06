@@ -7,6 +7,8 @@ public interface IAppSettingsService
 {
     void Add(AppSetting settings, AppSettingsType type);
 
+    void Remove(string filePath, AppSettingsType type);
+
     void Clear(AppSettingsType type);
 
     List<AppSetting> GetAll(AppSettingsType type);

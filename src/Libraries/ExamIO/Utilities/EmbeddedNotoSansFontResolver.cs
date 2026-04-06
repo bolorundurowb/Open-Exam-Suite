@@ -8,8 +8,8 @@ internal sealed class EmbeddedNotoSansFontResolver : IFontResolver
     private const string FamilyName = "Noto Sans";
     private const string RegularFaceName = "NotoSans-Regular";
     private const string ItalicFaceName = "NotoSans-Italic";
-    private const string RegularResourceName = "OpenExamSuite.Shared.Resources.fonts.NotoSans-VariableFont.ttf";
-    private const string ItalicResourceName = "OpenExamSuite.Shared.Resources.fonts.NotoSans-VariableFont-Italic.ttf";
+    private const string RegularResourceName = "OpenExamSuite.ExamIO.Resources.fonts.NotoSans-VariableFont.ttf";
+    private const string ItalicResourceName = "OpenExamSuite.ExamIO.Resources.fonts.NotoSans-VariableFont-Italic.ttf";
 
     private static readonly Lazy<byte[]> RegularFaceData = new(() => LoadFontBytes(RegularResourceName));
     private static readonly Lazy<byte[]> ItalicFaceData = new(() => LoadFontBytes(ItalicResourceName));

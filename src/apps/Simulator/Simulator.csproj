@@ -12,13 +12,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.9.1" />
     <PackageReference Include="System.Windows.Forms.DataVisualization" Version="1.0.0-prerelease.20110.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Libraries\Core\Core.csproj" />
+    <ProjectReference Include="..\..\Libraries\ExamIO\ExamIO.csproj" />
     <ProjectReference Include="..\..\Libraries\Logging\Logging.csproj" />
-    <ProjectReference Include="..\..\Libraries\Shared\Shared.csproj" />
+    <ProjectReference Include="..\..\Libraries\Shared.WinForms\Shared.WinForms.csproj" />
     <ProjectReference Include="..\..\Libraries\Storage\Storage.csproj" />
   </ItemGroup>
 </Project>

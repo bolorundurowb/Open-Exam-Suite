@@ -1,10 +1,11 @@
+using System.Drawing;
 using System.Drawing.Imaging;
+using System.Text.Json;
 using System.Xml.Serialization;
 using PdfSharp.Drawing;
 using PdfSharp.Drawing.Layout;
 using PdfSharp.Fonts;
 using PdfSharp.Pdf;
-using Newtonsoft.Json;
 using OpenExamSuite.Logging;
 using ProtoBuf;
 
@@ -105,7 +106,7 @@ public static class Writer
     {
         try
         {
-            var examJsonString = JsonConvert.SerializeObject(exam, Formatting.Indented);
+            var examJsonString = JsonSerializer.Serialize(exam, ExamJsonSerialization.Options);
             File.WriteAllText(filePath, examJsonString);
             return true;
         }

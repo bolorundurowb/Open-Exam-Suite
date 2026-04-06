@@ -1,0 +1,29 @@
+{
+  "Properties": {
+    "Title": "FixtureExam",
+    "Code": "FX",
+    "Version": 3,
+    "Passmark": 600,
+    "TimeLimit": 5,
+    "Instructions": "Fixture instructions."
+  },
+  "Sections": [
+    {
+      "Title": "SectionOne",
+      "Questions": [
+        {
+          "No": 1,
+          "Text": "Sample question?",
+          "Answer": "A",
+          "IsMultipleChoice": false,
+          "Answers": "",
+          "Options": [
+            { "Alphabet": "A", "Text": "First" },
+            { "Alphabet": "B", "Text": "Second" }
+          ],
+          "Explanation": ""
+        }
+      ]
+    }
+  ]
+}
