@@ -5,13 +5,13 @@ using OpenExamSuite.Storage.Services;
 
 namespace OpenExamSuite.Simulator;
 
-static class Program
+public static class Program
 {
     /// <summary>
     /// The main entry point for the application.
     /// </summary>
     [STAThread]
-    static void Main(string[] args)
+    public static void Main(string[] args)
     {
         Application.EnableVisualStyles();
         Application.SetCompatibleTextRenderingDefault(false);
@@ -32,7 +32,7 @@ static class Program
             : new HomeUi(appSettings, args[0]));
     }
 
-    static string GetGuid()
+    private static string GetGuid()
     {
         var assemblyGuid = Guid.Empty;
         var assemblyObjects = System.Reflection.Assembly.GetEntryAssembly().GetCustomAttributes(typeof(System.Runtime.InteropServices.GuidAttribute), true);

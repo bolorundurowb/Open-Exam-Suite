@@ -124,7 +124,7 @@
             this.richTextBox1.Margin = new Padding(4, 3, 4, 3);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new Size(411, 85);
+            this.richTextBox1.Size = new Size(411, 72);
             this.richTextBox1.TabIndex = 9;
             this.richTextBox1.Text = resources.GetString("richTextBox1.Text");
             // 
@@ -133,7 +133,7 @@
             this.AutoScaleDimensions = new SizeF(7F, 15F);
             this.AutoScaleMode = AutoScaleMode.Font;
             this.BackColor = SystemColors.Control;
-            this.ClientSize = new Size(451, 260);
+            this.ClientSize = new Size(451, 248);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.lnk_wiki);
             this.Controls.Add(this.lnk_issues);

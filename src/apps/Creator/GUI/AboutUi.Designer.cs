@@ -133,7 +133,7 @@
             this.AutoScaleDimensions = new SizeF(7F, 15F);
             this.AutoScaleMode = AutoScaleMode.Font;
             this.BackColor = SystemColors.Control;
-            this.ClientSize = new Size(456, 247);
+            this.ClientSize = new Size(456, 256);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.lnk_wiki);
             this.Controls.Add(this.lnk_issues);

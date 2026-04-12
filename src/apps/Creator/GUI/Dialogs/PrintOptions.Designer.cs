@@ -95,7 +95,7 @@
             this.btn_ok.Name = "btn_ok";
             this.btn_ok.Size = new Size(68, 27);
             this.btn_ok.TabIndex = 1;
-            this.btn_ok.Text = "OK";
+            this.btn_ok.Text = "Print";
             this.btn_ok.TextImageRelation = TextImageRelation.ImageBeforeText;
             this.btn_ok.UseVisualStyleBackColor = true;
             this.btn_ok.Click += this.btn_ok_Click;
