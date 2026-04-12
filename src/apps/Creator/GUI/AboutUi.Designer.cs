@@ -47,7 +47,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new Size(168, 15);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Open Exam Creator 4.0.0";
+            this.label1.Text = "Open Exam Creator 4.0.1";
             // 
             // label2
             // 

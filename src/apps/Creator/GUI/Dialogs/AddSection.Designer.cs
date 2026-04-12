@@ -26,56 +26,60 @@
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent()
-        {
-            this.label1 = new System.Windows.Forms.Label();
-            this.txt_title = new System.Windows.Forms.TextBox();
-            this.btn_add_section = new System.Windows.Forms.Button();
+        private void InitializeComponent() {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddSection));
+            this.label1 = new Label();
+            this.txt_title = new TextBox();
+            this.btn_add_section = new Button();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(9, 12);
+            this.label1.Location = new Point(10, 14);
+            this.label1.Margin = new Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(30, 13);
+            this.label1.Size = new Size(33, 15);
             this.label1.TabIndex = 0;
             this.label1.Text = "Title:";
             // 
             // txt_title
             // 
-            this.txt_title.Location = new System.Drawing.Point(41, 9);
+            this.txt_title.Location = new Point(48, 10);
+            this.txt_title.Margin = new Padding(4, 3, 4, 3);
             this.txt_title.Name = "txt_title";
-            this.txt_title.Size = new System.Drawing.Size(233, 20);
+            this.txt_title.Size = new Size(271, 23);
             this.txt_title.TabIndex = 1;
             // 
             // btn_add_section
             // 
-            this.btn_add_section.Image = global::OpenExamSuite.Creator.Properties.Resources.ok;
-            this.btn_add_section.Location = new System.Drawing.Point(280, 7);
+            this.btn_add_section.Image = (Image)resources.GetObject("btn_add_section.Image");
+            this.btn_add_section.Location = new Point(327, 8);
+            this.btn_add_section.Margin = new Padding(4, 3, 4, 3);
             this.btn_add_section.Name = "btn_add_section";
-            this.btn_add_section.Size = new System.Drawing.Size(53, 23);
+            this.btn_add_section.Size = new Size(62, 27);
             this.btn_add_section.TabIndex = 2;
             this.btn_add_section.Text = "Add";
-            this.btn_add_section.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btn_add_section.TextImageRelation = TextImageRelation.ImageBeforeText;
             this.btn_add_section.UseVisualStyleBackColor = true;
-            this.btn_add_section.Click += new System.EventHandler(this.btn_add_section_Click);
+            this.btn_add_section.Click += this.btn_add_section_Click;
             // 
             // AddSection
             // 
             this.AcceptButton = this.btn_add_section;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(340, 37);
+            this.AutoScaleDimensions = new SizeF(7F, 15F);
+            this.AutoScaleMode = AutoScaleMode.Font;
+            this.ClientSize = new Size(397, 43);
             this.Controls.Add(this.btn_add_section);
             this.Controls.Add(this.txt_title);
             this.Controls.Add(this.label1);
+            this.Margin = new Padding(4, 3, 4, 3);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "AddSection";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition = FormStartPosition.CenterParent;
             this.Text = "Add Section";
             this.ResumeLayout(false);
             this.PerformLayout();
