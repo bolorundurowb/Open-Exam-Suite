@@ -117,4 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="richTextBox1.Text" xml:space="preserve">
+    <value>This simulation software was designed and developerd by Winner-Timothy Bolorunduro as a free and open-source alternative to Avanaset's suite. It supports a native *.oef format but the more portable json and xml formats well.</value>
+  </data>
 </root>
