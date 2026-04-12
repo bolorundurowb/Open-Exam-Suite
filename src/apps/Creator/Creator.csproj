@@ -9,6 +9,9 @@
     <NoWarn>$(NoWarn);WFO1000</NoWarn>
     <AssemblyName>OpenExamSuite.Creator</AssemblyName>
     <RootNamespace>OpenExamSuite.Creator</RootNamespace>
+    <Version>4.0.1</Version>
+    <AssemblyVersion>4.0.1</AssemblyVersion>
+    <FileVersion>4.0.1</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
