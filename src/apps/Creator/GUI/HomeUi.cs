@@ -606,6 +606,12 @@ public partial class HomeUi : Form
         about.ShowDialog();
     }
 
+    private void License(object sender, EventArgs e)
+    {
+        using var license = new OpenExamSuite.Shared.Dialogs.LicenseUi();
+        license.ShowDialog();
+    }
+
     private void AfterSelect(object sender, TreeViewEventArgs e)
     {
         if (trv_view_exam.SelectedNode.GetType() == typeof(ExamNode))

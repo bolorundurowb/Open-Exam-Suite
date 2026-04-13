@@ -38,6 +38,7 @@
             this.exitToolStripMenuItem = new ToolStripMenuItem();
             this.helpToolStripMenuItem = new ToolStripMenuItem();
             this.aboutToolStripMenuItem = new ToolStripMenuItem();
+            this.licenseToolStripMenuItem = new ToolStripMenuItem();
             this.dgv_exams = new DataGridView();
             this.name = new DataGridViewTextBoxColumn();
             this.path = new DataGridViewTextBoxColumn();
@@ -90,7 +91,7 @@
             // 
             // helpToolStripMenuItem
             // 
-            this.helpToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { this.aboutToolStripMenuItem });
+            this.helpToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { this.aboutToolStripMenuItem, this.licenseToolStripMenuItem });
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new Size(44, 20);
             this.helpToolStripMenuItem.Text = "Help";
@@ -101,6 +102,13 @@
             this.aboutToolStripMenuItem.Size = new Size(107, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += this.About;
+            // 
+            // licenseToolStripMenuItem
+            // 
+            this.licenseToolStripMenuItem.Name = "licenseToolStripMenuItem";
+            this.licenseToolStripMenuItem.Size = new Size(107, 22);
+            this.licenseToolStripMenuItem.Text = "License";
+            this.licenseToolStripMenuItem.Click += this.License;
             // 
             // dgv_exams
             // 
@@ -258,6 +266,7 @@
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem licenseToolStripMenuItem;
         private System.Windows.Forms.Button btn_start;
         private System.Windows.Forms.Button btn_add;
         private System.Windows.Forms.Button btn_remove;

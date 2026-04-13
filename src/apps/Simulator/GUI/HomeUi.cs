@@ -115,6 +115,12 @@ public partial class HomeUi : Form
         about.ShowDialog();
     }
 
+    private void License(object sender, EventArgs e)
+    {
+        using var license = new OpenExamSuite.Shared.Dialogs.LicenseUi();
+        license.ShowDialog();
+    }
+
     private void Start(object sender, EventArgs e)
     {
         DialogManager.DisplayDialog(DialogType.ExamSettings, dgv_exams, _appSettings);
