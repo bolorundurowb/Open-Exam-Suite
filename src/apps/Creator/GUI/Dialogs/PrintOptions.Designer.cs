@@ -104,7 +104,7 @@
             // 
             this.AutoScaleDimensions = new SizeF(7F, 15F);
             this.AutoScaleMode = AutoScaleMode.Font;
-            this.ClientSize = new Size(349, 164);
+            this.ClientSize = new Size(345, 160);
             this.ControlBox = false;
             this.Controls.Add(this.btn_ok);
             this.Controls.Add(this.groupBox1);
