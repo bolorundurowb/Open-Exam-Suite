@@ -35,10 +35,6 @@
             this.groupBox2 = new GroupBox();
             this.trv_view_exam = new TreeView();
             this.imglst_node_images = new ImageList(this.components);
-            this.pan_splash = new Panel();
-            this.grp_exam_history = new GroupBox();
-            this.lnkClearHistory = new LinkLabel();
-            this.pictureBox1 = new PictureBox();
             this.pan_display_questions = new Panel();
             this.chkMulipleChoice = new CheckBox();
             this.pct_image = new PictureBox();
@@ -52,6 +48,10 @@
             this.txt_question_text = new TextBox();
             this.label11 = new Label();
             this.lbl_section_question = new Label();
+            this.pan_splash = new Panel();
+            this.grp_exam_history = new GroupBox();
+            this.lnkClearHistory = new LinkLabel();
+            this.pictureBox1 = new PictureBox();
             this.pan_exam_properties = new Panel();
             this.label10 = new Label();
             this.btn_save_properties = new Button();
@@ -127,11 +127,11 @@
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.pan_display_questions.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)this.pct_image).BeginInit();
             this.pan_splash.SuspendLayout();
             this.grp_exam_history.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)this.pictureBox1).BeginInit();
-            this.pan_display_questions.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)this.pct_image).BeginInit();
             this.pan_exam_properties.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)this.num_time_limit).BeginInit();
             ((System.ComponentModel.ISupportInitialize)this.num_passmark).BeginInit();
@@ -165,8 +165,8 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.pan_splash);
-            this.splitContainer2.Size = new Size(938, 623);
-            this.splitContainer2.SplitterDistance = 268;
+            this.splitContainer2.Size = new Size(1031, 697);
+            this.splitContainer2.SplitterDistance = 294;
             this.splitContainer2.SplitterWidth = 5;
             this.splitContainer2.TabIndex = 3;
             // 
@@ -178,7 +178,7 @@
             this.groupBox2.Margin = new Padding(3, 4, 3, 4);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new Padding(3, 4, 3, 4);
-            this.groupBox2.Size = new Size(268, 623);
+            this.groupBox2.Size = new Size(294, 697);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Exam Explorer";
@@ -194,7 +194,7 @@
             this.trv_view_exam.Margin = new Padding(3, 4, 3, 4);
             this.trv_view_exam.Name = "trv_view_exam";
             this.trv_view_exam.SelectedImageIndex = 0;
-            this.trv_view_exam.Size = new Size(262, 599);
+            this.trv_view_exam.Size = new Size(288, 673);
             this.trv_view_exam.TabIndex = 0;
             this.trv_view_exam.BeforeSelect += this.BeforeSelect;
             this.trv_view_exam.AfterSelect += this.AfterSelect;
@@ -202,63 +202,12 @@
             // 
             // imglst_node_images
             // 
-            this.imglst_node_images.ColorDepth = ColorDepth.Depth8Bit;
+            this.imglst_node_images.ColorDepth = ColorDepth.Depth32Bit;
             this.imglst_node_images.ImageStream = (ImageListStreamer)resources.GetObject("imglst_node_images.ImageStream");
             this.imglst_node_images.TransparentColor = Color.Transparent;
-            this.imglst_node_images.Images.SetKeyName(0, "Exam.png");
-            this.imglst_node_images.Images.SetKeyName(1, "New_Section.png");
-            this.imglst_node_images.Images.SetKeyName(2, "New_Question.png");
-            // 
-            // pan_splash
-            // 
-            this.pan_splash.Controls.Add(this.grp_exam_history);
-            this.pan_splash.Controls.Add(this.pictureBox1);
-            this.pan_splash.Dock = DockStyle.Fill;
-            this.pan_splash.Location = new Point(0, 0);
-            this.pan_splash.Margin = new Padding(2);
-            this.pan_splash.Name = "pan_splash";
-            this.pan_splash.Size = new Size(665, 623);
-            this.pan_splash.TabIndex = 0;
-            // 
-            // grp_exam_history
-            // 
-            this.grp_exam_history.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            this.grp_exam_history.Controls.Add(this.lnkClearHistory);
-            this.grp_exam_history.Location = new Point(3, 226);
-            this.grp_exam_history.Margin = new Padding(2);
-            this.grp_exam_history.Name = "grp_exam_history";
-            this.grp_exam_history.Padding = new Padding(2);
-            this.grp_exam_history.Size = new Size(660, 395);
-            this.grp_exam_history.TabIndex = 1;
-            this.grp_exam_history.TabStop = false;
-            this.grp_exam_history.Text = "Exam History";
-            // 
-            // lnkClearHistory
-            // 
-            this.lnkClearHistory.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            this.lnkClearHistory.AutoSize = true;
-            this.lnkClearHistory.ImageAlign = ContentAlignment.MiddleLeft;
-            this.lnkClearHistory.Location = new Point(576, 16);
-            this.lnkClearHistory.Margin = new Padding(2, 0, 2, 0);
-            this.lnkClearHistory.Name = "lnkClearHistory";
-            this.lnkClearHistory.Size = new Size(75, 15);
-            this.lnkClearHistory.TabIndex = 0;
-            this.lnkClearHistory.TabStop = true;
-            this.lnkClearHistory.Text = "Clear History";
-            this.lnkClearHistory.TextAlign = ContentAlignment.MiddleCenter;
-            this.lnkClearHistory.LinkClicked += this.ClearExamHistory;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            this.pictureBox1.Image = Properties.Resources.splash;
-            this.pictureBox1.Location = new Point(2, 2);
-            this.pictureBox1.Margin = new Padding(2);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new Size(660, 218);
-            this.pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
+            this.imglst_node_images.Images.SetKeyName(0, "tree-exam.png");
+            this.imglst_node_images.Images.SetKeyName(1, "tree-section.png");
+            this.imglst_node_images.Images.SetKeyName(2, "tree-question.png");
             // 
             // pan_display_questions
             // 
@@ -279,14 +228,14 @@
             this.pan_display_questions.Location = new Point(0, 0);
             this.pan_display_questions.Margin = new Padding(4, 5, 4, 5);
             this.pan_display_questions.Name = "pan_display_questions";
-            this.pan_display_questions.Size = new Size(855, 831);
+            this.pan_display_questions.Size = new Size(732, 697);
             this.pan_display_questions.TabIndex = 0;
             // 
             // chkMulipleChoice
             // 
             this.chkMulipleChoice.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             this.chkMulipleChoice.AutoSize = true;
-            this.chkMulipleChoice.Location = new Point(34, 453);
+            this.chkMulipleChoice.Location = new Point(34, 322);
             this.chkMulipleChoice.Margin = new Padding(4, 5, 4, 5);
             this.chkMulipleChoice.Name = "chkMulipleChoice";
             this.chkMulipleChoice.Size = new Size(260, 19);
@@ -298,21 +247,21 @@
             // 
             this.pct_image.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             this.pct_image.BorderStyle = BorderStyle.FixedSingle;
-            this.pct_image.Location = new Point(202, 180);
+            this.pct_image.Location = new Point(131, 171);
             this.pct_image.Margin = new Padding(4, 5, 4, 5);
             this.pct_image.Name = "pct_image";
-            this.pct_image.Size = new Size(506, 255);
+            this.pct_image.Size = new Size(590, 141);
             this.pct_image.SizeMode = PictureBoxSizeMode.StretchImage;
             this.pct_image.TabIndex = 10;
             this.pct_image.TabStop = false;
             // 
             // btn_clear_image
             // 
-            this.btn_clear_image.Image = Properties.Resources.rsz_clear;
-            this.btn_clear_image.Location = new Point(80, 226);
+            this.btn_clear_image.Image = (Image)resources.GetObject("btn_clear_image.Image");
+            this.btn_clear_image.Location = new Point(24, 204);
             this.btn_clear_image.Margin = new Padding(4, 5, 4, 5);
             this.btn_clear_image.Name = "btn_clear_image";
-            this.btn_clear_image.Size = new Size(112, 35);
+            this.btn_clear_image.Size = new Size(99, 27);
             this.btn_clear_image.TabIndex = 9;
             this.btn_clear_image.Text = "Clear";
             this.btn_clear_image.TextImageRelation = TextImageRelation.ImageBeforeText;
@@ -322,10 +271,10 @@
             // btn_insert_image
             // 
             this.btn_insert_image.Image = Properties.Resources.rsz_actions_insert_image_icon;
-            this.btn_insert_image.Location = new Point(80, 180);
+            this.btn_insert_image.Location = new Point(24, 171);
             this.btn_insert_image.Margin = new Padding(4, 5, 4, 5);
             this.btn_insert_image.Name = "btn_insert_image";
-            this.btn_insert_image.Size = new Size(112, 35);
+            this.btn_insert_image.Size = new Size(99, 27);
             this.btn_insert_image.TabIndex = 8;
             this.btn_insert_image.Text = "Insert";
             this.btn_insert_image.TextImageRelation = TextImageRelation.ImageBeforeText;
@@ -336,11 +285,11 @@
             // 
             this.btn_remove_option.Anchor = AnchorStyles.Bottom;
             this.btn_remove_option.Enabled = false;
-            this.btn_remove_option.Image = Properties.Resources.remove;
-            this.btn_remove_option.Location = new Point(660, 526);
+            this.btn_remove_option.Image = (Image)resources.GetObject("btn_remove_option.Image");
+            this.btn_remove_option.Location = new Point(622, 381);
             this.btn_remove_option.Margin = new Padding(4, 5, 4, 5);
             this.btn_remove_option.Name = "btn_remove_option";
-            this.btn_remove_option.Size = new Size(112, 35);
+            this.btn_remove_option.Size = new Size(99, 27);
             this.btn_remove_option.TabIndex = 7;
             this.btn_remove_option.Text = "Remove";
             this.btn_remove_option.TextImageRelation = TextImageRelation.ImageBeforeText;
@@ -350,11 +299,11 @@
             // btn_add_options
             // 
             this.btn_add_options.Anchor = AnchorStyles.Bottom;
-            this.btn_add_options.Image = Properties.Resources.add;
-            this.btn_add_options.Location = new Point(660, 480);
+            this.btn_add_options.Image = (Image)resources.GetObject("btn_add_options.Image");
+            this.btn_add_options.Location = new Point(622, 347);
             this.btn_add_options.Margin = new Padding(4, 5, 4, 5);
             this.btn_add_options.Name = "btn_add_options";
-            this.btn_add_options.Size = new Size(112, 35);
+            this.btn_add_options.Size = new Size(99, 27);
             this.btn_add_options.TabIndex = 6;
             this.btn_add_options.Text = "Add";
             this.btn_add_options.TextImageRelation = TextImageRelation.ImageBeforeText;
@@ -364,11 +313,11 @@
             // txt_explanation
             // 
             this.txt_explanation.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            this.txt_explanation.Location = new Point(183, 751);
+            this.txt_explanation.Location = new Point(145, 617);
             this.txt_explanation.Margin = new Padding(4, 5, 4, 5);
             this.txt_explanation.Multiline = true;
             this.txt_explanation.Name = "txt_explanation";
-            this.txt_explanation.Size = new Size(652, 72);
+            this.txt_explanation.Size = new Size(567, 72);
             this.txt_explanation.TabIndex = 5;
             this.txt_explanation.TextChanged += this.QuestionChanged;
             // 
@@ -376,7 +325,7 @@
             // 
             this.label12.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             this.label12.AutoSize = true;
-            this.label12.Location = new Point(24, 757);
+            this.label12.Location = new Point(24, 623);
             this.label12.Margin = new Padding(4, 0, 4, 0);
             this.label12.Name = "label12";
             this.label12.Size = new Size(113, 15);
@@ -388,10 +337,10 @@
             this.pan_options.Anchor = AnchorStyles.Bottom;
             this.pan_options.AutoScroll = true;
             this.pan_options.BorderStyle = BorderStyle.FixedSingle;
-            this.pan_options.Location = new Point(178, 477);
+            this.pan_options.Location = new Point(117, 347);
             this.pan_options.Margin = new Padding(4, 5, 4, 5);
             this.pan_options.Name = "pan_options";
-            this.pan_options.Size = new Size(472, 260);
+            this.pan_options.Size = new Size(493, 260);
             this.pan_options.TabIndex = 3;
             this.pan_options.ControlAdded += this.OptionsChanged;
             this.pan_options.ControlRemoved += this.OptionsChanged;
@@ -400,11 +349,11 @@
             // 
             this.txt_question_text.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             this.txt_question_text.BorderStyle = BorderStyle.FixedSingle;
-            this.txt_question_text.Location = new Point(24, 77);
+            this.txt_question_text.Location = new Point(24, 74);
             this.txt_question_text.Margin = new Padding(4, 5, 4, 5);
             this.txt_question_text.Multiline = true;
             this.txt_question_text.Name = "txt_question_text";
-            this.txt_question_text.Size = new Size(812, 87);
+            this.txt_question_text.Size = new Size(697, 87);
             this.txt_question_text.TabIndex = 2;
             this.txt_question_text.TextChanged += this.QuestionChanged;
             this.txt_question_text.Enter += this.Editable;
@@ -429,6 +378,57 @@
             this.lbl_section_question.Name = "lbl_section_question";
             this.lbl_section_question.Size = new Size(0, 15);
             this.lbl_section_question.TabIndex = 0;
+            // 
+            // pan_splash
+            // 
+            this.pan_splash.Controls.Add(this.grp_exam_history);
+            this.pan_splash.Controls.Add(this.pictureBox1);
+            this.pan_splash.Dock = DockStyle.Fill;
+            this.pan_splash.Location = new Point(0, 0);
+            this.pan_splash.Margin = new Padding(2);
+            this.pan_splash.Name = "pan_splash";
+            this.pan_splash.Size = new Size(732, 697);
+            this.pan_splash.TabIndex = 0;
+            // 
+            // grp_exam_history
+            // 
+            this.grp_exam_history.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            this.grp_exam_history.Controls.Add(this.lnkClearHistory);
+            this.grp_exam_history.Location = new Point(3, 226);
+            this.grp_exam_history.Margin = new Padding(2);
+            this.grp_exam_history.Name = "grp_exam_history";
+            this.grp_exam_history.Padding = new Padding(2);
+            this.grp_exam_history.Size = new Size(727, 469);
+            this.grp_exam_history.TabIndex = 1;
+            this.grp_exam_history.TabStop = false;
+            this.grp_exam_history.Text = "Exam History";
+            // 
+            // lnkClearHistory
+            // 
+            this.lnkClearHistory.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            this.lnkClearHistory.AutoSize = true;
+            this.lnkClearHistory.ImageAlign = ContentAlignment.MiddleLeft;
+            this.lnkClearHistory.Location = new Point(643, 16);
+            this.lnkClearHistory.Margin = new Padding(2, 0, 2, 0);
+            this.lnkClearHistory.Name = "lnkClearHistory";
+            this.lnkClearHistory.Size = new Size(75, 15);
+            this.lnkClearHistory.TabIndex = 0;
+            this.lnkClearHistory.TabStop = true;
+            this.lnkClearHistory.Text = "Clear History";
+            this.lnkClearHistory.TextAlign = ContentAlignment.MiddleCenter;
+            this.lnkClearHistory.LinkClicked += this.ClearExamHistory;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            this.pictureBox1.Image = Properties.Resources.splash;
+            this.pictureBox1.Location = new Point(2, 2);
+            this.pictureBox1.Margin = new Padding(2);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new Size(727, 218);
+            this.pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
             // 
             // pan_exam_properties
             // 
@@ -620,7 +620,7 @@
             this.menuStrip1.Location = new Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new Size(938, 24);
+            this.menuStrip1.Size = new Size(1031, 24);
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -637,7 +637,7 @@
             this.newToolStripMenuItem.ImageTransparentColor = Color.Magenta;
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
             this.newToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.N;
-            this.newToolStripMenuItem.Size = new Size(188, 30);
+            this.newToolStripMenuItem.Size = new Size(146, 22);
             this.newToolStripMenuItem.Text = "&New";
             this.newToolStripMenuItem.Click += this.New;
             // 
@@ -647,14 +647,14 @@
             this.openToolStripMenuItem.ImageTransparentColor = Color.Magenta;
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.O;
-            this.openToolStripMenuItem.Size = new Size(188, 30);
+            this.openToolStripMenuItem.Size = new Size(146, 22);
             this.openToolStripMenuItem.Text = "&Open";
             this.openToolStripMenuItem.Click += this.Open;
             // 
             // toolStripSeparator
             // 
             this.toolStripSeparator.Name = "toolStripSeparator";
-            this.toolStripSeparator.Size = new Size(185, 6);
+            this.toolStripSeparator.Size = new Size(143, 6);
             // 
             // saveToolStripMenuItem
             // 
@@ -663,7 +663,7 @@
             this.saveToolStripMenuItem.ImageTransparentColor = Color.Magenta;
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.S;
-            this.saveToolStripMenuItem.Size = new Size(188, 30);
+            this.saveToolStripMenuItem.Size = new Size(146, 22);
             this.saveToolStripMenuItem.Text = "&Save";
             this.saveToolStripMenuItem.Click += this.Save;
             // 
@@ -671,21 +671,21 @@
             // 
             this.saveAsToolStripMenuItem.Enabled = false;
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new Size(188, 30);
+            this.saveAsToolStripMenuItem.Size = new Size(146, 22);
             this.saveAsToolStripMenuItem.Text = "Save &As";
             this.saveAsToolStripMenuItem.Click += this.SaveAs;
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new Size(185, 6);
+            this.toolStripSeparator1.Size = new Size(143, 6);
             // 
             // exportToolStripMenuItem
             // 
             this.exportToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { this.exportAsJsonToolStripMenuItem, this.exportAsXmlToolStripMenuItem, this.asPdfToolStripMenuItem });
             this.exportToolStripMenuItem.Enabled = false;
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new Size(188, 30);
+            this.exportToolStripMenuItem.Size = new Size(146, 22);
             this.exportToolStripMenuItem.Text = "Export";
             // 
             // exportAsJsonToolStripMenuItem
@@ -715,7 +715,7 @@
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new Size(185, 6);
+            this.toolStripSeparator5.Size = new Size(143, 6);
             // 
             // printToolStripMenuItem
             // 
@@ -724,7 +724,7 @@
             this.printToolStripMenuItem.ImageTransparentColor = Color.Magenta;
             this.printToolStripMenuItem.Name = "printToolStripMenuItem";
             this.printToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.P;
-            this.printToolStripMenuItem.Size = new Size(188, 30);
+            this.printToolStripMenuItem.Size = new Size(146, 22);
             this.printToolStripMenuItem.Text = "&Print";
             this.printToolStripMenuItem.Click += this.Print;
             // 
@@ -734,32 +734,32 @@
             this.printPreviewToolStripMenuItem.Image = (Image)resources.GetObject("printPreviewToolStripMenuItem.Image");
             this.printPreviewToolStripMenuItem.ImageTransparentColor = Color.Magenta;
             this.printPreviewToolStripMenuItem.Name = "printPreviewToolStripMenuItem";
-            this.printPreviewToolStripMenuItem.Size = new Size(188, 30);
+            this.printPreviewToolStripMenuItem.Size = new Size(146, 22);
             this.printPreviewToolStripMenuItem.Text = "Print Pre&view";
             this.printPreviewToolStripMenuItem.Click += this.PrintPreview;
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new Size(185, 6);
+            this.toolStripSeparator2.Size = new Size(143, 6);
             // 
             // closeToolStripMenuItem
             // 
             this.closeToolStripMenuItem.Enabled = false;
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new Size(188, 30);
+            this.closeToolStripMenuItem.Size = new Size(146, 22);
             this.closeToolStripMenuItem.Text = "&Close";
             this.closeToolStripMenuItem.Click += this.Close;
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new Size(185, 6);
+            this.toolStripSeparator6.Size = new Size(143, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new Size(188, 30);
+            this.exitToolStripMenuItem.Size = new Size(146, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += this.Exit;
             // 
@@ -775,7 +775,7 @@
             this.undoToolStripMenuItem.Enabled = false;
             this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
             this.undoToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Z;
-            this.undoToolStripMenuItem.Size = new Size(188, 30);
+            this.undoToolStripMenuItem.Size = new Size(144, 22);
             this.undoToolStripMenuItem.Text = "&Undo";
             this.undoToolStripMenuItem.Click += this.Undo;
             // 
@@ -784,14 +784,14 @@
             this.redoToolStripMenuItem.Enabled = false;
             this.redoToolStripMenuItem.Name = "redoToolStripMenuItem";
             this.redoToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Y;
-            this.redoToolStripMenuItem.Size = new Size(188, 30);
+            this.redoToolStripMenuItem.Size = new Size(144, 22);
             this.redoToolStripMenuItem.Text = "&Redo";
             this.redoToolStripMenuItem.Click += this.Redo;
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new Size(185, 6);
+            this.toolStripSeparator3.Size = new Size(141, 6);
             // 
             // cutToolStripMenuItem
             // 
@@ -800,7 +800,7 @@
             this.cutToolStripMenuItem.ImageTransparentColor = Color.Magenta;
             this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
             this.cutToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.X;
-            this.cutToolStripMenuItem.Size = new Size(188, 30);
+            this.cutToolStripMenuItem.Size = new Size(144, 22);
             this.cutToolStripMenuItem.Text = "Cu&t";
             this.cutToolStripMenuItem.Click += this.Cut;
             // 
@@ -811,7 +811,7 @@
             this.copyToolStripMenuItem.ImageTransparentColor = Color.Magenta;
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
             this.copyToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.C;
-            this.copyToolStripMenuItem.Size = new Size(188, 30);
+            this.copyToolStripMenuItem.Size = new Size(144, 22);
             this.copyToolStripMenuItem.Text = "&Copy";
             this.copyToolStripMenuItem.Click += this.Copy;
             // 
@@ -822,7 +822,7 @@
             this.pasteToolStripMenuItem.ImageTransparentColor = Color.Magenta;
             this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
             this.pasteToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.V;
-            this.pasteToolStripMenuItem.Size = new Size(188, 30);
+            this.pasteToolStripMenuItem.Size = new Size(144, 22);
             this.pasteToolStripMenuItem.Text = "&Paste";
             this.pasteToolStripMenuItem.Click += this.Paste;
             // 
@@ -854,7 +854,7 @@
             this.toolStrip1.Location = new Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Padding = new Padding(0, 0, 2, 0);
-            this.toolStrip1.Size = new Size(938, 31);
+            this.toolStrip1.Size = new Size(1031, 31);
             this.toolStrip1.TabIndex = 5;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -914,6 +914,7 @@
             this.newSectionToolStripButton.Name = "newSectionToolStripButton";
             this.newSectionToolStripButton.Size = new Size(28, 28);
             this.newSectionToolStripButton.Text = "New Section";
+            this.newSectionToolStripButton.ToolTipText = "Add Section";
             this.newSectionToolStripButton.Click += this.NewSection;
             // 
             // newQuestionToolStripButton
@@ -925,6 +926,7 @@
             this.newQuestionToolStripButton.Name = "newQuestionToolStripButton";
             this.newQuestionToolStripButton.Size = new Size(28, 28);
             this.newQuestionToolStripButton.Text = "New Question";
+            this.newQuestionToolStripButton.ToolTipText = "Add Question";
             this.newQuestionToolStripButton.Click += this.NewQuestion;
             // 
             // toolStripSeparator14
@@ -1050,7 +1052,7 @@
             // 
             this.AutoScaleDimensions = new SizeF(7F, 15F);
             this.AutoScaleMode = AutoScaleMode.Font;
-            this.ClientSize = new Size(938, 686);
+            this.ClientSize = new Size(1031, 760);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.splitContainer2);
             this.Controls.Add(this.menuStrip1);
@@ -1067,13 +1069,13 @@
             ((System.ComponentModel.ISupportInitialize)this.splitContainer2).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
+            this.pan_display_questions.ResumeLayout(false);
+            this.pan_display_questions.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)this.pct_image).EndInit();
             this.pan_splash.ResumeLayout(false);
             this.grp_exam_history.ResumeLayout(false);
             this.grp_exam_history.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)this.pictureBox1).EndInit();
-            this.pan_display_questions.ResumeLayout(false);
-            this.pan_display_questions.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)this.pct_image).EndInit();
             this.pan_exam_properties.ResumeLayout(false);
             this.pan_exam_properties.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)this.num_time_limit).EndInit();

@@ -340,7 +340,7 @@ public partial class HomeUi : Form
                     txt_explanation.Text = undoObject.Question.Explanation;
                     txt_question_text.Text = undoObject.Question.Text;
                     lbl_section_question.Text = "Section: " + trv_view_exam.SelectedNode.Parent.Text +
-                                                " Question " + undoObject.Question.No;
+                                                ", Question " + undoObject.Question.No;
                     pct_image.Image = undoObject.Question.Image;
                     pan_options.Controls.Clear();
                     var k = 0;
