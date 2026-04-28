@@ -1,4 +1,4 @@
-name: Publish Windows installer
+name: Publish Windows Installer
 
 on:
   workflow_dispatch:

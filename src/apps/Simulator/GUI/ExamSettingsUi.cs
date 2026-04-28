@@ -6,16 +6,13 @@ namespace OpenExamSuite.Simulator.GUI;
 public partial class ExamSettingsUi : Form
 {
     private readonly Exam _exam;
-    private Settings _settings;
 
     public ExamSettingsUi(Exam exam)
     {
         InitializeComponent();
 
         _exam = exam;
-
         clb_section_options.Items.AddRange(_exam.Sections.ToArray());
-
         num_questions.Maximum = _exam.NumberOfQuestions;
 
         SelectAll(null, null);
@@ -41,7 +38,7 @@ public partial class ExamSettingsUi : Form
         clb_section_options.Enabled = rdb_selected_sections.Checked;
     }
 
-    private void SelectAll(object sender, EventArgs e)
+    private void SelectAll(object? sender, EventArgs? e)
     {
         for (var i = 0; i < clb_section_options.Items.Count; i++)
         {
@@ -59,17 +56,18 @@ public partial class ExamSettingsUi : Form
 
     private void Proceed(object sender, EventArgs e)
     {
-        _settings = new Settings { CandidateName = txt_candidate_name.Text };
+        var settings = new Settings { CandidateName = txt_candidate_name.Text };
+
         if (chk_enable_timer.Checked)
-            _settings.TimeLimit = (int)num_time_limit.Value;
+            settings.TimeLimit = (int)num_time_limit.Value;
         else
-            _settings.TimeLimit = _exam.Properties.TimeLimit;
+            settings.TimeLimit = _exam.Properties.TimeLimit;
 
         if (rdb_selected_sections.Checked)
         {
-            _settings.Sections = clb_section_options.CheckedItems.Cast<Section>().ToList();
-            foreach (var section in _settings.Sections)
-                _settings.Questions.AddRange(section.Questions.ToArray());
+            settings.Sections = clb_section_options.CheckedItems.Cast<Section>().ToList();
+            foreach (var section in settings.Sections)
+                settings.Questions.AddRange(section.Questions.ToArray());
         }
 
         if (rdb_fixed_number_questions.Checked)
@@ -80,27 +78,27 @@ public partial class ExamSettingsUi : Form
             {
                 if (sum + section.Questions.Count < numOfQuestions)
                 {
-                    _settings.Sections.Add(section);
-                    _settings.Questions.AddRange(section.Questions.ToArray());
+                    settings.Sections.Add(section);
+                    settings.Questions.AddRange(section.Questions.ToArray());
                     sum += section.Questions.Count;
                 }
                 else if (sum + section.Questions.Count == numOfQuestions)
                 {
-                    _settings.Sections.Add(section);
-                    _settings.Questions.AddRange(section.Questions.ToArray());
+                    settings.Sections.Add(section);
+                    settings.Questions.AddRange(section.Questions.ToArray());
                     break;
                 }
                 else
                 {
                     var difference = numOfQuestions - sum;
-                    _settings.Sections.Add(section);
-                    _settings.Questions.AddRange(section.Questions.GetRange(0, difference).ToArray());
+                    settings.Sections.Add(section);
+                    settings.Questions.AddRange(section.Questions.GetRange(0, difference).ToArray());
                     break;
                 }
             }
         }
 
-        if (_settings.Questions.Count == 0)
+        if (settings.Questions.Count == 0)
         {
             MessageBox.Show(
                 "There are no questions to be displayed based on your selection. Please make a different selection.",
@@ -108,7 +106,7 @@ public partial class ExamSettingsUi : Form
             return;
         }
 
-        var ui = new AssessmentUi(_exam, _settings);
+        var ui = new AssessmentUi(_exam, settings);
         Hide();
         ui.ShowDialog();
         Close();

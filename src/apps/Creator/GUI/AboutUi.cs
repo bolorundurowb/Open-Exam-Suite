@@ -4,6 +4,7 @@ namespace OpenExamSuite.Creator.GUI;
 
 public partial class AboutUi : Form
 {
+
     public AboutUi()
     {
         InitializeComponent();

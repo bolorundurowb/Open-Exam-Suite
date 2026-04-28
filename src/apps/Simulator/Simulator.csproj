@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Version>4.0.0</Version>
+    <Version>4.0.1</Version>
     <TargetFramework>net10.0-windows</TargetFramework>
     <OutputType>WinExe</OutputType>
     <UseWindowsForms>true</UseWindowsForms>
@@ -9,6 +9,8 @@
     <ApplicationIcon>Simulator Alt.fw.ico</ApplicationIcon>
     <AssemblyName>OpenExamSuite.Simulator</AssemblyName>
     <RootNamespace>OpenExamSuite.Simulator</RootNamespace>
+    <AssemblyVersion>4.0.1</AssemblyVersion>
+    <FileVersion>4.0.1</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>

@@ -70,7 +70,7 @@ public partial class HomeUi : Form
         var exists = false;
         foreach (DataGridViewRow row in dgv_exams.Rows)
         {
-            if (row.Cells[1].Value.ToString() == fileName)
+            if (row.Cells[1].Value?.ToString() == fileName)
                 exists = true;
         }
 
@@ -113,6 +113,12 @@ public partial class HomeUi : Form
     {
         var about = new AboutUi();
         about.ShowDialog();
+    }
+
+    private void License(object sender, EventArgs e)
+    {
+        using var license = new OpenExamSuite.Shared.Dialogs.LicenseUi();
+        license.ShowDialog();
     }
 
     private void Start(object sender, EventArgs e)
