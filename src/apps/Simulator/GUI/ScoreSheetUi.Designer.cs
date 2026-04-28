@@ -27,6 +27,11 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.CustomLabel customLabel1 = new System.Windows.Forms.DataVisualization.Charting.CustomLabel();
+            System.Windows.Forms.DataVisualization.Charting.CustomLabel customLabel2 = new System.Windows.Forms.DataVisualization.Charting.CustomLabel();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ScoreSheetUi));
@@ -38,6 +43,7 @@
             this.label6 = new Label();
             this.btn_retake = new Button();
             this.btn_exit = new Button();
+            this.chr_display_score = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.dgv_show_breakdown = new DataGridView();
             this.section = new DataGridViewTextBoxColumn();
             this.number = new DataGridViewTextBoxColumn();
@@ -54,6 +60,7 @@
             this.btn_print_score = new Button();
             this.pnt_prv_dlg = new PrintPreviewDialog();
             this.pnt_doc = new System.Drawing.Printing.PrintDocument();
+            ((System.ComponentModel.ISupportInitialize)(this.chr_display_score)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)this.dgv_show_breakdown).BeginInit();
             this.SuspendLayout();
             // 
@@ -147,6 +154,41 @@
             this.btn_exit.Text = "Exit";
             this.btn_exit.UseVisualStyleBackColor = true;
             this.btn_exit.Click += this.Exit;
+            // 
+            // chr_display_score
+            // 
+            this.chr_display_score.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.chr_display_score.BackColor = System.Drawing.SystemColors.Control;
+            customLabel1.FromPosition = 0.5D;
+            customLabel1.Text = "Pass Mark";
+            customLabel1.ToPosition = 1.5D;
+            customLabel2.FromPosition = -0.5D;
+            customLabel2.Text = "Your Score";
+            customLabel2.ToPosition = 0.5D;
+            chartArea1.AxisX.CustomLabels.Add(customLabel1);
+            chartArea1.AxisX.CustomLabels.Add(customLabel2);
+            chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.Transparent;
+            chartArea1.AxisX.Maximum = 2D;
+            chartArea1.AxisY.Maximum = 1000D;
+            chartArea1.BackColor = System.Drawing.SystemColors.Control;
+            chartArea1.Name = "ChartArea1";
+            this.chr_display_score.ChartAreas.Add(chartArea1);
+            this.chr_display_score.Location = new System.Drawing.Point(184, 169);
+            this.chr_display_score.Name = "chr_display_score";
+            this.chr_display_score.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.None;
+            this.chr_display_score.PaletteCustomColors = new System.Drawing.Color[] {
+        System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192))))),
+        System.Drawing.Color.Green};
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bar;
+            series1.Name = "Pass Mark";
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bar;
+            series2.Name = "Your Score";
+            this.chr_display_score.Series.Add(series1);
+            this.chr_display_score.Series.Add(series2);
+            this.chr_display_score.Size = new System.Drawing.Size(542, 171);
+            this.chr_display_score.TabIndex = 10;
             // 
             // dgv_show_breakdown
             // 
@@ -344,6 +386,7 @@
             this.Controls.Add(this.lbl_date);
             this.Controls.Add(this.lbl_candidate_name);
             this.Controls.Add(this.dgv_show_breakdown);
+            this.Controls.Add(this.chr_display_score);
             this.Controls.Add(this.btn_exit);
             this.Controls.Add(this.btn_retake);
             this.Controls.Add(this.label6);
@@ -359,6 +402,7 @@
             this.StartPosition = FormStartPosition.CenterScreen;
             this.Text = "Score Sheet";
             this.Load += this.LoadDataToUi;
+            ((System.ComponentModel.ISupportInitialize)(this.chr_display_score)).EndInit();
             ((System.ComponentModel.ISupportInitialize)this.dgv_show_breakdown).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -360,7 +360,7 @@ public partial class AssessmentUi : Form
             }
 
             var currentSelectedOption = pan_display.Controls.OfType<RadioButton>().FirstOrDefault(s => s.Checked);
-            if (currentSelectedOption != null && currentSelectedOption.Text != answer.Text)
+            if (currentSelectedOption != null && currentSelectedOption.Text != answer?.Text)
             {
                 var index = pan_display.Controls.IndexOf(currentSelectedOption);
                 ((RadioButton)pan_display.Controls[index]).ForeColor = Color.Red;

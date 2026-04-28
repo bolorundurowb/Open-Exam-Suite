@@ -13,15 +13,22 @@ public static class DialogManager
     {
         try
         {
-            var filePath = dataGridView.SelectedRows[0].Cells[1].Value.ToString();
-            var exam = Reader.FromOefFile(filePath);
+            var selectedFilePath = dataGridView.SelectedRows[0].Cells[1].Value?.ToString();
+            if (selectedFilePath == null)
+                return;
+
+            var exam = Reader.FromOefFile(selectedFilePath);
+
+            if (exam == null)
+                return;
+
             if (dialogType == DialogType.ExamSettings)
             {
-                InitilaizeExamSettings(exam);
+                InitialiseExamSettings(exam);
             }
             if (dialogType == DialogType.ExamProperties)
             {
-                InitilaizeExamProperties(exam, filePath);
+                InitialiseExamProperties(exam, selectedFilePath);
             }
         }
         catch (FileNotFoundException ex)
@@ -40,13 +47,13 @@ public static class DialogManager
         }
     }
 
-    private static void InitilaizeExamProperties(Exam exam, string filePath)
+    private static void InitialiseExamProperties(Exam exam, string filePath)
     {
         var properties = new ExamPropertiesUi(exam, filePath);
         properties.ShowDialog();
     }
 
-    private static void InitilaizeExamSettings(Exam exam)
+    private static void InitialiseExamSettings(Exam exam)
     {
         var settings = new ExamSettingsUi(exam);
         settings.ShowDialog();

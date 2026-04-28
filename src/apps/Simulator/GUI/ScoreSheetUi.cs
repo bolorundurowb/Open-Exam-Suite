@@ -41,7 +41,6 @@ public partial class ScoreSheetUi : Form
             lbl_status.ForeColor = Color.Red;
         }
 
-
         chr_display_score.Series["Pass Mark"].Points.AddXY(1, _exam.Properties.Passmark);
         chr_display_score.Series["Your Score"].Points.AddXY(0, normalizedScore);
 
@@ -69,64 +68,70 @@ public partial class ScoreSheetUi : Form
         var subFont = new Font("Segoe UI", 10F, FontStyle.Regular);
         var specialFont = new Font("Segoe UI", 10F, FontStyle.Bold);
 
-        float ypos = e.MarginBounds.Top;
+        float yPos = e.MarginBounds.Top;
+
+        if (e.Graphics == null)
+        {
+            throw new Exception("Unable to print, graphics context is null");
+        }
+
         e.Graphics.DrawString("EXAMINATION SCORE SHEET", headerFont, Brushes.Black,
-            new PointF((e.MarginBounds.Width / 2) - 50, ypos));
-        ypos += (2 * headerFont.GetHeight(e.Graphics));
+            new PointF((e.MarginBounds.Width / 2.0f) - 50, yPos));
+        yPos += (2 * headerFont.GetHeight(e.Graphics));
         var name = lbl_candidate_name.Text.Length < 35
             ? lbl_candidate_name.Text
             : lbl_candidate_name.Text.Substring(0, 35);
         e.Graphics.DrawString("CANDIDATE NAME: " + name, subFont, Brushes.DarkSlateBlue,
-            new PointF(e.MarginBounds.Left, ypos));
+            new PointF(e.MarginBounds.Left, yPos));
         e.Graphics.DrawString("TIME ALLOWED: " + lbl_time_allowed.Text + " min(s)", subFont, Brushes.DarkSlateBlue,
-            new PointF((e.MarginBounds.Width / 2) + 175, ypos));
-        ypos += (2 * subFont.GetHeight(e.Graphics));
+            new PointF((e.MarginBounds.Width / 2.0f) + 175, yPos));
+        yPos += (2 * subFont.GetHeight(e.Graphics));
         e.Graphics.DrawString("DATE: " + DateTime.Now.ToShortDateString(), subFont, Brushes.DarkSlateBlue,
-            new PointF(e.MarginBounds.Left, ypos));
+            new PointF(e.MarginBounds.Left, yPos));
         e.Graphics.DrawString("TIME ELAPSED: " + lbl_elapsed_time.Text + " min(s)", subFont, Brushes.DarkSlateBlue,
-            new PointF((e.MarginBounds.Width / 2) + 175, ypos));
-        ypos += (2 * subFont.GetHeight(e.Graphics));
+            new PointF((e.MarginBounds.Width / 2.0f) + 175, yPos));
+        yPos += (2 * subFont.GetHeight(e.Graphics));
         e.Graphics.DrawString("EXAM CODE: " + lbl_exam_number.Text, subFont, Brushes.DarkSlateBlue,
-            new PointF(e.MarginBounds.Left, ypos));
-        ypos += (2 * subFont.GetHeight(e.Graphics));
+            new PointF(e.MarginBounds.Left, yPos));
+        yPos += (2 * subFont.GetHeight(e.Graphics));
 
         var imgStream = new MemoryStream();
         chr_display_score.SaveImage(imgStream, System.Drawing.Imaging.ImageFormat.Jpeg);
         var bmp = new Bitmap(imgStream);
-        e.Graphics.DrawImage(bmp, new PointF(e.MarginBounds.Left + 50, ypos));
-        ypos += ((2 * subFont.GetHeight(e.Graphics)) + (bmp.Height));
+        e.Graphics.DrawImage(bmp, new PointF(e.MarginBounds.Left + 50, yPos));
+        yPos += ((2 * subFont.GetHeight(e.Graphics)) + (bmp.Height));
 
         e.Graphics.DrawString("Required Score: " + _exam.Properties.Passmark, subFont, Brushes.DarkSlateBlue,
-            new PointF(e.MarginBounds.Left, ypos));
+            new PointF(e.MarginBounds.Left, yPos));
         e.Graphics.DrawString("Your Score: " + normalizedScore, subFont, Brushes.DarkSlateBlue,
-            new PointF((e.MarginBounds.Width / 2) + 175, ypos));
-        ypos += (2 * subFont.GetHeight(e.Graphics));
-        e.Graphics.DrawString("STATUS: ", subFont, Brushes.DarkSlateBlue, new PointF(e.MarginBounds.Left, ypos));
+            new PointF((e.MarginBounds.Width / 2.0f) + 175, yPos));
+        yPos += (2 * subFont.GetHeight(e.Graphics));
+        e.Graphics.DrawString("STATUS: ", subFont, Brushes.DarkSlateBlue, new PointF(e.MarginBounds.Left, yPos));
         var brush = normalizedScore < _exam.Properties.Passmark ? Brushes.Red : Brushes.Green;
         var status = normalizedScore < _exam.Properties.Passmark ? "Failed" : "Passed";
-        e.Graphics.DrawString(status, subFont, brush, new PointF(e.MarginBounds.Left + 70, ypos));
-        ypos += (2 * subFont.GetHeight(e.Graphics));
+        e.Graphics.DrawString(status, subFont, brush, new PointF(e.MarginBounds.Left + 70, yPos));
+        yPos += (2 * subFont.GetHeight(e.Graphics));
 
-        e.Graphics.DrawLine(new Pen(Brushes.DarkSlateBlue), new PointF(150, ypos), new PointF(700, ypos));
-        e.Graphics.DrawString("SECTION", specialFont, Brushes.DarkSlateBlue, new PointF(180F, ypos));
-        e.Graphics.DrawString("NUMBER", specialFont, Brushes.DarkSlateBlue, new PointF(490F, ypos));
-        e.Graphics.DrawString("ACCURACY", specialFont, Brushes.DarkSlateBlue, new PointF(600F, ypos));
-        ypos += specialFont.GetHeight(e.Graphics);
-        e.Graphics.DrawLine(new Pen(Brushes.DarkSlateBlue), new PointF(150, ypos), new PointF(700, ypos));
+        e.Graphics.DrawLine(new Pen(Brushes.DarkSlateBlue), new PointF(150, yPos), new PointF(700, yPos));
+        e.Graphics.DrawString("SECTION", specialFont, Brushes.DarkSlateBlue, new PointF(180F, yPos));
+        e.Graphics.DrawString("NUMBER", specialFont, Brushes.DarkSlateBlue, new PointF(490F, yPos));
+        e.Graphics.DrawString("ACCURACY", specialFont, Brushes.DarkSlateBlue, new PointF(600F, yPos));
+        yPos += specialFont.GetHeight(e.Graphics);
+        e.Graphics.DrawLine(new Pen(Brushes.DarkSlateBlue), new PointF(150, yPos), new PointF(700, yPos));
 
 
         foreach (DataGridViewRow row in dgv_show_breakdown.Rows)
         {
-            e.Graphics.DrawString(row.Cells[0].Value.ToString(), subFont, Brushes.DarkSlateBlue,
-                new PointF(180, ypos));
-            e.Graphics.DrawString(row.Cells[1].Value.ToString(), subFont, Brushes.DarkSlateBlue,
-                new PointF(490, ypos));
-            e.Graphics.DrawString(row.Cells[2].Value.ToString(), subFont, Brushes.DarkSlateBlue,
-                new PointF(600, ypos));
-            ypos += (subFont.GetHeight(e.Graphics));
+            e.Graphics.DrawString(row.Cells[0].Value?.ToString(), subFont, Brushes.DarkSlateBlue,
+                new PointF(180, yPos));
+            e.Graphics.DrawString(row.Cells[1].Value?.ToString(), subFont, Brushes.DarkSlateBlue,
+                new PointF(490, yPos));
+            e.Graphics.DrawString(row.Cells[2].Value?.ToString(), subFont, Brushes.DarkSlateBlue,
+                new PointF(600, yPos));
+            yPos += (subFont.GetHeight(e.Graphics));
         }
 
-        e.Graphics.DrawLine(new Pen(Brushes.DarkSlateBlue), new PointF(150, ypos), new PointF(700, ypos));
+        e.Graphics.DrawLine(new Pen(Brushes.DarkSlateBlue), new PointF(150, yPos), new PointF(700, yPos));
     }
 
     private void PrintResult(object sender, EventArgs e)

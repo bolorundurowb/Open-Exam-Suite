@@ -70,7 +70,7 @@ public partial class HomeUi : Form
         var exists = false;
         foreach (DataGridViewRow row in dgv_exams.Rows)
         {
-            if (row.Cells[1].Value.ToString() == fileName)
+            if (row.Cells[1].Value?.ToString() == fileName)
                 exists = true;
         }
 
