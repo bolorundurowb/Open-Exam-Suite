@@ -12,10 +12,9 @@ public static class ExamFileLoader
         if (string.IsNullOrWhiteSpace(filePath))
             throw new ArgumentException("Empty filepath", nameof(filePath));
 
-        var historyPath = filePath;
-        var ext = Path.GetExtension(filePath)?.ToLowerInvariant();
+        var fileExt = Path.GetExtension(filePath)?.ToLowerInvariant();
 
-        if (ext == ".json")
+        if (fileExt == ".json")
         {
             var exam = Reader.FromJsonFile(filePath);
             if (exam == null || exam.NumberOfQuestions == 0)
@@ -27,10 +26,10 @@ public static class ExamFileLoader
                     null);
             }
 
-            return new ExamFileLoadResult(exam, true, null, historyPath);
+            return new ExamFileLoadResult(exam, true, null, filePath);
         }
 
-        if (ext == ".xml")
+        if (fileExt == ".xml")
         {
             try
             {
@@ -44,7 +43,7 @@ public static class ExamFileLoader
                         null);
                 }
 
-                return new ExamFileLoadResult(exam, true, null, historyPath);
+                return new ExamFileLoadResult(exam, true, null, filePath);
             }
             catch (Exception ex)
             {
@@ -59,7 +58,7 @@ public static class ExamFileLoader
 
         var oefExam = Reader.FromOefFile(filePath);
         if (oefExam != null)
-            return new ExamFileLoadResult(oefExam, true, null, historyPath);
+            return new ExamFileLoadResult(oefExam, true, null, filePath);
 
         return new ExamFileLoadResult(
             null,
