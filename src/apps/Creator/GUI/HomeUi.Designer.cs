@@ -35,23 +35,6 @@
             this.groupBox2 = new GroupBox();
             this.trv_view_exam = new TreeView();
             this.imglst_node_images = new ImageList(this.components);
-            this.pan_display_questions = new Panel();
-            this.chkMulipleChoice = new CheckBox();
-            this.pct_image = new PictureBox();
-            this.btn_clear_image = new Button();
-            this.btn_insert_image = new Button();
-            this.btn_remove_option = new Button();
-            this.btn_add_options = new Button();
-            this.txt_explanation = new TextBox();
-            this.label12 = new Label();
-            this.pan_options = new Panel();
-            this.txt_question_text = new TextBox();
-            this.label11 = new Label();
-            this.lbl_section_question = new Label();
-            this.pan_splash = new Panel();
-            this.grp_exam_history = new GroupBox();
-            this.lnkClearHistory = new LinkLabel();
-            this.pictureBox1 = new PictureBox();
             this.pan_exam_properties = new Panel();
             this.label10 = new Label();
             this.btn_save_properties = new Button();
@@ -69,6 +52,23 @@
             this.label3 = new Label();
             this.label2 = new Label();
             this.label1 = new Label();
+            this.pan_splash = new Panel();
+            this.grp_exam_history = new GroupBox();
+            this.lnkClearHistory = new LinkLabel();
+            this.pictureBox1 = new PictureBox();
+            this.pan_display_questions = new Panel();
+            this.chkMulipleChoice = new CheckBox();
+            this.pct_image = new PictureBox();
+            this.btn_clear_image = new Button();
+            this.btn_insert_image = new Button();
+            this.btn_remove_option = new Button();
+            this.btn_add_options = new Button();
+            this.txt_explanation = new TextBox();
+            this.label12 = new Label();
+            this.pan_options = new Panel();
+            this.txt_question_text = new TextBox();
+            this.label11 = new Label();
+            this.lbl_section_question = new Label();
             this.menuStrip1 = new MenuStrip();
             this.fileToolStripMenuItem = new ToolStripMenuItem();
             this.newToolStripMenuItem = new ToolStripMenuItem();
@@ -77,6 +77,8 @@
             this.saveToolStripMenuItem = new ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new ToolStripMenuItem();
             this.toolStripSeparator1 = new ToolStripSeparator();
+            this.importToolStripMenuItem = new ToolStripMenuItem();
+            this.importFromJsonToolStripMenuItem = new ToolStripMenuItem();
             this.exportToolStripMenuItem = new ToolStripMenuItem();
             this.exportAsJsonToolStripMenuItem = new ToolStripMenuItem();
             this.exportAsXmlToolStripMenuItem = new ToolStripMenuItem();
@@ -127,14 +129,14 @@
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            this.pan_display_questions.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)this.pct_image).BeginInit();
-            this.pan_splash.SuspendLayout();
-            this.grp_exam_history.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)this.pictureBox1).BeginInit();
             this.pan_exam_properties.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)this.num_time_limit).BeginInit();
             ((System.ComponentModel.ISupportInitialize)this.num_passmark).BeginInit();
+            this.pan_splash.SuspendLayout();
+            this.grp_exam_history.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)this.pictureBox1).BeginInit();
+            this.pan_display_questions.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)this.pct_image).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.cms_section.SuspendLayout();
@@ -208,6 +210,243 @@
             this.imglst_node_images.Images.SetKeyName(0, "tree-exam.png");
             this.imglst_node_images.Images.SetKeyName(1, "tree-section.png");
             this.imglst_node_images.Images.SetKeyName(2, "tree-question.png");
+            // 
+            // pan_exam_properties
+            // 
+            this.pan_exam_properties.Controls.Add(this.label10);
+            this.pan_exam_properties.Controls.Add(this.btn_save_properties);
+            this.pan_exam_properties.Controls.Add(this.txt_instruction);
+            this.pan_exam_properties.Controls.Add(this.num_time_limit);
+            this.pan_exam_properties.Controls.Add(this.label9);
+            this.pan_exam_properties.Controls.Add(this.num_passmark);
+            this.pan_exam_properties.Controls.Add(this.lbl_version);
+            this.pan_exam_properties.Controls.Add(this.txt_code);
+            this.pan_exam_properties.Controls.Add(this.txt_title);
+            this.pan_exam_properties.Controls.Add(this.label7);
+            this.pan_exam_properties.Controls.Add(this.label6);
+            this.pan_exam_properties.Controls.Add(this.label5);
+            this.pan_exam_properties.Controls.Add(this.label4);
+            this.pan_exam_properties.Controls.Add(this.label3);
+            this.pan_exam_properties.Controls.Add(this.label2);
+            this.pan_exam_properties.Controls.Add(this.label1);
+            this.pan_exam_properties.Dock = DockStyle.Fill;
+            this.pan_exam_properties.Location = new Point(0, 0);
+            this.pan_exam_properties.Name = "pan_exam_properties";
+            this.pan_exam_properties.Size = new Size(732, 697);
+            this.pan_exam_properties.TabIndex = 0;
+            // 
+            // label10
+            // 
+            this.label10.Anchor = AnchorStyles.None;
+            this.label10.AutoSize = true;
+            this.label10.Location = new Point(392, 335);
+            this.label10.Name = "label10";
+            this.label10.Size = new Size(66, 15);
+            this.label10.TabIndex = 15;
+            this.label10.Text = "(minute(s))";
+            // 
+            // btn_save_properties
+            // 
+            this.btn_save_properties.Anchor = AnchorStyles.None;
+            this.btn_save_properties.Image = (Image)resources.GetObject("btn_save_properties.Image");
+            this.btn_save_properties.ImageAlign = ContentAlignment.MiddleLeft;
+            this.btn_save_properties.Location = new Point(331, 471);
+            this.btn_save_properties.Name = "btn_save_properties";
+            this.btn_save_properties.Size = new Size(59, 27);
+            this.btn_save_properties.TabIndex = 14;
+            this.btn_save_properties.Text = "Save";
+            this.btn_save_properties.TextAlign = ContentAlignment.MiddleRight;
+            this.btn_save_properties.UseVisualStyleBackColor = true;
+            this.btn_save_properties.Click += this.SaveProperties;
+            // 
+            // txt_instruction
+            // 
+            this.txt_instruction.Anchor = AnchorStyles.None;
+            this.txt_instruction.Location = new Point(215, 391);
+            this.txt_instruction.Multiline = true;
+            this.txt_instruction.Name = "txt_instruction";
+            this.txt_instruction.Size = new Size(294, 62);
+            this.txt_instruction.TabIndex = 13;
+            // 
+            // num_time_limit
+            // 
+            this.num_time_limit.Anchor = AnchorStyles.None;
+            this.num_time_limit.Location = new Point(274, 332);
+            this.num_time_limit.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
+            this.num_time_limit.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            this.num_time_limit.Name = "num_time_limit";
+            this.num_time_limit.Size = new Size(111, 23);
+            this.num_time_limit.TabIndex = 12;
+            this.num_time_limit.TextAlign = HorizontalAlignment.Right;
+            this.num_time_limit.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            // 
+            // label9
+            // 
+            this.label9.Anchor = AnchorStyles.None;
+            this.label9.AutoSize = true;
+            this.label9.Location = new Point(391, 304);
+            this.label9.Name = "label9";
+            this.label9.Size = new Size(110, 15);
+            this.label9.TabIndex = 11;
+            this.label9.Text = "(On a scale of 1000)";
+            // 
+            // num_passmark
+            // 
+            this.num_passmark.Anchor = AnchorStyles.None;
+            this.num_passmark.Location = new Point(274, 301);
+            this.num_passmark.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
+            this.num_passmark.Name = "num_passmark";
+            this.num_passmark.Size = new Size(111, 23);
+            this.num_passmark.TabIndex = 10;
+            this.num_passmark.TextAlign = HorizontalAlignment.Right;
+            // 
+            // lbl_version
+            // 
+            this.lbl_version.Anchor = AnchorStyles.None;
+            this.lbl_version.AutoSize = true;
+            this.lbl_version.Location = new Point(271, 272);
+            this.lbl_version.Name = "lbl_version";
+            this.lbl_version.Size = new Size(22, 15);
+            this.lbl_version.TabIndex = 9;
+            this.lbl_version.Text = "4.0";
+            // 
+            // txt_code
+            // 
+            this.txt_code.Anchor = AnchorStyles.None;
+            this.txt_code.Location = new Point(274, 237);
+            this.txt_code.Name = "txt_code";
+            this.txt_code.Size = new Size(116, 23);
+            this.txt_code.TabIndex = 8;
+            // 
+            // txt_title
+            // 
+            this.txt_title.Anchor = AnchorStyles.None;
+            this.txt_title.Location = new Point(274, 205);
+            this.txt_title.Name = "txt_title";
+            this.txt_title.Size = new Size(240, 23);
+            this.txt_title.TabIndex = 7;
+            // 
+            // label7
+            // 
+            this.label7.Anchor = AnchorStyles.None;
+            this.label7.AutoSize = true;
+            this.label7.Location = new Point(212, 366);
+            this.label7.Name = "label7";
+            this.label7.Size = new Size(72, 15);
+            this.label7.TabIndex = 6;
+            this.label7.Text = "Instructions:";
+            // 
+            // label6
+            // 
+            this.label6.Anchor = AnchorStyles.None;
+            this.label6.AutoSize = true;
+            this.label6.Location = new Point(212, 334);
+            this.label6.Name = "label6";
+            this.label6.Size = new Size(67, 15);
+            this.label6.TabIndex = 5;
+            this.label6.Text = "Time Limit:";
+            // 
+            // label5
+            // 
+            this.label5.Anchor = AnchorStyles.None;
+            this.label5.AutoSize = true;
+            this.label5.Location = new Point(212, 303);
+            this.label5.Name = "label5";
+            this.label5.Size = new Size(60, 15);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "Passmark:";
+            // 
+            // label4
+            // 
+            this.label4.Anchor = AnchorStyles.None;
+            this.label4.AutoSize = true;
+            this.label4.Location = new Point(212, 272);
+            this.label4.Name = "label4";
+            this.label4.Size = new Size(48, 15);
+            this.label4.TabIndex = 3;
+            this.label4.Text = "Version:";
+            // 
+            // label3
+            // 
+            this.label3.Anchor = AnchorStyles.None;
+            this.label3.AutoSize = true;
+            this.label3.Location = new Point(212, 240);
+            this.label3.Name = "label3";
+            this.label3.Size = new Size(38, 15);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "Code:";
+            // 
+            // label2
+            // 
+            this.label2.Anchor = AnchorStyles.None;
+            this.label2.AutoSize = true;
+            this.label2.Location = new Point(212, 208);
+            this.label2.Name = "label2";
+            this.label2.Size = new Size(33, 15);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Title:";
+            // 
+            // label1
+            // 
+            this.label1.Anchor = AnchorStyles.None;
+            this.label1.AutoSize = true;
+            this.label1.Font = new Font("Microsoft Sans Serif", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            this.label1.Location = new Point(300, 158);
+            this.label1.Name = "label1";
+            this.label1.Size = new Size(133, 18);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Exam Properties";
+            // 
+            // pan_splash
+            // 
+            this.pan_splash.Controls.Add(this.grp_exam_history);
+            this.pan_splash.Controls.Add(this.pictureBox1);
+            this.pan_splash.Dock = DockStyle.Fill;
+            this.pan_splash.Location = new Point(0, 0);
+            this.pan_splash.Margin = new Padding(2);
+            this.pan_splash.Name = "pan_splash";
+            this.pan_splash.Size = new Size(732, 697);
+            this.pan_splash.TabIndex = 0;
+            // 
+            // grp_exam_history
+            // 
+            this.grp_exam_history.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            this.grp_exam_history.Controls.Add(this.lnkClearHistory);
+            this.grp_exam_history.Location = new Point(3, 226);
+            this.grp_exam_history.Margin = new Padding(2);
+            this.grp_exam_history.Name = "grp_exam_history";
+            this.grp_exam_history.Padding = new Padding(2);
+            this.grp_exam_history.Size = new Size(727, 469);
+            this.grp_exam_history.TabIndex = 1;
+            this.grp_exam_history.TabStop = false;
+            this.grp_exam_history.Text = "Exam History";
+            // 
+            // lnkClearHistory
+            // 
+            this.lnkClearHistory.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            this.lnkClearHistory.AutoSize = true;
+            this.lnkClearHistory.ImageAlign = ContentAlignment.MiddleLeft;
+            this.lnkClearHistory.Location = new Point(643, 16);
+            this.lnkClearHistory.Margin = new Padding(2, 0, 2, 0);
+            this.lnkClearHistory.Name = "lnkClearHistory";
+            this.lnkClearHistory.Size = new Size(75, 15);
+            this.lnkClearHistory.TabIndex = 0;
+            this.lnkClearHistory.TabStop = true;
+            this.lnkClearHistory.Text = "Clear History";
+            this.lnkClearHistory.TextAlign = ContentAlignment.MiddleCenter;
+            this.lnkClearHistory.LinkClicked += this.ClearExamHistory;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            this.pictureBox1.Image = Properties.Resources.splash;
+            this.pictureBox1.Location = new Point(2, 2);
+            this.pictureBox1.Margin = new Padding(2);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new Size(727, 218);
+            this.pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
             // 
             // pan_display_questions
             // 
@@ -379,240 +618,6 @@
             this.lbl_section_question.Size = new Size(0, 15);
             this.lbl_section_question.TabIndex = 0;
             // 
-            // pan_splash
-            // 
-            this.pan_splash.Controls.Add(this.grp_exam_history);
-            this.pan_splash.Controls.Add(this.pictureBox1);
-            this.pan_splash.Dock = DockStyle.Fill;
-            this.pan_splash.Location = new Point(0, 0);
-            this.pan_splash.Margin = new Padding(2);
-            this.pan_splash.Name = "pan_splash";
-            this.pan_splash.Size = new Size(732, 697);
-            this.pan_splash.TabIndex = 0;
-            // 
-            // grp_exam_history
-            // 
-            this.grp_exam_history.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            this.grp_exam_history.Controls.Add(this.lnkClearHistory);
-            this.grp_exam_history.Location = new Point(3, 226);
-            this.grp_exam_history.Margin = new Padding(2);
-            this.grp_exam_history.Name = "grp_exam_history";
-            this.grp_exam_history.Padding = new Padding(2);
-            this.grp_exam_history.Size = new Size(727, 469);
-            this.grp_exam_history.TabIndex = 1;
-            this.grp_exam_history.TabStop = false;
-            this.grp_exam_history.Text = "Exam History";
-            // 
-            // lnkClearHistory
-            // 
-            this.lnkClearHistory.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            this.lnkClearHistory.AutoSize = true;
-            this.lnkClearHistory.ImageAlign = ContentAlignment.MiddleLeft;
-            this.lnkClearHistory.Location = new Point(643, 16);
-            this.lnkClearHistory.Margin = new Padding(2, 0, 2, 0);
-            this.lnkClearHistory.Name = "lnkClearHistory";
-            this.lnkClearHistory.Size = new Size(75, 15);
-            this.lnkClearHistory.TabIndex = 0;
-            this.lnkClearHistory.TabStop = true;
-            this.lnkClearHistory.Text = "Clear History";
-            this.lnkClearHistory.TextAlign = ContentAlignment.MiddleCenter;
-            this.lnkClearHistory.LinkClicked += this.ClearExamHistory;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            this.pictureBox1.Image = Properties.Resources.splash;
-            this.pictureBox1.Location = new Point(2, 2);
-            this.pictureBox1.Margin = new Padding(2);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new Size(727, 218);
-            this.pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
-            // 
-            // pan_exam_properties
-            // 
-            this.pan_exam_properties.Controls.Add(this.label10);
-            this.pan_exam_properties.Controls.Add(this.btn_save_properties);
-            this.pan_exam_properties.Controls.Add(this.txt_instruction);
-            this.pan_exam_properties.Controls.Add(this.num_time_limit);
-            this.pan_exam_properties.Controls.Add(this.label9);
-            this.pan_exam_properties.Controls.Add(this.num_passmark);
-            this.pan_exam_properties.Controls.Add(this.lbl_version);
-            this.pan_exam_properties.Controls.Add(this.txt_code);
-            this.pan_exam_properties.Controls.Add(this.txt_title);
-            this.pan_exam_properties.Controls.Add(this.label7);
-            this.pan_exam_properties.Controls.Add(this.label6);
-            this.pan_exam_properties.Controls.Add(this.label5);
-            this.pan_exam_properties.Controls.Add(this.label4);
-            this.pan_exam_properties.Controls.Add(this.label3);
-            this.pan_exam_properties.Controls.Add(this.label2);
-            this.pan_exam_properties.Controls.Add(this.label1);
-            this.pan_exam_properties.Dock = DockStyle.Fill;
-            this.pan_exam_properties.Location = new Point(0, 0);
-            this.pan_exam_properties.Name = "pan_exam_properties";
-            this.pan_exam_properties.Size = new Size(570, 502);
-            this.pan_exam_properties.TabIndex = 0;
-            // 
-            // label10
-            // 
-            this.label10.Anchor = AnchorStyles.None;
-            this.label10.AutoSize = true;
-            this.label10.Location = new Point(311, 238);
-            this.label10.Name = "label10";
-            this.label10.Size = new Size(66, 15);
-            this.label10.TabIndex = 15;
-            this.label10.Text = "(minute(s))";
-            // 
-            // btn_save_properties
-            // 
-            this.btn_save_properties.Anchor = AnchorStyles.None;
-            this.btn_save_properties.Location = new Point(255, 378);
-            this.btn_save_properties.Name = "btn_save_properties";
-            this.btn_save_properties.Size = new Size(75, 23);
-            this.btn_save_properties.TabIndex = 14;
-            this.btn_save_properties.Text = "Save";
-            this.btn_save_properties.UseVisualStyleBackColor = true;
-            this.btn_save_properties.Click += this.SaveProperties;
-            // 
-            // txt_instruction
-            // 
-            this.txt_instruction.Anchor = AnchorStyles.None;
-            this.txt_instruction.Location = new Point(134, 294);
-            this.txt_instruction.Multiline = true;
-            this.txt_instruction.Name = "txt_instruction";
-            this.txt_instruction.Size = new Size(294, 62);
-            this.txt_instruction.TabIndex = 13;
-            // 
-            // num_time_limit
-            // 
-            this.num_time_limit.Anchor = AnchorStyles.None;
-            this.num_time_limit.Location = new Point(193, 235);
-            this.num_time_limit.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
-            this.num_time_limit.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
-            this.num_time_limit.Name = "num_time_limit";
-            this.num_time_limit.Size = new Size(111, 23);
-            this.num_time_limit.TabIndex = 12;
-            this.num_time_limit.TextAlign = HorizontalAlignment.Right;
-            this.num_time_limit.Value = new decimal(new int[] { 1, 0, 0, 0 });
-            // 
-            // label9
-            // 
-            this.label9.Anchor = AnchorStyles.None;
-            this.label9.AutoSize = true;
-            this.label9.Location = new Point(310, 207);
-            this.label9.Name = "label9";
-            this.label9.Size = new Size(110, 15);
-            this.label9.TabIndex = 11;
-            this.label9.Text = "(On a scale of 1000)";
-            // 
-            // num_passmark
-            // 
-            this.num_passmark.Anchor = AnchorStyles.None;
-            this.num_passmark.Location = new Point(193, 204);
-            this.num_passmark.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
-            this.num_passmark.Name = "num_passmark";
-            this.num_passmark.Size = new Size(111, 23);
-            this.num_passmark.TabIndex = 10;
-            this.num_passmark.TextAlign = HorizontalAlignment.Right;
-            // 
-            // lbl_version
-            // 
-            this.lbl_version.Anchor = AnchorStyles.None;
-            this.lbl_version.AutoSize = true;
-            this.lbl_version.Location = new Point(190, 175);
-            this.lbl_version.Name = "lbl_version";
-            this.lbl_version.Size = new Size(22, 15);
-            this.lbl_version.TabIndex = 9;
-            this.lbl_version.Text = "3.1";
-            // 
-            // txt_code
-            // 
-            this.txt_code.Anchor = AnchorStyles.None;
-            this.txt_code.Location = new Point(193, 140);
-            this.txt_code.Name = "txt_code";
-            this.txt_code.Size = new Size(116, 23);
-            this.txt_code.TabIndex = 8;
-            // 
-            // txt_title
-            // 
-            this.txt_title.Anchor = AnchorStyles.None;
-            this.txt_title.Location = new Point(193, 108);
-            this.txt_title.Name = "txt_title";
-            this.txt_title.Size = new Size(240, 23);
-            this.txt_title.TabIndex = 7;
-            // 
-            // label7
-            // 
-            this.label7.Anchor = AnchorStyles.None;
-            this.label7.AutoSize = true;
-            this.label7.Location = new Point(131, 269);
-            this.label7.Name = "label7";
-            this.label7.Size = new Size(67, 15);
-            this.label7.TabIndex = 6;
-            this.label7.Text = "Instruction:";
-            // 
-            // label6
-            // 
-            this.label6.Anchor = AnchorStyles.None;
-            this.label6.AutoSize = true;
-            this.label6.Location = new Point(131, 237);
-            this.label6.Name = "label6";
-            this.label6.Size = new Size(67, 15);
-            this.label6.TabIndex = 5;
-            this.label6.Text = "Time Limit:";
-            // 
-            // label5
-            // 
-            this.label5.Anchor = AnchorStyles.None;
-            this.label5.AutoSize = true;
-            this.label5.Location = new Point(131, 206);
-            this.label5.Name = "label5";
-            this.label5.Size = new Size(60, 15);
-            this.label5.TabIndex = 4;
-            this.label5.Text = "Passmark:";
-            // 
-            // label4
-            // 
-            this.label4.Anchor = AnchorStyles.None;
-            this.label4.AutoSize = true;
-            this.label4.Location = new Point(131, 175);
-            this.label4.Name = "label4";
-            this.label4.Size = new Size(48, 15);
-            this.label4.TabIndex = 3;
-            this.label4.Text = "Version:";
-            // 
-            // label3
-            // 
-            this.label3.Anchor = AnchorStyles.None;
-            this.label3.AutoSize = true;
-            this.label3.Location = new Point(131, 143);
-            this.label3.Name = "label3";
-            this.label3.Size = new Size(38, 15);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "Code:";
-            // 
-            // label2
-            // 
-            this.label2.Anchor = AnchorStyles.None;
-            this.label2.AutoSize = true;
-            this.label2.Location = new Point(131, 111);
-            this.label2.Name = "label2";
-            this.label2.Size = new Size(33, 15);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Title:";
-            // 
-            // label1
-            // 
-            this.label1.Anchor = AnchorStyles.None;
-            this.label1.AutoSize = true;
-            this.label1.Font = new Font("Microsoft Sans Serif", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            this.label1.Location = new Point(219, 61);
-            this.label1.Name = "label1";
-            this.label1.Size = new Size(133, 18);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Exam Properties";
-            // 
             // menuStrip1
             // 
             this.menuStrip1.ImageScalingSize = new Size(24, 24);
@@ -626,7 +631,7 @@
             // 
             // fileToolStripMenuItem
             // 
-            this.fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { this.newToolStripMenuItem, this.openToolStripMenuItem, this.toolStripSeparator, this.saveToolStripMenuItem, this.saveAsToolStripMenuItem, this.toolStripSeparator1, this.exportToolStripMenuItem, this.toolStripSeparator5, this.printToolStripMenuItem, this.printPreviewToolStripMenuItem, this.toolStripSeparator2, this.closeToolStripMenuItem, this.toolStripSeparator6, this.exitToolStripMenuItem });
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { this.newToolStripMenuItem, this.openToolStripMenuItem, this.toolStripSeparator, this.saveToolStripMenuItem, this.saveAsToolStripMenuItem, this.toolStripSeparator1, this.importToolStripMenuItem, this.exportToolStripMenuItem, this.toolStripSeparator5, this.printToolStripMenuItem, this.printPreviewToolStripMenuItem, this.toolStripSeparator2, this.closeToolStripMenuItem, this.toolStripSeparator6, this.exitToolStripMenuItem });
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new Size(37, 20);
             this.fileToolStripMenuItem.Text = "&File";
@@ -679,6 +684,21 @@
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new Size(143, 6);
+            // 
+            // importToolStripMenuItem
+            // 
+            this.importToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { this.importFromJsonToolStripMenuItem });
+            this.importToolStripMenuItem.Name = "importToolStripMenuItem";
+            this.importToolStripMenuItem.Size = new Size(146, 22);
+            this.importToolStripMenuItem.Text = "Import";
+            // 
+            // importFromJsonToolStripMenuItem
+            // 
+            this.importFromJsonToolStripMenuItem.Image = (Image)resources.GetObject("importFromJsonToolStripMenuItem.Image");
+            this.importFromJsonToolStripMenuItem.Name = "importFromJsonToolStripMenuItem";
+            this.importFromJsonToolStripMenuItem.Size = new Size(133, 22);
+            this.importFromJsonToolStripMenuItem.Text = "From JSON";
+            this.importFromJsonToolStripMenuItem.Click += this.ImportFromJson;
             // 
             // exportToolStripMenuItem
             // 
@@ -993,7 +1013,7 @@
             // 
             // ofd_open_exam
             // 
-            this.ofd_open_exam.Filter = "OEF Files|*.oef|JSON Files|*.json|XML Files|*.xml";
+            this.ofd_open_exam.Filter = "OEF Files|*.oef";
             // 
             // pdg_print
             // 
@@ -1021,13 +1041,12 @@
             this.cms_section.ImageScalingSize = new Size(24, 24);
             this.cms_section.Items.AddRange(new ToolStripItem[] { this.btn_edit_section });
             this.cms_section.Name = "cms_section";
-            this.cms_section.Size = new Size(103, 34);
+            this.cms_section.Size = new Size(95, 26);
             // 
             // btn_edit_section
             // 
-            this.btn_edit_section.Image = Properties.Resources.edit;
             this.btn_edit_section.Name = "btn_edit_section";
-            this.btn_edit_section.Size = new Size(102, 30);
+            this.btn_edit_section.Size = new Size(94, 22);
             this.btn_edit_section.Text = "Edit";
             this.btn_edit_section.Click += this.EditSection;
             // 
@@ -1036,15 +1055,14 @@
             this.cms_question.ImageScalingSize = new Size(24, 24);
             this.cms_question.Items.AddRange(new ToolStripItem[] { this.btn_delete_question });
             this.cms_question.Name = "cms_question";
-            this.cms_question.Size = new Size(140, 34);
+            this.cms_question.Size = new Size(132, 26);
             // 
             // btn_delete_question
             // 
-            this.btn_delete_question.Image = Properties.Resources.remove;
             this.btn_delete_question.Name = "btn_delete_question";
             this.btn_delete_question.ShortcutKeyDisplayString = "Del";
             this.btn_delete_question.ShortcutKeys = Keys.Delete;
-            this.btn_delete_question.Size = new Size(139, 30);
+            this.btn_delete_question.Size = new Size(131, 22);
             this.btn_delete_question.Text = "Delete";
             this.btn_delete_question.Click += this.DeleteQuestion;
             // 
@@ -1069,17 +1087,17 @@
             ((System.ComponentModel.ISupportInitialize)this.splitContainer2).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
-            this.pan_display_questions.ResumeLayout(false);
-            this.pan_display_questions.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)this.pct_image).EndInit();
-            this.pan_splash.ResumeLayout(false);
-            this.grp_exam_history.ResumeLayout(false);
-            this.grp_exam_history.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)this.pictureBox1).EndInit();
             this.pan_exam_properties.ResumeLayout(false);
             this.pan_exam_properties.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)this.num_time_limit).EndInit();
             ((System.ComponentModel.ISupportInitialize)this.num_passmark).EndInit();
+            this.pan_splash.ResumeLayout(false);
+            this.grp_exam_history.ResumeLayout(false);
+            this.grp_exam_history.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)this.pictureBox1).EndInit();
+            this.pan_display_questions.ResumeLayout(false);
+            this.pan_display_questions.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)this.pct_image).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
@@ -1179,6 +1197,8 @@
         private System.Windows.Forms.ContextMenuStrip cms_question;
         private System.Windows.Forms.ToolStripMenuItem btn_delete_question;
         private System.Windows.Forms.CheckBox chkMulipleChoice;
+        private System.Windows.Forms.ToolStripMenuItem importToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem importFromJsonToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportAsJsonToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;

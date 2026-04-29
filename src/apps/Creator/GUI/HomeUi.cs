@@ -1200,6 +1200,20 @@ public partial class HomeUi : Form
         txt_explanation.TextChanged += QuestionChanged;
     }
 
+    private void ImportFromJson(object sender, EventArgs e)
+    {
+        var ofd = new OpenFileDialog
+        {
+            InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+            Filter = "JSON Files|*.json",
+            FilterIndex = 1
+        };
+        if (ofd.ShowDialog() != DialogResult.OK) return;
+        Close(sender, e);
+        _currentExamFile = ofd.FileName;
+        Open();
+    }
+
     private void ExportAsJson(object sender, EventArgs e)
     {
         if (_exam == null) return;
