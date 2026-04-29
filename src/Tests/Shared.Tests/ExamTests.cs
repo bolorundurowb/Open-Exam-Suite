@@ -28,7 +28,8 @@ public class ExamTests : IDisposable
                 Code = "T01",
                 Instructions = "Goodluck! Make good use of your time.",
                 Passmark = 650,
-                TimeLimit = 5
+                TimeLimit = 5,
+                HideAnswers = true
             },
             Sections =
             [
@@ -188,6 +189,7 @@ public class ExamTests : IDisposable
         actual.Properties.Passmark.ShouldBe(expected.Properties.Passmark);
         actual.Properties.TimeLimit.ShouldBe(expected.Properties.TimeLimit);
         actual.Properties.Instructions.ShouldBe(expected.Properties.Instructions);
+        actual.Properties.HideAnswers.ShouldBe(expected.Properties.HideAnswers);
 
         actual.Sections.Count.ShouldBe(expected.Sections.Count);
 

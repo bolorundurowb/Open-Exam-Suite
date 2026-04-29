@@ -164,6 +164,9 @@ public class Properties
 
     [ProtoMember(6)]
     public string Instructions { get; set; } = string.Empty;
+
+    [ProtoMember(7)]
+    public bool HideAnswers { get; set; }
 }
 
 [Serializable]
