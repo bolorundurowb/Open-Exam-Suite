@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Version>4.0.0</Version>
-    <AssemblyVersion>4.0.0</AssemblyVersion>
+    <Version>4.0.1</Version>
+    <AssemblyVersion>4.0.1</AssemblyVersion>
   </PropertyGroup>
 </Project>
