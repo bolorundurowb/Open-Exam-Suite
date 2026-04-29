@@ -80,10 +80,13 @@ public static class Writer
                     foreach (var option in question.Options)
                         layout.DrawParagraph($"{option.Alphabet} - {option.Text}", bodyFont);
 
-                    layout.DrawParagraph($"Answer: {question.Answer}", bodyFont);
+                    if (!exam.Properties.HideAnswers)
+                    {
+                        layout.DrawParagraph($"Answer: {question.Answer}", bodyFont);
 
-                    if (!string.IsNullOrWhiteSpace(question.Explanation))
-                        layout.DrawParagraph($"Explanation: {question.Explanation}", bodyFont);
+                        if (!string.IsNullOrWhiteSpace(question.Explanation))
+                            layout.DrawParagraph($"Explanation: {question.Explanation}", bodyFont);
+                    }
 
                     layout.DrawBlankLine(bodyFont);
                 }
