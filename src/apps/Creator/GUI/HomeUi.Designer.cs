@@ -35,6 +35,19 @@
             this.groupBox2 = new GroupBox();
             this.trv_view_exam = new TreeView();
             this.imglst_node_images = new ImageList(this.components);
+            this.pan_display_questions = new Panel();
+            this.chkMulipleChoice = new CheckBox();
+            this.pct_image = new PictureBox();
+            this.btn_clear_image = new Button();
+            this.btn_insert_image = new Button();
+            this.btn_remove_option = new Button();
+            this.btn_add_options = new Button();
+            this.txt_explanation = new TextBox();
+            this.label12 = new Label();
+            this.pan_options = new Panel();
+            this.txt_question_text = new TextBox();
+            this.label11 = new Label();
+            this.lbl_section_question = new Label();
             this.pan_exam_properties = new Panel();
             this.label10 = new Label();
             this.btn_save_properties = new Button();
@@ -56,19 +69,6 @@
             this.grp_exam_history = new GroupBox();
             this.lnkClearHistory = new LinkLabel();
             this.pictureBox1 = new PictureBox();
-            this.pan_display_questions = new Panel();
-            this.chkMulipleChoice = new CheckBox();
-            this.pct_image = new PictureBox();
-            this.btn_clear_image = new Button();
-            this.btn_insert_image = new Button();
-            this.btn_remove_option = new Button();
-            this.btn_add_options = new Button();
-            this.txt_explanation = new TextBox();
-            this.label12 = new Label();
-            this.pan_options = new Panel();
-            this.txt_question_text = new TextBox();
-            this.label11 = new Label();
-            this.lbl_section_question = new Label();
             this.menuStrip1 = new MenuStrip();
             this.fileToolStripMenuItem = new ToolStripMenuItem();
             this.newToolStripMenuItem = new ToolStripMenuItem();
@@ -129,14 +129,14 @@
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.pan_display_questions.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)this.pct_image).BeginInit();
             this.pan_exam_properties.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)this.num_time_limit).BeginInit();
             ((System.ComponentModel.ISupportInitialize)this.num_passmark).BeginInit();
             this.pan_splash.SuspendLayout();
             this.grp_exam_history.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)this.pictureBox1).BeginInit();
-            this.pan_display_questions.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)this.pct_image).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.cms_section.SuspendLayout();
@@ -210,6 +210,177 @@
             this.imglst_node_images.Images.SetKeyName(0, "tree-exam.png");
             this.imglst_node_images.Images.SetKeyName(1, "tree-section.png");
             this.imglst_node_images.Images.SetKeyName(2, "tree-question.png");
+            // 
+            // pan_display_questions
+            // 
+            this.pan_display_questions.AutoScroll = true;
+            this.pan_display_questions.Controls.Add(this.chkMulipleChoice);
+            this.pan_display_questions.Controls.Add(this.pct_image);
+            this.pan_display_questions.Controls.Add(this.btn_clear_image);
+            this.pan_display_questions.Controls.Add(this.btn_insert_image);
+            this.pan_display_questions.Controls.Add(this.btn_remove_option);
+            this.pan_display_questions.Controls.Add(this.btn_add_options);
+            this.pan_display_questions.Controls.Add(this.txt_explanation);
+            this.pan_display_questions.Controls.Add(this.label12);
+            this.pan_display_questions.Controls.Add(this.pan_options);
+            this.pan_display_questions.Controls.Add(this.txt_question_text);
+            this.pan_display_questions.Controls.Add(this.label11);
+            this.pan_display_questions.Controls.Add(this.lbl_section_question);
+            this.pan_display_questions.Dock = DockStyle.Fill;
+            this.pan_display_questions.Location = new Point(0, 0);
+            this.pan_display_questions.Margin = new Padding(4, 5, 4, 5);
+            this.pan_display_questions.Name = "pan_display_questions";
+            this.pan_display_questions.Size = new Size(732, 697);
+            this.pan_display_questions.TabIndex = 0;
+            // 
+            // chkMulipleChoice
+            // 
+            this.chkMulipleChoice.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            this.chkMulipleChoice.AutoSize = true;
+            this.chkMulipleChoice.Location = new Point(34, 322);
+            this.chkMulipleChoice.Margin = new Padding(4, 5, 4, 5);
+            this.chkMulipleChoice.Name = "chkMulipleChoice";
+            this.chkMulipleChoice.Size = new Size(260, 19);
+            this.chkMulipleChoice.TabIndex = 11;
+            this.chkMulipleChoice.Text = "Does this question require multiple answers?";
+            this.chkMulipleChoice.UseVisualStyleBackColor = true;
+            // 
+            // pct_image
+            // 
+            this.pct_image.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            this.pct_image.BorderStyle = BorderStyle.FixedSingle;
+            this.pct_image.Location = new Point(131, 171);
+            this.pct_image.Margin = new Padding(4, 5, 4, 5);
+            this.pct_image.Name = "pct_image";
+            this.pct_image.Size = new Size(590, 141);
+            this.pct_image.SizeMode = PictureBoxSizeMode.StretchImage;
+            this.pct_image.TabIndex = 10;
+            this.pct_image.TabStop = false;
+            // 
+            // btn_clear_image
+            // 
+            this.btn_clear_image.Image = (Image)resources.GetObject("btn_clear_image.Image");
+            this.btn_clear_image.Location = new Point(24, 204);
+            this.btn_clear_image.Margin = new Padding(4, 5, 4, 5);
+            this.btn_clear_image.Name = "btn_clear_image";
+            this.btn_clear_image.Size = new Size(99, 27);
+            this.btn_clear_image.TabIndex = 9;
+            this.btn_clear_image.Text = "Clear";
+            this.btn_clear_image.TextImageRelation = TextImageRelation.ImageBeforeText;
+            this.btn_clear_image.UseVisualStyleBackColor = true;
+            this.btn_clear_image.Click += this.ClearImage;
+            // 
+            // btn_insert_image
+            // 
+            this.btn_insert_image.Image = Properties.Resources.rsz_actions_insert_image_icon;
+            this.btn_insert_image.Location = new Point(24, 171);
+            this.btn_insert_image.Margin = new Padding(4, 5, 4, 5);
+            this.btn_insert_image.Name = "btn_insert_image";
+            this.btn_insert_image.Size = new Size(99, 27);
+            this.btn_insert_image.TabIndex = 8;
+            this.btn_insert_image.Text = "Insert";
+            this.btn_insert_image.TextImageRelation = TextImageRelation.ImageBeforeText;
+            this.btn_insert_image.UseVisualStyleBackColor = true;
+            this.btn_insert_image.Click += this.InsertImage;
+            // 
+            // btn_remove_option
+            // 
+            this.btn_remove_option.Anchor = AnchorStyles.Bottom;
+            this.btn_remove_option.Enabled = false;
+            this.btn_remove_option.Image = (Image)resources.GetObject("btn_remove_option.Image");
+            this.btn_remove_option.Location = new Point(622, 381);
+            this.btn_remove_option.Margin = new Padding(4, 5, 4, 5);
+            this.btn_remove_option.Name = "btn_remove_option";
+            this.btn_remove_option.Size = new Size(99, 27);
+            this.btn_remove_option.TabIndex = 7;
+            this.btn_remove_option.Text = "Remove";
+            this.btn_remove_option.TextImageRelation = TextImageRelation.ImageBeforeText;
+            this.btn_remove_option.UseVisualStyleBackColor = true;
+            this.btn_remove_option.Click += this.RemoveOption;
+            // 
+            // btn_add_options
+            // 
+            this.btn_add_options.Anchor = AnchorStyles.Bottom;
+            this.btn_add_options.Image = (Image)resources.GetObject("btn_add_options.Image");
+            this.btn_add_options.Location = new Point(622, 347);
+            this.btn_add_options.Margin = new Padding(4, 5, 4, 5);
+            this.btn_add_options.Name = "btn_add_options";
+            this.btn_add_options.Size = new Size(99, 27);
+            this.btn_add_options.TabIndex = 6;
+            this.btn_add_options.Text = "Add";
+            this.btn_add_options.TextImageRelation = TextImageRelation.ImageBeforeText;
+            this.btn_add_options.UseVisualStyleBackColor = true;
+            this.btn_add_options.Click += this.AddOption;
+            // 
+            // txt_explanation
+            // 
+            this.txt_explanation.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            this.txt_explanation.Location = new Point(145, 617);
+            this.txt_explanation.Margin = new Padding(4, 5, 4, 5);
+            this.txt_explanation.Multiline = true;
+            this.txt_explanation.Name = "txt_explanation";
+            this.txt_explanation.Size = new Size(567, 72);
+            this.txt_explanation.TabIndex = 5;
+            this.txt_explanation.TextChanged += this.QuestionChanged;
+            // 
+            // label12
+            // 
+            this.label12.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            this.label12.AutoSize = true;
+            this.label12.Location = new Point(24, 623);
+            this.label12.Margin = new Padding(4, 0, 4, 0);
+            this.label12.Name = "label12";
+            this.label12.Size = new Size(113, 15);
+            this.label12.TabIndex = 4;
+            this.label12.Text = "Answer Explanation:";
+            // 
+            // pan_options
+            // 
+            this.pan_options.Anchor = AnchorStyles.Bottom;
+            this.pan_options.AutoScroll = true;
+            this.pan_options.BorderStyle = BorderStyle.FixedSingle;
+            this.pan_options.Location = new Point(117, 347);
+            this.pan_options.Margin = new Padding(4, 5, 4, 5);
+            this.pan_options.Name = "pan_options";
+            this.pan_options.Size = new Size(493, 260);
+            this.pan_options.TabIndex = 3;
+            this.pan_options.ControlAdded += this.OptionsChanged;
+            this.pan_options.ControlRemoved += this.OptionsChanged;
+            // 
+            // txt_question_text
+            // 
+            this.txt_question_text.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            this.txt_question_text.BorderStyle = BorderStyle.FixedSingle;
+            this.txt_question_text.Location = new Point(24, 74);
+            this.txt_question_text.Margin = new Padding(4, 5, 4, 5);
+            this.txt_question_text.Multiline = true;
+            this.txt_question_text.Name = "txt_question_text";
+            this.txt_question_text.ScrollBars = ScrollBars.Vertical;
+            this.txt_question_text.Size = new Size(697, 87);
+            this.txt_question_text.TabIndex = 2;
+            this.txt_question_text.TextChanged += this.QuestionChanged;
+            this.txt_question_text.Enter += this.Editable;
+            this.txt_question_text.Leave += this.NotEditable;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new Point(20, 52);
+            this.label11.Margin = new Padding(4, 0, 4, 0);
+            this.label11.Name = "label11";
+            this.label11.Size = new Size(82, 15);
+            this.label11.TabIndex = 1;
+            this.label11.Text = "Question Text:";
+            // 
+            // lbl_section_question
+            // 
+            this.lbl_section_question.AutoSize = true;
+            this.lbl_section_question.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            this.lbl_section_question.Location = new Point(20, 15);
+            this.lbl_section_question.Margin = new Padding(4, 0, 4, 0);
+            this.lbl_section_question.Name = "lbl_section_question";
+            this.lbl_section_question.Size = new Size(0, 15);
+            this.lbl_section_question.TabIndex = 0;
             // 
             // pan_exam_properties
             // 
@@ -447,176 +618,6 @@
             this.pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
-            // 
-            // pan_display_questions
-            // 
-            this.pan_display_questions.AutoScroll = true;
-            this.pan_display_questions.Controls.Add(this.chkMulipleChoice);
-            this.pan_display_questions.Controls.Add(this.pct_image);
-            this.pan_display_questions.Controls.Add(this.btn_clear_image);
-            this.pan_display_questions.Controls.Add(this.btn_insert_image);
-            this.pan_display_questions.Controls.Add(this.btn_remove_option);
-            this.pan_display_questions.Controls.Add(this.btn_add_options);
-            this.pan_display_questions.Controls.Add(this.txt_explanation);
-            this.pan_display_questions.Controls.Add(this.label12);
-            this.pan_display_questions.Controls.Add(this.pan_options);
-            this.pan_display_questions.Controls.Add(this.txt_question_text);
-            this.pan_display_questions.Controls.Add(this.label11);
-            this.pan_display_questions.Controls.Add(this.lbl_section_question);
-            this.pan_display_questions.Dock = DockStyle.Fill;
-            this.pan_display_questions.Location = new Point(0, 0);
-            this.pan_display_questions.Margin = new Padding(4, 5, 4, 5);
-            this.pan_display_questions.Name = "pan_display_questions";
-            this.pan_display_questions.Size = new Size(732, 697);
-            this.pan_display_questions.TabIndex = 0;
-            // 
-            // chkMulipleChoice
-            // 
-            this.chkMulipleChoice.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            this.chkMulipleChoice.AutoSize = true;
-            this.chkMulipleChoice.Location = new Point(34, 322);
-            this.chkMulipleChoice.Margin = new Padding(4, 5, 4, 5);
-            this.chkMulipleChoice.Name = "chkMulipleChoice";
-            this.chkMulipleChoice.Size = new Size(260, 19);
-            this.chkMulipleChoice.TabIndex = 11;
-            this.chkMulipleChoice.Text = "Does this question require multiple answers?";
-            this.chkMulipleChoice.UseVisualStyleBackColor = true;
-            // 
-            // pct_image
-            // 
-            this.pct_image.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            this.pct_image.BorderStyle = BorderStyle.FixedSingle;
-            this.pct_image.Location = new Point(131, 171);
-            this.pct_image.Margin = new Padding(4, 5, 4, 5);
-            this.pct_image.Name = "pct_image";
-            this.pct_image.Size = new Size(590, 141);
-            this.pct_image.SizeMode = PictureBoxSizeMode.StretchImage;
-            this.pct_image.TabIndex = 10;
-            this.pct_image.TabStop = false;
-            // 
-            // btn_clear_image
-            // 
-            this.btn_clear_image.Image = (Image)resources.GetObject("btn_clear_image.Image");
-            this.btn_clear_image.Location = new Point(24, 204);
-            this.btn_clear_image.Margin = new Padding(4, 5, 4, 5);
-            this.btn_clear_image.Name = "btn_clear_image";
-            this.btn_clear_image.Size = new Size(99, 27);
-            this.btn_clear_image.TabIndex = 9;
-            this.btn_clear_image.Text = "Clear";
-            this.btn_clear_image.TextImageRelation = TextImageRelation.ImageBeforeText;
-            this.btn_clear_image.UseVisualStyleBackColor = true;
-            this.btn_clear_image.Click += this.ClearImage;
-            // 
-            // btn_insert_image
-            // 
-            this.btn_insert_image.Image = Properties.Resources.rsz_actions_insert_image_icon;
-            this.btn_insert_image.Location = new Point(24, 171);
-            this.btn_insert_image.Margin = new Padding(4, 5, 4, 5);
-            this.btn_insert_image.Name = "btn_insert_image";
-            this.btn_insert_image.Size = new Size(99, 27);
-            this.btn_insert_image.TabIndex = 8;
-            this.btn_insert_image.Text = "Insert";
-            this.btn_insert_image.TextImageRelation = TextImageRelation.ImageBeforeText;
-            this.btn_insert_image.UseVisualStyleBackColor = true;
-            this.btn_insert_image.Click += this.InsertImage;
-            // 
-            // btn_remove_option
-            // 
-            this.btn_remove_option.Anchor = AnchorStyles.Bottom;
-            this.btn_remove_option.Enabled = false;
-            this.btn_remove_option.Image = (Image)resources.GetObject("btn_remove_option.Image");
-            this.btn_remove_option.Location = new Point(622, 381);
-            this.btn_remove_option.Margin = new Padding(4, 5, 4, 5);
-            this.btn_remove_option.Name = "btn_remove_option";
-            this.btn_remove_option.Size = new Size(99, 27);
-            this.btn_remove_option.TabIndex = 7;
-            this.btn_remove_option.Text = "Remove";
-            this.btn_remove_option.TextImageRelation = TextImageRelation.ImageBeforeText;
-            this.btn_remove_option.UseVisualStyleBackColor = true;
-            this.btn_remove_option.Click += this.RemoveOption;
-            // 
-            // btn_add_options
-            // 
-            this.btn_add_options.Anchor = AnchorStyles.Bottom;
-            this.btn_add_options.Image = (Image)resources.GetObject("btn_add_options.Image");
-            this.btn_add_options.Location = new Point(622, 347);
-            this.btn_add_options.Margin = new Padding(4, 5, 4, 5);
-            this.btn_add_options.Name = "btn_add_options";
-            this.btn_add_options.Size = new Size(99, 27);
-            this.btn_add_options.TabIndex = 6;
-            this.btn_add_options.Text = "Add";
-            this.btn_add_options.TextImageRelation = TextImageRelation.ImageBeforeText;
-            this.btn_add_options.UseVisualStyleBackColor = true;
-            this.btn_add_options.Click += this.AddOption;
-            // 
-            // txt_explanation
-            // 
-            this.txt_explanation.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            this.txt_explanation.Location = new Point(145, 617);
-            this.txt_explanation.Margin = new Padding(4, 5, 4, 5);
-            this.txt_explanation.Multiline = true;
-            this.txt_explanation.Name = "txt_explanation";
-            this.txt_explanation.Size = new Size(567, 72);
-            this.txt_explanation.TabIndex = 5;
-            this.txt_explanation.TextChanged += this.QuestionChanged;
-            // 
-            // label12
-            // 
-            this.label12.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            this.label12.AutoSize = true;
-            this.label12.Location = new Point(24, 623);
-            this.label12.Margin = new Padding(4, 0, 4, 0);
-            this.label12.Name = "label12";
-            this.label12.Size = new Size(113, 15);
-            this.label12.TabIndex = 4;
-            this.label12.Text = "Answer Explanation:";
-            // 
-            // pan_options
-            // 
-            this.pan_options.Anchor = AnchorStyles.Bottom;
-            this.pan_options.AutoScroll = true;
-            this.pan_options.BorderStyle = BorderStyle.FixedSingle;
-            this.pan_options.Location = new Point(117, 347);
-            this.pan_options.Margin = new Padding(4, 5, 4, 5);
-            this.pan_options.Name = "pan_options";
-            this.pan_options.Size = new Size(493, 260);
-            this.pan_options.TabIndex = 3;
-            this.pan_options.ControlAdded += this.OptionsChanged;
-            this.pan_options.ControlRemoved += this.OptionsChanged;
-            // 
-            // txt_question_text
-            // 
-            this.txt_question_text.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            this.txt_question_text.BorderStyle = BorderStyle.FixedSingle;
-            this.txt_question_text.Location = new Point(24, 74);
-            this.txt_question_text.Margin = new Padding(4, 5, 4, 5);
-            this.txt_question_text.Multiline = true;
-            this.txt_question_text.Name = "txt_question_text";
-            this.txt_question_text.Size = new Size(697, 87);
-            this.txt_question_text.TabIndex = 2;
-            this.txt_question_text.TextChanged += this.QuestionChanged;
-            this.txt_question_text.Enter += this.Editable;
-            this.txt_question_text.Leave += this.NotEditable;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new Point(20, 52);
-            this.label11.Margin = new Padding(4, 0, 4, 0);
-            this.label11.Name = "label11";
-            this.label11.Size = new Size(82, 15);
-            this.label11.TabIndex = 1;
-            this.label11.Text = "Question Text:";
-            // 
-            // lbl_section_question
-            // 
-            this.lbl_section_question.AutoSize = true;
-            this.lbl_section_question.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            this.lbl_section_question.Location = new Point(20, 15);
-            this.lbl_section_question.Margin = new Padding(4, 0, 4, 0);
-            this.lbl_section_question.Name = "lbl_section_question";
-            this.lbl_section_question.Size = new Size(0, 15);
-            this.lbl_section_question.TabIndex = 0;
             // 
             // menuStrip1
             // 
@@ -1087,6 +1088,9 @@
             ((System.ComponentModel.ISupportInitialize)this.splitContainer2).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
+            this.pan_display_questions.ResumeLayout(false);
+            this.pan_display_questions.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)this.pct_image).EndInit();
             this.pan_exam_properties.ResumeLayout(false);
             this.pan_exam_properties.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)this.num_time_limit).EndInit();
@@ -1095,9 +1099,6 @@
             this.grp_exam_history.ResumeLayout(false);
             this.grp_exam_history.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)this.pictureBox1).EndInit();
-            this.pan_display_questions.ResumeLayout(false);
-            this.pan_display_questions.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)this.pct_image).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
