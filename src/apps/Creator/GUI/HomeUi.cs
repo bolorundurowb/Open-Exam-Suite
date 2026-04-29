@@ -463,7 +463,7 @@ public partial class HomeUi : Form
                     txt_explanation.Text = redoObject.Question.Explanation;
                     txt_question_text.Text = redoObject.Question.Text;
                     lbl_section_question.Text = "Section: " + trv_view_exam.SelectedNode.Parent.Text +
-                                                ", Question " + redoObject.Question.No;
+                                                " Question " + redoObject.Question.No;
                     pct_image.Image = redoObject.Question.Image;
                     pan_options.Controls.Clear();
                     var k = 0;
