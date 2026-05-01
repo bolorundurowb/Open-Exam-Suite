@@ -7,6 +7,6 @@
 
   <ItemGroup>
     <PackageReference Include="protobuf-net" Version="3.2.56" />
-    <PackageReference Include="System.Drawing.Common" Version="9.0.0" />
+    <PackageReference Include="System.Drawing.Common" Version="10.0.7" />
   </ItemGroup>
 </Project>
