@@ -137,16 +137,6 @@ public static class Writer
         }
     }
 
-    public static byte[]? BitmapToByteArray(Bitmap? bitmap)
-    {
-        if (bitmap == null)
-            return null;
-
-        using var stream = new MemoryStream();
-        bitmap.Save(stream, bitmap.RawFormat);
-        return stream.ToArray();
-    }
-
     private static void EnsurePdfFontsConfigured()
     {
         if (_fontResolverConfigured)
