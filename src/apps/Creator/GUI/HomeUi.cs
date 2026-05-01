@@ -15,8 +15,8 @@ using OpenExamSuite.Storage.Services;
 
 namespace OpenExamSuite.Creator.GUI;
 
-public partial class HomeUi : Form
-{
+public partial class HomeUi : Form {
+
     #region Class Variables
 
     private readonly IAppSettingsService _appSettings;
@@ -27,20 +27,17 @@ public partial class HomeUi : Form
 
     private bool IsDirty { get; set; }
 
-    #endregion
+    #endregion Class Variables
 
-    public HomeUi() : this(new AppSettingsService())
-    {
+    public HomeUi() : this(new AppSettingsService()) {
     }
 
-    public HomeUi(IAppSettingsService appSettings)
-    {
+    public HomeUi(IAppSettingsService appSettings) {
         _appSettings = appSettings;
         InitializeComponent();
     }
 
-    private void New(object sender, EventArgs e)
-    {
+    private void New(object sender, EventArgs e) {
         Close(sender, e);
         _exam = new Exam();
         splitContainer2.Panel2.Controls.Remove(pan_splash);
@@ -48,29 +45,24 @@ public partial class HomeUi : Form
         _undoRedo = new UndoRedo();
     }
 
-    private void Open(object sender, EventArgs e)
-    {
-        if (ofd_open_exam.ShowDialog() == DialogResult.OK)
-        {
+    private void Open(object sender, EventArgs e) {
+        if (ofd_open_exam.ShowDialog() == DialogResult.OK) {
             Close(sender, e);
             _currentExamFile = ofd_open_exam.FileName;
             Open();
         }
     }
 
-    private void Open()
-    {
+    private void Open() {
         var pathBeforeLoad = _currentExamFile;
         var load = ExamFileLoader.TryLoad(pathBeforeLoad!);
 
-        if (!string.IsNullOrEmpty(load.ErrorMessage))
-        {
+        if (!string.IsNullOrEmpty(load.ErrorMessage)) {
             MessageBox.Show(load.ErrorMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             return;
         }
 
-        if (!load.Success || load.Exam == null)
-        {
+        if (!load.Success || load.Exam == null) {
             MessageBox.Show(
                 "Sorry, the exam selected is either old or corrupt. If it is an old exam, please upgrade it with the upgrade tool at:\nhttps://sourceforge.net/projects/exam-upgrade-tool/",
                 "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -89,16 +81,12 @@ public partial class HomeUi : Form
         EnableSectionControls();
         var examNode = new ExamNode(_exam.Properties);
         trv_view_exam.Nodes.Add(examNode);
-        foreach (var section in _exam.Sections)
-        {
-            var sectionNode = new SectionNode(section.Title)
-            {
+        foreach (var section in _exam.Sections) {
+            var sectionNode = new SectionNode(section.Title) {
                 ContextMenuStrip = cms_section
             };
-            foreach (var question in section.Questions)
-            {
-                var questionNode = new QuestionNode(question)
-                {
+            foreach (var question in section.Questions) {
+                var questionNode = new QuestionNode(question) {
                     ContextMenuStrip = cms_question
                 };
                 sectionNode.Nodes.Add(questionNode);
@@ -108,8 +96,7 @@ public partial class HomeUi : Form
         }
 
         trv_view_exam.ExpandAll();
-        if (splitContainer2.Panel2.Controls.Contains(pan_splash))
-        {
+        if (splitContainer2.Panel2.Controls.Contains(pan_splash)) {
             splitContainer2.Panel2.Controls.Remove(pan_splash);
             splitContainer2.Panel2.Controls.Add(pan_exam_properties);
         }
@@ -124,40 +111,32 @@ public partial class HomeUi : Form
         AddToHistory(load.PathForHistory);
     }
 
-    private void AddToHistory(string? filePath)
-    {
+    private void AddToHistory(string? filePath) {
         if (string.IsNullOrEmpty(filePath)) return;
 
-        var settings = new AppSetting
-        {
+        var settings = new AppSetting {
             FilePath = filePath,
             Name = Path.GetFileNameWithoutExtension(filePath)
         };
         _appSettings.Add(settings, AppSettingsType.Creator);
     }
 
-    private void Save(object sender, EventArgs e)
-    {
-        if (string.IsNullOrEmpty(_currentExamFile))
-        {
+    private void Save(object sender, EventArgs e) {
+        if (string.IsNullOrEmpty(_currentExamFile)) {
             SaveAs(sender, e);
-        }
-        else
-        {
+        } else {
             if (trv_view_exam.SelectedNode != null)
                 if (trv_view_exam.SelectedNode.GetType() == typeof(QuestionNode))
                     CommitQuestion();
+
             var examNode = (ExamNode)trv_view_exam.Nodes[0];
             _exam.Properties = examNode.Properties;
             _exam.Sections.Clear();
-            foreach (SectionNode sectionNode in examNode.Nodes)
-            {
-                var section = new Section
-                {
+            foreach (SectionNode sectionNode in examNode.Nodes) {
+                var section = new Section {
                     Title = sectionNode.Title
                 };
-                foreach (QuestionNode questionNode in sectionNode.Nodes)
-                {
+                foreach (QuestionNode questionNode in sectionNode.Nodes) {
                     var question = questionNode.Question;
                     section.Questions.Add(question);
                 }
@@ -166,14 +145,11 @@ public partial class HomeUi : Form
             }
 
             var writeResult = Writer.ToOef(_exam, _currentExamFile);
-            if (writeResult)
-            {
+            if (writeResult) {
                 MessageBox.Show("Exam has been successfully saved.", "Success", MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
                 IsDirty = false;
-            }
-            else
-            {
+            } else {
                 MessageBox.Show("Sorry, the exam could not be saved.", "Error", MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
@@ -183,27 +159,20 @@ public partial class HomeUi : Form
         AddToHistory(_currentExamFile);
     }
 
-    private Question BuildQuestion()
-    {
-        var question = new Question
-        {
+    private Question BuildQuestion() {
+        var question = new Question {
             IsMultipleChoice = chkMulipleChoice.Checked
         };
-        if (question.IsMultipleChoice)
-        {
+        if (question.IsMultipleChoice) {
             var answerCtrls = pan_options.Controls.OfType<OptionsControl>().Where(s => s.Checked);
             question.Answers = answerCtrls.Select(x => x.Letter).ToArray();
-            foreach (var ctrl in pan_options.Controls.OfType<OptionsControl>())
-            {
+            foreach (var ctrl in pan_options.Controls.OfType<OptionsControl>()) {
                 question.Options.Add(new Option { Alphabet = ctrl.Letter, Text = ctrl.Text });
             }
-        }
-        else
-        {
+        } else {
             var answerCtrl = pan_options.Controls.OfType<OptionControl>().FirstOrDefault(s => s.Checked);
             question.Answer = answerCtrl == null ? '\0' : answerCtrl.Letter;
-            foreach (var ctrl in pan_options.Controls.OfType<OptionControl>())
-            {
+            foreach (var ctrl in pan_options.Controls.OfType<OptionControl>()) {
                 question.Options.Add(new Option { Alphabet = ctrl.Letter, Text = ctrl.Text });
             }
         }
@@ -214,8 +183,7 @@ public partial class HomeUi : Form
         return question;
     }
 
-    private void CommitQuestion()
-    {
+    private void CommitQuestion() {
         var currentQuestion = ((QuestionNode)trv_view_exam.SelectedNode).Question;
         var newQuestion = BuildQuestion();
 
@@ -229,56 +197,45 @@ public partial class HomeUi : Form
         currentQuestion.No = trv_view_exam.SelectedNode.Index + 1;
     }
 
-    private void SaveAs(object sender, EventArgs e)
-    {
+    private void SaveAs(object sender, EventArgs e) {
         sfd_save_as_exam.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         sfd_save_as_exam.ShowDialog();
-        if (string.IsNullOrWhiteSpace(sfd_save_as_exam.FileName))
-        {
+        if (string.IsNullOrWhiteSpace(sfd_save_as_exam.FileName)) {
             MessageBox.Show("Improper file name, Exam not saved!", "Error", MessageBoxButtons.OK,
                 MessageBoxIcon.Error);
-        }
-        else
-        {
+        } else {
             _currentExamFile = sfd_save_as_exam.FileName;
             Save(sender, e);
         }
     }
 
-    private void Print(object sender, EventArgs e)
-    {
+    private void Print(object sender, EventArgs e) {
         var po = new PrintOptions(trv_view_exam.SelectedNode);
         po.ShowDialog();
         _whatToPrint = po.SelectedPrintOption;
         pdg_print.ShowDialog();
     }
 
-    private void PrintPreview(object sender, EventArgs e)
-    {
+    private void PrintPreview(object sender, EventArgs e) {
         var po = new PrintOptions(trv_view_exam.SelectedNode);
         po.ShowDialog();
         _whatToPrint = po.SelectedPrintOption;
         ppd_print.ShowDialog();
     }
 
-    private void Exit(object sender, EventArgs e)
-    {
+    private void Exit(object sender, EventArgs e) {
         Application.Exit();
     }
 
-    private void Undo(object sender, EventArgs e)
-    {
+    private void Undo(object sender, EventArgs e) {
         var undoObject = _undoRedo.Undo();
         if (undoObject == null) return;
-        switch (undoObject.Action)
-        {
+        switch (undoObject.Action) {
             case ActionType.Add:
                 var _sectionNode = trv_view_exam.Nodes[0].Nodes.Cast<SectionNode>()
                     .FirstOrDefault(s => s.Title == undoObject.SectionTitle);
-                if (_sectionNode != null)
-                {
-                    if (_sectionNode.Nodes.Count >= undoObject.Question.No)
-                    {
+                if (_sectionNode != null) {
+                    if (_sectionNode.Nodes.Count >= undoObject.Question.No) {
                         _exam.Sections.First(s => s.Title == undoObject.SectionTitle).Questions
                             .RemoveAt(undoObject.Question.No - 1);
                         _sectionNode.Nodes.RemoveAt(undoObject.Question.No - 1);
@@ -286,35 +243,29 @@ public partial class HomeUi : Form
                 }
 
                 var j = 1;
-                foreach (QuestionNode questionNode_ in _sectionNode.Nodes)
-                {
+                foreach (QuestionNode questionNode_ in _sectionNode.Nodes) {
                     questionNode_.Text = "Question " + j;
                     questionNode_.Question.No = j;
                     j++;
                 }
 
                 break;
+
             case ActionType.Delete:
                 var sectionNode = trv_view_exam.Nodes[0].Nodes.Cast<SectionNode>()
                     .FirstOrDefault(s => s.Title == undoObject.SectionTitle);
-                if (sectionNode == null)
-                {
-                    sectionNode = new SectionNode(undoObject.SectionTitle)
-                    {
+                if (sectionNode == null) {
+                    sectionNode = new SectionNode(undoObject.SectionTitle) {
                         ContextMenuStrip = cms_section
                     };
-                    var questionNode = new QuestionNode(undoObject.Question)
-                    {
+                    var questionNode = new QuestionNode(undoObject.Question) {
                         ContextMenuStrip = cms_question
                     };
                     sectionNode.Nodes.Add(questionNode);
                     trv_view_exam.Nodes[0].Nodes.Add(sectionNode);
                     trv_view_exam.ExpandAll();
-                }
-                else
-                {
-                    var questionNode = new QuestionNode(undoObject.Question)
-                    {
+                } else {
+                    var questionNode = new QuestionNode(undoObject.Question) {
                         ContextMenuStrip = cms_question
                     };
                     sectionNode.Nodes.Insert(questionNode.Question.No - 1, questionNode);
@@ -322,19 +273,18 @@ public partial class HomeUi : Form
                 }
 
                 var i = 1;
-                foreach (QuestionNode questionNode_ in sectionNode.Nodes)
-                {
+                foreach (QuestionNode questionNode_ in sectionNode.Nodes) {
                     questionNode_.Text = "Question " + i;
                     questionNode_.Question.No = i;
                     i++;
                 }
 
                 break;
+
             case ActionType.Modify:
                 var sectionNode_ = trv_view_exam.Nodes[0].Nodes.Cast<SectionNode>()
                     .FirstOrDefault(s => s.Title == undoObject.SectionTitle);
-                if (sectionNode_ != null)
-                {
+                if (sectionNode_ != null) {
                     var questionNode = (QuestionNode)sectionNode_.Nodes[undoObject.Question.No - 1];
                     questionNode.Question = undoObject.Question;
                     txt_explanation.Text = undoObject.Question.Explanation;
@@ -344,37 +294,28 @@ public partial class HomeUi : Form
                     pct_image.Image = undoObject.Question.Image;
                     pan_options.Controls.Clear();
                     var k = 0;
-                    if (undoObject.Question.IsMultipleChoice)
-                    {
-                        foreach (var option in undoObject.Question.Options)
-                        {
-                            var ctrl = new OptionsControl
-                            {
+                    if (undoObject.Question.IsMultipleChoice) {
+                        foreach (var option in undoObject.Question.Options) {
+                            var ctrl = new OptionsControl {
                                 Letter = option.Alphabet,
                                 Text = option.Text,
                                 Location = new Point(2, k * 36)
                             };
-                            if (undoObject.Question.Answers.Contains(option.Alphabet))
-                            {
+                            if (undoObject.Question.Answers.Contains(option.Alphabet)) {
                                 ctrl.Checked = true;
                             }
 
                             pan_options.Controls.Add(ctrl);
                             k++;
                         }
-                    }
-                    else
-                    {
-                        foreach (var option in undoObject.Question.Options)
-                        {
-                            var ctrl = new OptionControl
-                            {
+                    } else {
+                        foreach (var option in undoObject.Question.Options) {
+                            var ctrl = new OptionControl {
                                 Letter = option.Alphabet,
                                 Text = option.Text,
                                 Location = new Point(2, k * 36)
                             };
-                            if (option.Alphabet == undoObject.Question.Answer)
-                            {
+                            if (option.Alphabet == undoObject.Question.Answer) {
                                 ctrl.Checked = true;
                             }
 
@@ -388,34 +329,26 @@ public partial class HomeUi : Form
         }
     }
 
-    private void Redo(object sender, EventArgs e)
-    {
+    private void Redo(object sender, EventArgs e) {
         var redoObject = _undoRedo.Redo();
         if (redoObject == null) return;
-        switch (redoObject.Action)
-        {
+        switch (redoObject.Action) {
             case ActionType.Add:
                 var sectionNode = trv_view_exam.Nodes[0].Nodes.Cast<SectionNode>()
                     .FirstOrDefault(s => s.Title == redoObject.SectionTitle);
-                if (sectionNode == null)
-                {
-                    sectionNode = new SectionNode(redoObject.SectionTitle)
-                    {
+                if (sectionNode == null) {
+                    sectionNode = new SectionNode(redoObject.SectionTitle) {
                         ContextMenuStrip = cms_section
                     };
-                    var questionNode = new QuestionNode(redoObject.Question)
-                    {
+                    var questionNode = new QuestionNode(redoObject.Question) {
                         ContextMenuStrip = cms_question
                     };
                     sectionNode.Nodes.Add(questionNode);
                     trv_view_exam.Nodes[0].Nodes.Add(sectionNode);
                     trv_view_exam.ExpandAll();
-                }
-                else
-                {
+                } else {
                     sectionNode.ContextMenuStrip = cms_section;
-                    var questionNode = new QuestionNode(redoObject.Question)
-                    {
+                    var questionNode = new QuestionNode(redoObject.Question) {
                         ContextMenuStrip = cms_question
                     };
                     sectionNode.Nodes.Add(questionNode);
@@ -423,21 +356,19 @@ public partial class HomeUi : Form
                 }
 
                 var i = 1;
-                foreach (QuestionNode questionNode_ in sectionNode.Nodes)
-                {
+                foreach (QuestionNode questionNode_ in sectionNode.Nodes) {
                     questionNode_.Text = "Question " + i;
                     questionNode_.Question.No = i;
                     i++;
                 }
 
                 break;
+
             case ActionType.Delete:
                 var _sectionNode = trv_view_exam.Nodes[0].Nodes.Cast<SectionNode>()
                     .FirstOrDefault(s => s.Title == redoObject.SectionTitle);
-                if (_sectionNode != null)
-                {
-                    if (_sectionNode.Nodes.Count >= redoObject.Question.No)
-                    {
+                if (_sectionNode != null) {
+                    if (_sectionNode.Nodes.Count >= redoObject.Question.No) {
                         _exam.Sections.First(s => s.Title == redoObject.SectionTitle).Questions
                             .RemoveAt(redoObject.Question.No - 1);
                         _sectionNode.Nodes.RemoveAt(redoObject.Question.No - 1);
@@ -445,19 +376,18 @@ public partial class HomeUi : Form
                 }
 
                 var j = 1;
-                foreach (QuestionNode questionNode_ in _sectionNode.Nodes)
-                {
+                foreach (QuestionNode questionNode_ in _sectionNode.Nodes) {
                     questionNode_.Text = "Question " + j;
                     questionNode_.Question.No = j;
                     j++;
                 }
 
                 break;
+
             case ActionType.Modify:
                 var sectionNode_ = trv_view_exam.Nodes[0].Nodes.Cast<SectionNode>()
                     .FirstOrDefault(s => s.Title == redoObject.SectionTitle);
-                if (sectionNode_ != null)
-                {
+                if (sectionNode_ != null) {
                     var questionNode = (QuestionNode)sectionNode_.Nodes[redoObject.Question.No - 1];
                     questionNode.Question = redoObject.Question;
                     txt_explanation.Text = redoObject.Question.Explanation;
@@ -467,37 +397,28 @@ public partial class HomeUi : Form
                     pct_image.Image = redoObject.Question.Image;
                     pan_options.Controls.Clear();
                     var k = 0;
-                    if (redoObject.Question.IsMultipleChoice)
-                    {
-                        foreach (var option in redoObject.Question.Options)
-                        {
-                            var ctrl = new OptionsControl
-                            {
+                    if (redoObject.Question.IsMultipleChoice) {
+                        foreach (var option in redoObject.Question.Options) {
+                            var ctrl = new OptionsControl {
                                 Letter = option.Alphabet,
                                 Text = option.Text,
                                 Location = new Point(2, k * 36)
                             };
-                            if (redoObject.Question.Answers.Contains(option.Alphabet))
-                            {
+                            if (redoObject.Question.Answers.Contains(option.Alphabet)) {
                                 ctrl.Checked = true;
                             }
 
                             pan_options.Controls.Add(ctrl);
                             k++;
                         }
-                    }
-                    else
-                    {
-                        foreach (var option in redoObject.Question.Options)
-                        {
-                            var ctrl = new OptionControl
-                            {
+                    } else {
+                        foreach (var option in redoObject.Question.Options) {
+                            var ctrl = new OptionControl {
                                 Letter = option.Alphabet,
                                 Text = option.Text,
                                 Location = new Point(2, k * 36)
                             };
-                            if (option.Alphabet == redoObject.Question.Answer)
-                            {
+                            if (option.Alphabet == redoObject.Question.Answer) {
                                 ctrl.Checked = true;
                             }
 
@@ -511,15 +432,12 @@ public partial class HomeUi : Form
         }
     }
 
-    private void NewSection(object sender, EventArgs e)
-    {
+    private void NewSection(object sender, EventArgs e) {
         var addSection = new AddSection();
         addSection.ShowDialog();
 
-        if (!string.IsNullOrWhiteSpace(addSection.Title))
-        {
-            var sectionNode = new SectionNode(addSection.Title)
-            {
+        if (!string.IsNullOrWhiteSpace(addSection.Title)) {
+            var sectionNode = new SectionNode(addSection.Title) {
                 ContextMenuStrip = cms_section
             };
             trv_view_exam.Nodes[0].Nodes.Add(sectionNode);
@@ -531,18 +449,15 @@ public partial class HomeUi : Form
         }
     }
 
-    private void NewQuestion(object sender, EventArgs e)
-    {
+    private void NewQuestion(object sender, EventArgs e) {
         // add question to section node
         var nodeToBeAddedTo = trv_view_exam.SelectedNode.GetType() == typeof(SectionNode)
             ? (SectionNode)trv_view_exam.SelectedNode
             : (SectionNode)trv_view_exam.SelectedNode.Parent;
-        var question = new Question
-        {
+        var question = new Question {
             No = nodeToBeAddedTo.Nodes.Count + 1
         };
-        var questionNode = new QuestionNode(question)
-        {
+        var questionNode = new QuestionNode(question) {
             ContextMenuStrip = cms_question
         };
         nodeToBeAddedTo.Nodes.Add(questionNode);
@@ -550,8 +465,7 @@ public partial class HomeUi : Form
         trv_view_exam.SelectedNode = questionNode;
 
         // add to stack to enable undo and redo
-        var obj = new ChangeRepresentationObject
-        {
+        var obj = new ChangeRepresentationObject {
             Action = ActionType.Add,
             Question = question,
             SectionTitle = nodeToBeAddedTo.Title
@@ -562,28 +476,21 @@ public partial class HomeUi : Form
         IsDirty = true;
     }
 
-    private void Cut(object sender, EventArgs e)
-    {
-        if (txt_question_text.SelectionLength > 0)
-        {
+    private void Cut(object sender, EventArgs e) {
+        if (txt_question_text.SelectionLength > 0) {
             txt_question_text.Cut();
         }
     }
 
-    private void Copy(object sender, EventArgs e)
-    {
-        if (txt_question_text.SelectionLength > 0)
-        {
+    private void Copy(object sender, EventArgs e) {
+        if (txt_question_text.SelectionLength > 0) {
             txt_question_text.Copy();
         }
     }
 
-    private void Paste(object sender, EventArgs e)
-    {
-        if (Clipboard.GetDataObject().GetDataPresent(DataFormats.Text))
-        {
-            if (txt_question_text.SelectionLength > 0)
-            {
+    private void Paste(object sender, EventArgs e) {
+        if (Clipboard.GetDataObject().GetDataPresent(DataFormats.Text)) {
+            if (txt_question_text.SelectionLength > 0) {
                 if (MessageBox.Show(@"Do you want to paste over current selection?", @"Confirmation",
                         MessageBoxButtons.YesNo) == DialogResult.No)
                     txt_question_text.SelectionStart =
@@ -594,66 +501,48 @@ public partial class HomeUi : Form
         }
     }
 
-    private void Help(object sender, EventArgs e)
-    {
+    private void Help(object sender, EventArgs e) {
         var sInfo = new ProcessStartInfo(@"https://bolorundurowb.github.io/Open-Exam-Suite");
         Process.Start(sInfo);
     }
 
-    private void About(object sender, EventArgs e)
-    {
+    private void About(object sender, EventArgs e) {
         var about = new AboutUi();
         about.ShowDialog();
     }
 
-    private void License(object sender, EventArgs e)
-    {
+    private void License(object sender, EventArgs e) {
         using var license = new OpenExamSuite.Shared.Dialogs.LicenseUi();
         license.ShowDialog();
     }
 
-    private void AfterSelect(object sender, TreeViewEventArgs e)
-    {
-        if (trv_view_exam.SelectedNode.GetType() == typeof(ExamNode))
-        {
+    private void AfterSelect(object sender, TreeViewEventArgs e) {
+        if (trv_view_exam.SelectedNode.GetType() == typeof(ExamNode)) {
             newQuestionToolStripButton.Enabled = false;
-            if (splitContainer2.Panel2.Controls.Contains(pan_display_questions))
-            {
+            if (splitContainer2.Panel2.Controls.Contains(pan_display_questions)) {
                 splitContainer2.Panel2.Controls.Remove(pan_display_questions);
                 splitContainer2.Panel2.Controls.Add(pan_exam_properties);
-            }
-            else if (splitContainer2.Panel2.Controls.Contains(pan_splash))
-            {
+            } else if (splitContainer2.Panel2.Controls.Contains(pan_splash)) {
                 splitContainer2.Panel2.Controls.Remove(pan_splash);
                 splitContainer2.Panel2.Controls.Add(pan_exam_properties);
             }
-        }
-        else if (trv_view_exam.SelectedNode.GetType() == typeof(SectionNode))
-        {
+        } else if (trv_view_exam.SelectedNode.GetType() == typeof(SectionNode)) {
             newQuestionToolStripButton.Enabled = true;
-            if (splitContainer2.Panel2.Controls.Contains(pan_exam_properties))
-            {
+            if (splitContainer2.Panel2.Controls.Contains(pan_exam_properties)) {
                 splitContainer2.Panel2.Controls.Remove(pan_exam_properties);
                 splitContainer2.Panel2.Controls.Add(pan_display_questions);
-            }
-            else if (splitContainer2.Panel2.Controls.Contains(pan_splash))
-            {
+            } else if (splitContainer2.Panel2.Controls.Contains(pan_splash)) {
                 splitContainer2.Panel2.Controls.Remove(pan_splash);
                 splitContainer2.Panel2.Controls.Add(pan_display_questions);
             }
 
             pan_display_questions.Enabled = false;
-        }
-        else
-        {
+        } else {
             newQuestionToolStripButton.Enabled = true;
-            if (splitContainer2.Panel2.Controls.Contains(pan_exam_properties))
-            {
+            if (splitContainer2.Panel2.Controls.Contains(pan_exam_properties)) {
                 splitContainer2.Panel2.Controls.Remove(pan_exam_properties);
                 splitContainer2.Panel2.Controls.Add(pan_display_questions);
-            }
-            else if (splitContainer2.Panel2.Controls.Contains(pan_splash))
-            {
+            } else if (splitContainer2.Panel2.Controls.Contains(pan_splash)) {
                 splitContainer2.Panel2.Controls.Remove(pan_splash);
                 splitContainer2.Panel2.Controls.Add(pan_display_questions);
             }
@@ -668,37 +557,28 @@ public partial class HomeUi : Form
             chkMulipleChoice.Checked = question.IsMultipleChoice;
             pan_options.Controls.Clear();
             var i = 0;
-            if (question.IsMultipleChoice)
-            {
-                foreach (var option in question.Options)
-                {
-                    var ctrl = new OptionsControl
-                    {
+            if (question.IsMultipleChoice) {
+                foreach (var option in question.Options) {
+                    var ctrl = new OptionsControl {
                         Letter = option.Alphabet,
                         Text = option.Text,
                         Location = new Point(2, i * 36)
                     };
-                    if (question.Answers.Contains(option.Alphabet))
-                    {
+                    if (question.Answers.Contains(option.Alphabet)) {
                         ctrl.Checked = true;
                     }
 
                     pan_options.Controls.Add(ctrl);
                     i++;
                 }
-            }
-            else
-            {
-                foreach (var option in question.Options)
-                {
-                    var ctrl = new OptionControl
-                    {
+            } else {
+                foreach (var option in question.Options) {
+                    var ctrl = new OptionControl {
                         Letter = option.Alphabet,
                         Text = option.Text,
                         Location = new Point(2, i * 36)
                     };
-                    if (option.Alphabet == question.Answer)
-                    {
+                    if (option.Alphabet == question.Answer) {
                         ctrl.Checked = true;
                     }
 
@@ -711,19 +591,16 @@ public partial class HomeUi : Form
         ReconnectHandlers();
     }
 
-    private void BeforeSelect(object sender, TreeViewCancelEventArgs e)
-    {
+    private void BeforeSelect(object sender, TreeViewCancelEventArgs e) {
         DisconnectHandlers();
         if (trv_view_exam.SelectedNode != null)
-            if (trv_view_exam.SelectedNode.GetType() == typeof(QuestionNode))
-            {
+            if (trv_view_exam.SelectedNode.GetType() == typeof(QuestionNode)) {
                 CommitQuestion();
                 ClearControls();
             }
     }
 
-    private void ClearControls()
-    {
+    private void ClearControls() {
         lbl_section_question.Text = "";
         txt_question_text.Clear();
         txt_explanation.Clear();
@@ -738,24 +615,20 @@ public partial class HomeUi : Form
         txt_title.Clear();
     }
 
-    private void SaveProperties(object sender, EventArgs e)
-    {
-        var properties = new Shared.Properties
-        {
+    private void SaveProperties(object sender, EventArgs e) {
+        var properties = new Shared.Properties {
             Code = txt_code.Text,
             Instructions = txt_instruction.Text,
             Passmark = (int)num_passmark.Value,
             TimeLimit = (int)num_time_limit.Value,
             Title = txt_title.Text,
+            HideAnswers = chk_hide_answers.Checked,
             Version = (int)float.Parse(lbl_version.Text)
         };
-        if (trv_view_exam.Nodes.Count > 0)
-        {
+        if (trv_view_exam.Nodes.Count > 0) {
             var examNode = (ExamNode)trv_view_exam.Nodes[0];
             examNode.Properties = properties;
-        }
-        else
-        {
+        } else {
             var examNode = new ExamNode(properties);
             trv_view_exam.Nodes.Add(examNode);
         }
@@ -766,8 +639,7 @@ public partial class HomeUi : Form
         IsDirty = true;
     }
 
-    private void EnableExamControls()
-    {
+    private void EnableExamControls() {
         closeToolStripMenuItem.Enabled = true;
         exportToolStripMenuItem.Enabled = true;
         saveAsToolStripMenuItem.Enabled = true;
@@ -780,13 +652,11 @@ public partial class HomeUi : Form
         redoToolStripMenuItem.Enabled = true;
     }
 
-    private void EnableSectionControls()
-    {
+    private void EnableSectionControls() {
         newSectionToolStripButton.Enabled = true;
     }
 
-    private void EnableQuestionControls()
-    {
+    private void EnableQuestionControls() {
         cutToolStripButton.Enabled = true;
         cutToolStripMenuItem.Enabled = true;
         pasteToolStripButton.Enabled = true;
@@ -795,8 +665,7 @@ public partial class HomeUi : Form
         copyToolStripMenuItem.Enabled = true;
     }
 
-    private void DisableQuestionControls()
-    {
+    private void DisableQuestionControls() {
         cutToolStripButton.Enabled = false;
         cutToolStripMenuItem.Enabled = false;
         pasteToolStripButton.Enabled = false;
@@ -805,8 +674,7 @@ public partial class HomeUi : Form
         copyToolStripMenuItem.Enabled = false;
     }
 
-    private void DisableAllControls()
-    {
+    private void DisableAllControls() {
         closeToolStripMenuItem.Enabled = false;
         exportToolStripMenuItem.Enabled = false;
         saveAsToolStripMenuItem.Enabled = false;
@@ -827,20 +695,15 @@ public partial class HomeUi : Form
         copyToolStripMenuItem.Enabled = false;
     }
 
-    private void Close(object sender, EventArgs e)
-    {
-        if (IsDirty)
-        {
+    private void Close(object sender, EventArgs e) {
+        if (IsDirty) {
             var response =
                 MessageBox.Show(
                     "There are unsaved changes in your project. Do you want to save the changes before closing it?",
                     "Unsaved Changes", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
-            if (response == DialogResult.Yes)
-            {
+            if (response == DialogResult.Yes) {
                 Save(sender, e);
-            }
-            else if (response == DialogResult.Cancel)
-            {
+            } else if (response == DialogResult.Cancel) {
                 return;
             }
         }
@@ -849,13 +712,10 @@ public partial class HomeUi : Form
         trv_view_exam.Nodes.Clear();
         DisableAllControls();
 
-        if (splitContainer2.Panel2.Contains(pan_display_questions))
-        {
+        if (splitContainer2.Panel2.Contains(pan_display_questions)) {
             splitContainer2.Panel2.Controls.Remove(pan_display_questions);
             splitContainer2.Panel2.Controls.Add(pan_splash);
-        }
-        else if (splitContainer2.Panel2.Contains(pan_exam_properties))
-        {
+        } else if (splitContainer2.Panel2.Contains(pan_exam_properties)) {
             splitContainer2.Panel2.Controls.Remove(pan_exam_properties);
             splitContainer2.Panel2.Controls.Add(pan_splash);
         }
@@ -867,37 +727,29 @@ public partial class HomeUi : Form
         LoadExamHistory();
     }
 
-    private void OptionsChanged(object sender, ControlEventArgs e)
-    {
+    private void OptionsChanged(object sender, ControlEventArgs e) {
         btn_remove_option.Enabled = pan_options.Controls.Count > 0;
     }
 
-    private void InsertImage(object sender, EventArgs e)
-    {
+    private void InsertImage(object sender, EventArgs e) {
         ofd_select_image.ShowDialog();
-        if (!string.IsNullOrWhiteSpace(ofd_select_image.FileName))
-        {
+        if (!string.IsNullOrWhiteSpace(ofd_select_image.FileName)) {
             pct_image.ImageLocation = ofd_select_image.FileName;
         }
 
         QuestionChanged(sender, e);
     }
 
-    private void ClearImage(object sender, EventArgs e)
-    {
+    private void ClearImage(object sender, EventArgs e) {
         pct_image.Image = null;
         QuestionChanged(sender, e);
     }
 
-    private void RemoveOption(object sender, EventArgs e)
-    {
-        if (chkMulipleChoice.Checked)
-        {
+    private void RemoveOption(object sender, EventArgs e) {
+        if (chkMulipleChoice.Checked) {
             pan_options.Controls.Remove(pan_options.Controls.OfType<OptionsControl>()
                 .ElementAt(pan_options.Controls.OfType<OptionsControl>().Count() - 1));
-        }
-        else
-        {
+        } else {
             pan_options.Controls.Remove(pan_options.Controls.OfType<OptionControl>()
                 .ElementAt(pan_options.Controls.OfType<OptionControl>().Count() - 1));
         }
@@ -905,16 +757,11 @@ public partial class HomeUi : Form
         QuestionChanged(sender, e);
     }
 
-    private void AddOption(object sender, EventArgs e)
-    {
-        try
-        {
-            if (chkMulipleChoice.Checked)
-            {
-                if (pan_options.Controls.Count > 0)
-                {
-                    var ctrl = new OptionsControl
-                    {
+    private void AddOption(object sender, EventArgs e) {
+        try {
+            if (chkMulipleChoice.Checked) {
+                if (pan_options.Controls.Count > 0) {
+                    var ctrl = new OptionsControl {
                         Name = "option" + (pan_options.Controls.Count - 1),
                         Letter = (char)(Convert.ToInt32(
                             ((OptionsControl)pan_options.Controls[pan_options.Controls.Count - 1])
@@ -922,24 +769,17 @@ public partial class HomeUi : Form
                         Location = new Point(2, 2 + pan_options.Controls.Count * 36)
                     };
                     pan_options.Controls.Add(ctrl);
-                }
-                else
-                {
-                    var ctrl = new OptionsControl
-                    {
+                } else {
+                    var ctrl = new OptionsControl {
                         Location = new Point(2, 2),
                         Name = "option0",
                         Letter = 'A'
                     };
                     pan_options.Controls.Add(ctrl);
                 }
-            }
-            else
-            {
-                if (pan_options.Controls.Count > 0)
-                {
-                    var ctrl = new OptionControl
-                    {
+            } else {
+                if (pan_options.Controls.Count > 0) {
+                    var ctrl = new OptionControl {
                         Name = "option" + (pan_options.Controls.Count - 1),
                         Letter = (char)(Convert.ToInt32(
                             ((OptionControl)pan_options.Controls[pan_options.Controls.Count - 1])
@@ -947,11 +787,8 @@ public partial class HomeUi : Form
                         Location = new Point(2, 2 + pan_options.Controls.Count * 36)
                     };
                     pan_options.Controls.Add(ctrl);
-                }
-                else
-                {
-                    var ctrl = new OptionControl
-                    {
+                } else {
+                    var ctrl = new OptionControl {
                         Location = new Point(2, 2),
                         Name = "option0",
                         Letter = 'A'
@@ -961,9 +798,7 @@ public partial class HomeUi : Form
             }
 
             QuestionChanged(sender, e);
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             Logger.LogException(ex);
             MessageBox.Show(
                 @"Sorry, you cannot mix option types. First remove the existing options then replace them.", "Error",
@@ -971,20 +806,16 @@ public partial class HomeUi : Form
         }
     }
 
-    private void Editable(object sender, EventArgs e)
-    {
+    private void Editable(object sender, EventArgs e) {
         EnableQuestionControls();
     }
 
-    private void NotEditable(object sender, EventArgs e)
-    {
+    private void NotEditable(object sender, EventArgs e) {
         DisableQuestionControls();
     }
 
-    private void PrintPage(object sender, PrintPageEventArgs e)
-    {
-        if (_whatToPrint == PrintOption.CurrentQuestion)
-        {
+    private void PrintPage(object sender, PrintPageEventArgs e) {
+        if (_whatToPrint == PrintOption.CurrentQuestion) {
             float yPos = e.MarginBounds.Top;
             float leftMargin = e.MarginBounds.Left;
             var normFont = new Font("Calibri", 12);
@@ -1006,8 +837,7 @@ public partial class HomeUi : Form
                 new PointF(leftMargin, yPos));
             yPos += subHeadFont.GetHeight(e.Graphics);
 
-            foreach (var line in txt_question_text.Lines)
-            {
+            foreach (var line in txt_question_text.Lines) {
                 e.Graphics.DrawString(line, normFont, Brushes.Black,
                     new RectangleF(leftMargin, yPos, e.MarginBounds.Width + 60, 150),
                     StringFormat.GenericTypographic);
@@ -1015,23 +845,19 @@ public partial class HomeUi : Form
             }
 
             yPos += subHeadFont.GetHeight(e.Graphics);
-            if (pct_image.Image != null)
-            {
+            if (pct_image.Image != null) {
                 yPos += 50;
                 e.Graphics.DrawImage(pct_image.Image,
                     new Rectangle(Convert.ToInt32(leftMargin + 100), Convert.ToInt32(yPos + 15), 450, 400));
                 yPos += 400;
             }
 
-            foreach (OptionControl control in pan_options.Controls)
-            {
+            foreach (OptionControl control in pan_options.Controls) {
                 var temp = control.Letter + ". -  " + control.Text;
                 e.Graphics.DrawString(temp, normFont, Brushes.Black, new PointF(leftMargin + 35, yPos));
                 yPos += normFont.GetHeight(e.Graphics);
             }
-        }
-        else if (_whatToPrint == PrintOption.CurrentSection)
-        {
+        } else if (_whatToPrint == PrintOption.CurrentSection) {
             float yPos = e.MarginBounds.Top;
             var subHeadFont = new Font("Calibri", 13F);
             var headerFont = new Font("Cambria", 14, FontStyle.Bold);
@@ -1042,9 +868,7 @@ public partial class HomeUi : Form
             e.Graphics.DrawString("EXAM: " + _exam.Properties.Title + "  EXAM CODE: " + _exam.Properties.Code,
                 subHeadFont, Brushes.Green, new PointF(200, yPos));
             yPos += 2 * subHeadFont.GetHeight(e.Graphics);
-        }
-        else
-        {
+        } else {
             float yPos = e.MarginBounds.Top;
             float leftMargin = e.MarginBounds.Left;
             var normFont = new Font("Calibri", 12);
@@ -1060,18 +884,16 @@ public partial class HomeUi : Form
         }
     }
 
-    private void UiFormClosing(object sender, FormClosingEventArgs e)
-    {
-        if (IsDirty)
-        {
+    private void UiFormClosing(object sender, FormClosingEventArgs e) {
+        if (IsDirty) {
             var result = MessageBox.Show("The current exam has not been saved, do you want to save and close?",
                 "Unsaved Changes",
                 MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
-            switch (result)
-            {
+            switch (result) {
                 case DialogResult.Cancel:
                     e.Cancel = true;
                     break;
+
                 case DialogResult.Yes:
                     Save(sender, e);
                     break;
@@ -1079,22 +901,18 @@ public partial class HomeUi : Form
         }
     }
 
-    private void LoadExamHistory()
-    {
+    private void LoadExamHistory() {
         // ensure the link to clear the history isn't removed
         var allLinks = grp_exam_history.Controls.OfType<LinkLabel>().Where(x => x.Text != "Clear History");
 
-        foreach (var link in allLinks)
-        {
+        foreach (var link in allLinks) {
             grp_exam_history.Controls.Remove(link);
         }
 
         // retrieve the app settings
         var appSettings = _appSettings.GetAll(AppSettingsType.Creator);
-        for (var j = 0; j < appSettings.Count; j++)
-        {
-            var examLink = new LinkLabel
-            {
+        for (var j = 0; j < appSettings.Count; j++) {
+            var examLink = new LinkLabel {
                 Location = new Point(10, 40 + j * 25),
                 AutoSize = true,
                 Text = appSettings[j].FilePath
@@ -1105,15 +923,11 @@ public partial class HomeUi : Form
         }
     }
 
-    void ExamLinkClick(object sender, EventArgs e)
-    {
-        if (File.Exists(((LinkLabel)sender).Text))
-        {
+    private void ExamLinkClick(object sender, EventArgs e) {
+        if (File.Exists(((LinkLabel)sender).Text)) {
             _currentExamFile = ((LinkLabel)sender).Text;
             Open();
-        }
-        else
-        {
+        } else {
             MessageBox.Show("Sorry, the selected file has been moved or deleted.", "Access error",
                 MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
@@ -1125,17 +939,14 @@ public partial class HomeUi : Form
         }
     }
 
-    private void LoadUI(object sender, EventArgs e)
-    {
+    private void LoadUI(object sender, EventArgs e) {
         LoadExamHistory();
     }
 
-    private void DeleteQuestion(object sender, EventArgs e)
-    {
+    private void DeleteQuestion(object sender, EventArgs e) {
         var sectionNode = trv_view_exam.SelectedNode.Parent;
 
-        var obj = new ChangeRepresentationObject
-        {
+        var obj = new ChangeRepresentationObject {
             Action = ActionType.Delete,
             Question = ((QuestionNode)trv_view_exam.SelectedNode).Question,
             SectionTitle = ((SectionNode)sectionNode).Title
@@ -1145,8 +956,7 @@ public partial class HomeUi : Form
         sectionNode.Nodes.Remove(trv_view_exam.SelectedNode);
 
         var i = 1;
-        foreach (QuestionNode questionNode in sectionNode.Nodes)
-        {
+        foreach (QuestionNode questionNode in sectionNode.Nodes) {
             questionNode.Question.No = 1;
             questionNode.Text = "Question " + i;
             i++;
@@ -1155,8 +965,7 @@ public partial class HomeUi : Form
         IsDirty = true;
     }
 
-    private void EditSection(object sender, EventArgs e)
-    {
+    private void EditSection(object sender, EventArgs e) {
         var sectionNode = (SectionNode)trv_view_exam.SelectedNode;
 
         var editSection = new EditSection(sectionNode.Title);
@@ -1168,17 +977,14 @@ public partial class HomeUi : Form
         IsDirty = true;
     }
 
-    private void MakeSureNodeSelected(object sender, TreeNodeMouseClickEventArgs e)
-    {
+    private void MakeSureNodeSelected(object sender, TreeNodeMouseClickEventArgs e) {
         trv_view_exam.SelectedNode = e.Node;
     }
 
-    private void QuestionChanged(object sender, EventArgs e)
-    {
+    private void QuestionChanged(object sender, EventArgs e) {
         IsDirty = true;
 
-        var obj = new ChangeRepresentationObject
-        {
+        var obj = new ChangeRepresentationObject {
             Action = ActionType.Modify
         };
 
@@ -1188,22 +994,18 @@ public partial class HomeUi : Form
         _undoRedo.InsertObjectforUndoRedo(obj);
     }
 
-    private void DisconnectHandlers()
-    {
+    private void DisconnectHandlers() {
         txt_question_text.TextChanged -= QuestionChanged;
         txt_explanation.TextChanged -= QuestionChanged;
     }
 
-    private void ReconnectHandlers()
-    {
+    private void ReconnectHandlers() {
         txt_question_text.TextChanged += QuestionChanged;
         txt_explanation.TextChanged += QuestionChanged;
     }
 
-    private void ImportFromJson(object sender, EventArgs e)
-    {
-        var ofd = new OpenFileDialog
-        {
+    private void ImportFromJson(object sender, EventArgs e) {
+        var ofd = new OpenFileDialog {
             InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
             Filter = "JSON Files|*.json",
             FilterIndex = 1
@@ -1214,34 +1016,27 @@ public partial class HomeUi : Form
         Open();
     }
 
-    private void ExportAsJson(object sender, EventArgs e)
-    {
+    private void ExportAsJson(object sender, EventArgs e) {
         if (_exam == null) return;
-        var sfdExportJson = new SaveFileDialog
-        {
+        var sfdExportJson = new SaveFileDialog {
             InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
             Filter = "JSON Files|*.json",
             FilterIndex = 1,
             FileName = _exam.Properties.Title
         };
         if (sfdExportJson.ShowDialog() != DialogResult.OK) return;
-        if (Writer.ToJson(_exam, sfdExportJson.FileName))
-        {
+        if (Writer.ToJson(_exam, sfdExportJson.FileName)) {
             MessageBox.Show("JSON successfully exported.", "Export", MessageBoxButtons.OK,
                 MessageBoxIcon.Information);
-        }
-        else
-        {
+        } else {
             MessageBox.Show("JSON file could not be exported.", "Export", MessageBoxButtons.OK,
                 MessageBoxIcon.Error);
         }
     }
 
-    private void ExportAsXml(object sender, EventArgs e)
-    {
+    private void ExportAsXml(object sender, EventArgs e) {
         if (_exam == null) return;
-        var sfdExportXml = new SaveFileDialog
-        {
+        var sfdExportXml = new SaveFileDialog {
             InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
             Filter = "XML Files|*.xml",
             FilterIndex = 1,
@@ -1249,47 +1044,39 @@ public partial class HomeUi : Form
         };
 
         if (sfdExportXml.ShowDialog() != DialogResult.OK) return;
-        if (Writer.ToXml(_exam, sfdExportXml.FileName))
-        {
+        if (Writer.ToXml(_exam, sfdExportXml.FileName)) {
             MessageBox.Show("XML successfully exported.", "Export", MessageBoxButtons.OK,
                 MessageBoxIcon.Information);
-        }
-        else
-        {
+        } else {
             MessageBox.Show("XML could not be exported.", "Export", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 
-    private void ExportAsPdf(object sender, EventArgs e)
-    {
-        if (_exam == null) return;
-        var sfdExportPdf = new SaveFileDialog
-        {
+    private void ExportAsPdf(object sender, EventArgs e) {
+        if (_exam == null)
+            return;
+
+        var sfdExportPdf = new SaveFileDialog {
             InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
             Filter = "PDF Files|*.pdf",
             FilterIndex = 1,
             FileName = _exam.Properties.Title
         };
 
-        if (sfdExportPdf.ShowDialog() != DialogResult.OK)
-        {
+        if (sfdExportPdf.ShowDialog() != DialogResult.OK) {
             return;
         }
 
-        if (Writer.ToPdf(_exam, sfdExportPdf.FileName))
-        {
+        if (Writer.ToPdf(_exam, sfdExportPdf.FileName)) {
             MessageBox.Show("PDF successfully exported.", "Export", MessageBoxButtons.OK,
                 MessageBoxIcon.Information);
-        }
-        else
-        {
+        } else {
             MessageBox.Show("PDF file could not be exported.", "Export", MessageBoxButtons.OK,
                 MessageBoxIcon.Error);
         }
     }
 
-    private void ClearExamHistory(object sender, LinkLabelLinkClickedEventArgs e)
-    {
+    private void ClearExamHistory(object sender, LinkLabelLinkClickedEventArgs e) {
         _appSettings.Clear(AppSettingsType.Creator);
 
         // re-render the history UI
