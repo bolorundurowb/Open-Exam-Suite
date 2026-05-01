@@ -35,6 +35,10 @@
             this.groupBox2 = new GroupBox();
             this.trv_view_exam = new TreeView();
             this.imglst_node_images = new ImageList(this.components);
+            this.pan_splash = new Panel();
+            this.grp_exam_history = new GroupBox();
+            this.lnkClearHistory = new LinkLabel();
+            this.pictureBox1 = new PictureBox();
             this.pan_exam_properties = new Panel();
             this.label10 = new Label();
             this.btn_save_properties = new Button();
@@ -66,10 +70,6 @@
             this.txt_question_text = new TextBox();
             this.label11 = new Label();
             this.lbl_section_question = new Label();
-            this.pan_splash = new Panel();
-            this.grp_exam_history = new GroupBox();
-            this.lnkClearHistory = new LinkLabel();
-            this.pictureBox1 = new PictureBox();
             this.menuStrip1 = new MenuStrip();
             this.fileToolStripMenuItem = new ToolStripMenuItem();
             this.newToolStripMenuItem = new ToolStripMenuItem();
@@ -130,14 +130,14 @@
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.pan_splash.SuspendLayout();
+            this.grp_exam_history.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)this.pictureBox1).BeginInit();
             this.pan_exam_properties.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)this.num_time_limit).BeginInit();
             ((System.ComponentModel.ISupportInitialize)this.num_passmark).BeginInit();
             this.pan_display_questions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)this.pct_image).BeginInit();
-            this.pan_splash.SuspendLayout();
-            this.grp_exam_history.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)this.pictureBox1).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.cms_section.SuspendLayout();
@@ -211,6 +211,57 @@
             this.imglst_node_images.Images.SetKeyName(0, "tree-exam.png");
             this.imglst_node_images.Images.SetKeyName(1, "tree-section.png");
             this.imglst_node_images.Images.SetKeyName(2, "tree-question.png");
+            // 
+            // pan_splash
+            // 
+            this.pan_splash.Controls.Add(this.grp_exam_history);
+            this.pan_splash.Controls.Add(this.pictureBox1);
+            this.pan_splash.Dock = DockStyle.Fill;
+            this.pan_splash.Location = new Point(0, 0);
+            this.pan_splash.Margin = new Padding(2);
+            this.pan_splash.Name = "pan_splash";
+            this.pan_splash.Size = new Size(732, 697);
+            this.pan_splash.TabIndex = 0;
+            // 
+            // grp_exam_history
+            // 
+            this.grp_exam_history.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            this.grp_exam_history.Controls.Add(this.lnkClearHistory);
+            this.grp_exam_history.Location = new Point(3, 226);
+            this.grp_exam_history.Margin = new Padding(2);
+            this.grp_exam_history.Name = "grp_exam_history";
+            this.grp_exam_history.Padding = new Padding(2);
+            this.grp_exam_history.Size = new Size(727, 469);
+            this.grp_exam_history.TabIndex = 1;
+            this.grp_exam_history.TabStop = false;
+            this.grp_exam_history.Text = "Exam History";
+            // 
+            // lnkClearHistory
+            // 
+            this.lnkClearHistory.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            this.lnkClearHistory.AutoSize = true;
+            this.lnkClearHistory.ImageAlign = ContentAlignment.MiddleLeft;
+            this.lnkClearHistory.Location = new Point(643, 16);
+            this.lnkClearHistory.Margin = new Padding(2, 0, 2, 0);
+            this.lnkClearHistory.Name = "lnkClearHistory";
+            this.lnkClearHistory.Size = new Size(75, 15);
+            this.lnkClearHistory.TabIndex = 0;
+            this.lnkClearHistory.TabStop = true;
+            this.lnkClearHistory.Text = "Clear History";
+            this.lnkClearHistory.TextAlign = ContentAlignment.MiddleCenter;
+            this.lnkClearHistory.LinkClicked += this.ClearExamHistory;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            this.pictureBox1.Image = Properties.Resources.splash;
+            this.pictureBox1.Location = new Point(2, 2);
+            this.pictureBox1.Margin = new Padding(2);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new Size(727, 218);
+            this.pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
             // 
             // pan_exam_properties
             // 
@@ -580,57 +631,6 @@
             this.lbl_section_question.Name = "lbl_section_question";
             this.lbl_section_question.Size = new Size(0, 15);
             this.lbl_section_question.TabIndex = 0;
-            // 
-            // pan_splash
-            // 
-            this.pan_splash.Controls.Add(this.grp_exam_history);
-            this.pan_splash.Controls.Add(this.pictureBox1);
-            this.pan_splash.Dock = DockStyle.Fill;
-            this.pan_splash.Location = new Point(0, 0);
-            this.pan_splash.Margin = new Padding(2);
-            this.pan_splash.Name = "pan_splash";
-            this.pan_splash.Size = new Size(732, 697);
-            this.pan_splash.TabIndex = 0;
-            // 
-            // grp_exam_history
-            // 
-            this.grp_exam_history.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            this.grp_exam_history.Controls.Add(this.lnkClearHistory);
-            this.grp_exam_history.Location = new Point(3, 226);
-            this.grp_exam_history.Margin = new Padding(2);
-            this.grp_exam_history.Name = "grp_exam_history";
-            this.grp_exam_history.Padding = new Padding(2);
-            this.grp_exam_history.Size = new Size(727, 469);
-            this.grp_exam_history.TabIndex = 1;
-            this.grp_exam_history.TabStop = false;
-            this.grp_exam_history.Text = "Exam History";
-            // 
-            // lnkClearHistory
-            // 
-            this.lnkClearHistory.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            this.lnkClearHistory.AutoSize = true;
-            this.lnkClearHistory.ImageAlign = ContentAlignment.MiddleLeft;
-            this.lnkClearHistory.Location = new Point(643, 16);
-            this.lnkClearHistory.Margin = new Padding(2, 0, 2, 0);
-            this.lnkClearHistory.Name = "lnkClearHistory";
-            this.lnkClearHistory.Size = new Size(75, 15);
-            this.lnkClearHistory.TabIndex = 0;
-            this.lnkClearHistory.TabStop = true;
-            this.lnkClearHistory.Text = "Clear History";
-            this.lnkClearHistory.TextAlign = ContentAlignment.MiddleCenter;
-            this.lnkClearHistory.LinkClicked += this.ClearExamHistory;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            this.pictureBox1.Image = Properties.Resources.splash;
-            this.pictureBox1.Location = new Point(2, 2);
-            this.pictureBox1.Margin = new Padding(2);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new Size(727, 218);
-            this.pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
             // 
             // menuStrip1
             // 
@@ -1101,6 +1101,10 @@
             ((System.ComponentModel.ISupportInitialize)this.splitContainer2).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
+            this.pan_splash.ResumeLayout(false);
+            this.grp_exam_history.ResumeLayout(false);
+            this.grp_exam_history.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)this.pictureBox1).EndInit();
             this.pan_exam_properties.ResumeLayout(false);
             this.pan_exam_properties.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)this.num_time_limit).EndInit();
@@ -1108,10 +1112,6 @@
             this.pan_display_questions.ResumeLayout(false);
             this.pan_display_questions.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)this.pct_image).EndInit();
-            this.pan_splash.ResumeLayout(false);
-            this.grp_exam_history.ResumeLayout(false);
-            this.grp_exam_history.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)this.pictureBox1).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
