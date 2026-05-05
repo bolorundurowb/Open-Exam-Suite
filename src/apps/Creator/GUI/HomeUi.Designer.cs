@@ -227,11 +227,11 @@
             // 
             this.grp_exam_history.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             this.grp_exam_history.Controls.Add(this.lnkClearHistory);
-            this.grp_exam_history.Location = new Point(3, 226);
+            this.grp_exam_history.Location = new Point(3, 249);
             this.grp_exam_history.Margin = new Padding(2);
             this.grp_exam_history.Name = "grp_exam_history";
             this.grp_exam_history.Padding = new Padding(2);
-            this.grp_exam_history.Size = new Size(727, 469);
+            this.grp_exam_history.Size = new Size(727, 446);
             this.grp_exam_history.TabIndex = 1;
             this.grp_exam_history.TabStop = false;
             this.grp_exam_history.Text = "Exam History";
@@ -254,11 +254,11 @@
             // pictureBox1
             // 
             this.pictureBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            this.pictureBox1.Image = Properties.Resources.splash;
+            this.pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
             this.pictureBox1.Location = new Point(2, 2);
             this.pictureBox1.Margin = new Padding(2);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new Size(727, 218);
+            this.pictureBox1.Size = new Size(727, 243);
             this.pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
