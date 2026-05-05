@@ -85,16 +85,7 @@ public sealed class CharArrayAsStringConverter : JsonConverter<char[]>
 public class Exam
 {
     [ProtoIgnore]
-    public int NumberOfQuestions
-    {
-        get
-        {
-            var numOfQuestions = 0;
-            foreach (var section in this.Sections)
-                numOfQuestions += section.Questions.Count;
-            return numOfQuestions;
-        }
-    }
+    public int NumberOfQuestions => Sections.Sum(s => s.Questions.Count);
 
     [ProtoMember(1)]
     public Properties Properties { get; set; } = new();

@@ -4,7 +4,7 @@ namespace OpenExamSuite.Shared.Models;
 
 public class ChangeRepresentationObject
 {
-    public ActionType Action;
-    public Question Question;
-    public string SectionTitle;
+    public ActionType Action { get; set; }
+    public Question? Question { get; set; }
+    public string SectionTitle { get; set; } = string.Empty;
 }

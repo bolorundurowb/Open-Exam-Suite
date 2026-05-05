@@ -23,7 +23,7 @@ public partial class ScoreSheetUi : Form
         lbl_elapsed_time.Text = settings.ElapsedTime.TotalMinutes.ToString("F");
         lbl_exam_number.Text = exam.Properties.Code;
         lbl_time_allowed.Text = settings.TimeLimit.ToString();
-    }
+    } 
 
     private void LoadDataToUi(object sender, EventArgs e)
     {
@@ -46,7 +46,7 @@ public partial class ScoreSheetUi : Form
 
         foreach (var spread in _settings.ResultSpread)
         {
-            dgv_show_breakdown.Rows.Add(spread.Item1, spread.Item2, spread.Item3);
+            dgv_show_breakdown.Rows.Add(spread.SectionTitle, spread.Total, spread.Correct);
         }
     }
 

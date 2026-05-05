@@ -470,7 +470,7 @@ public partial class HomeUi : Form {
             Question = question,
             SectionTitle = nodeToBeAddedTo.Title
         };
-        _undoRedo.InsertObjectforUndoRedo(obj);
+        _undoRedo.Push(obj);
 
         // indicate there are unsaved changes
         IsDirty = true;
@@ -951,7 +951,7 @@ public partial class HomeUi : Form {
             Question = ((QuestionNode)trv_view_exam.SelectedNode).Question,
             SectionTitle = ((SectionNode)sectionNode).Title
         };
-        _undoRedo.InsertObjectforUndoRedo(obj);
+        _undoRedo.Push(obj);
 
         sectionNode.Nodes.Remove(trv_view_exam.SelectedNode);
 
@@ -991,7 +991,7 @@ public partial class HomeUi : Form {
         obj.Question = BuildQuestion();
         obj.Question.No = trv_view_exam.SelectedNode.Index + 1;
         obj.SectionTitle = ((SectionNode)trv_view_exam.SelectedNode.Parent).Title;
-        _undoRedo.InsertObjectforUndoRedo(obj);
+        _undoRedo.Push(obj);
     }
 
     private void DisconnectHandlers() {

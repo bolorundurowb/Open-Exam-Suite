@@ -5,28 +5,28 @@ namespace OpenExamSuite.Creator.Utilities;
 
 public class UndoRedo : IUndoRedo
 {
-    private Stack<ChangeRepresentationObject> UndoCollection = new();
-    private Stack<ChangeRepresentationObject> RedoCollection = new();
+    private readonly Stack<ChangeRepresentationObject> _undoStack = new();
+    private readonly Stack<ChangeRepresentationObject> _redoStack = new();
 
-    public void InsertObjectforUndoRedo(ChangeRepresentationObject dataobject)
+    public void Push(ChangeRepresentationObject change)
     {
-        UndoCollection.Push(dataobject);
-        RedoCollection.Clear();
+        _undoStack.Push(change);
+        _redoStack.Clear();
     }
 
-    public ChangeRepresentationObject Redo()
+    public ChangeRepresentationObject? Redo()
     {
-        if (RedoCollection.Count == 0) return null;
-        var redoObject = RedoCollection.Pop();
-        UndoCollection.Push(redoObject);
-        return redoObject;
+        if (_redoStack.Count == 0) return null;
+        var item = _redoStack.Pop();
+        _undoStack.Push(item);
+        return item;
     }
 
-    public ChangeRepresentationObject Undo()
+    public ChangeRepresentationObject? Undo()
     {
-        if (UndoCollection.Count == 0) return null;
-        var undoObject = UndoCollection.Pop();
-        RedoCollection.Push(undoObject);
-        return undoObject;
+        if (_undoStack.Count == 0) return null;
+        var item = _undoStack.Pop();
+        _redoStack.Push(item);
+        return item;
     }
 }

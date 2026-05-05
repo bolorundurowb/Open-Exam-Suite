@@ -235,8 +235,7 @@ public partial class AssessmentUi : Form
                     }
                 }
 
-                _settings.ResultSpread.Add(new Tuple<string, int, int>(section.Title, numOfQuestions,
-                    numOfCorrect));
+                _settings.ResultSpread.Add(new SectionResult(section.Title, numOfQuestions, numOfCorrect));
             }
 
             var ss = new ScoreSheetUi(_settings, _exam);
