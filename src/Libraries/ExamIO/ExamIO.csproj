@@ -7,10 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="PDFsharp" Version="6.2.4" />
-    <PackageReference Include="protobuf-net" Version="3.2.56" />
-    <PackageReference Include="System.Drawing.Common" Version="10.0.7" />
-    <PackageReference Include="System.Formats.Nrbf" Version="10.0.7" />
+    <PackageReference Include="PDFsharp" />
+    <PackageReference Include="protobuf-net" />
+    <PackageReference Include="System.Drawing.Common" />
+    <PackageReference Include="System.Formats.Nrbf" />
   </ItemGroup>
 
   <ItemGroup>

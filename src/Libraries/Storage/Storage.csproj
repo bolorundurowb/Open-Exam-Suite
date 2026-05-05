@@ -1,15 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net10.0-windows</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
     <AssemblyName>OpenExamSuite.Storage</AssemblyName>
     <RootNamespace>OpenExamSuite.Storage</RootNamespace>
-    <AssemblyVersion>4.0.0</AssemblyVersion>
-    <Version>4.0.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="LiteDB" Version="5.0.21" />
+    <PackageReference Include="LiteDB" />
   </ItemGroup>
 </Project>
