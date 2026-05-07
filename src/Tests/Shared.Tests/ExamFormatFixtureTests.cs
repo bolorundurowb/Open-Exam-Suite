@@ -15,6 +15,7 @@ public class ExamFormatFixtureTests
         exam.ShouldNotBeNull();
         exam!.Properties.Title.ShouldBe("FixtureExam");
         exam.Properties.Code.ShouldBe("FX");
+        exam.Properties.HideAnswers.ShouldBeFalse();
         exam.Sections.Count.ShouldBe(1);
         exam.Sections[0].Title.ShouldBe("SectionOne");
         exam.Sections[0].Questions.Count.ShouldBe(1);

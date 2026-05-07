@@ -2,11 +2,7 @@
   <PropertyGroup>
     <TargetFramework>net10.0-windows</TargetFramework>
     <OutputType>Library</OutputType>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
     <AssemblyName>OpenExamSuite.Logging</AssemblyName>
     <RootNamespace>OpenExamSuite.Logging</RootNamespace>
-    <AssemblyVersion>4.0.0</AssemblyVersion>
-    <Version>4.0.0</Version>
   </PropertyGroup>
 </Project>

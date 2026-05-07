@@ -80,10 +80,13 @@ public static class Writer
                     foreach (var option in question.Options)
                         layout.DrawParagraph($"{option.Alphabet} - {option.Text}", bodyFont);
 
-                    layout.DrawParagraph($"Answer: {question.Answer}", bodyFont);
+                    if (!exam.Properties.HideAnswers)
+                    {
+                        layout.DrawParagraph($"Answer: {question.Answer}", bodyFont);
 
-                    if (!string.IsNullOrWhiteSpace(question.Explanation))
-                        layout.DrawParagraph($"Explanation: {question.Explanation}", bodyFont);
+                        if (!string.IsNullOrWhiteSpace(question.Explanation))
+                            layout.DrawParagraph($"Explanation: {question.Explanation}", bodyFont);
+                    }
 
                     layout.DrawBlankLine(bodyFont);
                 }
@@ -132,16 +135,6 @@ public static class Writer
             Logger.LogException(ex);
             return false;
         }
-    }
-
-    public static byte[]? BitmapToByteArray(Bitmap? bitmap)
-    {
-        if (bitmap == null)
-            return null;
-
-        using var stream = new MemoryStream();
-        bitmap.Save(stream, bitmap.RawFormat);
-        return stream.ToArray();
     }
 
     private static void EnsurePdfFontsConfigured()

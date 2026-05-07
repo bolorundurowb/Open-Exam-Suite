@@ -9,37 +9,19 @@ public static class Logger
 
     private static readonly string LogFilePath = Path.Combine(LogDirectory, LogFileName);
 
-    public static void LogException(Exception exception)
+    public static void LogException(Exception exception) =>
+        WriteToLog($"{exception.Message} - {exception.StackTrace}");
+
+    public static void Log(string message) => WriteToLog(message);
+
+    private static void WriteToLog(string message)
     {
         try
         {
-            if (!Directory.Exists(LogDirectory))
-            {
-                Directory.CreateDirectory(LogDirectory);
-            }
-
+            Directory.CreateDirectory(LogDirectory);
             using var stream = new FileStream(LogFilePath, FileMode.Append, FileAccess.Write);
-            using var streamWriter = new StreamWriter(stream);
-            streamWriter.WriteLine($"{DateTime.Now:G} - {exception.Message} - {exception.StackTrace}");
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-        }
-    }
-
-    public static void Log(string message)
-    {
-        try
-        {
-            if (!Directory.Exists(LogDirectory))
-            {
-                Directory.CreateDirectory(LogDirectory);
-            }
-
-            using var stream = new FileStream(LogFilePath, FileMode.Append, FileAccess.Write);
-            using var streamWriter = new StreamWriter(stream);
-            streamWriter.WriteLine($"{DateTime.Now:G} - {message}");
+            using var writer = new StreamWriter(stream);
+            writer.WriteLine($"{DateTime.Now:G} - {message}");
         }
         catch (Exception e)
         {

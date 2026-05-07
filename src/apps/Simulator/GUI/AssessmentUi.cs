@@ -22,6 +22,16 @@ public partial class AssessmentUi : Form
         _settings = settings;
         _timeLeft = settings.TimeLimit * 60;
         _userAnswers = new object[_exam.NumberOfQuestions];
+        Shown += AssessmentUi_Shown;
+    }
+
+    private void AssessmentUi_Shown(object? sender, EventArgs e)
+    {
+        if (_exam.Properties.HideAnswers)
+        {
+            btn_show_answer.Visible = false;
+            btn_show_answer.Text = "Show Answer";
+        }
     }
 
     private void TimerTick(object sender, EventArgs e)
@@ -68,13 +78,29 @@ public partial class AssessmentUi : Form
         btn_next.Visible = true;
         btn_pause.Visible = true;
         btn_previous.Visible = true;
-        btn_show_answer.Visible = true;
+        ApplyShowAnswerButtonForActiveExam();
 
         pct_image.Visible = true;
 
         txt_question.Visible = true;
         lblExamProgress.Visible = true;
         dspExamProgress.Visible = true;
+    }
+
+    /// <summary>
+    /// Hides the answer UI when <see cref="Properties.HideAnswers"/> is set; otherwise shows a single toggle button.
+    /// </summary>
+    private void ApplyShowAnswerButtonForActiveExam()
+    {
+        if (_exam.Properties.HideAnswers)
+        {
+            btn_show_answer.Visible = false;
+            btn_show_answer.Text = "Show Answer";
+            return;
+        }
+
+        btn_show_answer.Visible = true;
+        btn_show_answer.Text = "Show Answer";
     }
 
     private void PauseExam(object sender, EventArgs e)
@@ -209,8 +235,7 @@ public partial class AssessmentUi : Form
                     }
                 }
 
-                _settings.ResultSpread.Add(new Tuple<string, int, int>(section.Title, numOfQuestions,
-                    numOfCorrect));
+                _settings.ResultSpread.Add(new SectionResult(section.Title, numOfQuestions, numOfCorrect));
             }
 
             var ss = new ScoreSheetUi(_settings, _exam);
@@ -230,6 +255,14 @@ public partial class AssessmentUi : Form
         pct_image.Image = question.Image;
         AddOptions(question.Options, question.IsMultipleChoice);
         ShowExamProgress();
+
+        ClearAnswerHighlights();
+        lbl_explanation.Visible = false;
+        btn_show_answer.Text = "Show Answer";
+        if (_exam.Properties.HideAnswers)
+            btn_show_answer.Visible = false;
+        else
+            btn_show_answer.Visible = true;
     }
 
     private void ShowExamProgress()
@@ -318,12 +351,36 @@ public partial class AssessmentUi : Form
         return Convert.ToChar(rdb.Text.Substring(0, 1));
     }
 
-    private void ShowAnswer(object sender, EventArgs e)
+    private void AnswerButtonClick(object sender, EventArgs e)
     {
-        lbl_explanation.Visible = true;
-        btn_show_answer.Visible = false;
-        btnHideAnswers.Visible = true;
+        if (_exam.Properties.HideAnswers)
+            return;
 
+        if (btn_show_answer.Text == "Show Answer")
+        {
+            lbl_explanation.Visible = true;
+            btn_show_answer.Text = "Hide Answer";
+            HighlightCorrectAndIncorrectAnswers();
+        }
+        else
+        {
+            ClearAnswerHighlights();
+            lbl_explanation.Visible = false;
+            btn_show_answer.Text = "Show Answer";
+        }
+    }
+
+    private void ClearAnswerHighlights()
+    {
+        foreach (var checkBox in pan_display.Controls.OfType<CheckBox>())
+            checkBox.ForeColor = Color.Black;
+
+        foreach (var radioButton in pan_display.Controls.OfType<RadioButton>())
+            radioButton.ForeColor = Color.Black;
+    }
+
+    private void HighlightCorrectAndIncorrectAnswers()
+    {
         var checkBoxes = pan_display.Controls
             .OfType<CheckBox>()
             .ToList();
@@ -366,31 +423,6 @@ public partial class AssessmentUi : Form
                 ((RadioButton)pan_display.Controls[index]).ForeColor = Color.Red;
             }
         }
-    }
-
-    private void HideAnswer(object sender, EventArgs e)
-    {
-        var checkBoxes = pan_display.Controls
-            .OfType<CheckBox>()
-            .ToList();
-
-        foreach (var checkBox in checkBoxes)
-        {
-            checkBox.ForeColor = Color.Black;
-        }
-
-        var radioButtons = pan_display.Controls
-            .OfType<RadioButton>()
-            .ToList();
-
-        foreach (var radioButton in radioButtons)
-        {
-            radioButton.ForeColor = Color.Black;
-        }
-
-        lbl_explanation.Visible = false;
-        btn_show_answer.Visible = true;
-        btnHideAnswers.Visible = false;
     }
 }
 

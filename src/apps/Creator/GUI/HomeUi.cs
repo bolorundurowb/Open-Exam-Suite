@@ -17,6 +17,7 @@ namespace OpenExamSuite.Creator.GUI;
 
 public partial class HomeUi : Form
 {
+
     #region Class Variables
 
     private readonly IAppSettingsService _appSettings;
@@ -27,7 +28,7 @@ public partial class HomeUi : Form
 
     private bool IsDirty { get; set; }
 
-    #endregion
+    #endregion Class Variables
 
     public HomeUi() : this(new AppSettingsService())
     {
@@ -147,6 +148,7 @@ public partial class HomeUi : Form
             if (trv_view_exam.SelectedNode != null)
                 if (trv_view_exam.SelectedNode.GetType() == typeof(QuestionNode))
                     CommitQuestion();
+
             var examNode = (ExamNode)trv_view_exam.Nodes[0];
             _exam.Properties = examNode.Properties;
             _exam.Sections.Clear();
@@ -294,6 +296,7 @@ public partial class HomeUi : Form
                 }
 
                 break;
+
             case ActionType.Delete:
                 var sectionNode = trv_view_exam.Nodes[0].Nodes.Cast<SectionNode>()
                     .FirstOrDefault(s => s.Title == undoObject.SectionTitle);
@@ -330,6 +333,7 @@ public partial class HomeUi : Form
                 }
 
                 break;
+
             case ActionType.Modify:
                 var sectionNode_ = trv_view_exam.Nodes[0].Nodes.Cast<SectionNode>()
                     .FirstOrDefault(s => s.Title == undoObject.SectionTitle);
@@ -431,6 +435,7 @@ public partial class HomeUi : Form
                 }
 
                 break;
+
             case ActionType.Delete:
                 var _sectionNode = trv_view_exam.Nodes[0].Nodes.Cast<SectionNode>()
                     .FirstOrDefault(s => s.Title == redoObject.SectionTitle);
@@ -453,6 +458,7 @@ public partial class HomeUi : Form
                 }
 
                 break;
+
             case ActionType.Modify:
                 var sectionNode_ = trv_view_exam.Nodes[0].Nodes.Cast<SectionNode>()
                     .FirstOrDefault(s => s.Title == redoObject.SectionTitle);
@@ -556,7 +562,7 @@ public partial class HomeUi : Form
             Question = question,
             SectionTitle = nodeToBeAddedTo.Title
         };
-        _undoRedo.InsertObjectforUndoRedo(obj);
+        _undoRedo.Push(obj);
 
         // indicate there are unsaved changes
         IsDirty = true;
@@ -747,6 +753,7 @@ public partial class HomeUi : Form
             Passmark = (int)num_passmark.Value,
             TimeLimit = (int)num_time_limit.Value,
             Title = txt_title.Text,
+            HideAnswers = chk_hide_answers.Checked,
             Version = (int)float.Parse(lbl_version.Text)
         };
         if (trv_view_exam.Nodes.Count > 0)
@@ -1072,6 +1079,7 @@ public partial class HomeUi : Form
                 case DialogResult.Cancel:
                     e.Cancel = true;
                     break;
+
                 case DialogResult.Yes:
                     Save(sender, e);
                     break;
@@ -1105,7 +1113,7 @@ public partial class HomeUi : Form
         }
     }
 
-    void ExamLinkClick(object sender, EventArgs e)
+    private void ExamLinkClick(object sender, EventArgs e)
     {
         if (File.Exists(((LinkLabel)sender).Text))
         {
@@ -1140,7 +1148,7 @@ public partial class HomeUi : Form
             Question = ((QuestionNode)trv_view_exam.SelectedNode).Question,
             SectionTitle = ((SectionNode)sectionNode).Title
         };
-        _undoRedo.InsertObjectforUndoRedo(obj);
+        _undoRedo.Push(obj);
 
         sectionNode.Nodes.Remove(trv_view_exam.SelectedNode);
 
@@ -1185,7 +1193,7 @@ public partial class HomeUi : Form
         obj.Question = BuildQuestion();
         obj.Question.No = trv_view_exam.SelectedNode.Index + 1;
         obj.SectionTitle = ((SectionNode)trv_view_exam.SelectedNode.Parent).Title;
-        _undoRedo.InsertObjectforUndoRedo(obj);
+        _undoRedo.Push(obj);
     }
 
     private void DisconnectHandlers()
@@ -1262,7 +1270,9 @@ public partial class HomeUi : Form
 
     private void ExportAsPdf(object sender, EventArgs e)
     {
-        if (_exam == null) return;
+        if (_exam == null)
+            return;
+
         var sfdExportPdf = new SaveFileDialog
         {
             InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
