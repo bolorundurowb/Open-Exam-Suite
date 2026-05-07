@@ -23,7 +23,7 @@ public partial class ScoreSheetUi : Form
         lbl_elapsed_time.Text = settings.ElapsedTime.TotalMinutes.ToString("F");
         lbl_exam_number.Text = exam.Properties.Code;
         lbl_time_allowed.Text = settings.TimeLimit.ToString();
-    } 
+    }
 
     private void LoadDataToUi(object sender, EventArgs e)
     {
