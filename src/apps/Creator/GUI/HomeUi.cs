@@ -754,7 +754,7 @@ public partial class HomeUi : Form
             TimeLimit = (int)num_time_limit.Value,
             Title = txt_title.Text,
             HideAnswers = chk_hide_answers.Checked,
-            Version = (int)float.Parse(lbl_version.Text)
+            Version = 4 // replaces parsing the version label
         };
         if (trv_view_exam.Nodes.Count > 0)
         {
