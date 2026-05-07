@@ -1,0 +1,258 @@
+name: Generate Release
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: generate-release-${{ github.repository }}
+  cancel-in-progress: false
+
+jobs:
+  prepare:
+    name: Validate and detect version
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      tag_name: ${{ steps.version.outputs.tag_name }}
+      is_prerelease: ${{ steps.version.outputs.is_prerelease }}
+      should_release: ${{ steps.tag_check.outputs.should_release }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Restrict manual trigger to master branch
+        if: github.event_name == 'workflow_dispatch' && github.ref != 'refs/heads/master'
+        run: |
+          echo "::error::Manual runs are only allowed on refs/heads/master. Current ref: $GITHUB_REF"
+          exit 1
+
+      - name: Detect project version
+        id: version
+        shell: bash
+        run: |
+          set -euo pipefail
+          python <<'PY'
+          import re
+          import sys
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+
+          candidates = [
+              Path("src/Directory.Build.props"),
+              Path("src/Apps/Simulator/Simulator.csproj"),
+          ]
+          version = None
+          source = None
+
+          for candidate in candidates:
+              if not candidate.exists():
+                  continue
+              try:
+                  tree = ET.parse(candidate)
+                  root = tree.getroot()
+                  for node in root.iter():
+                      tag = node.tag.split("}", 1)[-1]
+                      if tag == "Version" and node.text and node.text.strip():
+                          version = node.text.strip()
+                          source = str(candidate)
+                          break
+                  if version:
+                      break
+              except ET.ParseError:
+                  pass
+
+          if not version:
+              print("::error::Unable to find a <Version> value in src/Directory.Build.props or src/Apps/Simulator/Simulator.csproj")
+              sys.exit(1)
+
+          semver_pattern = r"^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$"
+          if not re.match(semver_pattern, version):
+              print(f"::error::Malformed version '{version}'. Expected SemVer-like format (e.g. 1.2.3, 1.2.3-alpha.1)")
+              sys.exit(1)
+
+          is_prerelease = "true" if re.search(r"-(alpha|beta)(?:[.-]|$)", version, re.IGNORECASE) else "false"
+          with open(Path.cwd() / ".version-output", "w", encoding="utf-8") as f:
+              f.write(f"version={version}\n")
+              f.write(f"tag_name={version}\n")
+              f.write(f"is_prerelease={is_prerelease}\n")
+
+          print(f"Detected version '{version}' from {source}")
+          PY
+          cat .version-output >> "$GITHUB_OUTPUT"
+
+      - name: Check if release tag already exists
+        id: tag_check
+        shell: bash
+        env:
+          TAG_NAME: ${{ steps.version.outputs.tag_name }}
+        run: |
+          set -euo pipefail
+          git fetch --tags --force
+          if git ls-remote --exit-code --tags origin "refs/tags/${TAG_NAME}" >/dev/null 2>&1; then
+            echo "Tag ${TAG_NAME} already exists in origin. Skipping release generation."
+            echo "should_release=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          if git ls-remote --exit-code --tags origin "refs/tags/v${TAG_NAME}" >/dev/null 2>&1; then
+            echo "Tag v${TAG_NAME} already exists in origin. Skipping release generation to avoid duplicate versioned releases."
+            echo "should_release=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "No conflicting tag found for version ${TAG_NAME}; proceeding."
+          echo "should_release=true" >> "$GITHUB_OUTPUT"
+
+  build_and_release:
+    name: Build installer and create release
+    runs-on: windows-latest
+    needs: prepare
+    if: needs.prepare.outputs.should_release == 'true'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET 10 SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.x'
+
+      - name: Publish Simulator (win-x64, self-contained)
+        run: >
+          dotnet publish src/Apps/Simulator/Simulator.csproj
+          -c Release -r win-x64 --self-contained true
+          -o build/installer/staging/Simulator
+
+      - name: Publish Creator (win-x64, self-contained)
+        run: >
+          dotnet publish src/Apps/Creator/Creator.csproj
+          -c Release -r win-x64 --self-contained true
+          -o build/installer/staging/Creator
+
+      - name: Stage samples
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path build/installer/staging/Samples | Out-Null
+          Copy-Item -Path samples/* -Destination build/installer/staging/Samples -Recurse -Force
+
+      - name: Install Inno Setup
+        run: choco install innosetup -y
+
+      - name: Compile installer
+        shell: pwsh
+        env:
+          INSTALLER_VERSION: ${{ needs.prepare.outputs.version }}
+        run: |
+          $iscc = Join-Path ${env:ProgramFiles(x86)} "Inno Setup 6\ISCC.exe"
+          if (-not (Test-Path $iscc)) {
+            throw "Inno Setup compiler not found at $iscc"
+          }
+          $iss = Join-Path $PWD "installer\OpenExamSuite.iss"
+          if (-not (Test-Path $iss)) {
+            throw "Installer script not found: $iss"
+          }
+          & $iscc "/DMyAppVersion=$env:INSTALLER_VERSION" $iss
+          if ($LASTEXITCODE -ne 0) {
+            throw "Inno Setup compilation failed with exit code $LASTEXITCODE"
+          }
+
+      - name: Validate installer output
+        id: installer
+        shell: pwsh
+        env:
+          VERSION: ${{ needs.prepare.outputs.version }}
+        run: |
+          $expected = Join-Path $PWD "installer\Output\OpenExamSuite-$env:VERSION-Setup-x64.exe"
+          if (Test-Path $expected) {
+            "installer_path=$expected" >> $env:GITHUB_OUTPUT
+            exit 0
+          }
+          $fallback = Get-ChildItem -Path "installer/Output/*.exe" -File -ErrorAction SilentlyContinue | Select-Object -First 1
+          if (-not $fallback) {
+            throw "No installer executable found in installer/Output."
+          }
+          "installer_path=$($fallback.FullName)" >> $env:GITHUB_OUTPUT
+
+      - name: Upload installer artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: OpenExamSuite-Installer-${{ needs.prepare.outputs.version }}
+          path: ${{ steps.installer.outputs.installer_path }}
+          if-no-files-found: error
+
+      - name: Create and push release tag
+        id: create_tag
+        shell: bash
+        env:
+          TAG_NAME: ${{ needs.prepare.outputs.tag_name }}
+        run: |
+          set -euo pipefail
+          git fetch --tags --force
+          if git ls-remote --exit-code --tags origin "refs/tags/${TAG_NAME}" >/dev/null 2>&1; then
+            echo "Tag ${TAG_NAME} was created by another run. Skipping release creation."
+            echo "tag_created=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          if git ls-remote --exit-code --tags origin "refs/tags/v${TAG_NAME}" >/dev/null 2>&1; then
+            echo "Tag v${TAG_NAME} already exists. Skipping release creation to avoid duplicate releases."
+            echo "tag_created=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git tag "${TAG_NAME}"
+          git push origin "${TAG_NAME}"
+          echo "tag_created=true" >> "$GITHUB_OUTPUT"
+
+      - name: Create GitHub release (auto notes with fallback)
+        if: steps.create_tag.outputs.tag_created == 'true'
+        shell: pwsh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG_NAME: ${{ needs.prepare.outputs.tag_name }}
+          INSTALLER_PATH: ${{ steps.installer.outputs.installer_path }}
+          IS_PRERELEASE: ${{ needs.prepare.outputs.is_prerelease }}
+        run: |
+          if (gh release view $env:TAG_NAME --repo $env:GITHUB_REPOSITORY *> $null) {
+            Write-Host "Release $env:TAG_NAME already exists. Skipping."
+            exit 0
+          }
+
+          $args = @("release", "create", $env:TAG_NAME, $env:INSTALLER_PATH, "--repo", $env:GITHUB_REPOSITORY, "--title", "Release $env:TAG_NAME", "--generate-notes")
+          if ($env:IS_PRERELEASE -eq "true") {
+            $args += "--prerelease"
+          }
+
+          & gh @args
+          if ($LASTEXITCODE -eq 0) {
+            Write-Host "Release created with GitHub auto-generated notes."
+            exit 0
+          }
+
+          Write-Warning "Auto-generated release notes failed. Falling back to commit-based notes."
+          $previousTag = git tag --sort=-creatordate | Where-Object { $_ -ne $env:TAG_NAME } | Select-Object -First 1
+          $range = if ($previousTag) { "$previousTag..HEAD" } else { "HEAD" }
+          $commits = git log $range --pretty=format:"- %s (%h)"
+          if ([string]::IsNullOrWhiteSpace($commits)) {
+            $commits = "- Maintenance release."
+          }
+          $notesPath = Join-Path $PWD "release-notes.md"
+          @"
+          Release $env:TAG_NAME
+
+          $commits
+          "@ | Set-Content -Path $notesPath -Encoding UTF8
+
+          $fallbackArgs = @("release", "create", $env:TAG_NAME, $env:INSTALLER_PATH, "--repo", $env:GITHUB_REPOSITORY, "--title", "Release $env:TAG_NAME", "--notes-file", $notesPath)
+          if ($env:IS_PRERELEASE -eq "true") {
+            $fallbackArgs += "--prerelease"
+          }
+          & gh @fallbackArgs
