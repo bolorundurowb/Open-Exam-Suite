@@ -143,6 +143,32 @@ jobs:
           New-Item -ItemType Directory -Force -Path build/installer/staging/Samples | Out-Null
           Copy-Item -Path samples/* -Destination build/installer/staging/Samples -Recurse -Force
 
+      - name: Create portable zip package
+        id: portable
+        shell: pwsh
+        env:
+          VERSION: ${{ needs.prepare.outputs.version }}
+        run: |
+          $portableDir = Join-Path $PWD "build\portable"
+          New-Item -ItemType Directory -Force -Path $portableDir | Out-Null
+
+          $zipName = "OpenExamSuite-$env:VERSION-Portable-x64.zip"
+          $zipPath = Join-Path $portableDir $zipName
+          if (Test-Path $zipPath) {
+            Remove-Item -Path $zipPath -Force
+          }
+
+          $stagingPath = Join-Path $PWD "build\installer\staging"
+          if (-not (Test-Path $stagingPath)) {
+            throw "Portable package source not found: $stagingPath"
+          }
+
+          Compress-Archive -Path "$stagingPath\*" -DestinationPath $zipPath -CompressionLevel Optimal -Force
+          if (-not (Test-Path $zipPath)) {
+            throw "Failed to create portable zip package."
+          }
+          "portable_path=$zipPath" >> $env:GITHUB_OUTPUT
+
       - name: Install Inno Setup
         run: choco install innosetup -y
 
@@ -188,6 +214,13 @@ jobs:
           path: ${{ steps.installer.outputs.installer_path }}
           if-no-files-found: error
 
+      - name: Upload portable zip artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: OpenExamSuite-Portable-${{ needs.prepare.outputs.version }}
+          path: ${{ steps.portable.outputs.portable_path }}
+          if-no-files-found: error
+
       - name: Create and push release tag
         id: create_tag
         shell: bash
@@ -219,6 +252,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAG_NAME: ${{ needs.prepare.outputs.tag_name }}
           INSTALLER_PATH: ${{ steps.installer.outputs.installer_path }}
+          PORTABLE_PATH: ${{ steps.portable.outputs.portable_path }}
           IS_PRERELEASE: ${{ needs.prepare.outputs.is_prerelease }}
         run: |
           if (gh release view $env:TAG_NAME --repo $env:GITHUB_REPOSITORY *> $null) {
@@ -226,7 +260,7 @@ jobs:
             exit 0
           }
 
-          $args = @("release", "create", $env:TAG_NAME, $env:INSTALLER_PATH, "--repo", $env:GITHUB_REPOSITORY, "--title", "Release $env:TAG_NAME", "--generate-notes")
+          $args = @("release", "create", $env:TAG_NAME, $env:INSTALLER_PATH, $env:PORTABLE_PATH, "--repo", $env:GITHUB_REPOSITORY, "--title", "Release $env:TAG_NAME", "--generate-notes")
           if ($env:IS_PRERELEASE -eq "true") {
             $args += "--prerelease"
           }
@@ -251,7 +285,7 @@ jobs:
           $commits
           "@ | Set-Content -Path $notesPath -Encoding UTF8
 
-          $fallbackArgs = @("release", "create", $env:TAG_NAME, $env:INSTALLER_PATH, "--repo", $env:GITHUB_REPOSITORY, "--title", "Release $env:TAG_NAME", "--notes-file", $notesPath)
+          $fallbackArgs = @("release", "create", $env:TAG_NAME, $env:INSTALLER_PATH, $env:PORTABLE_PATH, "--repo", $env:GITHUB_REPOSITORY, "--title", "Release $env:TAG_NAME", "--notes-file", $notesPath)
           if ($env:IS_PRERELEASE -eq "true") {
             $fallbackArgs += "--prerelease"
           }
