@@ -1,0 +1,32 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="OpenExamSuite.Shared.Avalonia.Dialogs.LicenseDialog"
+        Title="License"
+        Width="640" Height="520"
+        MinWidth="480" MinHeight="320"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
+        CanResize="True">
+    <Grid RowDefinitions="*,Auto" Margin="12">
+        <TextBox Grid.Row="0"
+                 Name="LicenseText"
+                 IsReadOnly="True"
+                 AcceptsReturn="True"
+                 TextWrapping="Wrap"
+                 FontFamily="Consolas, Menlo, monospace"
+                 FontSize="11"
+                 VerticalContentAlignment="Top"
+                 HorizontalContentAlignment="Left"
+                 BorderThickness="1"/>
+        <StackPanel Grid.Row="1"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    Margin="0,12,0,0">
+            <Button Content="Close"
+                    IsCancel="True"
+                    IsDefault="True"
+                    Click="OnClose"
+                    Width="90"/>
+        </StackPanel>
+    </Grid>
+</Window>

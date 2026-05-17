@@ -1,0 +1,45 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:OpenExamSuite.Creator.ViewModels.Panes"
+             x:Class="OpenExamSuite.Creator.Views.Panes.ExamPropertiesPaneView"
+             x:DataType="vm:ExamPropertiesPaneViewModel">
+
+    <Grid Margin="20" RowDefinitions="Auto,Auto,Auto,Auto,Auto,*,Auto,Auto"
+                       ColumnDefinitions="180,*">
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="Title:" VerticalAlignment="Center"/>
+        <TextBox   Grid.Row="0" Grid.Column="1" Text="{Binding Title}" Margin="0,4"/>
+
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Code:" VerticalAlignment="Center"/>
+        <TextBox   Grid.Row="1" Grid.Column="1" Text="{Binding Code}" Margin="0,4"/>
+
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="Pass Mark (/ 1000):" VerticalAlignment="Center"/>
+        <NumericUpDown Grid.Row="2" Grid.Column="1"
+                       Value="{Binding Passmark}" Minimum="0" Maximum="1000" Increment="10"
+                       HorizontalAlignment="Left" Width="200" Margin="0,4"/>
+
+        <TextBlock Grid.Row="3" Grid.Column="0" Text="Time Limit (min):" VerticalAlignment="Center"/>
+        <NumericUpDown Grid.Row="3" Grid.Column="1"
+                       Value="{Binding TimeLimit}" Minimum="0" Maximum="600" Increment="1"
+                       HorizontalAlignment="Left" Width="200" Margin="0,4"/>
+
+        <TextBlock Grid.Row="4" Grid.Column="0" Text="Instructions:" VerticalAlignment="Top" Margin="0,6,0,0"/>
+        <TextBox   Grid.Row="5" Grid.Column="1" Text="{Binding Instructions}"
+                   AcceptsReturn="True" TextWrapping="Wrap" Margin="0,4"
+                   MinHeight="120" VerticalContentAlignment="Top"/>
+        <!-- Note: instructions textbox spans below; row 4 holds the label only. -->
+        <TextBlock Grid.Row="4" Grid.Column="1"/>
+
+        <CheckBox Grid.Row="6" Grid.Column="1"
+                  Content="Hide answers during exam"
+                  IsChecked="{Binding HideAnswers}"
+                  Margin="0,4"/>
+
+        <StackPanel Grid.Row="7" Grid.Column="1" Orientation="Horizontal" Margin="0,12,0,0">
+            <Button Content="Save Properties"
+                    Classes="accent"
+                    Command="{Binding SaveCommand}"
+                    Width="170"/>
+            <TextBlock Margin="12,0,0,0" Text="{Binding VersionDisplay}" Classes="muted" VerticalAlignment="Center"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

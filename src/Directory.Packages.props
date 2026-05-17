@@ -4,6 +4,7 @@
     <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
   </PropertyGroup>
   <ItemGroup>
+    <!-- Existing -->
     <PackageVersion Include="coverlet.collector" Version="10.0.0" />
     <PackageVersion Include="coverlet.msbuild" Version="10.0.0" />
     <PackageVersion Include="LiteDB" Version="5.0.21" />
@@ -19,5 +20,23 @@
     <PackageVersion Include="System.Windows.Forms.DataVisualization" Version="1.0.0-prerelease.20110.1" />
     <PackageVersion Include="xunit" Version="2.9.3" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.5" />
+
+    <!-- Avalonia migration -->
+    <PackageVersion Include="Avalonia" Version="11.2.3" />
+    <PackageVersion Include="Avalonia.Desktop" Version="11.2.3" />
+    <PackageVersion Include="Avalonia.Themes.Fluent" Version="11.2.3" />
+    <PackageVersion Include="Avalonia.Fonts.Inter" Version="11.2.3" />
+    <PackageVersion Include="Avalonia.Controls.DataGrid" Version="11.2.3" />
+    <PackageVersion Include="Avalonia.Diagnostics" Version="11.2.3" />
+    <PackageVersion Include="Avalonia.Headless.XUnit" Version="11.2.3" />
+    <PackageVersion Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageVersion Include="MessageBox.Avalonia" Version="3.2.0" />
+    <PackageVersion Include="LiveChartsCore.SkiaSharpView.Avalonia" Version="2.0.0-rc5.4" />
+
+    <!-- Force-upgrade a transitive dep of Avalonia.Desktop that has a known
+         high-severity advisory (GHSA-xrw6-gwf8-vvr9). The advisory was
+         re-flagged for 0.21.2; bumping to a clearly-newer line. Central
+         transitive pinning propagates this. -->
+    <PackageVersion Include="Tmds.DBus.Protocol" Version="0.23.0" />
   </ItemGroup>
 </Project>

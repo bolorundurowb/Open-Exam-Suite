@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-using OpenExamSuite.Shared.Utilities;
+﻿using OpenExamSuite.Shared.Utilities;
 using Shouldly;
 using Xunit;
 
@@ -17,8 +16,7 @@ public class ExamTests : IDisposable
         _testOefPath = Path.Combine(Environment.CurrentDirectory, "test.oef");
         _testJsonPath = Path.Combine(Environment.CurrentDirectory, "test.json");
         _testXmlPath = Path.Combine(Environment.CurrentDirectory, "test.xml");
-        using var fileStream = new FileStream("./Resources/ExamTestImage.png", FileMode.Open);
-        var image = (Bitmap)Image.FromStream(fileStream);
+        var imageBytes = File.ReadAllBytes("./Resources/ExamTestImage.png");
         _exam = new Exam
         {
             Properties = new Properties
@@ -57,7 +55,7 @@ public class ExamTests : IDisposable
                                     Alphabet = 'B'
                                 }
                             ],
-                            Image = image
+                            ImageData = imageBytes
                         },
 
                         new Question
@@ -213,15 +211,14 @@ public class ExamTests : IDisposable
                 actualQuestion.Explanation.ShouldBe(expectedQuestion.Explanation);
                 actualQuestion.Answers.ShouldBe(expectedQuestion.Answers);
 
-                if (expectedQuestion.Image != null)
+                if (expectedQuestion.ImageData is { Length: > 0 })
                 {
-                    actualQuestion.Image.ShouldNotBeNull();
-                    actualQuestion.Image.Width.ShouldBe(expectedQuestion.Image.Width);
-                    actualQuestion.Image.Height.ShouldBe(expectedQuestion.Image.Height);
+                    actualQuestion.ImageData.ShouldNotBeNull();
+                    actualQuestion.ImageData.Length.ShouldBe(expectedQuestion.ImageData.Length);
                 }
                 else
                 {
-                    actualQuestion.Image.ShouldBeNull();
+                    actualQuestion.ImageData.ShouldBeNull();
                 }
 
                 actualQuestion.Options.Count.ShouldBe(expectedQuestion.Options.Count);

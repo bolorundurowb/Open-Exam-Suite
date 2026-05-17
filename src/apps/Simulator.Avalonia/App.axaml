@@ -1,0 +1,12 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="OpenExamSuite.Simulator.App"
+             RequestedThemeVariant="Light">
+    <Application.Styles>
+        <FluentTheme/>
+        <!-- Avalonia.Controls.DataGrid ships its theme separately; without
+             this include the DataGrid renders as blank. -->
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
+        <StyleInclude Source="avares://OpenExamSuite.Shared.Avalonia/Styles/Common.axaml"/>
+    </Application.Styles>
+</Application>

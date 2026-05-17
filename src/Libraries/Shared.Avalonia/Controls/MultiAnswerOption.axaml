@@ -1,0 +1,18 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="OpenExamSuite.Shared.Avalonia.Controls.MultiAnswerOption"
+             x:Name="Root"
+             MinHeight="32"
+             Padding="0,2">
+    <Grid ColumnDefinitions="Auto,*">
+        <CheckBox Grid.Column="0"
+                  VerticalAlignment="Center"
+                  IsChecked="{Binding IsChecked, ElementName=Root, Mode=TwoWay}"
+                  Content="{Binding Letter, ElementName=Root}"
+                  Width="48"/>
+        <TextBox Grid.Column="1"
+                 Margin="6,0,0,0"
+                 VerticalContentAlignment="Center"
+                 Text="{Binding Text, ElementName=Root, Mode=TwoWay}"/>
+    </Grid>
+</UserControl>

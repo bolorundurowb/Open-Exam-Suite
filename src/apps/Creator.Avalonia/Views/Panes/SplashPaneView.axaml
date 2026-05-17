@@ -1,0 +1,44 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:OpenExamSuite.Creator.ViewModels.Panes"
+             x:Class="OpenExamSuite.Creator.Views.Panes.SplashPaneView"
+             x:DataType="vm:SplashPaneViewModel">
+
+    <Grid RowDefinitions="Auto,*">
+        <!-- Banner -->
+        <Border Grid.Row="0" Background="#F0F4FF" Height="120" Padding="20">
+            <StackPanel VerticalAlignment="Center">
+                <TextBlock Text="Open Exam Creator" Classes="h1"/>
+                <TextBlock Text="Design and edit Open Exam (.oef) files" Classes="muted"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Exam History -->
+        <HeaderedContentControl Grid.Row="1" Header="Exam History" Margin="20,12,20,20">
+            <Grid RowDefinitions="*,Auto">
+                <ListBox Grid.Row="0"
+                         x:Name="HistoryList"
+                         ItemsSource="{Binding History}"
+                         Background="Transparent"
+                         BorderThickness="0">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Button Classes="hyperlink"
+                                    HorizontalAlignment="Stretch"
+                                    HorizontalContentAlignment="Left"
+                                    Content="{Binding FilePath}"
+                                    CommandParameter="{Binding}"
+                                    Command="{Binding #HistoryList.((vm:SplashPaneViewModel)DataContext).OpenCommand}"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+                <Button Grid.Row="1"
+                        Classes="hyperlink"
+                        Content="Clear History"
+                        HorizontalAlignment="Right"
+                        Command="{Binding ClearHistoryCommand}"/>
+            </Grid>
+        </HeaderedContentControl>
+    </Grid>
+</UserControl>

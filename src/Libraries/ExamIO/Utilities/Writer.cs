@@ -1,5 +1,3 @@
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.Text.Json;
 using System.Xml.Serialization;
 using PdfSharp.Drawing;
@@ -74,8 +72,8 @@ public static class Writer
                 {
                     layout.DrawParagraph($"{question.No}. {question.Text}", bodyFont);
 
-                    if (question.Image != null)
-                        layout.DrawBitmap(question.Image);
+                    if (question.ImageData is { Length: > 0 })
+                        layout.DrawImage(question.ImageData);
 
                     foreach (var option in question.Options)
                         layout.DrawParagraph($"{option.Alphabet} - {option.Text}", bodyFont);
@@ -197,12 +195,11 @@ public static class Writer
             _cursorY += height + LineGap;
         }
 
-        public void DrawBitmap(Bitmap bitmap)
+        public void DrawImage(byte[] imageBytes)
         {
-            using var imageStream = new MemoryStream();
-            bitmap.Save(imageStream, ImageFormat.Png);
-            imageStream.Position = 0;
+            if (imageBytes is null || imageBytes.Length == 0) return;
 
+            using var imageStream = new MemoryStream(imageBytes, writable: false);
             using var image = XImage.FromStream(imageStream);
             var desiredWidth = Math.Min(_contentWidth, image.PointWidth);
             var scale = image.PointWidth == 0 ? 1 : desiredWidth / image.PointWidth;

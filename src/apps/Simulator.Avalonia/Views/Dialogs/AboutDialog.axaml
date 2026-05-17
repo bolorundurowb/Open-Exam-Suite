@@ -1,0 +1,24 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="OpenExamSuite.Simulator.Views.Dialogs.AboutDialog"
+        Title="About Open Exam Suite"
+        Width="480" Height="320"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
+        CanResize="False">
+    <Grid Margin="20" RowDefinitions="Auto,Auto,Auto,Auto,*,Auto">
+        <TextBlock Grid.Row="0" Classes="h1" Text="Open Exam Simulator"/>
+        <TextBlock Grid.Row="1" Classes="muted"
+                   Text="Take practice exams from .oef files designed in the Creator."
+                   TextWrapping="Wrap" Margin="0,4,0,12"/>
+        <Button Grid.Row="2" Classes="hyperlink" HorizontalAlignment="Left"
+                Content="https://bolorundurowb.github.io/Open-Exam-Suite"
+                Click="OnOpenWeb"/>
+        <Button Grid.Row="3" Classes="hyperlink" HorizontalAlignment="Left"
+                Content="https://github.com/bolorundurowb/Open-Exam-Suite/issues"
+                Click="OnOpenIssues"/>
+        <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Close" IsCancel="True" IsDefault="True" Click="OnClose" Width="90"/>
+        </StackPanel>
+    </Grid>
+</Window>

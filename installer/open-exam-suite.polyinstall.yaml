@@ -1,0 +1,164 @@
+# yaml-language-server: $schema=https://polyinstall.dev/schema/v1.json
+#
+# PolyInstall manifest aligned with OpenExamSuite.iss (Inno Setup).
+#
+# Parity notes:
+# - Like the Inno script, this registers machine-wide handlers for .json and .xml (aggressive;
+#   confirm that is still intended before shipping).
+# - Inno "Types" / optional components (simulator-only vs full) are not modeled in v1 schema;
+#   this file matches a "full" install (Simulator + Creator + Samples). For simulator-only,
+#   remove Creator/Samples includes and the Creator start-menu task.
+# - File associations use HKLM\Software\Classes\... (equivalent to HKCR for per-machine).
+# - PolyInstall has no registry-delete tasks; association keys are not removed automatically
+#   on uninstall (Inno used uninsdeletekey / uninsdeletevalue).
+# - Build with repo root as --base, e.g.:
+#     polyinstall build installer/open-exam-suite.polyinstall.yaml --base . --stubs path/to/stubs
+#
+metadata:
+  name: Open Exam Suite
+  version: "${APP_VERSION:-0.0.0}"
+  id: B4C7E2F1-8A3D-4B9E-9C2D-1E5F6A7B8C90
+  publisher: Open Exam Suite
+build:
+  output_dir: installer/Output
+  compression: brotli
+  targets:
+    - windows-x64
+  windows:
+    install_scope: machine
+    register_arp: true
+ui:
+  theme: system
+  wizard_steps:
+    - type: welcome
+      title: Welcome
+    - type: eula
+      title: License agreement
+      source: LICENSE
+    - type: destination
+      title: Install location
+      default_path: "{ProgramFiles}/Open Exam Suite"
+    - type: progress
+      title: Installing
+    - type: finish
+      title: Complete
+files:
+  # Staging layout matches Inno [Files] (paths relative to Open-Exam-Suite repo root).
+  - source_dir: ../build/installer/staging
+    include:
+      - "Simulator/**/*"
+      - "Creator/**/*"
+      - "Samples/**/*"
+  - source_dir: .
+    include:
+      - LICENSE
+tasks:
+  post_install:
+    - require: os.isWindows
+      action: create_shortcut
+      parameters:
+        target_path: "{AppDir}/Simulator/OpenExamSuite.Simulator.exe"
+        shortcut_path: "C:/ProgramData/Microsoft/Windows/Start Menu/Programs/Open Exam Suite/Open Exam Suite Simulator.lnk"
+        description: Open Exam Suite Simulator
+        icon_path: "{AppDir}/Simulator/OpenExamSuite.Simulator.exe"
+    - require: os.isWindows
+      action: create_shortcut
+      parameters:
+        target_path: "{AppDir}/Creator/OpenExamSuite.Creator.exe"
+        shortcut_path: "C:/ProgramData/Microsoft/Windows/Start Menu/Programs/Open Exam Suite/Open Exam Suite Creator.lnk"
+        description: Open Exam Suite Creator
+        icon_path: "{AppDir}/Creator/OpenExamSuite.Creator.exe"
+    - require: os.isWindows
+      action: create_shortcut
+      parameters:
+        target_path: "{AppDir}/Simulator/OpenExamSuite.Simulator.exe"
+        shortcut_path: "{Desktop}/Open Exam Suite Simulator.lnk"
+        description: Open Exam Suite Simulator
+        icon_path: "{AppDir}/Simulator/OpenExamSuite.Simulator.exe"
+    # --- .oef ---
+    - require: os.isWindows
+      action: write_registry
+      parameters:
+        key_path: HKLM\Software\Classes\.oef
+        value_name: ""
+        value: OpenExamSuite.oef
+        value_kind: string
+    - require: os.isWindows
+      action: write_registry
+      parameters:
+        key_path: HKLM\Software\Classes\OpenExamSuite.oef
+        value_name: ""
+        value: Open Exam Suite Exam
+        value_kind: string
+    - require: os.isWindows
+      action: write_registry
+      parameters:
+        key_path: HKLM\Software\Classes\OpenExamSuite.oef\DefaultIcon
+        value_name: ""
+        value: "{AppDir}/Simulator/OpenExamSuite.Simulator.exe,0"
+        value_kind: string
+    - require: os.isWindows
+      action: write_registry
+      parameters:
+        key_path: HKLM\Software\Classes\OpenExamSuite.oef\shell\open\command
+        value_name: ""
+        value: "\"{AppDir}/Simulator/OpenExamSuite.Simulator.exe\" \"%1\""
+        value_kind: string
+    # --- .json (Open Exam Suite handler) ---
+    - require: os.isWindows
+      action: write_registry
+      parameters:
+        key_path: HKLM\Software\Classes\.json
+        value_name: ""
+        value: OpenExamSuite.json
+        value_kind: string
+    - require: os.isWindows
+      action: write_registry
+      parameters:
+        key_path: HKLM\Software\Classes\OpenExamSuite.json
+        value_name: ""
+        value: Open Exam Suite Document
+        value_kind: string
+    - require: os.isWindows
+      action: write_registry
+      parameters:
+        key_path: HKLM\Software\Classes\OpenExamSuite.json\DefaultIcon
+        value_name: ""
+        value: "{AppDir}/Simulator/OpenExamSuite.Simulator.exe,0"
+        value_kind: string
+    - require: os.isWindows
+      action: write_registry
+      parameters:
+        key_path: HKLM\Software\Classes\OpenExamSuite.json\shell\open\command
+        value_name: ""
+        value: "\"{AppDir}/Simulator/OpenExamSuite.Simulator.exe\" \"%1\""
+        value_kind: string
+    # --- .xml ---
+    - require: os.isWindows
+      action: write_registry
+      parameters:
+        key_path: HKLM\Software\Classes\.xml
+        value_name: ""
+        value: OpenExamSuite.xml
+        value_kind: string
+    - require: os.isWindows
+      action: write_registry
+      parameters:
+        key_path: HKLM\Software\Classes\OpenExamSuite.xml
+        value_name: ""
+        value: Open Exam Suite Document
+        value_kind: string
+    - require: os.isWindows
+      action: write_registry
+      parameters:
+        key_path: HKLM\Software\Classes\OpenExamSuite.xml\DefaultIcon
+        value_name: ""
+        value: "{AppDir}/Simulator/OpenExamSuite.Simulator.exe,0"
+        value_kind: string
+    - require: os.isWindows
+      action: write_registry
+      parameters:
+        key_path: HKLM\Software\Classes\OpenExamSuite.xml\shell\open\command
+        value_name: ""
+        value: "\"{AppDir}/Simulator/OpenExamSuite.Simulator.exe\" \"%1\""
+        value_kind: string

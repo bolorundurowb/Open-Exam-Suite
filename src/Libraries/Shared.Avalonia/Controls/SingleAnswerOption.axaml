@@ -1,0 +1,19 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="OpenExamSuite.Shared.Avalonia.Controls.SingleAnswerOption"
+             x:Name="Root"
+             MinHeight="32"
+             Padding="0,2">
+    <Grid ColumnDefinitions="Auto,*">
+        <RadioButton Grid.Column="0"
+                     VerticalAlignment="Center"
+                     GroupName="{Binding GroupName, ElementName=Root}"
+                     IsChecked="{Binding IsChecked, ElementName=Root, Mode=TwoWay}"
+                     Content="{Binding Letter, ElementName=Root}"
+                     Width="48"/>
+        <TextBox Grid.Column="1"
+                 Margin="6,0,0,0"
+                 VerticalContentAlignment="Center"
+                 Text="{Binding Text, ElementName=Root, Mode=TwoWay}"/>
+    </Grid>
+</UserControl>

@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <OutputType>WinExe</OutputType>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>OpenExamSuite.Creator</AssemblyName>
+    <RootNamespace>OpenExamSuite.Creator</RootNamespace>
+    <ApplicationIcon>Assets\CreatorAppIcon.ico</ApplicationIcon>
+    <Version>5.0.0</Version>
+    <AssemblyVersion>5.0.0</AssemblyVersion>
+    <FileVersion>5.0.0</FileVersion>
+    <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" />
+    <PackageReference Include="Avalonia.Desktop" />
+    <PackageReference Include="Avalonia.Themes.Fluent" />
+    <PackageReference Include="Avalonia.Fonts.Inter" />
+    <PackageReference Include="Avalonia.Diagnostics" Condition="'$(Configuration)' == 'Debug'" />
+    <PackageReference Include="CommunityToolkit.Mvvm" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Libraries\Core\Core.csproj" />
+    <ProjectReference Include="..\..\Libraries\ExamIO\ExamIO.csproj" />
+    <ProjectReference Include="..\..\Libraries\Logging\Logging.csproj" />
+    <ProjectReference Include="..\..\Libraries\Shared.Avalonia\Shared.Avalonia.csproj" />
+    <ProjectReference Include="..\..\Libraries\Storage\Storage.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="Assets\**" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,58 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:routes="using:OpenExamSuite.Simulator.ViewModels.Routes"
+             xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia"
+             x:Class="OpenExamSuite.Simulator.Views.Routes.ScoreSheetView"
+             x:DataType="routes:ScoreSheetViewModel">
+
+    <Grid Margin="20" RowDefinitions="Auto,Auto,Auto,*,Auto">
+        <TextBlock Grid.Row="0" Classes="h1" Text="Examination Score Sheet" HorizontalAlignment="Center"/>
+
+        <Grid Grid.Row="1" Margin="0,16,0,0" ColumnDefinitions="Auto,*,Auto,*"
+              RowDefinitions="Auto,Auto,Auto,Auto">
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Candidate Name:"/>
+            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding CandidateName}" FontWeight="SemiBold"/>
+            <TextBlock Grid.Row="0" Grid.Column="2" Text="Time Allowed (min):"/>
+            <TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding TimeAllowed}" FontWeight="SemiBold"/>
+
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="Date:"/>
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Date}" FontWeight="SemiBold"/>
+            <TextBlock Grid.Row="1" Grid.Column="2" Text="Elapsed (min):"/>
+            <TextBlock Grid.Row="1" Grid.Column="3" Text="{Binding ElapsedTime}" FontWeight="SemiBold"/>
+
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="Exam Code:"/>
+            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding ExamCode}" FontWeight="SemiBold"/>
+
+            <TextBlock Grid.Row="3" Grid.Column="0" Text="Status:"/>
+            <TextBlock Grid.Row="3" Grid.Column="1"
+                       Text="{Binding Status}"
+                       Foreground="{Binding StatusBrush}"
+                       FontWeight="Bold"/>
+        </Grid>
+
+        <Border Grid.Row="2" Margin="0,12,0,0" Height="200"
+                BorderBrush="#CCCCCC" BorderThickness="1">
+            <lvc:CartesianChart Series="{Binding ChartSeries}"/>
+        </Border>
+
+        <DataGrid Grid.Row="3" Margin="0,12,0,0"
+                  ItemsSource="{Binding Breakdown}"
+                  AutoGenerateColumns="False"
+                  HeadersVisibility="Column"
+                  IsReadOnly="True"
+                  GridLinesVisibility="None">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Section"  Binding="{Binding SectionTitle}" Width="2*"/>
+                <DataGridTextColumn Header="Total"    Binding="{Binding Total}"        Width="*"/>
+                <DataGridTextColumn Header="Correct"  Binding="{Binding Correct}"      Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right"
+                    Margin="0,12,0,0" Spacing="6">
+            <Button Content="Print"  Command="{Binding PrintCommand}"  Width="120"/>
+            <Button Content="Retake" Command="{Binding RetakeCommand}" Width="120"/>
+            <Button Content="Exit"   Command="{Binding ExitCommand}"   Width="120" Classes="accent"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

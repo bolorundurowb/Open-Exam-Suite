@@ -8,12 +8,19 @@
     <Project Path="Apps/Creator/Creator.csproj" />
     <Project Path="Apps/Simulator/Simulator.csproj" />
   </Folder>
+  <Folder Name="/Apps.Avalonia/">
+    <Project Path="Apps/Creator.Avalonia/Creator.Avalonia.csproj" />
+    <Project Path="Apps/Simulator.Avalonia/Simulator.Avalonia.csproj" />
+  </Folder>
   <Folder Name="/Libraries/">
     <Project Path="Libraries/Core/Core.csproj" />
     <Project Path="Libraries/ExamIO/ExamIO.csproj" />
     <Project Path="Libraries/Logging/Logging.csproj" />
     <Project Path="Libraries/Shared.WinForms/Shared.WinForms.csproj" />
     <Project Path="Libraries/Storage/Storage.csproj" />
+  </Folder>
+  <Folder Name="/Libraries.Avalonia/">
+    <Project Path="Libraries/Shared.Avalonia/Shared.Avalonia.csproj" />
   </Folder>
   <Folder Name="/Tests/">
     <Project Path="Tests/Shared.Tests/Shared.Tests.csproj" />

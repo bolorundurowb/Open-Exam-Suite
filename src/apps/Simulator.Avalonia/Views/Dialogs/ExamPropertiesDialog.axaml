@@ -1,0 +1,43 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="OpenExamSuite.Simulator.Views.Dialogs.ExamPropertiesDialog"
+        Title="Exam Properties"
+        Width="520" Height="380"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
+        CanResize="False">
+    <Grid Margin="20" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,*,Auto"
+                       ColumnDefinitions="180,*">
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="Title:"/>
+        <TextBlock Grid.Row="0" Grid.Column="1" Name="LblTitle"/>
+
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="File Version:"/>
+        <TextBlock Grid.Row="1" Grid.Column="1" Name="LblFileVersion"/>
+
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="Number of Sections:"/>
+        <TextBlock Grid.Row="2" Grid.Column="1" Name="LblSectionNumber"/>
+
+        <TextBlock Grid.Row="3" Grid.Column="0" Text="Number of Questions:"/>
+        <TextBlock Grid.Row="3" Grid.Column="1" Name="LblNumberOfQuestions"/>
+
+        <TextBlock Grid.Row="4" Grid.Column="0" Text="Pass Mark:"/>
+        <TextBlock Grid.Row="4" Grid.Column="1" Name="LblPassingScore"/>
+
+        <TextBlock Grid.Row="5" Grid.Column="0" Text="Time Limit (min):"/>
+        <TextBlock Grid.Row="5" Grid.Column="1" Name="LblTimeLimit"/>
+
+        <TextBlock Grid.Row="6" Grid.Column="0" Text="Created:"/>
+        <TextBlock Grid.Row="6" Grid.Column="1" Name="LblCreated"/>
+
+        <TextBlock Grid.Row="7" Grid.Column="0" Text="File Size:"/>
+        <TextBlock Grid.Row="7" Grid.Column="1" Name="LblFileSize"/>
+
+        <TextBlock Grid.Row="8" Grid.Column="0" Text="Full Path:" VerticalAlignment="Top"/>
+        <TextBlock Grid.Row="8" Grid.Column="1" Name="LblFullPath" TextWrapping="Wrap"/>
+
+        <StackPanel Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2"
+                    Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,12,0,0">
+            <Button Content="Close" IsCancel="True" IsDefault="True" Click="OnClose" Width="90"/>
+        </StackPanel>
+    </Grid>
+</Window>

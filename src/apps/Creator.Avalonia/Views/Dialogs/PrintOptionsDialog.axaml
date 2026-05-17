@@ -1,0 +1,26 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="OpenExamSuite.Creator.Views.Dialogs.PrintOptionsDialog"
+        Title="Print Options"
+        Width="380" Height="240"
+        MinWidth="320"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
+        CanResize="False">
+    <Grid Margin="16" RowDefinitions="Auto,Auto,Auto,*,Auto">
+        <TextBlock Grid.Row="0" Text="What do you want to print?" Margin="0,0,0,8"/>
+
+        <RadioButton Grid.Row="1" GroupName="Scope" Name="RdoCurrentQuestion"
+                     Content="Current question"/>
+        <RadioButton Grid.Row="2" GroupName="Scope" Name="RdoCurrentSection"
+                     Content="Current section"/>
+        <RadioButton Grid.Row="3" GroupName="Scope" Name="RdoAllQuestions"
+                     Content="All questions"
+                     VerticalAlignment="Top"/>
+
+        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="OK"     IsDefault="True" Click="OnOk"     Width="90"/>
+            <Button Content="Cancel" IsCancel="True"  Click="OnCancel" Width="90" Margin="8,0,0,0"/>
+        </StackPanel>
+    </Grid>
+</Window>

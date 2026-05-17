@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <AssemblyName>OpenExamSuite.Shared.Avalonia</AssemblyName>
+    <RootNamespace>OpenExamSuite.Shared.Avalonia</RootNamespace>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" />
+    <PackageReference Include="Avalonia.Themes.Fluent" />
+    <PackageReference Include="Avalonia.Fonts.Inter" />
+    <PackageReference Include="CommunityToolkit.Mvvm" />
+    <PackageReference Include="MessageBox.Avalonia" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="..\..\..\LICENSE" Link="LICENSE" LogicalName="OpenExamSuite.Shared.Avalonia.LICENSE" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="Assets\**" />
+  </ItemGroup>
+</Project>

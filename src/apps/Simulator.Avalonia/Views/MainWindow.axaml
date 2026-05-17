@@ -1,0 +1,41 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:OpenExamSuite.Simulator.ViewModels"
+        xmlns:routes="using:OpenExamSuite.Simulator.ViewModels.Routes"
+        xmlns:views="using:OpenExamSuite.Simulator.Views.Routes"
+        x:Class="OpenExamSuite.Simulator.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Title="Simulator"
+        Width="980" Height="700"
+        MinWidth="800" MinHeight="560"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.DataTemplates>
+        <DataTemplate DataType="routes:HomeViewModel">
+            <views:HomeView/>
+        </DataTemplate>
+        <DataTemplate DataType="routes:ExamSettingsViewModel">
+            <views:ExamSettingsView/>
+        </DataTemplate>
+        <DataTemplate DataType="routes:AssessmentViewModel">
+            <views:AssessmentView/>
+        </DataTemplate>
+        <DataTemplate DataType="routes:ScoreSheetViewModel">
+            <views:ScoreSheetView/>
+        </DataTemplate>
+    </Window.DataTemplates>
+
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="E_xit" Command="{Binding ExitCommand}"/>
+            </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem Header="_About"   Command="{Binding AboutCommand}"/>
+                <MenuItem Header="_License" Command="{Binding LicenseCommand}"/>
+            </MenuItem>
+        </Menu>
+
+        <ContentControl Content="{Binding CurrentRoute}"/>
+    </DockPanel>
+</Window>

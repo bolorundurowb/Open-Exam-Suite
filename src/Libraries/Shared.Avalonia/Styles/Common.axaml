@@ -1,0 +1,65 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Print-style palette colours, replicating the WinForms GDI+ brushes
+         (Brushes.Purple for the top heading, Brushes.Green for sub-heading,
+         Brushes.DarkSlateBlue for body, etc.). -->
+    <Style Selector="TextBlock.h1">
+        <Setter Property="FontFamily" Value="Cambria"/>
+        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Foreground" Value="Purple"/>
+    </Style>
+
+    <Style Selector="TextBlock.h2">
+        <Setter Property="FontFamily" Value="Calibri"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Foreground" Value="Green"/>
+    </Style>
+
+    <Style Selector="TextBlock.h3">
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+    </Style>
+
+    <Style Selector="TextBlock.muted">
+        <Setter Property="Opacity" Value="0.65"/>
+    </Style>
+
+    <Style Selector="TextBlock.error">
+        <Setter Property="Foreground" Value="Red"/>
+    </Style>
+
+    <Style Selector="TextBlock.success">
+        <Setter Property="Foreground" Value="Green"/>
+    </Style>
+
+    <!-- Hyperlink-flavoured button used for recent-files list and About box links. -->
+    <Style Selector="Button.hyperlink">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Foreground" Value="#1565C0"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+    </Style>
+    <Style Selector="Button.hyperlink:pointerover">
+        <Setter Property="Foreground" Value="#0D47A1"/>
+    </Style>
+    <Style Selector="Button.hyperlink:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="TextBlock.TextDecorations" Value="Underline"/>
+    </Style>
+
+    <!-- Toolbar buttons: square, icon-only, light hover. -->
+    <Style Selector="StackPanel.toolbar > Button">
+        <Setter Property="MinWidth" Value="32"/>
+        <Setter Property="MinHeight" Value="32"/>
+        <Setter Property="Padding" Value="4"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+    </Style>
+
+</Styles>

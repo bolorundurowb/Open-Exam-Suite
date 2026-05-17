@@ -1,41 +1,9 @@
-﻿using System.Drawing;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
 using ProtoBuf;
 
 namespace OpenExamSuite.Shared;
-
-public class BitmapConverter : JsonConverter<Bitmap?>
-{
-    public override Bitmap? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        if (reader.TokenType == JsonTokenType.Null)
-            return null;
-
-        var base64 = reader.GetString();
-        if (string.IsNullOrEmpty(base64))
-            return null;
-
-        var bytes = Convert.FromBase64String(base64);
-        using var ms = new MemoryStream(bytes);
-        return new Bitmap(ms);
-    }
-
-    public override void Write(Utf8JsonWriter writer, Bitmap? value, JsonSerializerOptions options)
-    {
-        if (value == null)
-        {
-            writer.WriteNullValue();
-            return;
-        }
-
-        using var ms = new MemoryStream();
-        value.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-        var bytes = ms.ToArray();
-        writer.WriteStringValue(Convert.ToBase64String(bytes));
-    }
-}
 
 /// <summary>
 /// Matches Newtonsoft.Json: <c>char[]</c> is serialized as a JSON string, not a JSON array.
@@ -186,33 +154,15 @@ public class Question
     [ProtoMember(2)]
     public string Text { get; set; } = string.Empty;
 
-    [XmlIgnore]
-    [JsonConverter(typeof(BitmapConverter))]
-    public Bitmap? Image { get; set; }
-
+    /// <summary>
+    /// PNG-encoded image bytes. Cross-platform replacement for the legacy
+    /// <c>System.Drawing.Bitmap Image</c> property: each UI layer (WinForms,
+    /// Avalonia) decodes this into its native bitmap type at display time.
+    /// Serialised via protobuf, JSON (default base64), and XML (base64Binary).
+    /// </summary>
     [ProtoMember(3)]
-    public byte[]? ImageBytes
-    {
-        get
-        {
-            if (Image == null) return null;
-            using var ms = new MemoryStream();
-            Image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-            return ms.ToArray();
-        }
-        set
-        {
-            if (value == null)
-            {
-                Image = null;
-            }
-            else
-            {
-                using var ms = new MemoryStream(value);
-                Image = new Bitmap(ms);
-            }
-        }
-    }
+    [XmlElement(DataType = "base64Binary")]
+    public byte[]? ImageData { get; set; }
 
     [ProtoMember(4)]
     public char Answer { get; set; }

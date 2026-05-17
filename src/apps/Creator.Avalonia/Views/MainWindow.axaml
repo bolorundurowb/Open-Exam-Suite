@@ -1,0 +1,162 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:OpenExamSuite.Creator.ViewModels"
+        xmlns:nodes="using:OpenExamSuite.Creator.ViewModels.Nodes"
+        xmlns:panes="using:OpenExamSuite.Creator.ViewModels.Panes"
+        xmlns:views="using:OpenExamSuite.Creator.Views.Panes"
+        x:Class="OpenExamSuite.Creator.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Title="Creator"
+        Width="1031" Height="760"
+        MinWidth="870" MinHeight="564"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.DataTemplates>
+        <DataTemplate DataType="panes:SplashPaneViewModel">
+            <views:SplashPaneView/>
+        </DataTemplate>
+        <DataTemplate DataType="panes:ExamPropertiesPaneViewModel">
+            <views:ExamPropertiesPaneView/>
+        </DataTemplate>
+        <DataTemplate DataType="panes:QuestionEditorPaneViewModel">
+            <views:QuestionEditorPaneView/>
+        </DataTemplate>
+    </Window.DataTemplates>
+
+    <Window.KeyBindings>
+        <KeyBinding Gesture="Ctrl+N" Command="{Binding NewCommand}"/>
+        <KeyBinding Gesture="Ctrl+O" Command="{Binding OpenPickCommand}"/>
+        <KeyBinding Gesture="Ctrl+S" Command="{Binding SaveCommand}"/>
+        <KeyBinding Gesture="Ctrl+P" Command="{Binding PrintCommand}"/>
+        <KeyBinding Gesture="Ctrl+Z" Command="{Binding UndoCommand}"/>
+        <KeyBinding Gesture="Ctrl+Y" Command="{Binding RedoCommand}"/>
+        <KeyBinding Gesture="Ctrl+X" Command="{Binding CutCommand}"/>
+        <KeyBinding Gesture="Ctrl+C" Command="{Binding CopyCommand}"/>
+        <KeyBinding Gesture="Ctrl+V" Command="{Binding PasteCommand}"/>
+    </Window.KeyBindings>
+
+    <DockPanel>
+        <!-- Menu -->
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_New"        Command="{Binding NewCommand}"      InputGesture="Ctrl+N"/>
+                <MenuItem Header="_Open..."    Command="{Binding OpenPickCommand}" InputGesture="Ctrl+O"/>
+                <Separator/>
+                <MenuItem Header="_Save"       Command="{Binding SaveCommand}"     InputGesture="Ctrl+S"
+                          IsEnabled="{Binding HasExam}"/>
+                <MenuItem Header="Save _As..." Command="{Binding SaveAsCommand}"
+                          IsEnabled="{Binding HasExam}"/>
+                <Separator/>
+                <MenuItem Header="_Import">
+                    <MenuItem Header="From _JSON..." Command="{Binding ImportFromJsonCommand}"/>
+                </MenuItem>
+                <MenuItem Header="_Export" IsEnabled="{Binding CanExport}">
+                    <MenuItem Header="As _JSON..." Command="{Binding ExportAsJsonCommand}"/>
+                    <MenuItem Header="As _XML..."  Command="{Binding ExportAsXmlCommand}"/>
+                    <MenuItem Header="As _PDF..."  Command="{Binding ExportAsPdfCommand}"/>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="_Print..."         Command="{Binding PrintCommand}"
+                          InputGesture="Ctrl+P" IsEnabled="{Binding CanPrint}"/>
+                <MenuItem Header="Print Pre_view..." Command="{Binding PrintPreviewCommand}"
+                          IsEnabled="{Binding CanPrint}"/>
+                <Separator/>
+                <MenuItem Header="_Close"        Command="{Binding CloseExamCommand}"
+                          IsEnabled="{Binding CanClose}"/>
+                <Separator/>
+                <MenuItem Header="E_xit"         Command="{Binding ExitCommand}"/>
+            </MenuItem>
+
+            <MenuItem Header="_Edit">
+                <MenuItem Header="_Undo"  Command="{Binding UndoCommand}"  InputGesture="Ctrl+Z"
+                          IsEnabled="{Binding CanUndo}"/>
+                <MenuItem Header="_Redo"  Command="{Binding RedoCommand}"  InputGesture="Ctrl+Y"
+                          IsEnabled="{Binding CanRedo}"/>
+                <Separator/>
+                <MenuItem Header="Cu_t"   Command="{Binding CutCommand}"   InputGesture="Ctrl+X"
+                          IsEnabled="{Binding CanEditOrCopy}"/>
+                <MenuItem Header="_Copy"  Command="{Binding CopyCommand}"  InputGesture="Ctrl+C"
+                          IsEnabled="{Binding CanEditOrCopy}"/>
+                <MenuItem Header="_Paste" Command="{Binding PasteCommand}" InputGesture="Ctrl+V"
+                          IsEnabled="{Binding CanEditOrCopy}"/>
+            </MenuItem>
+
+            <MenuItem Header="_Help">
+                <MenuItem Header="_About"   Command="{Binding AboutCommand}"/>
+                <MenuItem Header="_License" Command="{Binding LicenseCommand}"/>
+            </MenuItem>
+        </Menu>
+
+        <!-- Toolbar -->
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Classes="toolbar"
+                    Background="#F4F4F5" Spacing="2" Margin="4,4,4,0">
+            <Button Command="{Binding NewCommand}"        ToolTip.Tip="New (Ctrl+N)"      Content="🆕"/>
+            <Button Command="{Binding OpenPickCommand}"   ToolTip.Tip="Open (Ctrl+O)"     Content="📂"/>
+            <Button Command="{Binding SaveCommand}"       ToolTip.Tip="Save (Ctrl+S)"     Content="💾"
+                    IsEnabled="{Binding HasExam}"/>
+            <Button Command="{Binding PrintCommand}"      ToolTip.Tip="Print (Ctrl+P)"    Content="🖨"
+                    IsEnabled="{Binding CanPrint}"/>
+            <Separator/>
+            <Button Command="{Binding NewSectionCommand}" ToolTip.Tip="New Section"       Content="📁＋"
+                    IsEnabled="{Binding CanNewSection}"/>
+            <Button Command="{Binding NewQuestionCommand}" ToolTip.Tip="New Question"     Content="📝＋"
+                    IsEnabled="{Binding CanNewQuestion}"/>
+            <Separator/>
+            <Button Command="{Binding CutCommand}"   ToolTip.Tip="Cut"   Content="✂"  IsEnabled="{Binding CanEditOrCopy}"/>
+            <Button Command="{Binding CopyCommand}"  ToolTip.Tip="Copy"  Content="📋"  IsEnabled="{Binding CanEditOrCopy}"/>
+            <Button Command="{Binding PasteCommand}" ToolTip.Tip="Paste" Content="📥"  IsEnabled="{Binding CanEditOrCopy}"/>
+            <Separator/>
+            <Button Command="{Binding HelpCommand}"  ToolTip.Tip="Help"  Content="❓"/>
+        </StackPanel>
+
+        <!-- Main area -->
+        <Grid ColumnDefinitions="294,5,*" Margin="4">
+            <!-- Exam Explorer -->
+            <HeaderedContentControl Grid.Column="0" Header="Exam Explorer" Background="Transparent">
+                <Border BorderBrush="#CCCCCC" BorderThickness="1">
+                    <TreeView x:Name="ExamTree"
+                              ItemsSource="{Binding Nodes}"
+                              SelectionChanged="OnTreeSelectionChanged">
+                        <TreeView.KeyBindings>
+                            <KeyBinding Gesture="Delete" Command="{Binding DeleteQuestionCommand}"/>
+                        </TreeView.KeyBindings>
+                        <TreeView.DataTemplates>
+                            <TreeDataTemplate DataType="nodes:ExamNodeViewModel" ItemsSource="{Binding Children}">
+                                <StackPanel Orientation="Horizontal" Spacing="4">
+                                    <TextBlock Text="📘" />
+                                    <TextBlock Text="{Binding DisplayName}"/>
+                                </StackPanel>
+                            </TreeDataTemplate>
+                            <TreeDataTemplate DataType="nodes:SectionNodeViewModel" ItemsSource="{Binding Children}">
+                                <StackPanel Orientation="Horizontal" Spacing="4">
+                                    <TextBlock Text="📂" />
+                                    <TextBlock Text="{Binding DisplayName}"/>
+                                </StackPanel>
+                            </TreeDataTemplate>
+                            <TreeDataTemplate DataType="nodes:QuestionNodeViewModel">
+                                <StackPanel Orientation="Horizontal" Spacing="4">
+                                    <TextBlock Text="📝" />
+                                    <TextBlock Text="{Binding DisplayName}"/>
+                                </StackPanel>
+                            </TreeDataTemplate>
+                        </TreeView.DataTemplates>
+
+                        <TreeView.ContextFlyout>
+                            <MenuFlyout>
+                                <MenuItem Header="Edit"
+                                          Command="{Binding EditSectionCommand}"/>
+                                <MenuItem Header="Delete"
+                                          InputGesture="Del"
+                                          Command="{Binding DeleteQuestionCommand}"/>
+                            </MenuFlyout>
+                        </TreeView.ContextFlyout>
+                    </TreeView>
+                </Border>
+            </HeaderedContentControl>
+
+            <GridSplitter Grid.Column="1"/>
+
+            <ContentControl Grid.Column="2" Content="{Binding CurrentRightPane}"/>
+        </Grid>
+    </DockPanel>
+</Window>

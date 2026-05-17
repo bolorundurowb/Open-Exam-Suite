@@ -1,0 +1,95 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:OpenExamSuite.Creator.ViewModels.Panes"
+             xmlns:vmRoot="using:OpenExamSuite.Creator.ViewModels"
+             xmlns:ctrl="using:OpenExamSuite.Shared.Avalonia.Controls"
+             xmlns:conv="using:OpenExamSuite.Shared.Avalonia.Converters"
+             x:Class="OpenExamSuite.Creator.Views.Panes.QuestionEditorPaneView"
+             x:DataType="vm:QuestionEditorPaneViewModel">
+
+    <Grid Margin="12"
+          IsEnabled="{Binding IsEditable}"
+          RowDefinitions="Auto,Auto,*,Auto,Auto,Auto,Auto"
+          ColumnDefinitions="*,300">
+
+        <!-- Section / Question header -->
+        <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                   Classes="h3"
+                   Text="{Binding SectionAndQuestionHeader}"/>
+
+        <!-- Question text -->
+        <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                   Text="Question text:" Margin="0,8,0,2"/>
+        <TextBox  Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                  Text="{Binding QuestionText}"
+                  AcceptsReturn="True" TextWrapping="Wrap"
+                  VerticalContentAlignment="Top"
+                  MinHeight="120"/>
+
+        <!-- Image area -->
+        <Border Grid.Row="3" Grid.Column="1" Grid.RowSpan="3"
+                BorderBrush="#CCCCCC" BorderThickness="1"
+                Margin="8,8,0,8"
+                Background="White">
+            <Grid RowDefinitions="*,Auto">
+                <Image Grid.Row="0"
+                       Source="{Binding ImageData, Converter={x:Static conv:BitmapToAvaloniaImageConverter.Instance}}"
+                       Stretch="Uniform"
+                       MaxHeight="260"/>
+                <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="4">
+                    <Button Content="Insert Image" Command="{Binding InsertImageCommand}"/>
+                    <Button Content="Clear Image"  Command="{Binding ClearImageCommand}" Margin="6,0,0,0"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Options -->
+        <Grid Grid.Row="3" Grid.Column="0" RowDefinitions="Auto,*" Margin="0,8,8,8">
+            <DockPanel Grid.Row="0">
+                <CheckBox DockPanel.Dock="Right"
+                          Content="Multiple-choice"
+                          IsChecked="{Binding IsMultipleChoice}"/>
+                <TextBlock Text="Options:" VerticalAlignment="Center"/>
+            </DockPanel>
+            <Border Grid.Row="1"
+                    BorderBrush="#CCCCCC" BorderThickness="1"
+                    Margin="0,4,0,0">
+                <ScrollViewer>
+                    <ItemsControl ItemsSource="{Binding Options}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate DataType="vmRoot:OptionRowViewModel">
+                                <Grid>
+                                    <ctrl:SingleAnswerOption
+                                        GroupName="QuestionEditor"
+                                        Letter="{Binding LetterDisplay}"
+                                        Text="{Binding Text, Mode=TwoWay}"
+                                        IsChecked="{Binding IsChecked, Mode=TwoWay}"
+                                        IsVisible="{Binding !IsMultipleChoice}"/>
+                                    <ctrl:MultiAnswerOption
+                                        Letter="{Binding LetterDisplay}"
+                                        Text="{Binding Text, Mode=TwoWay}"
+                                        IsChecked="{Binding IsChecked, Mode=TwoWay}"
+                                        IsVisible="{Binding IsMultipleChoice}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Border>
+        </Grid>
+
+        <!-- Add / Remove option buttons -->
+        <StackPanel Grid.Row="4" Grid.Column="0" Orientation="Horizontal" Margin="0,4">
+            <Button Content="Add Option"    Command="{Binding AddOptionCommand}"/>
+            <Button Content="Remove Option" Command="{Binding RemoveOptionCommand}" Margin="6,0,0,0"/>
+        </StackPanel>
+
+        <!-- Explanation -->
+        <TextBlock Grid.Row="5" Grid.Column="0" Text="Explanation:" Margin="0,8,0,2"/>
+        <TextBox  Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2"
+                  Text="{Binding Explanation}"
+                  AcceptsReturn="True" TextWrapping="Wrap"
+                  VerticalContentAlignment="Top"
+                  MinHeight="80"/>
+    </Grid>
+</UserControl>

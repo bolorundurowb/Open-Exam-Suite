@@ -8,6 +8,7 @@ using OpenExamSuite.Shared.Controls;
 using OpenExamSuite.Shared.Enums;
 using OpenExamSuite.Shared.Models;
 using OpenExamSuite.Shared.Utilities;
+using OpenExamSuite.Shared.WinForms;
 using OpenExamSuite.Storage.Enums;
 using OpenExamSuite.Storage.Interfaces;
 using OpenExamSuite.Storage.Models;
@@ -211,7 +212,7 @@ public partial class HomeUi : Form
         }
 
         question.Explanation = txt_explanation.Text;
-        question.Image = (Bitmap)pct_image.Image;
+        question.ImageData = pct_image.Image.ToPngBytes();
         question.Text = txt_question_text.Text;
         return question;
     }
@@ -225,7 +226,7 @@ public partial class HomeUi : Form
         currentQuestion.Answers = newQuestion.Answers;
         currentQuestion.Answer = newQuestion.Answer;
         currentQuestion.Explanation = newQuestion.Explanation;
-        currentQuestion.Image = newQuestion.Image;
+        currentQuestion.ImageData = newQuestion.ImageData;
         currentQuestion.Options = newQuestion.Options;
         currentQuestion.Text = newQuestion.Text;
         currentQuestion.No = trv_view_exam.SelectedNode.Index + 1;
@@ -345,7 +346,7 @@ public partial class HomeUi : Form
                     txt_question_text.Text = undoObject.Question.Text;
                     lbl_section_question.Text = "Section: " + trv_view_exam.SelectedNode.Parent.Text +
                                                 ", Question " + undoObject.Question.No;
-                    pct_image.Image = undoObject.Question.Image;
+                    pct_image.Image = undoObject.Question.ImageData.ToBitmap();
                     pan_options.Controls.Clear();
                     var k = 0;
                     if (undoObject.Question.IsMultipleChoice)
@@ -470,7 +471,7 @@ public partial class HomeUi : Form
                     txt_question_text.Text = redoObject.Question.Text;
                     lbl_section_question.Text = "Section: " + trv_view_exam.SelectedNode.Parent.Text +
                                                 " Question " + redoObject.Question.No;
-                    pct_image.Image = redoObject.Question.Image;
+                    pct_image.Image = redoObject.Question.ImageData.ToBitmap();
                     pan_options.Controls.Clear();
                     var k = 0;
                     if (redoObject.Question.IsMultipleChoice)
@@ -670,7 +671,7 @@ public partial class HomeUi : Form
             txt_question_text.Text = question.Text;
             lbl_section_question.Text =
                 @"Section: " + trv_view_exam.SelectedNode.Parent.Text + @" Question " + question.No;
-            pct_image.Image = question.Image;
+            pct_image.Image = question.ImageData.ToBitmap();
             chkMulipleChoice.Checked = question.IsMultipleChoice;
             pan_options.Controls.Clear();
             var i = 0;

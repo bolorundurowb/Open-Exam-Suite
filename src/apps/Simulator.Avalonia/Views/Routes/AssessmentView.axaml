@@ -1,0 +1,116 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:routes="using:OpenExamSuite.Simulator.ViewModels.Routes"
+             xmlns:items="using:OpenExamSuite.Simulator.ViewModels.Items"
+             xmlns:conv="using:OpenExamSuite.Shared.Avalonia.Converters"
+             x:Class="OpenExamSuite.Simulator.Views.Routes.AssessmentView"
+             x:DataType="routes:AssessmentViewModel">
+
+    <Grid>
+        <!-- Intro region — equivalent to the WinForms initial state where
+             lbl_exam_title / lbl_exam_code / lbl_exam_instructions are shown
+             and btn_begin is the only action button. -->
+        <Grid IsVisible="{Binding IsIntro}"
+              Margin="40"
+              RowDefinitions="Auto,Auto,Auto,*,Auto">
+            <TextBlock Grid.Row="0" Classes="h1"  Text="{Binding ExamTitle}"/>
+            <TextBlock Grid.Row="1" Classes="h2"  Text="{Binding ExamCode}"/>
+            <TextBlock Grid.Row="2" Margin="0,12,0,4" Text="Instructions:" Classes="h3"/>
+            <ScrollViewer Grid.Row="3">
+                <TextBlock Text="{Binding ExamInstructions}" TextWrapping="Wrap"/>
+            </ScrollViewer>
+            <Button Grid.Row="4" Content="Begin" Width="160"
+                    HorizontalAlignment="Right" Classes="accent"
+                    Command="{Binding BeginCommand}"
+                    HotKey="Enter"
+                    IsDefault="True"/>
+        </Grid>
+
+        <!-- Running region — equivalent to the WinForms post-Begin state. -->
+        <Grid IsVisible="{Binding IsRunning}"
+              Margin="20"
+              RowDefinitions="Auto,Auto,*,Auto,Auto"
+              ColumnDefinitions="*,260">
+
+            <!-- Header: section/question and time -->
+            <DockPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+                <TextBlock DockPanel.Dock="Right" Text="{Binding ElapsedTimeText}" Classes="h3"
+                           HorizontalAlignment="Right"/>
+                <StackPanel Orientation="Horizontal" Spacing="6">
+                    <TextBlock Text="Section:"/>
+                    <TextBlock Text="{Binding SectionTitle}" Classes="h3"/>
+                    <TextBlock Text="Question:"/>
+                    <TextBlock Text="{Binding QuestionNumber}" Classes="h3"/>
+                </StackPanel>
+            </DockPanel>
+
+            <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                       Text="{Binding ProgressText}" Classes="muted" Margin="0,4,0,0"/>
+
+            <!-- Body: question text + image + options -->
+            <ScrollViewer Grid.Row="2" Grid.Column="0" Margin="0,12,12,0">
+                <StackPanel Spacing="10">
+                    <TextBox IsReadOnly="True" AcceptsReturn="True"
+                             TextWrapping="Wrap"
+                             BorderThickness="0"
+                             Background="Transparent"
+                             Text="{Binding QuestionText}"/>
+
+                    <ItemsControl ItemsSource="{Binding Options}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate DataType="items:AnswerOptionViewModel">
+                                <Grid>
+                                    <RadioButton Content="{Binding Display}"
+                                                 IsChecked="{Binding IsChecked, Mode=TwoWay}"
+                                                 Foreground="{Binding Foreground}"
+                                                 GroupName="AssessmentOptions"
+                                                 IsVisible="{Binding !IsMultipleChoice}"/>
+                                    <CheckBox    Content="{Binding Display}"
+                                                 IsChecked="{Binding IsChecked, Mode=TwoWay}"
+                                                 Foreground="{Binding Foreground}"
+                                                 IsVisible="{Binding IsMultipleChoice}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                    <TextBox IsReadOnly="True" AcceptsReturn="True"
+                             TextWrapping="Wrap"
+                             BorderThickness="0"
+                             Background="#FFF8E1"
+                             Foreground="#3E2723"
+                             IsVisible="{Binding IsExplanationVisible}"
+                             Text="{Binding Explanation}"/>
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- Image -->
+            <Border Grid.Row="2" Grid.Column="1"
+                    BorderBrush="#CCCCCC" BorderThickness="1"
+                    Margin="0,12,0,0"
+                    Background="White"
+                    MinHeight="160">
+                <Image Source="{Binding QuestionImageData, Converter={x:Static conv:BitmapToAvaloniaImageConverter.Instance}}"
+                       Stretch="Uniform"/>
+            </Border>
+
+            <!-- Show/Hide answer button -->
+            <Button Grid.Row="3" Grid.Column="1"
+                    Content="{Binding ShowAnswerButtonText}"
+                    Command="{Binding ToggleShowAnswerCommand}"
+                    IsVisible="{Binding IsShowAnswerVisible}"
+                    HorizontalAlignment="Stretch"
+                    Margin="0,8,0,0"/>
+
+            <!-- Nav buttons -->
+            <StackPanel Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"
+                        Orientation="Horizontal" HorizontalAlignment="Center"
+                        Margin="0,12,0,0" Spacing="8">
+                <Button Content="Previous" Width="100" Command="{Binding PreviousCommand}"/>
+                <Button Content="Next"     Width="100" Command="{Binding NextCommand}"/>
+                <Button Content="Pause"    Width="100" Command="{Binding PauseCommand}"/>
+                <Button Content="End"      Width="100" Command="{Binding EndCommand}" Classes="accent"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

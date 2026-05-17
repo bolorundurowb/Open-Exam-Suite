@@ -1,0 +1,65 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:routes="using:OpenExamSuite.Simulator.ViewModels.Routes"
+             xmlns:items="using:OpenExamSuite.Simulator.ViewModels.Items"
+             xmlns:conv="using:OpenExamSuite.Shared.Avalonia.Converters"
+             x:Class="OpenExamSuite.Simulator.Views.Routes.ExamSettingsView"
+             x:DataType="routes:ExamSettingsViewModel">
+
+    <Grid Margin="20" RowDefinitions="*,Auto" ColumnDefinitions="*,*">
+
+        <!-- Question Selection -->
+        <HeaderedContentControl Grid.Row="0" Grid.Column="0" Header="Question Selection" Margin="0,0,8,0">
+            <StackPanel Spacing="6" Margin="8">
+                <RadioButton GroupName="Mode" Content="Selected sections"
+                             IsChecked="{Binding Mode, Converter={x:Static conv:EnumToBoolConverter.Instance}, ConverterParameter={x:Static routes:SelectionMode.SelectedSections}}"/>
+                <ListBox ItemsSource="{Binding Sections}"
+                         IsEnabled="{Binding UseSelected}"
+                         MinHeight="160">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate DataType="items:SectionSelectionViewModel">
+                            <CheckBox Content="{Binding Title}" IsChecked="{Binding IsChecked}"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <StackPanel Orientation="Horizontal" Spacing="6">
+                    <Button Content="Select All"   Command="{Binding SelectAllCommand}"
+                            IsEnabled="{Binding UseSelected}"/>
+                    <Button Content="Deselect All" Command="{Binding DeselectAllCommand}"
+                            IsEnabled="{Binding UseSelected}"/>
+                </StackPanel>
+
+                <Separator Margin="0,10"/>
+
+                <RadioButton GroupName="Mode" Content="Fixed number of questions"
+                             IsChecked="{Binding Mode, Converter={x:Static conv:EnumToBoolConverter.Instance}, ConverterParameter={x:Static routes:SelectionMode.FixedNumberOfQuestions}}"/>
+                <NumericUpDown Value="{Binding FixedNumberOfQuestions}"
+                               Minimum="1" Maximum="{Binding MaxQuestions}"
+                               IsEnabled="{Binding UseFixed}"
+                               HorizontalAlignment="Left" Width="200"/>
+            </StackPanel>
+        </HeaderedContentControl>
+
+        <!-- Other Settings -->
+        <HeaderedContentControl Grid.Row="0" Grid.Column="1" Header="Other Settings" Margin="8,0,0,0">
+            <StackPanel Spacing="8" Margin="8">
+                <TextBlock Text="Candidate Name"/>
+                <TextBox Text="{Binding CandidateName}"/>
+
+                <CheckBox Content="Enable custom timer" IsChecked="{Binding EnableCustomTimer}"/>
+                <NumericUpDown Value="{Binding CustomTimerMinutes}"
+                               Minimum="1" Maximum="600"
+                               IsEnabled="{Binding EnableCustomTimer}"
+                               HorizontalAlignment="Left" Width="200"/>
+            </StackPanel>
+        </HeaderedContentControl>
+
+        <!-- Buttons -->
+        <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                    Orientation="Horizontal" HorizontalAlignment="Right"
+                    Margin="0,12,0,0" Spacing="6">
+            <Button Content="OK"     Command="{Binding ProceedCommand}" Width="100" Classes="accent"/>
+            <Button Content="Cancel" Command="{Binding CancelCommand}"  Width="100"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

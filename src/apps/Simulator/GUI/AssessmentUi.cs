@@ -1,5 +1,6 @@
 ﻿using OpenExamSuite.Shared;
 using OpenExamSuite.Shared.Models;
+using OpenExamSuite.Shared.WinForms;
 
 namespace OpenExamSuite.Simulator.GUI;
 
@@ -252,7 +253,7 @@ public partial class AssessmentUi : Form
         lbl_section_title.Text = _settings.Sections.First(s => s.Questions.Contains(question)).Title;
         lbl_explanation.Text = question.Explanation;
         txt_question.Text = question.Text;
-        pct_image.Image = question.Image;
+        pct_image.Image = question.ImageData.ToBitmap();
         AddOptions(question.Options, question.IsMultipleChoice);
         ShowExamProgress();
 

@@ -1,0 +1,34 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="OpenExamSuite.Creator.Views.Dialogs.AboutDialog"
+        Title="About Open Exam Suite"
+        Width="480" Height="360"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
+        CanResize="False">
+    <Grid Margin="20" RowDefinitions="Auto,Auto,Auto,Auto,Auto,*,Auto">
+        <TextBlock Grid.Row="0" Classes="h1" Text="Open Exam Suite"/>
+        <TextBlock Grid.Row="1" Classes="muted"
+                   Text="A free, open-source platform for creating and simulating exams."
+                   TextWrapping="Wrap" Margin="0,4,0,12"/>
+
+        <TextBlock Grid.Row="2" Text="Web:"/>
+        <Button   Grid.Row="2" HorizontalAlignment="Right" Classes="hyperlink"
+                  Content="https://bolorundurowb.github.io/Open-Exam-Suite"
+                  Click="OnOpenWeb"/>
+
+        <TextBlock Grid.Row="3" Text="Issues:" Margin="0,4,0,0"/>
+        <Button   Grid.Row="3" HorizontalAlignment="Right" Classes="hyperlink"
+                  Content="https://github.com/bolorundurowb/Open-Exam-Suite/issues"
+                  Click="OnOpenIssues" Margin="0,4,0,0"/>
+
+        <TextBlock Grid.Row="4" Text="Wiki:" Margin="0,4,0,0"/>
+        <Button   Grid.Row="4" HorizontalAlignment="Right" Classes="hyperlink"
+                  Content="https://bolorundurowb.github.io/Open-Exam-Suite"
+                  Click="OnOpenWiki" Margin="0,4,0,0"/>
+
+        <StackPanel Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Close" IsCancel="True" IsDefault="True" Click="OnClose" Width="90"/>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,34 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:routes="using:OpenExamSuite.Simulator.ViewModels.Routes"
+             xmlns:items="using:OpenExamSuite.Simulator.ViewModels.Items"
+             x:Class="OpenExamSuite.Simulator.Views.Routes.HomeView"
+             x:DataType="routes:HomeViewModel">
+
+    <Grid Margin="12" RowDefinitions="*,Auto">
+        <DataGrid Grid.Row="0"
+                  x:Name="ExamsGrid"
+                  ItemsSource="{Binding Exams}"
+                  AutoGenerateColumns="False"
+                  CanUserReorderColumns="False"
+                  GridLinesVisibility="None"
+                  HeadersVisibility="Column"
+                  IsReadOnly="True"
+                  SelectionMode="Extended"
+                  SelectionChanged="OnGridSelectionChanged"
+                  DoubleTapped="OnGridDoubleTapped">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*"/>
+                <DataGridTextColumn Header="Path" Binding="{Binding FilePath}" Width="2*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right"
+                    Margin="0,12,0,0" Spacing="6">
+            <Button Content="Properties" Command="{Binding PropertiesCommand}" Width="120"/>
+            <Button Content="Remove"     Command="{Binding RemoveCommand}"     Width="120"/>
+            <Button Content="Add"        Command="{Binding AddCommand}"        Width="120"/>
+            <Button Content="Start"      Command="{Binding StartCommand}"      Width="120" Classes="accent"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
