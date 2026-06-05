@@ -1,0 +1,117 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bolorundurowb/PolyInstall/refs/heads/master/schema/v1.json
+#
+# Parity notes:
+# - Like the Inno script, this registers machine-wide handlers for .json and .xml (aggressive;
+#   confirm that is still intended before shipping).
+# - Inno "Types" / optional components (simulator-only vs full) are not modeled in v1 schema;
+#   this file matches a "full" install (Simulator + Creator + Samples). For simulator-only,
+#   remove Creator/Samples includes and the Creator start-menu task.
+# - File associations use HKLM\Software\Classes\... (equivalent to HKCR for per-machine).
+# - PolyInstall has no registry-delete tasks; association keys are not removed automatically
+#   on uninstall (Inno used uninsdeletekey / uninsdeletevalue).
+# - Build with repo root as --base, e.g.:
+#     polyinstall build installer/open-exam-suite.polyinstall.yaml --base . --stubs path/to/stubs
+#
+metadata:
+  name: Open Exam Suite
+  version: "${APP_VERSION:-0.0.0}"
+  id: B4C7E2F1-8A3D-4B9E-9C2D-1E5F6A7B8C90
+  publisher: Open Exam Suite
+build:
+  output_dir: installer/Output
+  output_name: "{name}-{version}-{target}"
+  compression: brotli
+  targets:
+    - windows-x64
+  windows:
+    install_scope: machine
+    register_arp: true
+ui:
+  theme: system
+  wizard_steps:
+    - type: welcome
+      title: Welcome
+    - type: eula
+      title: License agreement
+      source: LICENSE
+    - type: destination
+      title: Install location
+    - type: progress
+      title: Installing
+    - type: finish
+      title: Complete
+files:
+  # Staging layout matches Inno [Files] (paths relative to Open-Exam-Suite repo root).
+  - source_dir: build/installer/staging
+    include:
+      - "Simulator/**/*"
+      - "Creator/**/*"
+      - "Samples/**/*"
+  - source_dir: .
+    include:
+      - LICENSE
+tasks:
+  post_install:
+    - require: os.isWindows
+      action: create_shortcut
+      parameters:
+        target_path: "{AppDir}/Creator/OpenExamSuite.Creator.exe"
+        name: Creator.lnk
+        location: start_menu
+        subfolder: Open Exam Suite
+        description: Open Exam Suite Creator
+        icon_path: "{AppDir}/Creator/OpenExamSuite.Creator.exe"
+    - require: os.isWindows
+      action: create_shortcut
+      parameters:
+        target_path: "{AppDir}/Creator/OpenExamSuite.Creator.exe"
+        name: Open Exam Suite Creator.lnk
+        location: desktop
+        description: Open Exam Suite Creator
+        icon_path: "{AppDir}/Creator/OpenExamSuite.Creator.exe"
+    - require: os.isWindows
+      action: create_shortcut
+      parameters:
+        target_path: "{AppDir}/Simulator/OpenExamSuite.Simulator.exe"
+        name: Simulator.lnk
+        location: start_menu
+        subfolder: Open Exam Suite
+        description: Open Exam Suite Simulator
+        icon_path: "{AppDir}/Simulator/OpenExamSuite.Simulator.exe"
+    - require: os.isWindows
+      action: create_shortcut
+      parameters:
+        target_path: "{AppDir}/Simulator/OpenExamSuite.Simulator.exe"
+        name: Open Exam Suite Simulator.lnk
+        location: desktop
+        description: Open Exam Suite Simulator
+        icon_path: "{AppDir}/Simulator/OpenExamSuite.Simulator.exe"
+    # --- .oef ---
+    - require: os.isWindows
+      action: write_registry
+      parameters:
+        key_path: HKLM\Software\Classes\.oef
+        value_name: ""
+        value: OpenExamSuite.oef
+        value_kind: string
+    - require: os.isWindows
+      action: write_registry
+      parameters:
+        key_path: HKLM\Software\Classes\OpenExamSuite.oef
+        value_name: ""
+        value: Open Exam Suite Exam
+        value_kind: string
+    - require: os.isWindows
+      action: write_registry
+      parameters:
+        key_path: HKLM\Software\Classes\OpenExamSuite.oef\DefaultIcon
+        value_name: ""
+        value: "{AppDir}/Simulator/OpenExamSuite.Simulator.exe,0"
+        value_kind: string
+    - require: os.isWindows
+      action: write_registry
+      parameters:
+        key_path: HKLM\Software\Classes\OpenExamSuite.oef\shell\open\command
+        value_name: ""
+        value: "\"{AppDir}/Simulator/OpenExamSuite.Simulator.exe\" \"%1\""
+        value_kind: string
