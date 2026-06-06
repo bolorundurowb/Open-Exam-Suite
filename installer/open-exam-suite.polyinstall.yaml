@@ -1,16 +1,12 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bolorundurowb/PolyInstall/refs/heads/master/schema/v1.json
+# yaml-language-server: $schema=https://bolorundurowb.github.io/PolyInstall/schema/v1.json
 #
 # Parity notes:
-# - Like the Inno script, this registers machine-wide handlers for .json and .xml (aggressive;
-#   confirm that is still intended before shipping).
 # - Inno "Types" / optional components (simulator-only vs full) are not modeled in v1 schema;
 #   this file matches a "full" install (Simulator + Creator + Samples). For simulator-only,
 #   remove Creator/Samples includes and the Creator start-menu task.
 # - File associations use HKLM\Software\Classes\... (equivalent to HKCR for per-machine).
-# - PolyInstall has no registry-delete tasks; association keys are not removed automatically
-#   on uninstall (Inno used uninsdeletekey / uninsdeletevalue).
 # - Build with repo root as --base, e.g.:
-#     polyinstall build installer/open-exam-suite.polyinstall.yaml --base . --stubs path/to/stubs
+#     polyinstall build installer/open-exam-suite.polyinstall.yaml --base .
 #
 metadata:
   name: Open Exam Suite
@@ -19,7 +15,7 @@ metadata:
   publisher: Open Exam Suite
 build:
   output_dir: installer/Output
-  output_name: "{name}-{version}-{target}"
+  output_name: OpenExamSuite-{version}-Setup-x64
   compression: brotli
   targets:
     - windows-x64
@@ -36,6 +32,7 @@ ui:
       source: LICENSE
     - type: destination
       title: Install location
+      default_path: "{ProgramFiles}/Open Exam Suite"
     - type: progress
       title: Installing
     - type: finish
@@ -56,7 +53,7 @@ tasks:
       action: create_shortcut
       parameters:
         target_path: "{AppDir}/Creator/OpenExamSuite.Creator.exe"
-        name: Creator.lnk
+        name: Creator
         location: start_menu
         subfolder: Open Exam Suite
         description: Open Exam Suite Creator
@@ -82,7 +79,7 @@ tasks:
       action: create_shortcut
       parameters:
         target_path: "{AppDir}/Simulator/OpenExamSuite.Simulator.exe"
-        name: Open Exam Suite Simulator.lnk
+        name: Simulator
         location: desktop
         description: Open Exam Suite Simulator
         icon_path: "{AppDir}/Simulator/OpenExamSuite.Simulator.exe"
@@ -113,5 +110,5 @@ tasks:
       parameters:
         key_path: HKLM\Software\Classes\OpenExamSuite.oef\shell\open\command
         value_name: ""
-        value: "\"{AppDir}/Simulator/OpenExamSuite.Simulator.exe\" \"%1\""
+        value: '"{AppDir}/Simulator/OpenExamSuite.Simulator.exe" "%1"'
         value_kind: string
