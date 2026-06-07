@@ -1,10 +1,8 @@
 # yaml-language-server: $schema=https://bolorundurowb.github.io/PolyInstall/schema/v1.json
 #
 # Parity notes:
-# - Inno "Types" / optional components (simulator-only vs full) are not modeled in v1 schema;
-#   this file matches a "full" install (Simulator + Creator + Samples). For simulator-only,
-#   remove Creator/Samples includes and the Creator start-menu task.
-# - File associations use HKLM\Software\Classes\... (equivalent to HKCR for per-machine).
+# - This manifest intentionally matches a "full" install (Simulator + Creator + Samples).
+#   PolyInstall features can model optional components later if we want a custom install flow.
 # - Build with repo root as --base, e.g.:
 #     polyinstall build installer/open-exam-suite.polyinstall.yaml --base .
 #
@@ -12,7 +10,7 @@ metadata:
   name: Open Exam Suite
   version: "${APP_VERSION:-0.0.0}"
   id: B4C7E2F1-8A3D-4B9E-9C2D-1E5F6A7B8C90
-  publisher: Open Exam Suite
+  publisher: Winner-Timothy Bolorunduro
 build:
   output_dir: installer/Output
   output_name: OpenExamSuite-{version}-Setup-x64
@@ -47,6 +45,12 @@ files:
   - source_dir: .
     include:
       - LICENSE
+file_associations:
+  - extension: .oef
+    description: Open Exam Suite Exam
+    prog_id: OpenExamSuite.oef
+    icon: "Simulator/OpenExamSuite.Simulator.exe,0"
+    command: '"{AppDir}/Simulator/OpenExamSuite.Simulator.exe" "%1"'
 tasks:
   post_install:
     - require: os.isWindows
@@ -62,7 +66,7 @@ tasks:
       action: create_shortcut
       parameters:
         target_path: "{AppDir}/Creator/OpenExamSuite.Creator.exe"
-        name: Open Exam Suite Creator.lnk
+        name: Open Exam Suite Creator
         location: desktop
         description: Open Exam Suite Creator
         icon_path: "{AppDir}/Creator/OpenExamSuite.Creator.exe"
@@ -83,32 +87,3 @@ tasks:
         location: desktop
         description: Open Exam Suite Simulator
         icon_path: "{AppDir}/Simulator/OpenExamSuite.Simulator.exe"
-    # --- .oef ---
-    - require: os.isWindows
-      action: write_registry
-      parameters:
-        key_path: HKLM\Software\Classes\.oef
-        value_name: ""
-        value: OpenExamSuite.oef
-        value_kind: string
-    - require: os.isWindows
-      action: write_registry
-      parameters:
-        key_path: HKLM\Software\Classes\OpenExamSuite.oef
-        value_name: ""
-        value: Open Exam Suite Exam
-        value_kind: string
-    - require: os.isWindows
-      action: write_registry
-      parameters:
-        key_path: HKLM\Software\Classes\OpenExamSuite.oef\DefaultIcon
-        value_name: ""
-        value: "{AppDir}/Simulator/OpenExamSuite.Simulator.exe,0"
-        value_kind: string
-    - require: os.isWindows
-      action: write_registry
-      parameters:
-        key_path: HKLM\Software\Classes\OpenExamSuite.oef\shell\open\command
-        value_name: ""
-        value: '"{AppDir}/Simulator/OpenExamSuite.Simulator.exe" "%1"'
-        value_kind: string
