@@ -1,7 +1,7 @@
 using OpenExamSuite.Storage.Enums;
 using OpenExamSuite.Storage.Models;
 using OpenExamSuite.Storage.Services;
-using Shouldly;
+using OmniAssert;
 using Xunit;
 
 namespace OpenExamSuite.Storage.Tests;
@@ -30,7 +30,7 @@ public class AppSettingsServiceTests : IDisposable
         _sut.Add(new AppSetting { Name = "B", FilePath = "/b.oef" }, AppSettingsType.Simulator);
 
         var all = _sut.GetAll(AppSettingsType.Simulator);
-        all.Count.ShouldBe(2);
+        all.Count.Verify().ToBe(2);
     }
 
     [Fact]
@@ -39,7 +39,7 @@ public class AppSettingsServiceTests : IDisposable
         _sut.Add(new AppSetting { Name = "A", FilePath = "/same.oef" }, AppSettingsType.Simulator);
         _sut.Add(new AppSetting { Name = "B", FilePath = "/same.oef" }, AppSettingsType.Simulator);
 
-        _sut.GetAll(AppSettingsType.Simulator).Count.ShouldBe(1);
+        _sut.GetAll(AppSettingsType.Simulator).Count.Verify().ToBe(1);
     }
 
     [Fact]
@@ -48,7 +48,7 @@ public class AppSettingsServiceTests : IDisposable
         _sut.Add(new AppSetting { Name = "A", FilePath = "/x.oef" }, AppSettingsType.Simulator);
         _sut.Remove("/x.oef", AppSettingsType.Simulator);
 
-        _sut.GetAll(AppSettingsType.Simulator).ShouldBeEmpty();
+        _sut.GetAll(AppSettingsType.Simulator).Verify().ToBeEmpty();
     }
 
     [Fact]
@@ -59,7 +59,7 @@ public class AppSettingsServiceTests : IDisposable
 
         _sut.Clear(AppSettingsType.Simulator);
 
-        _sut.GetAll(AppSettingsType.Simulator).ShouldBeEmpty();
-        _sut.GetAll(AppSettingsType.Creator).Count.ShouldBe(1);
+        _sut.GetAll(AppSettingsType.Simulator).Verify().ToBeEmpty();
+        _sut.GetAll(AppSettingsType.Creator).Count.Verify().ToBe(1);
     }
 }

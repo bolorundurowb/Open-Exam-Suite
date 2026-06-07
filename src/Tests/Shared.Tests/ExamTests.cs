@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 using OpenExamSuite.Shared.Utilities;
-using Shouldly;
+using OmniAssert;
 using Xunit;
 
 namespace OpenExamSuite.Shared.Tests;
@@ -103,8 +103,8 @@ public class ExamTests : IDisposable
     {
         var result = Writer.ToOef(_exam, _testOefPath, true);
 
-        result.ShouldBeTrue();
-        File.Exists(_testOefPath).ShouldBeTrue();
+        result.Verify().ToBeTrue();
+        File.Exists(_testOefPath).Verify().ToBeTrue();
     }
 
     [Fact]
@@ -122,13 +122,15 @@ public class ExamTests : IDisposable
     {
         Exam? nullExam = null;
 
-        Should.Throw<ArgumentNullException>(() => Writer.ToOef(nullExam!, _testOefPath));
+        Action act = () => Writer.ToOef(nullExam!, _testOefPath);
+        act.Throws<ArgumentNullException>();
     }
 
     [Fact]
     public void ToOef_EmptyFilePath_ThrowsArgumentException()
     {
-        Should.Throw<ArgumentException>(() => Writer.ToOef(_exam, string.Empty));
+        Action act = () => Writer.ToOef(_exam, string.Empty);
+        act.Throws<ArgumentException>();
     }
 
     [Fact]
@@ -136,8 +138,8 @@ public class ExamTests : IDisposable
     {
         File.WriteAllText(_testOefPath, "Not a valid format at all");
 
-        var ex = Should.Throw<Exception>(() => Reader.FromOefFile(_testOefPath, true));
-        ex.Message.ShouldBe("Unsupported or corrupted .oef file format.");
+        Action act = () => Reader.FromOefFile(_testOefPath, true);
+        act.Throws<Exception>().WithMessage("Unsupported or corrupted .oef file format.");
     }
 
     [Fact]
@@ -145,8 +147,8 @@ public class ExamTests : IDisposable
     {
         var result = Writer.ToJson(_exam, _testJsonPath);
 
-        result.ShouldBeTrue();
-        File.Exists(_testJsonPath).ShouldBeTrue();
+        result.Verify().ToBeTrue();
+        File.Exists(_testJsonPath).Verify().ToBeTrue();
     }
 
     [Fact]
@@ -164,8 +166,8 @@ public class ExamTests : IDisposable
     {
         var result = Writer.ToXml(_exam, _testXmlPath);
 
-        result.ShouldBeTrue();
-        File.Exists(_testXmlPath).ShouldBeTrue();
+        result.Verify().ToBeTrue();
+        File.Exists(_testXmlPath).Verify().ToBeTrue();
     }
 
     [Fact]
@@ -180,55 +182,63 @@ public class ExamTests : IDisposable
 
     private static void VerifyExamsMatch(Exam? actual, Exam? expected)
     {
-        actual.ShouldNotBeNull();
-        expected.ShouldNotBeNull();
+        actual.Verify().NotToBeNull();
+        expected.Verify().NotToBeNull();
+        ArgumentNullException.ThrowIfNull(actual);
+        ArgumentNullException.ThrowIfNull(expected);
 
-        actual.Properties.Title.ShouldBe(expected.Properties.Title);
-        actual.Properties.Code.ShouldBe(expected.Properties.Code);
-        actual.Properties.Version.ShouldBe(expected.Properties.Version);
-        actual.Properties.Passmark.ShouldBe(expected.Properties.Passmark);
-        actual.Properties.TimeLimit.ShouldBe(expected.Properties.TimeLimit);
-        actual.Properties.Instructions.ShouldBe(expected.Properties.Instructions);
-        actual.Properties.HideAnswers.ShouldBe(expected.Properties.HideAnswers);
+        actual.Properties.Title.Verify().ToBe(expected.Properties.Title);
+        actual.Properties.Code.Verify().ToBe(expected.Properties.Code);
+        actual.Properties.Version.Verify().ToBe(expected.Properties.Version);
+        actual.Properties.Passmark.Verify().ToBe(expected.Properties.Passmark);
+        actual.Properties.TimeLimit.Verify().ToBe(expected.Properties.TimeLimit);
+        actual.Properties.Instructions.Verify().ToBe(expected.Properties.Instructions);
+        if (expected.Properties.HideAnswers)
+            actual.Properties.HideAnswers.Verify().ToBeTrue();
+        else
+            actual.Properties.HideAnswers.Verify().ToBeFalse();
 
-        actual.Sections.Count.ShouldBe(expected.Sections.Count);
+        actual.Sections.Count.Verify().ToBe(expected.Sections.Count);
 
         for (var i = 0; i < expected.Sections.Count; i++)
         {
             var expectedSection = expected.Sections[i];
             var actualSection = actual.Sections[i];
 
-            actualSection.Title.ShouldBe(expectedSection.Title);
-            actualSection.Questions.Count.ShouldBe(expectedSection.Questions.Count);
+            actualSection.Title.Verify().ToBe(expectedSection.Title);
+            actualSection.Questions.Count.Verify().ToBe(expectedSection.Questions.Count);
 
             for (var j = 0; j < expectedSection.Questions.Count; j++)
             {
                 var expectedQuestion = expectedSection.Questions[j];
                 var actualQuestion = actualSection.Questions[j];
 
-                actualQuestion.No.ShouldBe(expectedQuestion.No);
-                actualQuestion.Text.ShouldBe(expectedQuestion.Text);
-                actualQuestion.Answer.ShouldBe(expectedQuestion.Answer);
-                actualQuestion.IsMultipleChoice.ShouldBe(expectedQuestion.IsMultipleChoice);
-                actualQuestion.Explanation.ShouldBe(expectedQuestion.Explanation);
-                actualQuestion.Answers.ShouldBe(expectedQuestion.Answers);
+                actualQuestion.No.Verify().ToBe(expectedQuestion.No);
+                actualQuestion.Text.Verify().ToBe(expectedQuestion.Text);
+                actualQuestion.Answer.Verify().ToBe(expectedQuestion.Answer);
+                if (expectedQuestion.IsMultipleChoice)
+                    actualQuestion.IsMultipleChoice.Verify().ToBeTrue();
+                else
+                    actualQuestion.IsMultipleChoice.Verify().ToBeFalse();
+                actualQuestion.Explanation.Verify().ToBe(expectedQuestion.Explanation);
+                actualQuestion.Answers.SequenceEqual(expectedQuestion.Answers).Verify().ToBeTrue();
 
                 if (expectedQuestion.Image != null)
                 {
-                    actualQuestion.Image.ShouldNotBeNull();
-                    actualQuestion.Image.Width.ShouldBe(expectedQuestion.Image.Width);
-                    actualQuestion.Image.Height.ShouldBe(expectedQuestion.Image.Height);
+                    actualQuestion.Image.Verify().NotToBeNull();
+                    actualQuestion.Image!.Width.Verify().ToBe(expectedQuestion.Image.Width);
+                    actualQuestion.Image.Height.Verify().ToBe(expectedQuestion.Image.Height);
                 }
                 else
                 {
-                    actualQuestion.Image.ShouldBeNull();
+                    actualQuestion.Image.Verify().ToBeNull();
                 }
 
-                actualQuestion.Options.Count.ShouldBe(expectedQuestion.Options.Count);
+                actualQuestion.Options.Count.Verify().ToBe(expectedQuestion.Options.Count);
                 for (var k = 0; k < expectedQuestion.Options.Count; k++)
                 {
-                    actualQuestion.Options[k].Alphabet.ShouldBe(expectedQuestion.Options[k].Alphabet);
-                    actualQuestion.Options[k].Text.ShouldBe(expectedQuestion.Options[k].Text);
+                    actualQuestion.Options[k].Alphabet.Verify().ToBe(expectedQuestion.Options[k].Alphabet);
+                    actualQuestion.Options[k].Text.Verify().ToBe(expectedQuestion.Options[k].Text);
                 }
             }
         }

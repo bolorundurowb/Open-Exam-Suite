@@ -1,5 +1,5 @@
 using OpenExamSuite.Shared.Utilities;
-using Shouldly;
+using OmniAssert;
 using Xunit;
 
 namespace OpenExamSuite.Shared.Tests;
@@ -12,16 +12,16 @@ public class ExamFormatFixtureTests
         var path = Path.Combine(AppContext.BaseDirectory, "Fixtures", "minimal.json");
         var exam = Reader.FromJsonFile(path);
 
-        exam.ShouldNotBeNull();
-        exam!.Properties.Title.ShouldBe("FixtureExam");
-        exam.Properties.Code.ShouldBe("FX");
-        exam.Properties.HideAnswers.ShouldBeFalse();
-        exam.Sections.Count.ShouldBe(1);
-        exam.Sections[0].Title.ShouldBe("SectionOne");
-        exam.Sections[0].Questions.Count.ShouldBe(1);
-        exam.Sections[0].Questions[0].Text.ShouldBe("Sample question?");
-        exam.Sections[0].Questions[0].Answer.ShouldBe('A');
-        exam.NumberOfQuestions.ShouldBe(1);
+        exam.Verify().NotToBeNull();
+        exam!.Properties.Title.Verify().ToBe("FixtureExam");
+        exam.Properties.Code.Verify().ToBe("FX");
+        exam.Properties.HideAnswers.Verify().ToBeFalse();
+        exam.Sections.Count.Verify().ToBe(1);
+        exam.Sections[0].Title.Verify().ToBe("SectionOne");
+        exam.Sections[0].Questions.Count.Verify().ToBe(1);
+        exam.Sections[0].Questions[0].Text.Verify().ToBe("Sample question?");
+        exam.Sections[0].Questions[0].Answer.Verify().ToBe('A');
+        exam.NumberOfQuestions.Verify().ToBe(1);
     }
 
     [Fact]
@@ -32,16 +32,16 @@ public class ExamFormatFixtureTests
         try
         {
             var original = Reader.FromJsonFile(sourcePath);
-            original.ShouldNotBeNull();
+            original.Verify().NotToBeNull();
 
-            Writer.ToJson(original!, tempPath).ShouldBeTrue();
+            Writer.ToJson(original!, tempPath).Verify().ToBeTrue();
 
             var roundTripped = Reader.FromJsonFile(tempPath);
-            roundTripped.ShouldNotBeNull();
-            roundTripped!.Properties.Title.ShouldBe(original.Properties.Title);
-            roundTripped.Properties.Code.ShouldBe(original.Properties.Code);
-            roundTripped.Sections.Count.ShouldBe(original.Sections.Count);
-            roundTripped.NumberOfQuestions.ShouldBe(original.NumberOfQuestions);
+            roundTripped.Verify().NotToBeNull();
+            roundTripped!.Properties.Title.Verify().ToBe(original!.Properties.Title);
+            roundTripped.Properties.Code.Verify().ToBe(original.Properties.Code);
+            roundTripped.Sections.Count.Verify().ToBe(original.Sections.Count);
+            roundTripped.NumberOfQuestions.Verify().ToBe(original.NumberOfQuestions);
         }
         finally
         {
