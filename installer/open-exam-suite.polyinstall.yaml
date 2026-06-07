@@ -1,8 +1,8 @@
 # yaml-language-server: $schema=https://bolorundurowb.github.io/PolyInstall/schema/v1.json
 #
 # Parity notes:
-# - This manifest intentionally matches a "full" install (Simulator + Creator + Samples).
-#   PolyInstall features can model optional components later if we want a custom install flow.
+# - Simulator is the required core install. Creator and Samples are optional features
+#   that default to selected, matching the old "full install" behavior.
 # - Build with repo root as --base, e.g.:
 #     polyinstall build installer/open-exam-suite.polyinstall.yaml --base .
 #
@@ -31,17 +31,36 @@ ui:
     - type: destination
       title: Install location
       default_path: "{ProgramFiles}/Open Exam Suite"
+    - type: features
+      title: Choose components
     - type: progress
       title: Installing
     - type: finish
       title: Complete
+features:
+  - id: creator
+    name: Creator
+    description: Install the Open Exam Suite Creator application.
+    default_selected: true
+  - id: samples
+    name: Samples
+    description: Install sample exams.
+    default_selected: true
 files:
   # Staging layout matches Inno [Files] (paths relative to Open-Exam-Suite repo root).
   - source_dir: build/installer/staging
     include:
       - "Simulator/**/*"
+  - source_dir: build/installer/staging
+    include:
       - "Creator/**/*"
+    features:
+      - creator
+  - source_dir: build/installer/staging
+    include:
       - "Samples/**/*"
+    features:
+      - samples
   - source_dir: .
     include:
       - LICENSE
@@ -55,6 +74,8 @@ tasks:
   post_install:
     - require: os.isWindows
       action: create_shortcut
+      features:
+        - creator
       parameters:
         target_path: "{AppDir}/Creator/OpenExamSuite.Creator.exe"
         name: Creator
@@ -64,6 +85,8 @@ tasks:
         icon_path: "{AppDir}/Creator/OpenExamSuite.Creator.exe"
     - require: os.isWindows
       action: create_shortcut
+      features:
+        - creator
       parameters:
         target_path: "{AppDir}/Creator/OpenExamSuite.Creator.exe"
         name: Open Exam Suite Creator
@@ -74,7 +97,7 @@ tasks:
       action: create_shortcut
       parameters:
         target_path: "{AppDir}/Simulator/OpenExamSuite.Simulator.exe"
-        name: Simulator.lnk
+        name: Simulator
         location: start_menu
         subfolder: Open Exam Suite
         description: Open Exam Suite Simulator
@@ -83,7 +106,7 @@ tasks:
       action: create_shortcut
       parameters:
         target_path: "{AppDir}/Simulator/OpenExamSuite.Simulator.exe"
-        name: Simulator
+        name: Open Exam Suite Simulator
         location: desktop
         description: Open Exam Suite Simulator
         icon_path: "{AppDir}/Simulator/OpenExamSuite.Simulator.exe"
