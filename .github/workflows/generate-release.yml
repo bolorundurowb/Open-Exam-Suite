@@ -115,7 +115,7 @@ jobs:
     needs: prepare
     if: needs.prepare.outputs.should_release == 'true'
     env:
-      POLYINSTALL_VERSION: v1.0.0
+      POLYINSTALL_VERSION: v2.0.0
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -171,59 +171,29 @@ jobs:
           }
           "portable_path=$zipPath" >> $env:GITHUB_OUTPUT
 
-      - name: Download PolyInstall
-        id: polyinstall
-        shell: pwsh
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          $toolsDir = Join-Path $PWD "build\tools\polyinstall"
-          $downloadDir = Join-Path $toolsDir "download"
-          New-Item -ItemType Directory -Force -Path $downloadDir | Out-Null
-
-          gh release download $env:POLYINSTALL_VERSION `
-            --repo bolorundurowb/PolyInstall `
-            --pattern "polyinstall-win-x64-*.zip" `
-            --dir $downloadDir `
-            --clobber
-          if ($LASTEXITCODE -ne 0) {
-            throw "Failed to download PolyInstall $env:POLYINSTALL_VERSION."
-          }
-
-          $archive = Get-ChildItem -Path $downloadDir -Filter "polyinstall-win-x64-*.zip" -File | Select-Object -First 1
-          if (-not $archive) {
-            throw "PolyInstall archive was not downloaded."
-          }
-
-          Expand-Archive -Path $archive.FullName -DestinationPath $toolsDir -Force
-          $polyinstall = Get-ChildItem -Path $toolsDir -Filter "polyinstall.exe" -File -Recurse | Select-Object -First 1
-          if (-not $polyinstall) {
-            throw "polyinstall.exe not found after extracting $($archive.FullName)."
-          }
-
-          "polyinstall_path=$($polyinstall.FullName)" >> $env:GITHUB_OUTPUT
+      - name: Setup PolyInstall
+        uses: bolorundurowb/PolyInstall/.github/actions/setup-polyinstall@v2.0.0
+        with:
+          version: ${{ env.POLYINSTALL_VERSION }}
+          rid: win-x64
 
       - name: Build installer with PolyInstall
         shell: pwsh
         env:
           APP_VERSION: ${{ needs.prepare.outputs.version }}
-          POLYINSTALL_PATH: ${{ steps.polyinstall.outputs.polyinstall_path }}
         run: |
           $basePath = $PWD.Path
           $manifest = Join-Path $PWD "installer\open-exam-suite.polyinstall.yaml"
           if (-not (Test-Path $manifest)) {
             throw "PolyInstall manifest not found: $manifest"
           }
-          if (-not (Test-Path $env:POLYINSTALL_PATH)) {
-            throw "PolyInstall executable not found: $env:POLYINSTALL_PATH"
-          }
 
-          & $env:POLYINSTALL_PATH validate $manifest --base $basePath
+          polyinstall validate $manifest --base $basePath
           if ($LASTEXITCODE -ne 0) {
             throw "PolyInstall manifest validation failed with exit code $LASTEXITCODE"
           }
 
-          & $env:POLYINSTALL_PATH build $manifest --base $basePath
+          polyinstall build $manifest --base $basePath
           if ($LASTEXITCODE -ne 0) {
             throw "PolyInstall build failed with exit code $LASTEXITCODE"
           }
