@@ -2,6 +2,36 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.0.4]
+### General improvements
+- Fixed CI build.
+- Replaced `Shouldly` test assertions with `OmniAssert`.
+- Updated the PolyInstall manifest to make `Creator` and `Samples` optional selectable components and added `.oef` file association.
+- Updated PolyInstall to v2.0.0 and simplified the release workflow using a reusable action.
+
+## [4.0.3]
+### General improvements
+- Added a YAML-based installer definition using PolyInstall, replacing Inno Setup in the release workflow.
+- Updated package dependencies.
+
+## [4.0.2]
+### General improvements
+- Added support for portable distributions.
+- Fixed exam creation in locales that use commas as decimal separators.
+
+### Simulator Section
+- Added support for hiding the "Show Answer" option during exams.
+
+## [4.0.1]
+### General improvements
+- Replaced `Newtonsoft.Json` with `System.Text.Json` and refactored the project into modular components (`Core`, `ExamIO`, `Shared.WinForms`).
+- Added dependency injection for application services.
+- Updated application icons.
+- Added a License dialog to the Help menu.
+
+### Creator Section
+- Added support for importing questions from `JSON`.
+
 ## [4.0.0]
 ### General improvements
 - Support for questions with multiple answers has been added.
