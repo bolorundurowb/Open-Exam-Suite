@@ -7,5 +7,6 @@
 
   <ItemGroup>
     <PackageReference Include="protobuf-net" />
+    <PackageReference Include="System.Drawing.Common" />
   </ItemGroup>
 </Project>
