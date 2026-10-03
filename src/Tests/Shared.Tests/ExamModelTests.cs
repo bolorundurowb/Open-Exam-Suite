@@ -1,4 +1,4 @@
-using Shouldly;
+using OmniAssert;
 using Xunit;
 
 namespace OpenExamSuite.Shared.Tests;
@@ -13,8 +13,8 @@ public class ExamModelTests
 
         exam.AddSection(sectionName);
 
-        exam.Sections.ShouldContain(s => s.Title == sectionName);
-        exam.Sections.Count.ShouldBe(1);
+        exam.Sections.Verify().ToContain(s => s.Title == sectionName);
+        exam.Sections.Count.Verify().ToBe(1);
     }
 
     [Fact]
@@ -26,7 +26,7 @@ public class ExamModelTests
 
         exam.AddSection(sectionName);
 
-        exam.Sections.Count.ShouldBe(1);
+        exam.Sections.Count.Verify().ToBe(1);
     }
 
     [Fact]
@@ -37,8 +37,8 @@ public class ExamModelTests
         exam.AddSection(sectionName);
         exam.RemoveSection(sectionName);
 
-        exam.Sections.ShouldNotContain(s => s.Title == sectionName);
-        exam.Sections.Count.ShouldBe(0);
+        exam.Sections.Any(s => s.Title == sectionName).Verify().ToBeFalse();
+        exam.Sections.Count.Verify().ToBe(0);
     }
 
     [Fact]
@@ -50,8 +50,8 @@ public class ExamModelTests
         exam.AddQuestion(sectionName, question);
 
         var section = exam.Sections.FirstOrDefault(s => s.Title == sectionName);
-        section.ShouldNotBeNull();
-        section.Questions.ShouldContain(question);
+        section.Verify().NotToBeNull();
+        section!.Questions.Verify().ToContain(question);
     }
 
     [Fact]
@@ -64,8 +64,8 @@ public class ExamModelTests
         exam.RemoveQuestion(sectionName, question);
 
         var section = exam.Sections.FirstOrDefault(s => s.Title == sectionName);
-        section.ShouldNotBeNull();
-        section.Questions.ShouldNotContain(question);
+        section.Verify().NotToBeNull();
+        section!.Questions.Verify().NotToContain(question);
     }
 
     [Fact]
@@ -78,6 +78,6 @@ public class ExamModelTests
 
         var total = exam.NumberOfQuestions;
 
-        total.ShouldBe(3);
+        total.Verify().ToBe(3);
     }
 }

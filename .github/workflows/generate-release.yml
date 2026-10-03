@@ -114,6 +114,8 @@ jobs:
     runs-on: windows-latest
     needs: prepare
     if: needs.prepare.outputs.should_release == 'true'
+    env:
+      POLYINSTALL_VERSION: v2.0.0
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -169,25 +171,31 @@ jobs:
           }
           "portable_path=$zipPath" >> $env:GITHUB_OUTPUT
 
-      - name: Install Inno Setup
-        run: choco install innosetup -y
+      - name: Setup PolyInstall
+        uses: bolorundurowb/PolyInstall/.github/actions/setup-polyinstall@v2.0.0
+        with:
+          version: ${{ env.POLYINSTALL_VERSION }}
+          rid: win-x64
 
-      - name: Compile installer
+      - name: Build installer with PolyInstall
         shell: pwsh
         env:
-          INSTALLER_VERSION: ${{ needs.prepare.outputs.version }}
+          APP_VERSION: ${{ needs.prepare.outputs.version }}
         run: |
-          $iscc = Join-Path ${env:ProgramFiles(x86)} "Inno Setup 6\ISCC.exe"
-          if (-not (Test-Path $iscc)) {
-            throw "Inno Setup compiler not found at $iscc"
+          $basePath = $PWD.Path
+          $manifest = Join-Path $PWD "installer\open-exam-suite.polyinstall.yaml"
+          if (-not (Test-Path $manifest)) {
+            throw "PolyInstall manifest not found: $manifest"
           }
-          $iss = Join-Path $PWD "installer\OpenExamSuite.iss"
-          if (-not (Test-Path $iss)) {
-            throw "Installer script not found: $iss"
-          }
-          & $iscc "/DMyAppVersion=$env:INSTALLER_VERSION" $iss
+
+          polyinstall validate $manifest --base $basePath
           if ($LASTEXITCODE -ne 0) {
-            throw "Inno Setup compilation failed with exit code $LASTEXITCODE"
+            throw "PolyInstall manifest validation failed with exit code $LASTEXITCODE"
+          }
+
+          polyinstall build $manifest --base $basePath
+          if ($LASTEXITCODE -ne 0) {
+            throw "PolyInstall build failed with exit code $LASTEXITCODE"
           }
 
       - name: Validate installer output
