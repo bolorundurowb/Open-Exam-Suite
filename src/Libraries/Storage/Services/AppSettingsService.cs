@@ -21,23 +21,35 @@ public class AppSettingsService : IAppSettingsService
             Directory.CreateDirectory(directory);
     }
 
-    public void Add(AppSetting settings, AppSettingsType type)
+    public void Set(AppSetting setting, AppSettingsType type)
     {
         using var db = new LiteDatabase(_database);
         var collection = db.GetCollection<AppSetting>(GetTableNameFromType(type));
-        var record = collection.FindOne(x => x.FilePath == settings.FilePath);
+        var record = collection.FindOne(x => x.Key == setting.Key);
 
-        if (record != null)
-            return;
-
-        collection.Insert(settings);
+        if (record == null)
+        {
+            collection.Insert(setting);
+        }
+        else
+        {
+            record.Value = setting.Value;
+            collection.Update(record);
+        }
     }
 
-    public void Remove(string filePath, AppSettingsType type)
+    public AppSetting? Get(string key, AppSettingsType type)
     {
         using var db = new LiteDatabase(_database);
         var collection = db.GetCollection<AppSetting>(GetTableNameFromType(type));
-        collection.DeleteMany(x => x.FilePath == filePath);
+        return collection.FindOne(x => x.Key == key);
+    }
+
+    public void Remove(string key, AppSettingsType type)
+    {
+        using var db = new LiteDatabase(_database);
+        var collection = db.GetCollection<AppSetting>(GetTableNameFromType(type));
+        collection.DeleteMany(x => x.Key == key);
     }
 
     public void Clear(AppSettingsType type)

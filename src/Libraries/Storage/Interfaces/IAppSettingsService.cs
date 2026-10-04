@@ -5,9 +5,11 @@ namespace OpenExamSuite.Storage.Interfaces;
 
 public interface IAppSettingsService
 {
-    void Add(AppSetting settings, AppSettingsType type);
+    void Set(AppSetting setting, AppSettingsType type);
 
-    void Remove(string filePath, AppSettingsType type);
+    AppSetting? Get(string key, AppSettingsType type);
+
+    void Remove(string key, AppSettingsType type);
 
     void Clear(AppSettingsType type);
 

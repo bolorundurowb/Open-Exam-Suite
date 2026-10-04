@@ -29,10 +29,10 @@ public partial class HomeUi : Form
 
         if (Path.GetExtension(initialExamFile).Equals(".oef", StringComparison.OrdinalIgnoreCase))
         {
-            _appSettings.Add(new AppSetting
+            _appSettings.Set(new AppSetting
             {
-                Name = Path.GetFileNameWithoutExtension(initialExamFile),
-                FilePath = initialExamFile
+                Key = initialExamFile,
+                Value = Path.GetFileNameWithoutExtension(initialExamFile)
             }, AppSettingsType.Simulator);
         }
         else
@@ -56,10 +56,10 @@ public partial class HomeUi : Form
             {
                 dgv_exams.Rows.Add(Path.GetFileNameWithoutExtension(fileName), fileName);
 
-                _appSettings.Add(new AppSetting
+                _appSettings.Set(new AppSetting
                 {
-                    Name = Path.GetFileNameWithoutExtension(fileName),
-                    FilePath = fileName
+                    Key = fileName,
+                    Value = Path.GetFileNameWithoutExtension(fileName)
                 }, AppSettingsType.Simulator);
             }
         }
@@ -119,6 +119,12 @@ public partial class HomeUi : Form
     {
         using var license = new OpenExamSuite.Shared.Dialogs.LicenseUi();
         license.ShowDialog();
+    }
+
+    private void Changelog(object sender, EventArgs e)
+    {
+        using var changelog = new OpenExamSuite.Shared.Dialogs.ChangelogUi();
+        changelog.ShowDialog();
     }
 
     private void Start(object sender, EventArgs e)
