@@ -174,7 +174,7 @@
             this.pct_image.Margin = new Padding(2, 3, 2, 3);
             this.pct_image.Name = "pct_image";
             this.pct_image.Size = new Size(513, 203);
-            this.pct_image.SizeMode = PictureBoxSizeMode.StretchImage;
+            this.pct_image.SizeMode = PictureBoxSizeMode.Zoom;
             this.pct_image.TabIndex = 12;
             this.pct_image.TabStop = false;
             this.pct_image.Visible = false;
