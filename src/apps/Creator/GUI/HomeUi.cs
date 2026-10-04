@@ -867,11 +867,17 @@ public partial class HomeUi : Form
             splitContainer2.Panel2.Controls.Add(pan_splash);
         }
 
-        _exam = null;
-        _undoRedo = null;
-        IsDirty = false;
+        ResetState();
 
         LoadExamHistory();
+    }
+
+    private void ResetState()
+    {
+        _exam = null;
+        _currentExamFile = null;
+        _undoRedo = null;
+        IsDirty = false;
     }
 
     private void OptionsChanged(object sender, ControlEventArgs e)
