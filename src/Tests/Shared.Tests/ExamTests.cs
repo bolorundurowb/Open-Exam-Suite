@@ -19,6 +19,12 @@ public class ExamTests : IDisposable
         _testXmlPath = Path.Combine(Environment.CurrentDirectory, "test.xml");
         using var fileStream = new FileStream("./Resources/ExamTestImage.png", FileMode.Open);
         var image = (Bitmap)Image.FromStream(fileStream);
+        byte[] imageBytes;
+        using (var ms = new MemoryStream())
+        {
+            image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+            imageBytes = ms.ToArray();
+        }
         _exam = new Exam
         {
             Properties = new Properties
@@ -57,7 +63,7 @@ public class ExamTests : IDisposable
                                     Alphabet = 'B'
                                 }
                             ],
-                            Image = image
+                            ImageData = imageBytes
                         },
 
                         new Question
@@ -223,15 +229,18 @@ public class ExamTests : IDisposable
                 actualQuestion.Explanation.Verify().ToBe(expectedQuestion.Explanation);
                 actualQuestion.Answers.SequenceEqual(expectedQuestion.Answers).Verify().ToBeTrue();
 
-                if (expectedQuestion.Image != null)
+                if (expectedQuestion.ImageData != null)
                 {
-                    actualQuestion.Image.Verify().NotToBeNull();
-                    actualQuestion.Image!.Width.Verify().ToBe(expectedQuestion.Image.Width);
-                    actualQuestion.Image.Height.Verify().ToBe(expectedQuestion.Image.Height);
+                    Xunit.Assert.NotNull(actualQuestion.ImageData);
+                    var actualImageData = actualQuestion.ImageData;
+                    using var expectedBitmap = new Bitmap(new MemoryStream(expectedQuestion.ImageData));
+                    using var actualBitmap = new Bitmap(new MemoryStream(actualImageData));
+                    actualBitmap.Width.Verify().ToBe(expectedBitmap.Width);
+                    actualBitmap.Height.Verify().ToBe(expectedBitmap.Height);
                 }
                 else
                 {
-                    actualQuestion.Image.Verify().ToBeNull();
+                    Xunit.Assert.Null(actualQuestion.ImageData);
                 }
 
                 actualQuestion.Options.Count.Verify().ToBe(expectedQuestion.Options.Count);
