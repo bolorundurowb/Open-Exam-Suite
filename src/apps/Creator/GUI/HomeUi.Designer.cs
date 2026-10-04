@@ -101,6 +101,7 @@
             this.helpToolStripMenuItem = new ToolStripMenuItem();
             this.aboutToolStripMenuItem = new ToolStripMenuItem();
             this.licenseToolStripMenuItem = new ToolStripMenuItem();
+            this.changelogToolStripMenuItem = new ToolStripMenuItem();
             this.toolStrip1 = new ToolStrip();
             this.newToolStripButton = new ToolStripButton();
             this.openToolStripButton = new ToolStripButton();
@@ -862,7 +863,7 @@
             // 
             // helpToolStripMenuItem
             // 
-            this.helpToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { this.aboutToolStripMenuItem, this.licenseToolStripMenuItem });
+            this.helpToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { this.aboutToolStripMenuItem, this.licenseToolStripMenuItem, this.changelogToolStripMenuItem });
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new Size(44, 20);
             this.helpToolStripMenuItem.Text = "&Help";
@@ -880,6 +881,13 @@
             this.licenseToolStripMenuItem.Size = new Size(116, 22);
             this.licenseToolStripMenuItem.Text = "&License";
             this.licenseToolStripMenuItem.Click += this.License;
+            // 
+            // changelogToolStripMenuItem
+            // 
+            this.changelogToolStripMenuItem.Name = "changelogToolStripMenuItem";
+            this.changelogToolStripMenuItem.Size = new Size(116, 22);
+            this.changelogToolStripMenuItem.Text = "&Changelog";
+            this.changelogToolStripMenuItem.Click += this.Changelog;
             // 
             // toolStrip1
             // 
@@ -1199,6 +1207,7 @@
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem licenseToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem changelogToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.SaveFileDialog sfd_save_as_exam;
