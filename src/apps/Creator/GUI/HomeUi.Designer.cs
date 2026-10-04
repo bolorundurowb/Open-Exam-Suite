@@ -259,7 +259,7 @@
             this.pictureBox1.Margin = new Padding(2);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new Size(727, 243);
-            this.pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
@@ -503,7 +503,7 @@
             this.pct_image.Margin = new Padding(4, 5, 4, 5);
             this.pct_image.Name = "pct_image";
             this.pct_image.Size = new Size(590, 141);
-            this.pct_image.SizeMode = PictureBoxSizeMode.StretchImage;
+            this.pct_image.SizeMode = PictureBoxSizeMode.Zoom;
             this.pct_image.TabIndex = 10;
             this.pct_image.TabStop = false;
             // 
