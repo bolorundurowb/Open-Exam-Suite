@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.0.5]
+### General improvements
+- Bundled the changelog into the product and display it on first startup after a version change. It is also available from the **Help > Changelog** menu in both the Creator and Simulator.
+- Unified application settings storage into a single key/value model.
+
+### Creator Section
+- Fixed an issue where creating a new exam after opening an existing one could overwrite the previously opened exam when saving.
+- Question images now maintain their aspect ratio and scale with the window instead of being stretched.
+
+### Simulator Section
+- Fixed a crash that occurred when ending an exam immediately after it began.
+- Ending an exam now stops the exam timer, preventing duplicate grading.
+- Question images now maintain their aspect ratio and scale with the window instead of being stretched.
+
 ## [4.0.4]
 ### General improvements
 - Fixed CI build.
