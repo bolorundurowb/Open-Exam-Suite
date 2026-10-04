@@ -12,6 +12,7 @@ public partial class AssessmentUi : Form
     private int _timeLeft;
     private int _currentQuestionIndex;
     private object[] _userAnswers;
+    private bool _examEnded;
 
     #endregion
 
@@ -182,61 +183,20 @@ public partial class AssessmentUi : Form
         }
         else if (option == NavOption.End)
         {
+            if (_examEnded)
+                return;
+
+            _examEnded = true;
+            timer.Stop();
+
             //Save current answer
             _userAnswers[_currentQuestionIndex] = SelectedAnswer();
-            for (var i = 0; i < _userAnswers.Length; i++)
-            {
-                if (_userAnswers[i] == null)
-                {
-                    _userAnswers[i] = '\0';
-                }
-            }
 
             _settings.ElapsedTime = TimeSpan.FromSeconds(_exam.Properties.TimeLimit * 60 - _timeLeft);
 
-            var numOfCorrectAnswers = 0;
-            for (var i = 0; i < _settings.Questions.Count; i++)
-            {
-                if (_userAnswers[i].GetType().IsArray)
-                {
-                    if (((char[])_userAnswers[i]).SequenceEqual(_settings.Questions[i].Answers))
-                    {
-                        numOfCorrectAnswers++;
-                    }
-                }
-                else if ((char)_userAnswers[i] == _settings.Questions[i].Answer)
-                {
-                    numOfCorrectAnswers++;
-                }
-            }
-
-            _settings.NumberOfCorrectAnswers = numOfCorrectAnswers;
-
-            foreach (var section in _settings.Sections)
-            {
-                var numOfQuestions = 0;
-                var numOfCorrect = 0;
-                for (var i = 0; i < _settings.Questions.Count; i++)
-                {
-                    if (section.Questions.Contains(_settings.Questions[i]))
-                    {
-                        numOfQuestions++;
-                        if (_userAnswers[i].GetType().IsArray)
-                        {
-                            if (((char[])_userAnswers[i]).SequenceEqual(_settings.Questions[i].Answers))
-                            {
-                                numOfCorrect++;
-                            }
-                        }
-                        else if ((char)_userAnswers[i] == _settings.Questions[i].Answer)
-                        {
-                            numOfCorrect++;
-                        }
-                    }
-                }
-
-                _settings.ResultSpread.Add(new SectionResult(section.Title, numOfQuestions, numOfCorrect));
-            }
+            var grading = Grader.Grade(_userAnswers, _settings.Questions, _settings.Sections);
+            _settings.NumberOfCorrectAnswers = grading.NumberOfCorrectAnswers;
+            _settings.ResultSpread = grading.ResultSpread;
 
             var ss = new ScoreSheetUi(_settings, _exam);
             Hide();
