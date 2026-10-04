@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="..\..\..\LICENSE" Link="LICENSE" LogicalName="OpenExamSuite.Shared.LICENSE" />
+    <EmbeddedResource Include="..\..\..\CHANGELOG.md" Link="CHANGELOG.md" LogicalName="OpenExamSuite.Shared.CHANGELOG" />
   </ItemGroup>
 
   <ItemGroup>

@@ -131,10 +131,10 @@ public partial class HomeUi : Form
 
         var settings = new AppSetting
         {
-            FilePath = filePath,
-            Name = Path.GetFileNameWithoutExtension(filePath)
+            Key = filePath,
+            Value = Path.GetFileNameWithoutExtension(filePath)
         };
-        _appSettings.Add(settings, AppSettingsType.Creator);
+        _appSettings.Set(settings, AppSettingsType.Creator);
     }
 
     private void Save(object sender, EventArgs e)
@@ -616,6 +616,12 @@ public partial class HomeUi : Form
     {
         using var license = new OpenExamSuite.Shared.Dialogs.LicenseUi();
         license.ShowDialog();
+    }
+
+    private void Changelog(object sender, EventArgs e)
+    {
+        using var changelog = new OpenExamSuite.Shared.Dialogs.ChangelogUi();
+        changelog.ShowDialog();
     }
 
     private void AfterSelect(object sender, TreeViewEventArgs e)
@@ -1111,7 +1117,7 @@ public partial class HomeUi : Form
             {
                 Location = new Point(10, 40 + j * 25),
                 AutoSize = true,
-                Text = appSettings[j].FilePath
+                Text = appSettings[j].Key
             };
             examLink.Click += ExamLinkClick;
             grp_exam_history.Controls.Add(examLink);

@@ -1,3 +1,4 @@
+using LiteDB;
 using OpenExamSuite.Storage.Enums;
 using OpenExamSuite.Storage.Models;
 using OpenExamSuite.Storage.Services;
@@ -24,28 +25,30 @@ public class AppSettingsServiceTests : IDisposable
     }
 
     [Fact]
-    public void Add_DistinctPaths_BothStored()
+    public void Set_DistinctKeys_BothStored()
     {
-        _sut.Add(new AppSetting { Name = "A", FilePath = "/a.oef" }, AppSettingsType.Simulator);
-        _sut.Add(new AppSetting { Name = "B", FilePath = "/b.oef" }, AppSettingsType.Simulator);
+        _sut.Set(new AppSetting { Key = "/a.oef", Value = "A" }, AppSettingsType.Simulator);
+        _sut.Set(new AppSetting { Key = "/b.oef", Value = "B" }, AppSettingsType.Simulator);
 
         var all = _sut.GetAll(AppSettingsType.Simulator);
         all.Count.Verify().ToBe(2);
     }
 
     [Fact]
-    public void Add_DuplicatePath_IgnoresSecondInsert()
+    public void Set_DuplicateKey_UpdatesInsteadOfInserting()
     {
-        _sut.Add(new AppSetting { Name = "A", FilePath = "/same.oef" }, AppSettingsType.Simulator);
-        _sut.Add(new AppSetting { Name = "B", FilePath = "/same.oef" }, AppSettingsType.Simulator);
+        _sut.Set(new AppSetting { Key = "/same.oef", Value = "A" }, AppSettingsType.Simulator);
+        _sut.Set(new AppSetting { Key = "/same.oef", Value = "B" }, AppSettingsType.Simulator);
 
-        _sut.GetAll(AppSettingsType.Simulator).Count.Verify().ToBe(1);
+        var all = _sut.GetAll(AppSettingsType.Simulator);
+        all.Count.Verify().ToBe(1);
+        all[0].Value.Verify().ToBe("B");
     }
 
     [Fact]
-    public void Remove_DeletesMatchingPath()
+    public void Remove_DeletesMatchingKey()
     {
-        _sut.Add(new AppSetting { Name = "A", FilePath = "/x.oef" }, AppSettingsType.Simulator);
+        _sut.Set(new AppSetting { Key = "/x.oef", Value = "X" }, AppSettingsType.Simulator);
         _sut.Remove("/x.oef", AppSettingsType.Simulator);
 
         _sut.GetAll(AppSettingsType.Simulator).Verify().ToBeEmpty();
@@ -54,12 +57,59 @@ public class AppSettingsServiceTests : IDisposable
     [Fact]
     public void Clear_RemovesAllForType()
     {
-        _sut.Add(new AppSetting { Name = "A", FilePath = "/a.oef" }, AppSettingsType.Simulator);
-        _sut.Add(new AppSetting { Name = "B", FilePath = "/b.oef" }, AppSettingsType.Creator);
+        _sut.Set(new AppSetting { Key = "/a.oef", Value = "A" }, AppSettingsType.Simulator);
+        _sut.Set(new AppSetting { Key = "/b.oef", Value = "B" }, AppSettingsType.Creator);
 
         _sut.Clear(AppSettingsType.Simulator);
 
         _sut.GetAll(AppSettingsType.Simulator).Verify().ToBeEmpty();
         _sut.GetAll(AppSettingsType.Creator).Count.Verify().ToBe(1);
+    }
+
+    [Fact]
+    public void Get_MissingKey_ReturnsNull()
+    {
+        _sut.Get("missing", AppSettingsType.Other).Verify().ToBeNull();
+    }
+
+    [Fact]
+    public void Set_NewPreference_StoresValue()
+    {
+        _sut.Set(new AppSetting { Key = "key", Value = "value" }, AppSettingsType.Other);
+
+        var stored = _sut.Get("key", AppSettingsType.Other);
+        stored.Verify().NotToBeNull();
+        stored!.Value.Verify().ToBe("value");
+    }
+
+    [Fact]
+    public void Set_ExistingPreference_UpdatesValue()
+    {
+        _sut.Set(new AppSetting { Key = "key", Value = "first" }, AppSettingsType.Other);
+        _sut.Set(new AppSetting { Key = "key", Value = "second" }, AppSettingsType.Other);
+
+        var stored = _sut.Get("key", AppSettingsType.Other);
+        stored.Verify().NotToBeNull();
+        stored!.Value.Verify().ToBe("second");
+    }
+
+    [Fact]
+    public void GetAll_LegacyRecords_AreStillReadable()
+    {
+        using (var db = new LiteDatabase(_databasePath))
+        {
+            var collection = db.GetCollection("SimulatorSettings");
+            collection.Insert(new BsonDocument
+            {
+                ["_id"] = 1,
+                ["FilePath"] = "/legacy.oef",
+                ["Name"] = "Legacy"
+            });
+        }
+
+        var all = _sut.GetAll(AppSettingsType.Simulator);
+        all.Count.Verify().ToBe(1);
+        all[0].Key.Verify().ToBe("/legacy.oef");
+        all[0].Value.Verify().ToBe("Legacy");
     }
 }

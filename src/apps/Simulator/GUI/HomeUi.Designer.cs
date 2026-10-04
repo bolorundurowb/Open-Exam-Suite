@@ -39,6 +39,7 @@
             this.helpToolStripMenuItem = new ToolStripMenuItem();
             this.aboutToolStripMenuItem = new ToolStripMenuItem();
             this.licenseToolStripMenuItem = new ToolStripMenuItem();
+            this.changelogToolStripMenuItem = new ToolStripMenuItem();
             this.dgv_exams = new DataGridView();
             this.name = new DataGridViewTextBoxColumn();
             this.path = new DataGridViewTextBoxColumn();
@@ -91,7 +92,7 @@
             // 
             // helpToolStripMenuItem
             // 
-            this.helpToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { this.aboutToolStripMenuItem, this.licenseToolStripMenuItem });
+            this.helpToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { this.aboutToolStripMenuItem, this.licenseToolStripMenuItem, this.changelogToolStripMenuItem });
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new Size(44, 20);
             this.helpToolStripMenuItem.Text = "Help";
@@ -109,6 +110,13 @@
             this.licenseToolStripMenuItem.Size = new Size(113, 22);
             this.licenseToolStripMenuItem.Text = "License";
             this.licenseToolStripMenuItem.Click += this.License;
+            // 
+            // changelogToolStripMenuItem
+            // 
+            this.changelogToolStripMenuItem.Name = "changelogToolStripMenuItem";
+            this.changelogToolStripMenuItem.Size = new Size(113, 22);
+            this.changelogToolStripMenuItem.Text = "Changelog";
+            this.changelogToolStripMenuItem.Click += this.Changelog;
             // 
             // dgv_exams
             // 
@@ -267,6 +275,7 @@
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem licenseToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem changelogToolStripMenuItem;
         private System.Windows.Forms.Button btn_start;
         private System.Windows.Forms.Button btn_add;
         private System.Windows.Forms.Button btn_remove;

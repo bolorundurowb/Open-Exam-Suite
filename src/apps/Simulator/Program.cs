@@ -1,12 +1,18 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System.Reflection;
+using Microsoft.Extensions.DependencyInjection;
+using OpenExamSuite.Shared.Dialogs;
 using OpenExamSuite.Simulator.GUI;
+using OpenExamSuite.Storage.Enums;
 using OpenExamSuite.Storage.Interfaces;
+using OpenExamSuite.Storage.Models;
 using OpenExamSuite.Storage.Services;
 
 namespace OpenExamSuite.Simulator;
 
 public static class Program
 {
+    private const string ChangelogVersionKey = "Simulator.LastChangelogVersion";
+
     /// <summary>
     /// The main entry point for the application.
     /// </summary>
@@ -29,9 +35,23 @@ public static class Program
         using var provider = services.BuildServiceProvider();
         var appSettings = provider.GetRequiredService<IAppSettingsService>();
 
-        Application.Run(args.Length == 0
+        var mainForm = args.Length == 0
             ? new HomeUi(appSettings)
-            : new HomeUi(appSettings, args[0]));
+            : new HomeUi(appSettings, args[0]);
+        mainForm.Shown += (_, _) => ShowChangelogIfUpdated(appSettings);
+
+        Application.Run(mainForm);
+    }
+
+    private static void ShowChangelogIfUpdated(IAppSettingsService appSettings)
+    {
+        var currentVersion = Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "0.0.0";
+        if (appSettings.Get(ChangelogVersionKey, AppSettingsType.Other)?.Value == currentVersion)
+            return;
+
+        using var changelog = new ChangelogUi();
+        changelog.ShowDialog();
+        appSettings.Set(new AppSetting { Key = ChangelogVersionKey, Value = currentVersion }, AppSettingsType.Other);
     }
 
     private static string GetGuid()
