@@ -868,6 +868,7 @@ public partial class HomeUi : Form
         }
 
         _exam = null;
+        _currentExamFile = null;
         _undoRedo = null;
         IsDirty = false;
 
