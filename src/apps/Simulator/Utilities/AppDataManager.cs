@@ -16,15 +16,15 @@ public static class AppDataManager
             var gmatSample = Path.Combine(samplesFolder, "GMAT Sample.oef");
             var basicScienceSample = Path.Combine(samplesFolder, "Basic Science.oef");
 
-            settingsService.Add(new AppSetting
+            settingsService.Set(new AppSetting
             {
-                Name = Path.GetFileNameWithoutExtension(gmatSample),
-                FilePath = gmatSample
+                Key = gmatSample,
+                Value = Path.GetFileNameWithoutExtension(gmatSample)
             }, AppSettingsType.Simulator);
-            settingsService.Add(new AppSetting
+            settingsService.Set(new AppSetting
             {
-                Name = Path.GetFileNameWithoutExtension(basicScienceSample),
-                FilePath = basicScienceSample
+                Key = basicScienceSample,
+                Value = Path.GetFileNameWithoutExtension(basicScienceSample)
             }, AppSettingsType.Simulator);
 
             Settings.Default.FirstRun = false;
@@ -33,7 +33,7 @@ public static class AppDataManager
 
         foreach (var settings in settingsService.GetAll(AppSettingsType.Simulator))
         {
-            dataGridView.Rows.Add(settings.Name, settings.FilePath);
+            dataGridView.Rows.Add(settings.Value, settings.Key);
         }
     }
 }
