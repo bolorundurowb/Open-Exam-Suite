@@ -13,7 +13,7 @@ public class ExamModelTests
 
         exam.AddSection(sectionName);
 
-        exam.Sections.Verify().ToContain(s => s.Title == sectionName);
+        exam.Sections.Any(s => s.Title == sectionName).Verify().ToBeTrue();
         exam.Sections.Count.Verify().ToBe(1);
     }
 

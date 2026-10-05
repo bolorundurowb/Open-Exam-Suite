@@ -6,7 +6,6 @@ using OpenExamSuite.Shared;
 using OpenExamSuite.Shared.Controls;
 using OpenExamSuite.Shared.Enums;
 using OpenExamSuite.Shared.Interfaces;
-using OpenExamSuite.Shared.Models;
 using OpenExamSuite.Shared.Services;
 using OpenExamSuite.Shared.WinForms;
 using OpenExamSuite.Shared.Utilities;
