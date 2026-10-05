@@ -31,7 +31,7 @@ public class AppSettingsServiceTests : IDisposable
         _sut.Set(new AppSetting { Key = "/b.oef", Value = "B" }, AppSettingsType.Simulator);
 
         var all = _sut.GetAll(AppSettingsType.Simulator);
-        all.Count.Verify().ToBe(2);
+        all.Count.Must().Be(2);
     }
 
     [Fact]
@@ -41,8 +41,8 @@ public class AppSettingsServiceTests : IDisposable
         _sut.Set(new AppSetting { Key = "/same.oef", Value = "B" }, AppSettingsType.Simulator);
 
         var all = _sut.GetAll(AppSettingsType.Simulator);
-        all.Count.Verify().ToBe(1);
-        all[0].Value.Verify().ToBe("B");
+        all.Count.Must().Be(1);
+        all[0].Value.Must().Be("B");
     }
 
     [Fact]
@@ -51,7 +51,7 @@ public class AppSettingsServiceTests : IDisposable
         _sut.Set(new AppSetting { Key = "/x.oef", Value = "X" }, AppSettingsType.Simulator);
         _sut.Remove("/x.oef", AppSettingsType.Simulator);
 
-        _sut.GetAll(AppSettingsType.Simulator).Verify().ToBeEmpty();
+        _sut.GetAll(AppSettingsType.Simulator).Must().BeEmpty();
     }
 
     [Fact]
@@ -62,14 +62,14 @@ public class AppSettingsServiceTests : IDisposable
 
         _sut.Clear(AppSettingsType.Simulator);
 
-        _sut.GetAll(AppSettingsType.Simulator).Verify().ToBeEmpty();
-        _sut.GetAll(AppSettingsType.Creator).Count.Verify().ToBe(1);
+        _sut.GetAll(AppSettingsType.Simulator).Must().BeEmpty();
+        _sut.GetAll(AppSettingsType.Creator).Count.Must().Be(1);
     }
 
     [Fact]
     public void Get_MissingKey_ReturnsNull()
     {
-        _sut.Get("missing", AppSettingsType.Other).Verify().ToBeNull();
+        _sut.Get("missing", AppSettingsType.Other).Must().BeNull();
     }
 
     [Fact]
@@ -78,8 +78,8 @@ public class AppSettingsServiceTests : IDisposable
         _sut.Set(new AppSetting { Key = "key", Value = "value" }, AppSettingsType.Other);
 
         var stored = _sut.Get("key", AppSettingsType.Other);
-        stored.Verify().NotToBeNull();
-        stored!.Value.Verify().ToBe("value");
+        stored.Must().NotBeNull();
+        stored!.Value.Must().Be("value");
     }
 
     [Fact]
@@ -89,8 +89,8 @@ public class AppSettingsServiceTests : IDisposable
         _sut.Set(new AppSetting { Key = "key", Value = "second" }, AppSettingsType.Other);
 
         var stored = _sut.Get("key", AppSettingsType.Other);
-        stored.Verify().NotToBeNull();
-        stored!.Value.Verify().ToBe("second");
+        stored.Must().NotBeNull();
+        stored!.Value.Must().Be("second");
     }
 
     [Fact]
@@ -108,8 +108,8 @@ public class AppSettingsServiceTests : IDisposable
         }
 
         var all = _sut.GetAll(AppSettingsType.Simulator);
-        all.Count.Verify().ToBe(1);
-        all[0].Key.Verify().ToBe("/legacy.oef");
-        all[0].Value.Verify().ToBe("Legacy");
+        all.Count.Must().Be(1);
+        all[0].Key.Must().Be("/legacy.oef");
+        all[0].Value.Must().Be("Legacy");
     }
 }

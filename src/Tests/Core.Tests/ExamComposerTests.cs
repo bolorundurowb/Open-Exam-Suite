@@ -43,9 +43,9 @@ public class ExamComposerTests
 
         var result = _composer.SelectSections(exam, exam.Sections.Take(1));
 
-        result.Sections.Count.Verify().ToBe(1);
-        result.Questions.Count.Verify().ToBe(2);
-        result.Sections[0].Title.Verify().ToBe("Section A");
+        result.Sections.Count.Must().Be(1);
+        result.Questions.Count.Must().Be(2);
+        result.Sections[0].Title.Must().Be("Section A");
     }
 
     [Fact]
@@ -55,8 +55,8 @@ public class ExamComposerTests
 
         var result = _composer.SelectFixedQuestions(exam, 2);
 
-        result.Questions.Count.Verify().ToBe(2);
-        result.Sections.Count.Verify().ToBe(1);
+        result.Questions.Count.Must().Be(2);
+        result.Sections.Count.Must().Be(1);
     }
 
     [Fact]
@@ -66,11 +66,11 @@ public class ExamComposerTests
 
         var result = _composer.SelectFixedQuestions(exam, 3);
 
-        result.Questions.Count.Verify().ToBe(3);
-        result.Sections.Count.Verify().ToBe(2);
-        result.Sections[1].Questions.Count.Verify().ToBe(1);
-        result.Sections[1].Title.Verify().ToBe("Section B");
-        exam.Sections[1].Questions.Count.Verify().ToBe(3);
+        result.Questions.Count.Must().Be(3);
+        result.Sections.Count.Must().Be(2);
+        result.Sections[1].Questions.Count.Must().Be(1);
+        result.Sections[1].Title.Must().Be("Section B");
+        exam.Sections[1].Questions.Count.Must().Be(3);
     }
 
     [Fact]
@@ -80,7 +80,7 @@ public class ExamComposerTests
 
         var result = _composer.SelectFixedQuestions(exam, 100);
 
-        result.Questions.Count.Verify().ToBe(5);
+        result.Questions.Count.Must().Be(5);
     }
 
     [Fact]
@@ -90,8 +90,8 @@ public class ExamComposerTests
 
         var result = _composer.SelectFixedQuestions(exam, 0);
 
-        result.Questions.Count.Verify().ToBe(0);
-        result.Sections.Count.Verify().ToBe(0);
+        result.Questions.Count.Must().Be(0);
+        result.Sections.Count.Must().Be(0);
     }
 
     [Fact]
@@ -101,8 +101,8 @@ public class ExamComposerTests
 
         var result = _composer.SelectFixedQuestions(exam, 3);
 
-        result.Sections[0].Questions.Count.Verify().ToBe(2);
-        result.Sections[1].Questions.Count.Verify().ToBe(1);
-        result.Sections.Sum(s => s.Questions.Count).Verify().ToBe(result.Questions.Count);
+        result.Sections[0].Questions.Count.Must().Be(2);
+        result.Sections[1].Questions.Count.Must().Be(1);
+        result.Sections.Sum(s => s.Questions.Count).Must().Be(result.Questions.Count);
     }
 }

@@ -14,10 +14,10 @@ public class ExamEditorTests
 
         var change = _editor.AddSection(exam, "Section A");
 
-        exam.Sections.Count.Verify().ToBe(1);
-        exam.Sections[0].Title.Verify().ToBe("Section A");
-        change.Action.Verify().ToBe(ActionType.Add);
-        change.SectionTitle.Verify().ToBe("Section A");
+        exam.Sections.Count.Must().Be(1);
+        exam.Sections[0].Title.Must().Be("Section A");
+        change.Action.Must().Be(ActionType.Add);
+        change.SectionTitle.Must().Be("Section A");
     }
 
     [Fact]
@@ -28,10 +28,10 @@ public class ExamEditorTests
 
         var change = _editor.RenameSection(exam, "Old", "New");
 
-        exam.Sections[0].Title.Verify().ToBe("New");
-        change.Action.Verify().ToBe(ActionType.RenameSection);
-        change.PreviousSectionTitle.Verify().ToBe("Old");
-        change.SectionTitle.Verify().ToBe("New");
+        exam.Sections[0].Title.Must().Be("New");
+        change.Action.Must().Be(ActionType.RenameSection);
+        change.PreviousSectionTitle.Must().Be("Old");
+        change.SectionTitle.Must().Be("New");
     }
 
     [Fact]
@@ -42,7 +42,7 @@ public class ExamEditorTests
 
         _editor.RemoveSection(exam, "Section A");
 
-        exam.Sections.Count.Verify().ToBe(0);
+        exam.Sections.Count.Must().Be(0);
     }
 
     [Fact]
@@ -54,8 +54,8 @@ public class ExamEditorTests
 
         _editor.AddQuestion(exam, "Section A", question);
 
-        exam.Sections[0].Questions.Count.Verify().ToBe(1);
-        question.No.Verify().ToBe(1);
+        exam.Sections[0].Questions.Count.Must().Be(1);
+        question.No.Must().Be(1);
     }
 
     [Fact]
@@ -68,9 +68,9 @@ public class ExamEditorTests
 
         _editor.RemoveQuestion(exam, "Section A", 1);
 
-        exam.Sections[0].Questions.Count.Verify().ToBe(1);
-        exam.Sections[0].Questions[0].No.Verify().ToBe(1);
-        exam.Sections[0].Questions[0].Text.Verify().ToBe("Q2");
+        exam.Sections[0].Questions.Count.Must().Be(1);
+        exam.Sections[0].Questions[0].No.Must().Be(1);
+        exam.Sections[0].Questions[0].Text.Must().Be("Q2");
     }
 
     [Fact]
@@ -83,9 +83,9 @@ public class ExamEditorTests
 
         var change = _editor.UpdateQuestion(exam, "Section A", 1, updated);
 
-        exam.Sections[0].Questions[0].Text.Verify().ToBe("Updated");
-        change.PreviousQuestion.Verify().NotToBeNull();
-        change.PreviousQuestion!.Text.Verify().ToBe("Original");
+        exam.Sections[0].Questions[0].Text.Must().Be("Updated");
+        change.PreviousQuestion.Must().NotBeNull();
+        change.PreviousQuestion!.Text.Must().Be("Original");
     }
 
     [Fact]
@@ -96,6 +96,6 @@ public class ExamEditorTests
 
         _editor.ApplyProperties(exam, properties);
 
-        exam.Properties.Title.Verify().ToBe("New Title");
+        exam.Properties.Title.Must().Be("New Title");
     }
 }

@@ -12,16 +12,16 @@ public class ExamFormatFixtureTests
         var path = Path.Combine(AppContext.BaseDirectory, "Fixtures", "minimal.json");
         var exam = Reader.FromJsonFile(path);
 
-        exam.Verify().NotToBeNull();
-        exam!.Properties.Title.Verify().ToBe("FixtureExam");
-        exam.Properties.Code.Verify().ToBe("FX");
-        exam.Properties.HideAnswers.Verify().ToBeFalse();
-        exam.Sections.Count.Verify().ToBe(1);
-        exam.Sections[0].Title.Verify().ToBe("SectionOne");
-        exam.Sections[0].Questions.Count.Verify().ToBe(1);
-        exam.Sections[0].Questions[0].Text.Verify().ToBe("Sample question?");
-        exam.Sections[0].Questions[0].Answer.Verify().ToBe('A');
-        exam.NumberOfQuestions.Verify().ToBe(1);
+        exam.Must().NotBeNull();
+        exam!.Properties.Title.Must().Be("FixtureExam");
+        exam.Properties.Code.Must().Be("FX");
+        exam.Properties.HideAnswers.Must().BeFalse();
+        exam.Sections.Count.Must().Be(1);
+        exam.Sections[0].Title.Must().Be("SectionOne");
+        exam.Sections[0].Questions.Count.Must().Be(1);
+        exam.Sections[0].Questions[0].Text.Must().Be("Sample question?");
+        exam.Sections[0].Questions[0].Answer.Must().Be('A');
+        exam.NumberOfQuestions.Must().Be(1);
     }
 
     [Fact]
@@ -32,16 +32,16 @@ public class ExamFormatFixtureTests
         try
         {
             var original = Reader.FromJsonFile(sourcePath);
-            original.Verify().NotToBeNull();
+            original.Must().NotBeNull();
 
-            Writer.ToJson(original!, tempPath).Verify().ToBeTrue();
+            Writer.ToJson(original!, tempPath).Must().BeTrue();
 
             var roundTripped = Reader.FromJsonFile(tempPath);
-            roundTripped.Verify().NotToBeNull();
-            roundTripped!.Properties.Title.Verify().ToBe(original!.Properties.Title);
-            roundTripped.Properties.Code.Verify().ToBe(original.Properties.Code);
-            roundTripped.Sections.Count.Verify().ToBe(original.Sections.Count);
-            roundTripped.NumberOfQuestions.Verify().ToBe(original.NumberOfQuestions);
+            roundTripped.Must().NotBeNull();
+            roundTripped!.Properties.Title.Must().Be(original!.Properties.Title);
+            roundTripped.Properties.Code.Must().Be(original.Properties.Code);
+            roundTripped.Sections.Count.Must().Be(original.Sections.Count);
+            roundTripped.NumberOfQuestions.Must().Be(original.NumberOfQuestions);
         }
         finally
         {

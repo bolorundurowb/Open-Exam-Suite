@@ -18,11 +18,11 @@ public class UndoRedoTests
 
         var undo = _undoRedo.Undo();
         _editor.RevertChange(exam, undo!);
-        exam.Sections[0].Questions.Count.Verify().ToBe(0);
+        exam.Sections[0].Questions.Count.Must().Be(0);
 
         var redo = _undoRedo.Redo();
         _editor.ApplyChange(exam, redo!);
-        exam.Sections[0].Questions.Count.Verify().ToBe(1);
+        exam.Sections[0].Questions.Count.Must().Be(1);
     }
 
     [Fact]
@@ -36,11 +36,11 @@ public class UndoRedoTests
 
         var undo = _undoRedo.Undo();
         _editor.RevertChange(exam, undo!);
-        exam.Sections[0].Questions[0].Text.Verify().ToBe("Original");
+        exam.Sections[0].Questions[0].Text.Must().Be("Original");
 
         var redo = _undoRedo.Redo();
         _editor.ApplyChange(exam, redo!);
-        exam.Sections[0].Questions[0].Text.Verify().ToBe("Updated");
+        exam.Sections[0].Questions[0].Text.Must().Be("Updated");
     }
 
     [Fact]
@@ -51,14 +51,14 @@ public class UndoRedoTests
 
         _undoRedo.Push(new ChangeRepresentationObject { Action = ActionType.Add, SectionTitle = "S2" });
 
-        _undoRedo.Redo().Verify().ToBeNull();
+        _undoRedo.Redo().Must().BeNull();
     }
 
     [Fact]
     public void EmptyStack_ReturnsNull()
     {
-        _undoRedo.Undo().Verify().ToBeNull();
-        _undoRedo.Redo().Verify().ToBeNull();
+        _undoRedo.Undo().Must().BeNull();
+        _undoRedo.Redo().Must().BeNull();
     }
 
     [Fact]
@@ -69,7 +69,7 @@ public class UndoRedoTests
 
         _undoRedo.Clear();
 
-        _undoRedo.Redo().Verify().ToBeNull();
-        _undoRedo.Undo().Verify().ToBeNull();
+        _undoRedo.Redo().Must().BeNull();
+        _undoRedo.Undo().Must().BeNull();
     }
 }

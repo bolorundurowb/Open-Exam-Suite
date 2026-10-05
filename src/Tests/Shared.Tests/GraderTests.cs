@@ -21,7 +21,7 @@ public class GraderTests
 
         var result = Grader.Grade(userAnswers, questions, sections);
 
-        result.NumberOfCorrectAnswers.Verify().ToBe(1);
+        result.NumberOfCorrectAnswers.Must().Be(1);
     }
 
     [Fact]
@@ -38,7 +38,7 @@ public class GraderTests
 
         var result = Grader.Grade(userAnswers, questions, sections);
 
-        result.NumberOfCorrectAnswers.Verify().ToBe(0);
+        result.NumberOfCorrectAnswers.Must().Be(0);
     }
 
     [Fact]
@@ -55,7 +55,7 @@ public class GraderTests
 
         var result = Grader.Grade(userAnswers, questions, sections);
 
-        result.NumberOfCorrectAnswers.Verify().ToBe(2);
+        result.NumberOfCorrectAnswers.Must().Be(2);
     }
 
     [Fact]
@@ -71,7 +71,7 @@ public class GraderTests
 
         var result = Grader.Grade(userAnswers, questions, sections);
 
-        result.NumberOfCorrectAnswers.Verify().ToBe(0);
+        result.NumberOfCorrectAnswers.Must().Be(0);
     }
 
     [Fact]
@@ -87,7 +87,7 @@ public class GraderTests
 
         var result = Grader.Grade(userAnswers, questions, sections);
 
-        result.NumberOfCorrectAnswers.Verify().ToBe(1);
+        result.NumberOfCorrectAnswers.Must().Be(1);
     }
 
     [Fact]
@@ -119,9 +119,9 @@ public class GraderTests
 
         var result = Grader.Grade(userAnswers, questions, sections);
 
-        result.NumberOfCorrectAnswers.Verify().ToBe(2);
-        result.ResultSpread.Count.Verify().ToBe(2);
-        result.ResultSpread[0].Verify().ToBe(new SectionResult("Section A", 2, 1));
-        result.ResultSpread[1].Verify().ToBe(new SectionResult("Section B", 1, 1));
+        result.NumberOfCorrectAnswers.Must().Be(2);
+        result.ResultSpread.Count.Must().Be(2);
+        result.ResultSpread[0].Must().Be(new SectionResult("Section A", 2, 1));
+        result.ResultSpread[1].Must().Be(new SectionResult("Section B", 1, 1));
     }
 }

@@ -13,8 +13,8 @@ public class ExamModelTests
 
         exam.AddSection(sectionName);
 
-        exam.Sections.Any(s => s.Title == sectionName).Verify().ToBeTrue();
-        exam.Sections.Count.Verify().ToBe(1);
+        exam.Sections.Any(s => s.Title == sectionName).Must().BeTrue();
+        exam.Sections.Count.Must().Be(1);
     }
 
     [Fact]
@@ -26,7 +26,7 @@ public class ExamModelTests
 
         exam.AddSection(sectionName);
 
-        exam.Sections.Count.Verify().ToBe(1);
+        exam.Sections.Count.Must().Be(1);
     }
 
     [Fact]
@@ -37,8 +37,8 @@ public class ExamModelTests
         exam.AddSection(sectionName);
         exam.RemoveSection(sectionName);
 
-        exam.Sections.Any(s => s.Title == sectionName).Verify().ToBeFalse();
-        exam.Sections.Count.Verify().ToBe(0);
+        exam.Sections.Any(s => s.Title == sectionName).Must().BeFalse();
+        exam.Sections.Count.Must().Be(0);
     }
 
     [Fact]
@@ -50,8 +50,8 @@ public class ExamModelTests
         exam.AddQuestion(sectionName, question);
 
         var section = exam.Sections.FirstOrDefault(s => s.Title == sectionName);
-        section.Verify().NotToBeNull();
-        section!.Questions.Verify().ToContain(question);
+        section.Must().NotBeNull();
+        section!.Questions.Must().Contain(question);
     }
 
     [Fact]
@@ -64,8 +64,8 @@ public class ExamModelTests
         exam.RemoveQuestion(sectionName, question);
 
         var section = exam.Sections.FirstOrDefault(s => s.Title == sectionName);
-        section.Verify().NotToBeNull();
-        section!.Questions.Verify().NotToContain(question);
+        section.Must().NotBeNull();
+        section!.Questions.Must().NotContain(question);
     }
 
     [Fact]
@@ -78,6 +78,6 @@ public class ExamModelTests
 
         var total = exam.NumberOfQuestions;
 
-        total.Verify().ToBe(3);
+        total.Must().Be(3);
     }
 }
