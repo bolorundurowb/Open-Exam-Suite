@@ -1,5 +1,3 @@
-using OpenExamSuite.Shared.Models;
-
 namespace OpenExamSuite.Shared.Interfaces;
 
 public interface IScorer

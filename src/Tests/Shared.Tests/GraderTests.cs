@@ -1,4 +1,3 @@
-using OpenExamSuite.Shared;
 using OpenExamSuite.Shared.Models;
 using OmniAssert;
 using Xunit;

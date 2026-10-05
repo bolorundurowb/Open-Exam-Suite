@@ -1,5 +1,4 @@
 using OpenExamSuite.Shared.Interfaces;
-using OpenExamSuite.Shared.Models;
 
 namespace OpenExamSuite.Shared.Services;
 
