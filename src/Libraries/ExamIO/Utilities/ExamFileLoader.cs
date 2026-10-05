@@ -1,4 +1,5 @@
 using OpenExamSuite.Logging;
+using OpenExamSuite.Shared.Enums;
 
 namespace OpenExamSuite.Shared.Utilities;
 
@@ -22,11 +23,11 @@ public static class ExamFileLoader
                 return new ExamFileLoadResult(
                     null,
                     false,
-                    "Sorry, the JSON file selected is empty or invalid.",
+                    ExamFileLoadError.EmptyOrInvalidJson,
                     null);
             }
 
-            return new ExamFileLoadResult(exam, true, null, filePath);
+            return new ExamFileLoadResult(exam, true, ExamFileLoadError.None, filePath);
         }
 
         if (fileExt == ".xml")
@@ -39,11 +40,11 @@ public static class ExamFileLoader
                     return new ExamFileLoadResult(
                         null,
                         false,
-                        "Sorry, the XML file selected is empty or invalid.",
+                        ExamFileLoadError.EmptyOrInvalidXml,
                         null);
                 }
 
-                return new ExamFileLoadResult(exam, true, null, filePath);
+                return new ExamFileLoadResult(exam, true, ExamFileLoadError.None, filePath);
             }
             catch (Exception ex)
             {
@@ -51,19 +52,19 @@ public static class ExamFileLoader
                 return new ExamFileLoadResult(
                     null,
                     false,
-                    "Sorry, the XML file selected is invalid.",
+                    ExamFileLoadError.InvalidXml,
                     null);
             }
         }
 
         var oefExam = Reader.FromOefFile(filePath);
         if (oefExam != null)
-            return new ExamFileLoadResult(oefExam, true, null, filePath);
+            return new ExamFileLoadResult(oefExam, true, ExamFileLoadError.None, filePath);
 
         return new ExamFileLoadResult(
             null,
             false,
-            null,
+            ExamFileLoadError.UnknownOrCorrupt,
             null);
     }
 }
@@ -71,5 +72,5 @@ public static class ExamFileLoader
 public sealed record ExamFileLoadResult(
     Exam? Exam,
     bool Success,
-    string? ErrorMessage,
+    ExamFileLoadError Error,
     string? PathForHistory);

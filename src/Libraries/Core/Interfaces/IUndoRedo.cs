@@ -7,4 +7,5 @@ public interface IUndoRedo
     ChangeRepresentationObject? Undo();
     ChangeRepresentationObject? Redo();
     void Push(ChangeRepresentationObject change);
+    void Clear();
 }

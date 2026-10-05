@@ -1,7 +1,7 @@
-﻿using OpenExamSuite.Shared.Interfaces;
+using OpenExamSuite.Shared.Interfaces;
 using OpenExamSuite.Shared.Models;
 
-namespace OpenExamSuite.Creator.Utilities;
+namespace OpenExamSuite.Shared.Services;
 
 public class UndoRedo : IUndoRedo
 {
@@ -28,5 +28,11 @@ public class UndoRedo : IUndoRedo
         var item = _undoStack.Pop();
         _redoStack.Push(item);
         return item;
+    }
+
+    public void Clear()
+    {
+        _undoStack.Clear();
+        _redoStack.Clear();
     }
 }

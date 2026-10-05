@@ -1,12 +1,13 @@
 ﻿using System.Diagnostics;
 using System.Drawing.Printing;
 using OpenExamSuite.Creator.GUI.Dialogs;
-using OpenExamSuite.Creator.Utilities;
 using OpenExamSuite.Logging;
 using OpenExamSuite.Shared;
 using OpenExamSuite.Shared.Controls;
 using OpenExamSuite.Shared.Enums;
-using OpenExamSuite.Shared.Models;
+using OpenExamSuite.Shared.Interfaces;
+using OpenExamSuite.Shared.Services;
+using OpenExamSuite.Shared.WinForms;
 using OpenExamSuite.Shared.Utilities;
 using OpenExamSuite.Storage.Enums;
 using OpenExamSuite.Storage.Interfaces;
@@ -21,10 +22,11 @@ public partial class HomeUi : Form
     #region Class Variables
 
     private readonly IAppSettingsService _appSettings;
-    private Exam _exam;
-    private string _currentExamFile;
+    private readonly IExamEditor _examEditor = new ExamEditor();
+    private readonly IUndoRedo _undoRedo = new UndoRedo();
+    private Exam _exam = new();
+    private string? _currentExamFile;
     private PrintOption _whatToPrint;
-    private UndoRedo _undoRedo;
 
     private bool IsDirty { get; set; }
 
@@ -44,9 +46,9 @@ public partial class HomeUi : Form
     {
         Close(sender, e);
         _exam = new Exam();
+        _undoRedo.Clear();
         splitContainer2.Panel2.Controls.Remove(pan_splash);
         splitContainer2.Panel2.Controls.Add(pan_exam_properties);
-        _undoRedo = new UndoRedo();
     }
 
     private void Open(object sender, EventArgs e)
@@ -64,17 +66,17 @@ public partial class HomeUi : Form
         var pathBeforeLoad = _currentExamFile;
         var load = ExamFileLoader.TryLoad(pathBeforeLoad!);
 
-        if (!string.IsNullOrEmpty(load.ErrorMessage))
-        {
-            MessageBox.Show(load.ErrorMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            return;
-        }
-
         if (!load.Success || load.Exam == null)
         {
-            MessageBox.Show(
-                "Sorry, the exam selected is either old or corrupt. If it is an old exam, please upgrade it with the upgrade tool at:\nhttps://sourceforge.net/projects/exam-upgrade-tool/",
-                "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            var message = load.Error switch
+            {
+                ExamFileLoadError.EmptyOrInvalidJson => "Sorry, the JSON file selected is empty or invalid.",
+                ExamFileLoadError.EmptyOrInvalidXml => "Sorry, the XML file selected is empty or invalid.",
+                ExamFileLoadError.InvalidXml => "Sorry, the XML file selected is invalid.",
+                _ =>
+                    "Sorry, the exam selected is either old or corrupt. If it is an old exam, please upgrade it with the upgrade tool at:\nhttps://sourceforge.net/projects/exam-upgrade-tool/"
+            };
+            MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             return;
         }
 
@@ -85,11 +87,33 @@ public partial class HomeUi : Form
         else
             _currentExamFile = pathBeforeLoad;
 
-        trv_view_exam.Nodes.Clear();
         EnableExamControls();
         EnableSectionControls();
+        RenderTree();
+        _undoRedo.Clear();
+
+        AddToHistory(load.PathForHistory);
+    }
+
+    private void AddToHistory(string? filePath)
+    {
+        if (string.IsNullOrEmpty(filePath)) return;
+
+        var settings = new AppSetting
+        {
+            Key = filePath,
+            Value = Path.GetFileNameWithoutExtension(filePath)
+        };
+        _appSettings.Set(settings, AppSettingsType.Creator);
+    }
+
+    private void RenderTree()
+    {
+        trv_view_exam.Nodes.Clear();
+
         var examNode = new ExamNode(_exam.Properties);
         trv_view_exam.Nodes.Add(examNode);
+
         foreach (var section in _exam.Sections)
         {
             var sectionNode = new SectionNode(section.Title)
@@ -109,6 +133,7 @@ public partial class HomeUi : Form
         }
 
         trv_view_exam.ExpandAll();
+
         if (splitContainer2.Panel2.Controls.Contains(pan_splash))
         {
             splitContainer2.Panel2.Controls.Remove(pan_splash);
@@ -120,21 +145,7 @@ public partial class HomeUi : Form
         txt_title.Text = _exam.Properties.Title;
         num_passmark.Value = (decimal)_exam.Properties.Passmark;
         num_time_limit.Value = _exam.Properties.TimeLimit;
-        _undoRedo = new UndoRedo();
-
-        AddToHistory(load.PathForHistory);
-    }
-
-    private void AddToHistory(string? filePath)
-    {
-        if (string.IsNullOrEmpty(filePath)) return;
-
-        var settings = new AppSetting
-        {
-            Key = filePath,
-            Value = Path.GetFileNameWithoutExtension(filePath)
-        };
-        _appSettings.Set(settings, AppSettingsType.Creator);
+        chk_hide_answers.Checked = _exam.Properties.HideAnswers;
     }
 
     private void Save(object sender, EventArgs e)
@@ -145,29 +156,11 @@ public partial class HomeUi : Form
         }
         else
         {
-            if (trv_view_exam.SelectedNode != null)
-                if (trv_view_exam.SelectedNode.GetType() == typeof(QuestionNode))
-                    CommitQuestion();
+        if (trv_view_exam.SelectedNode != null)
+            if (trv_view_exam.SelectedNode.GetType() == typeof(QuestionNode))
+                CommitQuestion();
 
-            var examNode = (ExamNode)trv_view_exam.Nodes[0];
-            _exam.Properties = examNode.Properties;
-            _exam.Sections.Clear();
-            foreach (SectionNode sectionNode in examNode.Nodes)
-            {
-                var section = new Section
-                {
-                    Title = sectionNode.Title
-                };
-                foreach (QuestionNode questionNode in sectionNode.Nodes)
-                {
-                    var question = questionNode.Question;
-                    section.Questions.Add(question);
-                }
-
-                _exam.Sections.Add(section);
-            }
-
-            var writeResult = Writer.ToOef(_exam, _currentExamFile);
+        var writeResult = Writer.ToOef(_exam, _currentExamFile!);
             if (writeResult)
             {
                 MessageBox.Show("Exam has been successfully saved.", "Success", MessageBoxButtons.OK,
@@ -211,24 +204,18 @@ public partial class HomeUi : Form
         }
 
         question.Explanation = txt_explanation.Text;
-        question.Image = (Bitmap)pct_image.Image;
+        question.ImageData = WinFormsImageConverter.ToByteArray((Bitmap?)pct_image.Image);
         question.Text = txt_question_text.Text;
         return question;
     }
 
     private void CommitQuestion()
     {
-        var currentQuestion = ((QuestionNode)trv_view_exam.SelectedNode).Question;
+        var currentQuestion = ((QuestionNode)trv_view_exam.SelectedNode!).Question;
         var newQuestion = BuildQuestion();
+        var sectionTitle = ((SectionNode)trv_view_exam.SelectedNode!.Parent!).Title;
 
-        currentQuestion.IsMultipleChoice = newQuestion.IsMultipleChoice;
-        currentQuestion.Answers = newQuestion.Answers;
-        currentQuestion.Answer = newQuestion.Answer;
-        currentQuestion.Explanation = newQuestion.Explanation;
-        currentQuestion.Image = newQuestion.Image;
-        currentQuestion.Options = newQuestion.Options;
-        currentQuestion.Text = newQuestion.Text;
-        currentQuestion.No = trv_view_exam.SelectedNode.Index + 1;
+        _examEditor.ReplaceQuestion(_exam, sectionTitle, currentQuestion.No, newQuestion);
     }
 
     private void SaveAs(object sender, EventArgs e)
@@ -270,251 +257,20 @@ public partial class HomeUi : Form
 
     private void Undo(object sender, EventArgs e)
     {
+        trv_view_exam.SelectedNode = null;
         var undoObject = _undoRedo.Undo();
         if (undoObject == null) return;
-        switch (undoObject.Action)
-        {
-            case ActionType.Add:
-                var _sectionNode = trv_view_exam.Nodes[0].Nodes.Cast<SectionNode>()
-                    .FirstOrDefault(s => s.Title == undoObject.SectionTitle);
-                if (_sectionNode != null)
-                {
-                    if (_sectionNode.Nodes.Count >= undoObject.Question.No)
-                    {
-                        _exam.Sections.First(s => s.Title == undoObject.SectionTitle).Questions
-                            .RemoveAt(undoObject.Question.No - 1);
-                        _sectionNode.Nodes.RemoveAt(undoObject.Question.No - 1);
-                    }
-                }
-
-                var j = 1;
-                foreach (QuestionNode questionNode_ in _sectionNode.Nodes)
-                {
-                    questionNode_.Text = "Question " + j;
-                    questionNode_.Question.No = j;
-                    j++;
-                }
-
-                break;
-
-            case ActionType.Delete:
-                var sectionNode = trv_view_exam.Nodes[0].Nodes.Cast<SectionNode>()
-                    .FirstOrDefault(s => s.Title == undoObject.SectionTitle);
-                if (sectionNode == null)
-                {
-                    sectionNode = new SectionNode(undoObject.SectionTitle)
-                    {
-                        ContextMenuStrip = cms_section
-                    };
-                    var questionNode = new QuestionNode(undoObject.Question)
-                    {
-                        ContextMenuStrip = cms_question
-                    };
-                    sectionNode.Nodes.Add(questionNode);
-                    trv_view_exam.Nodes[0].Nodes.Add(sectionNode);
-                    trv_view_exam.ExpandAll();
-                }
-                else
-                {
-                    var questionNode = new QuestionNode(undoObject.Question)
-                    {
-                        ContextMenuStrip = cms_question
-                    };
-                    sectionNode.Nodes.Insert(questionNode.Question.No - 1, questionNode);
-                    trv_view_exam.ExpandAll();
-                }
-
-                var i = 1;
-                foreach (QuestionNode questionNode_ in sectionNode.Nodes)
-                {
-                    questionNode_.Text = "Question " + i;
-                    questionNode_.Question.No = i;
-                    i++;
-                }
-
-                break;
-
-            case ActionType.Modify:
-                var sectionNode_ = trv_view_exam.Nodes[0].Nodes.Cast<SectionNode>()
-                    .FirstOrDefault(s => s.Title == undoObject.SectionTitle);
-                if (sectionNode_ != null)
-                {
-                    var questionNode = (QuestionNode)sectionNode_.Nodes[undoObject.Question.No - 1];
-                    questionNode.Question = undoObject.Question;
-                    txt_explanation.Text = undoObject.Question.Explanation;
-                    txt_question_text.Text = undoObject.Question.Text;
-                    lbl_section_question.Text = "Section: " + trv_view_exam.SelectedNode.Parent.Text +
-                                                ", Question " + undoObject.Question.No;
-                    pct_image.Image = undoObject.Question.Image;
-                    pan_options.Controls.Clear();
-                    var k = 0;
-                    if (undoObject.Question.IsMultipleChoice)
-                    {
-                        foreach (var option in undoObject.Question.Options)
-                        {
-                            var ctrl = new OptionsControl
-                            {
-                                Letter = option.Alphabet,
-                                Text = option.Text,
-                                Location = new Point(2, k * 36)
-                            };
-                            if (undoObject.Question.Answers.Contains(option.Alphabet))
-                            {
-                                ctrl.Checked = true;
-                            }
-
-                            pan_options.Controls.Add(ctrl);
-                            k++;
-                        }
-                    }
-                    else
-                    {
-                        foreach (var option in undoObject.Question.Options)
-                        {
-                            var ctrl = new OptionControl
-                            {
-                                Letter = option.Alphabet,
-                                Text = option.Text,
-                                Location = new Point(2, k * 36)
-                            };
-                            if (option.Alphabet == undoObject.Question.Answer)
-                            {
-                                ctrl.Checked = true;
-                            }
-
-                            pan_options.Controls.Add(ctrl);
-                            k++;
-                        }
-                    }
-                }
-
-                break;
-        }
+        _examEditor.RevertChange(_exam, undoObject);
+        RenderTree();
     }
 
     private void Redo(object sender, EventArgs e)
     {
+        trv_view_exam.SelectedNode = null;
         var redoObject = _undoRedo.Redo();
         if (redoObject == null) return;
-        switch (redoObject.Action)
-        {
-            case ActionType.Add:
-                var sectionNode = trv_view_exam.Nodes[0].Nodes.Cast<SectionNode>()
-                    .FirstOrDefault(s => s.Title == redoObject.SectionTitle);
-                if (sectionNode == null)
-                {
-                    sectionNode = new SectionNode(redoObject.SectionTitle)
-                    {
-                        ContextMenuStrip = cms_section
-                    };
-                    var questionNode = new QuestionNode(redoObject.Question)
-                    {
-                        ContextMenuStrip = cms_question
-                    };
-                    sectionNode.Nodes.Add(questionNode);
-                    trv_view_exam.Nodes[0].Nodes.Add(sectionNode);
-                    trv_view_exam.ExpandAll();
-                }
-                else
-                {
-                    sectionNode.ContextMenuStrip = cms_section;
-                    var questionNode = new QuestionNode(redoObject.Question)
-                    {
-                        ContextMenuStrip = cms_question
-                    };
-                    sectionNode.Nodes.Add(questionNode);
-                    trv_view_exam.ExpandAll();
-                }
-
-                var i = 1;
-                foreach (QuestionNode questionNode_ in sectionNode.Nodes)
-                {
-                    questionNode_.Text = "Question " + i;
-                    questionNode_.Question.No = i;
-                    i++;
-                }
-
-                break;
-
-            case ActionType.Delete:
-                var _sectionNode = trv_view_exam.Nodes[0].Nodes.Cast<SectionNode>()
-                    .FirstOrDefault(s => s.Title == redoObject.SectionTitle);
-                if (_sectionNode != null)
-                {
-                    if (_sectionNode.Nodes.Count >= redoObject.Question.No)
-                    {
-                        _exam.Sections.First(s => s.Title == redoObject.SectionTitle).Questions
-                            .RemoveAt(redoObject.Question.No - 1);
-                        _sectionNode.Nodes.RemoveAt(redoObject.Question.No - 1);
-                    }
-                }
-
-                var j = 1;
-                foreach (QuestionNode questionNode_ in _sectionNode.Nodes)
-                {
-                    questionNode_.Text = "Question " + j;
-                    questionNode_.Question.No = j;
-                    j++;
-                }
-
-                break;
-
-            case ActionType.Modify:
-                var sectionNode_ = trv_view_exam.Nodes[0].Nodes.Cast<SectionNode>()
-                    .FirstOrDefault(s => s.Title == redoObject.SectionTitle);
-                if (sectionNode_ != null)
-                {
-                    var questionNode = (QuestionNode)sectionNode_.Nodes[redoObject.Question.No - 1];
-                    questionNode.Question = redoObject.Question;
-                    txt_explanation.Text = redoObject.Question.Explanation;
-                    txt_question_text.Text = redoObject.Question.Text;
-                    lbl_section_question.Text = "Section: " + trv_view_exam.SelectedNode.Parent.Text +
-                                                " Question " + redoObject.Question.No;
-                    pct_image.Image = redoObject.Question.Image;
-                    pan_options.Controls.Clear();
-                    var k = 0;
-                    if (redoObject.Question.IsMultipleChoice)
-                    {
-                        foreach (var option in redoObject.Question.Options)
-                        {
-                            var ctrl = new OptionsControl
-                            {
-                                Letter = option.Alphabet,
-                                Text = option.Text,
-                                Location = new Point(2, k * 36)
-                            };
-                            if (redoObject.Question.Answers.Contains(option.Alphabet))
-                            {
-                                ctrl.Checked = true;
-                            }
-
-                            pan_options.Controls.Add(ctrl);
-                            k++;
-                        }
-                    }
-                    else
-                    {
-                        foreach (var option in redoObject.Question.Options)
-                        {
-                            var ctrl = new OptionControl
-                            {
-                                Letter = option.Alphabet,
-                                Text = option.Text,
-                                Location = new Point(2, k * 36)
-                            };
-                            if (option.Alphabet == redoObject.Question.Answer)
-                            {
-                                ctrl.Checked = true;
-                            }
-
-                            pan_options.Controls.Add(ctrl);
-                            k++;
-                        }
-                    }
-                }
-
-                break;
-        }
+        _examEditor.ApplyChange(_exam, redoObject);
+        RenderTree();
     }
 
     private void NewSection(object sender, EventArgs e)
@@ -524,47 +280,31 @@ public partial class HomeUi : Form
 
         if (!string.IsNullOrWhiteSpace(addSection.Title))
         {
-            var sectionNode = new SectionNode(addSection.Title)
-            {
-                ContextMenuStrip = cms_section
-            };
-            trv_view_exam.Nodes[0].Nodes.Add(sectionNode);
-            trv_view_exam.ExpandAll();
-            trv_view_exam.SelectedNode = sectionNode;
+            var change = _examEditor.AddSection(_exam, addSection.Title);
+            _undoRedo.Push(change);
+            RenderTree();
+            trv_view_exam.SelectedNode = trv_view_exam.Nodes[0].Nodes.Cast<SectionNode>()
+                .FirstOrDefault(s => s.Title == addSection.Title);
 
-            // indicate that there are unsaved changes
             IsDirty = true;
         }
     }
 
     private void NewQuestion(object sender, EventArgs e)
     {
-        // add question to section node
         var nodeToBeAddedTo = trv_view_exam.SelectedNode.GetType() == typeof(SectionNode)
             ? (SectionNode)trv_view_exam.SelectedNode
             : (SectionNode)trv_view_exam.SelectedNode.Parent;
-        var question = new Question
-        {
-            No = nodeToBeAddedTo.Nodes.Count + 1
-        };
-        var questionNode = new QuestionNode(question)
-        {
-            ContextMenuStrip = cms_question
-        };
-        nodeToBeAddedTo.Nodes.Add(questionNode);
-        trv_view_exam.ExpandAll();
-        trv_view_exam.SelectedNode = questionNode;
+        var sectionTitle = nodeToBeAddedTo.Title;
+        var question = new Question();
+        var change = _examEditor.AddQuestion(_exam, sectionTitle, question);
+        _undoRedo.Push(change);
+        RenderTree();
+        var sectionNode = trv_view_exam.Nodes[0].Nodes.Cast<SectionNode>()
+            .FirstOrDefault(s => s.Title == sectionTitle);
+        if (sectionNode != null && question.No <= sectionNode.Nodes.Count)
+            trv_view_exam.SelectedNode = sectionNode.Nodes[question.No - 1];
 
-        // add to stack to enable undo and redo
-        var obj = new ChangeRepresentationObject
-        {
-            Action = ActionType.Add,
-            Question = question,
-            SectionTitle = nodeToBeAddedTo.Title
-        };
-        _undoRedo.Push(obj);
-
-        // indicate there are unsaved changes
         IsDirty = true;
     }
 
@@ -626,6 +366,9 @@ public partial class HomeUi : Form
 
     private void AfterSelect(object sender, TreeViewEventArgs e)
     {
+        if (trv_view_exam.SelectedNode == null)
+            return;
+
         if (trv_view_exam.SelectedNode.GetType() == typeof(ExamNode))
         {
             newQuestionToolStripButton.Enabled = false;
@@ -676,7 +419,7 @@ public partial class HomeUi : Form
             txt_question_text.Text = question.Text;
             lbl_section_question.Text =
                 @"Section: " + trv_view_exam.SelectedNode.Parent.Text + @" Question " + question.No;
-            pct_image.Image = question.Image;
+            pct_image.Image = WinFormsImageConverter.ToBitmap(question.ImageData);
             chkMulipleChoice.Checked = question.IsMultipleChoice;
             pan_options.Controls.Clear();
             var i = 0;
@@ -762,18 +505,8 @@ public partial class HomeUi : Form
             HideAnswers = chk_hide_answers.Checked,
             Version = 4 // replaces parsing the version label
         };
-        if (trv_view_exam.Nodes.Count > 0)
-        {
-            var examNode = (ExamNode)trv_view_exam.Nodes[0];
-            examNode.Properties = properties;
-        }
-        else
-        {
-            var examNode = new ExamNode(properties);
-            trv_view_exam.Nodes.Add(examNode);
-        }
-
-        trv_view_exam.ExpandAll();
+        _examEditor.ApplyProperties(_exam, properties);
+        RenderTree();
         EnableExamControls();
         EnableSectionControls();
         IsDirty = true;
@@ -880,9 +613,9 @@ public partial class HomeUi : Form
 
     private void ResetState()
     {
-        _exam = null;
+        _exam = new Exam();
         _currentExamFile = null;
-        _undoRedo = null;
+        _undoRedo.Clear();
         IsDirty = false;
     }
 
@@ -1152,25 +885,12 @@ public partial class HomeUi : Form
 
     private void DeleteQuestion(object sender, EventArgs e)
     {
-        var sectionNode = trv_view_exam.SelectedNode.Parent;
+        var sectionNode = (SectionNode)trv_view_exam.SelectedNode.Parent;
+        var question = ((QuestionNode)trv_view_exam.SelectedNode).Question;
 
-        var obj = new ChangeRepresentationObject
-        {
-            Action = ActionType.Delete,
-            Question = ((QuestionNode)trv_view_exam.SelectedNode).Question,
-            SectionTitle = ((SectionNode)sectionNode).Title
-        };
-        _undoRedo.Push(obj);
-
-        sectionNode.Nodes.Remove(trv_view_exam.SelectedNode);
-
-        var i = 1;
-        foreach (QuestionNode questionNode in sectionNode.Nodes)
-        {
-            questionNode.Question.No = 1;
-            questionNode.Text = "Question " + i;
-            i++;
-        }
+        var change = _examEditor.RemoveQuestion(_exam, sectionNode.Title, question.No);
+        _undoRedo.Push(change);
+        RenderTree();
 
         IsDirty = true;
     }
@@ -1182,8 +902,12 @@ public partial class HomeUi : Form
         var editSection = new EditSection(sectionNode.Title);
         editSection.ShowDialog();
 
-        sectionNode.Title = editSection.Title;
-        sectionNode.Text = editSection.Title;
+        if (editSection.Title != sectionNode.Title)
+        {
+            var change = _examEditor.RenameSection(_exam, sectionNode.Title, editSection.Title);
+            _undoRedo.Push(change);
+            RenderTree();
+        }
 
         IsDirty = true;
     }
@@ -1197,15 +921,11 @@ public partial class HomeUi : Form
     {
         IsDirty = true;
 
-        var obj = new ChangeRepresentationObject
-        {
-            Action = ActionType.Modify
-        };
-
-        obj.Question = BuildQuestion();
-        obj.Question.No = trv_view_exam.SelectedNode.Index + 1;
-        obj.SectionTitle = ((SectionNode)trv_view_exam.SelectedNode.Parent).Title;
-        _undoRedo.Push(obj);
+        var sectionTitle = ((SectionNode)trv_view_exam.SelectedNode.Parent).Title;
+        var questionNo = ((QuestionNode)trv_view_exam.SelectedNode).Question.No;
+        var newQuestion = BuildQuestion();
+        var change = _examEditor.UpdateQuestion(_exam, sectionTitle, questionNo, newQuestion);
+        _undoRedo.Push(change);
     }
 
     private void DisconnectHandlers()
