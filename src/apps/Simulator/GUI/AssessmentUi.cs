@@ -1,5 +1,8 @@
 ﻿using OpenExamSuite.Shared;
+using OpenExamSuite.Shared.Interfaces;
 using OpenExamSuite.Shared.Models;
+using OpenExamSuite.Shared.Services;
+using OpenExamSuite.Shared.WinForms;
 
 namespace OpenExamSuite.Simulator.GUI;
 
@@ -13,6 +16,7 @@ public partial class AssessmentUi : Form
     private int _currentQuestionIndex;
     private object[] _userAnswers;
     private bool _examEnded;
+    private readonly IScorer _scorer = new Scorer();
 
     #endregion
 
@@ -194,7 +198,7 @@ public partial class AssessmentUi : Form
 
             _settings.ElapsedTime = TimeSpan.FromSeconds(_exam.Properties.TimeLimit * 60 - _timeLeft);
 
-            var grading = Grader.Grade(_userAnswers, _settings.Questions, _settings.Sections);
+            var grading = _scorer.Grade(_userAnswers, _settings.Questions, _settings.Sections);
             _settings.NumberOfCorrectAnswers = grading.NumberOfCorrectAnswers;
             _settings.ResultSpread = grading.ResultSpread;
 
@@ -212,7 +216,7 @@ public partial class AssessmentUi : Form
         lbl_section_title.Text = _settings.Sections.First(s => s.Questions.Contains(question)).Title;
         lbl_explanation.Text = question.Explanation;
         txt_question.Text = question.Text;
-        pct_image.Image = question.Image;
+        pct_image.Image = WinFormsImageConverter.ToBitmap(question.ImageData);
         AddOptions(question.Options, question.IsMultipleChoice);
         ShowExamProgress();
 

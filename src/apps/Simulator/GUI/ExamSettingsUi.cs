@@ -1,5 +1,7 @@
 ﻿using OpenExamSuite.Shared;
+using OpenExamSuite.Shared.Interfaces;
 using OpenExamSuite.Shared.Models;
+using OpenExamSuite.Shared.Services;
 
 namespace OpenExamSuite.Simulator.GUI;
 
@@ -63,39 +65,20 @@ public partial class ExamSettingsUi : Form
         else
             settings.TimeLimit = _exam.Properties.TimeLimit;
 
+        var composer = new ExamComposer();
+
         if (rdb_selected_sections.Checked)
         {
-            settings.Sections = clb_section_options.CheckedItems.Cast<Section>().ToList();
-            foreach (var section in settings.Sections)
-                settings.Questions.AddRange(section.Questions.ToArray());
+            var result = composer.SelectSections(_exam, clb_section_options.CheckedItems.Cast<Section>());
+            settings.Sections = result.Sections;
+            settings.Questions = result.Questions;
         }
 
         if (rdb_fixed_number_questions.Checked)
         {
-            var numOfQuestions = (int)num_questions.Value;
-            var sum = 0;
-            foreach (var section in _exam.Sections)
-            {
-                if (sum + section.Questions.Count < numOfQuestions)
-                {
-                    settings.Sections.Add(section);
-                    settings.Questions.AddRange(section.Questions.ToArray());
-                    sum += section.Questions.Count;
-                }
-                else if (sum + section.Questions.Count == numOfQuestions)
-                {
-                    settings.Sections.Add(section);
-                    settings.Questions.AddRange(section.Questions.ToArray());
-                    break;
-                }
-                else
-                {
-                    var difference = numOfQuestions - sum;
-                    settings.Sections.Add(section);
-                    settings.Questions.AddRange(section.Questions.GetRange(0, difference).ToArray());
-                    break;
-                }
-            }
+            var result = composer.SelectFixedQuestions(_exam, (int)num_questions.Value);
+            settings.Sections = result.Sections;
+            settings.Questions = result.Questions;
         }
 
         if (settings.Questions.Count == 0)

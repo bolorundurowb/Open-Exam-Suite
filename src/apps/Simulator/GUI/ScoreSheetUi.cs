@@ -1,5 +1,7 @@
 ﻿using OpenExamSuite.Shared;
+using OpenExamSuite.Shared.Interfaces;
 using OpenExamSuite.Shared.Models;
+using OpenExamSuite.Shared.Services;
 
 namespace OpenExamSuite.Simulator.GUI;
 
@@ -9,6 +11,7 @@ public partial class ScoreSheetUi : Form
 
     private readonly Settings _settings;
     private readonly Exam _exam;
+    private readonly IScorer _scorer = new Scorer();
 
     #endregion
 
@@ -27,8 +30,8 @@ public partial class ScoreSheetUi : Form
 
     private void LoadDataToUi(object sender, EventArgs e)
     {
-        var normalizedScore = (_settings.NumberOfCorrectAnswers * 1000 / _settings.Questions.Count);
-        if (normalizedScore >= _exam.Properties.Passmark)
+        var normalizedScore = _scorer.ComputeNormalizedScore(_settings.NumberOfCorrectAnswers, _settings.Questions.Count);
+        if (_scorer.IsPassed(normalizedScore, _exam.Properties.Passmark))
         {
             lbl_status.Text = "Passed";
             lbl_status.Font = new Font("Microsoft Sans Serif", 8.25F);
@@ -62,7 +65,7 @@ public partial class ScoreSheetUi : Form
 
     private void Print(object sender, System.Drawing.Printing.PrintPageEventArgs e)
     {
-        var normalizedScore = (_settings.NumberOfCorrectAnswers * 1000 / _settings.Questions.Count);
+        var normalizedScore = _scorer.ComputeNormalizedScore(_settings.NumberOfCorrectAnswers, _settings.Questions.Count);
 
         var headerFont = new Font("Segoe UI", 12F, FontStyle.Bold);
         var subFont = new Font("Segoe UI", 10F, FontStyle.Regular);
@@ -107,8 +110,9 @@ public partial class ScoreSheetUi : Form
             new PointF((e.MarginBounds.Width / 2.0f) + 175, yPos));
         yPos += (2 * subFont.GetHeight(e.Graphics));
         e.Graphics.DrawString("STATUS: ", subFont, Brushes.DarkSlateBlue, new PointF(e.MarginBounds.Left, yPos));
-        var brush = normalizedScore < _exam.Properties.Passmark ? Brushes.Red : Brushes.Green;
-        var status = normalizedScore < _exam.Properties.Passmark ? "Failed" : "Passed";
+        var passed = _scorer.IsPassed(normalizedScore, _exam.Properties.Passmark);
+        var brush = passed ? Brushes.Green : Brushes.Red;
+        var status = passed ? "Passed" : "Failed";
         e.Graphics.DrawString(status, subFont, brush, new PointF(e.MarginBounds.Left + 70, yPos));
         yPos += (2 * subFont.GetHeight(e.Graphics));
 
