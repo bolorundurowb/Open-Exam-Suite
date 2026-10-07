@@ -6,6 +6,11 @@
     <RootNamespace>OpenExamSuite.Shared.Tests</RootNamespace>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <CoverletOutputFormat>cobertura</CoverletOutputFormat>
+    <CoverletOutput>../../../coverage/$(MSBuildProjectName).cobertura.xml</CoverletOutput>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="coverlet.collector">
       <PrivateAssets>all</PrivateAssets>

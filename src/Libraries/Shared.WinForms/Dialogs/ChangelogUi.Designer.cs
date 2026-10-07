@@ -28,22 +28,19 @@ namespace OpenExamSuite.Shared.Dialogs
         /// </summary>
         private void InitializeComponent()
         {
-            this.txtChangelog = new System.Windows.Forms.TextBox();
+            this.mdChangelog = new global::WinForms.Markdown.MarkdownControl();
             this.btnOk = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // txtChangelog
+            // mdChangelog
             // 
-            this.txtChangelog.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            this.txtChangelog.BackColor = System.Drawing.SystemColors.Window;
-            this.txtChangelog.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-            this.txtChangelog.Location = new System.Drawing.Point(14, 14);
-            this.txtChangelog.Multiline = true;
-            this.txtChangelog.Name = "txtChangelog";
-            this.txtChangelog.ReadOnly = true;
-            this.txtChangelog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtChangelog.Size = new System.Drawing.Size(556, 383);
-            this.txtChangelog.TabIndex = 0;
+            this.mdChangelog.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            this.mdChangelog.BackColor = System.Drawing.SystemColors.Window;
+            this.mdChangelog.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            this.mdChangelog.Location = new System.Drawing.Point(14, 14);
+            this.mdChangelog.Name = "mdChangelog";
+            this.mdChangelog.Size = new System.Drawing.Size(556, 383);
+            this.mdChangelog.TabIndex = 0;
             // 
             // btnOk
             // 
@@ -63,7 +60,7 @@ namespace OpenExamSuite.Shared.Dialogs
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(584, 448);
             this.Controls.Add(this.btnOk);
-            this.Controls.Add(this.txtChangelog);
+            this.Controls.Add(this.mdChangelog);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -77,7 +74,7 @@ namespace OpenExamSuite.Shared.Dialogs
 
         #endregion
 
-        private System.Windows.Forms.TextBox txtChangelog;
+        private global::WinForms.Markdown.MarkdownControl mdChangelog;
         private System.Windows.Forms.Button btnOk;
     }
 }

@@ -8,7 +8,6 @@ public partial class ChangelogUi : Form
     {
         InitializeComponent();
         LoadChangelogText();
-        txtChangelog.Select(0, 0);
     }
 
     private void LoadChangelogText()
@@ -21,16 +20,16 @@ public partial class ChangelogUi : Form
             if (stream != null)
             {
                 using var reader = new StreamReader(stream);
-                txtChangelog.Text = reader.ReadToEnd();
+                mdChangelog.MarkdownText = reader.ReadToEnd();
             }
             else
             {
-                txtChangelog.Text = "Changelog could not be found.";
+                mdChangelog.MarkdownText = "Changelog could not be found.";
             }
         }
         catch
         {
-            txtChangelog.Text = "An error occurred while loading the changelog.";
+            mdChangelog.MarkdownText = "An error occurred while loading the changelog.";
         }
     }
 }
