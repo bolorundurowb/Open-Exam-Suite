@@ -6,7 +6,16 @@
     <RootNamespace>OpenExamSuite.Core.Tests</RootNamespace>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <CoverletOutputFormat>cobertura</CoverletOutputFormat>
+    <CoverletOutput>../../../coverage/$(MSBuildProjectName).cobertura.xml</CoverletOutput>
+  </PropertyGroup>
+
   <ItemGroup>
+    <PackageReference Include="coverlet.msbuild">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="OmniAssert" />
     <PackageReference Include="xunit" />
