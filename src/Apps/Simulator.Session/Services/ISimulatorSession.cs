@@ -14,6 +14,11 @@ namespace OpenExamSuite.Simulator.Session.Services;
 public interface ISimulatorSession
 {
     /// <summary>
+    /// Captions used when exporting the results PDF. Hosts supply localised text.
+    /// </summary>
+    ResultsReportLabels ResultsLabels { get; set; }
+
+    /// <summary>
     /// Current session state.
     /// </summary>
     ISessionState CurrentState { get; }
@@ -27,6 +32,37 @@ public interface ISimulatorSession
     /// Initializes the session at the Library state.
     /// </summary>
     Task InitializeAsync();
+
+    /// <summary>
+    /// Re-reads the library list and attempt history and publishes a Library state.
+    /// </summary>
+    Task RefreshLibraryAsync();
+
+    /// <summary>
+    /// Adds an exam file to the library. <c>.oef</c> files are referenced in place;
+    /// <c>.json</c> and <c>.xml</c> files are imported as a new <c>.oef</c> in the user's data folder.
+    /// </summary>
+    Task<LibraryActionResult> AddExamAsync(string filePath);
+
+    /// <summary>
+    /// Removes an exam from the library. The file on disk is not touched.
+    /// </summary>
+    Task RemoveExamAsync(string filePath);
+
+    /// <summary>
+    /// Copies an exam file beside the original and adds the copy to the library.
+    /// </summary>
+    Task<LibraryActionResult> DuplicateExamAsync(string filePath);
+
+    /// <summary>
+    /// Points a library entry whose file went missing at a new location.
+    /// </summary>
+    Task<LibraryActionResult> RelocateExamAsync(string missingFilePath, string newFilePath);
+
+    /// <summary>
+    /// Reads file-level properties for an exam in the library.
+    /// </summary>
+    Task<ExamFileProperties?> GetExamPropertiesAsync(string filePath);
 
     /// <summary>
     /// Loads an exam and enters the pre-exam sheet state.
@@ -117,6 +153,11 @@ public interface ISimulatorSession
     /// Enters answer review from results.
     /// </summary>
     Task<AnswerReviewState> EnterAnswerReviewAsync();
+
+    /// <summary>
+    /// Returns from answer review to the results of the same attempt.
+    /// </summary>
+    Task ReturnToResultsAsync();
 
     /// <summary>
     /// Navigates within answer review.
