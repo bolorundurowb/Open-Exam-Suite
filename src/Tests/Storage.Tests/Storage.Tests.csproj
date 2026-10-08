@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net10.0-windows</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <IsPackable>false</IsPackable>
     <AssemblyName>OpenExamSuite.Storage.Tests</AssemblyName>
     <RootNamespace>OpenExamSuite.Storage.Tests</RootNamespace>
