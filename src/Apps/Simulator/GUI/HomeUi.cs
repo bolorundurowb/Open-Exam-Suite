@@ -1,27 +1,33 @@
-﻿using OpenExamSuite.Simulator.Enums;
+﻿using OpenExamSuite.Shared.Utilities;
+using OpenExamSuite.Simulator.Enums;
 using OpenExamSuite.Simulator.Utilities;
 using OpenExamSuite.Storage.Enums;
 using OpenExamSuite.Storage.Interfaces;
-using OpenExamSuite.Storage.Models;
 using OpenExamSuite.Storage.Services;
 
 namespace OpenExamSuite.Simulator.GUI;
 
 public partial class HomeUi : Form
 {
-    private readonly IAppSettingsService _appSettings;
+    private readonly IExamLibraryService _library;
+    private readonly Reader _reader;
 
-    public HomeUi() : this(new AppSettingsService(), null)
+    public HomeUi() : this(new ExamLibraryService(), new Reader(), null)
     {
     }
 
-    public HomeUi(IAppSettingsService appSettings) : this(appSettings, null)
+    public HomeUi(IExamLibraryService library) : this(library, new Reader(), null)
     {
     }
 
-    public HomeUi(IAppSettingsService appSettings, string? initialExamFile)
+    public HomeUi(IExamLibraryService library, Reader reader) : this(library, reader, null)
     {
-        _appSettings = appSettings;
+    }
+
+    public HomeUi(IExamLibraryService library, Reader reader, string? initialExamFile)
+    {
+        _library = library;
+        _reader = reader;
         InitializeComponent();
 
         if (string.IsNullOrWhiteSpace(initialExamFile))
@@ -29,11 +35,7 @@ public partial class HomeUi : Form
 
         if (Path.GetExtension(initialExamFile).Equals(".oef", StringComparison.OrdinalIgnoreCase))
         {
-            _appSettings.Set(new AppSetting
-            {
-                Key = initialExamFile,
-                Value = Path.GetFileNameWithoutExtension(initialExamFile)
-            }, AppSettingsType.Simulator);
+            _library.AddExam(ExamCatalog.Simulator, initialExamFile, Path.GetFileNameWithoutExtension(initialExamFile));
         }
         else
         {
@@ -56,11 +58,7 @@ public partial class HomeUi : Form
             {
                 dgv_exams.Rows.Add(Path.GetFileNameWithoutExtension(fileName), fileName);
 
-                _appSettings.Set(new AppSetting
-                {
-                    Key = fileName,
-                    Value = Path.GetFileNameWithoutExtension(fileName)
-                }, AppSettingsType.Simulator);
+                _library.AddExam(ExamCatalog.Simulator, fileName, Path.GetFileNameWithoutExtension(fileName));
             }
         }
     }
@@ -101,12 +99,12 @@ public partial class HomeUi : Form
 
     private void Remove(object sender, EventArgs e)
     {
-        RowManager.RemoveRow(dgv_exams, _appSettings);
+        RowManager.RemoveRow(dgv_exams, _library);
     }
 
     private void Properties(object sender, EventArgs e)
     {
-        DialogManager.DisplayDialog(DialogType.ExamProperties, dgv_exams, _appSettings);
+        DialogManager.DisplayDialog(DialogType.ExamProperties, dgv_exams, _library, _reader);
     }
 
     private void About(object sender, EventArgs e)
@@ -129,12 +127,12 @@ public partial class HomeUi : Form
 
     private void Start(object sender, EventArgs e)
     {
-        DialogManager.DisplayDialog(DialogType.ExamSettings, dgv_exams, _appSettings);
+        DialogManager.DisplayDialog(DialogType.ExamSettings, dgv_exams, _library, _reader);
     }
 
     private void LoadAppData(object sender, EventArgs e)
     {
-        AppDataManager.LoadAppData(dgv_exams, _appSettings);
+        AppDataManager.LoadAppData(dgv_exams, _library);
     }
 
     private void ChangeHeaderSize(object sender, EventArgs e)

@@ -1,7 +1,10 @@
 ﻿using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using OpenExamSuite.Creator.GUI;
+using OpenExamSuite.Logging;
 using OpenExamSuite.Shared.Dialogs;
+using OpenExamSuite.Shared.Utilities;
 using OpenExamSuite.Storage.Enums;
 using OpenExamSuite.Storage.Interfaces;
 using OpenExamSuite.Storage.Models;
@@ -23,11 +26,19 @@ public static class Program
         Application.SetCompatibleTextRenderingDefault(false);
 
         var services = new ServiceCollection();
+        services.AddLogging(builder => builder.AddProvider(new OesFileLoggerProvider()));
         services.AddSingleton<IAppSettingsService>(_ => new AppSettingsService());
+        services.AddSingleton<IExamLibraryService>(_ => new ExamLibraryService());
+        services.AddSingleton<Reader>();
+        services.AddSingleton<Writer>();
+        services.AddSingleton<ExamFileLoader>();
         using var provider = services.BuildServiceProvider();
         var appSettings = provider.GetRequiredService<IAppSettingsService>();
+        var library = provider.GetRequiredService<IExamLibraryService>();
+        var writer = provider.GetRequiredService<Writer>();
+        var examFileLoader = provider.GetRequiredService<ExamFileLoader>();
 
-        var mainForm = new HomeUi(appSettings);
+        var mainForm = new HomeUi(library, writer, examFileLoader);
         mainForm.Shown += (_, _) => ShowChangelogIfUpdated(appSettings);
 
         Application.Run(mainForm);

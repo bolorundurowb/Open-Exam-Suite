@@ -1,5 +1,5 @@
-using OpenExamSuite.Logging;
 using OpenExamSuite.Shared;
+using OpenExamSuite.Shared.Enums;
 using OpenExamSuite.Shared.Utilities;
 using OpenExamSuite.Simulator.Enums;
 using OpenExamSuite.Simulator.GUI;
@@ -9,41 +9,43 @@ namespace OpenExamSuite.Simulator.Utilities;
 
 public static class DialogManager
 {
-    public static void DisplayDialog(DialogType dialogType, DataGridView dataGridView, IAppSettingsService appSettings)
+    public static void DisplayDialog(
+        DialogType dialogType,
+        DataGridView dataGridView,
+        IExamLibraryService library,
+        Reader reader)
     {
-        try
+        var selectedFilePath = dataGridView.SelectedRows[0].Cells[1].Value?.ToString();
+        if (selectedFilePath == null)
+            return;
+
+        var result = reader.FromOefFile(selectedFilePath);
+
+        if (!result.Success || result.Exam == null)
         {
-            var selectedFilePath = dataGridView.SelectedRows[0].Cells[1].Value?.ToString();
-            if (selectedFilePath == null)
-                return;
-
-            var exam = Reader.FromOefFile(selectedFilePath);
-
-            if (exam == null)
-                return;
-
-            if (dialogType == DialogType.ExamSettings)
+            if (result.Error == ExamIoError.FileNotFound)
             {
-                InitialiseExamSettings(exam);
+                MessageBox.Show("Sorry, the selected exam does not exist. It may have been moved or deleted.",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            if (dialogType == DialogType.ExamProperties)
+            else
             {
-                InitialiseExamProperties(exam, selectedFilePath);
+                MessageBox.Show(
+                    "Sorry, the exam selected is either old or corrupt. If it is an old exam, please upgrade it with the upgrade tool at:\nhttps://sourceforge.net/projects/exam-upgrade-tool/",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-        catch (FileNotFoundException ex)
-        {
-            Logger.LogException(ex);
 
-            MessageBox.Show("Sorry, the selected exam does not exist. It may have been moved or deleted.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            RowManager.RemoveRow(dataGridView, appSettings);
+            RowManager.RemoveRow(dataGridView, library);
+            return;
         }
-        catch (NullReferenceException ex)
-        {
-            Logger.LogException(ex);
 
-            MessageBox.Show("Sorry, the exam selected is either old or corrupt. If it is an old exam, please upgrade it with the upgrade tool at:\nhttps://sourceforge.net/projects/exam-upgrade-tool/", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            RowManager.RemoveRow(dataGridView, appSettings);
+        if (dialogType == DialogType.ExamSettings)
+        {
+            InitialiseExamSettings(result.Exam);
+        }
+        else if (dialogType == DialogType.ExamProperties)
+        {
+            InitialiseExamProperties(result.Exam, selectedFilePath);
         }
     }
 

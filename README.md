@@ -34,7 +34,7 @@ This project has been modernised from .NET Framework 4.0 to **.NET 10**.
 - **Project Structure:** Simplified the project structure.
 - **Dependency Management:** Converted to `PackageReference`.
 - **CI/CD:** Powered by **GitHub Actions**.
-- **.oef File Format:** Upgraded from deprecated `BinaryFormatter` to **Protobuf**. Legacy `.oef` files are automatically migrated upon reading for a seamless user experience.
+- **.oef File Format:** Upgraded from deprecated `BinaryFormatter` to **Protobuf**. Legacy `.oef` files are read without modification (never written to) and upgraded to protobuf only when explicitly saved.
 
 ## 🛠️ Getting Started
 

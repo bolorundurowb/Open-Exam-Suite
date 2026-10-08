@@ -6,12 +6,17 @@ namespace OpenExamSuite.Shared.Tests;
 
 public class ExamFormatFixtureTests
 {
+    private readonly Reader _reader = new();
+    private readonly Writer _writer = new();
+
     [Fact]
     public void FromJsonFile_MinimalFixture_LoadsExpectedExam()
     {
         var path = Path.Combine(AppContext.BaseDirectory, "Fixtures", "minimal.json");
-        var exam = Reader.FromJsonFile(path);
+        var result = _reader.FromJsonFile(path);
 
+        result.Success.Must().BeTrue();
+        var exam = result.Exam;
         exam.Must().NotBeNull();
         exam!.Properties.Title.Must().Be("FixtureExam");
         exam.Properties.Code.Must().Be("FX");
@@ -31,12 +36,16 @@ public class ExamFormatFixtureTests
         var tempPath = Path.Combine(Path.GetTempPath(), $"oes-fixture-{Guid.NewGuid():N}.json");
         try
         {
-            var original = Reader.FromJsonFile(sourcePath);
+            var originalResult = _reader.FromJsonFile(sourcePath);
+            originalResult.Success.Must().BeTrue();
+            var original = originalResult.Exam;
             original.Must().NotBeNull();
 
-            Writer.ToJson(original!, tempPath).Must().BeTrue();
+            _writer.ToJson(original!, tempPath).Success.Must().BeTrue();
 
-            var roundTripped = Reader.FromJsonFile(tempPath);
+            var roundTrippedResult = _reader.FromJsonFile(tempPath);
+            roundTrippedResult.Success.Must().BeTrue();
+            var roundTripped = roundTrippedResult.Exam;
             roundTripped.Must().NotBeNull();
             roundTripped!.Properties.Title.Must().Be(original!.Properties.Title);
             roundTripped.Properties.Code.Must().Be(original.Properties.Code);

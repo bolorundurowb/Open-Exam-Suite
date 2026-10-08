@@ -7,7 +7,7 @@ public static class Logger
     private static readonly string LogDirectory =
         Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "OpenExamSuite");
 
-    private static readonly string LogFilePath = Path.Combine(LogDirectory, LogFileName);
+    public static string LogFilePath { get; } = Path.Combine(LogDirectory, LogFileName);
 
     public static void LogException(Exception exception) =>
         WriteToLog($"{exception.Message} - {exception.StackTrace}");
