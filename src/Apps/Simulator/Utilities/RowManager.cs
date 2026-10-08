@@ -5,7 +5,7 @@ namespace OpenExamSuite.Simulator.Utilities;
 
 public static class RowManager
 {
-    public static void RemoveRow(DataGridView dataGridView, IAppSettingsService appSettingsService)
+    public static void RemoveRow(DataGridView dataGridView, IExamLibraryService library)
     {
         foreach (DataGridViewRow row in dataGridView.SelectedRows)
         {
@@ -13,7 +13,7 @@ public static class RowManager
             var cellValue = row.Cells[1].Value?.ToString();
 
             if (cellValue != null)
-                appSettingsService.Remove(cellValue, AppSettingsType.Simulator);
+                library.RemoveExam(ExamCatalog.Simulator, cellValue);
         }
     }
 }

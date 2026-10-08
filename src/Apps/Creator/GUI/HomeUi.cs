@@ -11,7 +11,6 @@ using OpenExamSuite.Shared.WinForms;
 using OpenExamSuite.Shared.Utilities;
 using OpenExamSuite.Storage.Enums;
 using OpenExamSuite.Storage.Interfaces;
-using OpenExamSuite.Storage.Models;
 using OpenExamSuite.Storage.Services;
 
 namespace OpenExamSuite.Creator.GUI;
@@ -21,7 +20,9 @@ public partial class HomeUi : Form
 
     #region Class Variables
 
-    private readonly IAppSettingsService _appSettings;
+    private readonly IExamLibraryService _library;
+    private readonly Writer _writer;
+    private readonly ExamFileLoader _examFileLoader;
     private readonly IExamEditor _examEditor = new ExamEditor();
     private readonly IUndoRedo _undoRedo = new UndoRedo();
     private Exam _exam = new();
@@ -32,13 +33,15 @@ public partial class HomeUi : Form
 
     #endregion Class Variables
 
-    public HomeUi() : this(new AppSettingsService())
+    public HomeUi() : this(new ExamLibraryService(), new Writer(), new ExamFileLoader())
     {
     }
 
-    public HomeUi(IAppSettingsService appSettings)
+    public HomeUi(IExamLibraryService library, Writer writer, ExamFileLoader examFileLoader)
     {
-        _appSettings = appSettings;
+        _library = library;
+        _writer = writer;
+        _examFileLoader = examFileLoader;
         InitializeComponent();
     }
 
@@ -64,12 +67,13 @@ public partial class HomeUi : Form
     private void Open()
     {
         var pathBeforeLoad = _currentExamFile;
-        var load = ExamFileLoader.TryLoad(pathBeforeLoad!);
+        var load = _examFileLoader.TryLoad(pathBeforeLoad!);
 
         if (!load.Success || load.Exam == null)
         {
             var message = load.Error switch
             {
+                ExamFileLoadError.FileNotFound => "Sorry, the selected exam file no longer exists.",
                 ExamFileLoadError.EmptyOrInvalidJson => "Sorry, the JSON file selected is empty or invalid.",
                 ExamFileLoadError.EmptyOrInvalidXml => "Sorry, the XML file selected is empty or invalid.",
                 ExamFileLoadError.InvalidXml => "Sorry, the XML file selected is invalid.",
@@ -99,12 +103,7 @@ public partial class HomeUi : Form
     {
         if (string.IsNullOrEmpty(filePath)) return;
 
-        var settings = new AppSetting
-        {
-            Key = filePath,
-            Value = Path.GetFileNameWithoutExtension(filePath)
-        };
-        _appSettings.Set(settings, AppSettingsType.Creator);
+        _library.AddExam(ExamCatalog.Creator, filePath, Path.GetFileNameWithoutExtension(filePath));
     }
 
     private void RenderTree()
@@ -160,8 +159,8 @@ public partial class HomeUi : Form
             if (trv_view_exam.SelectedNode.GetType() == typeof(QuestionNode))
                 CommitQuestion();
 
-        var writeResult = Writer.ToOef(_exam, _currentExamFile!);
-            if (writeResult)
+        var writeResult = _writer.ToOef(_exam, _currentExamFile!);
+            if (writeResult.Success)
             {
                 MessageBox.Show("Exam has been successfully saved.", "Success", MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
@@ -211,11 +210,14 @@ public partial class HomeUi : Form
 
     private void CommitQuestion()
     {
-        var currentQuestion = ((QuestionNode)trv_view_exam.SelectedNode!).Question;
-        var newQuestion = BuildQuestion();
-        var sectionTitle = ((SectionNode)trv_view_exam.SelectedNode!.Parent!).Title;
+        if (trv_view_exam.SelectedNode is not QuestionNode questionNode)
+            return;
 
-        _examEditor.ReplaceQuestion(_exam, sectionTitle, currentQuestion.No, newQuestion);
+        if (questionNode.Parent is not SectionNode sectionNode)
+            return;
+
+        var newQuestion = BuildQuestion();
+        _examEditor.ReplaceQuestion(_exam, sectionNode.Title, questionNode.Index + 1, newQuestion);
     }
 
     private void SaveAs(object sender, EventArgs e)
@@ -842,19 +844,19 @@ public partial class HomeUi : Form
             grp_exam_history.Controls.Remove(link);
         }
 
-        // retrieve the app settings
-        var appSettings = _appSettings.GetAll(AppSettingsType.Creator);
-        for (var j = 0; j < appSettings.Count; j++)
+        _library.SeedBundledSamples(ExamCatalog.Creator, Application.StartupPath);
+
+        var exams = _library.GetExams(ExamCatalog.Creator);
+        for (var j = 0; j < exams.Count; j++)
         {
             var examLink = new LinkLabel
             {
                 Location = new Point(10, 40 + j * 25),
                 AutoSize = true,
-                Text = appSettings[j].Key
+                Text = exams[j].FilePath
             };
             examLink.Click += ExamLinkClick;
             grp_exam_history.Controls.Add(examLink);
-            j++;
         }
     }
 
@@ -871,7 +873,7 @@ public partial class HomeUi : Form
                 MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
             // remove the setting from storage
-            _appSettings.Remove(((LinkLabel)sender).Text, AppSettingsType.Creator);
+            _library.RemoveExam(ExamCatalog.Creator, ((LinkLabel)sender).Text);
 
             // remove the link
             grp_exam_history.Controls.Remove((Control)sender);
@@ -885,10 +887,13 @@ public partial class HomeUi : Form
 
     private void DeleteQuestion(object sender, EventArgs e)
     {
-        var sectionNode = (SectionNode)trv_view_exam.SelectedNode.Parent;
-        var question = ((QuestionNode)trv_view_exam.SelectedNode).Question;
+        if (trv_view_exam.SelectedNode is not QuestionNode questionNode)
+            return;
 
-        var change = _examEditor.RemoveQuestion(_exam, sectionNode.Title, question.No);
+        if (questionNode.Parent is not SectionNode sectionNode)
+            return;
+
+        var change = _examEditor.RemoveQuestion(_exam, sectionNode.Title, questionNode.Index + 1);
         _undoRedo.Push(change);
         RenderTree();
 
@@ -921,10 +926,14 @@ public partial class HomeUi : Form
     {
         IsDirty = true;
 
-        var sectionTitle = ((SectionNode)trv_view_exam.SelectedNode.Parent).Title;
-        var questionNo = ((QuestionNode)trv_view_exam.SelectedNode).Question.No;
+        if (trv_view_exam.SelectedNode is not QuestionNode questionNode)
+            return;
+
+        if (questionNode.Parent is not SectionNode sectionNode)
+            return;
+
         var newQuestion = BuildQuestion();
-        var change = _examEditor.UpdateQuestion(_exam, sectionTitle, questionNo, newQuestion);
+        var change = _examEditor.UpdateQuestion(_exam, sectionNode.Title, questionNode.Index + 1, newQuestion);
         _undoRedo.Push(change);
     }
 
@@ -965,7 +974,7 @@ public partial class HomeUi : Form
             FileName = _exam.Properties.Title
         };
         if (sfdExportJson.ShowDialog() != DialogResult.OK) return;
-        if (Writer.ToJson(_exam, sfdExportJson.FileName))
+        if (_writer.ToJson(_exam, sfdExportJson.FileName).Success)
         {
             MessageBox.Show("JSON successfully exported.", "Export", MessageBoxButtons.OK,
                 MessageBoxIcon.Information);
@@ -989,7 +998,7 @@ public partial class HomeUi : Form
         };
 
         if (sfdExportXml.ShowDialog() != DialogResult.OK) return;
-        if (Writer.ToXml(_exam, sfdExportXml.FileName))
+        if (_writer.ToXml(_exam, sfdExportXml.FileName).Success)
         {
             MessageBox.Show("XML successfully exported.", "Export", MessageBoxButtons.OK,
                 MessageBoxIcon.Information);
@@ -1018,7 +1027,7 @@ public partial class HomeUi : Form
             return;
         }
 
-        if (Writer.ToPdf(_exam, sfdExportPdf.FileName))
+        if (_writer.ToPdf(_exam, sfdExportPdf.FileName).Success)
         {
             MessageBox.Show("PDF successfully exported.", "Export", MessageBoxButtons.OK,
                 MessageBoxIcon.Information);
@@ -1032,7 +1041,7 @@ public partial class HomeUi : Form
 
     private void ClearExamHistory(object sender, LinkLabelLinkClickedEventArgs e)
     {
-        _appSettings.Clear(AppSettingsType.Creator);
+        _library.ClearExams(ExamCatalog.Creator);
 
         // re-render the history UI
         LoadExamHistory();
