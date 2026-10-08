@@ -35,3 +35,34 @@ jobs:
         token: ${{ secrets.CODECOV_TOKEN }}
         directory: ./coverage/
         fail_ci_if_error: false
+
+  build-and-test-ubuntu:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup .NET 10 SDK
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '10.x'
+
+    - name: Restore portable projects
+      run: |
+        dotnet restore Tests/Core.Tests/Core.Tests.csproj
+        dotnet restore Tests/Shared.Tests/Shared.Tests.csproj
+        dotnet restore Tests/Storage.Tests/Storage.Tests.csproj
+      working-directory: ./src
+
+    - name: Build portable projects
+      run: |
+        dotnet build --configuration Release --no-restore Tests/Core.Tests/Core.Tests.csproj
+        dotnet build --configuration Release --no-restore Tests/Shared.Tests/Shared.Tests.csproj
+        dotnet build --configuration Release --no-restore Tests/Storage.Tests/Storage.Tests.csproj
+      working-directory: ./src
+
+    - name: Run portable tests
+      run: |
+        dotnet test --configuration Release --no-build Tests/Core.Tests/Core.Tests.csproj /p:CollectCoverage=true
+        dotnet test --configuration Release --no-build Tests/Shared.Tests/Shared.Tests.csproj /p:CollectCoverage=true
+        dotnet test --configuration Release --no-build Tests/Storage.Tests/Storage.Tests.csproj /p:CollectCoverage=true
+      working-directory: ./src
