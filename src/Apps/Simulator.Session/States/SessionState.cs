@@ -150,7 +150,7 @@ public sealed record AnswerReviewState(
 {
     public SessionStateKind Kind => SessionStateKind.AnswerReview;
 
-    public IReadOnlyList<int> FilteredIndices { get; } = GradingDetails
+    public IReadOnlyList<int> FilteredIndices => GradingDetails
         .Select((d, i) => (Detail: d, Index: i))
         .Where(t => t.Detail.MatchesFilter(Filter))
         .Select(t => t.Index)

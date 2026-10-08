@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using OmniAssert;
+using OpenExamSuite.Simulator.Session.HostPorts;
 using OpenExamSuite.Storage;
 using Xunit;
 
@@ -59,5 +60,31 @@ public class BundledSamplesTests : IDisposable
         var result = BundledSamples.Resolve(_baseDirectory);
 
         result.Must().BeEmpty();
+    }
+
+    [Fact]
+    public void PlatformAppPaths_InstalledLayout_UsesSiblingSamplesDirectory()
+    {
+        var appDir = Path.Combine(_baseDirectory, "Simulator");
+        var samplesDir = Path.Combine(_baseDirectory, "Samples");
+        Directory.CreateDirectory(appDir);
+        Directory.CreateDirectory(samplesDir);
+
+        var paths = new PlatformAppPaths(appDir);
+
+        paths.BundledSamplesRoot.Must().Be(Path.GetFullPath(samplesDir));
+        paths.DocumentsDirectory.Must().NotBeEmpty();
+    }
+
+    [Fact]
+    public void PlatformAppPaths_MacBundle_UsesContentsResources()
+    {
+        var macOsDir = Path.Combine(_baseDirectory, "OpenExamSuite.app", "Contents", "MacOS");
+        var resourcesDir = Path.Combine(_baseDirectory, "OpenExamSuite.app", "Contents", "Resources");
+        Directory.CreateDirectory(macOsDir);
+
+        var paths = new PlatformAppPaths(macOsDir);
+
+        paths.BundledSamplesRoot.Must().Be(Path.GetFullPath(resourcesDir));
     }
 }

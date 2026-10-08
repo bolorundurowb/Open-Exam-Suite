@@ -51,6 +51,7 @@ jobs:
         dotnet restore Tests/Core.Tests/Core.Tests.csproj
         dotnet restore Tests/Shared.Tests/Shared.Tests.csproj
         dotnet restore Tests/Storage.Tests/Storage.Tests.csproj
+        dotnet restore Tests/Simulator.Session.Tests/Simulator.Session.Tests.csproj
       working-directory: ./src
 
     - name: Build portable projects
@@ -58,6 +59,7 @@ jobs:
         dotnet build --configuration Release --no-restore Tests/Core.Tests/Core.Tests.csproj
         dotnet build --configuration Release --no-restore Tests/Shared.Tests/Shared.Tests.csproj
         dotnet build --configuration Release --no-restore Tests/Storage.Tests/Storage.Tests.csproj
+        dotnet build --configuration Release --no-restore Tests/Simulator.Session.Tests/Simulator.Session.Tests.csproj
       working-directory: ./src
 
     - name: Run portable tests
@@ -65,4 +67,5 @@ jobs:
         dotnet test --configuration Release --no-build Tests/Core.Tests/Core.Tests.csproj /p:CollectCoverage=true
         dotnet test --configuration Release --no-build Tests/Shared.Tests/Shared.Tests.csproj /p:CollectCoverage=true
         dotnet test --configuration Release --no-build Tests/Storage.Tests/Storage.Tests.csproj /p:CollectCoverage=true
+        dotnet test --configuration Release --no-build Tests/Simulator.Session.Tests/Simulator.Session.Tests.csproj /p:CollectCoverage=true
       working-directory: ./src
