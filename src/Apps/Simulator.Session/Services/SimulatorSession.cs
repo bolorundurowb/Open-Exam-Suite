@@ -46,9 +46,11 @@ public sealed class SimulatorSession : ISimulatorSession, IDisposable
     private Exam? _currentExam;
     private string _currentExamFilePath = string.Empty;
     private PreExamSettings? _preExamSettings;
+    private SelectionResult? _missedQuestionSelection;
     private DateTimeOffset _attemptStartTime;
     private TimeSpan _accumulatedPausedTime;
     private DateTimeOffset? _pauseStartTime;
+    private DateTimeOffset? _systemSuspendStartTime;
     private int _randomSeed;
     private Random? _random;
 
@@ -90,6 +92,23 @@ public sealed class SimulatorSession : ISimulatorSession, IDisposable
 
     public async Task InitializeAsync()
     {
+        try
+        {
+            var samplePaths = await _fileSystem.GetFilesAsync(_appPaths.BundledSamplesRoot, "*.oef");
+            foreach (var samplePath in samplePaths)
+            {
+                _library.AddExam(
+                    ExamCatalog.Simulator,
+                    samplePath,
+                    Path.GetFileNameWithoutExtension(samplePath));
+            }
+        }
+        catch (Exception ex)
+        {
+            // An absent or read-only bundle must not prevent the Library from opening.
+            _logger.LogWarning(ex, "Could not seed bundled samples from '{SamplesRoot}'.", _appPaths.BundledSamplesRoot);
+        }
+
         await LoadLibraryAsync();
     }
 
@@ -237,6 +256,9 @@ public sealed class SimulatorSession : ISimulatorSession, IDisposable
         if (_preExamSettings == null || _currentExam == null)
             throw new InvalidOperationException("No exam loaded.");
 
+        if (settings.QuestionSet != QuestionSetMode.MissedQuestions)
+            _missedQuestionSelection = null;
+
         _preExamSettings = settings with { };
         var examSummary = CreateExamSummary(_currentExam);
         var (startDisabled, reason) = ValidatePreExamSettings(settings, examSummary);
@@ -249,16 +271,30 @@ public sealed class SimulatorSession : ISimulatorSession, IDisposable
         if (_preExamSettings == null || _currentExam == null)
             throw new InvalidOperationException("Pre-exam settings not configured.");
 
+        var (startDisabled, startDisabledReason) = ValidatePreExamSettings(
+            _preExamSettings,
+            CreateExamSummary(_currentExam));
+        if (startDisabled)
+            throw new InvalidOperationException(startDisabledReason ?? "The attempt cannot be started with these settings.");
+
         // Save candidate name for next time
         _settings.Set(new AppSetting { Key = "Simulator.LastCandidateName", Value = _preExamSettings.CandidateName }, AppSettingsType.Other);
 
-        // Compose the question set
+        // Resolve the attempt seed before composition so Random N and both shuffle
+        // operations are deterministic for a non-zero configured seed.
+        _randomSeed = _preExamSettings.RandomSeed > 0 ? _preExamSettings.RandomSeed : Random.Shared.Next(1, int.MaxValue);
+        _random = new Random(_randomSeed);
+
+        // Compose the question set.
         var selection = ComposeQuestionSet(_currentExam, _preExamSettings);
         var questions = selection.Questions;
         var sections = selection.Sections;
 
         if (questions.Count == 0)
             throw new InvalidOperationException("No questions available for this selection.");
+
+        if (_preExamSettings.ShuffleQuestions)
+            ShuffleInPlace(questions, _random);
 
         // Renumber questions sequentially
         for (int i = 0; i < questions.Count; i++)
@@ -277,10 +313,6 @@ public sealed class SimulatorSession : ISimulatorSession, IDisposable
         var timeRemaining = TimeSpan.FromMinutes(timeLimitMinutes);
         _attemptStartTime = _timeProvider.GetUtcNow();
         _accumulatedPausedTime = TimeSpan.Zero;
-
-        // Setup random for option shuffling
-        _randomSeed = _preExamSettings.RandomSeed > 0 ? _preExamSettings.RandomSeed : Environment.TickCount;
-        _random = new Random(_randomSeed);
 
         // Shuffle options if requested. The answer map must be captured before alphabets are reassigned.
         if (_preExamSettings.ShuffleOptions)
@@ -331,6 +363,15 @@ public sealed class SimulatorSession : ISimulatorSession, IDisposable
         return TransitionTo(_attemptState);
     }
 
+    private static void ShuffleInPlace<T>(IList<T> items, Random random)
+    {
+        for (var i = items.Count - 1; i > 0; i--)
+        {
+            var j = random.Next(i + 1);
+            (items[i], items[j]) = (items[j], items[i]);
+        }
+    }
+
     private SelectionResult ComposeQuestionSet(Exam exam, PreExamSettings settings)
     {
         if (settings.QuestionSet == QuestionSetMode.SelectedSections)
@@ -344,6 +385,9 @@ public sealed class SimulatorSession : ISimulatorSession, IDisposable
         }
         else if (settings.QuestionSet == QuestionSetMode.MissedQuestions)
         {
+            if (_missedQuestionSelection != null)
+                return CloneSelection(_missedQuestionSelection);
+
             return ComposeMissedQuestions(exam, settings.MissedQuestionIndices);
         }
         else
@@ -381,6 +425,12 @@ public sealed class SimulatorSession : ISimulatorSession, IDisposable
         }
 
         return new SelectionResult(selectedSections, selectedQuestions);
+    }
+
+    private static SelectionResult CloneSelection(SelectionResult selection)
+    {
+        var sections = selection.Sections.Select(CloneSection).ToList();
+        return new SelectionResult(sections, sections.SelectMany(s => s.Questions).ToList());
     }
 
     private static Section CloneSection(Section section)
@@ -495,6 +545,18 @@ public sealed class SimulatorSession : ISimulatorSession, IDisposable
 
         var currentIndex = _attemptState.CurrentQuestionIndex;
         var wasAnswered = _attemptState.Answers.TryGetValue(currentIndex, out var oldSelection) && oldSelection.IsAnswered;
+        if (oldSelection.IsLocked)
+        {
+            if (!HasSameChoices(oldSelection, selection))
+                throw new InvalidOperationException("This Practice answer is locked after checking.");
+
+            selection = selection with
+            {
+                ExplanationRevealed = true,
+                IsLocked = true
+            };
+        }
+
         var isNowAnswered = selection.IsAnswered;
 
         var newAnswers = _attemptState.Answers.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
@@ -513,6 +575,11 @@ public sealed class SimulatorSession : ISimulatorSession, IDisposable
 
         TransitionTo(_attemptState);
     }
+
+    private static bool HasSameChoices(AnswerSelection left, AnswerSelection right) =>
+        left.State == right.State
+        && left.SingleChoice == right.SingleChoice
+        && left.MultipleChoices.SequenceEqual(right.MultipleChoices);
 
     public async Task ToggleFlagAsync()
     {
@@ -536,6 +603,9 @@ public sealed class SimulatorSession : ISimulatorSession, IDisposable
 
         if (!currentSelection.IsAnswered)
             throw new InvalidOperationException("Cannot check answer for unanswered question.");
+
+        if (currentSelection.IsLocked)
+            return currentSelection;
 
         var newSelection = AnswerSelection.WithExplanationRevealed(currentSelection);
         await AnswerQuestionAsync(newSelection);
@@ -570,6 +640,31 @@ public sealed class SimulatorSession : ISimulatorSession, IDisposable
 
         StartTimer();
         TransitionTo(_attemptState);
+    }
+
+    public Task NotifySystemSuspendingAsync()
+    {
+        if (_attemptState == null || _preExamSettings?.Mode != ExamMode.Exam || _systemSuspendStartTime.HasValue)
+            return Task.CompletedTask;
+
+        _timer?.Dispose();
+        _timer = null;
+        _systemSuspendStartTime = _timeProvider.GetUtcNow();
+        return Task.CompletedTask;
+    }
+
+    public Task NotifySystemResumedAsync()
+    {
+        if (_attemptState == null || !_systemSuspendStartTime.HasValue)
+            return Task.CompletedTask;
+
+        _accumulatedPausedTime += _timeProvider.GetUtcNow() - _systemSuspendStartTime.Value;
+        _systemSuspendStartTime = null;
+
+        if (_currentState.Kind == SessionStateKind.Attempt)
+            StartTimer();
+
+        return Task.CompletedTask;
     }
 
     public async Task EnterReviewAndSubmitAsync()
@@ -718,7 +813,9 @@ public sealed class SimulatorSession : ISimulatorSession, IDisposable
 
                 if (countdown <= 0)
                 {
-                    _ = SubmitAsync();
+                    _timer?.Dispose();
+                    _timer = null;
+                    _ = SubmitAfterTimeUpAsync();
                 }
             },
             null,
@@ -727,6 +824,18 @@ public sealed class SimulatorSession : ISimulatorSession, IDisposable
 
         // Keep a reference so the timer is not GC'd before it fires.
         _timer = countdownTimer;
+    }
+
+    private async Task SubmitAfterTimeUpAsync()
+    {
+        try
+        {
+            await SubmitAsync();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Automatic submission failed after time expired.");
+        }
     }
 
     public async Task<AnswerReviewState> EnterAnswerReviewAsync()
@@ -785,6 +894,7 @@ public sealed class SimulatorSession : ISimulatorSession, IDisposable
             ? _preExamSettings with { RandomSeed = 0 }
             : _preExamSettings;
 
+        _preExamSettings = newSettings;
         var examSummary = CreateExamSummary(_currentExam);
         var (startDisabled, reason) = ValidatePreExamSettings(newSettings, examSummary);
 
@@ -798,6 +908,7 @@ public sealed class SimulatorSession : ISimulatorSession, IDisposable
         _attemptState = null;
         _currentExam = null;
         _preExamSettings = null;
+        _missedQuestionSelection = null;
         await LoadLibraryAsync();
     }
 
@@ -825,6 +936,25 @@ public sealed class SimulatorSession : ISimulatorSession, IDisposable
             .Distinct()
             .ToImmutableArray();
 
+        var missedQuestions = reviewState.GradingDetails
+            .Where(d => !d.IsCorrect)
+            .Select(d => d.Question)
+            .ToHashSet(ReferenceEqualityComparer.Instance);
+        var missedSections = reviewState.Sections
+            .Select(section => new Section
+            {
+                Title = section.Title,
+                Questions = section.Questions
+                    .Where(missedQuestions.Contains)
+                    .Select(CloneQuestion)
+                    .ToList()
+            })
+            .Where(section => section.Questions.Count > 0)
+            .ToList();
+        _missedQuestionSelection = new SelectionResult(
+            missedSections,
+            missedSections.SelectMany(section => section.Questions).ToList());
+
         var newSettings = _preExamSettings with
         {
             Mode = ExamMode.Practice,
@@ -835,6 +965,7 @@ public sealed class SimulatorSession : ISimulatorSession, IDisposable
             ShuffleOptions = false
         };
 
+        _preExamSettings = newSettings;
         var examSummary = CreateExamSummary(_currentExam);
         var (startDisabled, reason) = ValidatePreExamSettings(newSettings, examSummary);
 

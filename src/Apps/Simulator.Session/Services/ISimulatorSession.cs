@@ -84,6 +84,16 @@ public interface ISimulatorSession
     Task ResumeAsync();
 
     /// <summary>
+    /// Records that the operating system is suspending so sleep does not consume exam time.
+    /// </summary>
+    Task NotifySystemSuspendingAsync();
+
+    /// <summary>
+    /// Resumes timing after an operating-system suspend interval.
+    /// </summary>
+    Task NotifySystemResumedAsync();
+
+    /// <summary>
     /// Enters the review-and-submit state.
     /// </summary>
     Task EnterReviewAndSubmitAsync();

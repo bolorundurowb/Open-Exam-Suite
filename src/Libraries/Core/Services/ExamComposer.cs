@@ -28,7 +28,6 @@ public class ExamComposer : IExamComposer
             if (section.Questions.Count <= remaining)
             {
                 selectedSections.Add(CloneSection(section));
-                selectedQuestions.AddRange(section.Questions);
                 remaining -= section.Questions.Count;
             }
             else

@@ -27,16 +27,23 @@ public readonly record struct AnswerSelection
     public bool ExplanationRevealed { get; init; }
 
     /// <summary>
+    /// Whether the selected choices are locked after checking a Practice answer.
+    /// Flagging remains available while the choices are locked.
+    /// </summary>
+    public bool IsLocked { get; init; }
+
+    /// <summary>
     /// Whether this question is flagged for review.
     /// </summary>
     public bool IsFlagged { get; init; }
 
-    private AnswerSelection(AnswerState state, char? singleChoice = null, ImmutableArray<char> multipleChoices = default, bool explanationRevealed = false, bool isFlagged = false)
+    private AnswerSelection(AnswerState state, char? singleChoice = null, ImmutableArray<char> multipleChoices = default, bool explanationRevealed = false, bool isLocked = false, bool isFlagged = false)
     {
         State = state;
         SingleChoice = singleChoice;
         MultipleChoices = multipleChoices.IsDefault ? ImmutableArray<char>.Empty : multipleChoices;
         ExplanationRevealed = explanationRevealed;
+        IsLocked = isLocked;
         IsFlagged = isFlagged;
     }
 
@@ -62,7 +69,7 @@ public readonly record struct AnswerSelection
     /// Creates a selection with explanation revealed (Practice mode after Check Answer).
     /// </summary>
     public static AnswerSelection WithExplanationRevealed(AnswerSelection selection) =>
-        selection with { ExplanationRevealed = true, IsFlagged = selection.IsFlagged };
+        selection with { ExplanationRevealed = true, IsLocked = true };
 
     /// <summary>
     /// Creates a selection toggled flagged state.

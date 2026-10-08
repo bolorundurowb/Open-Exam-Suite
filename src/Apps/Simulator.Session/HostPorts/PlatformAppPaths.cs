@@ -30,20 +30,37 @@ public sealed class PlatformAppPaths : IAppPaths
     public string TempDirectory => Path.Combine(Path.GetTempPath(), "OpenExamSuite");
 
     /// <inheritdoc />
+    public string DocumentsDirectory
+    {
+        get
+        {
+            var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            if (!string.IsNullOrWhiteSpace(documents))
+                return documents;
+
+            var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            return string.IsNullOrWhiteSpace(userProfile)
+                ? UserDataDirectory
+                : Path.Combine(userProfile, "Documents");
+        }
+    }
+
+    /// <inheritdoc />
     public string GetBundledSamplePath(string fileName) => Path.Combine(BundledSamplesRoot, fileName);
 
     private static string GetBundledSamplesRoot(string applicationDirectory)
     {
-        // macOS app bundle: Contents/Resources
+        // macOS app bundle: Contents/MacOS and Contents/Resources are siblings.
+        // Recognize the explicit bundle layout on every OS so this path contract is testable.
+        var parentDirectory = Path.GetDirectoryName(applicationDirectory);
+        if (string.Equals(Path.GetFileName(applicationDirectory), "MacOS", StringComparison.OrdinalIgnoreCase)
+            && string.Equals(Path.GetFileName(parentDirectory), "Contents", StringComparison.OrdinalIgnoreCase))
+        {
+            return Path.GetFullPath(Path.Combine(applicationDirectory, "..", "Resources"));
+        }
+
         if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
         {
-            // If we are inside Contents/MacOS, go up two levels to Contents, then into Resources.
-            var macOsDirectory = Path.GetFileName(applicationDirectory);
-            if (string.Equals(macOsDirectory, "MacOS", StringComparison.OrdinalIgnoreCase))
-            {
-                return Path.GetFullPath(Path.Combine(applicationDirectory, "..", "..", "Resources"));
-            }
-
             // Fallback: look for a .app bundle ancestor.
             var candidate = applicationDirectory;
             while (!string.IsNullOrEmpty(candidate))

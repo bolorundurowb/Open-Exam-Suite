@@ -25,6 +25,11 @@ public interface IAppPaths
     string TempDirectory { get; }
 
     /// <summary>
+    /// Default directory for user-created documents and exports.
+    /// </summary>
+    string DocumentsDirectory { get; }
+
+    /// <summary>
     /// Gets the path to a bundled sample exam file.
     /// </summary>
     string GetBundledSamplePath(string fileName);
