@@ -7,6 +7,7 @@
   <Folder Name="/Apps/">
     <Project Path="Apps/Creator/Creator.csproj" />
     <Project Path="Apps/Simulator/Simulator.csproj" />
+    <Project Path="Apps/Simulator.Session/Simulator.Session.csproj" />
   </Folder>
   <Folder Name="/Libraries/">
     <Project Path="Libraries/Core/Core.csproj" />
@@ -18,6 +19,7 @@
   <Folder Name="/Tests/">
     <Project Path="Tests/Core.Tests/Core.Tests.csproj" />
     <Project Path="Tests/Shared.Tests/Shared.Tests.csproj" />
+    <Project Path="Tests/Simulator.Session.Tests/Simulator.Session.Tests.csproj" />
     <Project Path="Tests/Storage.Tests/Storage.Tests.csproj" />
   </Folder>
 </Solution>

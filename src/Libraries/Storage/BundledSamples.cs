@@ -10,7 +10,8 @@ public static class BundledSamples
     /// <summary>
     /// Resolves the shipped sample files next to an application directory. Installed builds
     /// keep the executable in <c>{app}/Creator</c> or <c>{app}/Simulator</c> and the samples
-    /// in <c>{app}/Samples</c>.
+    /// in <c>{app}/Samples</c>. On macOS the samples live inside the app bundle at
+    /// <c>Contents/Resources</c>.
     /// </summary>
     public static IReadOnlyList<string> Resolve(string applicationDirectory)
     {
@@ -19,8 +20,12 @@ public static class BundledSamples
 
         var candidates = new[]
         {
+            // Windows/Linux installed layout: executable is under {app}/Creator or {app}/Simulator.
             Path.GetFullPath(Path.Combine(applicationDirectory, "..", "Samples")),
-            Path.Combine(applicationDirectory, "Samples")
+            // Standalone or development layout.
+            Path.Combine(applicationDirectory, "Samples"),
+            // macOS app bundle: executable is at OpenExamSuite.app/Contents/MacOS/{Creator|Simulator}.
+            Path.GetFullPath(Path.Combine(applicationDirectory, "..", "Resources"))
         };
 
         foreach (var directory in candidates)
