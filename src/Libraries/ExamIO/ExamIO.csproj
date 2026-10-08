@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net10.0-windows</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <AssemblyName>OpenExamSuite.ExamIO</AssemblyName>
     <RootNamespace>OpenExamSuite.Shared</RootNamespace>
     <NoWarn>$(NoWarn);SYSLIB0011</NoWarn>
@@ -9,7 +9,6 @@
   <ItemGroup>
     <PackageReference Include="PDFsharp" />
     <PackageReference Include="protobuf-net" />
-    <PackageReference Include="System.Drawing.Common" />
     <PackageReference Include="System.Formats.Nrbf" />
   </ItemGroup>
 
