@@ -46,8 +46,11 @@ jobs:
       with:
         dotnet-version: '10.x'
 
-    - name: Restore dependencies
-      run: dotnet restore
+    - name: Restore portable projects
+      run: |
+        dotnet restore Tests/Core.Tests/Core.Tests.csproj
+        dotnet restore Tests/Shared.Tests/Shared.Tests.csproj
+        dotnet restore Tests/Storage.Tests/Storage.Tests.csproj
       working-directory: ./src
 
     - name: Build portable projects
