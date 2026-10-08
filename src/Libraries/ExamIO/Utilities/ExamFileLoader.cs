@@ -1,4 +1,5 @@
-using OpenExamSuite.Logging;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using OpenExamSuite.Shared.Enums;
 
 namespace OpenExamSuite.Shared.Utilities;
@@ -6,9 +7,18 @@ namespace OpenExamSuite.Shared.Utilities;
 /// <summary>
 /// Loads an <see cref="Exam"/> from a file path based on extension, with user-facing error messages for Creator.
 /// </summary>
-public static class ExamFileLoader
+public sealed class ExamFileLoader
 {
-    public static ExamFileLoadResult TryLoad(string filePath)
+    private readonly Reader _reader;
+    private readonly ILogger<ExamFileLoader> _logger;
+
+    public ExamFileLoader(Reader? reader = null, ILogger<ExamFileLoader>? logger = null)
+    {
+        _reader = reader ?? new Reader();
+        _logger = logger ?? NullLogger<ExamFileLoader>.Instance;
+    }
+
+    public ExamFileLoadResult TryLoad(string filePath)
     {
         if (string.IsNullOrWhiteSpace(filePath))
             throw new ArgumentException("Empty filepath", nameof(filePath));
@@ -17,8 +27,8 @@ public static class ExamFileLoader
 
         if (fileExt == ".json")
         {
-            var exam = Reader.FromJsonFile(filePath);
-            if (exam == null || exam.NumberOfQuestions == 0)
+            var jsonResult = _reader.FromJsonFile(filePath);
+            if (!jsonResult.Success || jsonResult.Exam == null || jsonResult.Exam.NumberOfQuestions == 0)
             {
                 return new ExamFileLoadResult(
                     null,
@@ -27,44 +37,34 @@ public static class ExamFileLoader
                     null);
             }
 
-            return new ExamFileLoadResult(exam, true, ExamFileLoadError.None, filePath);
+            return new ExamFileLoadResult(jsonResult.Exam, true, ExamFileLoadError.None, filePath);
         }
 
         if (fileExt == ".xml")
         {
-            try
+            var xmlResult = _reader.FromXmlFile(filePath);
+            if (!xmlResult.Success || xmlResult.Exam == null || xmlResult.Exam.NumberOfQuestions == 0)
             {
-                var exam = Reader.FromXmlFile(filePath);
-                if (exam == null || exam.NumberOfQuestions == 0)
-                {
-                    return new ExamFileLoadResult(
-                        null,
-                        false,
-                        ExamFileLoadError.EmptyOrInvalidXml,
-                        null);
-                }
-
-                return new ExamFileLoadResult(exam, true, ExamFileLoadError.None, filePath);
-            }
-            catch (Exception ex)
-            {
-                Logger.LogException(ex);
                 return new ExamFileLoadResult(
                     null,
                     false,
-                    ExamFileLoadError.InvalidXml,
+                    ExamFileLoadError.EmptyOrInvalidXml,
                     null);
             }
+
+            return new ExamFileLoadResult(xmlResult.Exam, true, ExamFileLoadError.None, filePath);
         }
 
-        var oefExam = Reader.FromOefFile(filePath);
-        if (oefExam != null)
-            return new ExamFileLoadResult(oefExam, true, ExamFileLoadError.None, filePath);
+        var oefResult = _reader.FromOefFile(filePath);
+        if (oefResult.Success && oefResult.Exam != null)
+            return new ExamFileLoadResult(oefResult.Exam, true, ExamFileLoadError.None, filePath);
 
         return new ExamFileLoadResult(
             null,
             false,
-            ExamFileLoadError.UnknownOrCorrupt,
+            oefResult.Error == ExamIoError.FileNotFound
+                ? ExamFileLoadError.FileNotFound
+                : ExamFileLoadError.UnknownOrCorrupt,
             null);
     }
 }

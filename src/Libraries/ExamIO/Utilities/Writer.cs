@@ -1,21 +1,34 @@
 using System.Text.Json;
 using System.Xml.Serialization;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
+using OpenExamSuite.Shared.Enums;
 using PdfSharp.Drawing;
 using PdfSharp.Drawing.Layout;
 using PdfSharp.Fonts;
 using PdfSharp.Pdf;
-using OpenExamSuite.Logging;
 using ProtoBuf;
 
 namespace OpenExamSuite.Shared.Utilities;
 
-public static class Writer
+/// <summary>
+/// Writes exams to .oef (protobuf), PDF, JSON and XML. Write failures are surfaced as a typed
+/// <see cref="ExamWriteResult"/> and routed through <see cref="ILogger"/>.
+/// </summary>
+public sealed class Writer
 {
     private static readonly object FontResolverLock = new();
     private static bool _fontResolverConfigured;
     private const string PdfFontFamily = "Noto Sans";
 
-    public static bool ToOef(Exam exam, string filePath, bool throwOnError = false)
+    private readonly ILogger<Writer> _logger;
+
+    public Writer(ILogger<Writer>? logger = null)
+    {
+        _logger = logger ?? NullLogger<Writer>.Instance;
+    }
+
+    public ExamWriteResult ToOef(Exam exam, string filePath)
     {
         if (exam == null)
             throw new ArgumentNullException(nameof(exam), "The exam to be written cannot be null.");
@@ -27,21 +40,46 @@ public static class Writer
         {
             using var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
             Serializer.Serialize(stream, exam);
-            return true;
+            return new ExamWriteResult(true);
         }
         catch (Exception ex)
         {
-            Logger.LogException(ex);
-
-            if (throwOnError)
-                throw new Exception("Failed to save .oef file in protobuf format.", ex);
-
-            return false;
+            _logger.LogError(ex, "Failed to save .oef file to '{FilePath}'.", filePath);
+            return new ExamWriteResult(false, ExamIoError.WriteFailed);
         }
     }
 
-    public static bool ToPdf(Exam exam, string filePath)
+    /// <summary>
+    /// Serializes an exam to protobuf into <paramref name="stream"/>. The stream is never disposed
+    /// or repositioned by the caller contract, and no upgrade side effects occur.
+    /// </summary>
+    public ExamWriteResult ToOef(Exam exam, Stream stream)
     {
+        if (exam == null)
+            throw new ArgumentNullException(nameof(exam), "The exam to be written cannot be null.");
+
+        ArgumentNullException.ThrowIfNull(stream);
+
+        try
+        {
+            Serializer.Serialize(stream, exam);
+            return new ExamWriteResult(true);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to serialize .oef exam to stream.");
+            return new ExamWriteResult(false, ExamIoError.WriteFailed);
+        }
+    }
+
+    public ExamWriteResult ToPdf(Exam exam, string filePath)
+    {
+        if (exam == null)
+            throw new ArgumentNullException(nameof(exam), "The exam to be written cannot be null.");
+
+        if (string.IsNullOrWhiteSpace(filePath))
+            throw new ArgumentException("Empty filepath", nameof(filePath));
+
         try
         {
             EnsurePdfFontsConfigured();
@@ -93,45 +131,56 @@ public static class Writer
             }
 
             document.Save(stream, false);
+            return new ExamWriteResult(true);
         }
         catch (Exception ex)
         {
-            Logger.LogException(ex);
-            return false;
+            _logger.LogError(ex, "Failed to write PDF to '{FilePath}'.", filePath);
+            return new ExamWriteResult(false, ExamIoError.WriteFailed);
         }
-
-        return true;
     }
 
-    public static bool ToJson(Exam exam, string filePath)
+    public ExamWriteResult ToJson(Exam exam, string filePath)
     {
+        if (exam == null)
+            throw new ArgumentNullException(nameof(exam), "The exam to be written cannot be null.");
+
+        if (string.IsNullOrWhiteSpace(filePath))
+            throw new ArgumentException("Empty filepath", nameof(filePath));
+
         try
         {
             var examJsonString = JsonSerializer.Serialize(exam, ExamJsonSerialization.Options);
             File.WriteAllText(filePath, examJsonString);
-            return true;
+            return new ExamWriteResult(true);
         }
         catch (Exception ex)
         {
-            Logger.LogException(ex);
-            return false;
+            _logger.LogError(ex, "Failed to write JSON exam to '{FilePath}'.", filePath);
+            return new ExamWriteResult(false, ExamIoError.WriteFailed);
         }
     }
 
-    public static bool ToXml(Exam exam, string filePath)
+    public ExamWriteResult ToXml(Exam exam, string filePath)
     {
+        if (exam == null)
+            throw new ArgumentNullException(nameof(exam), "The exam to be written cannot be null.");
+
+        if (string.IsNullOrWhiteSpace(filePath))
+            throw new ArgumentException("Empty filepath", nameof(filePath));
+
         try
         {
             var examXmlStringWriter = new StringWriter();
             var serializer = new XmlSerializer(exam.GetType());
             serializer.Serialize(examXmlStringWriter, exam);
             File.WriteAllText(filePath, examXmlStringWriter.ToString());
-            return true;
+            return new ExamWriteResult(true);
         }
         catch (Exception ex)
         {
-            Logger.LogException(ex);
-            return false;
+            _logger.LogError(ex, "Failed to write XML exam to '{FilePath}'.", filePath);
+            return new ExamWriteResult(false, ExamIoError.WriteFailed);
         }
     }
 
