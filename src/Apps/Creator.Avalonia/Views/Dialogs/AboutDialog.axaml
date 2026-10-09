@@ -1,0 +1,15 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="OpenExamSuite.Creator.Views.Dialogs.AboutDialog"
+        Title="About"
+        Width="400" Height="260"
+        WindowStartupLocation="CenterOwner"
+        CanResize="False">
+  <StackPanel Margin="24" Spacing="12" HorizontalAlignment="Center">
+    <TextBlock Text="Open Exam Creator" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center"/>
+    <TextBlock Text="{Binding Version}" HorizontalAlignment="Center"/>
+    <TextBlock Text="A free, open-source exam authoring tool." TextWrapping="Wrap" TextAlignment="Center"/>
+    <TextBlock Text="Built with Avalonia UI." TextAlignment="Center" Opacity="0.7"/>
+    <Button Content="OK" HorizontalAlignment="Center" Click="Close_Click" IsDefault="True" IsCancel="True"/>
+  </StackPanel>
+</Window>

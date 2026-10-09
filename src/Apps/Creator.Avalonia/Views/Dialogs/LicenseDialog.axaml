@@ -1,0 +1,13 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="OpenExamSuite.Creator.Views.Dialogs.LicenseDialog"
+        Title="License"
+        Width="600" Height="500"
+        WindowStartupLocation="CenterOwner">
+  <Grid RowDefinitions="*,Auto" Margin="16">
+    <ScrollViewer Grid.Row="0">
+      <TextBlock Text="{Binding LicenseText}" TextWrapping="Wrap"/>
+    </ScrollViewer>
+    <Button Grid.Row="1" Content="OK" HorizontalAlignment="Right" Click="Close_Click" IsDefault="True" IsCancel="True" Margin="0,12,0,0"/>
+  </Grid>
+</Window>

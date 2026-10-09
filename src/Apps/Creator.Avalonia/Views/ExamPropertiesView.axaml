@@ -1,0 +1,33 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:loc="using:OpenExamSuite.Creator.Localization"
+             xmlns:vm="using:OpenExamSuite.Creator.ViewModels"
+             x:Class="OpenExamSuite.Creator.Views.ExamPropertiesView"
+             x:DataType="vm:ExamPropertiesViewModel">
+  <StackPanel Spacing="12">
+    <TextBlock Text="{loc:Loc Editor_Properties}" Classes="heading"/>
+
+    <TextBlock Text="{loc:Loc Editor_Title}" Classes="caption"/>
+    <TextBox Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"/>
+
+    <TextBlock Text="{loc:Loc Editor_Code}" Classes="caption"/>
+    <TextBox Text="{Binding Code, UpdateSourceTrigger=PropertyChanged}"/>
+
+    <TextBlock Text="{loc:Loc Editor_Instructions}" Classes="caption"/>
+    <TextBox Text="{Binding Instructions, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" TextWrapping="Wrap" Height="80"/>
+
+    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto">
+      <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Loc Editor_PassMark}" Classes="caption"/>
+      <TextBlock Grid.Row="0" Grid.Column="1" Text="{loc:Loc Editor_TimeLimit}" Classes="caption"/>
+
+      <NumericUpDown Grid.Row="1" Grid.Column="0" Value="{Binding PassMark}" Minimum="0" Maximum="100" Increment="1" FormatString="F0"/>
+      <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding TimeLimit}" Minimum="0" Maximum="999" Increment="1" FormatString="F0"/>
+
+      <TextBlock Grid.Row="2" Grid.Column="0" Text="{Binding ScaledPassMark, StringFormat='{}Scaled: {0} / 1000'}" Classes="caption"/>
+    </Grid>
+
+    <CheckBox IsChecked="{Binding HideAnswers}">
+      <TextBlock Text="{loc:Loc Editor_HideAnswers}" TextWrapping="Wrap"/>
+    </CheckBox>
+  </StackPanel>
+</UserControl>

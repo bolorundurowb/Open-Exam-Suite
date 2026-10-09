@@ -1,0 +1,79 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:loc="using:OpenExamSuite.Creator.Localization"
+             xmlns:vm="using:OpenExamSuite.Creator.ViewModels"
+             x:Class="OpenExamSuite.Creator.Views.WorkspaceView"
+             x:DataType="vm:WorkspaceViewModel">
+  <Grid ColumnDefinitions="280,*,360" RowDefinitions="*,Auto">
+
+    <!-- Outline -->
+    <Border Grid.Column="0" Grid.RowSpan="1" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0,0,1,0" Background="{DynamicResource PanelBrush}">
+      <Grid RowDefinitions="Auto,Auto,Auto,*">
+        <Border Classes="bar" Grid.Row="0">
+          <TextBlock Text="{loc:Loc Outline_Exam}" Classes="heading" FontSize="14"/>
+        </Border>
+        <TextBox Grid.Row="1" Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}" Watermark="{loc:Loc Outline_Search}" Margin="8"/>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="8" Margin="8,0,8,8">
+          <Button Content="{loc:Loc Outline_AddSection}" Command="{Binding AddSectionCommand}" Classes="accent"/>
+          <Button Content="{loc:Loc Outline_AddQuestion}" Command="{Binding AddQuestionCommand}"/>
+        </StackPanel>
+        <TreeView Grid.Row="3" ItemsSource="{Binding OutlineNodes}" SelectedItem="{Binding SelectedNode}" Margin="8,0">
+          <TreeView.ItemTemplate>
+            <TreeDataTemplate ItemsSource="{Binding Children}">
+              <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
+                <Ellipse Width="8" Height="8" Fill="{DynamicResource ValidationDotBrush}" IsVisible="{Binding HasProblem}" VerticalAlignment="Center"/>
+                <PathIcon Data="{StaticResource IconImage}" Width="14" Height="14" IsVisible="{Binding HasImage}" Opacity="0.7"/>
+                <PathIcon Data="{StaticResource IconMultiple}" Width="14" Height="14" IsVisible="{Binding IsMultipleChoice}" Opacity="0.7"/>
+                <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis"/>
+              </StackPanel>
+            </TreeDataTemplate>
+          </TreeView.ItemTemplate>
+        </TreeView>
+      </Grid>
+    </Border>
+
+    <!-- Editor -->
+    <Border Grid.Column="1" Grid.RowSpan="1" Background="{DynamicResource SurfaceBrush}">
+      <ScrollViewer>
+        <ContentControl Content="{Binding EditorContent}" Margin="16" HorizontalContentAlignment="Stretch"/>
+      </ScrollViewer>
+    </Border>
+
+    <!-- Preview -->
+    <Border Grid.Column="2" Grid.RowSpan="1" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1,0,0,0" Background="{DynamicResource PanelBrush}">
+      <Grid RowDefinitions="Auto,*">
+        <Border Classes="bar" Grid.Row="0">
+          <TextBlock Text="{loc:Loc Preview_Title}" Classes="heading" FontSize="14"/>
+        </Border>
+        <ContentControl Grid.Row="1" Content="{Binding Preview}" Margin="12"/>
+      </Grid>
+    </Border>
+
+    <!-- Validation strip -->
+    <Border Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" Background="{DynamicResource PanelBrush}"
+            BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0,1,0,0"
+            IsVisible="{Binding HasProblems}">
+      <Grid RowDefinitions="Auto,*">
+        <TextBlock Text="{loc:Loc Validation_Title}" Classes="heading" FontSize="12" Margin="12,8,12,0"/>
+        <ItemsControl Grid.Row="1" ItemsSource="{Binding Problems}" Margin="12,4">
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <WrapPanel/>
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+          <ItemsControl.ItemTemplate>
+            <DataTemplate DataType="vm:ValidationProblemViewModel">
+              <Button Classes="quiet" Command="{Binding GoTo}" Margin="0,0,8,4">
+                <StackPanel Orientation="Horizontal" Spacing="4">
+                  <PathIcon Data="{StaticResource IconWarning}" Width="14" Height="14" Foreground="{DynamicResource ValidationDotBrush}"/>
+                  <TextBlock Text="{Binding Message}" TextDecorations="Underline"/>
+                </StackPanel>
+              </Button>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </Grid>
+    </Border>
+
+  </Grid>
+</UserControl>

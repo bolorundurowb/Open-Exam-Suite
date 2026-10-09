@@ -1,0 +1,77 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:loc="using:OpenExamSuite.Creator.Localization"
+        xmlns:svc="using:OpenExamSuite.Creator.Services"
+        x:Class="OpenExamSuite.Creator.Views.MainWindow"
+        Title="{Binding Title}"
+        Icon="avares://OpenExamSuite.Creator.Avalonia/Assets/CreatorAppIcon.ico"
+        Width="1280" Height="820" MinWidth="960" MinHeight="640"
+        WindowStartupLocation="CenterScreen">
+  <Grid RowDefinitions="Auto,Auto,*">
+
+    <Menu x:Name="MainMenu" Grid.Row="0">
+      <MenuItem Header="{loc:Loc Menu_File}">
+        <MenuItem Header="{loc:Loc Menu_New}" Command="{Binding NewCommand}" HotKey="Ctrl+N" InputGesture="Ctrl+N"/>
+        <MenuItem Header="{loc:Loc Menu_Open}" Command="{Binding OpenCommand}" HotKey="Ctrl+O" InputGesture="Ctrl+O"/>
+        <Separator/>
+        <MenuItem Header="{loc:Loc Menu_Save}" Command="{Binding SaveCommand}" HotKey="Ctrl+S" InputGesture="Ctrl+S"/>
+        <MenuItem Header="{loc:Loc Menu_SaveAs}" Command="{Binding SaveAsCommand}" HotKey="Ctrl+Shift+S" InputGesture="Ctrl+Shift+S"/>
+        <Separator/>
+        <MenuItem Header="{loc:Loc Menu_Import}" Command="{Binding ImportJsonCommand}"/>
+        <MenuItem Header="{loc:Loc Menu_ExportJson}" Command="{Binding ExportJsonCommand}"/>
+        <MenuItem Header="{loc:Loc Menu_ExportXml}" Command="{Binding ExportXmlCommand}"/>
+        <MenuItem Header="{loc:Loc Menu_ExportPdf}" Command="{Binding ExportPdfCommand}"/>
+        <Separator/>
+        <MenuItem Header="{loc:Loc Menu_TryExam}" Command="{Binding TryExamCommand}"/>
+        <Separator/>
+        <MenuItem x:Name="ExitItem" Header="{loc:Loc Menu_Exit}"/>
+      </MenuItem>
+      <MenuItem Header="{loc:Loc Menu_Edit}">
+        <MenuItem Header="{loc:Loc Menu_Undo}" Command="{Binding UndoCommand}" HotKey="Ctrl+Z" InputGesture="Ctrl+Z"/>
+        <MenuItem Header="{loc:Loc Menu_Redo}" Command="{Binding RedoCommand}" HotKey="Ctrl+Y" InputGesture="Ctrl+Y"/>
+        <Separator/>
+        <MenuItem Header="{loc:Loc Menu_Theme}">
+          <MenuItem Header="{loc:Loc Theme_System}" Command="{Binding SetThemeCommand}" CommandParameter="{x:Static svc:ThemeMode.System}"/>
+          <MenuItem Header="{loc:Loc Theme_Light}" Command="{Binding SetThemeCommand}" CommandParameter="{x:Static svc:ThemeMode.Light}"/>
+          <MenuItem Header="{loc:Loc Theme_Dark}" Command="{Binding SetThemeCommand}" CommandParameter="{x:Static svc:ThemeMode.Dark}"/>
+        </MenuItem>
+      </MenuItem>
+      <MenuItem Header="{loc:Loc Menu_Help}">
+        <MenuItem Header="{loc:Loc Menu_About}" Command="{Binding ShowAboutCommand}"/>
+        <MenuItem Header="{loc:Loc Menu_License}" Command="{Binding ShowLicenseCommand}"/>
+        <MenuItem Header="{loc:Loc Menu_Changelog}" Command="{Binding ShowChangelogCommand}"/>
+      </MenuItem>
+    </Menu>
+
+    <Border Grid.Row="1" Classes="bar">
+      <Grid ColumnDefinitions="Auto,Auto,*,Auto">
+        <TextBlock Text="{Binding ProductName}" Classes="heading" VerticalAlignment="Center" Margin="0,0,16,0"/>
+        <Border Grid.Column="1" Classes="chip" VerticalAlignment="Center">
+          <TextBlock Text="{Binding ScreenLabel}"/>
+        </Border>
+        <Button Grid.Column="3" Theme="{StaticResource IconButton}" Command="{Binding ToggleThemeCommand}"
+                AutomationProperties.Name="{loc:Loc Theme_Toggle}" ToolTip.Tip="{loc:Loc Theme_Toggle}">
+          <PathIcon Data="{StaticResource IconTheme}"/>
+        </Button>
+      </Grid>
+    </Border>
+
+    <Panel Grid.Row="2">
+      <ContentControl Content="{Binding CurrentScreen}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+
+      <ItemsControl ItemsSource="{Binding Toasts}" HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                    Margin="24" AutomationProperties.LiveSetting="Polite">
+        <ItemsControl.ItemTemplate>
+          <DataTemplate>
+            <Border Classes="toast">
+              <StackPanel Orientation="Horizontal" Spacing="10">
+                <PathIcon Data="{StaticResource IconCheck}" Foreground="{DynamicResource ToastTextBrush}" Width="18" Height="18"/>
+                <TextBlock Text="{Binding Message}" VerticalAlignment="Center"/>
+              </StackPanel>
+            </Border>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+    </Panel>
+  </Grid>
+</Window>

@@ -1,0 +1,17 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:loc="using:OpenExamSuite.Creator.Localization"
+        x:Class="OpenExamSuite.Creator.Views.Dialogs.UnsavedChangesDialog"
+        Title="{loc:Loc Title_Unsaved}"
+        Width="420" Height="180"
+        WindowStartupLocation="CenterOwner"
+        CanResize="False">
+  <Grid RowDefinitions="*,Auto" Margin="20">
+    <TextBlock Grid.Row="0" Text="{loc:Loc Message_Unsaved}" TextWrapping="Wrap" VerticalAlignment="Center"/>
+    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10">
+      <Button Content="{loc:Loc Button_Save}" Click="Save_Click" IsDefault="True"/>
+      <Button Content="{loc:Loc Button_DontSave}" Click="DontSave_Click"/>
+      <Button Content="{loc:Loc Button_Cancel}" Click="Cancel_Click" IsCancel="True"/>
+    </StackPanel>
+  </Grid>
+</Window>

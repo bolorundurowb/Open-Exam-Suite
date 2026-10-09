@@ -1,0 +1,45 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:OpenExamSuite.Creator.ViewModels"
+             xmlns:views="using:OpenExamSuite.Creator.Views"
+             x:Class="OpenExamSuite.Creator.App"
+             RequestedThemeVariant="Default">
+
+  <Application.DataTemplates>
+    <DataTemplate DataType="vm:WorkspaceViewModel">
+      <views:WorkspaceView/>
+    </DataTemplate>
+    <DataTemplate DataType="vm:ExamPropertiesViewModel">
+      <views:ExamPropertiesView/>
+    </DataTemplate>
+    <DataTemplate DataType="vm:SectionEditorViewModel">
+      <views:SectionEditorView/>
+    </DataTemplate>
+    <DataTemplate DataType="vm:QuestionEditorViewModel">
+      <views:QuestionEditorView/>
+    </DataTemplate>
+    <DataTemplate DataType="vm:QuestionPreviewViewModel">
+      <views:QuestionPreviewView/>
+    </DataTemplate>
+  </Application.DataTemplates>
+
+  <Application.Styles>
+    <FluentTheme>
+      <FluentTheme.Palettes>
+        <ColorPaletteResources x:Key="Light" Accent="#801638" RegionColor="#F9F4F5" ErrorText="#B3261E"/>
+        <ColorPaletteResources x:Key="Dark" Accent="#B84A6D" RegionColor="#150A0D" ErrorText="#FF9E96"/>
+      </FluentTheme.Palettes>
+    </FluentTheme>
+    <StyleInclude Source="avares://OpenExamSuite.Creator.Avalonia/Styles/Controls.axaml"/>
+  </Application.Styles>
+
+  <Application.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceInclude Source="avares://OpenExamSuite.Creator.Avalonia/Styles/Theme.axaml"/>
+        <ResourceInclude Source="avares://OpenExamSuite.Creator.Avalonia/Styles/Icons.axaml"/>
+      </ResourceDictionary.MergedDictionaries>
+      <FontFamily x:Key="ContentControlThemeFontFamily">avares://OpenExamSuite.Shared.Avalonia/Assets/Fonts#IBM Plex Sans</FontFamily>
+    </ResourceDictionary>
+  </Application.Resources>
+</Application>

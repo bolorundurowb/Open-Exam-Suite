@@ -1,0 +1,43 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:loc="using:OpenExamSuite.Creator.Localization"
+             xmlns:vm="using:OpenExamSuite.Creator.ViewModels"
+             x:Class="OpenExamSuite.Creator.Views.QuestionEditorView"
+             x:DataType="vm:QuestionEditorViewModel">
+  <StackPanel Spacing="12">
+    <TextBlock Text="{loc:Loc Editor_Question}" Classes="heading"/>
+
+    <TextBlock Text="{loc:Loc Editor_QuestionText}" Classes="caption"/>
+    <TextBox Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" TextWrapping="Wrap" Height="120"/>
+
+    <StackPanel Orientation="Horizontal" Spacing="8">
+      <ToggleButton IsChecked="{Binding IsMultipleChoice}" Content="{loc:Loc Editor_MultipleAnswer}"/>
+      <Button Content="{loc:Loc Editor_AddImage}" Command="{Binding AddImageCommand}"/>
+      <Button Content="{loc:Loc Editor_RemoveImage}" Command="{Binding RemoveImageCommand}" IsVisible="{Binding HasImage}"/>
+    </StackPanel>
+
+    <Border BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" CornerRadius="4" Padding="4"
+            IsVisible="{Binding HasImage}" HorizontalAlignment="Left">
+      <Image Source="{Binding Image}" MaxWidth="300" MaxHeight="200" Stretch="Uniform"/>
+    </Border>
+
+    <TextBlock Text="{loc:Loc Editor_Explanation}" Classes="caption"/>
+    <TextBox Text="{Binding Explanation, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" TextWrapping="Wrap" Height="80"/>
+
+    <TextBlock Text="Options" Classes="caption"/>
+    <ItemsControl ItemsSource="{Binding Options}">
+      <ItemsControl.ItemTemplate>
+        <DataTemplate DataType="vm:OptionViewModel">
+          <Grid ColumnDefinitions="Auto,Auto,*,Auto" Margin="0,4">
+            <TextBlock Grid.Column="0" Text="{Binding Letter}" VerticalAlignment="Center" Width="24" FontWeight="Bold"/>
+            <CheckBox Grid.Column="1" IsChecked="{Binding IsCorrect}" VerticalAlignment="Center"
+                      ToolTip.Tip="Correct option"/>
+            <TextBox Grid.Column="2" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" Watermark="Option text"/>
+          </Grid>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ItemsControl>
+
+    <Button Content="{loc:Loc Editor_AddOption}" Command="{Binding AddOptionCommand}" HorizontalAlignment="Left"/>
+  </StackPanel>
+</UserControl>

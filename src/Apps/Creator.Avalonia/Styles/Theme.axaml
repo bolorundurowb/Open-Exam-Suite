@@ -1,0 +1,35 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <ResourceDictionary.ThemeDictionaries>
+    <ResourceDictionary x:Key="Light">
+      <Color x:Key="AccentGradientStart">#801638</Color>
+      <Color x:Key="AccentGradientEnd">#3B0A1A</Color>
+      <SolidColorBrush x:Key="AccentBrush" Color="#801638"/>
+      <SolidColorBrush x:Key="AccentForegroundBrush" Color="White"/>
+      <SolidColorBrush x:Key="SurfaceBrush" Color="#F9F4F5"/>
+      <SolidColorBrush x:Key="PanelBrush" Color="#FFFFFF"/>
+      <SolidColorBrush x:Key="BorderBrush" Color="#D9D0D3"/>
+      <SolidColorBrush x:Key="TextBrush" Color="#1F1619"/>
+      <SolidColorBrush x:Key="SecondaryTextBrush" Color="#5D4F54"/>
+      <SolidColorBrush x:Key="ValidationDotBrush" Color="#B3261E"/>
+      <SolidColorBrush x:Key="ToastBackgroundBrush" Color="#2D2426"/>
+      <SolidColorBrush x:Key="ToastTextBrush" Color="#FFFFFF"/>
+    </ResourceDictionary>
+    <ResourceDictionary x:Key="Dark">
+      <Color x:Key="AccentGradientStart">#B84A6D</Color>
+      <Color x:Key="AccentGradientEnd">#3B0A1A</Color>
+      <SolidColorBrush x:Key="AccentBrush" Color="#B84A6D"/>
+      <SolidColorBrush x:Key="AccentForegroundBrush" Color="White"/>
+      <SolidColorBrush x:Key="SurfaceBrush" Color="#150A0D"/>
+      <SolidColorBrush x:Key="PanelBrush" Color="#1F1619"/>
+      <SolidColorBrush x:Key="BorderBrush" Color="#3D2F34"/>
+      <SolidColorBrush x:Key="TextBrush" Color="#F2EBED"/>
+      <SolidColorBrush x:Key="SecondaryTextBrush" Color="#B0A4A8"/>
+      <SolidColorBrush x:Key="ValidationDotBrush" Color="#FF9E96"/>
+      <SolidColorBrush x:Key="ToastBackgroundBrush" Color="#F2EBED"/>
+      <SolidColorBrush x:Key="ToastTextBrush" Color="#1F1619"/>
+    </ResourceDictionary>
+  </ResourceDictionary.ThemeDictionaries>
+
+  <SolidColorBrush x:Key="BarBackgroundBrush" Color="Transparent"/>
+</ResourceDictionary>

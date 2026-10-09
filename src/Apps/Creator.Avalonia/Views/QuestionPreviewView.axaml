@@ -1,0 +1,35 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:OpenExamSuite.Creator.ViewModels"
+             xmlns:conv="using:Avalonia.Data.Converters"
+             x:Class="OpenExamSuite.Creator.Views.QuestionPreviewView"
+             x:DataType="vm:QuestionPreviewViewModel">
+  <ScrollViewer>
+    <StackPanel Spacing="12">
+      <TextBlock Text="{Binding Header}" FontWeight="Bold"/>
+      <TextBlock Text="{Binding Question.Text}" TextWrapping="Wrap"/>
+
+      <Border BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" CornerRadius="4" Padding="4"
+              IsVisible="{Binding Image, Converter={x:Static conv:ObjectConverters.IsNotNull}}"
+              HorizontalAlignment="Left">
+        <Image Source="{Binding Image}" MaxWidth="280" MaxHeight="200" Stretch="Uniform"/>
+      </Border>
+
+      <ItemsControl ItemsSource="{Binding Options}">
+        <ItemsControl.ItemTemplate>
+          <DataTemplate DataType="vm:PreviewOptionViewModel">
+            <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,4">
+              <TextBlock Text="{Binding Letter}" FontWeight="Bold" Width="20"/>
+              <TextBlock Text="{Binding Text}" TextWrapping="Wrap"/>
+              <PathIcon Data="{StaticResource IconCheck}" Width="14" Height="14" IsVisible="{Binding IsCorrect}"
+                        Foreground="{DynamicResource AccentBrush}"/>
+            </StackPanel>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+
+      <TextBlock Text="{Binding Question.Explanation}" TextWrapping="Wrap" Opacity="0.8"
+                 IsVisible="{Binding Question.Explanation, Converter={x:Static conv:StringConverters.IsNotNullOrEmpty}}"/>
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>
