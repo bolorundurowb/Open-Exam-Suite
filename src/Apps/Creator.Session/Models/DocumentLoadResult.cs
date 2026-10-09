@@ -33,18 +33,21 @@ public sealed class DocumentSaveResult
 
     public ExamIoError Error { get; }
 
+    public string? Detail { get; }
+
     public string? FilePath { get; }
 
-    private DocumentSaveResult(bool success, ExamIoError error, string? filePath)
+    private DocumentSaveResult(bool success, ExamIoError error, string? detail, string? filePath)
     {
         Success = success;
         Error = error;
+        Detail = detail;
         FilePath = filePath;
     }
 
     public static DocumentSaveResult Ok(string filePath) =>
-        new(true, ExamIoError.None, filePath);
+        new(true, ExamIoError.None, null, filePath);
 
-    public static DocumentSaveResult Fail(ExamIoError error) =>
-        new(false, error, null);
+    public static DocumentSaveResult Fail(ExamIoError error, string? detail = null) =>
+        new(false, error, detail, null);
 }

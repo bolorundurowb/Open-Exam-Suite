@@ -149,28 +149,77 @@ public sealed class CreatorDocument
         return DocumentLoadResult.Ok(_filePath, false);
     }
 
+    public DocumentLoadResult LoadXml(string filePath)
+    {
+        var result = _reader.FromXmlFile(filePath);
+        if (!result.Success || result.Exam == null)
+            return DocumentLoadResult.Fail(result.Error, filePath);
+
+        _exam = result.Exam;
+        _filePath = Path.ChangeExtension(filePath, ".oef");
+        _isLegacy = false;
+        RebuildNodes();
+        ClearUndoRedo();
+        IsDirty = true;
+
+        var firstSection = _nodes.Values.FirstOrDefault(n => n.Type == NodeType.Section);
+        SelectedNodeId = firstSection?.Id ?? _nodes.Values.First(n => n.Type == NodeType.Exam).Id;
+
+        Revalidate();
+        return DocumentLoadResult.Ok(_filePath, false);
+    }
+
+    public DocumentLoadResult LoadRecovered(string recoveryPath, string? originalPath)
+    {
+        var loaded = Load(recoveryPath);
+        if (!loaded.Success)
+            return loaded;
+
+        _filePath = string.IsNullOrWhiteSpace(originalPath) ? null : originalPath;
+        _isLegacy = false;
+        IsDirty = true;
+        return DocumentLoadResult.Ok(_filePath ?? string.Empty, false);
+    }
+
     public DocumentSaveResult Save(string? filePath = null)
     {
         var target = filePath ?? _filePath;
         if (string.IsNullOrWhiteSpace(target))
-            return DocumentSaveResult.Fail(ExamIoError.WriteFailed);
+            return DocumentSaveResult.Fail(ExamIoError.WriteFailed, "A file name is required.");
 
         var result = _writer.ToOef(_exam, target);
         if (!result.Success)
-            return DocumentSaveResult.Fail(result.Error);
+            return DocumentSaveResult.Fail(result.Error, result.Detail);
 
         _filePath = target;
         _isLegacy = false;
-        IsDirty = false;
+        _isDirty = false;
+        _coalescing = false;
+        Changed?.Invoke();
         _logger.LogInformation("Saved exam '{Title}' to '{FilePath}'.", _exam.Properties.Title, target);
         return DocumentSaveResult.Ok(target);
+    }
+
+    /// <summary>
+    /// Writes the current exam to <paramref name="filePath"/> without changing the open path,
+    /// the dirty flag, or the selection. Used for preview and autosave copies.
+    /// </summary>
+    public DocumentSaveResult WriteCopy(string filePath)
+    {
+        if (string.IsNullOrWhiteSpace(filePath))
+            return DocumentSaveResult.Fail(ExamIoError.WriteFailed, "A file name is required.");
+
+        var result = _writer.ToOef(_exam, filePath);
+        return result.Success
+            ? DocumentSaveResult.Ok(filePath)
+            : DocumentSaveResult.Fail(result.Error, result.Detail);
     }
 
     public DocumentSaveResult SaveJson(string filePath)
     {
         var result = _writer.ToJson(_exam, filePath);
         if (!result.Success)
-            return DocumentSaveResult.Fail(result.Error);
+            return DocumentSaveResult.Fail(result.Error, result.Detail);
 
         return DocumentSaveResult.Ok(filePath);
     }
@@ -179,7 +228,7 @@ public sealed class CreatorDocument
     {
         var result = _writer.ToXml(_exam, filePath);
         if (!result.Success)
-            return DocumentSaveResult.Fail(result.Error);
+            return DocumentSaveResult.Fail(result.Error, result.Detail);
 
         return DocumentSaveResult.Ok(filePath);
     }
@@ -188,7 +237,7 @@ public sealed class CreatorDocument
     {
         var result = _writer.ToPdf(_exam, filePath);
         if (!result.Success)
-            return DocumentSaveResult.Fail(result.Error);
+            return DocumentSaveResult.Fail(result.Error, result.Detail);
 
         return DocumentSaveResult.Ok(filePath);
     }
@@ -249,6 +298,7 @@ public sealed class CreatorDocument
                 RebuildNodes();
                 RenumberQuestions();
                 Revalidate();
+                SelectedNodeId = _nodes.Values.First(n => n.Section == clonedSection).Id;
                 break;
 
             case NodeType.Question when node.Question != null && node.ParentId != null
@@ -267,8 +317,14 @@ public sealed class CreatorDocument
 
     public void DeleteNode(string nodeId)
     {
-        if (!_nodes.TryGetValue(nodeId, out var node))
+        if (!_nodes.TryGetValue(nodeId, out var node) || node.Type == NodeType.Exam)
             return;
+
+        var nextSelection = SelectedNodeId == nodeId
+            ? node.Type == NodeType.Question
+                ? node.ParentId
+                : _nodes.Values.First(n => n.Type == NodeType.Exam).Id
+            : SelectedNodeId;
 
         PushUndo("Delete");
 
@@ -288,9 +344,10 @@ public sealed class CreatorDocument
         RenumberQuestions();
         Revalidate();
 
-        var fallback = _nodes.Values.FirstOrDefault(n => n.Type == NodeType.Exam)?.Id;
-        if (SelectedNodeId == nodeId || !_nodes.ContainsKey(SelectedNodeId ?? string.Empty))
-            SelectedNodeId = fallback;
+        if (nextSelection == null || !_nodes.ContainsKey(nextSelection))
+            nextSelection = _nodes.Values.First(n => n.Type == NodeType.Exam).Id;
+
+        SelectedNodeId = nextSelection;
     }
 
     // ---- Reorder -----------------------------------------------------------------------------
@@ -303,6 +360,11 @@ public sealed class CreatorDocument
             return;
 
         if (!_nodes.TryGetValue(qNode.ParentId, out var sourceSectionNode) || sourceSectionNode.Section == null)
+            return;
+
+        var currentIndex = sourceSectionNode.Section.Questions.IndexOf(qNode.Question);
+        if (ReferenceEquals(sourceSectionNode.Section, targetSectionNode.Section)
+            && IsSameSlot(currentIndex, targetIndex, sourceSectionNode.Section.Questions.Count))
             return;
 
         PushUndo("Move question");
@@ -323,6 +385,10 @@ public sealed class CreatorDocument
             || !_nodes.TryGetValue(qNode.ParentId, out var sectionNode) || sectionNode.Section == null)
             return;
 
+        var currentIndex = sectionNode.Section.Questions.IndexOf(qNode.Question);
+        if (IsSameSlot(currentIndex, newIndex, sectionNode.Section.Questions.Count))
+            return;
+
         PushUndo("Reorder question");
         var question = qNode.Question;
         sectionNode.Section.Questions.Remove(question);
@@ -337,6 +403,10 @@ public sealed class CreatorDocument
     public void ReorderSection(string sectionId, int newIndex)
     {
         if (!_nodes.TryGetValue(sectionId, out var sectionNode) || sectionNode.Section == null)
+            return;
+
+        var currentIndex = _exam.Sections.IndexOf(sectionNode.Section);
+        if (IsSameSlot(currentIndex, newIndex, _exam.Sections.Count))
             return;
 
         PushUndo("Reorder section");
@@ -621,19 +691,30 @@ public sealed class CreatorDocument
 
     // ---- Recovery copy ------------------------------------------------------------------------
 
-    public void WriteRecoveryCopy(string recoveryPath)
+    public bool WriteRecoveryCopy(string recoveryPath)
     {
-        if (!IsDirty && File.Exists(recoveryPath))
-            return;
+        if (!IsDirty || string.IsNullOrWhiteSpace(recoveryPath))
+            return false;
 
-        try
-        {
-            _writer.ToOef(_exam, recoveryPath);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Failed to write recovery copy to '{RecoveryPath}'.", recoveryPath);
-        }
+        var result = _writer.ToOef(_exam, recoveryPath);
+        if (!result.Success)
+            _logger.LogError("Failed to write recovery copy to '{RecoveryPath}': {Detail}", recoveryPath, result.Detail);
+
+        return result.Success;
+    }
+
+    public bool IsRecoveryNewerThan(string recoveryPath, string? sourcePath)
+    {
+        if (string.IsNullOrWhiteSpace(recoveryPath) || !File.Exists(recoveryPath))
+            return false;
+
+        if (new FileInfo(recoveryPath).Length == 0)
+            return false;
+
+        if (string.IsNullOrWhiteSpace(sourcePath) || !File.Exists(sourcePath))
+            return true;
+
+        return File.GetLastWriteTimeUtc(recoveryPath) > File.GetLastWriteTimeUtc(sourcePath);
     }
 
     public bool HasRecoveryCopy(string recoveryPath) =>
@@ -646,51 +727,107 @@ public sealed class CreatorDocument
 
     private void RebuildNodes(IReadOnlyDictionary<NodeIdentity, string>? identityMap = null)
     {
+        Dictionary<Section, string>? preservedSections = null;
+        Dictionary<Question, string>? preservedQuestions = null;
+        string? preservedExamId = null;
+        if (identityMap == null)
+        {
+            preservedSections = new Dictionary<Section, string>();
+            preservedQuestions = new Dictionary<Question, string>();
+            foreach (var node in _nodes.Values)
+            {
+                if (node.Type == NodeType.Exam)
+                    preservedExamId = node.Id;
+                else if (node.Section != null)
+                    preservedSections[node.Section] = node.Id;
+                else if (node.Question != null)
+                    preservedQuestions[node.Question] = node.Id;
+            }
+        }
+
         _nodes.Clear();
-        var examNode = new DocumentNode(GetId(new NodeIdentity(NodeType.Exam, -1, -1), identityMap), NodeType.Exam);
-        _nodes[examNode.Id] = examNode;
+        var examId = ResolveId(new NodeIdentity(NodeType.Exam, -1, -1), identityMap, preservedExamId);
+        var examNode = new DocumentNode(examId, NodeType.Exam);
+        _nodes[examId] = examNode;
 
         for (var sectionIndex = 0; sectionIndex < _exam.Sections.Count; sectionIndex++)
         {
             var section = _exam.Sections[sectionIndex];
-            var sectionId = GetId(new NodeIdentity(NodeType.Section, sectionIndex, -1), identityMap);
-            var sectionNode = new DocumentNode(sectionId, NodeType.Section) { Section = section };
-            _nodes[sectionId] = sectionNode;
+            var keptSectionId = preservedSections != null && preservedSections.TryGetValue(section, out var sectionId)
+                ? sectionId
+                : null;
+            var resolvedSectionId = ResolveId(new NodeIdentity(NodeType.Section, sectionIndex, -1), identityMap, keptSectionId);
+            var sectionNode = new DocumentNode(resolvedSectionId, NodeType.Section) { Section = section };
+            _nodes[resolvedSectionId] = sectionNode;
 
             for (var questionIndex = 0; questionIndex < section.Questions.Count; questionIndex++)
             {
                 var question = section.Questions[questionIndex];
-                var questionId = GetId(new NodeIdentity(NodeType.Question, sectionIndex, questionIndex), identityMap);
-                var questionNode = new DocumentNode(questionId, NodeType.Question, sectionId) { Question = question };
-                _nodes[questionId] = questionNode;
+                var keptQuestionId = preservedQuestions != null && preservedQuestions.TryGetValue(question, out var questionId)
+                    ? questionId
+                    : null;
+                var resolvedQuestionId = ResolveId(
+                    new NodeIdentity(NodeType.Question, sectionIndex, questionIndex),
+                    identityMap,
+                    keptQuestionId);
+                var questionNode = new DocumentNode(resolvedQuestionId, NodeType.Question, resolvedSectionId) { Question = question };
+                _nodes[resolvedQuestionId] = questionNode;
             }
         }
     }
 
-    private static string GetId(NodeIdentity identity, IReadOnlyDictionary<NodeIdentity, string>? map) =>
-        map != null && map.TryGetValue(identity, out var id) ? id : Guid.NewGuid().ToString("N");
-
-    private IReadOnlyDictionary<NodeIdentity, string> CaptureNodeIdentities() =>
-        _nodes.Values.ToDictionary(
-            n => new NodeIdentity(n.Type, SectionIndex(n), QuestionIndex(n)),
-            n => n.Id);
-
-    private int SectionIndex(DocumentNode node)
+    private static string ResolveId(NodeIdentity identity, IReadOnlyDictionary<NodeIdentity, string>? map, string? preserved)
     {
-        if (node.Type == NodeType.Exam)
-            return -1;
+        if (map != null && map.TryGetValue(identity, out var id))
+            return id;
 
-        if (node.Section != null)
-            return _exam.Sections.IndexOf(node.Section);
+        if (map == null && !string.IsNullOrEmpty(preserved))
+            return preserved;
 
-        if (node.Question != null && node.ParentId != null && _nodes.TryGetValue(node.ParentId, out var parent))
-            return SectionIndex(parent);
-
-        return -1;
+        return Guid.NewGuid().ToString("N");
     }
 
-    private static int QuestionIndex(DocumentNode node) =>
-        node.Question != null && node.ParentId != null ? node.Question.No - 1 : -1;
+    private IReadOnlyDictionary<NodeIdentity, string> CaptureNodeIdentities()
+    {
+        var map = new Dictionary<NodeIdentity, string>();
+        var exam = _nodes.Values.FirstOrDefault(n => n.Type == NodeType.Exam);
+        if (exam != null)
+            map[new NodeIdentity(NodeType.Exam, -1, -1)] = exam.Id;
+
+        for (var sectionIndex = 0; sectionIndex < _exam.Sections.Count; sectionIndex++)
+        {
+            var section = _exam.Sections[sectionIndex];
+            var sectionNode = _nodes.Values.FirstOrDefault(n => ReferenceEquals(n.Section, section));
+            if (sectionNode == null)
+                continue;
+
+            map[new NodeIdentity(NodeType.Section, sectionIndex, -1)] = sectionNode.Id;
+            for (var questionIndex = 0; questionIndex < section.Questions.Count; questionIndex++)
+            {
+                var question = section.Questions[questionIndex];
+                var questionNode = _nodes.Values.FirstOrDefault(n => ReferenceEquals(n.Question, question));
+                if (questionNode == null)
+                    continue;
+
+                map[new NodeIdentity(NodeType.Question, sectionIndex, questionIndex)] = questionNode.Id;
+            }
+        }
+
+        return map;
+    }
+
+    /// <summary>
+    /// True when inserting at <paramref name="requested"/> would leave the item in its current slot.
+    /// An index equal to <paramref name="count"/> means "append", which is a no-op for the last item.
+    /// </summary>
+    private static bool IsSameSlot(int current, int requested, int count)
+    {
+        if (current < 0)
+            return true;
+
+        var clamped = Math.Clamp(requested, 0, count);
+        return clamped == current || (clamped == count && current == count - 1);
+    }
 
     private void RenumberQuestions()
     {
@@ -799,6 +936,7 @@ public sealed class CreatorDocument
     {
         _undoStack.Clear();
         _redoStack.Clear();
+        _coalescing = false;
     }
 
     private static Exam CloneExam(Exam exam)

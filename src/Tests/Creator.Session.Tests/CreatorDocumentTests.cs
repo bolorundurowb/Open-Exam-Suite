@@ -132,6 +132,8 @@ public class CreatorDocumentTests
         doc.DeleteNode(question.Id);
 
         Assert.Empty(doc.Exam.Sections[0].Questions);
+        Assert.True(doc.Nodes.ContainsKey(section.Id));
+        Assert.Equal(section.Id, doc.SelectedNodeId);
     }
 
     [Fact]
@@ -149,6 +151,9 @@ public class CreatorDocumentTests
 
         Assert.Equal("Second", doc.Exam.Sections[0].Questions[0].Text);
         Assert.Equal(1, doc.Exam.Sections[0].Questions[0].No);
+        Assert.Equal(q2.Id, doc.SelectedNodeId);
+        Assert.Equal("Second", doc.Nodes[q2.Id].Question!.Text);
+        Assert.Equal("First", doc.Nodes[q1.Id].Question!.Text);
     }
 
     [Fact]
@@ -164,6 +169,9 @@ public class CreatorDocumentTests
 
         Assert.Empty(section1.Section!.Questions);
         Assert.Single(section2.Section!.Questions);
+        Assert.Equal(question.Id, doc.SelectedNodeId);
+        Assert.Equal(section2.Id, doc.Nodes[question.Id].ParentId);
+        Assert.True(doc.Nodes.ContainsKey(section1.Id));
     }
 
     [Fact]
@@ -212,5 +220,149 @@ public class CreatorDocumentTests
             doc.Undo();
 
         Assert.False(doc.CanUndo);
+    }
+
+    [Fact]
+    public void ReorderQuestion_UndoRestoresSessionId()
+    {
+        var doc = CreateDocument();
+        doc.NewDocument();
+        var section = doc.AddSection();
+        var first = doc.AddQuestion(section.Id);
+        var second = doc.AddQuestion(section.Id);
+        doc.UpdateQuestionText(first.Id, "First");
+        doc.UpdateQuestionText(second.Id, "Second");
+
+        doc.ReorderQuestion(second.Id, 0);
+        doc.Undo();
+
+        Assert.Equal("First", doc.Exam.Sections[0].Questions[0].Text);
+        Assert.Equal(second.Id, doc.Nodes.Values.Single(n => n.Question?.Text == "Second").Id);
+        Assert.Equal(first.Id, doc.Nodes.Values.Single(n => n.Question?.Text == "First").Id);
+    }
+
+    [Fact]
+    public void WriteCopy_LeavesOpenPathAndDirtyFlag()
+    {
+        var doc = CreateDocument();
+        doc.NewDocument();
+        var section = doc.AddSection();
+        var question = doc.AddQuestion(section.Id);
+        doc.UpdateQuestionText(question.Id, "Preview");
+        var saved = Path.Combine(Path.GetTempPath(), $"oes-test-{Guid.NewGuid():N}.oef");
+        var copy = Path.Combine(Path.GetTempPath(), $"oes-test-{Guid.NewGuid():N}.oef");
+        try
+        {
+            Assert.True(doc.Save(saved).Success);
+            doc.UpdateQuestionText(question.Id, "Edited");
+
+            var written = doc.WriteCopy(copy);
+
+            Assert.True(written.Success);
+            Assert.Equal(saved, doc.FilePath);
+            Assert.True(doc.IsDirty);
+            Assert.Equal(question.Id, doc.SelectedNodeId);
+            Assert.True(File.Exists(copy));
+        }
+        finally
+        {
+            File.Delete(saved);
+            File.Delete(copy);
+        }
+    }
+
+    [Fact]
+    public void Save_FailureIncludesIoDetail()
+    {
+        var doc = CreateDocument();
+        doc.NewDocument();
+        doc.AddSection();
+        var missing = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"), "exam.oef");
+
+        var result = doc.Save(missing);
+
+        Assert.False(result.Success);
+        Assert.Equal(OpenExamSuite.Shared.Enums.ExamIoError.WriteFailed, result.Error);
+        Assert.False(string.IsNullOrWhiteSpace(result.Detail));
+        Assert.Equal(string.Empty, doc.FilePath ?? string.Empty);
+    }
+
+    [Fact]
+    public void LoadXml_ImportsWithoutWritingOef()
+    {
+        var doc = CreateDocument();
+        doc.NewDocument();
+        doc.AddSection("Imported");
+        var xml = Path.Combine(Path.GetTempPath(), $"oes-test-{Guid.NewGuid():N}.xml");
+        try
+        {
+            Assert.True(doc.SaveXml(xml).Success);
+            var written = File.GetLastWriteTimeUtc(xml);
+
+            var loaded = CreateDocument();
+            var result = loaded.LoadXml(xml);
+
+            Assert.True(result.Success);
+            Assert.True(loaded.IsDirty);
+            Assert.Equal("Imported", loaded.Exam.Sections[0].Title);
+            Assert.EndsWith(".oef", loaded.FilePath, StringComparison.OrdinalIgnoreCase);
+            Assert.False(File.Exists(loaded.FilePath));
+            Assert.Equal(written, File.GetLastWriteTimeUtc(xml));
+        }
+        finally
+        {
+            File.Delete(xml);
+        }
+    }
+
+    [Fact]
+    public void Load_DoesNotModifySourceTimestamp()
+    {
+        var doc = CreateDocument();
+        doc.NewDocument();
+        doc.AddSection("Kept");
+        var path = Path.Combine(Path.GetTempPath(), $"oes-test-{Guid.NewGuid():N}.oef");
+        try
+        {
+            Assert.True(doc.Save(path).Success);
+            var written = File.GetLastWriteTimeUtc(path);
+
+            var loaded = CreateDocument();
+            var result = loaded.Load(path);
+
+            Assert.True(result.Success);
+            Assert.False(loaded.IsLegacy);
+            Assert.Equal(written, File.GetLastWriteTimeUtc(path));
+        }
+        finally
+        {
+            File.Delete(path);
+        }
+    }
+
+    [Fact]
+    public void IsRecoveryNewerThan_ComparesSourceTimestamp()
+    {
+        var doc = CreateDocument();
+        var source = Path.Combine(Path.GetTempPath(), $"oes-test-{Guid.NewGuid():N}.oef");
+        var recovery = Path.Combine(Path.GetTempPath(), $"oes-test-{Guid.NewGuid():N}.recovery.oef");
+        try
+        {
+            File.WriteAllText(source, "source");
+            File.WriteAllText(recovery, "recovery");
+            File.SetLastWriteTimeUtc(source, DateTime.UtcNow.AddMinutes(-5));
+            File.SetLastWriteTimeUtc(recovery, DateTime.UtcNow);
+
+            Assert.True(doc.IsRecoveryNewerThan(recovery, source));
+
+            File.SetLastWriteTimeUtc(recovery, DateTime.UtcNow.AddMinutes(-10));
+            Assert.False(doc.IsRecoveryNewerThan(recovery, source));
+            Assert.True(doc.IsRecoveryNewerThan(recovery, null));
+        }
+        finally
+        {
+            File.Delete(source);
+            File.Delete(recovery);
+        }
     }
 }
