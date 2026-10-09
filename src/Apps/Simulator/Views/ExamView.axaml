@@ -84,20 +84,26 @@
 
             <ItemsControl ItemsSource="{Binding Options}">
               <ItemsControl.ItemTemplate>
-                <DataTemplate DataType="vm:OptionItemViewModel">
-                  <Panel>
-                    <RadioButton Theme="{StaticResource OptionRowRadio}" GroupName="options"
-                                 IsVisible="{Binding !IsMultiple}" IsChecked="{Binding IsSelected, Mode=TwoWay}"
-                                 Content="{Binding}" ContentTemplate="{StaticResource OptionContent}"
-                                 Classes.correct="{Binding IsCorrectMark}" Classes.wrong="{Binding IsWrongMark}"
-                                 AutomationProperties.Name="{Binding AutomationName}"/>
-                    <CheckBox Theme="{StaticResource OptionRowCheck}"
-                              IsVisible="{Binding IsMultiple}" IsChecked="{Binding IsSelected, Mode=TwoWay}"
-                              Content="{Binding}" ContentTemplate="{StaticResource OptionContent}"
-                              Classes.correct="{Binding IsCorrectMark}" Classes.wrong="{Binding IsWrongMark}"
-                              AutomationProperties.Name="{Binding AutomationName}"/>
-                  </Panel>
-                </DataTemplate>
+                <views:OptionRowTemplateSelector>
+                  <views:OptionRowTemplateSelector.Single>
+                    <DataTemplate DataType="vm:OptionItemViewModel">
+                      <RadioButton Theme="{StaticResource OptionRowRadio}" GroupName="options"
+                                   IsChecked="{Binding IsSelected, Mode=TwoWay}"
+                                   Content="{Binding}" ContentTemplate="{StaticResource OptionContent}"
+                                   Classes.correct="{Binding IsCorrectMark}" Classes.wrong="{Binding IsWrongMark}"
+                                   AutomationProperties.Name="{Binding AutomationName}"/>
+                    </DataTemplate>
+                  </views:OptionRowTemplateSelector.Single>
+                  <views:OptionRowTemplateSelector.Multiple>
+                    <DataTemplate DataType="vm:OptionItemViewModel">
+                      <CheckBox Theme="{StaticResource OptionRowCheck}"
+                                IsChecked="{Binding IsSelected, Mode=TwoWay}"
+                                Content="{Binding}" ContentTemplate="{StaticResource OptionContent}"
+                                Classes.correct="{Binding IsCorrectMark}" Classes.wrong="{Binding IsWrongMark}"
+                                AutomationProperties.Name="{Binding AutomationName}"/>
+                    </DataTemplate>
+                  </views:OptionRowTemplateSelector.Multiple>
+                </views:OptionRowTemplateSelector>
               </ItemsControl.ItemTemplate>
             </ItemsControl>
 

@@ -126,6 +126,8 @@ public class ExamLibraryService : IExamLibraryService
 
             // Shared mode has a single data reader, so avoid Count()/Exists() and always
             // materialize with ToList() before iterating.
+            RemoveNonExamEntries(db, ExamCatalog.Creator);
+            RemoveNonExamEntries(db, ExamCatalog.Simulator);
             MigrateLegacyTable(db, "CreatorSettings", ExamCatalog.Creator);
             MigrateLegacyTable(db, "SimulatorSettings", ExamCatalog.Simulator);
 
@@ -142,7 +144,9 @@ public class ExamLibraryService : IExamLibraryService
         var legacy = db.GetCollection<AppSetting>(tableName);
         foreach (var setting in legacy.FindAll().ToList())
         {
-            if (string.IsNullOrWhiteSpace(setting.Key))
+            // The same tables also hold preferences, such as CreatorTheme. Only file paths
+            // are exam history.
+            if (!IsExamFilePath(setting.Key))
                 continue;
 
             exams.Insert(new ExamEntry
@@ -186,5 +190,30 @@ public class ExamLibraryService : IExamLibraryService
         };
 
         return db.GetCollection<ExamEntry>(name);
+    }
+
+    /// <summary>
+    /// Drops rows that were copied from a preference key, such as CreatorTheme, before
+    /// migration learned to ignore them.
+    /// </summary>
+    private static void RemoveNonExamEntries(LiteDatabase db, ExamCatalog catalog)
+    {
+        var exams = Collection(db, catalog);
+        foreach (var entry in exams.FindAll().ToList())
+        {
+            if (!IsExamFilePath(entry.FilePath))
+                exams.Delete(entry.Id);
+        }
+    }
+
+    private static bool IsExamFilePath(string? path)
+    {
+        if (string.IsNullOrWhiteSpace(path))
+            return false;
+
+        var extension = Path.GetExtension(path);
+        return extension.Equals(".oef", StringComparison.OrdinalIgnoreCase)
+            || extension.Equals(".json", StringComparison.OrdinalIgnoreCase)
+            || extension.Equals(".xml", StringComparison.OrdinalIgnoreCase);
     }
 }

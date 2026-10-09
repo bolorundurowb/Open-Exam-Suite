@@ -34,9 +34,10 @@ public sealed class ThemeService
 
     public void Load()
     {
-        var stored = _settings.Get(Key, AppSettingsType.Creator);
+        var stored = _settings.Get(Key, AppSettingsType.Other)
+            ?? _settings.Get(Key, AppSettingsType.Creator);
         if (stored != null && Enum.TryParse<ThemeMode>(stored.Value, out var mode))
-            Set(mode, false);
+            Set(mode);
         else
             Apply(ThemeMode.System);
         Watch();
@@ -56,7 +57,10 @@ public sealed class ThemeService
         Mode = mode;
         Apply(mode);
         if (persist)
-            _settings.Set(new AppSetting { Key = Key, Value = mode.ToString() }, AppSettingsType.Creator);
+        {
+            _settings.Set(new AppSetting { Key = Key, Value = mode.ToString() }, AppSettingsType.Other);
+            _settings.Remove(Key, AppSettingsType.Creator);
+        }
         Changed?.Invoke();
     }
 

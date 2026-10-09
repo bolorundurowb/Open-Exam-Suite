@@ -17,13 +17,19 @@ public static class AppInfo
     public const string ProductName = "Open Exam Simulator";
 
     public static string Version =>
-        typeof(AppInfo).Assembly.GetName().Version?.ToString() ?? "0.0.0";
+        typeof(AppInfo).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion.Split('+')[0]
+        ?? typeof(AppInfo).Assembly.GetName().Version?.ToString()
+        ?? "0.0.0";
 
     /// <summary>Version without a trailing ".0" revision, for display.</summary>
     public static string DisplayVersion
     {
         get
         {
+            var info = typeof(AppInfo).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion.Split('+')[0];
+            if (!string.IsNullOrEmpty(info))
+                return info;
+
             var version = typeof(AppInfo).Assembly.GetName().Version;
             return version == null ? "0.0.0" : $"{version.Major}.{version.Minor}.{Math.Max(0, version.Build)}";
         }

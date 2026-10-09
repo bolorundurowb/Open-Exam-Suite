@@ -139,5 +139,9 @@ public sealed class DialogService
     };
 
     public static string AppVersion =>
-        Assembly.GetExecutingAssembly().GetName().Version?.ToString(3) ?? "4.0";
+        Assembly.GetExecutingAssembly()
+            .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?
+            .InformationalVersion.Split('+')[0]
+        ?? Assembly.GetExecutingAssembly().GetName().Version?.ToString(3)
+        ?? "5.0.0-preview.1";
 }
