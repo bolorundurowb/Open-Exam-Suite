@@ -32,9 +32,13 @@
         <MenuItem Header="{loc:Loc Menu_Redo}" Command="{Binding RedoCommand}" HotKey="Ctrl+Y" InputGesture="Ctrl+Y"/>
         <Separator/>
         <MenuItem Header="{loc:Loc Menu_Theme}">
-          <MenuItem Header="{loc:Loc Theme_System}" Command="{Binding SetThemeCommand}" CommandParameter="{x:Static svc:ThemeMode.System}"/>
-          <MenuItem Header="{loc:Loc Theme_Light}" Command="{Binding SetThemeCommand}" CommandParameter="{x:Static svc:ThemeMode.Light}"/>
-          <MenuItem Header="{loc:Loc Theme_Dark}" Command="{Binding SetThemeCommand}" CommandParameter="{x:Static svc:ThemeMode.Dark}"/>
+          <MenuItem Header="{loc:Loc Theme_System}" Command="{Binding SetThemeCommand}" CommandParameter="{x:Static svc:ThemeMode.System}"
+                    ToggleType="Radio" GroupName="ThemeMode" IsChecked="{Binding IsSystemTheme, Mode=OneWay}"/>
+          <Separator/>
+          <MenuItem Header="{loc:Loc Theme_Light}" Command="{Binding SetThemeCommand}" CommandParameter="{x:Static svc:ThemeMode.Light}"
+                    ToggleType="Radio" GroupName="ThemeMode" IsChecked="{Binding IsLightMode, Mode=OneWay}"/>
+          <MenuItem Header="{loc:Loc Theme_Dark}" Command="{Binding SetThemeCommand}" CommandParameter="{x:Static svc:ThemeMode.Dark}"
+                    ToggleType="Radio" GroupName="ThemeMode" IsChecked="{Binding IsDarkMode, Mode=OneWay}"/>
         </MenuItem>
       </MenuItem>
       <MenuItem Header="{loc:Loc Menu_Help}">
@@ -44,22 +48,43 @@
       </MenuItem>
     </Menu>
 
-    <Border Grid.Row="1" Classes="bar">
+    <Border Grid.Row="1" Classes="bar" IsVisible="{Binding ShowProductBar}">
       <Grid ColumnDefinitions="Auto,Auto,*,Auto">
-        <TextBlock Text="{Binding ProductName}" Classes="heading" VerticalAlignment="Center" Margin="0,0,16,0"/>
+        <TextBlock Text="{Binding ProductName}" Classes="product" VerticalAlignment="Center" Margin="0,0,20,0"/>
         <Border Grid.Column="1" Classes="chip" VerticalAlignment="Center">
-          <TextBlock Text="{Binding ScreenLabel}"/>
+          <StackPanel Orientation="Horizontal" Spacing="6">
+            <Ellipse Width="8" Height="8" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding ScreenLabel}" VerticalAlignment="Center"/>
+          </StackPanel>
         </Border>
-        <Button Grid.Column="3" Theme="{StaticResource IconButton}" Command="{Binding ToggleThemeCommand}"
-                AutomationProperties.Name="{loc:Loc Theme_Toggle}" ToolTip.Tip="{loc:Loc Theme_Toggle}">
-          <PathIcon Data="{StaticResource IconTheme}"/>
-        </Button>
+        <!-- Light and Dark only. "Follow system" lives in Edit > Theme. -->
+        <Border Grid.Column="3" VerticalAlignment="Center" ClipToBounds="True"
+                BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" CornerRadius="8">
+          <StackPanel Orientation="Horizontal" AutomationProperties.Name="{loc:Loc Theme_Toggle}">
+            <RadioButton Theme="{StaticResource SegmentButton}" GroupName="TopBarTheme"
+                         IsChecked="{Binding IsLightTheme, Mode=TwoWay}">
+              <StackPanel Orientation="Horizontal" Spacing="6">
+                <PathIcon Data="{StaticResource IconSun}" Width="13" Height="13" VerticalAlignment="Center"/>
+                <AccessText Text="{loc:Loc Theme_Light}" VerticalAlignment="Center"/>
+              </StackPanel>
+            </RadioButton>
+            <RadioButton Theme="{StaticResource SegmentButton}" GroupName="TopBarTheme"
+                         IsChecked="{Binding IsDarkTheme, Mode=TwoWay}">
+              <StackPanel Orientation="Horizontal" Spacing="6">
+                <PathIcon Data="{StaticResource IconMoon}" Width="13" Height="13" VerticalAlignment="Center"/>
+                <AccessText Text="{loc:Loc Theme_Dark}" VerticalAlignment="Center"/>
+              </StackPanel>
+            </RadioButton>
+          </StackPanel>
+        </Border>
       </Grid>
     </Border>
 
-    <Border Grid.Row="2" Classes="bar" IsVisible="{Binding IsLegacy}"
-            BorderBrush="{DynamicResource ValidationDotBrush}" BorderThickness="3,0,0,0">
-      <TextBlock Text="{loc:Loc Legacy_Notice}" TextWrapping="Wrap" Margin="8,4" Foreground="{DynamicResource TextBrush}"/>
+    <Border Grid.Row="2" Classes="banner warn" IsVisible="{Binding IsLegacy}" Margin="16,12,16,0">
+      <StackPanel Orientation="Horizontal" Spacing="10">
+        <PathIcon Data="{StaticResource IconWarning}" Width="18" Height="18" VerticalAlignment="Top"/>
+        <TextBlock Text="{loc:Loc Legacy_Notice}" TextWrapping="Wrap" VerticalAlignment="Center"/>
+      </StackPanel>
     </Border>
 
     <Panel Grid.Row="3">
@@ -71,7 +96,7 @@
           <DataTemplate>
             <Border Classes="toast">
               <StackPanel Orientation="Horizontal" Spacing="10">
-                <PathIcon Data="{StaticResource IconCheck}" Foreground="{DynamicResource ToastTextBrush}" Width="18" Height="18"/>
+                <PathIcon Data="{StaticResource IconCheck}" Foreground="{DynamicResource ToastTextBrush}" Width="16" Height="16"/>
                 <TextBlock Text="{Binding Message}" VerticalAlignment="Center"/>
               </StackPanel>
             </Border>

@@ -5,20 +5,20 @@
              x:Class="OpenExamSuite.Creator.Views.ExamPropertiesView"
              x:DataType="vm:ExamPropertiesViewModel">
   <StackPanel Spacing="12">
-    <TextBlock Text="{loc:Loc Editor_Properties}" Classes="heading"/>
+    <TextBlock Text="{loc:Loc Editor_Properties}" Classes="title"/>
 
-    <TextBlock Text="{loc:Loc Editor_Title}" Classes="caption"/>
+    <TextBlock Text="{loc:Loc Editor_Title}" Classes="label"/>
     <TextBox Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"/>
 
-    <TextBlock Text="{loc:Loc Editor_Code}" Classes="caption"/>
+    <TextBlock Text="{loc:Loc Editor_Code}" Classes="label"/>
     <TextBox Text="{Binding Code, UpdateSourceTrigger=PropertyChanged}"/>
 
-    <TextBlock Text="{loc:Loc Editor_Instructions}" Classes="caption"/>
+    <TextBlock Text="{loc:Loc Editor_Instructions}" Classes="label"/>
     <TextBox Text="{Binding Instructions, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" TextWrapping="Wrap" Height="80"/>
 
-    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto">
-      <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Loc Editor_PassMark}" Classes="caption"/>
-      <TextBlock Grid.Row="0" Grid.Column="1" Text="{loc:Loc Editor_TimeLimit}" Classes="caption"/>
+    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto" ColumnSpacing="16" RowSpacing="6">
+      <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Loc Editor_PassMark}" Classes="label"/>
+      <TextBlock Grid.Row="0" Grid.Column="1" Text="{loc:Loc Editor_TimeLimit}" Classes="label"/>
 
       <NumericUpDown Grid.Row="1" Grid.Column="0" Value="{Binding PassMark}" Minimum="0" Maximum="100" Increment="1" FormatString="F0"/>
       <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding TimeLimit}" Minimum="0" Maximum="999" Increment="1" FormatString="F0"/>

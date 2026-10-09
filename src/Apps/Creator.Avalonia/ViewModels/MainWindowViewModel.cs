@@ -18,6 +18,8 @@ public sealed partial class MainWindowViewModel : ViewModelBase
     private readonly ThemeService _theme;
     private readonly ToastService _toasts;
     private readonly string _previewPath = Path.Combine(Path.GetTempPath(), $"oes-preview-{Environment.ProcessId}.oef");
+    private readonly WorkspaceViewModel _workspace;
+    private readonly StartViewModel _start;
     private DispatcherTimer? _autosave;
     private string? _untitledKey;
     private bool _initialized;
@@ -29,17 +31,34 @@ public sealed partial class MainWindowViewModel : ViewModelBase
         _theme = theme;
         _toasts = toasts;
 
-        _currentScreen = new WorkspaceViewModel(shell);
+        _workspace = new WorkspaceViewModel(shell);
+        _start = new StartViewModel(shell, this);
+        _currentScreen = _start;
         _title = Strings.Get("AppName");
 
         _shell.Document.Changed += OnDocumentChanged;
         _shell.Document.ProblemsChanged += _ => OnPropertyChanged(nameof(HasProblems));
-        _theme.Changed += () => OnPropertyChanged(nameof(ThemeMode));
+        _shell.Document.Opened += OnDocumentOpened;
+        _theme.Changed += OnThemeChanged;
+    }
+
+    private void OnThemeChanged()
+    {
+        OnPropertyChanged(nameof(ThemeMode));
+        OnPropertyChanged(nameof(IsSystemTheme));
+        OnPropertyChanged(nameof(IsLightMode));
+        OnPropertyChanged(nameof(IsDarkMode));
+        OnPropertyChanged(nameof(IsLightTheme));
+        OnPropertyChanged(nameof(IsDarkTheme));
     }
 
     public string ProductName => Strings.Get("AppName");
 
     public string ScreenLabel => Strings.Get("Screen_Creator");
+
+    public bool IsStartScreen => CurrentScreen is StartViewModel;
+
+    public bool ShowProductBar => !IsStartScreen;
 
     public bool IsDirty => _shell.Document.IsDirty;
 
@@ -53,8 +72,53 @@ public sealed partial class MainWindowViewModel : ViewModelBase
 
     public ThemeMode ThemeMode => _theme.Mode;
 
-    [ObservableProperty] private object _currentScreen;
+    public bool IsSystemTheme => _theme.Mode == ThemeMode.System;
+
+    public bool IsLightMode => _theme.Mode == ThemeMode.Light;
+
+    public bool IsDarkMode => _theme.Mode == ThemeMode.Dark;
+
+    /// <summary>
+    /// The top bar's Light and Dark segments show what is on screen. Choosing one sets it explicitly;
+    /// clearing one is ignored because the other segment's choice does the work.
+    /// </summary>
+    public bool IsLightTheme
+    {
+        get => !_theme.IsDarkShown;
+        set
+        {
+            if (value)
+                _theme.Set(ThemeMode.Light);
+        }
+    }
+
+    public bool IsDarkTheme
+    {
+        get => _theme.IsDarkShown;
+        set
+        {
+            if (value)
+                _theme.Set(ThemeMode.Dark);
+        }
+    }
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsStartScreen))]
+    [NotifyPropertyChangedFor(nameof(ShowProductBar))]
+    private object _currentScreen;
+
     [ObservableProperty] private string _title;
+
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(SaveCommand))]
+    [NotifyCanExecuteChangedFor(nameof(SaveAsCommand))]
+    [NotifyCanExecuteChangedFor(nameof(ExportJsonCommand))]
+    [NotifyCanExecuteChangedFor(nameof(ExportXmlCommand))]
+    [NotifyCanExecuteChangedFor(nameof(ExportPdfCommand))]
+    [NotifyCanExecuteChangedFor(nameof(TryExamCommand))]
+    [NotifyCanExecuteChangedFor(nameof(UndoCommand))]
+    [NotifyCanExecuteChangedFor(nameof(RedoCommand))]
+    private bool _hasDocument;
 
     public async Task InitializeAsync()
     {
@@ -87,6 +151,26 @@ public sealed partial class MainWindowViewModel : ViewModelBase
 
         var extension = Path.GetExtension(path).ToLowerInvariant();
         return extension is ".oef" or ".json" or ".xml";
+    }
+
+    public Task NewExamAsync() => NewAsync();
+
+    public Task OpenExamAsync() => OpenAsync();
+
+    public async Task ImportExamAsync()
+    {
+        if (!await ConfirmUnsavedAndSaveAsync())
+            return;
+
+        var path = await _shell.Dialogs.PickOpenFileAsync(
+            Strings.Get("Dialog_ImportTitle"),
+            DialogService.JsonType,
+            DialogService.XmlType);
+
+        if (string.IsNullOrEmpty(path))
+            return;
+
+        LoadPath(path);
     }
 
     public void Shutdown()
@@ -125,7 +209,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase
         LoadPath(path);
     }
 
-    [RelayCommand]
+    [RelayCommand(CanExecute = nameof(CanEditDocument))]
     private async Task SaveAsync()
     {
         if (string.IsNullOrEmpty(FilePath))
@@ -137,7 +221,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase
         await ExecuteSaveAsync(FilePath);
     }
 
-    [RelayCommand]
+    [RelayCommand(CanExecute = nameof(CanEditDocument))]
     private async Task SaveAsAsync()
     {
         var path = await _shell.Dialogs.PickSaveFileAsync(
@@ -183,7 +267,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase
         LoadPath(path);
     }
 
-    [RelayCommand]
+    [RelayCommand(CanExecute = nameof(CanEditDocument))]
     private async Task ExportJsonAsync()
     {
         var path = await _shell.Dialogs.PickSaveFileAsync(
@@ -201,7 +285,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase
             _toasts.ShowWarning(SaveFailure(result));
     }
 
-    [RelayCommand]
+    [RelayCommand(CanExecute = nameof(CanEditDocument))]
     private async Task ExportXmlAsync()
     {
         var path = await _shell.Dialogs.PickSaveFileAsync(
@@ -219,7 +303,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase
             _toasts.ShowWarning(SaveFailure(result));
     }
 
-    [RelayCommand]
+    [RelayCommand(CanExecute = nameof(CanEditDocument))]
     private async Task ExportPdfAsync()
     {
         var path = await _shell.Dialogs.PickSaveFileAsync(
@@ -237,7 +321,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase
             _toasts.ShowWarning(SaveFailure(result));
     }
 
-    [RelayCommand]
+    [RelayCommand(CanExecute = nameof(CanEditDocument))]
     private void TryExam()
     {
         if (!_shell.Simulator.IsInstalled)
@@ -263,14 +347,11 @@ public sealed partial class MainWindowViewModel : ViewModelBase
         ReturnFocusToCreator();
     }
 
-    [RelayCommand]
+    [RelayCommand(CanExecute = nameof(CanEditDocument))]
     private void Undo() => _shell.Document.Undo();
 
-    [RelayCommand]
+    [RelayCommand(CanExecute = nameof(CanEditDocument))]
     private void Redo() => _shell.Document.Redo();
-
-    [RelayCommand]
-    private void ToggleTheme() => _theme.Toggle();
 
     [RelayCommand]
     private void SetTheme(ThemeMode mode) => _theme.Set(mode);
@@ -430,14 +511,37 @@ public sealed partial class MainWindowViewModel : ViewModelBase
 
     private void OnDocumentChanged()
     {
+        HasDocument = _shell.Document.HasDocument;
         OnPropertyChanged(nameof(IsDirty));
         OnPropertyChanged(nameof(HasProblems));
         OnPropertyChanged(nameof(IsLegacy));
         UpdateTitle();
     }
 
+    private void OnDocumentOpened()
+    {
+        HasDocument = true;
+        ShowWorkspace();
+    }
+
+    private void ShowWorkspace()
+    {
+        if (ReferenceEquals(CurrentScreen, _workspace))
+            return;
+
+        CurrentScreen = _workspace;
+    }
+
+    private bool CanEditDocument() => _shell.Document.HasDocument;
+
     private void UpdateTitle()
     {
+        if (!_shell.Document.HasDocument)
+        {
+            Title = Strings.Get("AppName");
+            return;
+        }
+
         var file = string.IsNullOrEmpty(FilePath) ? "Untitled" : Path.GetFileName(FilePath);
         var dirty = IsDirty ? "*" : string.Empty;
         Title = $"{Strings.Get("AppName")} - {file}{dirty}";

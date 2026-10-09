@@ -6,10 +6,10 @@
              x:DataType="vm:QuestionPreviewViewModel">
   <ScrollViewer>
     <StackPanel Spacing="12">
-      <TextBlock Text="{Binding Header}" FontWeight="Bold"/>
-      <TextBlock Text="{Binding Question.Text}" TextWrapping="Wrap"/>
+      <TextBlock Text="{Binding Header}" FontSize="13" Foreground="{DynamicResource SecondaryTextBrush}"/>
+      <TextBlock Text="{Binding Question.Text}" TextWrapping="Wrap" FontSize="16" FontWeight="Medium" LineHeight="24"/>
 
-      <Border BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" CornerRadius="4" Padding="4"
+      <Border BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" CornerRadius="8" Padding="4"
               IsVisible="{Binding Image, Converter={x:Static conv:ObjectConverters.IsNotNull}}"
               HorizontalAlignment="Left">
         <Image Source="{Binding Image}" MaxWidth="280" MaxHeight="200" Stretch="Uniform"/>
@@ -18,18 +18,23 @@
       <ItemsControl ItemsSource="{Binding Options}">
         <ItemsControl.ItemTemplate>
           <DataTemplate DataType="vm:PreviewOptionViewModel">
-            <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,4">
-              <TextBlock Text="{Binding Letter}" FontWeight="Bold" Width="20"/>
-              <TextBlock Text="{Binding Text}" TextWrapping="Wrap"/>
-              <PathIcon Data="{StaticResource IconCheck}" Width="14" Height="14" IsVisible="{Binding IsCorrect}"
-                        Foreground="{DynamicResource AccentBrush}"/>
-            </StackPanel>
+            <Border Classes="option" Classes.correct="{Binding IsCorrect}" Margin="0,0,0,8" Padding="12,10">
+              <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10">
+                <TextBlock Text="{Binding Letter}" FontWeight="SemiBold" Foreground="{DynamicResource SecondaryTextBrush}" MinWidth="16"/>
+                <TextBlock Grid.Column="1" Text="{Binding Text}" TextWrapping="Wrap" FontSize="13" LineHeight="19"/>
+                <PathIcon Grid.Column="2" Data="{StaticResource IconCheck}" Width="14" Height="14" IsVisible="{Binding IsCorrect}"
+                          Foreground="{DynamicResource CorrectBrush}" VerticalAlignment="Center"/>
+              </Grid>
+            </Border>
           </DataTemplate>
         </ItemsControl.ItemTemplate>
       </ItemsControl>
 
-      <TextBlock Text="{Binding Question.Explanation}" TextWrapping="Wrap" Opacity="0.8"
-                 IsVisible="{Binding Question.Explanation, Converter={x:Static conv:StringConverters.IsNotNullOrEmpty}}"/>
+      <Border Background="{DynamicResource PanelBrush}" CornerRadius="10" Padding="14,12"
+              IsVisible="{Binding Question.Explanation, Converter={x:Static conv:StringConverters.IsNotNullOrEmpty}}">
+        <TextBlock Text="{Binding Question.Explanation}" TextWrapping="Wrap" FontSize="13" LineHeight="19"
+                   Foreground="{DynamicResource BodyTextBrush}"/>
+      </Border>
     </StackPanel>
   </ScrollViewer>
 </UserControl>

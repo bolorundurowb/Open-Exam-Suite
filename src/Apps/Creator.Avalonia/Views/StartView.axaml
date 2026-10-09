@@ -1,0 +1,287 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:loc="using:OpenExamSuite.Creator.Localization"
+             xmlns:vm="using:OpenExamSuite.Creator.ViewModels"
+             x:Class="OpenExamSuite.Creator.Views.StartView"
+             x:DataType="vm:StartViewModel"
+             DragDrop.AllowDrop="True">
+  <UserControl.Styles>
+    <!-- Brand panel typography -->
+    <Style Selector="TextBlock.suite">
+      <Setter Property="FontSize" Value="12"/>
+      <Setter Property="FontWeight" Value="SemiBold"/>
+      <Setter Property="Foreground" Value="{DynamicResource BrandMutedBrush}"/>
+    </Style>
+    <Style Selector="TextBlock.brand-title">
+      <Setter Property="FontSize" Value="40"/>
+      <Setter Property="FontWeight" Value="Bold"/>
+      <Setter Property="Foreground" Value="{DynamicResource BrandTextBrush}"/>
+    </Style>
+    <Style Selector="TextBlock.tagline">
+      <Setter Property="FontSize" Value="15"/>
+      <Setter Property="Foreground" Value="{DynamicResource BrandMutedBrush}"/>
+      <Setter Property="TextWrapping" Value="Wrap"/>
+    </Style>
+    <Style Selector="TextBlock.version">
+      <Setter Property="FontSize" Value="12"/>
+      <Setter Property="Foreground" Value="{DynamicResource BrandMutedBrush}"/>
+    </Style>
+
+    <!-- Start actions -->
+    <Style Selector="Button.start-primary">
+      <Setter Property="Background" Value="{DynamicResource BrandPrimaryBgBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource BrandPrimaryTextBrush}"/>
+      <Setter Property="CornerRadius" Value="10"/>
+      <Setter Property="Padding" Value="16,12"/>
+      <Setter Property="FontSize" Value="15"/>
+      <Setter Property="FontWeight" Value="SemiBold"/>
+      <Setter Property="BorderThickness" Value="0"/>
+      <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+    </Style>
+    <Style Selector="Button.start-primary:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="#F3E6EA"/>
+    </Style>
+    <Style Selector="Button.start-outline">
+      <Setter Property="Background" Value="Transparent"/>
+      <Setter Property="Foreground" Value="{DynamicResource BrandTextBrush}"/>
+      <Setter Property="CornerRadius" Value="10"/>
+      <Setter Property="Padding" Value="16,12"/>
+      <Setter Property="FontSize" Value="15"/>
+      <Setter Property="FontWeight" Value="SemiBold"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource BrandBorderBrush}"/>
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+    </Style>
+    <Style Selector="Button.start-outline:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource BrandHoverBrush}"/>
+    </Style>
+    <Style Selector="Button.start-primary TextBlock.shortcut">
+      <Setter Property="Foreground" Value="{DynamicResource BrandPrimaryMutedBrush}"/>
+      <Setter Property="FontWeight" Value="Normal"/>
+      <Setter Property="FontSize" Value="12"/>
+    </Style>
+    <Style Selector="Button.start-outline TextBlock.shortcut">
+      <Setter Property="Foreground" Value="{DynamicResource BrandMutedBrush}"/>
+      <Setter Property="FontWeight" Value="Normal"/>
+      <Setter Property="FontSize" Value="12"/>
+    </Style>
+
+    <!-- Right panel -->
+    <Style Selector="TextBlock.content-title">
+      <Setter Property="FontSize" Value="20"/>
+      <Setter Property="FontWeight" Value="Bold"/>
+      <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+    </Style>
+    <Style Selector="Button.link">
+      <Setter Property="Background" Value="Transparent"/>
+      <Setter Property="Foreground" Value="{DynamicResource LinkBrush}"/>
+      <Setter Property="FontSize" Value="13"/>
+      <Setter Property="FontWeight" Value="SemiBold"/>
+      <Setter Property="BorderThickness" Value="0"/>
+      <Setter Property="Padding" Value="4,2"/>
+      <Setter Property="Cursor" Value="Hand"/>
+    </Style>
+    <Style Selector="Button.link:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="Transparent"/>
+      <Setter Property="Opacity" Value="0.8"/>
+    </Style>
+
+    <!-- Recent exam rows -->
+    <Style Selector="Border.recent-card">
+      <Setter Property="Background" Value="{DynamicResource PanelBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="CornerRadius" Value="10"/>
+      <Setter Property="Padding" Value="12,10"/>
+      <Setter Property="Margin" Value="0,0,0,10"/>
+    </Style>
+    <Style Selector="Button.recent-open">
+      <Setter Property="Background" Value="Transparent"/>
+      <Setter Property="BorderThickness" Value="0"/>
+      <Setter Property="Padding" Value="0"/>
+      <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+      <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+    </Style>
+    <Style Selector="Button.recent-open:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource AccentSoftBrush}"/>
+    </Style>
+    <Style Selector="Border.avatar">
+      <Setter Property="Width" Value="40"/>
+      <Setter Property="Height" Value="40"/>
+      <Setter Property="CornerRadius" Value="10"/>
+      <Setter Property="Background" Value="{DynamicResource AccentSoftBrush}"/>
+    </Style>
+    <Style Selector="TextBlock.avatar-letter">
+      <Setter Property="FontSize" Value="16"/>
+      <Setter Property="FontWeight" Value="Bold"/>
+      <Setter Property="Foreground" Value="{DynamicResource AccentTextBrush}"/>
+      <Setter Property="HorizontalAlignment" Value="Center"/>
+      <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+    <Style Selector="TextBlock.recent-title">
+      <Setter Property="FontSize" Value="15"/>
+      <Setter Property="FontWeight" Value="SemiBold"/>
+      <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+      <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+    </Style>
+    <Style Selector="TextBlock.recent-path">
+      <Setter Property="FontSize" Value="12"/>
+      <Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}"/>
+      <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+    </Style>
+    <Style Selector="TextBlock.recent-meta-strong">
+      <Setter Property="FontSize" Value="12"/>
+      <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+      <Setter Property="TextAlignment" Value="Right"/>
+    </Style>
+    <Style Selector="TextBlock.recent-meta">
+      <Setter Property="FontSize" Value="12"/>
+      <Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}"/>
+      <Setter Property="TextAlignment" Value="Right"/>
+    </Style>
+    <Style Selector="Button.recent-remove">
+      <Setter Property="Width" Value="28"/>
+      <Setter Property="Height" Value="28"/>
+      <Setter Property="Background" Value="Transparent"/>
+      <Setter Property="BorderThickness" Value="0"/>
+      <Setter Property="Padding" Value="4"/>
+      <Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}"/>
+      <Setter Property="CornerRadius" Value="6"/>
+    </Style>
+    <Style Selector="Button.recent-remove:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource AccentSoftBrush}"/>
+    </Style>
+    <Style Selector="Button.recent-remove:pointerover PathIcon">
+      <Setter Property="Foreground" Value="{DynamicResource ValidationDotBrush}"/>
+    </Style>
+
+    <!-- Drop zone -->
+    <Style Selector="Rectangle.dropzone-rect">
+      <Setter Property="Stroke" Value="{DynamicResource BorderBrush}"/>
+      <Setter Property="StrokeThickness" Value="1.5"/>
+      <Setter Property="StrokeDashArray" Value="5,4"/>
+      <Setter Property="RadiusX" Value="12"/>
+      <Setter Property="RadiusY" Value="12"/>
+      <Setter Property="Fill" Value="Transparent"/>
+    </Style>
+    <Style Selector="Grid.dropzone.active Rectangle.dropzone-rect">
+      <Setter Property="Stroke" Value="{DynamicResource AccentBrush}"/>
+      <Setter Property="Fill" Value="{DynamicResource AccentSoftBrush}"/>
+    </Style>
+    <Style Selector="TextBlock.drop-title">
+      <Setter Property="FontSize" Value="15"/>
+      <Setter Property="FontWeight" Value="SemiBold"/>
+      <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+      <Setter Property="HorizontalAlignment" Value="Center"/>
+      <Setter Property="TextAlignment" Value="Center"/>
+    </Style>
+    <Style Selector="TextBlock.drop-hint">
+      <Setter Property="FontSize" Value="13"/>
+      <Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}"/>
+      <Setter Property="HorizontalAlignment" Value="Center"/>
+      <Setter Property="TextAlignment" Value="Center"/>
+      <Setter Property="TextWrapping" Value="Wrap"/>
+    </Style>
+  </UserControl.Styles>
+
+  <Grid ColumnDefinitions="37*,63*">
+
+    <!-- Left: brand panel -->
+    <Border Grid.Column="0" Background="{DynamicResource BrandGradientBrush}" Padding="40,48,40,40">
+      <Grid RowDefinitions="*,Auto">
+        <StackPanel Grid.Row="0" VerticalAlignment="Top">
+          <TextBlock Text="{Binding SuiteLabel}" Classes="suite"/>
+          <TextBlock Text="{Binding Title}" Classes="brand-title" Margin="0,10,0,0"/>
+          <TextBlock Text="{Binding Tagline}" Classes="tagline" Margin="0,14,0,0"/>
+          <StackPanel Margin="0,44,0,0" Spacing="14">
+            <Button Classes="start-primary" Command="{Binding NewExamCommand}">
+              <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10">
+                <PathIcon Data="{StaticResource IconAdd}" Width="18" Height="18" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="1" Text="{Binding NewExamLabel}" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="2" Text="{Binding NewShortcut}" Classes="shortcut" VerticalAlignment="Center"/>
+              </Grid>
+            </Button>
+            <Button Classes="start-outline" Command="{Binding OpenExamCommand}">
+              <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10">
+                <PathIcon Data="{StaticResource IconOpen}" Width="18" Height="18" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="1" Text="{Binding OpenExamLabel}" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="2" Text="{Binding OpenShortcut}" Classes="shortcut" VerticalAlignment="Center"/>
+              </Grid>
+            </Button>
+            <Button Classes="start-outline" Command="{Binding ImportCommand}">
+              <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                <PathIcon Data="{StaticResource IconImport}" Width="18" Height="18" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="1" Text="{Binding ImportLabel}" VerticalAlignment="Center"/>
+              </Grid>
+            </Button>
+          </StackPanel>
+        </StackPanel>
+        <TextBlock Grid.Row="1" Text="{Binding VersionLabel}" Classes="version"/>
+      </Grid>
+    </Border>
+
+    <!-- Right: recent exams + drop zone -->
+    <Border Grid.Column="1" Background="{DynamicResource SurfaceBrush}" Padding="48,40,48,40">
+      <Grid RowDefinitions="Auto,*,Auto">
+
+        <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="0,0,0,16">
+          <TextBlock Text="{Binding RecentExamsLabel}" Classes="content-title" VerticalAlignment="Center"/>
+          <Button Grid.Column="1" Classes="link" Command="{Binding ClearHistoryCommand}"
+                  Content="{Binding ClearHistoryLabel}" IsVisible="{Binding HasRecents}"
+                  VerticalAlignment="Center" AutomationProperties.Name="{Binding ClearHistoryLabel}"/>
+        </Grid>
+
+        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled">
+          <StackPanel>
+            <ItemsControl ItemsSource="{Binding RecentExams}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="vm:RecentExamItemViewModel">
+                  <Border Classes="recent-card">
+                    <Grid ColumnDefinitions="*,Auto">
+                      <Button Grid.Column="0" Classes="recent-open" Command="{Binding OpenCommand}"
+                              AutomationProperties.Name="{Binding AutomationName}">
+                        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                          <Border Grid.Column="0" Classes="avatar">
+                            <TextBlock Text="{Binding AvatarLetter}" Classes="avatar-letter"/>
+                          </Border>
+                          <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="2">
+                            <TextBlock Text="{Binding Title}" Classes="recent-title"/>
+                            <TextBlock Text="{Binding FilePath}" Classes="recent-path"/>
+                          </StackPanel>
+                          <StackPanel Grid.Column="2" VerticalAlignment="Center" Spacing="2"
+                                      IsVisible="{Binding IsReadable}" MinWidth="120">
+                            <TextBlock Text="{Binding CountsText}" Classes="recent-meta-strong"/>
+                            <TextBlock Text="{Binding EditedText}" Classes="recent-meta"/>
+                          </StackPanel>
+                        </Grid>
+                      </Button>
+                      <Button Grid.Column="1" Classes="recent-remove" Command="{Binding RemoveCommand}"
+                              Margin="8,0,0,0"
+                              AutomationProperties.Name="{loc:Loc Start_RemoveRecent}"
+                              ToolTip.Tip="{loc:Loc Start_RemoveRecent}">
+                        <PathIcon Data="{StaticResource IconClose}" Width="14" Height="14"/>
+                      </Button>
+                    </Grid>
+                  </Border>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <TextBlock Text="{Binding NoRecentsLabel}" Classes="recent-path" Margin="4,8"
+                       IsVisible="{Binding HasNoRecents}"/>
+          </StackPanel>
+        </ScrollViewer>
+
+        <Grid Grid.Row="2" Classes="dropzone" Classes.active="{Binding IsDropTarget}"
+              MinHeight="180" Margin="0,24,0,0">
+          <Rectangle Classes="dropzone-rect"/>
+          <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6" Margin="24">
+            <TextBlock Text="{Binding DropTitle}" Classes="drop-title"/>
+            <TextBlock Text="{Binding DropHint}" Classes="drop-hint"/>
+          </StackPanel>
+        </Grid>
+
+      </Grid>
+    </Border>
+
+  </Grid>
+</UserControl>

@@ -5,9 +5,9 @@
              x:Class="OpenExamSuite.Creator.Views.QuestionEditorView"
              x:DataType="vm:QuestionEditorViewModel">
   <StackPanel Spacing="12">
-    <TextBlock Text="{loc:Loc Editor_Question}" Classes="heading"/>
+    <TextBlock Text="{loc:Loc Editor_Question}" Classes="title"/>
 
-    <TextBlock Text="{loc:Loc Editor_QuestionText}" Classes="caption"/>
+    <TextBlock Text="{loc:Loc Editor_QuestionText}" Classes="label"/>
     <TextBox Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" TextWrapping="Wrap" Height="120"/>
 
     <StackPanel Orientation="Horizontal" Spacing="8">
@@ -16,24 +16,28 @@
       <Button Content="{loc:Loc Editor_RemoveImage}" Command="{Binding RemoveImageCommand}" IsVisible="{Binding HasImage}"/>
     </StackPanel>
 
-    <Border BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" CornerRadius="4" Padding="4"
+    <Border BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" CornerRadius="8" Padding="4"
             IsVisible="{Binding HasImage}" HorizontalAlignment="Left">
       <Image Source="{Binding Image}" MaxWidth="300" MaxHeight="200" Stretch="Uniform"/>
     </Border>
 
-    <TextBlock Text="{loc:Loc Editor_Explanation}" Classes="caption"/>
+    <TextBlock Text="{loc:Loc Editor_Explanation}" Classes="label"/>
     <TextBox Text="{Binding Explanation, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" TextWrapping="Wrap" Height="80"/>
 
-    <TextBlock Text="Options" Classes="caption"/>
+    <TextBlock Text="Options" Classes="label"/>
     <ItemsControl ItemsSource="{Binding Options}">
       <ItemsControl.ItemTemplate>
         <DataTemplate DataType="vm:OptionViewModel">
-          <Grid ColumnDefinitions="Auto,Auto,*,Auto" Margin="0,4">
-            <TextBlock Grid.Column="0" Text="{Binding Letter}" VerticalAlignment="Center" Width="24" FontWeight="Bold"/>
-            <CheckBox Grid.Column="1" IsChecked="{Binding IsCorrect}" VerticalAlignment="Center"
-                      ToolTip.Tip="Correct option"/>
-            <TextBox Grid.Column="2" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" Watermark="Option text"/>
-          </Grid>
+          <Border Classes="option" Classes.correct="{Binding IsCorrect}" Margin="0,0,0,8">
+            <Grid ColumnDefinitions="Auto,Auto,*" ColumnSpacing="10">
+              <Border Grid.Column="0" Classes="letter" Classes.correct="{Binding IsCorrect}" VerticalAlignment="Center">
+                <TextBlock Text="{Binding Letter}"/>
+              </Border>
+              <CheckBox Grid.Column="1" IsChecked="{Binding IsCorrect}" VerticalAlignment="Center"
+                        ToolTip.Tip="Correct option" AutomationProperties.Name="Correct option"/>
+              <TextBox Grid.Column="2" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" Watermark="Option text"/>
+            </Grid>
+          </Border>
         </DataTemplate>
       </ItemsControl.ItemTemplate>
     </ItemsControl>

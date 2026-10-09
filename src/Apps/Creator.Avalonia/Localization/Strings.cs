@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace OpenExamSuite.Creator.Localization;
 
 public static class Strings
@@ -22,10 +24,10 @@ public static class Strings
         ["Menu_Undo"] = "_Undo",
         ["Menu_Redo"] = "_Redo",
         ["Menu_Theme"] = "_Theme",
-        ["Theme_System"] = "_System",
+        ["Theme_System"] = "Follow _system",
         ["Theme_Light"] = "_Light",
         ["Theme_Dark"] = "_Dark",
-        ["Theme_Toggle"] = "Toggle theme",
+        ["Theme_Toggle"] = "Theme",
         ["Menu_Help"] = "_Help",
         ["Menu_About"] = "_About",
         ["Menu_License"] = "_License",
@@ -80,8 +82,42 @@ public static class Strings
         ["Preview_Title"] = "Live preview",
         ["Validation_Title"] = "Problems",
         ["Recovery_Title"] = "Recover unsaved work?",
-        ["Recovery_Message"] = "A newer autosaved copy was found. Recover it?"
+        ["Recovery_Message"] = "A newer autosaved copy was found. Recover it?",
+        ["Start_Suite"] = "OPEN EXAM SUITE",
+        ["Start_Title"] = "Creator",
+        ["Start_Tagline"] = "Build exams with sections and questions, then save them as .oef files for Simulator.",
+        ["Start_NewExam"] = "New exam",
+        ["Start_OpenExam"] = "Open exam...",
+        ["Start_Import"] = "Import JSON or XML...",
+        ["Start_ShortcutNew"] = "Ctrl N",
+        ["Start_ShortcutOpen"] = "Ctrl O",
+        ["Start_RecentExams"] = "Recent exams",
+        ["Start_ClearHistory"] = "Clear history",
+        ["Start_RemoveRecent"] = "Remove from recent exams",
+        ["Start_DropTitle"] = "Drop an .oef file here to open it",
+        ["Start_DropHint"] = "The exam outline appears on the left once an exam is open",
+        ["Start_NoRecents"] = "No recent exams yet",
+        ["Start_Version"] = "Version {0}",
+        ["Start_EditedToday"] = "Edited today, {0}",
+        ["Start_EditedOn"] = "Edited {0}",
+        ["Common_Questions_One"] = "{0} question",
+        ["Common_Questions_Other"] = "{0} questions",
+        ["Common_Sections_One"] = "{0} section",
+        ["Common_Sections_Other"] = "{0} sections",
+        ["Toast_HistoryCleared"] = "Recent exam history cleared"
     };
 
     public static string Get(string key) => Values.TryGetValue(key, out var value) ? value : key;
+
+    public static string Format(string key, params object[] args) =>
+        string.Format(CultureInfo.CurrentCulture, Get(key), args);
+
+    /// <summary>Picks <c>{key}_One</c> or <c>{key}_Other</c> and formats it with the count as argument 0.</summary>
+    public static string Plural(string key, int count, params object[] extraArgs)
+    {
+        var args = new object[extraArgs.Length + 1];
+        args[0] = count;
+        Array.Copy(extraArgs, 0, args, 1, extraArgs.Length);
+        return Format(count == 1 ? key + "_One" : key + "_Other", args);
+    }
 }

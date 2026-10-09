@@ -9,13 +9,17 @@
     <!-- Outline -->
     <Border Grid.Column="0" Grid.RowSpan="1" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0,0,1,0" Background="{DynamicResource PanelBrush}">
       <Grid RowDefinitions="Auto,Auto,Auto,*">
-        <Border Classes="bar" Grid.Row="0">
-          <TextBlock Text="{loc:Loc Outline_Exam}" Classes="heading" FontSize="14"/>
-        </Border>
-        <TextBox Grid.Row="1" Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}" Watermark="{loc:Loc Outline_Search}" Margin="8"/>
-        <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="8" Margin="8,0,8,8">
-          <Button Content="{loc:Loc Outline_AddSection}" Command="{Binding AddSectionCommand}" Classes="accent"/>
-          <Button Content="{loc:Loc Outline_AddQuestion}" Command="{Binding AddQuestionCommand}"/>
+        <TextBlock Grid.Row="0" Text="{loc:Loc Outline_Exam}" Classes="label" Margin="14,14,14,0"/>
+        <TextBox Grid.Row="1" Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}" Watermark="{loc:Loc Outline_Search}" Margin="12,10,12,8"
+                 AutomationProperties.Name="{loc:Loc Outline_Search}">
+          <TextBox.InnerLeftContent>
+            <PathIcon Data="{StaticResource IconSearch}" Width="16" Height="16" Margin="10,0,0,0"
+                      Foreground="{DynamicResource SecondaryTextBrush}" IsHitTestVisible="False"/>
+          </TextBox.InnerLeftContent>
+        </TextBox>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="8" Margin="12,0,12,10">
+          <Button Content="{loc:Loc Outline_AddQuestion}" Command="{Binding AddQuestionCommand}" Classes="accent"/>
+          <Button Content="{loc:Loc Outline_AddSection}" Command="{Binding AddSectionCommand}"/>
         </StackPanel>
         <TreeView x:Name="OutlineTree" Grid.Row="3" ItemsSource="{Binding OutlineNodes}" SelectedItem="{Binding SelectedNode}" Margin="8,0">
           <TreeView.Styles>
@@ -33,9 +37,9 @@
                   </ContextMenu>
                 </StackPanel.ContextMenu>
                 <Ellipse Width="8" Height="8" Fill="{DynamicResource ValidationDotBrush}" IsVisible="{Binding HasProblem}" VerticalAlignment="Center"/>
-                <PathIcon Data="{StaticResource IconImage}" Width="14" Height="14" IsVisible="{Binding HasImage}" Opacity="0.7"/>
-                <PathIcon Data="{StaticResource IconMultiple}" Width="14" Height="14" IsVisible="{Binding IsMultipleChoice}" Opacity="0.7"/>
-                <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis"/>
+                <PathIcon Data="{StaticResource IconImage}" Width="14" Height="14" IsVisible="{Binding HasImage}" Foreground="{DynamicResource SecondaryTextBrush}"/>
+                <PathIcon Data="{StaticResource IconMultiple}" Width="14" Height="14" IsVisible="{Binding IsMultipleChoice}" Foreground="{DynamicResource SecondaryTextBrush}"/>
+                <TextBlock Text="{Binding Title}" FontSize="13" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
               </StackPanel>
             </TreeDataTemplate>
           </TreeView.ItemTemplate>
@@ -46,27 +50,25 @@
     <!-- Editor -->
     <Border Grid.Column="1" Grid.RowSpan="1" Background="{DynamicResource SurfaceBrush}">
       <ScrollViewer>
-        <ContentControl Content="{Binding EditorContent}" Margin="16" HorizontalContentAlignment="Stretch"/>
+        <ContentControl Content="{Binding EditorContent}" Margin="28,22" HorizontalContentAlignment="Stretch"/>
       </ScrollViewer>
     </Border>
 
     <!-- Preview -->
-    <Border Grid.Column="2" Grid.RowSpan="1" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1,0,0,0" Background="{DynamicResource PanelBrush}">
+    <Border Grid.Column="2" Grid.RowSpan="1" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1,0,0,0" Background="{DynamicResource Surface2Brush}">
       <Grid RowDefinitions="Auto,*">
-        <Border Classes="bar" Grid.Row="0">
-          <TextBlock Text="{loc:Loc Preview_Title}" Classes="heading" FontSize="14"/>
-        </Border>
-        <ContentControl Grid.Row="1" Content="{Binding Preview}" Margin="12"/>
+        <TextBlock Grid.Row="0" Text="{loc:Loc Preview_Title}" Classes="label" Margin="18,14,18,0"/>
+        <ContentControl Grid.Row="1" Content="{Binding Preview}" Margin="18,10,18,18"/>
       </Grid>
     </Border>
 
     <!-- Validation strip -->
-    <Border Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" Background="{DynamicResource PanelBrush}"
+    <Border Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" Background="{DynamicResource ErrorBgBrush}"
             BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0,1,0,0"
             IsVisible="{Binding HasProblems}">
       <Grid RowDefinitions="Auto,*">
-        <TextBlock Text="{loc:Loc Validation_Title}" Classes="heading" FontSize="12" Margin="12,8,12,0"/>
-        <ItemsControl Grid.Row="1" ItemsSource="{Binding Problems}" Margin="12,4">
+        <TextBlock Text="{loc:Loc Validation_Title}" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource ValidationDotBrush}" Margin="16,10,16,0"/>
+        <ItemsControl Grid.Row="1" ItemsSource="{Binding Problems}" Margin="10,4,10,6">
           <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>
               <WrapPanel/>
@@ -74,10 +76,10 @@
           </ItemsControl.ItemsPanel>
           <ItemsControl.ItemTemplate>
             <DataTemplate DataType="vm:ValidationProblemViewModel">
-              <Button Classes="quiet" Command="{Binding GoToCommand}" Margin="0,0,8,4">
-                <StackPanel Orientation="Horizontal" Spacing="4">
+              <Button Classes="quiet" Command="{Binding GoToCommand}" Margin="0,0,4,0" Padding="6,4" FontWeight="Normal">
+                <StackPanel Orientation="Horizontal" Spacing="6">
                   <PathIcon Data="{StaticResource IconWarning}" Width="14" Height="14" Foreground="{DynamicResource ValidationDotBrush}"/>
-                  <TextBlock Text="{Binding Message}" TextDecorations="Underline"/>
+                  <TextBlock Text="{Binding Message}" FontSize="13" Foreground="{DynamicResource ValidationDotBrush}"/>
                 </StackPanel>
               </Button>
             </DataTemplate>

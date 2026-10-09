@@ -5,8 +5,8 @@
              x:Class="OpenExamSuite.Creator.Views.SectionEditorView"
              x:DataType="vm:SectionEditorViewModel">
   <StackPanel Spacing="12">
-    <TextBlock Text="{loc:Loc Editor_Section}" Classes="heading"/>
-    <TextBlock Text="{loc:Loc Editor_SectionName}" Classes="caption"/>
+    <TextBlock Text="{loc:Loc Editor_Section}" Classes="title"/>
+    <TextBlock Text="{loc:Loc Editor_SectionName}" Classes="label"/>
     <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
   </StackPanel>
 </UserControl>

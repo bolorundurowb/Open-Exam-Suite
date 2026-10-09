@@ -6,10 +6,10 @@
         WindowStartupLocation="CenterOwner"
         CanResize="False">
   <StackPanel Margin="24" Spacing="12" HorizontalAlignment="Center">
-    <TextBlock Text="Open Exam Creator" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center"/>
-    <TextBlock Text="{Binding Version}" HorizontalAlignment="Center"/>
+    <TextBlock Text="Open Exam Creator" FontSize="22" FontWeight="Bold" HorizontalAlignment="Center"/>
+    <TextBlock Text="{Binding Version}" HorizontalAlignment="Center" FontFamily="avares://OpenExamSuite.Shared.Avalonia/Assets/Fonts#IBM Plex Mono" Foreground="{DynamicResource SecondaryTextBrush}"/>
     <TextBlock Text="A free, open-source exam authoring tool." TextWrapping="Wrap" TextAlignment="Center"/>
-    <TextBlock Text="Built with Avalonia UI." TextAlignment="Center" Opacity="0.7"/>
-    <Button Content="OK" HorizontalAlignment="Center" Click="Close_Click" IsDefault="True" IsCancel="True"/>
+    <TextBlock Text="Built with Avalonia UI." TextAlignment="Center" FontSize="12" Foreground="{DynamicResource SecondaryTextBrush}"/>
+    <Button Content="OK" Classes="accent" HorizontalAlignment="Center" Click="Close_Click" IsDefault="True" IsCancel="True"/>
   </StackPanel>
 </Window>

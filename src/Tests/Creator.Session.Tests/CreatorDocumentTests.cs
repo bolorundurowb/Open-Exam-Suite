@@ -365,4 +365,51 @@ public class CreatorDocumentTests
             File.Delete(recovery);
         }
     }
+
+    [Fact]
+    public void FreshDocument_HasNoDocument()
+    {
+        var doc = CreateDocument();
+
+        Assert.False(doc.HasDocument);
+    }
+
+    [Fact]
+    public void NewDocument_SetsHasDocumentAndFiresOpened()
+    {
+        var doc = CreateDocument();
+        var fired = 0;
+        doc.Opened += () => fired++;
+
+        doc.NewDocument();
+
+        Assert.True(doc.HasDocument);
+        Assert.Equal(1, fired);
+    }
+
+    [Fact]
+    public void Load_SetsHasDocumentAndFiresOpened()
+    {
+        var doc = CreateDocument();
+        doc.NewDocument();
+        var section = doc.AddSection("S");
+        doc.AddQuestion(section.Id);
+        var path = Path.Combine(Path.GetTempPath(), $"oes-test-{Guid.NewGuid():N}.oef");
+        try
+        {
+            Assert.True(doc.Save(path).Success);
+
+            var loaded = CreateDocument();
+            var fired = 0;
+            loaded.Opened += () => fired++;
+
+            Assert.True(loaded.Load(path).Success);
+            Assert.True(loaded.HasDocument);
+            Assert.Equal(1, fired);
+        }
+        finally
+        {
+            File.Delete(path);
+        }
+    }
 }

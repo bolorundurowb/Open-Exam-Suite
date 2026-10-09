@@ -15,7 +15,8 @@ public sealed class ShellServices
         ThemeService theme,
         IAppSettingsService settings,
         IExamLibraryService library,
-        SimulatorLocator simulator)
+        SimulatorLocator simulator,
+        RecentExamsService recents)
     {
         Document = document;
         Dialogs = dialogs;
@@ -24,6 +25,7 @@ public sealed class ShellServices
         Settings = settings;
         Library = library;
         Simulator = simulator;
+        Recents = recents;
     }
 
     public CreatorDocument Document { get; }
@@ -39,4 +41,6 @@ public sealed class ShellServices
     public IExamLibraryService Library { get; }
 
     public SimulatorLocator Simulator { get; }
+
+    public RecentExamsService Recents { get; }
 }

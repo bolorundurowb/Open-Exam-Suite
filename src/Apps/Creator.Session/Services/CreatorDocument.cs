@@ -30,6 +30,7 @@ public sealed class CreatorDocument
     private string? _selectedNodeId;
     private bool _isDirty;
     private bool _isLegacy;
+    private bool _hasDocument;
     private DateTime _lastTextEdit = DateTime.MinValue;
     private bool _coalescing;
 
@@ -44,9 +45,15 @@ public sealed class CreatorDocument
     public event Action<string?>? SelectionChanged;
     public event Action<IReadOnlyList<ValidationProblem>>? ProblemsChanged;
 
+    /// <summary>Raised once an exam has been created or loaded. The host shows the workspace.</summary>
+    public event Action? Opened;
+
     public Exam Exam => _exam;
 
     public string? FilePath => _filePath;
+
+    /// <summary>True once an exam has been created or loaded. The Creator start screen shows while false.</summary>
+    public bool HasDocument => _hasDocument;
 
     public bool IsDirty
     {
@@ -105,6 +112,8 @@ public sealed class CreatorDocument
         IsDirty = false;
         SelectedNodeId = _nodes.Values.First(n => n.Type == NodeType.Exam).Id;
         Revalidate();
+        _hasDocument = true;
+        Opened?.Invoke();
         return DocumentLoadResult.Ok(string.Empty, false);
     }
 
@@ -126,6 +135,8 @@ public sealed class CreatorDocument
 
         Revalidate();
         _logger.LogInformation("Loaded exam '{Title}' from '{FilePath}'.", _exam.Properties.Title, filePath);
+        _hasDocument = true;
+        Opened?.Invoke();
         return DocumentLoadResult.Ok(filePath, result.IsLegacy);
     }
 
@@ -146,6 +157,8 @@ public sealed class CreatorDocument
         SelectedNodeId = firstSection?.Id ?? _nodes.Values.First(n => n.Type == NodeType.Exam).Id;
 
         Revalidate();
+        _hasDocument = true;
+        Opened?.Invoke();
         return DocumentLoadResult.Ok(_filePath, false);
     }
 
@@ -166,6 +179,8 @@ public sealed class CreatorDocument
         SelectedNodeId = firstSection?.Id ?? _nodes.Values.First(n => n.Type == NodeType.Exam).Id;
 
         Revalidate();
+        _hasDocument = true;
+        Opened?.Invoke();
         return DocumentLoadResult.Ok(_filePath, false);
     }
 

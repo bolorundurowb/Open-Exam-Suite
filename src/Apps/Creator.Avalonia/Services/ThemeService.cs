@@ -18,7 +18,12 @@ public sealed class ThemeService
     private const string Key = "CreatorTheme";
     private readonly IAppSettingsService _settings;
 
+    private bool _watching;
+
     public ThemeMode Mode { get; private set; } = ThemeMode.System;
+
+    /// <summary>Whether dark is on screen now, including when it comes from the operating system.</summary>
+    public bool IsDarkShown => Application.Current?.ActualThemeVariant == ThemeVariant.Dark;
 
     public event Action? Changed;
 
@@ -34,18 +39,16 @@ public sealed class ThemeService
             Set(mode, false);
         else
             Apply(ThemeMode.System);
+        Watch();
     }
 
-    public void Toggle()
+    private void Watch()
     {
-        var next = Mode switch
-        {
-            ThemeMode.System => ThemeMode.Light,
-            ThemeMode.Light => ThemeMode.Dark,
-            ThemeMode.Dark => ThemeMode.System,
-            _ => ThemeMode.System
-        };
-        Set(next);
+        if (_watching || Application.Current is not { } app)
+            return;
+
+        _watching = true;
+        app.ActualThemeVariantChanged += (_, _) => Changed?.Invoke();
     }
 
     public void Set(ThemeMode mode, bool persist = true)

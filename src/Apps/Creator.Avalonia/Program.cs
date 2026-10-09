@@ -41,6 +41,7 @@ public static class Program
         services.AddSingleton<Reader>();
         services.AddSingleton<Writer>();
         services.AddSingleton<CreatorDocument>();
+        services.AddSingleton<RecentExamsService>();
 
         services.AddSingleton<ThemeService>();
         services.AddSingleton<DialogService>();
