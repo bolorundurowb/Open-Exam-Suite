@@ -36,10 +36,17 @@
       <Setter Property="FontSize" Value="15"/>
       <Setter Property="FontWeight" Value="SemiBold"/>
       <Setter Property="BorderThickness" Value="0"/>
+      <Setter Property="HorizontalAlignment" Value="Stretch"/>
       <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+    </Style>
+    <Style Selector="Button.start-primary PathIcon">
+      <Setter Property="Foreground" Value="#801638"/>
     </Style>
     <Style Selector="Button.start-primary:pointerover /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="#F3E6EA"/>
+    </Style>
+    <Style Selector="Button.start-primary:pointerover PathIcon">
+      <Setter Property="Foreground" Value="#801638"/>
     </Style>
     <Style Selector="Button.start-outline">
       <Setter Property="Background" Value="Transparent"/>
@@ -50,6 +57,7 @@
       <Setter Property="FontWeight" Value="SemiBold"/>
       <Setter Property="BorderBrush" Value="{DynamicResource BrandBorderBrush}"/>
       <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="HorizontalAlignment" Value="Stretch"/>
       <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
     </Style>
     <Style Selector="Button.start-outline:pointerover /template/ ContentPresenter#PART_ContentPresenter">
@@ -92,13 +100,14 @@
       <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
       <Setter Property="BorderThickness" Value="1"/>
       <Setter Property="CornerRadius" Value="10"/>
-      <Setter Property="Padding" Value="12,10"/>
+      <Setter Property="Padding" Value="14,12"/>
       <Setter Property="Margin" Value="0,0,0,10"/>
     </Style>
     <Style Selector="Button.recent-open">
       <Setter Property="Background" Value="Transparent"/>
       <Setter Property="BorderThickness" Value="0"/>
       <Setter Property="Padding" Value="0"/>
+      <Setter Property="HorizontalAlignment" Value="Stretch"/>
       <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
       <Setter Property="VerticalContentAlignment" Value="Stretch"/>
     </Style>
@@ -106,20 +115,20 @@
       <Setter Property="Background" Value="{DynamicResource AccentSoftBrush}"/>
     </Style>
     <Style Selector="Border.avatar">
-      <Setter Property="Width" Value="40"/>
-      <Setter Property="Height" Value="40"/>
-      <Setter Property="CornerRadius" Value="10"/>
+      <Setter Property="Width" Value="36"/>
+      <Setter Property="Height" Value="36"/>
+      <Setter Property="CornerRadius" Value="8"/>
       <Setter Property="Background" Value="{DynamicResource AccentSoftBrush}"/>
     </Style>
     <Style Selector="TextBlock.avatar-letter">
-      <Setter Property="FontSize" Value="16"/>
+      <Setter Property="FontSize" Value="14"/>
       <Setter Property="FontWeight" Value="Bold"/>
       <Setter Property="Foreground" Value="{DynamicResource AccentTextBrush}"/>
       <Setter Property="HorizontalAlignment" Value="Center"/>
       <Setter Property="VerticalAlignment" Value="Center"/>
     </Style>
     <Style Selector="TextBlock.recent-title">
-      <Setter Property="FontSize" Value="15"/>
+      <Setter Property="FontSize" Value="14"/>
       <Setter Property="FontWeight" Value="SemiBold"/>
       <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
       <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
@@ -129,14 +138,11 @@
       <Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}"/>
       <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
     </Style>
-    <Style Selector="TextBlock.recent-meta-strong">
-      <Setter Property="FontSize" Value="12"/>
-      <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
-      <Setter Property="TextAlignment" Value="Right"/>
-    </Style>
     <Style Selector="TextBlock.recent-meta">
       <Setter Property="FontSize" Value="12"/>
       <Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}"/>
+      <Setter Property="LineHeight" Value="18"/>
+      <Setter Property="HorizontalAlignment" Value="Right"/>
       <Setter Property="TextAlignment" Value="Right"/>
     </Style>
     <Style Selector="Button.recent-remove">
@@ -147,6 +153,10 @@
       <Setter Property="Padding" Value="4"/>
       <Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}"/>
       <Setter Property="CornerRadius" Value="6"/>
+      <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+    <Style Selector="Button.recent-remove PathIcon">
+      <Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}"/>
     </Style>
     <Style Selector="Button.recent-remove:pointerover /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="{DynamicResource AccentSoftBrush}"/>
@@ -237,26 +247,26 @@
               <ItemsControl.ItemTemplate>
                 <DataTemplate DataType="vm:RecentExamItemViewModel">
                   <Border Classes="recent-card">
-                    <Grid ColumnDefinitions="*,Auto">
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="14">
                       <Button Grid.Column="0" Classes="recent-open" Command="{Binding OpenCommand}"
                               AutomationProperties.Name="{Binding AutomationName}">
-                        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14">
                           <Border Grid.Column="0" Classes="avatar">
                             <TextBlock Text="{Binding AvatarLetter}" Classes="avatar-letter"/>
                           </Border>
                           <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="2">
                             <TextBlock Text="{Binding Title}" Classes="recent-title"/>
-                            <TextBlock Text="{Binding FilePath}" Classes="recent-path"/>
+                            <TextBlock Text="{Binding FilePath}" Classes="recent-path mono"/>
                           </StackPanel>
                           <StackPanel Grid.Column="2" VerticalAlignment="Center" Spacing="2"
-                                      IsVisible="{Binding IsReadable}" MinWidth="120">
-                            <TextBlock Text="{Binding CountsText}" Classes="recent-meta-strong"/>
+                                      HorizontalAlignment="Right"
+                                      IsVisible="{Binding IsReadable}">
+                            <TextBlock Text="{Binding CountsText}" Classes="recent-meta"/>
                             <TextBlock Text="{Binding EditedText}" Classes="recent-meta"/>
                           </StackPanel>
                         </Grid>
                       </Button>
                       <Button Grid.Column="1" Classes="recent-remove" Command="{Binding RemoveCommand}"
-                              Margin="8,0,0,0"
                               AutomationProperties.Name="{loc:Loc Start_RemoveRecent}"
                               ToolTip.Tip="{loc:Loc Start_RemoveRecent}">
                         <PathIcon Data="{StaticResource IconClose}" Width="14" Height="14"/>
