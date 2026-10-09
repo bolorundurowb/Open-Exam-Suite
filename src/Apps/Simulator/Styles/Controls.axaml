@@ -117,6 +117,15 @@
     <Setter Property="Foreground" Value="{DynamicResource AccentTextBrush}"/>
   </Style>
 
+  <!-- First-launch welcome strip: accent tint, neutral divider, normal text. -->
+  <Style Selector="Border.welcome">
+    <Setter Property="Background" Value="{DynamicResource AccentSubtleBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource DividerBrush}"/>
+    <Setter Property="BorderThickness" Value="1"/>
+    <Setter Property="CornerRadius" Value="10"/>
+    <Setter Property="Padding" Value="16,12"/>
+  </Style>
+
   <!-- Countdown states: normal, low (5 min), critical (1 min). -->
   <Style Selector="Border.timer">
     <Setter Property="Background" Value="{DynamicResource SurfaceAltBrush}"/>
