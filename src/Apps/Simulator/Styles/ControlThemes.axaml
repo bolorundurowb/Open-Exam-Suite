@@ -1,0 +1,326 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <!-- Buttons: primary, secondary, quiet and icon. All share a 2px border slot so the keyboard
+       focus ring never shifts the layout. -->
+  <ControlTheme x:Key="PrimaryButton" TargetType="Button">
+    <Setter Property="Background" Value="{DynamicResource AccentBrush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource OnAccentBrush}"/>
+    <Setter Property="BorderBrush" Value="Transparent"/>
+    <Setter Property="BorderThickness" Value="2"/>
+    <Setter Property="Padding" Value="18,8"/>
+    <Setter Property="MinHeight" Value="44"/>
+    <Setter Property="MinWidth" Value="44"/>
+    <Setter Property="FontWeight" Value="SemiBold"/>
+    <Setter Property="CornerRadius" Value="8"/>
+    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+    <Setter Property="VerticalContentAlignment" Value="Center"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border x:Name="Chrome" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{TemplateBinding CornerRadius}"
+                Padding="{TemplateBinding Padding}">
+          <ContentPresenter x:Name="PART_ContentPresenter" Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}" Foreground="{TemplateBinding Foreground}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                            RecognizesAccessKey="True"/>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+    <Style Selector="^:pointerover /template/ Border#Chrome">
+      <Setter Property="Background" Value="{DynamicResource AccentHoverBrush}"/>
+    </Style>
+    <Style Selector="^:pressed /template/ Border#Chrome">
+      <Setter Property="Background" Value="{DynamicResource AccentPressedBrush}"/>
+    </Style>
+    <Style Selector="^:focus-visible /template/ Border#Chrome">
+      <Setter Property="BorderBrush" Value="{DynamicResource FocusBrush}"/>
+    </Style>
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="0.45"/>
+    </Style>
+  </ControlTheme>
+
+  <ControlTheme x:Key="SecondaryButton" TargetType="Button">
+    <Setter Property="Background" Value="{DynamicResource SurfaceBrush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource BorderStrongBrush}"/>
+    <Setter Property="BorderThickness" Value="2"/>
+    <Setter Property="Padding" Value="16,8"/>
+    <Setter Property="MinHeight" Value="44"/>
+    <Setter Property="MinWidth" Value="44"/>
+    <Setter Property="FontWeight" Value="Medium"/>
+    <Setter Property="CornerRadius" Value="8"/>
+    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+    <Setter Property="VerticalContentAlignment" Value="Center"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border x:Name="Chrome" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{TemplateBinding CornerRadius}"
+                Padding="{TemplateBinding Padding}">
+          <ContentPresenter x:Name="PART_ContentPresenter" Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}" Foreground="{TemplateBinding Foreground}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                            RecognizesAccessKey="True"/>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+    <Style Selector="^:pointerover /template/ Border#Chrome">
+      <Setter Property="Background" Value="{DynamicResource SurfaceAltBrush}"/>
+    </Style>
+    <Style Selector="^:pressed /template/ Border#Chrome">
+      <Setter Property="Background" Value="{DynamicResource AccentSubtleBrush}"/>
+    </Style>
+    <Style Selector="^:focus-visible /template/ Border#Chrome">
+      <Setter Property="BorderBrush" Value="{DynamicResource FocusBrush}"/>
+    </Style>
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="0.45"/>
+    </Style>
+  </ControlTheme>
+
+  <ControlTheme x:Key="QuietButton" TargetType="Button">
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="Foreground" Value="{DynamicResource AccentTextBrush}"/>
+    <Setter Property="BorderBrush" Value="Transparent"/>
+    <Setter Property="BorderThickness" Value="2"/>
+    <Setter Property="Padding" Value="12,8"/>
+    <Setter Property="MinHeight" Value="44"/>
+    <Setter Property="MinWidth" Value="44"/>
+    <Setter Property="FontWeight" Value="Medium"/>
+    <Setter Property="CornerRadius" Value="8"/>
+    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+    <Setter Property="VerticalContentAlignment" Value="Center"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border x:Name="Chrome" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{TemplateBinding CornerRadius}"
+                Padding="{TemplateBinding Padding}">
+          <ContentPresenter x:Name="PART_ContentPresenter" Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}" Foreground="{TemplateBinding Foreground}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                            RecognizesAccessKey="True"/>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+    <Style Selector="^:pointerover /template/ Border#Chrome">
+      <Setter Property="Background" Value="{DynamicResource SurfaceAltBrush}"/>
+    </Style>
+    <Style Selector="^:pressed /template/ Border#Chrome">
+      <Setter Property="Background" Value="{DynamicResource AccentSubtleBrush}"/>
+    </Style>
+    <Style Selector="^:focus-visible /template/ Border#Chrome">
+      <Setter Property="BorderBrush" Value="{DynamicResource FocusBrush}"/>
+    </Style>
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="0.45"/>
+    </Style>
+  </ControlTheme>
+
+  <ControlTheme x:Key="IconButton" TargetType="Button" BasedOn="{StaticResource QuietButton}">
+    <Setter Property="Padding" Value="8"/>
+    <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+  </ControlTheme>
+
+  <!-- Question navigator cell and review chip. State is shown by fill, border, glyph and an accessible name. -->
+  <ControlTheme x:Key="NavCell" TargetType="Button">
+    <Setter Property="Background" Value="{DynamicResource SurfaceBrush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource BorderStrongBrush}"/>
+    <Setter Property="BorderThickness" Value="2"/>
+    <Setter Property="Padding" Value="0"/>
+    <Setter Property="MinHeight" Value="44"/>
+    <Setter Property="MinWidth" Value="44"/>
+    <Setter Property="CornerRadius" Value="8"/>
+    <Setter Property="Margin" Value="0,0,6,6"/>
+    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+    <Setter Property="VerticalContentAlignment" Value="Center"/>
+    <Setter Property="FontWeight" Value="Medium"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border x:Name="Chrome" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{TemplateBinding CornerRadius}"
+                Padding="{TemplateBinding Padding}">
+          <ContentPresenter x:Name="PART_ContentPresenter" Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}" Foreground="{TemplateBinding Foreground}"
+                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+    <Style Selector="^.answered /template/ Border#Chrome">
+      <Setter Property="Background" Value="{DynamicResource AccentSubtleBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource AccentBrush}"/>
+    </Style>
+    <Style Selector="^.flagged /template/ Border#Chrome">
+      <Setter Property="Background" Value="{DynamicResource FlagBgBrush}"/>
+    </Style>
+    <Style Selector="^.current">
+      <Setter Property="Foreground" Value="{DynamicResource OnAccentBrush}"/>
+    </Style>
+    <Style Selector="^.current /template/ Border#Chrome">
+      <Setter Property="Background" Value="{DynamicResource AccentBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource AccentBrush}"/>
+    </Style>
+    <Style Selector="^:pointerover /template/ Border#Chrome">
+      <Setter Property="BorderBrush" Value="{DynamicResource AccentTextBrush}"/>
+    </Style>
+    <Style Selector="^:focus-visible /template/ Border#Chrome">
+      <Setter Property="BorderBrush" Value="{DynamicResource FocusBrush}"/>
+    </Style>
+  </ControlTheme>
+
+  <!-- Option rows. Full-width, wrapping text, large hit area. Correct and wrong states are carried by the
+       icon and label in the row content as well as by colour. -->
+  <ControlTheme x:Key="OptionRowRadio" TargetType="RadioButton">
+    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+    <Setter Property="Margin" Value="0,0,0,10"/>
+    <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border x:Name="Row" Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource BorderStrongBrush}"
+                BorderThickness="2" CornerRadius="10" Padding="14,12" MinHeight="52">
+          <Grid ColumnDefinitions="Auto,*">
+            <Panel Width="22" Height="22" Margin="0,2,14,0" VerticalAlignment="Top">
+              <Ellipse x:Name="Outer" Stroke="{DynamicResource BorderStrongBrush}" StrokeThickness="2"/>
+              <Ellipse x:Name="Dot" Width="10" Height="10" Fill="{DynamicResource AccentBrush}" IsVisible="False"/>
+            </Panel>
+            <ContentPresenter Grid.Column="1" Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}" Foreground="{TemplateBinding Foreground}"
+                              HorizontalContentAlignment="Stretch"/>
+          </Grid>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+    <Style Selector="^:checked /template/ Ellipse#Dot">
+      <Setter Property="IsVisible" Value="True"/>
+    </Style>
+    <Style Selector="^:checked /template/ Ellipse#Outer">
+      <Setter Property="Stroke" Value="{DynamicResource AccentBrush}"/>
+    </Style>
+    <Style Selector="^:checked /template/ Border#Row">
+      <Setter Property="BorderBrush" Value="{DynamicResource AccentBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource AccentSubtleBrush}"/>
+    </Style>
+    <Style Selector="^:pointerover /template/ Border#Row">
+      <Setter Property="Background" Value="{DynamicResource SurfaceAltBrush}"/>
+    </Style>
+    <Style Selector="^:focus-visible /template/ Border#Row">
+      <Setter Property="BorderBrush" Value="{DynamicResource FocusBrush}"/>
+    </Style>
+    <Style Selector="^.correct /template/ Border#Row">
+      <Setter Property="BorderBrush" Value="{DynamicResource CorrectBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource CorrectBgBrush}"/>
+    </Style>
+    <Style Selector="^.wrong /template/ Border#Row">
+      <Setter Property="BorderBrush" Value="{DynamicResource WrongBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource WrongBgBrush}"/>
+    </Style>
+  </ControlTheme>
+
+  <ControlTheme x:Key="OptionRowCheck" TargetType="CheckBox">
+    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+    <Setter Property="Margin" Value="0,0,0,10"/>
+    <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border x:Name="Row" Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource BorderStrongBrush}"
+                BorderThickness="2" CornerRadius="10" Padding="14,12" MinHeight="52">
+          <Grid ColumnDefinitions="Auto,*">
+            <Border x:Name="Box" Width="22" Height="22" Margin="0,2,14,0" VerticalAlignment="Top" CornerRadius="5"
+                    BorderThickness="2" BorderBrush="{DynamicResource BorderStrongBrush}" Background="Transparent">
+              <PathIcon x:Name="Tick" Data="{StaticResource IconCheck}" Width="16" Height="16"
+                        Foreground="{DynamicResource OnAccentBrush}" IsVisible="False"/>
+            </Border>
+            <ContentPresenter Grid.Column="1" Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}" Foreground="{TemplateBinding Foreground}"
+                              HorizontalContentAlignment="Stretch"/>
+          </Grid>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+    <Style Selector="^:checked /template/ PathIcon#Tick">
+      <Setter Property="IsVisible" Value="True"/>
+    </Style>
+    <Style Selector="^:checked /template/ Border#Box">
+      <Setter Property="Background" Value="{DynamicResource AccentBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource AccentBrush}"/>
+    </Style>
+    <Style Selector="^:checked /template/ Border#Row">
+      <Setter Property="BorderBrush" Value="{DynamicResource AccentBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource AccentSubtleBrush}"/>
+    </Style>
+    <Style Selector="^:pointerover /template/ Border#Row">
+      <Setter Property="Background" Value="{DynamicResource SurfaceAltBrush}"/>
+    </Style>
+    <Style Selector="^:focus-visible /template/ Border#Row">
+      <Setter Property="BorderBrush" Value="{DynamicResource FocusBrush}"/>
+    </Style>
+    <Style Selector="^.correct /template/ Border#Row">
+      <Setter Property="BorderBrush" Value="{DynamicResource CorrectBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource CorrectBgBrush}"/>
+    </Style>
+    <Style Selector="^.wrong /template/ Border#Row">
+      <Setter Property="BorderBrush" Value="{DynamicResource WrongBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource WrongBgBrush}"/>
+    </Style>
+  </ControlTheme>
+
+  <!-- Filter pill used in answer review. Selection is shown by fill and a heavier border, and is also announced. -->
+  <ControlTheme x:Key="ChipButton" TargetType="Button">
+    <Setter Property="Padding" Value="14,8"/>
+    <Setter Property="MinHeight" Value="40"/>
+    <Setter Property="Margin" Value="0,0,8,8"/>
+    <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+    <Setter Property="Cursor" Value="Hand"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border x:Name="Chrome" Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource BorderStrongBrush}"
+                BorderThickness="1" CornerRadius="20" Padding="{TemplateBinding Padding}">
+          <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"
+                            Foreground="{TemplateBinding Foreground}" VerticalAlignment="Center"/>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+    <Style Selector="^:pointerover /template/ Border#Chrome">
+      <Setter Property="Background" Value="{DynamicResource SurfaceAltBrush}"/>
+    </Style>
+    <Style Selector="^.selected /template/ Border#Chrome">
+      <Setter Property="Background" Value="{DynamicResource AccentSubtleBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource AccentBrush}"/>
+      <Setter Property="BorderThickness" Value="2"/>
+    </Style>
+    <Style Selector="^:focus-visible /template/ Border#Chrome">
+      <Setter Property="BorderBrush" Value="{DynamicResource FocusBrush}"/>
+      <Setter Property="BorderThickness" Value="3"/>
+    </Style>
+  </ControlTheme>
+
+  <!-- Read-only option row used in answer review. -->
+  <ControlTheme x:Key="ReviewRow" TargetType="ContentControl">
+    <Setter Property="Margin" Value="0,0,0,10"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border x:Name="Row" Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource DividerBrush}"
+                BorderThickness="2" CornerRadius="10" Padding="14,12" MinHeight="52">
+          <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"/>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+    <Style Selector="^.picked /template/ Border#Row">
+      <Setter Property="BorderBrush" Value="{DynamicResource BorderStrongBrush}"/>
+    </Style>
+    <Style Selector="^.correct /template/ Border#Row">
+      <Setter Property="BorderBrush" Value="{DynamicResource CorrectBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource CorrectBgBrush}"/>
+    </Style>
+    <Style Selector="^.wrong /template/ Border#Row">
+      <Setter Property="BorderBrush" Value="{DynamicResource WrongBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource WrongBgBrush}"/>
+    </Style>
+  </ControlTheme>
+</ResourceDictionary>

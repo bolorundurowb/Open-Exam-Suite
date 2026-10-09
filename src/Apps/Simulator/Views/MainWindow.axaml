@@ -1,0 +1,72 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:loc="using:OpenExamSuite.Simulator.Localization"
+        xmlns:svc="using:OpenExamSuite.Simulator.Services"
+        x:Class="OpenExamSuite.Simulator.Views.MainWindow"
+        Title="Simulator"
+        Icon="avares://OpenExamSuite.Simulator/Assets/SimulatorAppIcon.ico"
+        Width="1180" Height="780" MinWidth="960" MinHeight="640"
+        WindowStartupLocation="CenterScreen">
+  <Grid RowDefinitions="Auto,Auto,*">
+
+    <!-- File, Edit and Help. Hidden on macOS, which uses the native menu bar built in code. -->
+    <Menu x:Name="MainMenu" Grid.Row="0">
+      <MenuItem Header="{loc:Loc Menu_File}">
+        <MenuItem Header="{loc:Loc Menu_AddExam}" Command="{Binding AddExamCommand}" HotKey="Ctrl+O" InputGesture="Ctrl+O"/>
+        <MenuItem Header="{loc:Loc Menu_NewExam}" Command="{Binding NewExamCommand}" IsVisible="{Binding CreatorAvailable}"/>
+        <Separator/>
+        <MenuItem x:Name="ExitItem" Header="{loc:Loc Menu_Exit}"/>
+      </MenuItem>
+      <MenuItem Header="{loc:Loc Menu_Edit}">
+        <MenuItem Header="{loc:Loc Menu_Theme}">
+          <MenuItem Header="{loc:Loc Theme_System}" Command="{Binding SetThemeCommand}" CommandParameter="{x:Static svc:ThemeMode.System}"/>
+          <MenuItem Header="{loc:Loc Theme_Light}" Command="{Binding SetThemeCommand}" CommandParameter="{x:Static svc:ThemeMode.Light}"/>
+          <MenuItem Header="{loc:Loc Theme_Dark}" Command="{Binding SetThemeCommand}" CommandParameter="{x:Static svc:ThemeMode.Dark}"/>
+        </MenuItem>
+        <MenuItem Header="{loc:Loc Menu_ClearHistory}" Command="{Binding ClearHistoryCommand}"/>
+      </MenuItem>
+      <MenuItem Header="{loc:Loc Menu_Help}">
+        <MenuItem Header="{loc:Loc Menu_About}" Command="{Binding ShowAboutCommand}"/>
+        <MenuItem Header="{loc:Loc Menu_License}" Command="{Binding ShowLicenseCommand}"/>
+        <MenuItem Header="{loc:Loc Menu_Changelog}" Command="{Binding ShowChangelogCommand}"/>
+      </MenuItem>
+    </Menu>
+
+    <!-- Top bar: product name, current screen, theme toggle. -->
+    <Border Grid.Row="1" Classes="bar">
+      <Grid ColumnDefinitions="Auto,Auto,*,Auto">
+        <TextBlock Text="{Binding ProductName}" Classes="heading" VerticalAlignment="Center" Margin="0,0,16,0"/>
+        <Border Grid.Column="1" Classes="chip" VerticalAlignment="Center">
+          <TextBlock Text="{Binding ScreenLabel}"/>
+        </Border>
+        <Button Grid.Column="3" Theme="{StaticResource IconButton}" Command="{Binding ToggleThemeCommand}"
+                AutomationProperties.Name="{loc:Loc Theme_Toggle}" ToolTip.Tip="{loc:Loc Theme_Toggle}">
+          <PathIcon Data="{StaticResource IconTheme}"/>
+        </Button>
+      </Grid>
+    </Border>
+
+    <Panel Grid.Row="2">
+      <ContentControl Content="{Binding CurrentScreen}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+
+      <!-- Routine confirmations are toasts, announced politely to screen readers. -->
+      <ItemsControl ItemsSource="{Binding Toasts}" HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                    Margin="24" AutomationProperties.LiveSetting="Polite">
+        <ItemsControl.ItemTemplate>
+          <DataTemplate>
+            <Border Classes="toast">
+              <StackPanel Orientation="Horizontal" Spacing="10">
+                <PathIcon Data="{StaticResource IconCheck}" Foreground="{DynamicResource ToastTextBrush}" Width="18" Height="18"/>
+                <TextBlock Text="{Binding Message}" VerticalAlignment="Center"/>
+              </StackPanel>
+            </Border>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+
+      <!-- Spoken on screen changes. Not visible, but present for assistive technology. -->
+      <TextBlock Text="{Binding Announcement}" Width="1" Height="1" Opacity="0" IsHitTestVisible="False"
+                 AutomationProperties.LiveSetting="Polite" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+    </Panel>
+  </Grid>
+</Window>

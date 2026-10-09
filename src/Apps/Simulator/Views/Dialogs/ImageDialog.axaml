@@ -1,0 +1,15 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:loc="using:OpenExamSuite.Simulator.Localization"
+        x:Class="OpenExamSuite.Simulator.Views.Dialogs.ImageDialog"
+        Width="900" Height="640" MinWidth="480" MinHeight="360"
+        WindowStartupLocation="CenterOwner" ShowInTaskbar="False">
+  <DockPanel>
+    <Border DockPanel.Dock="Bottom" Classes="bottombar">
+      <Button x:Name="CloseButton" Theme="{StaticResource PrimaryButton}" HorizontalAlignment="Right"
+              Content="{loc:Loc Dialog_Close}"/>
+    </Border>
+    <Image x:Name="Picture" Margin="16" Stretch="Uniform"
+           AutomationProperties.Name="{loc:Loc Exam_ImageAlt}"/>
+  </DockPanel>
+</Window>

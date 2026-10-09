@@ -1,0 +1,194 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:loc="using:OpenExamSuite.Simulator.Localization"
+             xmlns:vm="using:OpenExamSuite.Simulator.ViewModels"
+             xmlns:views="using:OpenExamSuite.Simulator.Views"
+             x:Class="OpenExamSuite.Simulator.Views.ExamView"
+             Focusable="True">
+  <UserControl.Resources>
+    <!-- Option content: letter, wrapping text, and the result mark (icon + label) after Check answer. -->
+    <DataTemplate x:Key="OptionContent" DataType="vm:OptionItemViewModel">
+      <Grid ColumnDefinitions="Auto,*">
+        <TextBlock Text="{Binding LetterText}" FontWeight="SemiBold" MinWidth="30"/>
+        <StackPanel Grid.Column="1" Spacing="4">
+          <TextBlock Text="{Binding Text}" TextWrapping="Wrap"/>
+          <StackPanel Orientation="Horizontal" Spacing="6" IsVisible="{Binding HasMark}">
+            <PathIcon Data="{StaticResource IconCheck}" IsVisible="{Binding IsCorrectMark}" Foreground="{DynamicResource CorrectBrush}" Width="18" Height="18"/>
+            <PathIcon Data="{StaticResource IconClose}" IsVisible="{Binding IsWrongMark}" Foreground="{DynamicResource WrongBrush}" Width="18" Height="18"/>
+            <PathIcon Data="{StaticResource IconDot}" IsVisible="{Binding IsNeutralMark}" Width="18" Height="18"/>
+            <TextBlock Text="{Binding MarkLabel}" FontWeight="SemiBold"/>
+          </StackPanel>
+        </StackPanel>
+      </Grid>
+    </DataTemplate>
+  </UserControl.Resources>
+
+  <Grid RowDefinitions="Auto,Auto,*,Auto">
+
+    <!-- Top bar: section, position, progress, countdown, pause. -->
+    <Border Grid.Row="0" Classes="bar">
+      <WrapPanel>
+        <Border Classes="chip" Margin="0,0,12,6" VerticalAlignment="Center" IsVisible="{Binding SectionName, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+          <TextBlock Text="{Binding SectionName}"/>
+        </Border>
+        <TextBlock Text="{Binding QuestionNumberText}" Classes="heading" VerticalAlignment="Center" Margin="0,0,24,6"/>
+        <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,0,24,6" VerticalAlignment="Center">
+          <TextBlock Text="{Binding AnsweredText}" VerticalAlignment="Center"/>
+          <ProgressBar Width="120" Minimum="0" Maximum="100" Value="{Binding ProgressPercent}" VerticalAlignment="Center"
+                       AutomationProperties.Name="{Binding AnsweredText}"/>
+        </StackPanel>
+        <Border Classes="timer" Classes.low="{Binding IsLowTime}" Classes.critical="{Binding IsCriticalTime}"
+                IsVisible="{Binding ShowTimer}" Margin="0,0,12,6" VerticalAlignment="Center">
+          <StackPanel Orientation="Horizontal" Spacing="8">
+            <PathIcon Data="{StaticResource IconClock}"/>
+            <TextBlock Text="{Binding TimerText}" Classes="mono" FontSize="20" FontWeight="SemiBold" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding TimerStateText}" FontWeight="SemiBold" VerticalAlignment="Center"/>
+          </StackPanel>
+        </Border>
+        <Button Theme="{StaticResource SecondaryButton}" Command="{Binding PauseCommand}" Margin="0,0,8,6"
+                IsVisible="{Binding ShowTimer}" IsEnabled="{Binding !IsPaused}" ToolTip.Tip="{loc:Loc Exam_PauseTip}">
+          <StackPanel Orientation="Horizontal" Spacing="8">
+            <PathIcon Data="{StaticResource IconPause}"/>
+            <TextBlock Text="{loc:Loc Exam_Pause}"/>
+          </StackPanel>
+        </Button>
+        <Button Theme="{StaticResource QuietButton}" Command="{Binding AbandonCommand}" Margin="0,0,0,6"
+                Content="{loc:Loc Exam_Abandon}"/>
+      </WrapPanel>
+    </Border>
+
+    <!-- Time warnings: visible banner plus an assertive live region. -->
+    <Border Grid.Row="1" Classes="banner" Classes.warn="{Binding !WarningIsCritical}" Classes.critical="{Binding WarningIsCritical}"
+            IsVisible="{Binding ShowWarning}" Margin="16,10,16,0">
+      <StackPanel Orientation="Horizontal" Spacing="10">
+        <PathIcon Data="{StaticResource IconWarning}"/>
+        <TextBlock Text="{Binding WarningText}" FontWeight="SemiBold" VerticalAlignment="Center"/>
+      </StackPanel>
+    </Border>
+
+    <Grid Grid.Row="2" ColumnDefinitions="*,Auto">
+      <Panel Grid.Column="0">
+        <!-- The question area is removed while paused, so it cannot be read. -->
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled" IsVisible="{Binding !IsPaused}">
+          <StackPanel MaxWidth="900" Margin="24,20,24,24" Spacing="14" HorizontalAlignment="Stretch">
+            <TextBlock Text="{Binding QuestionText}" FontSize="19" LineHeight="28"/>
+
+            <Button Theme="{StaticResource QuietButton}" Command="{Binding EnlargeImageCommand}" IsVisible="{Binding HasImage}"
+                    HorizontalAlignment="Left" Padding="0" AutomationProperties.Name="{loc:Loc Exam_EnlargeImage}"
+                    ToolTip.Tip="{loc:Loc Exam_EnlargeImage}">
+              <Image Source="{Binding Image}" MaxHeight="320" Stretch="Uniform" HorizontalAlignment="Left"/>
+            </Button>
+
+            <TextBlock Text="{Binding Hint}" Classes="caption"/>
+
+            <ItemsControl ItemsSource="{Binding Options}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="vm:OptionItemViewModel">
+                  <Panel>
+                    <RadioButton Theme="{StaticResource OptionRowRadio}" GroupName="options"
+                                 IsVisible="{Binding !IsMultiple}" IsChecked="{Binding IsSelected, Mode=TwoWay}"
+                                 Content="{Binding}" ContentTemplate="{StaticResource OptionContent}"
+                                 Classes.correct="{Binding IsCorrectMark}" Classes.wrong="{Binding IsWrongMark}"
+                                 AutomationProperties.Name="{Binding AutomationName}"/>
+                    <CheckBox Theme="{StaticResource OptionRowCheck}"
+                              IsVisible="{Binding IsMultiple}" IsChecked="{Binding IsSelected, Mode=TwoWay}"
+                              Content="{Binding}" ContentTemplate="{StaticResource OptionContent}"
+                              Classes.correct="{Binding IsCorrectMark}" Classes.wrong="{Binding IsWrongMark}"
+                              AutomationProperties.Name="{Binding AutomationName}"/>
+                  </Panel>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <!-- Practice feedback: icon, label, and the explanation. Exam mode shows none. -->
+            <Border Classes="banner" Classes.correct="{Binding FeedbackIsCorrect}" Classes.critical="{Binding !FeedbackIsCorrect}"
+                    IsVisible="{Binding ShowFeedback}">
+              <StackPanel Orientation="Horizontal" Spacing="10">
+                <PathIcon Data="{StaticResource IconCheck}" IsVisible="{Binding FeedbackIsCorrect}"/>
+                <PathIcon Data="{StaticResource IconClose}" IsVisible="{Binding !FeedbackIsCorrect}"/>
+                <TextBlock Text="{Binding FeedbackText}" FontWeight="SemiBold" VerticalAlignment="Center"/>
+              </StackPanel>
+            </Border>
+            <Border Classes="card" IsVisible="{Binding ShowExplanation}">
+              <StackPanel Spacing="6">
+                <TextBlock Text="{loc:Loc Practice_Explanation}" Classes="heading"/>
+                <TextBlock Text="{Binding Explanation}"/>
+              </StackPanel>
+            </Border>
+
+            <TextBlock Text="{loc:Loc Exam_ShortcutsHint}" Classes="caption" Margin="0,10,0,0"/>
+          </StackPanel>
+        </ScrollViewer>
+
+        <!-- Pause cover. The timer is stopped. -->
+        <Border Classes="card" IsVisible="{Binding IsPaused}" HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="480" Padding="32">
+          <StackPanel Spacing="14" HorizontalAlignment="Center">
+            <PathIcon Data="{StaticResource IconPause}" Width="48" Height="48" Foreground="{DynamicResource AccentTextBrush}" HorizontalAlignment="Center"/>
+            <TextBlock Text="{loc:Loc Pause_Title}" Classes="title" HorizontalAlignment="Center"/>
+            <TextBlock Text="{loc:Loc Pause_Message}" Classes="muted" TextAlignment="Center"/>
+            <Button x:Name="ResumeButton" Theme="{StaticResource PrimaryButton}" Command="{Binding ResumeCommand}"
+                    HorizontalAlignment="Center" ToolTip.Tip="{loc:Loc Exam_ResumeTip}">
+              <StackPanel Orientation="Horizontal" Spacing="8">
+                <PathIcon Data="{StaticResource IconPlay}"/>
+                <TextBlock Text="{loc:Loc Pause_Resume}"/>
+              </StackPanel>
+            </Button>
+          </StackPanel>
+        </Border>
+
+        <!-- Narrow windows: the navigator opens as an overlay. -->
+        <Border IsVisible="{Binding ShowOverlayNavigator}" HorizontalAlignment="Right" Width="320"
+                Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource BorderStrongBrush}" BorderThickness="2,0,0,0">
+          <views:NavigatorPanel DataContext="{Binding Navigator}"/>
+        </Border>
+      </Panel>
+
+      <!-- Wide windows: the navigator sits on the right. -->
+      <Border Grid.Column="1" Width="300" IsVisible="{Binding ShowInlineNavigator}"
+              Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource DividerBrush}" BorderThickness="1,0,0,0">
+        <views:NavigatorPanel DataContext="{Binding Navigator}"/>
+      </Border>
+    </Grid>
+
+    <!-- Bottom bar: Previous, Next, Flag, Check answer, Review and submit. -->
+    <Border Grid.Row="3" Classes="bottombar">
+      <WrapPanel IsEnabled="{Binding !IsPaused}">
+        <Button Theme="{StaticResource SecondaryButton}" Command="{Binding PreviousCommand}" IsEnabled="{Binding CanGoPrevious}"
+                Margin="0,0,8,6" ToolTip.Tip="{loc:Loc Exam_PreviousTip}">
+          <StackPanel Orientation="Horizontal" Spacing="6">
+            <PathIcon Data="{StaticResource IconChevronLeft}"/>
+            <TextBlock Text="{loc:Loc Exam_Previous}"/>
+          </StackPanel>
+        </Button>
+        <Button Theme="{StaticResource PrimaryButton}" Command="{Binding NextCommand}" IsEnabled="{Binding CanGoNext}"
+                Margin="0,0,8,6" ToolTip.Tip="{loc:Loc Exam_NextTip}">
+          <StackPanel Orientation="Horizontal" Spacing="6">
+            <TextBlock Text="{loc:Loc Exam_Next}"/>
+            <PathIcon Data="{StaticResource IconChevronRight}"/>
+          </StackPanel>
+        </Button>
+        <Button Theme="{StaticResource SecondaryButton}" Command="{Binding ToggleFlagCommand}" Margin="0,0,8,6"
+                ToolTip.Tip="{loc:Loc Exam_FlagTip}">
+          <StackPanel Orientation="Horizontal" Spacing="6">
+            <PathIcon Data="{StaticResource IconFlag}" Foreground="{DynamicResource FlagBrush}"/>
+            <TextBlock Text="{Binding FlagText}"/>
+          </StackPanel>
+        </Button>
+        <Button Theme="{StaticResource PrimaryButton}" Command="{Binding CheckCommand}" IsEnabled="{Binding CanCheck}"
+                IsVisible="{Binding IsPractice}" Margin="0,0,8,6" Content="{loc:Loc Practice_Check}"/>
+        <Button Theme="{StaticResource QuietButton}" Command="{Binding ClearAnswerCommand}" IsEnabled="{Binding CanClear}"
+                Margin="0,0,8,6" Content="{loc:Loc Exam_Clear}"/>
+        <Button Theme="{StaticResource SecondaryButton}" Command="{Binding ToggleNavigatorCommand}" IsVisible="{Binding ShowNavigatorToggle}"
+                Margin="0,0,8,6" Content="{loc:Loc Exam_Questions}"/>
+        <Button Theme="{StaticResource SecondaryButton}" Command="{Binding ReviewCommand}" Margin="0,0,0,6"
+                ToolTip.Tip="{loc:Loc Exam_ReviewTip}" Content="{loc:Loc Exam_Review}"/>
+      </WrapPanel>
+    </Border>
+
+    <!-- Live regions for assistive technology: question changes, check results, time warnings. -->
+    <TextBlock Grid.Row="2" Text="{Binding Announcement}" Width="1" Height="1" Opacity="0" IsHitTestVisible="False"
+               HorizontalAlignment="Left" VerticalAlignment="Top" AutomationProperties.LiveSetting="Polite"/>
+    <TextBlock Grid.Row="2" Text="{Binding UrgentAnnouncement}" Width="1" Height="1" Opacity="0" IsHitTestVisible="False"
+               HorizontalAlignment="Left" VerticalAlignment="Top" AutomationProperties.LiveSetting="Assertive"/>
+  </Grid>
+</UserControl>

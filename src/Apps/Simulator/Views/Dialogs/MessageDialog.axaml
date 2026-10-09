@@ -1,0 +1,13 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="OpenExamSuite.Simulator.Views.Dialogs.MessageDialog"
+        Width="520" MinWidth="360" SizeToContent="Height" CanResize="False"
+        WindowStartupLocation="CenterOwner" ShowInTaskbar="False">
+  <Border Padding="24">
+    <StackPanel Spacing="16">
+      <TextBlock x:Name="TitleText" Classes="heading"/>
+      <TextBlock x:Name="MessageText"/>
+      <WrapPanel x:Name="ButtonPanel" HorizontalAlignment="Right"/>
+    </StackPanel>
+  </Border>
+</Window>

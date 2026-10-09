@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="Abandon_Confirm" xml:space="preserve"><value>Abandon</value></data>
+  <data name="Abandon_Keep" xml:space="preserve"><value>Keep going</value></data>
+  <data name="Abandon_Message" xml:space="preserve"><value>Your answers are not saved and no result is recorded.</value></data>
+  <data name="Abandon_Title" xml:space="preserve"><value>Abandon this exam?</value></data>
+  <data name="About_Description" xml:space="preserve"><value>Take practice tests and timed exams from .oef exam files.</value></data>
+  <data name="About_Issues" xml:space="preserve"><value>Report an issue</value></data>
+  <data name="About_Title" xml:space="preserve"><value>About Simulator</value></data>
+  <data name="About_Version" xml:space="preserve"><value>Version {0}</value></data>
+  <data name="About_Web" xml:space="preserve"><value>Website</value></data>
+  <data name="About_Wiki" xml:space="preserve"><value>Documentation</value></data>
+  <data name="Attempt_NoDetail" xml:space="preserve"><value>Only the summary of past attempts is kept. Answers are not stored.</value></data>
+  <data name="Attempt_Score" xml:space="preserve"><value>Score: {0}% ({1} / 1000)</value></data>
+  <data name="Attempt_TimeUsed" xml:space="preserve"><value>Time used: {0}</value></data>
+  <data name="Attempt_Title" xml:space="preserve"><value>Attempt</value></data>
+  <data name="ClearHistory_Confirm" xml:space="preserve"><value>Clear history</value></data>
+  <data name="ClearHistory_Done" xml:space="preserve"><value>Attempt history cleared.</value></data>
+  <data name="ClearHistory_Message" xml:space="preserve"><value>Every saved attempt and score will be removed. Your exams stay in the library.</value></data>
+  <data name="ClearHistory_Title" xml:space="preserve"><value>Clear attempt history?</value></data>
+  <data name="Common_Minutes_One" xml:space="preserve"><value>{0} minute</value></data>
+  <data name="Common_Minutes_Other" xml:space="preserve"><value>{0} minutes</value></data>
+  <data name="Common_Next" xml:space="preserve"><value>Next</value></data>
+  <data name="Common_No" xml:space="preserve"><value>No</value></data>
+  <data name="Common_Previous" xml:space="preserve"><value>Previous</value></data>
+  <data name="Common_Questions_One" xml:space="preserve"><value>{0} question</value></data>
+  <data name="Common_Questions_Other" xml:space="preserve"><value>{0} questions</value></data>
+  <data name="Common_Sections_One" xml:space="preserve"><value>{0} section</value></data>
+  <data name="Common_Sections_Other" xml:space="preserve"><value>{0} sections</value></data>
+  <data name="Common_Untimed" xml:space="preserve"><value>Untimed</value></data>
+  <data name="Common_Yes" xml:space="preserve"><value>Yes</value></data>
+  <data name="Dialog_Cancel" xml:space="preserve"><value>Cancel</value></data>
+  <data name="Dialog_Close" xml:space="preserve"><value>Close</value></data>
+  <data name="Dialog_DocumentMissing" xml:space="preserve"><value>This document could not be found.</value></data>
+  <data name="Dialog_Ok" xml:space="preserve"><value>OK</value></data>
+  <data name="Error_FileCorrupt" xml:space="preserve"><value>The file is damaged or is not an Open Exam Suite exam.</value></data>
+  <data name="Error_FileMissing" xml:space="preserve"><value>The file could not be found. It may have been moved or deleted.</value></data>
+  <data name="Error_JsonInvalid" xml:space="preserve"><value>The JSON file is empty or not a valid exam.</value></data>
+  <data name="Error_OpenTitle" xml:space="preserve"><value>This exam could not be opened</value></data>
+  <data name="Error_UnexpectedMessage" xml:space="preserve"><value>The action could not be completed. Your library and saved attempts are not affected.</value></data>
+  <data name="Error_UnexpectedTitle" xml:space="preserve"><value>Something went wrong</value></data>
+  <data name="Error_Unsupported" xml:space="preserve"><value>Only .oef, .json and .xml exam files can be added.</value></data>
+  <data name="Error_WriteFailed" xml:space="preserve"><value>The exam could not be saved. Check that the folder is writable and try again.</value></data>
+  <data name="Error_XmlInvalid" xml:space="preserve"><value>The XML file is empty or not a valid exam.</value></data>
+  <data name="Exam_Abandon" xml:space="preserve"><value>Abandon</value></data>
+  <data name="Exam_AnsweredOf" xml:space="preserve"><value>{0} of {1} answered</value></data>
+  <data name="Exam_Clear" xml:space="preserve"><value>Clear answer</value></data>
+  <data name="Exam_EnlargeImage" xml:space="preserve"><value>Enlarge image</value></data>
+  <data name="Exam_Flag" xml:space="preserve"><value>Flag for review</value></data>
+  <data name="Exam_FlagTip" xml:space="preserve"><value>Flag or unflag this question (F)</value></data>
+  <data name="Exam_ImageAlt" xml:space="preserve"><value>Question image</value></data>
+  <data name="Exam_ImageTitle" xml:space="preserve"><value>Question image</value></data>
+  <data name="Exam_Next" xml:space="preserve"><value>Next</value></data>
+  <data name="Exam_NextTip" xml:space="preserve"><value>Next question (Right arrow, Enter)</value></data>
+  <data name="Exam_Pause" xml:space="preserve"><value>Pause</value></data>
+  <data name="Exam_PauseTip" xml:space="preserve"><value>Pause the exam (P)</value></data>
+  <data name="Exam_Previous" xml:space="preserve"><value>Previous</value></data>
+  <data name="Exam_PreviousTip" xml:space="preserve"><value>Previous question (Left arrow)</value></data>
+  <data name="Exam_QuestionOf" xml:space="preserve"><value>Question {0} of {1}</value></data>
+  <data name="Exam_Questions" xml:space="preserve"><value>Questions</value></data>
+  <data name="Exam_ResumeTip" xml:space="preserve"><value>Resume the exam</value></data>
+  <data name="Exam_Review" xml:space="preserve"><value>Review and submit</value></data>
+  <data name="Exam_ReviewTip" xml:space="preserve"><value>Review and submit (Ctrl+Enter)</value></data>
+  <data name="Exam_SelectAll" xml:space="preserve"><value>Select all that apply</value></data>
+  <data name="Exam_SelectN" xml:space="preserve"><value>Select {0}</value></data>
+  <data name="Exam_SelectOne" xml:space="preserve"><value>Select one answer</value></data>
+  <data name="Exam_ShortcutsHint" xml:space="preserve"><value>Keys: A–Z select an answer, Left and Right move, F flag, P pause, Enter next, Ctrl+Enter review.</value></data>
+  <data name="Exam_Unflag" xml:space="preserve"><value>Remove flag</value></data>
+  <data name="Library_AddExam" xml:space="preserve"><value>Add exam</value></data>
+  <data name="Library_AddTitle" xml:space="preserve"><value>Add an exam</value></data>
+  <data name="Library_Added" xml:space="preserve"><value>Added {0}</value></data>
+  <data name="Library_AlreadyAdded" xml:space="preserve"><value>This exam is already in the library.</value></data>
+  <data name="Library_AttemptScore" xml:space="preserve"><value>{0}% ({1} / 1000)</value></data>
+  <data name="Library_ClearSearch" xml:space="preserve"><value>Clear search</value></data>
+  <data name="Library_Corrupt" xml:space="preserve"><value>Cannot be read</value></data>
+  <data name="Library_CorruptHint" xml:space="preserve"><value>The file is damaged. Remove it or replace the file.</value></data>
+  <data name="Library_CreatorFailed" xml:space="preserve"><value>Creator could not be started.</value></data>
+  <data name="Library_DropHint" xml:space="preserve"><value>Drop exam files to add them</value></data>
+  <data name="Library_Duplicate" xml:space="preserve"><value>Duplicate</value></data>
+  <data name="Library_Duplicated" xml:space="preserve"><value>Duplicated {0}</value></data>
+  <data name="Library_Edit" xml:space="preserve"><value>Edit</value></data>
+  <data name="Library_EmptyMessage" xml:space="preserve"><value>Drop an .oef file here, add one from your computer, or create a new exam.</value></data>
+  <data name="Library_EmptyTitle" xml:space="preserve"><value>Add or create your first exam</value></data>
+  <data name="Library_Exam" xml:space="preserve"><value>Exam</value></data>
+  <data name="Library_FileFilter" xml:space="preserve"><value>Exam files</value></data>
+  <data name="Library_Filter" xml:space="preserve"><value>Filter</value></data>
+  <data name="Library_Filter_All" xml:space="preserve"><value>All exams</value></data>
+  <data name="Library_Filter_NeedsAttention" xml:space="preserve"><value>Needs attention</value></data>
+  <data name="Library_Filter_NotAttempted" xml:space="preserve"><value>Not attempted</value></data>
+  <data name="Library_Filter_NotPassed" xml:space="preserve"><value>Not passed</value></data>
+  <data name="Library_Filter_Passed" xml:space="preserve"><value>Passed</value></data>
+  <data name="Library_FolderFailed" xml:space="preserve"><value>The folder could not be opened.</value></data>
+  <data name="Library_GridView" xml:space="preserve"><value>Grid view</value></data>
+  <data name="Library_LastAttempt" xml:space="preserve"><value>Last attempt: {0}% on {1}</value></data>
+  <data name="Library_ListView" xml:space="preserve"><value>List view</value></data>
+  <data name="Library_Locate" xml:space="preserve"><value>Locate file…</value></data>
+  <data name="Library_LocateTitle" xml:space="preserve"><value>Locate the exam file</value></data>
+  <data name="Library_Missing" xml:space="preserve"><value>File missing</value></data>
+  <data name="Library_MissingHint" xml:space="preserve"><value>The file was moved or deleted. Locate it again or remove this exam.</value></data>
+  <data name="Library_MoreActions" xml:space="preserve"><value>More actions</value></data>
+  <data name="Library_NewExam" xml:space="preserve"><value>New exam</value></data>
+  <data name="Library_NoMatches" xml:space="preserve"><value>No exams match your search or filter.</value></data>
+  <data name="Library_NotAttempted" xml:space="preserve"><value>Not attempted yet</value></data>
+  <data name="Library_PassMark" xml:space="preserve"><value>Pass mark {0}</value></data>
+  <data name="Library_Practice" xml:space="preserve"><value>Practice</value></data>
+  <data name="Library_Properties" xml:space="preserve"><value>Properties</value></data>
+  <data name="Library_RecentAttempts" xml:space="preserve"><value>Recent attempts</value></data>
+  <data name="Library_Relocated" xml:space="preserve"><value>Exam file updated.</value></data>
+  <data name="Library_Remove" xml:space="preserve"><value>Remove from library</value></data>
+  <data name="Library_Removed" xml:space="preserve"><value>Removed {0}</value></data>
+  <data name="Library_Search" xml:space="preserve"><value>Search exams</value></data>
+  <data name="Library_ShowInFolder" xml:space="preserve"><value>Show in folder</value></data>
+  <data name="Library_Sort" xml:space="preserve"><value>Sort</value></data>
+  <data name="Library_Sort_LastScore" xml:space="preserve"><value>Last score</value></data>
+  <data name="Library_Sort_Name" xml:space="preserve"><value>Name</value></data>
+  <data name="Library_Sort_Recent" xml:space="preserve"><value>Recently used</value></data>
+  <data name="Library_Title" xml:space="preserve"><value>Library</value></data>
+  <data name="Library_Untitled" xml:space="preserve"><value>Untitled exam</value></data>
+  <data name="Menu_About" xml:space="preserve"><value>_About</value></data>
+  <data name="Menu_AddExam" xml:space="preserve"><value>_Add exam…</value></data>
+  <data name="Menu_Changelog" xml:space="preserve"><value>_Changelog</value></data>
+  <data name="Menu_ClearHistory" xml:space="preserve"><value>Clear attempt _history…</value></data>
+  <data name="Menu_Edit" xml:space="preserve"><value>_Edit</value></data>
+  <data name="Menu_Exit" xml:space="preserve"><value>E_xit</value></data>
+  <data name="Menu_File" xml:space="preserve"><value>_File</value></data>
+  <data name="Menu_Help" xml:space="preserve"><value>_Help</value></data>
+  <data name="Menu_License" xml:space="preserve"><value>_License</value></data>
+  <data name="Menu_NewExam" xml:space="preserve"><value>_New exam</value></data>
+  <data name="Menu_Theme" xml:space="preserve"><value>_Theme</value></data>
+  <data name="Nav_Answered" xml:space="preserve"><value>Answered</value></data>
+  <data name="Nav_Current" xml:space="preserve"><value>Current question</value></data>
+  <data name="Nav_Flagged" xml:space="preserve"><value>Flagged</value></data>
+  <data name="Nav_Question" xml:space="preserve"><value>Question {0}</value></data>
+  <data name="Nav_Title" xml:space="preserve"><value>Questions</value></data>
+  <data name="Nav_Unanswered" xml:space="preserve"><value>Not answered</value></data>
+  <data name="Open_Busy" xml:space="preserve"><value>Finish or abandon the current attempt before opening another exam.</value></data>
+  <data name="Option_CorrectAnswer" xml:space="preserve"><value>Correct answer</value></data>
+  <data name="Option_Selected" xml:space="preserve"><value>selected</value></data>
+  <data name="Option_YourAnswer" xml:space="preserve"><value>Your answer</value></data>
+  <data name="Option_YourAnswerCorrect" xml:space="preserve"><value>Your answer, correct</value></data>
+  <data name="Option_YourAnswerWrong" xml:space="preserve"><value>Your answer, incorrect</value></data>
+  <data name="Pause_Message" xml:space="preserve"><value>The timer is stopped and the question is hidden.</value></data>
+  <data name="Pause_Resume" xml:space="preserve"><value>Resume</value></data>
+  <data name="Pause_Title" xml:space="preserve"><value>Paused</value></data>
+  <data name="Practice_Check" xml:space="preserve"><value>Check answer</value></data>
+  <data name="Practice_Correct" xml:space="preserve"><value>Correct.</value></data>
+  <data name="Practice_Explanation" xml:space="preserve"><value>Explanation</value></data>
+  <data name="Practice_Incorrect" xml:space="preserve"><value>Not quite. Correct answer: {0}</value></data>
+  <data name="PreExam_AllQuestions" xml:space="preserve"><value>All questions</value></data>
+  <data name="PreExam_Candidate" xml:space="preserve"><value>Candidate name</value></data>
+  <data name="PreExam_ClearAll" xml:space="preserve"><value>Clear all</value></data>
+  <data name="PreExam_DefaultTime" xml:space="preserve"><value>Exam default: {0}</value></data>
+  <data name="PreExam_Exam" xml:space="preserve"><value>Exam</value></data>
+  <data name="PreExam_ExamHelp" xml:space="preserve"><value>Timed. Results and answers appear only after you submit.</value></data>
+  <data name="PreExam_Instructions" xml:space="preserve"><value>Instructions</value></data>
+  <data name="PreExam_MissedSet_One" xml:space="preserve"><value>Practicing the {0} question you missed.</value></data>
+  <data name="PreExam_MissedSet_Other" xml:space="preserve"><value>Practicing the {0} questions you missed.</value></data>
+  <data name="PreExam_Mode" xml:space="preserve"><value>Mode</value></data>
+  <data name="PreExam_NeedTimeLimit" xml:space="preserve"><value>This exam has no time limit. Set minutes to start in Exam mode.</value></data>
+  <data name="PreExam_NoDefaultTime" xml:space="preserve"><value>This exam has no time limit.</value></data>
+  <data name="PreExam_NoRandom" xml:space="preserve"><value>Enter a number of random questions greater than zero.</value></data>
+  <data name="PreExam_NoSections" xml:space="preserve"><value>Select at least one section.</value></data>
+  <data name="PreExam_Options" xml:space="preserve"><value>Options</value></data>
+  <data name="PreExam_Practice" xml:space="preserve"><value>Practice</value></data>
+  <data name="PreExam_PracticeHelp" xml:space="preserve"><value>Untimed, with Check answer and explanations as you go.</value></data>
+  <data name="PreExam_PracticeHidden" xml:space="preserve"><value>The author has hidden answers for this exam. Practice mode is unavailable.</value></data>
+  <data name="PreExam_Questions" xml:space="preserve"><value>Questions</value></data>
+  <data name="PreExam_Random" xml:space="preserve"><value>Random questions</value></data>
+  <data name="PreExam_RandomCount" xml:space="preserve"><value>How many</value></data>
+  <data name="PreExam_SelectAll" xml:space="preserve"><value>Select all</value></data>
+  <data name="PreExam_SelectedSections" xml:space="preserve"><value>Selected sections</value></data>
+  <data name="PreExam_ShuffleOptions" xml:space="preserve"><value>Shuffle answer order</value></data>
+  <data name="PreExam_ShuffleQuestions" xml:space="preserve"><value>Shuffle question order</value></data>
+  <data name="PreExam_StartExam" xml:space="preserve"><value>Start exam</value></data>
+  <data name="PreExam_StartPractice" xml:space="preserve"><value>Start practice</value></data>
+  <data name="PreExam_SummaryExam" xml:space="preserve"><value>{0}, {1}. Pass mark {2}.</value></data>
+  <data name="PreExam_SummaryPractice" xml:space="preserve"><value>{0}, untimed.</value></data>
+  <data name="PreExam_Timer" xml:space="preserve"><value>Time limit</value></data>
+  <data name="PreExam_TimerOverride" xml:space="preserve"><value>Minutes</value></data>
+  <data name="PreExam_ZeroQuestions" xml:space="preserve"><value>No questions are selected, so you cannot start yet.</value></data>
+  <data name="Properties_Code" xml:space="preserve"><value>Code</value></data>
+  <data name="Properties_File" xml:space="preserve"><value>File</value></data>
+  <data name="Properties_HideAnswers" xml:space="preserve"><value>Answers hidden</value></data>
+  <data name="Properties_LegacyNotice" xml:space="preserve"><value>This is an older file format. It will be upgraded the next time it is saved in Creator.</value></data>
+  <data name="Properties_Modified" xml:space="preserve"><value>Modified</value></data>
+  <data name="Properties_PassMark" xml:space="preserve"><value>Pass mark</value></data>
+  <data name="Properties_Questions" xml:space="preserve"><value>Questions</value></data>
+  <data name="Properties_Sections" xml:space="preserve"><value>Sections</value></data>
+  <data name="Properties_Size" xml:space="preserve"><value>Size</value></data>
+  <data name="Properties_TimeLimit" xml:space="preserve"><value>Time limit</value></data>
+  <data name="Properties_Title" xml:space="preserve"><value>Exam properties</value></data>
+  <data name="Properties_Version" xml:space="preserve"><value>File version</value></data>
+  <data name="Report_Candidate" xml:space="preserve"><value>Candidate</value></data>
+  <data name="Report_Code" xml:space="preserve"><value>Code</value></data>
+  <data name="Report_Date" xml:space="preserve"><value>Date</value></data>
+  <data name="Report_Exam" xml:space="preserve"><value>Exam</value></data>
+  <data name="Report_PassMark" xml:space="preserve"><value>Pass mark</value></data>
+  <data name="Report_Questions" xml:space="preserve"><value>Questions</value></data>
+  <data name="Report_Result" xml:space="preserve"><value>Result</value></data>
+  <data name="Report_Score" xml:space="preserve"><value>Score</value></data>
+  <data name="Report_Sections" xml:space="preserve"><value>Sections</value></data>
+  <data name="Report_TimeUsed" xml:space="preserve"><value>Time used</value></data>
+  <data name="Report_Title" xml:space="preserve"><value>Exam results</value></data>
+  <data name="Result_NotPassed" xml:space="preserve"><value>Not passed</value></data>
+  <data name="Result_Passed" xml:space="preserve"><value>Passed</value></data>
+  <data name="Results_BackToLibrary" xml:space="preserve"><value>Back to library</value></data>
+  <data name="Results_BarAutomation" xml:space="preserve"><value>Score {0}, pass mark {1}, {2}</value></data>
+  <data name="Results_Candidate" xml:space="preserve"><value>Candidate</value></data>
+  <data name="Results_Correct" xml:space="preserve"><value>Correct answers</value></data>
+  <data name="Results_CorrectOf" xml:space="preserve"><value>{0} of {1}</value></data>
+  <data name="Results_Date" xml:space="preserve"><value>Completed</value></data>
+  <data name="Results_Exam" xml:space="preserve"><value>Exam</value></data>
+  <data name="Results_ExportPdf" xml:space="preserve"><value>Export PDF</value></data>
+  <data name="Results_ExportTitle" xml:space="preserve"><value>Export results</value></data>
+  <data name="Results_Exported" xml:space="preserve"><value>Results exported.</value></data>
+  <data name="Results_NoCandidate" xml:space="preserve"><value>Not entered</value></data>
+  <data name="Results_PassMark" xml:space="preserve"><value>Pass mark {0} ({1} / 1000)</value></data>
+  <data name="Results_PdfFilter" xml:space="preserve"><value>PDF document</value></data>
+  <data name="Results_Previous" xml:space="preserve"><value>Previous attempt: {0}% ({1} / 1000) on {2}</value></data>
+  <data name="Results_Print" xml:space="preserve"><value>Print</value></data>
+  <data name="Results_Retake" xml:space="preserve"><value>Retake</value></data>
+  <data name="Results_ReviewAnswers" xml:space="preserve"><value>Review answers</value></data>
+  <data name="Results_Saved" xml:space="preserve"><value>This attempt has been saved to your history.</value></data>
+  <data name="Results_Scaled" xml:space="preserve"><value>{0} / 1000</value></data>
+  <data name="Results_SectionScore" xml:space="preserve"><value>{0} of {1} correct ({2})</value></data>
+  <data name="Results_Sections" xml:space="preserve"><value>By section</value></data>
+  <data name="Results_Time" xml:space="preserve"><value>Time used</value></data>
+  <data name="Results_TimeOf" xml:space="preserve"><value>{0} of {1}</value></data>
+  <data name="Results_Weakest" xml:space="preserve"><value>Weakest section</value></data>
+  <data name="Review_AllAnswered" xml:space="preserve"><value>Every question has an answer.</value></data>
+  <data name="Review_Back" xml:space="preserve"><value>Back to exam</value></data>
+  <data name="Review_BackToResults" xml:space="preserve"><value>Back to results</value></data>
+  <data name="Review_ConfirmMessage_One" xml:space="preserve"><value>You have {0} unanswered question. Submit anyway?</value></data>
+  <data name="Review_ConfirmMessage_Other" xml:space="preserve"><value>You have {0} unanswered questions. Submit anyway?</value></data>
+  <data name="Review_ConfirmTitle" xml:space="preserve"><value>Submit your exam?</value></data>
+  <data name="Review_Correct" xml:space="preserve"><value>Correct</value></data>
+  <data name="Review_Explanation" xml:space="preserve"><value>Explanation</value></data>
+  <data name="Review_FilterGroup" xml:space="preserve"><value>Filter answers</value></data>
+  <data name="Review_FilterLabel" xml:space="preserve"><value>{0} ({1})</value></data>
+  <data name="Review_Filter_All" xml:space="preserve"><value>All</value></data>
+  <data name="Review_Filter_Correct" xml:space="preserve"><value>Correct</value></data>
+  <data name="Review_Filter_Flagged" xml:space="preserve"><value>Flagged</value></data>
+  <data name="Review_Filter_Unanswered" xml:space="preserve"><value>Unanswered</value></data>
+  <data name="Review_Filter_Wrong" xml:space="preserve"><value>Wrong</value></data>
+  <data name="Review_FlaggedHeading" xml:space="preserve"><value>Flagged</value></data>
+  <data name="Review_GoBack" xml:space="preserve"><value>Go back</value></data>
+  <data name="Review_GoToQuestion" xml:space="preserve"><value>Go to question {0}</value></data>
+  <data name="Review_Hidden" xml:space="preserve"><value>The author has hidden the correct answers and explanations for this exam.</value></data>
+  <data name="Review_ListItem" xml:space="preserve"><value>Question {0}</value></data>
+  <data name="Review_ListName" xml:space="preserve"><value>Questions</value></data>
+  <data name="Review_NoMatches" xml:space="preserve"><value>No questions match this filter.</value></data>
+  <data name="Review_Position" xml:space="preserve"><value>{0} of {1}</value></data>
+  <data name="Review_PracticeAgain" xml:space="preserve"><value>Practice these again</value></data>
+  <data name="Review_Submit" xml:space="preserve"><value>Submit exam</value></data>
+  <data name="Review_SubmitAnyway" xml:space="preserve"><value>Submit anyway</value></data>
+  <data name="Review_TimeUp" xml:space="preserve"><value>Submitting in {0} s</value></data>
+  <data name="Review_TimeUpAnnounce" xml:space="preserve"><value>Time is up. Submitting shortly.</value></data>
+  <data name="Review_TimeUpTitle" xml:space="preserve"><value>Time is up</value></data>
+  <data name="Review_Title" xml:space="preserve"><value>Review and submit</value></data>
+  <data name="Review_Unanswered" xml:space="preserve"><value>Unanswered</value></data>
+  <data name="Review_UnansweredHeading" xml:space="preserve"><value>Not answered</value></data>
+  <data name="Review_Wrong" xml:space="preserve"><value>Wrong</value></data>
+  <data name="Screen_AnswerReview" xml:space="preserve"><value>Answer review</value></data>
+  <data name="Screen_Exam" xml:space="preserve"><value>Exam</value></data>
+  <data name="Screen_Library" xml:space="preserve"><value>Library</value></data>
+  <data name="Screen_Practice" xml:space="preserve"><value>Practice</value></data>
+  <data name="Screen_Results" xml:space="preserve"><value>Results</value></data>
+  <data name="Screen_Review" xml:space="preserve"><value>Review and submit</value></data>
+  <data name="Screen_Setup" xml:space="preserve"><value>Before you start</value></data>
+  <data name="Theme_Dark" xml:space="preserve"><value>Dark</value></data>
+  <data name="Theme_Light" xml:space="preserve"><value>Light</value></data>
+  <data name="Theme_System" xml:space="preserve"><value>Follow system</value></data>
+  <data name="Theme_Toggle" xml:space="preserve"><value>Change theme</value></data>
+  <data name="Timer_Critical" xml:space="preserve"><value>Almost out</value></data>
+  <data name="Timer_FiveMinutes" xml:space="preserve"><value>5 minutes remaining.</value></data>
+  <data name="Timer_Low" xml:space="preserve"><value>Low</value></data>
+  <data name="Timer_OneMinute" xml:space="preserve"><value>1 minute remaining.</value></data>
+  <data name="Welcome_Dismiss" xml:space="preserve"><value>Got it</value></data>
+  <data name="Welcome_Message" xml:space="preserve"><value>We added a few sample exams so you can try Practice and Exam mode right away.</value></data>
+  <data name="Welcome_Title" xml:space="preserve"><value>Welcome to Simulator</value></data>
+</root>

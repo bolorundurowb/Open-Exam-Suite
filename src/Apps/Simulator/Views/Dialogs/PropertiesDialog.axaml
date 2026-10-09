@@ -1,0 +1,33 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:loc="using:OpenExamSuite.Simulator.Localization"
+        x:Class="OpenExamSuite.Simulator.Views.Dialogs.PropertiesDialog"
+        Width="600" SizeToContent="Height" CanResize="False"
+        WindowStartupLocation="CenterOwner" ShowInTaskbar="False">
+  <Border Padding="24">
+    <StackPanel Spacing="16">
+      <TextBlock x:Name="TitleText" Classes="heading"/>
+      <ItemsControl x:Name="Rows">
+        <ItemsControl.ItemTemplate>
+          <DataTemplate>
+            <Grid ColumnDefinitions="170,*" Margin="0,0,0,8">
+              <TextBlock Text="{Binding Label}" Classes="muted"/>
+              <TextBlock Grid.Column="1" Text="{Binding Value}"/>
+            </Grid>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+      <Border x:Name="LegacyNotice" Classes="banner info" IsVisible="False">
+        <StackPanel Orientation="Horizontal" Spacing="10">
+          <PathIcon Data="{StaticResource IconWarning}"/>
+          <TextBlock Text="{loc:Loc Properties_LegacyNotice}"/>
+        </StackPanel>
+      </Border>
+      <WrapPanel HorizontalAlignment="Right">
+        <Button x:Name="FolderButton" Theme="{StaticResource SecondaryButton}" Margin="0,0,8,0"
+                Content="{loc:Loc Library_ShowInFolder}"/>
+        <Button x:Name="CloseButton" Theme="{StaticResource PrimaryButton}" Content="{loc:Loc Dialog_Close}"/>
+      </WrapPanel>
+    </StackPanel>
+  </Border>
+</Window>

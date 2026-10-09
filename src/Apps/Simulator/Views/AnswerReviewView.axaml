@@ -1,0 +1,147 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:loc="using:OpenExamSuite.Simulator.Localization"
+             xmlns:vm="using:OpenExamSuite.Simulator.ViewModels"
+             x:Class="OpenExamSuite.Simulator.Views.AnswerReviewView">
+  <UserControl.Resources>
+    <DataTemplate x:Key="ReviewOption" DataType="vm:OptionItemViewModel">
+      <ContentControl Theme="{StaticResource ReviewRow}"
+                      Classes.picked="{Binding IsSelected}"
+                      Classes.correct="{Binding IsCorrectMark}"
+                      Classes.wrong="{Binding IsWrongMark}"
+                      AutomationProperties.Name="{Binding AutomationName}">
+        <Grid ColumnDefinitions="Auto,*">
+          <TextBlock Text="{Binding LetterText}" FontWeight="SemiBold" MinWidth="30"/>
+          <StackPanel Grid.Column="1" Spacing="4">
+            <TextBlock Text="{Binding Text}" TextWrapping="Wrap"/>
+            <StackPanel Orientation="Horizontal" Spacing="6" IsVisible="{Binding HasMark}">
+              <PathIcon Data="{StaticResource IconCheck}" IsVisible="{Binding IsCorrectMark}" Foreground="{DynamicResource CorrectBrush}" Width="18" Height="18"/>
+              <PathIcon Data="{StaticResource IconClose}" IsVisible="{Binding IsWrongMark}" Foreground="{DynamicResource WrongBrush}" Width="18" Height="18"/>
+              <PathIcon Data="{StaticResource IconDot}" IsVisible="{Binding IsNeutralMark}" Width="18" Height="18"/>
+              <TextBlock Text="{Binding MarkLabel}" FontWeight="SemiBold"/>
+            </StackPanel>
+          </StackPanel>
+        </Grid>
+      </ContentControl>
+    </DataTemplate>
+  </UserControl.Resources>
+
+  <Grid RowDefinitions="Auto,*,Auto">
+    <TextBlock Grid.Row="0" Text="{Binding Announcement}" Width="1" Height="1" Opacity="0" IsHitTestVisible="False"
+               HorizontalAlignment="Left" AutomationProperties.LiveSetting="Polite"/>
+
+    <!-- Filters -->
+    <Border Grid.Row="0" Classes="bar">
+      <ItemsControl ItemsSource="{Binding Filters}" AutomationProperties.Name="{loc:Loc Review_FilterGroup}">
+        <ItemsControl.ItemsPanel>
+          <ItemsPanelTemplate>
+            <WrapPanel/>
+          </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+        <ItemsControl.ItemTemplate>
+          <DataTemplate DataType="vm:ReviewFilterViewModel">
+            <Button Theme="{StaticResource ChipButton}" Classes.selected="{Binding IsSelected}"
+                    Command="{Binding $parent[ItemsControl].DataContext.SetFilterCommand}"
+                    CommandParameter="{Binding}" Content="{Binding Label}"/>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+    </Border>
+
+    <Grid Grid.Row="1" ColumnDefinitions="300,*">
+      <!-- Question list -->
+      <Border Grid.Column="0" BorderBrush="{DynamicResource DividerBrush}" BorderThickness="0,0,1,0">
+        <Grid>
+          <TextBlock Text="{loc:Loc Review_NoMatches}" IsVisible="{Binding IsEmpty}" Margin="16" TextWrapping="Wrap" Classes="muted"/>
+          <ListBox ItemsSource="{Binding Items}" SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}"
+                   IsVisible="{Binding !IsEmpty}" Background="Transparent"
+                   AutomationProperties.Name="{loc:Loc Review_ListName}">
+            <ListBox.ItemTemplate>
+              <DataTemplate DataType="vm:ReviewListItemViewModel">
+                <StackPanel Spacing="2" Margin="4,6" AutomationProperties.Name="{Binding AutomationName}">
+                  <StackPanel Orientation="Horizontal" Spacing="8">
+                    <PathIcon Data="{StaticResource IconCheck}" IsVisible="{Binding IsCorrect}" Foreground="{DynamicResource CorrectBrush}" Width="16" Height="16"/>
+                    <PathIcon Data="{StaticResource IconClose}" IsVisible="{Binding IsWrong}" Foreground="{DynamicResource WrongBrush}" Width="16" Height="16"/>
+                    <PathIcon Data="{StaticResource IconDot}" IsVisible="{Binding IsUnanswered}" Foreground="{DynamicResource MutedBrush}" Width="16" Height="16"/>
+                    <TextBlock Text="{Binding Title}" FontWeight="SemiBold"/>
+                    <TextBlock Text="{Binding OutcomeLabel}" Classes="caption"/>
+                    <PathIcon Data="{StaticResource IconFlag}" IsVisible="{Binding IsFlagged}" Foreground="{DynamicResource FlagBrush}" Width="14" Height="14"/>
+                  </StackPanel>
+                  <TextBlock Text="{Binding Preview}" Classes="muted" TextTrimming="CharacterEllipsis" MaxLines="2" TextWrapping="Wrap"/>
+                </StackPanel>
+              </DataTemplate>
+            </ListBox.ItemTemplate>
+          </ListBox>
+        </Grid>
+      </Border>
+
+      <!-- Detail -->
+      <ScrollViewer Grid.Column="1" HorizontalScrollBarVisibility="Disabled" IsVisible="{Binding HasCurrent}">
+        <StackPanel Margin="24,20,24,24" Spacing="16" MaxWidth="820" HorizontalAlignment="Stretch">
+          <WrapPanel>
+            <TextBlock Text="{Binding QuestionTitle}" Classes="heading" Margin="0,0,16,0" AutomationProperties.HeadingLevel="2"/>
+            <StackPanel Orientation="Horizontal" Spacing="6" Margin="0,0,16,0">
+              <PathIcon Data="{StaticResource IconCheck}" IsVisible="{Binding OutcomeCorrect}" Foreground="{DynamicResource CorrectBrush}"/>
+              <PathIcon Data="{StaticResource IconClose}" IsVisible="{Binding OutcomeWrong}" Foreground="{DynamicResource WrongBrush}"/>
+              <PathIcon Data="{StaticResource IconDot}" IsVisible="{Binding OutcomeUnanswered}" Foreground="{DynamicResource MutedBrush}"/>
+              <TextBlock Text="{Binding OutcomeLabel}" FontWeight="SemiBold"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Spacing="6" IsVisible="{Binding IsFlagged}">
+              <PathIcon Data="{StaticResource IconFlag}" Foreground="{DynamicResource FlagBrush}"/>
+              <TextBlock Text="{loc:Loc Nav_Flagged}"/>
+            </StackPanel>
+          </WrapPanel>
+
+          <TextBlock Text="{Binding QuestionText}" TextWrapping="Wrap" FontSize="18"/>
+
+          <Button Theme="{StaticResource QuietButton}" Command="{Binding EnlargeImageCommand}" IsVisible="{Binding HasImage}"
+                  HorizontalAlignment="Left" Padding="0" ToolTip.Tip="{loc:Loc Exam_EnlargeImage}"
+                  AutomationProperties.Name="{loc:Loc Exam_EnlargeImage}">
+            <Image Source="{Binding Image}" MaxHeight="260" Stretch="Uniform" HorizontalAlignment="Left"/>
+          </Button>
+
+          <ItemsControl ItemsSource="{Binding Options}" ItemTemplate="{StaticResource ReviewOption}"/>
+
+          <Border Classes="banner info" IsVisible="{Binding IsHidden}">
+            <StackPanel Orientation="Horizontal" Spacing="10">
+              <PathIcon Data="{StaticResource IconWarning}"/>
+              <TextBlock Text="{loc:Loc Review_Hidden}" TextWrapping="Wrap"/>
+            </StackPanel>
+          </Border>
+
+          <Border Classes="card" IsVisible="{Binding ShowExplanation}">
+            <StackPanel Spacing="6">
+              <TextBlock Text="{loc:Loc Review_Explanation}" Classes="heading"/>
+              <TextBlock Text="{Binding Explanation}" TextWrapping="Wrap"/>
+            </StackPanel>
+          </Border>
+        </StackPanel>
+      </ScrollViewer>
+    </Grid>
+
+    <!-- Bottom bar -->
+    <Border Grid.Row="2" Classes="bottombar">
+      <Grid ColumnDefinitions="Auto,Auto,Auto,*,Auto">
+        <Button Grid.Column="0" Theme="{StaticResource SecondaryButton}" Command="{Binding PreviousCommand}" IsEnabled="{Binding CanPrevious}" Margin="0,0,8,0">
+          <StackPanel Orientation="Horizontal" Spacing="8">
+            <PathIcon Data="{StaticResource IconChevronLeft}"/>
+            <TextBlock Text="{loc:Loc Common_Previous}"/>
+          </StackPanel>
+        </Button>
+        <Button Grid.Column="1" Theme="{StaticResource SecondaryButton}" Command="{Binding NextCommand}" IsEnabled="{Binding CanNext}" Margin="0,0,16,0">
+          <StackPanel Orientation="Horizontal" Spacing="8">
+            <TextBlock Text="{loc:Loc Common_Next}"/>
+            <PathIcon Data="{StaticResource IconChevronRight}"/>
+          </StackPanel>
+        </Button>
+        <TextBlock Grid.Column="2" Text="{Binding PositionText}" VerticalAlignment="Center" Classes="muted"/>
+        <WrapPanel Grid.Column="4" HorizontalAlignment="Right">
+          <Button Theme="{StaticResource PrimaryButton}" Command="{Binding PracticeAgainCommand}" IsVisible="{Binding CanPracticeAgain}" Margin="8,0,0,0" Content="{loc:Loc Review_PracticeAgain}"/>
+          <Button Theme="{StaticResource SecondaryButton}" Command="{Binding RetakeCommand}" Margin="8,0,0,0" Content="{loc:Loc Results_Retake}"/>
+          <Button Theme="{StaticResource SecondaryButton}" Command="{Binding BackToResultsCommand}" Margin="8,0,0,0" Content="{loc:Loc Review_BackToResults}"/>
+          <Button Theme="{StaticResource SecondaryButton}" Command="{Binding BackToLibraryCommand}" Margin="8,0,0,0" Content="{loc:Loc Results_BackToLibrary}"/>
+        </WrapPanel>
+      </Grid>
+    </Border>
+  </Grid>
+</UserControl>

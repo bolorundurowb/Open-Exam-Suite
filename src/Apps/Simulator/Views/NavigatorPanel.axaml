@@ -1,0 +1,66 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:loc="using:OpenExamSuite.Simulator.Localization"
+             xmlns:vm="using:OpenExamSuite.Simulator.ViewModels"
+             x:Class="OpenExamSuite.Simulator.Views.NavigatorPanel">
+  <!-- Question navigator grouped by section. DataContext is a NavigatorViewModel. -->
+  <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+    <StackPanel Spacing="14" Margin="16">
+      <TextBlock Text="{loc:Loc Nav_Title}" Classes="heading"/>
+
+      <!-- Legend: every state has a shape or glyph as well as colour. -->
+      <WrapPanel>
+        <StackPanel Orientation="Horizontal" Spacing="6" Margin="0,0,14,6">
+          <Border Width="18" Height="18" CornerRadius="4" BorderThickness="2" BorderBrush="{DynamicResource BorderStrongBrush}"/>
+          <TextBlock Text="{loc:Loc Nav_Unanswered}" Classes="caption"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Spacing="6" Margin="0,0,14,6">
+          <Border Width="18" Height="18" CornerRadius="4" BorderThickness="2" BorderBrush="{DynamicResource AccentBrush}" Background="{DynamicResource AccentSubtleBrush}">
+            <PathIcon Data="{StaticResource IconCheck}" Width="12" Height="12" Foreground="{DynamicResource AccentTextBrush}"/>
+          </Border>
+          <TextBlock Text="{loc:Loc Nav_Answered}" Classes="caption"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Spacing="6" Margin="0,0,14,6">
+          <PathIcon Data="{StaticResource IconFlag}" Width="18" Height="18" Foreground="{DynamicResource FlagBrush}"/>
+          <TextBlock Text="{loc:Loc Nav_Flagged}" Classes="caption"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Spacing="6" Margin="0,0,14,6">
+          <Border Width="18" Height="18" CornerRadius="4" Background="{DynamicResource AccentBrush}"/>
+          <TextBlock Text="{loc:Loc Nav_Current}" Classes="caption"/>
+        </StackPanel>
+      </WrapPanel>
+
+      <ItemsControl ItemsSource="{Binding Sections}">
+        <ItemsControl.ItemTemplate>
+          <DataTemplate DataType="vm:NavSectionViewModel">
+            <StackPanel Spacing="6" Margin="0,0,0,10">
+              <TextBlock Text="{Binding Title}" FontWeight="SemiBold"/>
+              <ItemsControl ItemsSource="{Binding Cells}">
+                <ItemsControl.ItemsPanel>
+                  <ItemsPanelTemplate>
+                    <WrapPanel/>
+                  </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate DataType="vm:NavCellViewModel">
+                    <Button Theme="{StaticResource NavCell}" Command="{Binding JumpCommand}"
+                            Classes.answered="{Binding IsAnswered}" Classes.flagged="{Binding IsFlagged}" Classes.current="{Binding IsCurrent}"
+                            AutomationProperties.Name="{Binding AutomationName}">
+                      <Grid Width="40" Height="40">
+                        <TextBlock Text="{Binding Number}" HorizontalAlignment="Center" VerticalAlignment="Center" Classes="mono"/>
+                        <PathIcon Data="{StaticResource IconFlag}" IsVisible="{Binding IsFlagged}" Width="12" Height="12"
+                                  HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,2,2,0"/>
+                        <PathIcon Data="{StaticResource IconCheck}" IsVisible="{Binding IsAnswered}" Width="12" Height="12"
+                                  HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,2,2"/>
+                      </Grid>
+                    </Button>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+            </StackPanel>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>
