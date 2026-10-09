@@ -1,49 +1,64 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-  <!-- Teal accent (#017777 to #013838). Every foreground/background pair used by the UI
-       meets WCAG AA (4.5:1 text, 3:1 for control boundaries) in both variants. -->
+  <!-- Neutral greys with the teal mode accent (#017777 to #013838), taken from the design style sheet.
+       Text and icon pairs meet WCAG AA in both variants; the focus ring stays blue so it is never
+       confused with selection. -->
   <ResourceDictionary.ThemeDictionaries>
     <ResourceDictionary x:Key="Light">
-      <Color x:Key="BgColor">#F3F6F7</Color>
+      <Color x:Key="BgColor">#F3F3F2</Color>
       <Color x:Key="SurfaceColor">#FFFFFF</Color>
-      <Color x:Key="SurfaceAltColor">#E9EFF1</Color>
-      <Color x:Key="DividerColor">#D3DCDF</Color>
-      <Color x:Key="BorderStrongColor">#5F7077</Color>
-      <Color x:Key="TextColor">#13222A</Color>
-      <Color x:Key="MutedColor">#4A5B63</Color>
+      <Color x:Key="SurfaceAltColor">#EBEBEA</Color>
+      <Color x:Key="HoverColor">#F7F7F6</Color>
+      <Color x:Key="DividerColor">#DCDCDA</Color>
+      <Color x:Key="ControlBorderColor">#B8B8B6</Color>
+      <Color x:Key="BorderStrongColor">#6B6B70</Color>
+      <Color x:Key="TextColor">#1B1B1C</Color>
+      <Color x:Key="BodyColor">#3A3A3E</Color>
+      <Color x:Key="MutedColor">#5A5A5E</Color>
+      <Color x:Key="DisabledBgColor">#EBEBEA</Color>
+      <Color x:Key="DisabledTextColor">#9A9A9E</Color>
       <Color x:Key="AccentColor">#017777</Color>
-      <Color x:Key="AccentHoverColor">#015F5F</Color>
+      <Color x:Key="AccentHoverColor">#016262</Color>
       <Color x:Key="AccentPressedColor">#013838</Color>
       <Color x:Key="OnAccentColor">#FFFFFF</Color>
-      <Color x:Key="AccentSubtleColor">#DDF1F1</Color>
-      <Color x:Key="AccentTextColor">#016565</Color>
-      <Color x:Key="CorrectColor">#176B2C</Color>
-      <Color x:Key="CorrectBgColor">#E1F3E5</Color>
+      <Color x:Key="AccentSubtleColor">#E3F1F1</Color>
+      <Color x:Key="AccentTextColor">#016262</Color>
+      <Color x:Key="AccentStrongTextColor">#013838</Color>
+      <Color x:Key="CorrectColor">#1B7A3A</Color>
+      <Color x:Key="CorrectBgColor">#E3F3E8</Color>
       <Color x:Key="WrongColor">#B3261E</Color>
-      <Color x:Key="WrongBgColor">#FCE8E6</Color>
-      <Color x:Key="FlagColor">#7A5200</Color>
-      <Color x:Key="FlagBgColor">#FFF0CC</Color>
-      <Color x:Key="WarnColor">#7A5200</Color>
-      <Color x:Key="WarnBgColor">#FFF0CC</Color>
+      <Color x:Key="WrongBgColor">#FBE7E5</Color>
+      <Color x:Key="FlagColor">#8A5200</Color>
+      <Color x:Key="FlagBgColor">#FFF1D6</Color>
+      <Color x:Key="WarnColor">#8A5200</Color>
+      <Color x:Key="WarnBgColor">#FFF1D6</Color>
       <Color x:Key="CriticalColor">#B3261E</Color>
-      <Color x:Key="CriticalBgColor">#FCE8E6</Color>
+      <Color x:Key="CriticalBgColor">#FBE7E5</Color>
+      <Color x:Key="CriticalSolidColor">#B3261E</Color>
+      <Color x:Key="OnCriticalColor">#FFFFFF</Color>
       <Color x:Key="FocusColor">#1A56DB</Color>
-      <Color x:Key="ToastBgColor">#13222A</Color>
+      <Color x:Key="ToastBgColor">#1B1B1C</Color>
       <Color x:Key="ToastTextColor">#FFFFFF</Color>
-      <Color x:Key="ScrimColor">#99000000</Color>
+      <Color x:Key="ScrimColor">#73141415</Color>
       <SolidColorBrush x:Key="BgBrush" Color="{DynamicResource BgColor}"/>
       <SolidColorBrush x:Key="SurfaceBrush" Color="{DynamicResource SurfaceColor}"/>
       <SolidColorBrush x:Key="SurfaceAltBrush" Color="{DynamicResource SurfaceAltColor}"/>
+      <SolidColorBrush x:Key="HoverBrush" Color="{DynamicResource HoverColor}"/>
       <SolidColorBrush x:Key="DividerBrush" Color="{DynamicResource DividerColor}"/>
+      <SolidColorBrush x:Key="ControlBorderBrush" Color="{DynamicResource ControlBorderColor}"/>
       <SolidColorBrush x:Key="BorderStrongBrush" Color="{DynamicResource BorderStrongColor}"/>
       <SolidColorBrush x:Key="TextBrush" Color="{DynamicResource TextColor}"/>
+      <SolidColorBrush x:Key="BodyBrush" Color="{DynamicResource BodyColor}"/>
       <SolidColorBrush x:Key="MutedBrush" Color="{DynamicResource MutedColor}"/>
+      <SolidColorBrush x:Key="DisabledBgBrush" Color="{DynamicResource DisabledBgColor}"/>
+      <SolidColorBrush x:Key="DisabledTextBrush" Color="{DynamicResource DisabledTextColor}"/>
       <SolidColorBrush x:Key="AccentBrush" Color="{DynamicResource AccentColor}"/>
       <SolidColorBrush x:Key="AccentHoverBrush" Color="{DynamicResource AccentHoverColor}"/>
       <SolidColorBrush x:Key="AccentPressedBrush" Color="{DynamicResource AccentPressedColor}"/>
       <SolidColorBrush x:Key="OnAccentBrush" Color="{DynamicResource OnAccentColor}"/>
       <SolidColorBrush x:Key="AccentSubtleBrush" Color="{DynamicResource AccentSubtleColor}"/>
       <SolidColorBrush x:Key="AccentTextBrush" Color="{DynamicResource AccentTextColor}"/>
+      <SolidColorBrush x:Key="AccentStrongTextBrush" Color="{DynamicResource AccentStrongTextColor}"/>
       <SolidColorBrush x:Key="CorrectBrush" Color="{DynamicResource CorrectColor}"/>
       <SolidColorBrush x:Key="CorrectBgBrush" Color="{DynamicResource CorrectBgColor}"/>
       <SolidColorBrush x:Key="WrongBrush" Color="{DynamicResource WrongColor}"/>
@@ -54,52 +69,68 @@
       <SolidColorBrush x:Key="WarnBgBrush" Color="{DynamicResource WarnBgColor}"/>
       <SolidColorBrush x:Key="CriticalBrush" Color="{DynamicResource CriticalColor}"/>
       <SolidColorBrush x:Key="CriticalBgBrush" Color="{DynamicResource CriticalBgColor}"/>
+      <SolidColorBrush x:Key="CriticalSolidBrush" Color="{DynamicResource CriticalSolidColor}"/>
+      <SolidColorBrush x:Key="OnCriticalBrush" Color="{DynamicResource OnCriticalColor}"/>
       <SolidColorBrush x:Key="FocusBrush" Color="{DynamicResource FocusColor}"/>
       <SolidColorBrush x:Key="ToastBgBrush" Color="{DynamicResource ToastBgColor}"/>
       <SolidColorBrush x:Key="ToastTextBrush" Color="{DynamicResource ToastTextColor}"/>
       <SolidColorBrush x:Key="ScrimBrush" Color="{DynamicResource ScrimColor}"/>
     </ResourceDictionary>
     <ResourceDictionary x:Key="Dark">
-      <Color x:Key="BgColor">#0E1416</Color>
-      <Color x:Key="SurfaceColor">#172023</Color>
-      <Color x:Key="SurfaceAltColor">#1F2B2F</Color>
-      <Color x:Key="DividerColor">#2E3D42</Color>
-      <Color x:Key="BorderStrongColor">#8A9DA4</Color>
-      <Color x:Key="TextColor">#E8EEF0</Color>
-      <Color x:Key="MutedColor">#A9BAC0</Color>
-      <Color x:Key="AccentColor">#2FB8B4</Color>
-      <Color x:Key="AccentHoverColor">#4CCFCB</Color>
-      <Color x:Key="AccentPressedColor">#6FDDD9</Color>
-      <Color x:Key="OnAccentColor">#04201F</Color>
-      <Color x:Key="AccentSubtleColor">#12393A</Color>
-      <Color x:Key="AccentTextColor">#5ED6D2</Color>
-      <Color x:Key="CorrectColor">#7BD992</Color>
-      <Color x:Key="CorrectBgColor">#163321</Color>
-      <Color x:Key="WrongColor">#FF9E96</Color>
-      <Color x:Key="WrongBgColor">#3D1B19</Color>
-      <Color x:Key="FlagColor">#F2C14E</Color>
-      <Color x:Key="FlagBgColor">#3A2E0E</Color>
-      <Color x:Key="WarnColor">#F2C14E</Color>
-      <Color x:Key="WarnBgColor">#3A2E0E</Color>
-      <Color x:Key="CriticalColor">#FF9E96</Color>
-      <Color x:Key="CriticalBgColor">#3D1B19</Color>
+      <Color x:Key="BgColor">#141415</Color>
+      <Color x:Key="SurfaceColor">#1E1E20</Color>
+      <Color x:Key="SurfaceAltColor">#2A2A2D</Color>
+      <Color x:Key="HoverColor">#252528</Color>
+      <Color x:Key="DividerColor">#3A3A3E</Color>
+      <Color x:Key="ControlBorderColor">#55555A</Color>
+      <Color x:Key="BorderStrongColor">#8A8A90</Color>
+      <Color x:Key="TextColor">#EDEDEE</Color>
+      <Color x:Key="BodyColor">#D2D2D5</Color>
+      <Color x:Key="MutedColor">#A8A8AE</Color>
+      <Color x:Key="DisabledBgColor">#2A2A2D</Color>
+      <Color x:Key="DisabledTextColor">#6E6E74</Color>
+      <Color x:Key="AccentColor">#1BA3A3</Color>
+      <Color x:Key="AccentHoverColor">#2BB8B8</Color>
+      <Color x:Key="AccentPressedColor">#4FD0D0</Color>
+      <Color x:Key="OnAccentColor">#021A1A</Color>
+      <Color x:Key="AccentSubtleColor">#0F2E2E</Color>
+      <Color x:Key="AccentTextColor">#4FD0D0</Color>
+      <Color x:Key="AccentStrongTextColor">#7FE0E0</Color>
+      <Color x:Key="CorrectColor">#6FD08C</Color>
+      <Color x:Key="CorrectBgColor">#173222</Color>
+      <Color x:Key="WrongColor">#FF8A80</Color>
+      <Color x:Key="WrongBgColor">#3A1B19</Color>
+      <Color x:Key="FlagColor">#F2B25C</Color>
+      <Color x:Key="FlagBgColor">#3A2A12</Color>
+      <Color x:Key="WarnColor">#F2B25C</Color>
+      <Color x:Key="WarnBgColor">#3A2A12</Color>
+      <Color x:Key="CriticalColor">#FF8A80</Color>
+      <Color x:Key="CriticalBgColor">#3A1B19</Color>
+      <Color x:Key="CriticalSolidColor">#B3261E</Color>
+      <Color x:Key="OnCriticalColor">#FFFFFF</Color>
       <Color x:Key="FocusColor">#8AB4FF</Color>
-      <Color x:Key="ToastBgColor">#E8EEF0</Color>
-      <Color x:Key="ToastTextColor">#13222A</Color>
+      <Color x:Key="ToastBgColor">#EDEDEE</Color>
+      <Color x:Key="ToastTextColor">#1B1B1C</Color>
       <Color x:Key="ScrimColor">#B3000000</Color>
       <SolidColorBrush x:Key="BgBrush" Color="{DynamicResource BgColor}"/>
       <SolidColorBrush x:Key="SurfaceBrush" Color="{DynamicResource SurfaceColor}"/>
       <SolidColorBrush x:Key="SurfaceAltBrush" Color="{DynamicResource SurfaceAltColor}"/>
+      <SolidColorBrush x:Key="HoverBrush" Color="{DynamicResource HoverColor}"/>
       <SolidColorBrush x:Key="DividerBrush" Color="{DynamicResource DividerColor}"/>
+      <SolidColorBrush x:Key="ControlBorderBrush" Color="{DynamicResource ControlBorderColor}"/>
       <SolidColorBrush x:Key="BorderStrongBrush" Color="{DynamicResource BorderStrongColor}"/>
       <SolidColorBrush x:Key="TextBrush" Color="{DynamicResource TextColor}"/>
+      <SolidColorBrush x:Key="BodyBrush" Color="{DynamicResource BodyColor}"/>
       <SolidColorBrush x:Key="MutedBrush" Color="{DynamicResource MutedColor}"/>
+      <SolidColorBrush x:Key="DisabledBgBrush" Color="{DynamicResource DisabledBgColor}"/>
+      <SolidColorBrush x:Key="DisabledTextBrush" Color="{DynamicResource DisabledTextColor}"/>
       <SolidColorBrush x:Key="AccentBrush" Color="{DynamicResource AccentColor}"/>
       <SolidColorBrush x:Key="AccentHoverBrush" Color="{DynamicResource AccentHoverColor}"/>
       <SolidColorBrush x:Key="AccentPressedBrush" Color="{DynamicResource AccentPressedColor}"/>
       <SolidColorBrush x:Key="OnAccentBrush" Color="{DynamicResource OnAccentColor}"/>
       <SolidColorBrush x:Key="AccentSubtleBrush" Color="{DynamicResource AccentSubtleColor}"/>
       <SolidColorBrush x:Key="AccentTextBrush" Color="{DynamicResource AccentTextColor}"/>
+      <SolidColorBrush x:Key="AccentStrongTextBrush" Color="{DynamicResource AccentStrongTextColor}"/>
       <SolidColorBrush x:Key="CorrectBrush" Color="{DynamicResource CorrectColor}"/>
       <SolidColorBrush x:Key="CorrectBgBrush" Color="{DynamicResource CorrectBgColor}"/>
       <SolidColorBrush x:Key="WrongBrush" Color="{DynamicResource WrongColor}"/>
@@ -110,6 +141,8 @@
       <SolidColorBrush x:Key="WarnBgBrush" Color="{DynamicResource WarnBgColor}"/>
       <SolidColorBrush x:Key="CriticalBrush" Color="{DynamicResource CriticalColor}"/>
       <SolidColorBrush x:Key="CriticalBgBrush" Color="{DynamicResource CriticalBgColor}"/>
+      <SolidColorBrush x:Key="CriticalSolidBrush" Color="{DynamicResource CriticalSolidColor}"/>
+      <SolidColorBrush x:Key="OnCriticalBrush" Color="{DynamicResource OnCriticalColor}"/>
       <SolidColorBrush x:Key="FocusBrush" Color="{DynamicResource FocusColor}"/>
       <SolidColorBrush x:Key="ToastBgBrush" Color="{DynamicResource ToastBgColor}"/>
       <SolidColorBrush x:Key="ToastTextBrush" Color="{DynamicResource ToastTextColor}"/>

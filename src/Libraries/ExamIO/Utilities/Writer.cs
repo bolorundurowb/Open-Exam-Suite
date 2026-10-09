@@ -45,7 +45,7 @@ public sealed class Writer
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to save .oef file to '{FilePath}'.", filePath);
-            return new ExamWriteResult(false, ExamIoError.WriteFailed);
+            return new ExamWriteResult(false, ExamIoError.WriteFailed, ex.Message);
         }
     }
 
@@ -68,7 +68,7 @@ public sealed class Writer
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to serialize .oef exam to stream.");
-            return new ExamWriteResult(false, ExamIoError.WriteFailed);
+            return new ExamWriteResult(false, ExamIoError.WriteFailed, ex.Message);
         }
     }
 
@@ -136,7 +136,7 @@ public sealed class Writer
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to write PDF to '{FilePath}'.", filePath);
-            return new ExamWriteResult(false, ExamIoError.WriteFailed);
+            return new ExamWriteResult(false, ExamIoError.WriteFailed, ex.Message);
         }
     }
 
@@ -153,7 +153,7 @@ public sealed class Writer
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to write results PDF to '{FilePath}'.", filePath);
-            return new ExamWriteResult(false, ExamIoError.WriteFailed);
+            return new ExamWriteResult(false, ExamIoError.WriteFailed, ex.Message);
         }
     }
 
@@ -244,7 +244,7 @@ public sealed class Writer
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to write results PDF.");
-            return new ExamWriteResult(false, ExamIoError.WriteFailed);
+            return new ExamWriteResult(false, ExamIoError.WriteFailed, ex.Message);
         }
     }
 
@@ -265,7 +265,7 @@ public sealed class Writer
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to write JSON exam to '{FilePath}'.", filePath);
-            return new ExamWriteResult(false, ExamIoError.WriteFailed);
+            return new ExamWriteResult(false, ExamIoError.WriteFailed, ex.Message);
         }
     }
 
@@ -288,7 +288,7 @@ public sealed class Writer
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to write XML exam to '{FilePath}'.", filePath);
-            return new ExamWriteResult(false, ExamIoError.WriteFailed);
+            return new ExamWriteResult(false, ExamIoError.WriteFailed, ex.Message);
         }
     }
 

@@ -1,16 +1,18 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-  <!-- Buttons: primary, secondary, quiet and icon. All share a 2px border slot so the keyboard
-       focus ring never shifts the layout. -->
+  <!-- Buttons from the style sheet: 8px radius, 600 weight. Primary is filled accent, Secondary is a
+       neutral outline, AccentOutline is the teal outline (Exam, Retake), Quiet is muted text.
+       Disabled buttons use a grey fill and grey text rather than fading. Where a border is thin, the
+       focus ring thickens it and the padding gives the extra pixel back so nothing shifts. -->
   <ControlTheme x:Key="PrimaryButton" TargetType="Button">
     <Setter Property="Background" Value="{DynamicResource AccentBrush}"/>
     <Setter Property="Foreground" Value="{DynamicResource OnAccentBrush}"/>
     <Setter Property="BorderBrush" Value="Transparent"/>
     <Setter Property="BorderThickness" Value="2"/>
-    <Setter Property="Padding" Value="18,8"/>
-    <Setter Property="MinHeight" Value="44"/>
-    <Setter Property="MinWidth" Value="44"/>
+    <Setter Property="Padding" Value="16,7"/>
+    <Setter Property="MinHeight" Value="40"/>
+    <Setter Property="MinWidth" Value="40"/>
     <Setter Property="FontWeight" Value="SemiBold"/>
     <Setter Property="CornerRadius" Value="8"/>
     <Setter Property="HorizontalContentAlignment" Value="Center"/>
@@ -38,19 +40,22 @@
       <Setter Property="BorderBrush" Value="{DynamicResource FocusBrush}"/>
     </Style>
     <Style Selector="^:disabled">
-      <Setter Property="Opacity" Value="0.45"/>
+      <Setter Property="Foreground" Value="{DynamicResource DisabledTextBrush}"/>
+    </Style>
+    <Style Selector="^:disabled /template/ Border#Chrome">
+      <Setter Property="Background" Value="{DynamicResource DisabledBgBrush}"/>
     </Style>
   </ControlTheme>
 
   <ControlTheme x:Key="SecondaryButton" TargetType="Button">
     <Setter Property="Background" Value="{DynamicResource SurfaceBrush}"/>
     <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
-    <Setter Property="BorderBrush" Value="{DynamicResource BorderStrongBrush}"/>
-    <Setter Property="BorderThickness" Value="2"/>
-    <Setter Property="Padding" Value="16,8"/>
-    <Setter Property="MinHeight" Value="44"/>
-    <Setter Property="MinWidth" Value="44"/>
-    <Setter Property="FontWeight" Value="Medium"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource DividerBrush}"/>
+    <Setter Property="BorderThickness" Value="1"/>
+    <Setter Property="Padding" Value="17,8"/>
+    <Setter Property="MinHeight" Value="40"/>
+    <Setter Property="MinWidth" Value="40"/>
+    <Setter Property="FontWeight" Value="SemiBold"/>
     <Setter Property="CornerRadius" Value="8"/>
     <Setter Property="HorizontalContentAlignment" Value="Center"/>
     <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -68,28 +73,50 @@
       </ControlTemplate>
     </Setter>
     <Style Selector="^:pointerover /template/ Border#Chrome">
-      <Setter Property="Background" Value="{DynamicResource SurfaceAltBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource HoverBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderBrush}"/>
     </Style>
     <Style Selector="^:pressed /template/ Border#Chrome">
-      <Setter Property="Background" Value="{DynamicResource AccentSubtleBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource SurfaceAltBrush}"/>
     </Style>
     <Style Selector="^:focus-visible /template/ Border#Chrome">
       <Setter Property="BorderBrush" Value="{DynamicResource FocusBrush}"/>
+      <Setter Property="BorderThickness" Value="2"/>
+      <Setter Property="Padding" Value="16,7"/>
     </Style>
     <Style Selector="^:disabled">
-      <Setter Property="Opacity" Value="0.45"/>
+      <Setter Property="Foreground" Value="{DynamicResource DisabledTextBrush}"/>
+    </Style>
+    <Style Selector="^:disabled /template/ Border#Chrome">
+      <Setter Property="Background" Value="{DynamicResource DisabledBgBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource DisabledBgBrush}"/>
+    </Style>
+  </ControlTheme>
+
+  <ControlTheme x:Key="AccentOutlineButton" TargetType="Button" BasedOn="{StaticResource SecondaryButton}">
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="Foreground" Value="{DynamicResource AccentTextBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AccentTextBrush}"/>
+    <Setter Property="BorderThickness" Value="1.5"/>
+    <Setter Property="Padding" Value="16.5,7.5"/>
+    <Style Selector="^:pointerover /template/ Border#Chrome">
+      <Setter Property="Background" Value="{DynamicResource AccentSubtleBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource AccentTextBrush}"/>
+    </Style>
+    <Style Selector="^:pressed /template/ Border#Chrome">
+      <Setter Property="Background" Value="{DynamicResource AccentSubtleBrush}"/>
     </Style>
   </ControlTheme>
 
   <ControlTheme x:Key="QuietButton" TargetType="Button">
     <Setter Property="Background" Value="Transparent"/>
-    <Setter Property="Foreground" Value="{DynamicResource AccentTextBrush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource MutedBrush}"/>
     <Setter Property="BorderBrush" Value="Transparent"/>
     <Setter Property="BorderThickness" Value="2"/>
-    <Setter Property="Padding" Value="12,8"/>
-    <Setter Property="MinHeight" Value="44"/>
-    <Setter Property="MinWidth" Value="44"/>
-    <Setter Property="FontWeight" Value="Medium"/>
+    <Setter Property="Padding" Value="12,7"/>
+    <Setter Property="MinHeight" Value="40"/>
+    <Setter Property="MinWidth" Value="40"/>
+    <Setter Property="FontWeight" Value="SemiBold"/>
     <Setter Property="CornerRadius" Value="8"/>
     <Setter Property="HorizontalContentAlignment" Value="Center"/>
     <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -110,14 +137,19 @@
       <Setter Property="Background" Value="{DynamicResource SurfaceAltBrush}"/>
     </Style>
     <Style Selector="^:pressed /template/ Border#Chrome">
-      <Setter Property="Background" Value="{DynamicResource AccentSubtleBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource DividerBrush}"/>
     </Style>
     <Style Selector="^:focus-visible /template/ Border#Chrome">
       <Setter Property="BorderBrush" Value="{DynamicResource FocusBrush}"/>
     </Style>
     <Style Selector="^:disabled">
-      <Setter Property="Opacity" Value="0.45"/>
+      <Setter Property="Foreground" Value="{DynamicResource DisabledTextBrush}"/>
     </Style>
+  </ControlTheme>
+
+  <!-- Quiet link in the accent colour: "← Library", "← Results", "Replace". -->
+  <ControlTheme x:Key="LinkButton" TargetType="Button" BasedOn="{StaticResource QuietButton}">
+    <Setter Property="Foreground" Value="{DynamicResource AccentTextBrush}"/>
   </ControlTheme>
 
   <ControlTheme x:Key="IconButton" TargetType="Button" BasedOn="{StaticResource QuietButton}">
@@ -125,37 +157,96 @@
     <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
   </ControlTheme>
 
-  <!-- Question navigator cell and review chip. State is shown by fill, border, glyph and an accessible name. -->
-  <ControlTheme x:Key="NavCell" TargetType="Button">
-    <Setter Property="Background" Value="{DynamicResource SurfaceBrush}"/>
-    <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
-    <Setter Property="BorderBrush" Value="{DynamicResource BorderStrongBrush}"/>
+  <!-- Library view toggle segment. The two radios share one outline; the selected half is the
+       grey surface and the other stays white with a muted icon. A transparent 2px border becomes
+       the focus ring without moving the icon. -->
+  <ControlTheme x:Key="SegmentButton" TargetType="RadioButton">
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="Foreground" Value="{DynamicResource MutedBrush}"/>
+    <Setter Property="BorderBrush" Value="Transparent"/>
     <Setter Property="BorderThickness" Value="2"/>
-    <Setter Property="Padding" Value="0"/>
-    <Setter Property="MinHeight" Value="44"/>
-    <Setter Property="MinWidth" Value="44"/>
-    <Setter Property="CornerRadius" Value="8"/>
-    <Setter Property="Margin" Value="0,0,6,6"/>
+    <Setter Property="Padding" Value="10,0"/>
+    <Setter Property="MinWidth" Value="40"/>
+    <Setter Property="MinHeight" Value="34"/>
     <Setter Property="HorizontalContentAlignment" Value="Center"/>
     <Setter Property="VerticalContentAlignment" Value="Center"/>
-    <Setter Property="FontWeight" Value="Medium"/>
+    <Setter Property="Cursor" Value="Hand"/>
     <Setter Property="Template">
       <ControlTemplate>
         <Border x:Name="Chrome" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
-                BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{TemplateBinding CornerRadius}"
-                Padding="{TemplateBinding Padding}">
+                BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}">
           <ContentPresenter x:Name="PART_ContentPresenter" Content="{TemplateBinding Content}"
                             ContentTemplate="{TemplateBinding ContentTemplate}" Foreground="{TemplateBinding Foreground}"
-                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
         </Border>
       </ControlTemplate>
     </Setter>
+    <Style Selector="^:pointerover /template/ Border#Chrome">
+      <Setter Property="Background" Value="{DynamicResource HoverBrush}"/>
+    </Style>
+    <Style Selector="^:checked">
+      <Setter Property="Background" Value="{DynamicResource SurfaceAltBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+    </Style>
+    <Style Selector="^:checked:pointerover /template/ Border#Chrome">
+      <Setter Property="Background" Value="{DynamicResource SurfaceAltBrush}"/>
+    </Style>
+    <Style Selector="^:pressed /template/ Border#Chrome">
+      <Setter Property="Background" Value="{DynamicResource SurfaceAltBrush}"/>
+    </Style>
+    <Style Selector="^:focus-visible /template/ Border#Chrome">
+      <Setter Property="BorderBrush" Value="{DynamicResource FocusBrush}"/>
+    </Style>
+    <Style Selector="^:disabled">
+      <Setter Property="Foreground" Value="{DynamicResource DisabledTextBrush}"/>
+    </Style>
+  </ControlTheme>
+
+  <!-- Question navigator cell and review chip: 34px, 6px radius, 12/600. Unanswered is outlined,
+       answered is filled accent, flagged is amber with an amber outline, current gets a dark ring.
+       Each state also has a glyph and an accessible name. -->
+  <ControlTheme x:Key="NavCell" TargetType="Button">
+    <Setter Property="Background" Value="{DynamicResource SurfaceBrush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource BodyBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderBrush}"/>
+    <Setter Property="BorderThickness" Value="1.5"/>
+    <Setter Property="Padding" Value="0"/>
+    <Setter Property="MinHeight" Value="34"/>
+    <Setter Property="MinWidth" Value="34"/>
+    <Setter Property="CornerRadius" Value="6"/>
+    <Setter Property="Margin" Value="0,0,5,5"/>
+    <Setter Property="FontSize" Value="12"/>
+    <Setter Property="FontWeight" Value="SemiBold"/>
+    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+    <Setter Property="VerticalContentAlignment" Value="Center"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border x:Name="Ring" BorderBrush="Transparent" BorderThickness="2" CornerRadius="8" Margin="-4">
+          <Border x:Name="Chrome" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{TemplateBinding CornerRadius}"
+                  Padding="{TemplateBinding Padding}" Margin="2">
+            <ContentPresenter x:Name="PART_ContentPresenter" Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}" Foreground="{TemplateBinding Foreground}"
+                              HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+          </Border>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+    <Style Selector="^.answered">
+      <Setter Property="Foreground" Value="{DynamicResource OnAccentBrush}"/>
+    </Style>
     <Style Selector="^.answered /template/ Border#Chrome">
-      <Setter Property="Background" Value="{DynamicResource AccentSubtleBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource AccentBrush}"/>
       <Setter Property="BorderBrush" Value="{DynamicResource AccentBrush}"/>
+    </Style>
+    <Style Selector="^.flagged">
+      <Setter Property="Foreground" Value="{DynamicResource FlagBrush}"/>
     </Style>
     <Style Selector="^.flagged /template/ Border#Chrome">
       <Setter Property="Background" Value="{DynamicResource FlagBgBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource FlagBrush}"/>
+      <Setter Property="BorderThickness" Value="2"/>
     </Style>
     <Style Selector="^.current">
       <Setter Property="Foreground" Value="{DynamicResource OnAccentBrush}"/>
@@ -164,27 +255,31 @@
       <Setter Property="Background" Value="{DynamicResource AccentBrush}"/>
       <Setter Property="BorderBrush" Value="{DynamicResource AccentBrush}"/>
     </Style>
+    <Style Selector="^.current /template/ Border#Ring">
+      <Setter Property="BorderBrush" Value="{DynamicResource TextBrush}"/>
+    </Style>
     <Style Selector="^:pointerover /template/ Border#Chrome">
       <Setter Property="BorderBrush" Value="{DynamicResource AccentTextBrush}"/>
     </Style>
-    <Style Selector="^:focus-visible /template/ Border#Chrome">
+    <Style Selector="^:focus-visible /template/ Border#Ring">
       <Setter Property="BorderBrush" Value="{DynamicResource FocusBrush}"/>
     </Style>
   </ControlTheme>
 
-  <!-- Option rows. Full-width, wrapping text, large hit area. Correct and wrong states are carried by the
-       icon and label in the row content as well as by colour. -->
+  <!-- Option rows. Full-width, wrapping text, large hit area. Default is a 1px divider outline; selected,
+       correct and wrong rows get a 2px coloured outline with the padding trimmed so the text never moves.
+       Correct and wrong are also carried by the icon and label in the row content. -->
   <ControlTheme x:Key="OptionRowRadio" TargetType="RadioButton">
     <Setter Property="HorizontalAlignment" Value="Stretch"/>
     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-    <Setter Property="Margin" Value="0,0,0,10"/>
+    <Setter Property="Margin" Value="0,0,0,8"/>
     <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
     <Setter Property="Template">
       <ControlTemplate>
-        <Border x:Name="Row" Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource BorderStrongBrush}"
-                BorderThickness="2" CornerRadius="10" Padding="14,12" MinHeight="52">
+        <Border x:Name="Row" Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource DividerBrush}"
+                BorderThickness="1" CornerRadius="10" Padding="14,11" MinHeight="44">
           <Grid ColumnDefinitions="Auto,*">
-            <Panel Width="22" Height="22" Margin="0,2,14,0" VerticalAlignment="Top">
+            <Panel Width="20" Height="20" Margin="0,1,12,0" VerticalAlignment="Top">
               <Ellipse x:Name="Outer" Stroke="{DynamicResource BorderStrongBrush}" StrokeThickness="2"/>
               <Ellipse x:Name="Dot" Width="10" Height="10" Fill="{DynamicResource AccentBrush}" IsVisible="False"/>
             </Panel>
@@ -195,6 +290,10 @@
         </Border>
       </ControlTemplate>
     </Setter>
+    <Style Selector="^:pointerover /template/ Border#Row">
+      <Setter Property="Background" Value="{DynamicResource HoverBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderBrush}"/>
+    </Style>
     <Style Selector="^:checked /template/ Ellipse#Dot">
       <Setter Property="IsVisible" Value="True"/>
     </Style>
@@ -204,36 +303,53 @@
     <Style Selector="^:checked /template/ Border#Row">
       <Setter Property="BorderBrush" Value="{DynamicResource AccentBrush}"/>
       <Setter Property="Background" Value="{DynamicResource AccentSubtleBrush}"/>
-    </Style>
-    <Style Selector="^:pointerover /template/ Border#Row">
-      <Setter Property="Background" Value="{DynamicResource SurfaceAltBrush}"/>
+      <Setter Property="BorderThickness" Value="2"/>
+      <Setter Property="Padding" Value="13,10"/>
     </Style>
     <Style Selector="^:focus-visible /template/ Border#Row">
       <Setter Property="BorderBrush" Value="{DynamicResource FocusBrush}"/>
+      <Setter Property="BorderThickness" Value="2"/>
+      <Setter Property="Padding" Value="13,10"/>
     </Style>
     <Style Selector="^.correct /template/ Border#Row">
       <Setter Property="BorderBrush" Value="{DynamicResource CorrectBrush}"/>
       <Setter Property="Background" Value="{DynamicResource CorrectBgBrush}"/>
+      <Setter Property="BorderThickness" Value="2"/>
+      <Setter Property="Padding" Value="13,10"/>
+    </Style>
+    <Style Selector="^.correct /template/ Ellipse#Outer">
+      <Setter Property="Stroke" Value="{DynamicResource CorrectBrush}"/>
+    </Style>
+    <Style Selector="^.correct /template/ Ellipse#Dot">
+      <Setter Property="Fill" Value="{DynamicResource CorrectBrush}"/>
     </Style>
     <Style Selector="^.wrong /template/ Border#Row">
       <Setter Property="BorderBrush" Value="{DynamicResource WrongBrush}"/>
       <Setter Property="Background" Value="{DynamicResource WrongBgBrush}"/>
+      <Setter Property="BorderThickness" Value="2"/>
+      <Setter Property="Padding" Value="13,10"/>
+    </Style>
+    <Style Selector="^.wrong /template/ Ellipse#Outer">
+      <Setter Property="Stroke" Value="{DynamicResource WrongBrush}"/>
+    </Style>
+    <Style Selector="^.wrong /template/ Ellipse#Dot">
+      <Setter Property="Fill" Value="{DynamicResource WrongBrush}"/>
     </Style>
   </ControlTheme>
 
   <ControlTheme x:Key="OptionRowCheck" TargetType="CheckBox">
     <Setter Property="HorizontalAlignment" Value="Stretch"/>
     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-    <Setter Property="Margin" Value="0,0,0,10"/>
+    <Setter Property="Margin" Value="0,0,0,8"/>
     <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
     <Setter Property="Template">
       <ControlTemplate>
-        <Border x:Name="Row" Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource BorderStrongBrush}"
-                BorderThickness="2" CornerRadius="10" Padding="14,12" MinHeight="52">
+        <Border x:Name="Row" Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource DividerBrush}"
+                BorderThickness="1" CornerRadius="10" Padding="14,11" MinHeight="44">
           <Grid ColumnDefinitions="Auto,*">
-            <Border x:Name="Box" Width="22" Height="22" Margin="0,2,14,0" VerticalAlignment="Top" CornerRadius="5"
+            <Border x:Name="Box" Width="20" Height="20" Margin="0,1,12,0" VerticalAlignment="Top" CornerRadius="4"
                     BorderThickness="2" BorderBrush="{DynamicResource BorderStrongBrush}" Background="Transparent">
-              <PathIcon x:Name="Tick" Data="{StaticResource IconCheck}" Width="16" Height="16"
+              <PathIcon x:Name="Tick" Data="{StaticResource IconCheck}" Width="14" Height="14"
                         Foreground="{DynamicResource OnAccentBrush}" IsVisible="False"/>
             </Border>
             <ContentPresenter Grid.Column="1" Content="{TemplateBinding Content}"
@@ -243,6 +359,10 @@
         </Border>
       </ControlTemplate>
     </Setter>
+    <Style Selector="^:pointerover /template/ Border#Row">
+      <Setter Property="Background" Value="{DynamicResource HoverBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderBrush}"/>
+    </Style>
     <Style Selector="^:checked /template/ PathIcon#Tick">
       <Setter Property="IsVisible" Value="True"/>
     </Style>
@@ -253,60 +373,107 @@
     <Style Selector="^:checked /template/ Border#Row">
       <Setter Property="BorderBrush" Value="{DynamicResource AccentBrush}"/>
       <Setter Property="Background" Value="{DynamicResource AccentSubtleBrush}"/>
-    </Style>
-    <Style Selector="^:pointerover /template/ Border#Row">
-      <Setter Property="Background" Value="{DynamicResource SurfaceAltBrush}"/>
+      <Setter Property="BorderThickness" Value="2"/>
+      <Setter Property="Padding" Value="13,10"/>
     </Style>
     <Style Selector="^:focus-visible /template/ Border#Row">
       <Setter Property="BorderBrush" Value="{DynamicResource FocusBrush}"/>
+      <Setter Property="BorderThickness" Value="2"/>
+      <Setter Property="Padding" Value="13,10"/>
     </Style>
     <Style Selector="^.correct /template/ Border#Row">
       <Setter Property="BorderBrush" Value="{DynamicResource CorrectBrush}"/>
       <Setter Property="Background" Value="{DynamicResource CorrectBgBrush}"/>
+      <Setter Property="BorderThickness" Value="2"/>
+      <Setter Property="Padding" Value="13,10"/>
+    </Style>
+    <Style Selector="^.correct:checked /template/ Border#Box">
+      <Setter Property="Background" Value="{DynamicResource CorrectBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource CorrectBrush}"/>
     </Style>
     <Style Selector="^.wrong /template/ Border#Row">
       <Setter Property="BorderBrush" Value="{DynamicResource WrongBrush}"/>
       <Setter Property="Background" Value="{DynamicResource WrongBgBrush}"/>
+      <Setter Property="BorderThickness" Value="2"/>
+      <Setter Property="Padding" Value="13,10"/>
+    </Style>
+    <Style Selector="^.wrong:checked /template/ Border#Box">
+      <Setter Property="Background" Value="{DynamicResource WrongBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource WrongBrush}"/>
     </Style>
   </ControlTheme>
 
-  <!-- Filter pill used in answer review. Selection is shown by fill and a heavier border, and is also announced. -->
+  <!-- Filter pill used in answer review: 12/600, outlined; the selected pill is filled accent.
+       Selection is also announced. -->
   <ControlTheme x:Key="ChipButton" TargetType="Button">
-    <Setter Property="Padding" Value="14,8"/>
-    <Setter Property="MinHeight" Value="40"/>
-    <Setter Property="Margin" Value="0,0,8,8"/>
+    <Setter Property="Padding" Value="10,5"/>
+    <Setter Property="MinHeight" Value="30"/>
+    <Setter Property="Margin" Value="0,0,6,6"/>
+    <Setter Property="FontSize" Value="12"/>
+    <Setter Property="FontWeight" Value="SemiBold"/>
     <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+    <Setter Property="Background" Value="{DynamicResource SurfaceBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource DividerBrush}"/>
     <Setter Property="Cursor" Value="Hand"/>
     <Setter Property="Template">
       <ControlTemplate>
-        <Border x:Name="Chrome" Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource BorderStrongBrush}"
-                BorderThickness="1" CornerRadius="20" Padding="{TemplateBinding Padding}">
+        <Border x:Name="Chrome" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="1" CornerRadius="999" Padding="{TemplateBinding Padding}">
           <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"
                             Foreground="{TemplateBinding Foreground}" VerticalAlignment="Center"/>
         </Border>
       </ControlTemplate>
     </Setter>
     <Style Selector="^:pointerover /template/ Border#Chrome">
-      <Setter Property="Background" Value="{DynamicResource SurfaceAltBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource HoverBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderBrush}"/>
+    </Style>
+    <!-- Question chips on the review screen: larger, with a coloured 1.5px outline. -->
+    <Style Selector="^.wrong, ^.flag">
+      <Setter Property="Padding" Value="12,6"/>
+      <Setter Property="FontSize" Value="14"/>
+      <Setter Property="MinHeight" Value="34"/>
+      <Setter Property="Margin" Value="0,0,8,8"/>
+    </Style>
+    <Style Selector="^.wrong">
+      <Setter Property="Foreground" Value="{DynamicResource WrongBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource WrongBrush}"/>
+    </Style>
+    <Style Selector="^.flag">
+      <Setter Property="Foreground" Value="{DynamicResource FlagBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource FlagBrush}"/>
+    </Style>
+    <Style Selector="^.wrong /template/ Border#Chrome, ^.flag /template/ Border#Chrome">
+      <Setter Property="BorderThickness" Value="1.5"/>
+    </Style>
+    <Style Selector="^.wrong:pointerover /template/ Border#Chrome">
+      <Setter Property="Background" Value="{DynamicResource WrongBgBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource WrongBrush}"/>
+    </Style>
+    <Style Selector="^.flag:pointerover /template/ Border#Chrome">
+      <Setter Property="Background" Value="{DynamicResource FlagBgBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource FlagBrush}"/>
+    </Style>
+    <Style Selector="^.selected">
+      <Setter Property="Foreground" Value="{DynamicResource OnAccentBrush}"/>
     </Style>
     <Style Selector="^.selected /template/ Border#Chrome">
-      <Setter Property="Background" Value="{DynamicResource AccentSubtleBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource AccentBrush}"/>
       <Setter Property="BorderBrush" Value="{DynamicResource AccentBrush}"/>
-      <Setter Property="BorderThickness" Value="2"/>
     </Style>
     <Style Selector="^:focus-visible /template/ Border#Chrome">
       <Setter Property="BorderBrush" Value="{DynamicResource FocusBrush}"/>
-      <Setter Property="BorderThickness" Value="3"/>
+      <Setter Property="BorderThickness" Value="2"/>
     </Style>
   </ControlTheme>
 
   <!-- Read-only option row used in answer review. -->
   <ControlTheme x:Key="ReviewRow" TargetType="ContentControl">
-    <Setter Property="Margin" Value="0,0,0,10"/>
+    <Setter Property="Margin" Value="0,0,0,8"/>
     <Setter Property="Template">
       <ControlTemplate>
         <Border x:Name="Row" Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource DividerBrush}"
-                BorderThickness="2" CornerRadius="10" Padding="14,12" MinHeight="52">
+                BorderThickness="1" CornerRadius="10" Padding="14,10" MinHeight="44">
           <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"/>
         </Border>
       </ControlTemplate>
@@ -317,10 +484,14 @@
     <Style Selector="^.correct /template/ Border#Row">
       <Setter Property="BorderBrush" Value="{DynamicResource CorrectBrush}"/>
       <Setter Property="Background" Value="{DynamicResource CorrectBgBrush}"/>
+      <Setter Property="BorderThickness" Value="2"/>
+      <Setter Property="Padding" Value="13,9"/>
     </Style>
     <Style Selector="^.wrong /template/ Border#Row">
       <Setter Property="BorderBrush" Value="{DynamicResource WrongBrush}"/>
       <Setter Property="Background" Value="{DynamicResource WrongBgBrush}"/>
+      <Setter Property="BorderThickness" Value="2"/>
+      <Setter Property="Padding" Value="13,9"/>
     </Style>
   </ControlTheme>
 </ResourceDictionary>

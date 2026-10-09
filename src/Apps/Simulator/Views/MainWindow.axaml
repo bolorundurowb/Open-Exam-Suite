@@ -3,7 +3,7 @@
         xmlns:loc="using:OpenExamSuite.Simulator.Localization"
         xmlns:svc="using:OpenExamSuite.Simulator.Services"
         x:Class="OpenExamSuite.Simulator.Views.MainWindow"
-        Title="Simulator"
+        Title="Open Exam Simulator"
         Icon="avares://OpenExamSuite.Simulator/Assets/SimulatorAppIcon.ico"
         Width="1180" Height="780" MinWidth="960" MinHeight="640"
         WindowStartupLocation="CenterScreen">
@@ -19,9 +19,13 @@
       </MenuItem>
       <MenuItem Header="{loc:Loc Menu_Edit}">
         <MenuItem Header="{loc:Loc Menu_Theme}">
-          <MenuItem Header="{loc:Loc Theme_System}" Command="{Binding SetThemeCommand}" CommandParameter="{x:Static svc:ThemeMode.System}"/>
-          <MenuItem Header="{loc:Loc Theme_Light}" Command="{Binding SetThemeCommand}" CommandParameter="{x:Static svc:ThemeMode.Light}"/>
-          <MenuItem Header="{loc:Loc Theme_Dark}" Command="{Binding SetThemeCommand}" CommandParameter="{x:Static svc:ThemeMode.Dark}"/>
+          <MenuItem Header="{loc:Loc Theme_System}" Command="{Binding SetThemeCommand}" CommandParameter="{x:Static svc:ThemeMode.System}"
+                    ToggleType="Radio" GroupName="ThemeMode" IsChecked="{Binding IsSystemTheme, Mode=OneWay}"/>
+          <Separator/>
+          <MenuItem Header="{loc:Loc Theme_Light}" Command="{Binding SetThemeCommand}" CommandParameter="{x:Static svc:ThemeMode.Light}"
+                    ToggleType="Radio" GroupName="ThemeMode" IsChecked="{Binding IsLightMode, Mode=OneWay}"/>
+          <MenuItem Header="{loc:Loc Theme_Dark}" Command="{Binding SetThemeCommand}" CommandParameter="{x:Static svc:ThemeMode.Dark}"
+                    ToggleType="Radio" GroupName="ThemeMode" IsChecked="{Binding IsDarkMode, Mode=OneWay}"/>
         </MenuItem>
         <MenuItem Header="{loc:Loc Menu_ClearHistory}" Command="{Binding ClearHistoryCommand}"/>
       </MenuItem>
@@ -35,14 +39,35 @@
     <!-- Top bar: product name, current screen, theme toggle. -->
     <Border Grid.Row="1" Classes="bar">
       <Grid ColumnDefinitions="Auto,Auto,*,Auto">
-        <TextBlock Text="{Binding ProductName}" Classes="heading" VerticalAlignment="Center" Margin="0,0,16,0"/>
+        <TextBlock Text="{Binding ProductName}" FontSize="15" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,20,0"/>
         <Border Grid.Column="1" Classes="chip" VerticalAlignment="Center">
-          <TextBlock Text="{Binding ScreenLabel}"/>
+          <StackPanel Orientation="Horizontal" Spacing="8">
+            <Ellipse Width="8" Height="8" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding ScreenLabel}" VerticalAlignment="Center"/>
+          </StackPanel>
         </Border>
-        <Button Grid.Column="3" Theme="{StaticResource IconButton}" Command="{Binding ToggleThemeCommand}"
-                AutomationProperties.Name="{loc:Loc Theme_Toggle}" ToolTip.Tip="{loc:Loc Theme_Toggle}">
-          <PathIcon Data="{StaticResource IconTheme}"/>
-        </Button>
+        <!-- Light and Dark only. "Follow system" lives in Edit > Theme. -->
+        <Border Grid.Column="3" VerticalAlignment="Center" ClipToBounds="True"
+                BorderBrush="{DynamicResource DividerBrush}" BorderThickness="1" CornerRadius="8">
+          <StackPanel Orientation="Horizontal" AutomationProperties.Name="{loc:Loc Theme_Toggle}">
+            <RadioButton Theme="{StaticResource SegmentButton}" GroupName="TopBarTheme"
+                         IsChecked="{Binding IsLightTheme, Mode=TwoWay}"
+                         MinHeight="28" Padding="10,3" FontSize="12" Foreground="{DynamicResource TextBrush}">
+              <StackPanel Orientation="Horizontal" Spacing="6">
+                <PathIcon Data="{StaticResource IconSun}" Width="13" Height="13" VerticalAlignment="Center"/>
+                <AccessText Text="{loc:Loc Theme_Light}" VerticalAlignment="Center"/>
+              </StackPanel>
+            </RadioButton>
+            <RadioButton Theme="{StaticResource SegmentButton}" GroupName="TopBarTheme"
+                         IsChecked="{Binding IsDarkTheme, Mode=TwoWay}"
+                         MinHeight="28" Padding="10,3" FontSize="12" Foreground="{DynamicResource TextBrush}">
+              <StackPanel Orientation="Horizontal" Spacing="6">
+                <PathIcon Data="{StaticResource IconMoon}" Width="13" Height="13" VerticalAlignment="Center"/>
+                <AccessText Text="{loc:Loc Theme_Dark}" VerticalAlignment="Center"/>
+              </StackPanel>
+            </RadioButton>
+          </StackPanel>
+        </Border>
       </Grid>
     </Border>
 

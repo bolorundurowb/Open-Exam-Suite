@@ -1,0 +1,162 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:loc="using:OpenExamSuite.Creator.Localization"
+             xmlns:vm="using:OpenExamSuite.Creator.ViewModels"
+             x:Class="OpenExamSuite.Creator.Views.WorkspaceView"
+             x:DataType="vm:WorkspaceViewModel">
+  <Grid RowDefinitions="*,Auto">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="280" MinWidth="220" MaxWidth="560"/>
+      <ColumnDefinition Width="6"/>
+      <ColumnDefinition Width="*"/>
+      <ColumnDefinition Width="360" MinWidth="280"/>
+    </Grid.ColumnDefinitions>
+
+    <!-- Outline -->
+    <Border Grid.Column="0" Grid.Row="0" Background="{DynamicResource PanelBrush}">
+      <Grid RowDefinitions="Auto,Auto,Auto,*,Auto">
+        <TextBlock Grid.Row="0" Text="{loc:Loc Outline_Exam}" Classes="label" Margin="14,14,14,0"/>
+        <TextBox Grid.Row="1" Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}" Watermark="{loc:Loc Outline_Search}" Margin="12,10,12,8"
+                 AutomationProperties.Name="{loc:Loc Outline_Search}">
+          <TextBox.InnerLeftContent>
+            <PathIcon Data="{StaticResource IconSearch}" Width="16" Height="16" Margin="10,0,0,0"
+                      Foreground="{DynamicResource SecondaryTextBrush}" IsHitTestVisible="False"/>
+          </TextBox.InnerLeftContent>
+        </TextBox>
+        <Grid Grid.Row="2" ColumnDefinitions="*,*" ColumnSpacing="8" Margin="12,0,12,10">
+          <Button Grid.Column="0" Command="{Binding AddSectionCommand}"
+                  HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
+                  AutomationProperties.Name="{loc:Loc Outline_AddSection}">
+            <StackPanel Orientation="Horizontal" Spacing="6">
+              <PathIcon Data="{StaticResource IconAdd}" Width="14" Height="14" VerticalAlignment="Center"
+                        Foreground="{DynamicResource TextBrush}"/>
+              <TextBlock Text="{loc:Loc Outline_AddSection}" VerticalAlignment="Center"/>
+            </StackPanel>
+          </Button>
+          <Button Grid.Column="1" Classes="accent" Command="{Binding AddQuestionCommand}"
+                  HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
+                  AutomationProperties.Name="{loc:Loc Outline_AddQuestion}">
+            <StackPanel Orientation="Horizontal" Spacing="6">
+              <PathIcon Data="{StaticResource IconAdd}" Width="14" Height="14" VerticalAlignment="Center"
+                        Foreground="{DynamicResource AccentForegroundBrush}"/>
+              <TextBlock Text="{loc:Loc Outline_AddQuestion}" VerticalAlignment="Center"/>
+            </StackPanel>
+          </Button>
+        </Grid>
+        <TreeView x:Name="OutlineTree" Grid.Row="3" ItemsSource="{Binding OutlineNodes}" SelectedItem="{Binding SelectedNode}" Margin="8,0">
+          <TreeView.Styles>
+            <Style Selector="TreeViewItem">
+              <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
+            </Style>
+            <!-- The theme chevron is easy to lose against the row. A row triangle takes its place. -->
+            <Style Selector="TreeViewItem /template/ Panel#PART_ExpandCollapseChevronContainer">
+              <Setter Property="IsVisible" Value="False"/>
+              <Setter Property="Width" Value="0"/>
+              <Setter Property="Margin" Value="0"/>
+            </Style>
+            <Style Selector="ToggleButton.outline-chevron">
+              <Setter Property="Width" Value="16"/>
+              <Setter Property="Height" Value="16"/>
+              <Setter Property="MinWidth" Value="16"/>
+              <Setter Property="MinHeight" Value="16"/>
+              <Setter Property="Padding" Value="0"/>
+              <Setter Property="Background" Value="Transparent"/>
+              <Setter Property="BorderThickness" Value="0"/>
+              <Setter Property="CornerRadius" Value="4"/>
+              <Setter Property="HorizontalAlignment" Value="Center"/>
+              <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+            <Style Selector="ToggleButton.outline-chevron Path">
+              <Setter Property="Fill" Value="{DynamicResource SecondaryTextBrush}"/>
+              <Setter Property="RenderTransformOrigin" Value="50%,50%"/>
+            </Style>
+            <Style Selector="ToggleButton.outline-chevron:checked Path">
+              <Setter Property="RenderTransform" Value="rotate(90deg)"/>
+            </Style>
+            <Style Selector="ToggleButton.outline-chevron:pointerover /template/ ContentPresenter#PART_ContentPresenter,
+                             ToggleButton.outline-chevron:pressed /template/ ContentPresenter#PART_ContentPresenter,
+                             ToggleButton.outline-chevron:checked /template/ ContentPresenter#PART_ContentPresenter">
+              <Setter Property="Background" Value="Transparent"/>
+              <Setter Property="BorderBrush" Value="Transparent"/>
+              <Setter Property="BorderThickness" Value="0"/>
+            </Style>
+          </TreeView.Styles>
+          <TreeView.ItemTemplate>
+            <TreeDataTemplate ItemsSource="{Binding Children}">
+              <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
+                <StackPanel.ContextMenu>
+                  <ContextMenu>
+                    <MenuItem Header="{loc:Loc Outline_Duplicate}" Command="{Binding DuplicateCommand}"/>
+                    <MenuItem Header="{loc:Loc Outline_Delete}" Command="{Binding DeleteCommand}" Classes="danger"/>
+                  </ContextMenu>
+                </StackPanel.ContextMenu>
+                <Panel Width="16" Height="16" VerticalAlignment="Center">
+                  <ToggleButton Classes="outline-chevron" Focusable="False"
+                                IsChecked="{Binding IsExpanded, Mode=TwoWay}"
+                                IsVisible="{Binding HasChildren}"
+                                AutomationProperties.Name="{loc:Loc Outline_Expand}">
+                    <Path Width="8" Height="8" Stretch="Uniform" Data="M0,0 L8,4 L0,8 Z"/>
+                  </ToggleButton>
+                </Panel>
+                <Ellipse Width="8" Height="8" Fill="{DynamicResource ValidationDotBrush}" IsVisible="{Binding HasProblem}" VerticalAlignment="Center"/>
+                <PathIcon Data="{StaticResource IconImage}" Width="14" Height="14" IsVisible="{Binding HasImage}" Foreground="{DynamicResource SecondaryTextBrush}"/>
+                <PathIcon Data="{StaticResource IconMultiple}" Width="14" Height="14" IsVisible="{Binding IsMultipleChoice}" Foreground="{DynamicResource SecondaryTextBrush}"/>
+                <TextBlock Text="{Binding Title}" FontSize="13" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
+              </StackPanel>
+            </TreeDataTemplate>
+          </TreeView.ItemTemplate>
+        </TreeView>
+        <Border Grid.Row="4" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0,1,0,0" Padding="12,10">
+          <TextBlock Text="{Binding OutlineSummary}" FontSize="12" Foreground="{DynamicResource SecondaryTextBrush}"
+                     TextWrapping="Wrap"/>
+        </Border>
+      </Grid>
+    </Border>
+
+    <GridSplitter Grid.Column="1" Grid.Row="0" ResizeDirection="Columns"
+                  Background="{DynamicResource BorderBrush}"
+                  AutomationProperties.Name="{loc:Loc Outline_Resize}"/>
+
+    <!-- Editor -->
+    <Border Grid.Column="2" Grid.Row="0" Background="{DynamicResource SurfaceBrush}">
+      <ScrollViewer>
+        <ContentControl Content="{Binding EditorContent}" Margin="28,22" HorizontalContentAlignment="Stretch"/>
+      </ScrollViewer>
+    </Border>
+
+    <!-- Preview -->
+    <Border Grid.Column="3" Grid.Row="0" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1,0,0,0" Background="{DynamicResource Surface2Brush}">
+      <Grid RowDefinitions="Auto,*">
+        <TextBlock Grid.Row="0" Text="{loc:Loc Preview_Title}" Classes="label" Margin="18,14,18,0"/>
+        <ContentControl Grid.Row="1" Content="{Binding Preview}" Margin="18,10,18,18"/>
+      </Grid>
+    </Border>
+
+    <!-- Validation strip -->
+    <Border Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="1" Background="{DynamicResource ErrorBgBrush}"
+            BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0,1,0,0"
+            IsVisible="{Binding HasProblems}">
+      <Grid RowDefinitions="Auto,*">
+        <TextBlock Text="{loc:Loc Validation_Title}" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource ValidationDotBrush}" Margin="16,10,16,0"/>
+        <ItemsControl Grid.Row="1" ItemsSource="{Binding Problems}" Margin="10,4,10,6">
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <WrapPanel/>
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+          <ItemsControl.ItemTemplate>
+            <DataTemplate DataType="vm:ValidationProblemViewModel">
+              <Button Classes="quiet" Command="{Binding GoToCommand}" Margin="0,0,4,0" Padding="6,4" FontWeight="Normal">
+                <StackPanel Orientation="Horizontal" Spacing="6">
+                  <PathIcon Data="{StaticResource IconWarning}" Width="14" Height="14" Foreground="{DynamicResource ValidationDotBrush}"/>
+                  <TextBlock Text="{Binding Message}" FontSize="13" Foreground="{DynamicResource ValidationDotBrush}"/>
+                </StackPanel>
+              </Button>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </Grid>
+    </Border>
+
+  </Grid>
+</UserControl>

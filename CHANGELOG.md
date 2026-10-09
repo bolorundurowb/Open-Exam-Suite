@@ -2,9 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [v5.0.0-preview.1]
+### Creator Section
+- Rebuilt the Creator on Avalonia for cross-platform support across Windows, macOS, and Linux, with burgundy light and dark themes that follow the operating system and can be overridden from the top bar. The window title is always "Open Exam Creator".
+- New start screen featuring brand styling, action buttons (New exam, Open exam, Import JSON/XML), drag-and-drop file target, and a recent exams list with question and section counts, last edited timestamps, and remove actions.
+- Three-pane authoring workspace:
+  - Outline panel with hierarchical Exam, Section, and Question tree, live search and filtering, drag-and-drop reordering, duplicate and delete actions, and validation problem indicators.
+  - Central editor supporting Exam Properties (title, code, instructions, pass mark percentage, time limit, and "Hide answers" toggle), Sections (renaming), and Questions (prompt, image attachments preserving aspect ratio and original bytes, single/multiple-choice toggle, options management with correct answer toggling, and explanations).
+  - Live Preview pane rendering questions and options in real time.
+  - Validation problems drawer providing real-time problem tracking (empty questions, fewer than 2 options, missing correct answers, duplicate section names) with one-click navigation while never blocking saving.
+- Full Undo and Redo support (`Ctrl+Z`, `Ctrl+Y`) with coalesced text edits and document dirty state tracking.
+- Automatic recovery system writing temporary copies periodically, detecting unrecovered drafts on startup, and prompting for recovery after crashes.
+- Added exam export to PDF, JSON, and XML, and direct exam testing via "Try this exam" in the Simulator.
+- Help menu with About dialog, License, and interactive Changelog viewer.
+
 ### Simulator Section
-- Rebuilt the Simulator on Avalonia so it runs on Windows, macOS and Linux, with light and dark themes that follow the operating system and can be overridden from the top bar. The window title is always "Simulator".
+- Rebuilt the Simulator on Avalonia so it runs on Windows, macOS and Linux, with light and dark themes that follow the operating system and can be overridden from the top bar. The window title is always "Open Exam Simulator".
 - New library home with grid and list cards, search, filter, sort, drag-and-drop of `.oef` files, JSON and XML import, sample exams on first launch, a recent attempts strip, and clear states for missing, corrupt and older-format files.
 - Added a pre-exam sheet, a question navigator with flagging, a pause cover that hides the question, 5-minute and 1-minute warnings that are also announced to screen readers, and a time-up countdown that submits automatically.
 - Added a review-and-submit screen that lists unanswered and flagged questions and asks "Submit anyway?" before submitting with questions unanswered.

@@ -1,0 +1,85 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <ResourceDictionary.ThemeDictionaries>
+    <ResourceDictionary x:Key="Light">
+      <Color x:Key="AccentGradientStart">#801638</Color>
+      <Color x:Key="AccentGradientEnd">#3B0A1A</Color>
+      <SolidColorBrush x:Key="AccentBrush" Color="#801638"/>
+      <SolidColorBrush x:Key="AccentHoverBrush" Color="#6A1230"/>
+      <SolidColorBrush x:Key="AccentPressedBrush" Color="#560E27"/>
+      <SolidColorBrush x:Key="AccentForegroundBrush" Color="White"/>
+      <SolidColorBrush x:Key="AccentTextBrush" Color="#801638"/>
+      <SolidColorBrush x:Key="AccentSoftBrush" Color="#F6E4EA"/>
+      <SolidColorBrush x:Key="SurfaceBrush" Color="#F3F3F2"/>
+      <SolidColorBrush x:Key="PanelBrush" Color="#FFFFFF"/>
+      <SolidColorBrush x:Key="Surface2Brush" Color="#EBEBEA"/>
+      <SolidColorBrush x:Key="HoverBrush" Color="#F7F7F6"/>
+      <SolidColorBrush x:Key="BorderBrush" Color="#DCDCDA"/>
+      <SolidColorBrush x:Key="ControlBorderBrush" Color="#B8B8B6"/>
+      <SolidColorBrush x:Key="TextBrush" Color="#1B1B1C"/>
+      <SolidColorBrush x:Key="BodyTextBrush" Color="#3A3A3E"/>
+      <SolidColorBrush x:Key="SecondaryTextBrush" Color="#5A5A5E"/>
+      <SolidColorBrush x:Key="DisabledBackgroundBrush" Color="#EBEBEA"/>
+      <SolidColorBrush x:Key="DisabledTextBrush" Color="#9A9A9E"/>
+      <SolidColorBrush x:Key="CorrectBrush" Color="#1B7A3A"/>
+      <SolidColorBrush x:Key="CorrectBgBrush" Color="#E3F3E8"/>
+      <SolidColorBrush x:Key="ValidationDotBrush" Color="#B3261E"/>
+      <SolidColorBrush x:Key="ErrorBgBrush" Color="#FBE7E5"/>
+      <SolidColorBrush x:Key="WarnBrush" Color="#8A5200"/>
+      <SolidColorBrush x:Key="WarnBgBrush" Color="#FFF1D6"/>
+      <SolidColorBrush x:Key="FocusBrush" Color="#1A56DB"/>
+      <SolidColorBrush x:Key="ToastBackgroundBrush" Color="#1B1B1C"/>
+      <SolidColorBrush x:Key="ToastTextBrush" Color="#FFFFFF"/>
+      <SolidColorBrush x:Key="LinkBrush" Color="#0F766E"/>
+      <LinearGradientBrush x:Key="BrandGradientBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#801638" Offset="0"/>
+        <GradientStop Color="#3B0A1A" Offset="1"/>
+      </LinearGradientBrush>
+    </ResourceDictionary>
+    <ResourceDictionary x:Key="Dark">
+      <Color x:Key="AccentGradientStart">#B03060</Color>
+      <Color x:Key="AccentGradientEnd">#3B0A1A</Color>
+      <SolidColorBrush x:Key="AccentBrush" Color="#B03060"/>
+      <SolidColorBrush x:Key="AccentHoverBrush" Color="#C23E6F"/>
+      <SolidColorBrush x:Key="AccentPressedBrush" Color="#9A2853"/>
+      <SolidColorBrush x:Key="AccentForegroundBrush" Color="White"/>
+      <SolidColorBrush x:Key="AccentTextBrush" Color="#F08AAB"/>
+      <SolidColorBrush x:Key="AccentSoftBrush" Color="#3A1522"/>
+      <SolidColorBrush x:Key="SurfaceBrush" Color="#141415"/>
+      <SolidColorBrush x:Key="PanelBrush" Color="#1E1E20"/>
+      <SolidColorBrush x:Key="Surface2Brush" Color="#2A2A2D"/>
+      <SolidColorBrush x:Key="HoverBrush" Color="#252527"/>
+      <SolidColorBrush x:Key="BorderBrush" Color="#3A3A3E"/>
+      <SolidColorBrush x:Key="ControlBorderBrush" Color="#55555A"/>
+      <SolidColorBrush x:Key="TextBrush" Color="#EDEDEE"/>
+      <SolidColorBrush x:Key="BodyTextBrush" Color="#D2D2D5"/>
+      <SolidColorBrush x:Key="SecondaryTextBrush" Color="#A8A8AE"/>
+      <SolidColorBrush x:Key="DisabledBackgroundBrush" Color="#2A2A2D"/>
+      <SolidColorBrush x:Key="DisabledTextBrush" Color="#6E6E74"/>
+      <SolidColorBrush x:Key="CorrectBrush" Color="#6FD08C"/>
+      <SolidColorBrush x:Key="CorrectBgBrush" Color="#173222"/>
+      <SolidColorBrush x:Key="ValidationDotBrush" Color="#FF8A80"/>
+      <SolidColorBrush x:Key="ErrorBgBrush" Color="#3A1B19"/>
+      <SolidColorBrush x:Key="WarnBrush" Color="#F2B25C"/>
+      <SolidColorBrush x:Key="WarnBgBrush" Color="#3A2A12"/>
+      <SolidColorBrush x:Key="FocusBrush" Color="#8AB4FF"/>
+      <SolidColorBrush x:Key="ToastBackgroundBrush" Color="#EDEDEE"/>
+      <SolidColorBrush x:Key="ToastTextBrush" Color="#1B1B1C"/>
+      <SolidColorBrush x:Key="LinkBrush" Color="#5EEAD4"/>
+      <LinearGradientBrush x:Key="BrandGradientBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#B03060" Offset="0"/>
+        <GradientStop Color="#3B0A1A" Offset="1"/>
+      </LinearGradientBrush>
+    </ResourceDictionary>
+  </ResourceDictionary.ThemeDictionaries>
+
+  <!-- Brand-panel brushes are theme-invariant: the start screen's left panel is always burgundy. -->
+  <SolidColorBrush x:Key="BrandTextBrush" Color="#FFFFFF"/>
+  <SolidColorBrush x:Key="BrandMutedBrush" Color="#EBCBD4"/>
+  <SolidColorBrush x:Key="BrandBorderBrush" Color="#A3FFFFFF"/>
+  <SolidColorBrush x:Key="BrandHoverBrush" Color="#33FFFFFF"/>
+  <SolidColorBrush x:Key="BrandPrimaryBgBrush" Color="#FFFFFF"/>
+  <SolidColorBrush x:Key="BrandPrimaryTextBrush" Color="#3B0A1A"/>
+  <SolidColorBrush x:Key="BrandPrimaryMutedBrush" Color="#8A6E76"/>
+  <SolidColorBrush x:Key="BarBackgroundBrush" Color="Transparent"/>
+</ResourceDictionary>

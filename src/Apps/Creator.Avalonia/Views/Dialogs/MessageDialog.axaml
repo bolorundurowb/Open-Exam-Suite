@@ -1,0 +1,15 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="OpenExamSuite.Creator.Views.Dialogs.MessageDialog"
+        Title="{Binding Title}"
+        Width="420" Height="180"
+        WindowStartupLocation="CenterOwner"
+        CanResize="False">
+  <Grid RowDefinitions="*,Auto" Margin="20">
+    <TextBlock Grid.Row="0" Text="{Binding Message}" TextWrapping="Wrap" VerticalAlignment="Center"/>
+    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10">
+      <Button Content="Yes" Click="Yes_Click" IsDefault="True"/>
+      <Button Content="No" Click="No_Click" IsCancel="True"/>
+    </StackPanel>
+  </Grid>
+</Window>

@@ -1,0 +1,45 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <!-- One half of a segmented pill (the top bar's Light / Dark). The pill's outline belongs to the
+       parent Border; the selected half takes the grey surface. A transparent 2px border becomes the
+       focus ring without moving the content. -->
+  <ControlTheme x:Key="SegmentButton" TargetType="RadioButton">
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+    <Setter Property="BorderBrush" Value="Transparent"/>
+    <Setter Property="BorderThickness" Value="2"/>
+    <Setter Property="Padding" Value="10,3"/>
+    <Setter Property="MinHeight" Value="28"/>
+    <Setter Property="FontSize" Value="12"/>
+    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+    <Setter Property="VerticalContentAlignment" Value="Center"/>
+    <Setter Property="Cursor" Value="Hand"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border x:Name="Chrome" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}">
+          <ContentPresenter x:Name="PART_ContentPresenter" Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}" Foreground="{TemplateBinding Foreground}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+    <Style Selector="^:pointerover /template/ Border#Chrome">
+      <Setter Property="Background" Value="{DynamicResource HoverBrush}"/>
+    </Style>
+    <Style Selector="^:checked /template/ Border#Chrome">
+      <Setter Property="Background" Value="{DynamicResource Surface2Brush}"/>
+    </Style>
+    <Style Selector="^:pressed /template/ Border#Chrome">
+      <Setter Property="Background" Value="{DynamicResource Surface2Brush}"/>
+    </Style>
+    <Style Selector="^:focus-visible /template/ Border#Chrome">
+      <Setter Property="BorderBrush" Value="{DynamicResource FocusBrush}"/>
+    </Style>
+    <Style Selector="^:disabled">
+      <Setter Property="Foreground" Value="{DynamicResource DisabledTextBrush}"/>
+    </Style>
+  </ControlTheme>
+</ResourceDictionary>

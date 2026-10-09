@@ -5,28 +5,34 @@
              x:Class="OpenExamSuite.Simulator.Views.NavigatorPanel">
   <!-- Question navigator grouped by section. DataContext is a NavigatorViewModel. -->
   <ScrollViewer HorizontalScrollBarVisibility="Disabled">
-    <StackPanel Spacing="14" Margin="16">
-      <TextBlock Text="{loc:Loc Nav_Title}" Classes="heading"/>
+    <StackPanel Spacing="12" Margin="18">
+      <TextBlock Text="{loc:Loc Nav_Title}" Classes="strong"/>
 
       <!-- Legend: every state has a shape or glyph as well as colour. -->
       <WrapPanel>
-        <StackPanel Orientation="Horizontal" Spacing="6" Margin="0,0,14,6">
-          <Border Width="18" Height="18" CornerRadius="4" BorderThickness="2" BorderBrush="{DynamicResource BorderStrongBrush}"/>
-          <TextBlock Text="{loc:Loc Nav_Unanswered}" Classes="caption"/>
+        <StackPanel Orientation="Horizontal" Spacing="6" Margin="0,0,12,6">
+          <Border Width="16" Height="16" CornerRadius="4" BorderThickness="1.5" BorderBrush="{DynamicResource ControlBorderBrush}"
+                  Background="{DynamicResource SurfaceBrush}"/>
+          <TextBlock Text="{loc:Loc Nav_Unanswered}" FontSize="11" Foreground="{DynamicResource BodyBrush}" VerticalAlignment="Center"/>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" Spacing="6" Margin="0,0,14,6">
-          <Border Width="18" Height="18" CornerRadius="4" BorderThickness="2" BorderBrush="{DynamicResource AccentBrush}" Background="{DynamicResource AccentSubtleBrush}">
-            <PathIcon Data="{StaticResource IconCheck}" Width="12" Height="12" Foreground="{DynamicResource AccentTextBrush}"/>
+        <StackPanel Orientation="Horizontal" Spacing="6" Margin="0,0,12,6">
+          <Border Width="16" Height="16" CornerRadius="4" Background="{DynamicResource AccentBrush}">
+            <PathIcon Data="{StaticResource IconCheck}" Width="11" Height="11" Foreground="{DynamicResource OnAccentBrush}"/>
           </Border>
-          <TextBlock Text="{loc:Loc Nav_Answered}" Classes="caption"/>
+          <TextBlock Text="{loc:Loc Nav_Answered}" FontSize="11" Foreground="{DynamicResource BodyBrush}" VerticalAlignment="Center"/>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" Spacing="6" Margin="0,0,14,6">
-          <PathIcon Data="{StaticResource IconFlag}" Width="18" Height="18" Foreground="{DynamicResource FlagBrush}"/>
-          <TextBlock Text="{loc:Loc Nav_Flagged}" Classes="caption"/>
+        <StackPanel Orientation="Horizontal" Spacing="6" Margin="0,0,12,6">
+          <Border Width="16" Height="16" CornerRadius="4" BorderThickness="1.5" BorderBrush="{DynamicResource FlagBrush}"
+                  Background="{DynamicResource FlagBgBrush}">
+            <PathIcon Data="{StaticResource IconFlag}" Width="10" Height="10" Foreground="{DynamicResource FlagBrush}"/>
+          </Border>
+          <TextBlock Text="{loc:Loc Nav_Flagged}" FontSize="11" Foreground="{DynamicResource FlagBrush}" VerticalAlignment="Center"/>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" Spacing="6" Margin="0,0,14,6">
-          <Border Width="18" Height="18" CornerRadius="4" Background="{DynamicResource AccentBrush}"/>
-          <TextBlock Text="{loc:Loc Nav_Current}" Classes="caption"/>
+        <StackPanel Orientation="Horizontal" Spacing="6" Margin="0,0,12,6">
+          <Border Width="16" Height="16" CornerRadius="5" BorderThickness="2" BorderBrush="{DynamicResource TextBrush}">
+            <Border CornerRadius="3" Margin="1" Background="{DynamicResource AccentBrush}"/>
+          </Border>
+          <TextBlock Text="{loc:Loc Nav_Current}" FontSize="11" Foreground="{DynamicResource BodyBrush}" VerticalAlignment="Center"/>
         </StackPanel>
       </WrapPanel>
 
@@ -34,7 +40,7 @@
         <ItemsControl.ItemTemplate>
           <DataTemplate DataType="vm:NavSectionViewModel">
             <StackPanel Spacing="6" Margin="0,0,0,10">
-              <TextBlock Text="{Binding Title}" FontWeight="SemiBold"/>
+              <TextBlock Text="{Binding Title}" Classes="label"/>
               <ItemsControl ItemsSource="{Binding Cells}">
                 <ItemsControl.ItemsPanel>
                   <ItemsPanelTemplate>
@@ -46,11 +52,11 @@
                     <Button Theme="{StaticResource NavCell}" Command="{Binding JumpCommand}"
                             Classes.answered="{Binding IsAnswered}" Classes.flagged="{Binding IsFlagged}" Classes.current="{Binding IsCurrent}"
                             AutomationProperties.Name="{Binding AutomationName}">
-                      <Grid Width="40" Height="40">
-                        <TextBlock Text="{Binding Number}" HorizontalAlignment="Center" VerticalAlignment="Center" Classes="mono"/>
-                        <PathIcon Data="{StaticResource IconFlag}" IsVisible="{Binding IsFlagged}" Width="12" Height="12"
+                      <Grid Width="38" Height="31">
+                        <TextBlock Text="{Binding Number}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <PathIcon Data="{StaticResource IconFlag}" IsVisible="{Binding IsFlagged}" Width="10" Height="10"
                                   HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,2,2,0"/>
-                        <PathIcon Data="{StaticResource IconCheck}" IsVisible="{Binding IsAnswered}" Width="12" Height="12"
+                        <PathIcon Data="{StaticResource IconCheck}" IsVisible="{Binding IsAnswered}" Width="10" Height="10"
                                   HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,2,2"/>
                       </Grid>
                     </Button>

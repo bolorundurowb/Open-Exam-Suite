@@ -1,0 +1,130 @@
+using System.Globalization;
+
+namespace OpenExamSuite.Creator.Localization;
+
+public static class Strings
+{
+    private static readonly Dictionary<string, string> Values = new(StringComparer.OrdinalIgnoreCase)
+    {
+        ["AppName"] = "Open Exam Creator",
+        ["Screen_Creator"] = "Creator",
+        ["Menu_File"] = "_File",
+        ["Menu_New"] = "_New",
+        ["Menu_Open"] = "_Open",
+        ["Menu_Save"] = "_Save",
+        ["Menu_SaveAs"] = "Save _As",
+        ["Menu_Import"] = "_Import",
+        ["Menu_ImportJson"] = "From _JSON",
+        ["Menu_ImportXml"] = "From _XML",
+        ["Menu_Export"] = "_Export",
+        ["Menu_ExportJson"] = "As _JSON",
+        ["Menu_ExportXml"] = "As _XML",
+        ["Menu_ExportPdf"] = "As _PDF",
+        ["Menu_Close"] = "_Close",
+        ["Menu_Exit"] = "E_xit",
+        ["Menu_Edit"] = "_Edit",
+        ["Menu_Undo"] = "_Undo",
+        ["Menu_Redo"] = "_Redo",
+        ["Menu_Theme"] = "_Theme",
+        ["Theme_System"] = "Follow _system",
+        ["Theme_Light"] = "_Light",
+        ["Theme_Dark"] = "_Dark",
+        ["Theme_Toggle"] = "Theme",
+        ["Menu_Help"] = "_Help",
+        ["Menu_About"] = "_About",
+        ["Menu_License"] = "_License",
+        ["Menu_Changelog"] = "_Changelog",
+        ["Title_Unsaved"] = "Unsaved changes",
+        ["Message_Unsaved"] = "Save changes to the current exam?",
+        ["Button_Save"] = "Save",
+        ["Button_DontSave"] = "Don't save",
+        ["Button_Cancel"] = "Cancel",
+        ["Toast_Saved"] = "Saved",
+        ["Toast_SaveFailed"] = "Could not save the exam.",
+        ["Toast_OpenFailed"] = "Could not open the exam.",
+        ["Toast_NoSimulator"] = "Simulator not found",
+        ["Error_FileNotFound"] = "The file could not be found.",
+        ["Error_Unsupported"] = "The file is not a supported exam or is damaged.",
+        ["Error_WriteFailed"] = "The file could not be written.",
+        ["Legacy_Notice"] = "This exam uses an older format. It will be updated when you save.",
+        ["Dialog_OpenTitle"] = "Open exam",
+        ["Dialog_SaveTitle"] = "Save exam",
+        ["Dialog_ImportTitle"] = "Import JSON exam",
+        ["Dialog_ImportXmlTitle"] = "Import XML exam",
+        ["Dialog_ExportJsonTitle"] = "Export JSON exam",
+        ["Dialog_ExportXmlTitle"] = "Export XML exam",
+        ["Dialog_ExportPdfTitle"] = "Export PDF exam",
+        ["Validation_NoCorrectAnswer"] = "No correct answer",
+        ["Validation_FewerThanTwoOptions"] = "Fewer than 2 options",
+        ["Validation_EmptyQuestionText"] = "Empty question text",
+        ["Validation_DuplicateSectionName"] = "Duplicate section name",
+        ["Outline_Exam"] = "Exam",
+        ["Outline_Search"] = "Search outline",
+        ["Outline_Expand"] = "Expand or collapse",
+        ["Outline_Resize"] = "Resize outline",
+        ["Outline_AddSection"] = "Add section",
+        ["Outline_AddQuestion"] = "Add question",
+        ["Outline_Duplicate"] = "Duplicate",
+        ["Outline_Delete"] = "Delete",
+        ["Editor_Properties"] = "Exam properties",
+        ["Editor_Section"] = "Section",
+        ["Editor_Question"] = "Question",
+        ["Editor_Title"] = "Title",
+        ["Editor_Code"] = "Code",
+        ["Editor_Instructions"] = "Instructions",
+        ["Editor_PassMark"] = "Pass mark (%)",
+        ["Editor_TimeLimit"] = "Time limit (min)",
+        ["Editor_HideAnswers"] = "Hide answers in Practice and PDF export",
+        ["Editor_SectionName"] = "Section name",
+        ["Editor_QuestionText"] = "QUESTION TEXT",
+        ["Editor_Options"] = "OPTIONS",
+        ["Editor_Explanation"] = "EXPLANATION",
+        ["Editor_SingleAnswer"] = "Single answer",
+        ["Editor_MultipleAnswer"] = "Multiple answer",
+        ["Editor_AddImage"] = "Add image",
+        ["Editor_RemoveImage"] = "Remove image",
+        ["Editor_AddOption"] = "Add option",
+        ["Preview_Title"] = "Live preview",
+        ["Validation_Title"] = "Problems",
+        ["Recovery_Title"] = "Recover unsaved work?",
+        ["Recovery_Message"] = "A newer autosaved copy was found. Recover it?",
+        ["Start_Suite"] = "OPEN EXAM SUITE",
+        ["Start_Title"] = "Creator",
+        ["Start_Tagline"] = "Build exams with sections and questions, then save them as .oef files for Simulator.",
+        ["Start_NewExam"] = "New exam",
+        ["Start_OpenExam"] = "Open exam...",
+        ["Start_Import"] = "Import JSON or XML...",
+        ["Start_ShortcutNew"] = "Ctrl N",
+        ["Start_ShortcutOpen"] = "Ctrl O",
+        ["Start_RecentExams"] = "Recent exams",
+        ["Start_ClearHistory"] = "Clear history",
+        ["Start_RemoveRecent"] = "Remove from recent exams",
+        ["Start_DropTitle"] = "Drop an .oef file here to open it",
+        ["Start_DropHint"] = "The exam outline appears on the left once an exam is open",
+        ["Start_NoRecents"] = "No recent exams yet",
+        ["Start_Version"] = "Version {0}",
+        ["Start_EditedToday"] = "Edited today, {0}",
+        ["Start_EditedOn"] = "Edited {0}",
+        ["Common_Questions_One"] = "{0} question",
+        ["Common_Questions_Other"] = "{0} questions",
+        ["Common_Sections_One"] = "{0} section",
+        ["Common_Sections_Other"] = "{0} sections",
+        ["Outline_NeedsAttention_One"] = "{0} needs attention",
+        ["Outline_NeedsAttention_Other"] = "{0} need attention",
+        ["Toast_HistoryCleared"] = "Recent exam history cleared"
+    };
+
+    public static string Get(string key) => Values.TryGetValue(key, out var value) ? value : key;
+
+    public static string Format(string key, params object[] args) =>
+        string.Format(CultureInfo.CurrentCulture, Get(key), args);
+
+    /// <summary>Picks <c>{key}_One</c> or <c>{key}_Other</c> and formats it with the count as argument 0.</summary>
+    public static string Plural(string key, int count, params object[] extraArgs)
+    {
+        var args = new object[extraArgs.Length + 1];
+        args[0] = count;
+        Array.Copy(extraArgs, 0, args, 1, extraArgs.Length);
+        return Format(count == 1 ? key + "_One" : key + "_Other", args);
+    }
+}

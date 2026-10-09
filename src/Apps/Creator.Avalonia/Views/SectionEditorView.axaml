@@ -1,0 +1,12 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:loc="using:OpenExamSuite.Creator.Localization"
+             xmlns:vm="using:OpenExamSuite.Creator.ViewModels"
+             x:Class="OpenExamSuite.Creator.Views.SectionEditorView"
+             x:DataType="vm:SectionEditorViewModel">
+  <StackPanel Spacing="12">
+    <TextBlock Text="{loc:Loc Editor_Section}" Classes="title"/>
+    <TextBlock Text="{loc:Loc Editor_SectionName}" Classes="label"/>
+    <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+  </StackPanel>
+</UserControl>

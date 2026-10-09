@@ -156,12 +156,28 @@ public class ExamLibraryServiceTests : IDisposable
         {
             db.GetCollection<AppSetting>("CreatorSettings")
                 .Insert(new AppSetting { Key = "/creator.oef", Value = "Creator" });
+            db.GetCollection<AppSetting>("CreatorSettings")
+                .Insert(new AppSetting { Key = "CreatorTheme", Value = "Light" });
             db.GetCollection<AppSetting>("SimulatorSettings")
                 .Insert(new AppSetting { Key = "/sim.oef", Value = "Sim" });
         }
 
         _sut.GetExams(ExamCatalog.Creator).Single().FilePath.Must().Be("/creator.oef");
         _sut.GetExams(ExamCatalog.Simulator).Single().FilePath.Must().Be("/sim.oef");
+    }
+
+    [Fact]
+    public void GetExams_DropsPreferenceRowsAlreadyCopiedIntoTheExamList()
+    {
+        using (var db = new LiteDatabase(_databasePath))
+        {
+            var exams = db.GetCollection<ExamEntry>("creatorExams");
+            exams.Insert(new ExamEntry { Catalog = ExamCatalog.Creator, FilePath = "/real.oef", Name = "Real" });
+            exams.Insert(new ExamEntry { Catalog = ExamCatalog.Creator, FilePath = "CreatorTheme", Name = "Light" });
+        }
+
+        var stored = _sut.GetExams(ExamCatalog.Creator);
+        stored.Single().FilePath.Must().Be("/real.oef");
     }
 
     private static string CreateSampleDirectory()

@@ -29,6 +29,7 @@
     <ProjectReference Include="..\..\Libraries\Logging\Logging.csproj" />
     <ProjectReference Include="..\..\Libraries\Storage\Storage.csproj" />
     <ProjectReference Include="..\Simulator.Session\Simulator.Session.csproj" />
+    <ProjectReference Include="..\..\Libraries\Shared.Avalonia\Shared.Avalonia.csproj" />
   </ItemGroup>
 
   <ItemGroup>

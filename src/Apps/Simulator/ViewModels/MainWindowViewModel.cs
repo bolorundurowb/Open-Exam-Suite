@@ -66,7 +66,17 @@ public sealed partial class MainWindowViewModel : ViewModelBase
         };
 
         shell.Session.StateChanged += state => shell.Dispatcher.Post(() => OnState(state));
-        theme.Changed += () => OnPropertyChanged(nameof(ThemeMode));
+        theme.Changed += OnThemeChanged;
+    }
+
+    private void OnThemeChanged()
+    {
+        OnPropertyChanged(nameof(ThemeMode));
+        OnPropertyChanged(nameof(IsSystemTheme));
+        OnPropertyChanged(nameof(IsLightMode));
+        OnPropertyChanged(nameof(IsDarkMode));
+        OnPropertyChanged(nameof(IsLightTheme));
+        OnPropertyChanged(nameof(IsDarkTheme));
     }
 
     /// <summary>The window title and product name. It never changes with the screen.</summary>
@@ -79,6 +89,36 @@ public sealed partial class MainWindowViewModel : ViewModelBase
     public bool CreatorAvailable => _shell.Creator.IsInstalled;
 
     public ThemeMode ThemeMode => _theme.Mode;
+
+    public bool IsSystemTheme => _theme.Mode == ThemeMode.System;
+
+    public bool IsLightMode => _theme.Mode == ThemeMode.Light;
+
+    public bool IsDarkMode => _theme.Mode == ThemeMode.Dark;
+
+    /// <summary>
+    /// The top bar's Light and Dark segments show what is on screen. Choosing one sets it explicitly;
+    /// clearing one is ignored because the other segment's choice does the work.
+    /// </summary>
+    public bool IsLightTheme
+    {
+        get => !_theme.IsDarkShown;
+        set
+        {
+            if (value)
+                _theme.Set(ThemeMode.Light);
+        }
+    }
+
+    public bool IsDarkTheme
+    {
+        get => _theme.IsDarkShown;
+        set
+        {
+            if (value)
+                _theme.Set(ThemeMode.Dark);
+        }
+    }
 
     [ObservableProperty] private object _currentScreen;
     [ObservableProperty] private string _screenLabel;
@@ -225,9 +265,6 @@ public sealed partial class MainWindowViewModel : ViewModelBase
 
     [RelayCommand]
     private void NewExam() => Library.NewExam();
-
-    [RelayCommand]
-    private void ToggleTheme() => _theme.Toggle();
 
     [RelayCommand]
     private void SetTheme(ThemeMode mode) => _theme.Set(mode);

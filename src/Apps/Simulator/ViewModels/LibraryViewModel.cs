@@ -225,7 +225,19 @@ public sealed partial class LibraryViewModel : ViewModelBase
 
     private bool _welcomeDismissed;
 
-    public bool IsListView => !IsGridView;
+    /// <summary>
+    /// The list half of the view toggle. Setting it on selects list view; clearing it is ignored,
+    /// so one of the two segments is always selected.
+    /// </summary>
+    public bool IsListView
+    {
+        get => !IsGridView;
+        set
+        {
+            if (value)
+                IsGridView = false;
+        }
+    }
 
     public void Apply(LibraryState state)
     {
@@ -386,12 +398,6 @@ public sealed partial class LibraryViewModel : ViewModelBase
         if (!_shell.Creator.Launch())
             _ = _shell.Toasts.ShowErrorAsync(Strings.Get("Library_CreatorFailed"));
     }
-
-    [RelayCommand]
-    private void ShowGrid() => IsGridView = true;
-
-    [RelayCommand]
-    private void ShowList() => IsGridView = false;
 
     [RelayCommand]
     private void ClearSearch()
