@@ -87,11 +87,11 @@
 
   <Grid RowDefinitions="Auto,Auto,*,Auto" Margin="24,16,24,16">
 
-    <!-- Search, filter, sort, view toggle, add and new. -->
-    <Grid Grid.Row="0" ColumnDefinitions="*,Auto,Auto,Auto,Auto,Auto" Margin="0,0,0,16">
-      <TextBox Grid.Column="0" Text="{Binding SearchText}" Watermark="{loc:Loc Library_Search}" MinWidth="200" Margin="0,0,10,0"
+    <!-- Search, filter, sort, view toggle, add and new. Wraps when the window or the text is long. -->
+    <WrapPanel Grid.Row="0" Margin="0,0,0,8">
+      <TextBox Text="{Binding SearchText}" Watermark="{loc:Loc Library_Search}" MinWidth="220" Width="280" Margin="0,0,10,8"
                AutomationProperties.Name="{loc:Loc Library_Search}"/>
-      <ComboBox Grid.Column="1" ItemsSource="{Binding FilterOptions}" SelectedItem="{Binding SelectedFilter}" MinWidth="150" Margin="0,0,10,0"
+      <ComboBox ItemsSource="{Binding FilterOptions}" SelectedItem="{Binding SelectedFilter}" MinWidth="160" Margin="0,0,10,8"
                 AutomationProperties.Name="{loc:Loc Library_Filter}">
         <ComboBox.ItemTemplate>
           <DataTemplate DataType="vm:FilterOption">
@@ -99,7 +99,7 @@
           </DataTemplate>
         </ComboBox.ItemTemplate>
       </ComboBox>
-      <ComboBox Grid.Column="2" ItemsSource="{Binding SortOptions}" SelectedItem="{Binding SelectedSort}" MinWidth="150" Margin="0,0,10,0"
+      <ComboBox ItemsSource="{Binding SortOptions}" SelectedItem="{Binding SelectedSort}" MinWidth="160" Margin="0,0,10,8"
                 AutomationProperties.Name="{loc:Loc Library_Sort}">
         <ComboBox.ItemTemplate>
           <DataTemplate DataType="vm:SortOption">
@@ -107,7 +107,7 @@
           </DataTemplate>
         </ComboBox.ItemTemplate>
       </ComboBox>
-      <StackPanel Grid.Column="3" Orientation="Horizontal" Margin="0,0,10,0">
+      <StackPanel Orientation="Horizontal" Margin="0,0,10,8">
         <Button Theme="{StaticResource IconButton}" Command="{Binding ShowGridCommand}"
                 AutomationProperties.Name="{loc:Loc Library_GridView}" ToolTip.Tip="{loc:Loc Library_GridView}">
           <PathIcon Data="{StaticResource IconGrid}"/>
@@ -117,15 +117,15 @@
           <PathIcon Data="{StaticResource IconList}"/>
         </Button>
       </StackPanel>
-      <Button Grid.Column="4" Theme="{StaticResource SecondaryButton}" Command="{Binding NewExamCommand}" Margin="0,0,10,0"
+      <Button Theme="{StaticResource SecondaryButton}" Command="{Binding NewExamCommand}" Margin="0,0,10,8"
               IsVisible="{Binding CreatorAvailable}" Content="{loc:Loc Library_NewExam}"/>
-      <Button Grid.Column="5" Theme="{StaticResource PrimaryButton}" Command="{Binding AddExamCommand}">
+      <Button Theme="{StaticResource PrimaryButton}" Command="{Binding AddExamCommand}" Margin="0,0,0,8">
         <StackPanel Orientation="Horizontal" Spacing="8">
           <PathIcon Data="{StaticResource IconAdd}"/>
           <TextBlock Text="{loc:Loc Library_AddExam}"/>
         </StackPanel>
       </Button>
-    </Grid>
+    </WrapPanel>
 
     <!-- Welcome strip, first launch. -->
     <Border Grid.Row="1" Classes="banner info" IsVisible="{Binding ShowWelcome}" Margin="0,0,0,16">

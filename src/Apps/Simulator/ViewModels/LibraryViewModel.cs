@@ -340,7 +340,7 @@ public sealed partial class LibraryViewModel : ViewModelBase
 
     internal Task LocateAsync(ExamCardViewModel card) => _shell.RunAsync(async () =>
     {
-        var path = await _shell.Prompts.PickFileAsync(Strings.Get("Library_LocateTitle"), Strings.Get("Library_FileFilter") + "|*.oef;*.json;*.xml");
+        var path = await _shell.Prompts.PickFileAsync(Strings.Get("Library_LocateTitle"), Strings.Get("Library_FileFilter") + "|*.oef");
         if (path == null)
             return;
 
@@ -358,7 +358,7 @@ public sealed partial class LibraryViewModel : ViewModelBase
     [RelayCommand]
     public Task AddExamAsync() => _shell.RunAsync(async () =>
     {
-        var path = await _shell.Prompts.PickFileAsync(Strings.Get("Library_AddTitle"), Strings.Get("Library_FileFilter") + "|*.oef;*.json;*.xml");
+        var path = await _shell.Prompts.PickFileAsync(Strings.Get("Library_AddTitle"), Strings.Get("Library_FileFilter") + "|*.oef");
         if (path != null)
             await AddPathAsync(path);
     });

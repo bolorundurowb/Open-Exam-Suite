@@ -106,20 +106,23 @@ public class LibraryAndResultsTests : IClassFixture<SimulatorSessionTestFixture>
     }
 
     [Fact]
-    public async Task AddExam_Json_ImportsAsOefInUserData()
+    public async Task AddExam_JsonAndXml_AreRejected()
     {
         var session = _fixture.CreateSession();
         var jsonPath = Path.Combine(_directory, "Imported Exam.json");
-        new Writer().ToJson(SimulatorSessionTestFixture.CreateExam(), jsonPath);
+        var xmlPath = Path.Combine(_directory, "Imported Exam.xml");
+        var writer = new Writer();
+        writer.ToJson(SimulatorSessionTestFixture.CreateExam(), jsonPath);
+        writer.ToXml(SimulatorSessionTestFixture.CreateExam(), xmlPath);
 
-        var result = await session.AddExamAsync(jsonPath);
+        var json = await session.AddExamAsync(jsonPath);
+        var xml = await session.AddExamAsync(xmlPath);
 
-        result.Success.Must().BeTrue();
-        Path.GetExtension(result.FilePath).Must().Be(".oef");
-        File.Exists(result.FilePath).Must().BeTrue();
+        json.Status.Must().Be(LibraryActionStatus.UnsupportedFormat);
+        xml.Status.Must().Be(LibraryActionStatus.UnsupportedFormat);
         _fixture.Library.Verify(
-            x => x.AddExam(ExamCatalog.Simulator, result.FilePath!, It.IsAny<string>()),
-            Times.Once);
+            x => x.AddExam(It.IsAny<ExamCatalog>(), It.IsAny<string>(), It.IsAny<string>()),
+            Times.Never);
     }
 
     [Fact]

@@ -406,6 +406,29 @@ public class SimulatorSessionTests : IClassFixture<SimulatorSessionTestFixture>
     }
 
     [Fact]
+    public async Task EnterAnswerReview_CanStartOnMissedQuestions()
+    {
+        var session = _fixture.CreateSession();
+        var examPath = _fixture.SaveExam(SimulatorSessionTestFixture.CreateExam());
+        SetupEmptyLibrary();
+        _fixture.Library.Setup(x => x.SaveAttempt(It.IsAny<ExamAttempt>()));
+
+        await session.LoadExamAsync(examPath);
+        await session.UpdatePreExamSettingsAsync(SimulatorSessionTestFixture.PracticeSettings());
+        await session.StartAttemptAsync();
+        await session.AnswerQuestionAsync(AnswerSelection.Answered('A'));
+        await session.NavigateNextAsync();
+        await session.AnswerQuestionAsync(AnswerSelection.Answered('C'));
+        await session.SubmitAsync();
+
+        var review = await session.EnterAnswerReviewAsync(AnswerReviewFilter.Wrong);
+
+        review.Filter.Must().Be(AnswerReviewFilter.Wrong);
+        review.FilteredCount.Must().Be(1);
+        review.CurrentQuestionIndex.Must().Be(1);
+    }
+
+    [Fact]
     public async Task Retake_RestoresPreExamSelections()
     {
         var session = _fixture.CreateSession();

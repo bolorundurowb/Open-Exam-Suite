@@ -132,7 +132,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase
             return false;
 
         var extension = Path.GetExtension(path).ToLowerInvariant();
-        return extension is ".oef" or ".json" or ".xml";
+        return extension is ".oef";
     }
 
     private void OnState(ISessionState state)
@@ -145,53 +145,68 @@ public sealed partial class MainWindowViewModel : ViewModelBase
             case LibraryState library:
                 DisposeAttemptScreens();
                 Library.Apply(library);
-                Show(Library, Strings.Get("Screen_Library"));
+                Show(Library, Strings.Get("Screen_Library"), Strings.Get("Screen_Library"));
                 break;
 
             case PreExamState preExam:
                 DisposeAttemptScreens();
+                var setup = ModeLabel(preExam.Settings.Mode);
                 if (CurrentScreen is PreExamViewModel existing && existing.Title == preExam.Exam.Title)
+                {
                     existing.Apply(preExam);
+                    ScreenLabel = setup;
+                }
                 else
-                    Show(new PreExamViewModel(_shell, preExam), Strings.Get("Screen_Setup"));
+                {
+                    Show(new PreExamViewModel(_shell, preExam), setup, Strings.Get("Screen_Setup"));
+                }
+
                 break;
 
             case AttemptState or PausedState:
                 _exam ??= new ExamViewModel(_shell);
                 _exam.Apply(state);
                 var attempt = state is PausedState paused ? paused.Attempt : (AttemptState)state;
-                var practice = attempt.Settings.Mode == ExamMode.Practice;
-                Show(_exam, Strings.Get(practice ? "Screen_Practice" : "Screen_Exam"));
+                var taking = ModeLabel(attempt.Settings.Mode);
+                Show(_exam, taking, taking);
                 break;
 
             case ReviewAndSubmitState or TimeUpState:
                 _review ??= new ReviewSubmitViewModel(_shell);
                 _review.Apply(state);
-                Show(_review, Strings.Get("Screen_Review"));
+                var reviewAttempt = state is TimeUpState timeUp ? timeUp.Attempt : ((ReviewAndSubmitState)state).Attempt;
+                Show(
+                    _review,
+                    ModeLabel(reviewAttempt.Settings.Mode),
+                    Strings.Get(state is TimeUpState ? "Review_TimeUpAnnounce" : "Screen_Review"));
                 break;
 
             case ResultsState results:
                 DisposeAttemptScreens();
-                Show(new ResultsViewModel(_shell, results), Strings.Get("Screen_Results"));
+                Show(new ResultsViewModel(_shell, results), ModeLabel(results.Settings.Mode), Strings.Get("Screen_Results"));
                 break;
 
             case AnswerReviewState answerReview:
                 _answerReview ??= new AnswerReviewViewModel(_shell);
                 _answerReview.Apply(answerReview);
-                Show(_answerReview, Strings.Get("Screen_AnswerReview"));
+                Show(_answerReview, ModeLabel(answerReview.Settings.Mode), Strings.Get("Screen_AnswerReview"));
                 break;
         }
     }
 
-    private void Show(object screen, string label)
+    /// <summary>The top bar names the mode. It stays Library, Practice, or Exam on every Simulator screen.</summary>
+    private static string ModeLabel(ExamMode mode) =>
+        Strings.Get(mode == ExamMode.Practice ? "Screen_Practice" : "Screen_Exam");
+
+    private void Show(object screen, string modeLabel, string announcement)
     {
         if (!ReferenceEquals(CurrentScreen, screen))
         {
             CurrentScreen = screen;
-            Announcement = label;
+            Announcement = announcement;
         }
 
-        ScreenLabel = label;
+        ScreenLabel = modeLabel;
     }
 
     private void DisposeAttemptScreens()

@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
@@ -93,7 +94,7 @@ public partial class ExamView : UserControl
 
         switch (e.Key)
         {
-            case Key.Enter when modifiers == KeyModifiers.Control:
+            case Key.Enter when modifiers is KeyModifiers.Control or KeyModifiers.Meta:
                 _ = viewModel.ReviewAsync();
                 e.Handled = true;
                 return;

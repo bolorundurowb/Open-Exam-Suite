@@ -19,6 +19,8 @@
                HorizontalAlignment="Left" AutomationProperties.LiveSetting="Assertive"/>
     <Border DockPanel.Dock="Bottom" Classes="bottombar">
       <WrapPanel HorizontalAlignment="Right">
+        <Button Theme="{StaticResource SecondaryButton}" Command="{Binding ToggleNavigatorCommand}" IsVisible="{Binding ShowNavigatorToggle}"
+                Margin="0,0,10,0" Content="{loc:Loc Exam_Questions}"/>
         <Button Theme="{StaticResource SecondaryButton}" Command="{Binding BackCommand}" IsEnabled="{Binding CanGoBack}"
                 Margin="0,0,10,0" Content="{loc:Loc Review_Back}"/>
         <Button Theme="{StaticResource PrimaryButton}" Command="{Binding SubmitCommand}" Content="{loc:Loc Review_Submit}"/>
@@ -26,7 +28,8 @@
     </Border>
 
     <Grid ColumnDefinitions="*,Auto">
-      <ScrollViewer Grid.Column="0" HorizontalScrollBarVisibility="Disabled">
+      <Panel Grid.Column="0">
+      <ScrollViewer HorizontalScrollBarVisibility="Disabled">
         <StackPanel MaxWidth="900" Margin="24,20,24,24" Spacing="16" HorizontalAlignment="Stretch">
 
           <!-- Time up: a notice, then automatic submission. -->
@@ -113,9 +116,16 @@
         </StackPanel>
       </ScrollViewer>
 
-      <!-- Full navigator for reference. -->
-      <Border Grid.Column="1" Width="300" Background="{DynamicResource SurfaceBrush}"
-              BorderBrush="{DynamicResource DividerBrush}" BorderThickness="1,0,0,0">
+        <!-- Narrow windows: the navigator opens over the summary. -->
+        <Border IsVisible="{Binding ShowOverlayNavigator}" HorizontalAlignment="Right" Width="320"
+                Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource BorderStrongBrush}" BorderThickness="2,0,0,0">
+          <views:NavigatorPanel DataContext="{Binding Navigator}"/>
+        </Border>
+      </Panel>
+
+      <!-- Wide windows: the full navigator stays beside the summary. -->
+      <Border Grid.Column="1" Width="300" IsVisible="{Binding ShowInlineNavigator}"
+              Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource DividerBrush}" BorderThickness="1,0,0,0">
         <views:NavigatorPanel DataContext="{Binding Navigator}"/>
       </Border>
     </Grid>

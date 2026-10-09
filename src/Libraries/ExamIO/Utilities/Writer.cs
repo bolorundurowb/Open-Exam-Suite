@@ -19,7 +19,7 @@ public sealed class Writer
 {
     private static readonly object FontResolverLock = new();
     private static bool _fontResolverConfigured;
-    private const string PdfFontFamily = "Noto Sans";
+    private const string PdfFontFamily = "IBM Plex Sans";
 
     private readonly ILogger<Writer> _logger;
 
@@ -302,7 +302,7 @@ public sealed class Writer
             if (_fontResolverConfigured)
                 return;
 
-            GlobalFontSettings.FontResolver ??= new EmbeddedNotoSansFontResolver();
+            GlobalFontSettings.FontResolver ??= new EmbeddedPdfFontResolver();
             _fontResolverConfigured = true;
         }
     }

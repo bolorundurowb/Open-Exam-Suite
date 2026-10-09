@@ -132,8 +132,7 @@ public sealed class SimulatorSession : ISimulatorSession, IDisposable
         if (string.IsNullOrWhiteSpace(filePath) || !await _fileSystem.ExistsAsync(filePath))
             return new LibraryActionResult(LibraryActionStatus.FileNotFound);
 
-        var extension = Path.GetExtension(filePath).ToLowerInvariant();
-        if (extension is not (".oef" or ".json" or ".xml"))
+        if (!IsOefPath(filePath))
             return new LibraryActionResult(LibraryActionStatus.UnsupportedFormat);
 
         var load = _examFileLoader.TryLoad(filePath);
@@ -141,15 +140,6 @@ public sealed class SimulatorSession : ISimulatorSession, IDisposable
             return new LibraryActionResult(LibraryActionStatus.CorruptFile);
 
         var targetPath = filePath;
-        if (extension != ".oef")
-        {
-            var folder = Path.Combine(_appPaths.UserDataDirectory, "Exams");
-            Directory.CreateDirectory(folder);
-            targetPath = GetUniquePath(folder, Path.GetFileNameWithoutExtension(filePath), ".oef");
-            if (!_writer.ToOef(load.Exam, targetPath).Success)
-                return new LibraryActionResult(LibraryActionStatus.WriteFailed);
-        }
-
         var alreadyThere = _library.GetExams(ExamCatalog.Simulator)
             .Any(e => PathsEqual(e.FilePath, targetPath));
         if (alreadyThere)
@@ -197,6 +187,9 @@ public sealed class SimulatorSession : ISimulatorSession, IDisposable
 
     public async Task<LibraryActionResult> RelocateExamAsync(string missingFilePath, string newFilePath)
     {
+        if (!IsOefPath(newFilePath))
+            return new LibraryActionResult(LibraryActionStatus.UnsupportedFormat);
+
         var load = _examFileLoader.TryLoad(newFilePath);
         if (load.Error == ExamFileLoadError.FileNotFound)
             return new LibraryActionResult(LibraryActionStatus.FileNotFound);
@@ -238,6 +231,9 @@ public sealed class SimulatorSession : ISimulatorSession, IDisposable
             isLegacy));
     }
 
+    private static bool IsOefPath(string filePath) =>
+        string.Equals(Path.GetExtension(filePath), ".oef", StringComparison.OrdinalIgnoreCase);
+
     private static bool PathsEqual(string left, string right) =>
         string.Equals(
             Path.GetFullPath(left),
@@ -270,6 +266,24 @@ public sealed class SimulatorSession : ISimulatorSession, IDisposable
 
         foreach (var entry in exams)
         {
+            if (!IsOefPath(entry.FilePath))
+            {
+                examCards.Add(new ExamCard(
+                    entry.FilePath,
+                    entry.Name,
+                    string.Empty,
+                    0,
+                    0,
+                    0,
+                    0,
+                    null,
+                    null,
+                    null,
+                    false,
+                    true));
+                continue;
+            }
+
             var loadResult = _examFileLoader.TryLoad(entry.FilePath);
             if (loadResult.Success && loadResult.Exam != null)
             {
@@ -331,6 +345,9 @@ public sealed class SimulatorSession : ISimulatorSession, IDisposable
 
     public async Task<PreExamState> LoadExamAsync(string examFilePath)
     {
+        if (!IsOefPath(examFilePath))
+            throw new ExamLoadException(ExamFileLoadError.UnknownOrCorrupt, "Only .oef exam files can be opened.", unsupportedFormat: true);
+
         var loadResult = _examFileLoader.TryLoad(examFilePath);
         if (!loadResult.Success || loadResult.Exam == null)
         {
@@ -1001,7 +1018,7 @@ public sealed class SimulatorSession : ISimulatorSession, IDisposable
         }
     }
 
-    public async Task<AnswerReviewState> EnterAnswerReviewAsync()
+    public async Task<AnswerReviewState> EnterAnswerReviewAsync(AnswerReviewFilter filter = AnswerReviewFilter.All)
     {
         if (_currentState is not ResultsState resultsState)
             throw new InvalidOperationException("Not in results state.");
@@ -1019,7 +1036,7 @@ public sealed class SimulatorSession : ISimulatorSession, IDisposable
             sections,
             answers,
             gradingDetails,
-            AnswerReviewFilter.All,
+            filter,
             0);
 
         return TransitionTo(reviewState);

@@ -91,6 +91,7 @@ public sealed partial class ResultsViewModel : ViewModelBase
             Sections.Add(new SectionRowViewModel(section, flagWeakest && ReferenceEquals(section, weakest)));
 
         HasSections = Sections.Count > 0;
+        HasMissedAnswers = results.GradingDetails?.Any(d => d.IsAnswered && !d.IsCorrect) == true;
     }
 
     public bool Passed { get; }
@@ -110,11 +111,16 @@ public sealed partial class ResultsViewModel : ViewModelBase
     public bool HasPrevious { get; }
     public string PreviousText { get; } = string.Empty;
     public bool HasSections { get; }
+    public bool HasMissedAnswers { get; }
 
     public ObservableCollection<SectionRowViewModel> Sections { get; } = [];
 
     [RelayCommand]
     private Task ReviewAnswersAsync() => _shell.RunAsync(() => _shell.Session.EnterAnswerReviewAsync());
+
+    [RelayCommand]
+    private Task ReviewMissedAsync() =>
+        _shell.RunAsync(() => _shell.Session.EnterAnswerReviewAsync(AnswerReviewFilter.Wrong));
 
     [RelayCommand]
     private Task RetakeAsync() => _shell.RunAsync(() => _shell.Session.RetakeAsync());

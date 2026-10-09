@@ -1,3 +1,4 @@
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
@@ -21,7 +22,7 @@ public partial class LibraryView : UserControl
 
     private void OnDragOver(object? sender, DragEventArgs e)
     {
-        var hasFiles = e.Data.Contains(DataFormats.Files);
+        var hasFiles = e.DataTransfer.Contains(DataFormat.File);
         e.DragEffects = hasFiles ? DragDropEffects.Copy : DragDropEffects.None;
         DropOverlay.IsVisible = hasFiles;
         e.Handled = true;
@@ -35,7 +36,7 @@ public partial class LibraryView : UserControl
         if (DataContext is not LibraryViewModel library)
             return;
 
-        var paths = e.Data.GetFiles()?
+        var paths = e.DataTransfer.TryGetFiles()?
             .Select(f => f.TryGetLocalPath())
             .OfType<string>()
             .Where(MainWindowViewModel.IsSupportedPath)

@@ -35,7 +35,13 @@ public sealed partial class ReviewSubmitViewModel : ViewModelBase
     {
         _shell = shell;
         Navigator = new NavigatorViewModel(index =>
-            CanGoBack ? _shell.RunAsync(() => _shell.Session.NavigateToQuestionAsync(index)) : Task.CompletedTask);
+        {
+            if (!CanGoBack)
+                return Task.CompletedTask;
+
+            IsNavigatorOpen = false;
+            return _shell.RunAsync(() => _shell.Session.NavigateToQuestionAsync(index));
+        });
     }
 
     public NavigatorViewModel Navigator { get; }
@@ -61,6 +67,20 @@ public sealed partial class ReviewSubmitViewModel : ViewModelBase
 
     /// <summary>Spoken once when time runs out.</summary>
     [ObservableProperty] private string _urgentAnnouncement = string.Empty;
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(ShowOverlayNavigator))]
+    private bool _isNavigatorOpen;
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(ShowInlineNavigator))]
+    [NotifyPropertyChangedFor(nameof(ShowNavigatorToggle))]
+    [NotifyPropertyChangedFor(nameof(ShowOverlayNavigator))]
+    private bool _isWide = true;
+
+    public bool ShowInlineNavigator => IsWide;
+    public bool ShowNavigatorToggle => !IsWide;
+    public bool ShowOverlayNavigator => !IsWide && IsNavigatorOpen;
 
     public void Apply(ISessionState state)
     {
@@ -120,6 +140,9 @@ public sealed partial class ReviewSubmitViewModel : ViewModelBase
         foreach (var index in indices)
             target.Add(new QuestionChipViewModel(index));
     }
+
+    [RelayCommand]
+    private void ToggleNavigator() => IsNavigatorOpen = !IsNavigatorOpen;
 
     [RelayCommand]
     private Task BackAsync() => !CanGoBack ? Task.CompletedTask : _shell.RunAsync(() => _shell.Session.ReturnToAttemptAsync());

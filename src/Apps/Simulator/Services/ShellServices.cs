@@ -64,7 +64,9 @@ public sealed class ShellServices
         }
     }
 
-    public static string DescribeLoadError(ExamLoadException ex) => ex.Error switch
+    public static string DescribeLoadError(ExamLoadException ex) => ex.IsUnsupportedFormat
+        ? Strings.Get("Error_Unsupported")
+        : ex.Error switch
     {
         OpenExamSuite.Shared.Enums.ExamFileLoadError.FileNotFound => Strings.Get("Error_FileMissing"),
         OpenExamSuite.Shared.Enums.ExamFileLoadError.EmptyOrInvalidJson => Strings.Get("Error_JsonInvalid"),

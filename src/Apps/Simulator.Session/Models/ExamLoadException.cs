@@ -7,11 +7,15 @@ namespace OpenExamSuite.Simulator.Session.Models;
 /// </summary>
 public sealed class ExamLoadException : InvalidOperationException
 {
-    public ExamLoadException(ExamFileLoadError error, string message)
+    public ExamLoadException(ExamFileLoadError error, string message, bool unsupportedFormat = false)
         : base(message)
     {
         Error = error;
+        IsUnsupportedFormat = unsupportedFormat;
     }
 
     public ExamFileLoadError Error { get; }
+
+    /// <summary>True when the file is not an <c>.oef</c> exam. JSON and XML belong to Creator.</summary>
+    public bool IsUnsupportedFormat { get; }
 }

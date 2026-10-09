@@ -96,6 +96,7 @@
       <!-- Primary actions, then secondary. -->
       <WrapPanel>
         <Button Theme="{StaticResource PrimaryButton}" Command="{Binding ReviewAnswersCommand}" Margin="0,0,10,10" Content="{loc:Loc Results_ReviewAnswers}"/>
+        <Button Theme="{StaticResource SecondaryButton}" Command="{Binding ReviewMissedCommand}" IsVisible="{Binding HasMissedAnswers}" Margin="0,0,10,10" Content="{loc:Loc Results_ReviewMissed}"/>
         <Button Theme="{StaticResource SecondaryButton}" Command="{Binding RetakeCommand}" Margin="0,0,10,10" Content="{loc:Loc Results_Retake}"/>
         <Button Theme="{StaticResource SecondaryButton}" Command="{Binding BackToLibraryCommand}" Margin="0,0,24,10" Content="{loc:Loc Results_BackToLibrary}"/>
         <Button Theme="{StaticResource QuietButton}" Command="{Binding ExportPdfCommand}" Margin="0,0,10,10" Content="{loc:Loc Results_ExportPdf}"/>

@@ -50,7 +50,11 @@ public partial class App : Application
             if (OperatingSystem.IsWindows())
                 _power = new PowerEvents(AppHost.Get<ISimulatorSession>());
 
-            desktop.Exit += (_, _) => _power?.Dispose();
+            desktop.Exit += (_, _) =>
+            {
+                if (OperatingSystem.IsWindows())
+                    _power?.Dispose();
+            };
         }
 
         base.OnFrameworkInitializationCompleted();

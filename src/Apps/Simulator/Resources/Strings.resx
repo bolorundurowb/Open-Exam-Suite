@@ -43,7 +43,7 @@
   <data name="Error_OpenTitle" xml:space="preserve"><value>This exam could not be opened</value></data>
   <data name="Error_UnexpectedMessage" xml:space="preserve"><value>The action could not be completed. Your library and saved attempts are not affected.</value></data>
   <data name="Error_UnexpectedTitle" xml:space="preserve"><value>Something went wrong</value></data>
-  <data name="Error_Unsupported" xml:space="preserve"><value>Only .oef, .json and .xml exam files can be added.</value></data>
+  <data name="Error_Unsupported" xml:space="preserve"><value>Only .oef exam files can be opened. Use Creator to import other file types and convert them to the supported .oef format.</value></data>
   <data name="Error_WriteFailed" xml:space="preserve"><value>The exam could not be saved. Check that the folder is writable and try again.</value></data>
   <data name="Error_XmlInvalid" xml:space="preserve"><value>The XML file is empty or not a valid exam.</value></data>
   <data name="Exam_Abandon" xml:space="preserve"><value>Abandon</value></data>
@@ -79,14 +79,14 @@
   <data name="Library_Corrupt" xml:space="preserve"><value>Cannot be read</value></data>
   <data name="Library_CorruptHint" xml:space="preserve"><value>The file is damaged. Remove it or replace the file.</value></data>
   <data name="Library_CreatorFailed" xml:space="preserve"><value>Creator could not be started.</value></data>
-  <data name="Library_DropHint" xml:space="preserve"><value>Drop exam files to add them</value></data>
+  <data name="Library_DropHint" xml:space="preserve"><value>Drop an .oef file to add it</value></data>
   <data name="Library_Duplicate" xml:space="preserve"><value>Duplicate</value></data>
   <data name="Library_Duplicated" xml:space="preserve"><value>Duplicated {0}</value></data>
   <data name="Library_Edit" xml:space="preserve"><value>Edit</value></data>
   <data name="Library_EmptyMessage" xml:space="preserve"><value>Drop an .oef file here, add one from your computer, or create a new exam.</value></data>
   <data name="Library_EmptyTitle" xml:space="preserve"><value>Add or create your first exam</value></data>
   <data name="Library_Exam" xml:space="preserve"><value>Exam</value></data>
-  <data name="Library_FileFilter" xml:space="preserve"><value>Exam files</value></data>
+  <data name="Library_FileFilter" xml:space="preserve"><value>Open Exam files (*.oef)</value></data>
   <data name="Library_Filter" xml:space="preserve"><value>Filter</value></data>
   <data name="Library_Filter_All" xml:space="preserve"><value>All exams</value></data>
   <data name="Library_Filter_NeedsAttention" xml:space="preserve"><value>Needs attention</value></data>
@@ -224,6 +224,7 @@
   <data name="Results_Print" xml:space="preserve"><value>Print</value></data>
   <data name="Results_Retake" xml:space="preserve"><value>Retake</value></data>
   <data name="Results_ReviewAnswers" xml:space="preserve"><value>Review answers</value></data>
+  <data name="Results_ReviewMissed" xml:space="preserve"><value>Review missed questions</value></data>
   <data name="Results_Saved" xml:space="preserve"><value>This attempt has been saved to your history.</value></data>
   <data name="Results_Scaled" xml:space="preserve"><value>{0} / 1000</value></data>
   <data name="Results_SectionScore" xml:space="preserve"><value>{0} of {1} correct ({2})</value></data>

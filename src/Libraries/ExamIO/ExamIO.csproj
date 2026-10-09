@@ -19,7 +19,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Resources\fonts\NotoSans-VariableFont.ttf" />
-    <EmbeddedResource Include="Resources\fonts\NotoSans-VariableFont-Italic.ttf" />
+    <EmbeddedResource Include="..\..\Apps\Simulator\Assets\Fonts\IBMPlexSans-Regular.ttf">
+      <LogicalName>OpenExamSuite.Shared.Resources.fonts.IBMPlexSans-Regular.ttf</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\Apps\Simulator\Assets\Fonts\IBMPlexSans-Bold.ttf">
+      <LogicalName>OpenExamSuite.Shared.Resources.fonts.IBMPlexSans-Bold.ttf</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\Apps\Simulator\Assets\Fonts\IBMPlexSans-Italic.ttf">
+      <LogicalName>OpenExamSuite.Shared.Resources.fonts.IBMPlexSans-Italic.ttf</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

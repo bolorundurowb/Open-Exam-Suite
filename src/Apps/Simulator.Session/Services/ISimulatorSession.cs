@@ -39,8 +39,7 @@ public interface ISimulatorSession
     Task RefreshLibraryAsync();
 
     /// <summary>
-    /// Adds an exam file to the library. <c>.oef</c> files are referenced in place;
-    /// <c>.json</c> and <c>.xml</c> files are imported as a new <c>.oef</c> in the user's data folder.
+    /// Adds an <c>.oef</c> exam to the library. JSON and XML import belongs to Creator.
     /// </summary>
     Task<LibraryActionResult> AddExamAsync(string filePath);
 
@@ -150,9 +149,9 @@ public interface ISimulatorSession
     Task HandleTimeUpAsync();
 
     /// <summary>
-    /// Enters answer review from results.
+    /// Enters answer review from results, optionally on a filter such as the missed questions.
     /// </summary>
-    Task<AnswerReviewState> EnterAnswerReviewAsync();
+    Task<AnswerReviewState> EnterAnswerReviewAsync(AnswerReviewFilter filter = AnswerReviewFilter.All);
 
     /// <summary>
     /// Returns from answer review to the results of the same attempt.
