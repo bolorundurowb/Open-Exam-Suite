@@ -17,10 +17,21 @@
           <Button Content="{loc:Loc Outline_AddSection}" Command="{Binding AddSectionCommand}" Classes="accent"/>
           <Button Content="{loc:Loc Outline_AddQuestion}" Command="{Binding AddQuestionCommand}"/>
         </StackPanel>
-        <TreeView Grid.Row="3" ItemsSource="{Binding OutlineNodes}" SelectedItem="{Binding SelectedNode}" Margin="8,0">
+        <TreeView x:Name="OutlineTree" Grid.Row="3" ItemsSource="{Binding OutlineNodes}" SelectedItem="{Binding SelectedNode}" Margin="8,0">
+          <TreeView.Styles>
+            <Style Selector="TreeViewItem">
+              <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
+            </Style>
+          </TreeView.Styles>
           <TreeView.ItemTemplate>
             <TreeDataTemplate ItemsSource="{Binding Children}">
               <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
+                <StackPanel.ContextMenu>
+                  <ContextMenu>
+                    <MenuItem Header="{loc:Loc Outline_Duplicate}" Command="{Binding DuplicateCommand}"/>
+                    <MenuItem Header="{loc:Loc Outline_Delete}" Command="{Binding DeleteCommand}"/>
+                  </ContextMenu>
+                </StackPanel.ContextMenu>
                 <Ellipse Width="8" Height="8" Fill="{DynamicResource ValidationDotBrush}" IsVisible="{Binding HasProblem}" VerticalAlignment="Center"/>
                 <PathIcon Data="{StaticResource IconImage}" Width="14" Height="14" IsVisible="{Binding HasImage}" Opacity="0.7"/>
                 <PathIcon Data="{StaticResource IconMultiple}" Width="14" Height="14" IsVisible="{Binding IsMultipleChoice}" Opacity="0.7"/>
@@ -63,7 +74,7 @@
           </ItemsControl.ItemsPanel>
           <ItemsControl.ItemTemplate>
             <DataTemplate DataType="vm:ValidationProblemViewModel">
-              <Button Classes="quiet" Command="{Binding GoTo}" Margin="0,0,8,4">
+              <Button Classes="quiet" Command="{Binding GoToCommand}" Margin="0,0,8,4">
                 <StackPanel Orientation="Horizontal" Spacing="4">
                   <PathIcon Data="{StaticResource IconWarning}" Width="14" Height="14" Foreground="{DynamicResource ValidationDotBrush}"/>
                   <TextBlock Text="{Binding Message}" TextDecorations="Underline"/>

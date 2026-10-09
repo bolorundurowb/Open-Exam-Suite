@@ -7,7 +7,7 @@
         Icon="avares://OpenExamSuite.Creator.Avalonia/Assets/CreatorAppIcon.ico"
         Width="1280" Height="820" MinWidth="960" MinHeight="640"
         WindowStartupLocation="CenterScreen">
-  <Grid RowDefinitions="Auto,Auto,*">
+  <Grid RowDefinitions="Auto,Auto,Auto,*">
 
     <Menu x:Name="MainMenu" Grid.Row="0">
       <MenuItem Header="{loc:Loc Menu_File}">
@@ -18,6 +18,7 @@
         <MenuItem Header="{loc:Loc Menu_SaveAs}" Command="{Binding SaveAsCommand}" HotKey="Ctrl+Shift+S" InputGesture="Ctrl+Shift+S"/>
         <Separator/>
         <MenuItem Header="{loc:Loc Menu_Import}" Command="{Binding ImportJsonCommand}"/>
+        <MenuItem Header="{loc:Loc Menu_ImportXml}" Command="{Binding ImportXmlCommand}"/>
         <MenuItem Header="{loc:Loc Menu_ExportJson}" Command="{Binding ExportJsonCommand}"/>
         <MenuItem Header="{loc:Loc Menu_ExportXml}" Command="{Binding ExportXmlCommand}"/>
         <MenuItem Header="{loc:Loc Menu_ExportPdf}" Command="{Binding ExportPdfCommand}"/>
@@ -56,7 +57,12 @@
       </Grid>
     </Border>
 
-    <Panel Grid.Row="2">
+    <Border Grid.Row="2" Classes="bar" IsVisible="{Binding IsLegacy}"
+            BorderBrush="{DynamicResource ValidationDotBrush}" BorderThickness="3,0,0,0">
+      <TextBlock Text="{loc:Loc Legacy_Notice}" TextWrapping="Wrap" Margin="8,4" Foreground="{DynamicResource TextBrush}"/>
+    </Border>
+
+    <Panel Grid.Row="3">
       <ContentControl Content="{Binding CurrentScreen}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
 
       <ItemsControl ItemsSource="{Binding Toasts}" HorizontalAlignment="Center" VerticalAlignment="Bottom"

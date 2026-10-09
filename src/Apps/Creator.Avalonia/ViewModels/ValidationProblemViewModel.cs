@@ -1,4 +1,5 @@
-using OpenExamSuite.Creator.Services;
+using System.Windows.Input;
+using CommunityToolkit.Mvvm.Input;
 using OpenExamSuite.Creator.Session.Models;
 
 namespace OpenExamSuite.Creator.ViewModels;
@@ -13,6 +14,7 @@ public sealed class ValidationProblemViewModel
         Kind = problem.Kind;
         NodeId = problem.NodeId;
         Message = problem.Message;
+        GoToCommand = new RelayCommand(() => _workspace.RevealNode(NodeId));
     }
 
     public ProblemKind Kind { get; }
@@ -21,5 +23,5 @@ public sealed class ValidationProblemViewModel
 
     public string Message { get; }
 
-    public void GoTo() => _workspace.SelectNode(NodeId);
+    public ICommand GoToCommand { get; }
 }

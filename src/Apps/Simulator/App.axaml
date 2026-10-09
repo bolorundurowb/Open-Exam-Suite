@@ -29,8 +29,8 @@
   <Application.Styles>
     <FluentTheme>
       <FluentTheme.Palettes>
-        <ColorPaletteResources x:Key="Light" Accent="#017777" RegionColor="#F3F6F7" ErrorText="#B3261E"/>
-        <ColorPaletteResources x:Key="Dark" Accent="#2FB8B4" RegionColor="#0E1416" ErrorText="#FF9E96"/>
+        <ColorPaletteResources x:Key="Light" Accent="#017777" RegionColor="#F3F3F2" ErrorText="#B3261E"/>
+        <ColorPaletteResources x:Key="Dark" Accent="#1BA3A3" RegionColor="#141415" ErrorText="#FF8A80"/>
       </FluentTheme.Palettes>
     </FluentTheme>
     <StyleInclude Source="avares://OpenExamSuite.Simulator/Styles/Controls.axaml"/>

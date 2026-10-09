@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using OpenExamSuite.Creator.Session.Models;
 using OpenExamSuite.Creator.Session.Services;
 using OpenExamSuite.Shared;
@@ -29,6 +30,16 @@ public sealed partial class OutlineNodeViewModel : ViewModelBase
     public DocumentNode Node { get; }
 
     public ObservableCollection<OutlineNodeViewModel> Children { get; }
+
+    [ObservableProperty] private bool _isExpanded = true;
+
+    private bool CanChangeStructure() => Type != NodeType.Exam;
+
+    [RelayCommand(CanExecute = nameof(CanChangeStructure))]
+    private void Duplicate() => _document.DuplicateNode(Id);
+
+    [RelayCommand(CanExecute = nameof(CanChangeStructure))]
+    private void Delete() => _document.DeleteNode(Id);
 
     public string Title => Type switch
     {

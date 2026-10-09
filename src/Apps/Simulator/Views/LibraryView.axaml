@@ -4,16 +4,25 @@
              xmlns:vm="using:OpenExamSuite.Simulator.ViewModels"
              x:Class="OpenExamSuite.Simulator.Views.LibraryView"
              DragDrop.AllowDrop="True">
+  <UserControl.Styles>
+    <Style Selector="Button.attempt.passed TextBlock.outcome, Button.attempt.passed PathIcon.outcome">
+      <Setter Property="Foreground" Value="{DynamicResource CorrectBrush}"/>
+    </Style>
+    <Style Selector="Button.attempt.failed TextBlock.outcome, Button.attempt.failed PathIcon.outcome">
+      <Setter Property="Foreground" Value="{DynamicResource WrongBrush}"/>
+    </Style>
+  </UserControl.Styles>
+
   <UserControl.Resources>
     <!-- One card layout for both views. Every card is the same width; long titles wrap inside it. -->
     <DataTemplate x:Key="ExamCardTemplate" DataType="vm:ExamCardViewModel">
       <Border Classes="card" Width="360" HorizontalAlignment="Left"
               AutomationProperties.Name="{Binding AutomationName}" Margin="0,0,16,16">
-        <StackPanel Spacing="10">
+        <StackPanel Spacing="12">
           <Grid ColumnDefinitions="*,Auto">
-            <StackPanel Spacing="2">
-              <TextBlock Text="{Binding Title}" Classes="heading" TextWrapping="Wrap"/>
-              <TextBlock Text="{Binding Code}" Classes="caption" TextWrapping="Wrap" IsVisible="{Binding HasCode}"/>
+            <StackPanel Spacing="4">
+              <TextBlock Text="{Binding Title}" Classes="heading" LineHeight="20" TextWrapping="Wrap"/>
+              <TextBlock Text="{Binding Code}" Classes="caption mono" TextWrapping="Wrap" IsVisible="{Binding HasCode}"/>
             </StackPanel>
             <Button Grid.Column="1" Theme="{StaticResource IconButton}" VerticalAlignment="Top"
                     AutomationProperties.Name="{loc:Loc Library_MoreActions}" ToolTip.Tip="{loc:Loc Library_MoreActions}">
@@ -30,16 +39,21 @@
             </Button>
           </Grid>
 
-          <TextBlock Text="{Binding FactsText}" Classes="caption" TextWrapping="Wrap" IsVisible="{Binding IsAvailable}"/>
+          <TextBlock Text="{Binding FactsText}" Classes="small muted" TextWrapping="Wrap" IsVisible="{Binding IsAvailable}"/>
 
-          <!-- Last attempt: icon, label and score. Colour is never the only signal. -->
-          <WrapPanel ItemSpacing="8" LineSpacing="4" IsVisible="{Binding HasLastAttempt}">
-            <PathIcon Data="{StaticResource IconCheck}" IsVisible="{Binding LastPassed}" Foreground="{DynamicResource CorrectBrush}" Width="18" Height="18"/>
-            <PathIcon Data="{StaticResource IconClose}" IsVisible="{Binding LastFailed}" Foreground="{DynamicResource WrongBrush}" Width="18" Height="18"/>
-            <TextBlock Text="{Binding LastResultLabel}" FontWeight="SemiBold"/>
-            <TextBlock Text="{Binding LastAttemptText}" Classes="muted" TextWrapping="Wrap"/>
-          </WrapPanel>
-          <TextBlock Text="{loc:Loc Library_NotAttempted}" Classes="caption" IsVisible="{Binding ShowNotAttempted}"/>
+          <!-- Last attempt: icon, label and score on a tinted strip. Colour is never the only signal. -->
+          <Border Classes="outcome" Classes.passed="{Binding LastPassed}" Classes.failed="{Binding LastFailed}"
+                  IsVisible="{Binding HasLastAttempt}">
+            <WrapPanel ItemSpacing="8" LineSpacing="4">
+              <PathIcon Data="{StaticResource IconCheck}" IsVisible="{Binding LastPassed}" Width="16" Height="16"/>
+              <PathIcon Data="{StaticResource IconClose}" IsVisible="{Binding LastFailed}" Width="16" Height="16"/>
+              <TextBlock Text="{Binding LastResultLabel}"/>
+              <TextBlock Text="{Binding LastAttemptText}" TextWrapping="Wrap"/>
+            </WrapPanel>
+          </Border>
+          <Border Classes="outcome" IsVisible="{Binding ShowNotAttempted}">
+            <TextBlock Text="{loc:Loc Library_NotAttempted}"/>
+          </Border>
 
           <!-- Missing-file and corrupt states. -->
           <Border Classes="banner critical" IsVisible="{Binding NeedsAttention}">
@@ -56,13 +70,13 @@
           <WrapPanel>
             <Button Theme="{StaticResource PrimaryButton}" Command="{Binding PracticeCommand}" Margin="0,0,8,8"
                     IsVisible="{Binding IsAvailable}" Content="{loc:Loc Library_Practice}"/>
-            <Button Theme="{StaticResource SecondaryButton}" Command="{Binding ExamCommand}" Margin="0,0,8,8"
+            <Button Theme="{StaticResource AccentOutlineButton}" Command="{Binding ExamCommand}" Margin="0,0,8,8"
                     IsVisible="{Binding IsAvailable}" Content="{loc:Loc Library_Exam}"/>
             <Button Theme="{StaticResource QuietButton}" Command="{Binding EditCommand}" Margin="0,0,8,8"
                     IsVisible="{Binding CanEdit}" Content="{loc:Loc Library_Edit}"/>
-            <Button Theme="{StaticResource PrimaryButton}" Command="{Binding LocateCommand}" Margin="0,0,8,8"
+            <Button Theme="{StaticResource AccentOutlineButton}" Command="{Binding LocateCommand}" Margin="0,0,8,8"
                     IsVisible="{Binding IsMissing}" Content="{loc:Loc Library_Locate}"/>
-            <Button Theme="{StaticResource SecondaryButton}" Command="{Binding RemoveCommand}" Margin="0,0,8,8"
+            <Button Theme="{StaticResource QuietButton}" Command="{Binding RemoveCommand}" Margin="0,0,8,8"
                     IsVisible="{Binding NeedsAttention}" Content="{loc:Loc Library_Remove}"/>
           </WrapPanel>
         </StackPanel>
@@ -70,18 +84,23 @@
     </DataTemplate>
 
     <DataTemplate x:Key="AttemptTemplate" DataType="vm:AttemptItemViewModel">
-      <Button Theme="{StaticResource SecondaryButton}" Command="{Binding OpenCommand}" Margin="0,0,0,8"
+      <Button Theme="{StaticResource SecondaryButton}" Command="{Binding OpenCommand}" Margin="0,0,0,10"
+              Classes="attempt" Classes.passed="{Binding Passed}" Classes.failed="{Binding Failed}"
               AutomationProperties.Name="{Binding AutomationName}" HorizontalAlignment="Stretch"
-              HorizontalContentAlignment="Stretch">
-        <StackPanel Spacing="2">
-          <TextBlock Text="{Binding Title}" FontWeight="SemiBold" TextWrapping="Wrap"/>
-          <WrapPanel ItemSpacing="6">
-            <PathIcon Data="{StaticResource IconCheck}" IsVisible="{Binding Passed}" Foreground="{DynamicResource CorrectBrush}" Width="16" Height="16"/>
-            <PathIcon Data="{StaticResource IconClose}" IsVisible="{Binding Failed}" Foreground="{DynamicResource WrongBrush}" Width="16" Height="16"/>
-            <TextBlock Text="{Binding ResultLabel}" FontSize="13"/>
-            <TextBlock Text="{Binding ScoreText}" Classes="mono" FontSize="13" TextWrapping="Wrap"/>
-          </WrapPanel>
-          <TextBlock Text="{Binding DateText}" Classes="caption"/>
+              HorizontalContentAlignment="Stretch" Padding="12,10" CornerRadius="10" FontWeight="Normal">
+        <StackPanel Spacing="4">
+          <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+            <TextBlock Text="{Binding Title}" FontWeight="SemiBold" TextWrapping="Wrap"/>
+            <TextBlock Grid.Column="1" Text="{Binding ScoreText}" Classes="mono outcome" FontWeight="Medium"/>
+          </Grid>
+          <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+            <TextBlock Text="{Binding DateText}" Classes="caption"/>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="4">
+              <PathIcon Data="{StaticResource IconCheck}" IsVisible="{Binding Passed}" Width="12" Height="12" Classes="outcome"/>
+              <PathIcon Data="{StaticResource IconClose}" IsVisible="{Binding Failed}" Width="12" Height="12" Classes="outcome"/>
+              <TextBlock Text="{Binding ResultLabel}" Classes="outcome" FontSize="12" FontWeight="SemiBold"/>
+            </StackPanel>
+          </Grid>
         </StackPanel>
       </Button>
     </DataTemplate>
@@ -97,7 +116,7 @@
           <TextBlock Text="{loc:Loc Welcome_Message}" Classes="caption"/>
         </StackPanel>
         <Button Grid.Column="1" Theme="{StaticResource QuietButton}" Command="{Binding DismissWelcomeCommand}"
-                Foreground="{DynamicResource MutedBrush}" FontSize="13" FontWeight="Normal"
+                FontSize="13" FontWeight="Normal"
                 Content="{loc:Loc Welcome_Dismiss}" VerticalAlignment="Center"/>
       </Grid>
     </Border>
@@ -190,7 +209,7 @@
         <Border Grid.Column="1" Width="300" IsVisible="{Binding HasRecent}"
                 Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource DividerBrush}" BorderThickness="1,0,0,0">
           <DockPanel Margin="16">
-            <TextBlock DockPanel.Dock="Top" Text="{loc:Loc Library_RecentAttempts}" Classes="heading" Margin="0,0,0,12"/>
+            <TextBlock DockPanel.Dock="Top" Text="{loc:Loc Library_RecentAttempts}" Classes="strong" Margin="0,0,0,12"/>
             <ScrollViewer HorizontalScrollBarVisibility="Disabled">
               <ItemsControl ItemsSource="{Binding RecentAttempts}" ItemTemplate="{StaticResource AttemptTemplate}"/>
             </ScrollViewer>

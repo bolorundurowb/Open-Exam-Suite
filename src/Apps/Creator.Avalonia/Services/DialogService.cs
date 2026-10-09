@@ -2,6 +2,7 @@ using System.Reflection;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Platform.Storage;
+using OpenExamSuite.Creator.Localization;
 using OpenExamSuite.Creator.Views.Dialogs;
 
 namespace OpenExamSuite.Creator.Services;
@@ -60,16 +61,20 @@ public sealed class DialogService
         await dialog.ShowDialog(owner);
     }
 
-    public async Task<bool> ConfirmRecoveryAsync(string recoveryPath)
+    public async Task<bool> ConfirmRecoveryAsync(string? sourcePath)
     {
         var owner = Owner;
         if (owner == null)
             return false;
 
+        var name = string.IsNullOrWhiteSpace(sourcePath) ? "Untitled" : Path.GetFileName(sourcePath);
         var box = new MessageDialog
         {
-            Title = "Recover unsaved work?",
-            DataContext = new { Message = $"A newer autosaved copy exists. Recover it?{Environment.NewLine}{recoveryPath}" }
+            DataContext = new
+            {
+                Title = Strings.Get("Recovery_Title"),
+                Message = $"{Strings.Get("Recovery_Message")}{Environment.NewLine}{name}"
+            }
         };
         return await box.ShowDialog(owner);
     }

@@ -5,11 +5,19 @@
              xmlns:views="using:OpenExamSuite.Simulator.Views"
              x:Class="OpenExamSuite.Simulator.Views.ReviewSubmitView">
   <UserControl.Resources>
-    <DataTemplate x:Key="ChipTemplate" DataType="vm:QuestionChipViewModel">
-      <Button Theme="{StaticResource NavCell}" Command="{Binding $parent[ItemsControl].DataContext.JumpCommand}"
-              CommandParameter="{Binding}" AutomationProperties.Name="{Binding AutomationName}"
-              MinWidth="52" Padding="8,0">
-        <TextBlock Text="{Binding Number}" Classes="mono"/>
+    <DataTemplate x:Key="UnansweredChipTemplate" DataType="vm:QuestionChipViewModel">
+      <Button Theme="{StaticResource ChipButton}" Classes="wrong" Command="{Binding $parent[ItemsControl].DataContext.JumpCommand}"
+              CommandParameter="{Binding}" AutomationProperties.Name="{Binding AutomationName}">
+        <TextBlock Text="{Binding Number}"/>
+      </Button>
+    </DataTemplate>
+    <DataTemplate x:Key="FlaggedChipTemplate" DataType="vm:QuestionChipViewModel">
+      <Button Theme="{StaticResource ChipButton}" Classes="flag" Command="{Binding $parent[ItemsControl].DataContext.JumpCommand}"
+              CommandParameter="{Binding}" AutomationProperties.Name="{Binding AutomationName}">
+        <StackPanel Orientation="Horizontal" Spacing="4">
+          <PathIcon Data="{StaticResource IconFlag}" Width="12" Height="12" Foreground="{DynamicResource FlagBrush}"/>
+          <TextBlock Text="{Binding Number}"/>
+        </StackPanel>
       </Button>
     </DataTemplate>
   </UserControl.Resources>
@@ -30,7 +38,7 @@
     <Grid ColumnDefinitions="*,Auto">
       <Panel Grid.Column="0">
       <ScrollViewer HorizontalScrollBarVisibility="Disabled">
-        <StackPanel MaxWidth="900" Margin="24,20,24,24" Spacing="16" HorizontalAlignment="Stretch">
+        <StackPanel MaxWidth="900" Margin="40,24,40,24" Spacing="16" HorizontalAlignment="Stretch">
 
           <!-- Time up: a notice, then automatic submission. -->
           <Border Classes="banner critical" IsVisible="{Binding IsTimeUp}">
@@ -48,64 +56,63 @@
             <Border Classes="timer" Classes.low="{Binding IsLowTime}" Classes.critical="{Binding IsCriticalTime}"
                     IsVisible="{Binding ShowTimer}" VerticalAlignment="Center" Margin="0,0,0,8">
               <StackPanel Orientation="Horizontal" Spacing="8">
-                <PathIcon Data="{StaticResource IconClock}"/>
-                <TextBlock Text="{Binding TimerText}" Classes="mono" FontSize="18" FontWeight="SemiBold"/>
+                <PathIcon Data="{StaticResource IconClock}" Width="18" Height="18"/>
+                <TextBlock Text="{Binding TimerText}" Classes="mono" FontSize="22"/>
               </StackPanel>
             </Border>
           </WrapPanel>
 
-          <!-- Counts -->
-          <WrapPanel>
-            <Border Classes="card" Margin="0,0,12,12" MinWidth="170">
+          <!-- Counts: tinted tiles, each with an icon and a label. -->
+          <Grid ColumnDefinitions="*,*,*" ColumnSpacing="12">
+            <Border Grid.Column="0" Background="{DynamicResource AccentSubtleBrush}" CornerRadius="10" Padding="14">
               <StackPanel>
-                <TextBlock Text="{Binding AnsweredCount}" Classes="title mono"/>
-                <TextBlock Text="{loc:Loc Nav_Answered}" Classes="caption"/>
+                <TextBlock Text="{Binding AnsweredCount}" Classes="mono" FontSize="28" FontWeight="Bold"/>
+                <TextBlock Text="{loc:Loc Nav_Answered}"/>
               </StackPanel>
             </Border>
-            <Border Classes="card" Margin="0,0,12,12" MinWidth="170">
+            <Border Grid.Column="1" Background="{DynamicResource WrongBgBrush}" CornerRadius="10" Padding="14">
               <StackPanel>
-                <TextBlock Text="{Binding UnansweredCount}" Classes="title mono"/>
-                <TextBlock Text="{loc:Loc Nav_Unanswered}" Classes="caption"/>
+                <TextBlock Text="{Binding UnansweredCount}" Classes="mono wrong" FontSize="28" FontWeight="Bold"/>
+                <StackPanel Orientation="Horizontal" Spacing="4">
+                  <PathIcon Data="{StaticResource IconClose}" Width="14" Height="14" Foreground="{DynamicResource WrongBrush}"/>
+                  <TextBlock Text="{loc:Loc Nav_Unanswered}" Classes="wrong"/>
+                </StackPanel>
               </StackPanel>
             </Border>
-            <Border Classes="card" Margin="0,0,12,12" MinWidth="170">
+            <Border Grid.Column="2" Background="{DynamicResource FlagBgBrush}" CornerRadius="10" Padding="14">
               <StackPanel>
-                <TextBlock Text="{Binding FlaggedCount}" Classes="title mono"/>
-                <TextBlock Text="{loc:Loc Nav_Flagged}" Classes="caption"/>
+                <TextBlock Text="{Binding FlaggedCount}" Classes="mono" FontSize="28" FontWeight="Bold" Foreground="{DynamicResource FlagBrush}"/>
+                <StackPanel Orientation="Horizontal" Spacing="4">
+                  <PathIcon Data="{StaticResource IconFlag}" Width="14" Height="14" Foreground="{DynamicResource FlagBrush}"/>
+                  <TextBlock Text="{loc:Loc Nav_Flagged}" Foreground="{DynamicResource FlagBrush}"/>
+                </StackPanel>
               </StackPanel>
             </Border>
-          </WrapPanel>
+          </Grid>
 
           <!-- Unanswered chips -->
-          <Border Classes="card" IsVisible="{Binding HasUnanswered}">
-            <StackPanel Spacing="10">
-              <TextBlock Text="{loc:Loc Review_UnansweredHeading}" Classes="heading"/>
-              <ItemsControl ItemsSource="{Binding UnansweredChips}" ItemTemplate="{StaticResource ChipTemplate}">
-                <ItemsControl.ItemsPanel>
-                  <ItemsPanelTemplate>
-                    <WrapPanel/>
-                  </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-              </ItemsControl>
-            </StackPanel>
-          </Border>
+          <StackPanel Spacing="8" IsVisible="{Binding HasUnanswered}">
+            <TextBlock Text="{loc:Loc Review_UnansweredHeading}" Classes="strong"/>
+            <ItemsControl ItemsSource="{Binding UnansweredChips}" ItemTemplate="{StaticResource UnansweredChipTemplate}">
+              <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                  <WrapPanel/>
+                </ItemsPanelTemplate>
+              </ItemsControl.ItemsPanel>
+            </ItemsControl>
+          </StackPanel>
 
           <!-- Flagged chips -->
-          <Border Classes="card" IsVisible="{Binding HasFlagged}">
-            <StackPanel Spacing="10">
-              <StackPanel Orientation="Horizontal" Spacing="8">
-                <PathIcon Data="{StaticResource IconFlag}" Foreground="{DynamicResource FlagBrush}"/>
-                <TextBlock Text="{loc:Loc Review_FlaggedHeading}" Classes="heading"/>
-              </StackPanel>
-              <ItemsControl ItemsSource="{Binding FlaggedChips}" ItemTemplate="{StaticResource ChipTemplate}">
-                <ItemsControl.ItemsPanel>
-                  <ItemsPanelTemplate>
-                    <WrapPanel/>
-                  </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-              </ItemsControl>
-            </StackPanel>
-          </Border>
+          <StackPanel Spacing="8" IsVisible="{Binding HasFlagged}">
+            <TextBlock Text="{loc:Loc Review_FlaggedHeading}" Classes="strong"/>
+            <ItemsControl ItemsSource="{Binding FlaggedChips}" ItemTemplate="{StaticResource FlaggedChipTemplate}">
+              <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                  <WrapPanel/>
+                </ItemsPanelTemplate>
+              </ItemsControl.ItemsPanel>
+            </ItemsControl>
+          </StackPanel>
 
           <Border Classes="banner info" IsVisible="{Binding !HasUnanswered}">
             <StackPanel Orientation="Horizontal" Spacing="10">

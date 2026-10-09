@@ -1,4 +1,7 @@
 using System.Collections.ObjectModel;
+using Avalonia;
+using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using OpenExamSuite.Creator.Localization;
@@ -14,7 +17,11 @@ public sealed partial class MainWindowViewModel : ViewModelBase
     private readonly ShellServices _shell;
     private readonly ThemeService _theme;
     private readonly ToastService _toasts;
+    private readonly string _previewPath = Path.Combine(Path.GetTempPath(), $"oes-preview-{Environment.ProcessId}.oef");
+    private DispatcherTimer? _autosave;
+    private string? _untitledKey;
     private bool _initialized;
+    private bool _closingWithoutSave;
 
     public MainWindowViewModel(ShellServices shell, ThemeService theme, ToastService toasts)
     {
@@ -40,6 +47,8 @@ public sealed partial class MainWindowViewModel : ViewModelBase
 
     public bool HasProblems => _shell.Document.Problems.Count > 0;
 
+    public bool IsLegacy => _shell.Document.IsLegacy;
+
     public ObservableCollection<ToastItem> Toasts => _toasts.Toasts;
 
     public ThemeMode ThemeMode => _theme.Mode;
@@ -55,6 +64,9 @@ public sealed partial class MainWindowViewModel : ViewModelBase
         _initialized = true;
         _theme.Load();
         await CheckRecoveryAsync();
+        _autosave = new DispatcherTimer { Interval = TimeSpan.FromSeconds(2) };
+        _autosave.Tick += (_, _) => Autosave();
+        _autosave.Start();
     }
 
     public async Task OpenFileAsync(string path)
@@ -65,16 +77,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase
         if (!await ConfirmUnsavedAndSaveAsync())
             return;
 
-        var result = _shell.Document.Load(path);
-        if (result.Success)
-        {
-            _shell.Library.AddExam(ExamCatalog.Creator, path, _shell.Document.Exam.Properties.Title);
-            UpdateTitle();
-        }
-        else
-        {
-            _toasts.ShowWarning($"Could not open {Path.GetFileName(path)}: {result.Error}");
-        }
+        LoadPath(path);
     }
 
     public static bool IsSupportedPath(string path)
@@ -83,16 +86,15 @@ public sealed partial class MainWindowViewModel : ViewModelBase
             return false;
 
         var extension = Path.GetExtension(path).ToLowerInvariant();
-        return extension is ".oef" or ".json";
+        return extension is ".oef" or ".json" or ".xml";
     }
 
     public void Shutdown()
     {
-        if (!string.IsNullOrEmpty(FilePath))
-        {
-            var recoveryPath = GetRecoveryPath();
-            _shell.Document.WriteRecoveryCopy(recoveryPath);
-        }
+        if (_closingWithoutSave)
+            return;
+
+        Autosave();
     }
 
     [RelayCommand]
@@ -114,27 +116,13 @@ public sealed partial class MainWindowViewModel : ViewModelBase
         var path = await _shell.Dialogs.PickOpenFileAsync(
             Strings.Get("Dialog_OpenTitle"),
             DialogService.OefType,
-            DialogService.JsonType);
+            DialogService.JsonType,
+            DialogService.XmlType);
 
         if (string.IsNullOrEmpty(path))
             return;
 
-        if (Path.GetExtension(path).Equals(".json", StringComparison.OrdinalIgnoreCase))
-        {
-            var result = _shell.Document.LoadJson(path);
-            if (!result.Success)
-            {
-                _toasts.ShowWarning($"Could not import {Path.GetFileName(path)}: {result.Error}");
-                return;
-            }
-        }
-        else
-        {
-            await OpenFileAsync(path);
-            return;
-        }
-
-        UpdateTitle();
+        LoadPath(path);
     }
 
     [RelayCommand]
@@ -166,6 +154,9 @@ public sealed partial class MainWindowViewModel : ViewModelBase
     [RelayCommand]
     private async Task ImportJsonAsync()
     {
+        if (!await ConfirmUnsavedAndSaveAsync())
+            return;
+
         var path = await _shell.Dialogs.PickOpenFileAsync(
             Strings.Get("Dialog_ImportTitle"),
             DialogService.JsonType);
@@ -173,11 +164,23 @@ public sealed partial class MainWindowViewModel : ViewModelBase
         if (string.IsNullOrEmpty(path))
             return;
 
-        var result = _shell.Document.LoadJson(path);
-        if (result.Success)
-            UpdateTitle();
-        else
-            _toasts.ShowWarning($"Could not import {Path.GetFileName(path)}: {result.Error}");
+        LoadPath(path);
+    }
+
+    [RelayCommand]
+    private async Task ImportXmlAsync()
+    {
+        if (!await ConfirmUnsavedAndSaveAsync())
+            return;
+
+        var path = await _shell.Dialogs.PickOpenFileAsync(
+            Strings.Get("Dialog_ImportXmlTitle"),
+            DialogService.XmlType);
+
+        if (string.IsNullOrEmpty(path))
+            return;
+
+        LoadPath(path);
     }
 
     [RelayCommand]
@@ -195,7 +198,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase
         if (result.Success)
             _toasts.Show(Strings.Get("Toast_Saved"));
         else
-            _toasts.ShowWarning($"Export failed: {result.Error}");
+            _toasts.ShowWarning(SaveFailure(result));
     }
 
     [RelayCommand]
@@ -213,7 +216,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase
         if (result.Success)
             _toasts.Show(Strings.Get("Toast_Saved"));
         else
-            _toasts.ShowWarning($"Export failed: {result.Error}");
+            _toasts.ShowWarning(SaveFailure(result));
     }
 
     [RelayCommand]
@@ -231,31 +234,33 @@ public sealed partial class MainWindowViewModel : ViewModelBase
         if (result.Success)
             _toasts.Show(Strings.Get("Toast_Saved"));
         else
-            _toasts.ShowWarning($"Export failed: {result.Error}");
+            _toasts.ShowWarning(SaveFailure(result));
     }
 
     [RelayCommand]
     private void TryExam()
     {
-        var path = FilePath;
-        if (string.IsNullOrEmpty(path) || IsDirty)
-        {
-            path = Path.Combine(Path.GetTempPath(), $"oes-preview-{Guid.NewGuid():N}.oef");
-            var result = _shell.Document.Save(path);
-            if (!result.Success)
-            {
-                _toasts.ShowWarning("Could not prepare preview file.");
-                return;
-            }
-        }
-
         if (!_shell.Simulator.IsInstalled)
         {
             _toasts.ShowWarning(Strings.Get("Toast_NoSimulator"));
             return;
         }
 
+        var path = FilePath;
+        if (string.IsNullOrEmpty(path) || IsDirty)
+        {
+            var result = _shell.Document.WriteCopy(_previewPath);
+            if (!result.Success)
+            {
+                _toasts.ShowWarning(SaveFailure(result));
+                return;
+            }
+
+            path = _previewPath;
+        }
+
         _shell.Simulator.LaunchPractice(path);
+        ReturnFocusToCreator();
     }
 
     [RelayCommand]
@@ -291,6 +296,8 @@ public sealed partial class MainWindowViewModel : ViewModelBase
                 await SaveAsync();
                 return !_shell.Document.IsDirty;
             case PromptResult.DontSave:
+                DiscardRecovery();
+                _closingWithoutSave = true;
                 return true;
             default:
                 return false;
@@ -309,6 +316,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase
                 await SaveAsync();
                 return !_shell.Document.IsDirty;
             case PromptResult.DontSave:
+                DiscardRecovery();
                 return true;
             default:
                 return false;
@@ -317,55 +325,114 @@ public sealed partial class MainWindowViewModel : ViewModelBase
 
     private async Task ExecuteSaveAsync(string path)
     {
+        var previousKey = RecoveryKey();
         var result = _shell.Document.Save(path);
         if (result.Success)
         {
+            _untitledKey = null;
+            RecoveryCatalog.Delete(previousKey);
+            RecoveryCatalog.Delete(RecoveryCatalog.KeyForPath(path));
             _shell.Library.AddExam(ExamCatalog.Creator, path, _shell.Document.Exam.Properties.Title);
             _toasts.Show(Strings.Get("Toast_Saved"));
             UpdateTitle();
         }
         else
         {
-            _toasts.ShowWarning($"Save failed: {result.Error}");
+            _toasts.ShowWarning(SaveFailure(result));
         }
+    }
+
+    private void LoadPath(string path)
+    {
+        var extension = Path.GetExtension(path);
+        var result = extension.Equals(".json", StringComparison.OrdinalIgnoreCase)
+            ? _shell.Document.LoadJson(path)
+            : extension.Equals(".xml", StringComparison.OrdinalIgnoreCase)
+                ? _shell.Document.LoadXml(path)
+                : _shell.Document.Load(path);
+
+        if (!result.Success)
+        {
+            _toasts.ShowWarning($"{Strings.Get("Toast_OpenFailed")} {IoMessages.Explain(result.Error, null)}");
+            return;
+        }
+
+        if (extension.Equals(".oef", StringComparison.OrdinalIgnoreCase))
+            _shell.Library.AddExam(ExamCatalog.Creator, path, _shell.Document.Exam.Properties.Title);
+
+        _untitledKey = null;
+        UpdateTitle();
+        OnPropertyChanged(nameof(IsLegacy));
     }
 
     private async Task CheckRecoveryAsync()
     {
-        var recoveryPath = GetRecoveryPath();
-        if (!_shell.Document.HasRecoveryCopy(recoveryPath))
+        var offer = RecoveryCatalog.FindNewer(_shell.Document).FirstOrDefault();
+        if (offer == null)
             return;
 
-        var recover = await _shell.Dialogs.ConfirmRecoveryAsync(recoveryPath);
+        var recover = await _shell.Dialogs.ConfirmRecoveryAsync(offer.SourcePath);
         if (!recover)
+        {
+            RecoveryCatalog.Delete(offer.Key);
             return;
+        }
 
-        var result = _shell.Document.Load(recoveryPath);
-        if (result.Success)
-            UpdateTitle();
+        var result = _shell.Document.LoadRecovered(offer.RecoveryPath, offer.SourcePath);
+        if (!result.Success)
+        {
+            _toasts.ShowWarning($"{Strings.Get("Toast_OpenFailed")} {IoMessages.Explain(result.Error, null)}");
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(offer.SourcePath))
+            RecoveryCatalog.RememberUntitledKey(offer.Key, ref _untitledKey);
+        else
+            _untitledKey = null;
+
+        UpdateTitle();
+        OnPropertyChanged(nameof(IsLegacy));
     }
 
-    private string GetRecoveryPath()
+    private void Autosave() => RecoveryCatalog.Write(_shell.Document, RecoveryKey(), FilePath);
+
+    private void DiscardRecovery()
     {
-        var dir = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-            "OpenExamSuite",
-            "CreatorRecovery");
+        RecoveryCatalog.Delete(RecoveryKey());
+        _untitledKey = null;
+    }
 
-        if (!Directory.Exists(dir))
-            Directory.CreateDirectory(dir);
+    private string RecoveryKey() =>
+        string.IsNullOrWhiteSpace(FilePath)
+            ? RecoveryCatalog.KeyForUntitled(ref _untitledKey)
+            : RecoveryCatalog.KeyForPath(FilePath);
 
-        var name = string.IsNullOrEmpty(FilePath)
-            ? $"Untitled-{Guid.NewGuid():N}.recovery.oef"
-            : Path.GetFileNameWithoutExtension(FilePath) + ".recovery.oef";
+    private static string SaveFailure(DocumentSaveResult result) =>
+        $"{Strings.Get("Toast_SaveFailed")} {IoMessages.Explain(result.Error, result.Detail)}";
 
-        return Path.Combine(dir, name);
+    private static void ReturnFocusToCreator()
+    {
+        void Activate()
+        {
+            if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+                desktop.MainWindow?.Activate();
+        }
+
+        Activate();
+        var timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(400) };
+        timer.Tick += (_, _) =>
+        {
+            timer.Stop();
+            Activate();
+        };
+        timer.Start();
     }
 
     private void OnDocumentChanged()
     {
         OnPropertyChanged(nameof(IsDirty));
         OnPropertyChanged(nameof(HasProblems));
+        OnPropertyChanged(nameof(IsLegacy));
         UpdateTitle();
     }
 

@@ -55,7 +55,10 @@ public partial class MainWindow : Window
         {
             new NativeMenuItem(Strings.Get("Menu_New")) { Command = viewModel.NewCommand, Gesture = new KeyGesture(Key.N, KeyModifiers.Meta) },
             new NativeMenuItem(Strings.Get("Menu_Open")) { Command = viewModel.OpenCommand, Gesture = new KeyGesture(Key.O, KeyModifiers.Meta) },
-            new NativeMenuItem(Strings.Get("Menu_Save")) { Command = viewModel.SaveCommand, Gesture = new KeyGesture(Key.S, KeyModifiers.Meta) }
+            new NativeMenuItem(Strings.Get("Menu_Save")) { Command = viewModel.SaveCommand, Gesture = new KeyGesture(Key.S, KeyModifiers.Meta) },
+            new NativeMenuItem(Strings.Get("Menu_Import")) { Command = viewModel.ImportJsonCommand },
+            new NativeMenuItem(Strings.Get("Menu_ImportXml")) { Command = viewModel.ImportXmlCommand },
+            new NativeMenuItem(Strings.Get("Menu_TryExam")) { Command = viewModel.TryExamCommand }
         };
 
         var edit = new NativeMenu
