@@ -3,7 +3,7 @@
 
   <!-- Type scale: display (result), title, heading, body (default), caption. IBM Plex Mono for the countdown and scores. -->
   <Style Selector="Window">
-    <Setter Property="FontFamily" Value="avares://OpenExamSuite.Simulator/Assets/Fonts#IBM Plex Sans"/>
+    <Setter Property="FontFamily" Value="avares://OpenExamSuite.Shared.Avalonia/Assets/Fonts#IBM Plex Sans"/>
     <Setter Property="FontSize" Value="15"/>
     <Setter Property="Background" Value="{DynamicResource BgBrush}"/>
     <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
@@ -32,7 +32,7 @@
     <Setter Property="Foreground" Value="{DynamicResource MutedBrush}"/>
   </Style>
   <Style Selector="TextBlock.mono">
-    <Setter Property="FontFamily" Value="avares://OpenExamSuite.Simulator/Assets/Fonts#IBM Plex Mono"/>
+    <Setter Property="FontFamily" Value="avares://OpenExamSuite.Shared.Avalonia/Assets/Fonts#IBM Plex Mono"/>
   </Style>
   <Style Selector="TextBlock.error">
     <Setter Property="Foreground" Value="{DynamicResource WrongBrush}"/>

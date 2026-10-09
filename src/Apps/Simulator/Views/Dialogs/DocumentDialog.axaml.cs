@@ -25,7 +25,7 @@ public partial class DocumentDialog : Window
             {
                 Text = text,
                 TextWrapping = Avalonia.Media.TextWrapping.Wrap,
-                FontFamily = new Avalonia.Media.FontFamily("avares://OpenExamSuite.Simulator/Assets/Fonts#IBM Plex Mono"),
+                FontFamily = new Avalonia.Media.FontFamily("avares://OpenExamSuite.Shared.Avalonia/Assets/Fonts#IBM Plex Mono"),
                 FontSize = 13
             };
 

@@ -43,7 +43,7 @@
         <ResourceInclude Source="avares://OpenExamSuite.Simulator/Styles/Icons.axaml"/>
         <ResourceInclude Source="avares://OpenExamSuite.Simulator/Styles/ControlThemes.axaml"/>
       </ResourceDictionary.MergedDictionaries>
-      <FontFamily x:Key="ContentControlThemeFontFamily">avares://OpenExamSuite.Simulator/Assets/Fonts#IBM Plex Sans</FontFamily>
+      <FontFamily x:Key="ContentControlThemeFontFamily">avares://OpenExamSuite.Shared.Avalonia/Assets/Fonts#IBM Plex Sans</FontFamily>
     </ResourceDictionary>
   </Application.Resources>
 </Application>

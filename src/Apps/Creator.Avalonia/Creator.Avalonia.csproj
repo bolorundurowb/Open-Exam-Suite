@@ -2,9 +2,9 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <OutputType>WinExe</OutputType>
-    <ApplicationIcon>SimulatorAppIcon.ico</ApplicationIcon>
-    <AssemblyName>OpenExamSuite.Simulator</AssemblyName>
-    <RootNamespace>OpenExamSuite.Simulator</RootNamespace>
+    <ApplicationIcon>CreatorAppIcon.ico</ApplicationIcon>
+    <AssemblyName>OpenExamSuite.Creator.Avalonia</AssemblyName>
+    <RootNamespace>OpenExamSuite.Creator</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <BuiltInComInteropSupport>false</BuiltInComInteropSupport>
@@ -20,7 +20,6 @@
     <PackageReference Include="CommunityToolkit.Mvvm" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
     <PackageReference Include="Microsoft.Extensions.Logging" />
-    <PackageReference Include="Microsoft.Win32.SystemEvents" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,22 +27,17 @@
     <ProjectReference Include="..\..\Libraries\ExamIO\ExamIO.csproj" />
     <ProjectReference Include="..\..\Libraries\Logging\Logging.csproj" />
     <ProjectReference Include="..\..\Libraries\Storage\Storage.csproj" />
-    <ProjectReference Include="..\Simulator.Session\Simulator.Session.csproj" />
+    <ProjectReference Include="..\Creator.Session\Creator.Session.csproj" />
     <ProjectReference Include="..\..\Libraries\Shared.Avalonia\Shared.Avalonia.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <InternalsVisibleTo Include="OpenExamSuite.Simulator.Tests" />
-  </ItemGroup>
-
-  <ItemGroup>
     <AvaloniaResource Include="Assets\**" />
-    <AvaloniaResource Include="SimulatorAppIcon.ico" Link="Assets\SimulatorAppIcon.ico" />
+    <AvaloniaResource Include="CreatorAppIcon.ico" Link="Assets\CreatorAppIcon.ico" />
     <AvaloniaResource Include="..\..\..\CHANGELOG.md" Link="Assets\CHANGELOG.md" />
     <AvaloniaResource Include="..\..\..\LICENSE" Link="Assets\LICENSE.txt" />
   </ItemGroup>
 
-  <!-- Installed builds get {app}/Samples from the installer. Development runs read them from the output folder. -->
   <ItemGroup Condition="'$(Configuration)' == 'Debug'">
     <None Include="..\..\..\samples\*.oef" Link="Samples\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>

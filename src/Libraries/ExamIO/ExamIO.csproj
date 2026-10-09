@@ -19,13 +19,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="..\..\Apps\Simulator\Assets\Fonts\IBMPlexSans-Regular.ttf">
+    <EmbeddedResource Include="..\Shared.Avalonia\Assets\Fonts\IBMPlexSans-Regular.ttf">
       <LogicalName>OpenExamSuite.Shared.Resources.fonts.IBMPlexSans-Regular.ttf</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\Apps\Simulator\Assets\Fonts\IBMPlexSans-Bold.ttf">
+    <EmbeddedResource Include="..\Shared.Avalonia\Assets\Fonts\IBMPlexSans-Bold.ttf">
       <LogicalName>OpenExamSuite.Shared.Resources.fonts.IBMPlexSans-Bold.ttf</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\Apps\Simulator\Assets\Fonts\IBMPlexSans-Italic.ttf">
+    <EmbeddedResource Include="..\Shared.Avalonia\Assets\Fonts\IBMPlexSans-Italic.ttf">
       <LogicalName>OpenExamSuite.Shared.Resources.fonts.IBMPlexSans-Italic.ttf</LogicalName>
     </EmbeddedResource>
   </ItemGroup>

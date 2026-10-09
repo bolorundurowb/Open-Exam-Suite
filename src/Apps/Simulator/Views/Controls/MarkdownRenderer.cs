@@ -60,7 +60,7 @@ public static class MarkdownRenderer
             if (part.Bold)
                 run.FontWeight = FontWeight.Bold;
             if (part.Code)
-                run.FontFamily = new FontFamily("avares://OpenExamSuite.Simulator/Assets/Fonts#IBM Plex Mono");
+                run.FontFamily = new FontFamily("avares://OpenExamSuite.Shared.Avalonia/Assets/Fonts#IBM Plex Mono");
 
             inlines.Add(run);
         }
