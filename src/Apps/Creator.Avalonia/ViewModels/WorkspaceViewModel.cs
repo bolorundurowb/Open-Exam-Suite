@@ -38,6 +38,8 @@ public sealed partial class WorkspaceViewModel : ViewModelBase
 
     [ObservableProperty] private string _searchQuery;
 
+    [ObservableProperty] private string _outlineSummary = string.Empty;
+
     public bool HasProblems { get; private set; }
 
     partial void OnSearchQueryChanged(string value)
@@ -65,7 +67,7 @@ public sealed partial class WorkspaceViewModel : ViewModelBase
         {
             NodeType.Section => SelectedNode.Id,
             NodeType.Question => SelectedNode.ParentId,
-            _ => OutlineNodes.FirstOrDefault(n => n.Type == NodeType.Section)?.Id
+            _ => FirstSection()?.Id
         };
 
         if (string.IsNullOrEmpty(sectionId))
@@ -107,23 +109,11 @@ public sealed partial class WorkspaceViewModel : ViewModelBase
         if (revealIfHidden && !ContainsNode(nodeId) && !string.IsNullOrEmpty(SearchQuery))
             SearchQuery = string.Empty;
 
-        var top = OutlineNodes.FirstOrDefault(n => n.Id == nodeId);
-        if (top != null)
-        {
-            SelectedNode = top;
+        var match = FindNode(nodeId);
+        if (match == null)
             return;
-        }
 
-        foreach (var section in OutlineNodes)
-        {
-            var child = section.Children.FirstOrDefault(c => c.Id == nodeId);
-            if (child == null)
-                continue;
-
-            section.IsExpanded = true;
-            SelectedNode = child;
-            return;
-        }
+        SelectedNode = match;
     }
 
     public void DropNode(string sourceId, string targetId)
@@ -191,7 +181,16 @@ public sealed partial class WorkspaceViewModel : ViewModelBase
 
     private void RefreshOutline()
     {
+        RefreshSummary();
         var selectedId = SelectedNode?.Id;
+
+        if (string.IsNullOrWhiteSpace(SearchQuery) && IsOutlineStructureUnchanged())
+        {
+            foreach (var nodeVm in OutlineNodes)
+                RefreshNode(nodeVm);
+            return;
+        }
+
         OutlineNodes.Clear();
 
         var nodes = string.IsNullOrWhiteSpace(SearchQuery)
@@ -199,17 +198,23 @@ public sealed partial class WorkspaceViewModel : ViewModelBase
             : _shell.Document.Search(SearchQuery);
 
         var examNode = nodes.FirstOrDefault(n => n.Type == NodeType.Exam);
+        OutlineNodeViewModel? examVm = null;
         if (examNode != null)
         {
-            var examVm = new OutlineNodeViewModel(examNode, null, _shell.Document);
+            examVm = new OutlineNodeViewModel(examNode, null, _shell.Document);
             OutlineNodes.Add(examVm);
             selectedId ??= examVm.Id;
         }
 
+        var sectionParent = examVm;
         foreach (var section in nodes.Where(n => n.Type == NodeType.Section).OrderBy(n => _shell.Document.Exam.Sections.IndexOf(n.Section!)))
         {
-            var sectionVm = new OutlineNodeViewModel(section, null, _shell.Document);
-            OutlineNodes.Add(sectionVm);
+            var sectionVm = new OutlineNodeViewModel(section, sectionParent, _shell.Document);
+            if (sectionParent != null)
+                sectionParent.Children.Add(sectionVm);
+            else
+                OutlineNodes.Add(sectionVm);
+
             selectedId ??= sectionVm.Id;
 
             foreach (var question in nodes.Where(n => n.Type == NodeType.Question && n.ParentId == section.Id)
@@ -223,6 +228,36 @@ public sealed partial class WorkspaceViewModel : ViewModelBase
             SelectNode(selectedId);
     }
 
+    private bool IsOutlineStructureUnchanged()
+    {
+        var sections = _shell.Document.Exam.Sections;
+        if (OutlineNodes.Count != 1 || OutlineNodes[0].Type != NodeType.Exam)
+            return false;
+
+        var sectionNodes = OutlineNodes[0].Children;
+        if (sectionNodes.Count != sections.Count)
+            return false;
+
+        for (int i = 0; i < sections.Count; i++)
+        {
+            var section = sections[i];
+            var sectionVm = sectionNodes[i];
+            if (sectionVm.Node.Section != section)
+                return false;
+
+            if (sectionVm.Children.Count != section.Questions.Count)
+                return false;
+
+            for (int j = 0; j < section.Questions.Count; j++)
+            {
+                if (sectionVm.Children[j].Node.Question != section.Questions[j])
+                    return false;
+            }
+        }
+
+        return true;
+    }
+
     private void RefreshEditor()
     {
         var nodeId = _shell.Document.SelectedNodeId;
@@ -230,6 +265,19 @@ public sealed partial class WorkspaceViewModel : ViewModelBase
         {
             EditorContent = null;
             return;
+        }
+
+        switch (node.Type)
+        {
+            case NodeType.Exam when EditorContent is ExamPropertiesViewModel examVm:
+                examVm.SyncFromDocument();
+                return;
+            case NodeType.Section when EditorContent is SectionEditorViewModel sectionVm && sectionVm.SectionId == node.Id:
+                sectionVm.SyncFromDocument();
+                return;
+            case NodeType.Question when EditorContent is QuestionEditorViewModel questionVm && questionVm.QuestionId == node.Id:
+                questionVm.SyncFromDocument();
+                return;
         }
 
         EditorContent = node.Type switch
@@ -255,8 +303,17 @@ public sealed partial class WorkspaceViewModel : ViewModelBase
         Preview = new QuestionPreviewViewModel(node.Question!);
     }
 
+    private void RefreshSummary()
+    {
+        var exam = _shell.Document.Exam;
+        var questions = exam.Sections.Sum(section => section.Questions.Count);
+        OutlineSummary =
+            $"{Strings.Plural("Common_Questions", questions)} · {Strings.Plural("Common_Sections", exam.Sections.Count)} · {Strings.Plural("Outline_NeedsAttention", _shell.Document.Problems.Count)}";
+    }
+
     private void RefreshProblems()
     {
+        RefreshSummary();
         Problems.Clear();
         foreach (var problem in _shell.Document.Problems)
             Problems.Add(new ValidationProblemViewModel(problem, this));
@@ -265,6 +322,46 @@ public sealed partial class WorkspaceViewModel : ViewModelBase
         OnPropertyChanged(nameof(HasProblems));
     }
 
-    private bool ContainsNode(string nodeId) =>
-        OutlineNodes.Any(node => node.Id == nodeId || node.Children.Any(child => child.Id == nodeId));
+    private OutlineNodeViewModel? FirstSection() =>
+        OutlineNodes.SelectMany(SectionsOf).FirstOrDefault();
+
+    private static IEnumerable<OutlineNodeViewModel> SectionsOf(OutlineNodeViewModel node) =>
+        node.Type == NodeType.Section ? [node] : node.Children.Where(child => child.Type == NodeType.Section);
+
+    private OutlineNodeViewModel? FindNode(string nodeId)
+    {
+        foreach (var root in OutlineNodes)
+        {
+            if (root.Id == nodeId)
+                return root;
+
+            foreach (var section in root.Children)
+            {
+                if (section.Id == nodeId)
+                {
+                    root.IsExpanded = true;
+                    return section;
+                }
+
+                var question = section.Children.FirstOrDefault(child => child.Id == nodeId);
+                if (question == null)
+                    continue;
+
+                root.IsExpanded = true;
+                section.IsExpanded = true;
+                return question;
+            }
+        }
+
+        return null;
+    }
+
+    private static void RefreshNode(OutlineNodeViewModel node)
+    {
+        node.Refresh();
+        foreach (var child in node.Children)
+            RefreshNode(child);
+    }
+
+    private bool ContainsNode(string nodeId) => FindNode(nodeId) != null;
 }

@@ -272,6 +272,23 @@ public class CreatorDocumentTests
     }
 
     [Fact]
+    public void UpdateQuestionText_UnchangedText_DoesNotFireChanged()
+    {
+        var doc = CreateDocument();
+        doc.NewDocument();
+        var section = doc.AddSection();
+        var question = doc.AddQuestion(section.Id);
+        doc.UpdateQuestionText(question.Id, "Initial");
+
+        var changedFired = false;
+        doc.Changed += () => changedFired = true;
+
+        doc.UpdateQuestionText(question.Id, "Initial");
+
+        Assert.False(changedFired);
+    }
+
+    [Fact]
     public void Save_FailureIncludesIoDetail()
     {
         var doc = CreateDocument();
@@ -385,6 +402,24 @@ public class CreatorDocumentTests
 
         Assert.True(doc.HasDocument);
         Assert.Equal(1, fired);
+    }
+
+    [Fact]
+    public void CloseDocument_ClearsTheOpenExam()
+    {
+        var doc = CreateDocument();
+        var opened = 0;
+        doc.Opened += () => opened++;
+        doc.NewDocument();
+        doc.AddSection("Section");
+
+        doc.CloseDocument();
+
+        Assert.False(doc.HasDocument);
+        Assert.False(doc.IsDirty);
+        Assert.Null(doc.FilePath);
+        Assert.Empty(doc.Nodes);
+        Assert.Equal(1, opened);
     }
 
     [Fact]

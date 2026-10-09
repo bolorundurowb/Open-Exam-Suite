@@ -116,6 +116,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase
     [NotifyCanExecuteChangedFor(nameof(ExportXmlCommand))]
     [NotifyCanExecuteChangedFor(nameof(ExportPdfCommand))]
     [NotifyCanExecuteChangedFor(nameof(TryExamCommand))]
+    [NotifyCanExecuteChangedFor(nameof(CloseExamCommand))]
     [NotifyCanExecuteChangedFor(nameof(UndoCommand))]
     [NotifyCanExecuteChangedFor(nameof(RedoCommand))]
     private bool _hasDocument;
@@ -188,6 +189,19 @@ public sealed partial class MainWindowViewModel : ViewModelBase
             return;
 
         _shell.Document.NewDocument();
+        UpdateTitle();
+    }
+
+    [RelayCommand(CanExecute = nameof(CanEditDocument))]
+    private async Task CloseExamAsync()
+    {
+        if (!await ConfirmUnsavedAndSaveAsync())
+            return;
+
+        DiscardRecovery();
+        _shell.Document.CloseDocument();
+        _start.RefreshRecents();
+        CurrentScreen = _start;
         UpdateTitle();
     }
 

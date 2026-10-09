@@ -7,6 +7,9 @@ public sealed partial class SectionEditorViewModel : ViewModelBase
 {
     private readonly ShellServices _shell;
     private readonly string _sectionId;
+    private bool _isSyncing;
+
+    public string SectionId => _sectionId;
 
     public SectionEditorViewModel(ShellServices shell, string sectionId)
     {
@@ -21,6 +24,27 @@ public sealed partial class SectionEditorViewModel : ViewModelBase
 
     partial void OnNameChanged(string value)
     {
+        if (_isSyncing)
+            return;
         _shell.Document.UpdateSectionName(_sectionId, value);
+    }
+
+    internal void SyncFromDocument()
+    {
+        if (!_shell.Document.Nodes.TryGetValue(_sectionId, out var node) || node.Section == null)
+            return;
+
+        if (Name != node.Section.Title)
+        {
+            _isSyncing = true;
+            try
+            {
+                Name = node.Section.Title;
+            }
+            finally
+            {
+                _isSyncing = false;
+            }
+        }
     }
 }

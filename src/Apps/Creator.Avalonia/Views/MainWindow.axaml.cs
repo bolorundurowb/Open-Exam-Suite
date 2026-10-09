@@ -56,9 +56,16 @@ public partial class MainWindow : Window
             new NativeMenuItem(Strings.Get("Menu_New")) { Command = viewModel.NewCommand, Gesture = new KeyGesture(Key.N, KeyModifiers.Meta) },
             new NativeMenuItem(Strings.Get("Menu_Open")) { Command = viewModel.OpenCommand, Gesture = new KeyGesture(Key.O, KeyModifiers.Meta) },
             new NativeMenuItem(Strings.Get("Menu_Save")) { Command = viewModel.SaveCommand, Gesture = new KeyGesture(Key.S, KeyModifiers.Meta) },
-            new NativeMenuItem(Strings.Get("Menu_Import")) { Command = viewModel.ImportJsonCommand },
-            new NativeMenuItem(Strings.Get("Menu_ImportXml")) { Command = viewModel.ImportXmlCommand },
-            new NativeMenuItem(Strings.Get("Menu_TryExam")) { Command = viewModel.TryExamCommand }
+            new NativeMenuItem(Strings.Get("Menu_Import"))
+            {
+                Menu = new NativeMenu
+                {
+                    new NativeMenuItem(Strings.Get("Menu_ImportJson")) { Command = viewModel.ImportJsonCommand },
+                    new NativeMenuItem(Strings.Get("Menu_ImportXml")) { Command = viewModel.ImportXmlCommand }
+                }
+            },
+            CreateExportMenu(viewModel),
+            new NativeMenuItem(Strings.Get("Menu_Close")) { Command = viewModel.CloseExamCommand }
         };
 
         var edit = new NativeMenu
@@ -86,5 +93,27 @@ public partial class MainWindow : Window
             new NativeMenuItem(Strings.Get("Menu_Edit")) { Menu = edit },
             new NativeMenuItem(Strings.Get("Menu_Help")) { Menu = help }
         };
+    }
+
+    private static NativeMenuItem CreateExportMenu(MainWindowViewModel viewModel)
+    {
+        var export = new NativeMenuItem(Strings.Get("Menu_Export"))
+        {
+            Menu = new NativeMenu
+            {
+                new NativeMenuItem(Strings.Get("Menu_ExportJson")) { Command = viewModel.ExportJsonCommand },
+                new NativeMenuItem(Strings.Get("Menu_ExportXml")) { Command = viewModel.ExportXmlCommand },
+                new NativeMenuItem(Strings.Get("Menu_ExportPdf")) { Command = viewModel.ExportPdfCommand }
+            },
+            IsEnabled = viewModel.HasDocument
+        };
+
+        viewModel.PropertyChanged += (_, e) =>
+        {
+            if (e.PropertyName == nameof(MainWindowViewModel.HasDocument))
+                export.IsEnabled = viewModel.HasDocument;
+        };
+
+        return export;
     }
 }

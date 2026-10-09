@@ -31,6 +31,8 @@ public sealed partial class OutlineNodeViewModel : ViewModelBase
 
     public ObservableCollection<OutlineNodeViewModel> Children { get; }
 
+    public bool HasChildren => Children.Count > 0;
+
     [ObservableProperty] private bool _isExpanded = true;
 
     private bool CanChangeStructure() => Type != NodeType.Exam;
@@ -54,6 +56,14 @@ public sealed partial class OutlineNodeViewModel : ViewModelBase
     public bool IsMultipleChoice => Type == NodeType.Question && Node.Question?.IsMultipleChoice == true;
 
     public bool HasProblem => _document.Problems.Any(p => p.NodeId == Id);
+
+    public void Refresh()
+    {
+        OnPropertyChanged(nameof(Title));
+        OnPropertyChanged(nameof(HasImage));
+        OnPropertyChanged(nameof(IsMultipleChoice));
+        OnPropertyChanged(nameof(HasProblem));
+    }
 
     private static string FirstLine(string? text)
     {

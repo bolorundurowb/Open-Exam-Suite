@@ -13,6 +13,9 @@ public sealed partial class QuestionEditorViewModel : ViewModelBase
 {
     private readonly ShellServices _shell;
     private readonly string _questionId;
+    private bool _isSyncing;
+
+    public string QuestionId => _questionId;
 
     public QuestionEditorViewModel(ShellServices shell, string questionId)
     {
@@ -67,11 +70,24 @@ public sealed partial class QuestionEditorViewModel : ViewModelBase
         _shell.Document.SetQuestionMultipleChoice(_questionId, !IsMultipleChoice);
     }
 
-    partial void OnTextChanged(string value) => _shell.Document.UpdateQuestionText(_questionId, value);
-    partial void OnExplanationChanged(string value) => _shell.Document.UpdateQuestionExplanation(_questionId, value);
+    partial void OnTextChanged(string value)
+    {
+        if (_isSyncing)
+            return;
+        _shell.Document.UpdateQuestionText(_questionId, value);
+    }
+
+    partial void OnExplanationChanged(string value)
+    {
+        if (_isSyncing)
+            return;
+        _shell.Document.UpdateQuestionExplanation(_questionId, value);
+    }
 
     partial void OnIsMultipleChoiceChanged(bool value)
     {
+        if (_isSyncing)
+            return;
         _shell.Document.SetQuestionMultipleChoice(_questionId, value);
         ReloadOptions();
     }
@@ -81,12 +97,68 @@ public sealed partial class QuestionEditorViewModel : ViewModelBase
         if (!_shell.Document.Nodes.TryGetValue(_questionId, out var node) || node.Question == null)
             return;
 
+        _isSyncing = true;
+        try
+        {
+            var question = node.Question;
+            Text = question.Text;
+            Explanation = question.Explanation;
+            IsMultipleChoice = question.IsMultipleChoice;
+            ReloadImage(question.ImageData);
+            ReloadOptions();
+        }
+        finally
+        {
+            _isSyncing = false;
+        }
+    }
+
+    internal void SyncFromDocument()
+    {
+        if (!_shell.Document.Nodes.TryGetValue(_questionId, out var node) || node.Question == null)
+            return;
+
         var question = node.Question;
-        Text = question.Text;
-        Explanation = question.Explanation;
-        IsMultipleChoice = question.IsMultipleChoice;
-        ReloadImage(question.ImageData);
-        ReloadOptions();
+        if (Text != question.Text || Explanation != question.Explanation || IsMultipleChoice != question.IsMultipleChoice)
+        {
+            _isSyncing = true;
+            try
+            {
+                Text = question.Text;
+                Explanation = question.Explanation;
+                IsMultipleChoice = question.IsMultipleChoice;
+            }
+            finally
+            {
+                _isSyncing = false;
+            }
+        }
+
+        var currentAnswers = question.Answers.ToHashSet();
+        var optionsChanged = Options.Count != question.Options.Count;
+        if (!optionsChanged)
+        {
+            for (int i = 0; i < Options.Count; i++)
+            {
+                if (Options[i].Letter != question.Options[i].Alphabet.ToString()
+                    || Options[i].Text != question.Options[i].Text
+                    || Options[i].IsCorrect != currentAnswers.Contains(question.Options[i].Alphabet))
+                {
+                    optionsChanged = true;
+                    break;
+                }
+            }
+        }
+
+        if (optionsChanged)
+        {
+            ReloadOptions();
+        }
+
+        if ((question.ImageData == null && HasImage) || (question.ImageData != null && !HasImage))
+        {
+            ReloadImage(question.ImageData);
+        }
     }
 
     private void ReloadOptions()

@@ -35,6 +35,9 @@ public partial class WorkspaceView : UserControl
         if (e.Source is not Visual source || source.FindAncestorOfType<TreeView>() != OutlineTree)
             return;
 
+        if (source.FindAncestorOfType<Button>() is { } button && button.Classes.Contains("outline-chevron"))
+            return;
+
         var node = FindOutlineNode(source);
         if (node == null || node.Type == NodeType.Exam)
             return;

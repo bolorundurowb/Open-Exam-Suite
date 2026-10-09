@@ -24,7 +24,7 @@
     <TextBlock Text="{loc:Loc Editor_Explanation}" Classes="label"/>
     <TextBox Text="{Binding Explanation, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" TextWrapping="Wrap" Height="80"/>
 
-    <TextBlock Text="Options" Classes="label"/>
+    <TextBlock Text="{loc:Loc Editor_Options}" Classes="label"/>
     <ItemsControl ItemsSource="{Binding Options}">
       <ItemsControl.ItemTemplate>
         <DataTemplate DataType="vm:OptionViewModel">

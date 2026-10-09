@@ -117,6 +117,24 @@ public sealed class CreatorDocument
         return DocumentLoadResult.Ok(string.Empty, false);
     }
 
+    /// <summary>Drops the open exam and returns to the start screen. Does not raise <see cref="Opened"/>.</summary>
+    public void CloseDocument()
+    {
+        _exam = new Exam();
+        _filePath = null;
+        _isLegacy = false;
+        _nodes.Clear();
+        ClearUndoRedo();
+        Problems = [];
+        _hasDocument = false;
+        _coalescing = false;
+        _isDirty = false;
+        _selectedNodeId = null;
+        ProblemsChanged?.Invoke(Problems);
+        SelectionChanged?.Invoke(null);
+        Changed?.Invoke();
+    }
+
     public DocumentLoadResult Load(string filePath)
     {
         var result = _reader.FromOefFile(filePath);
@@ -456,6 +474,16 @@ public sealed class CreatorDocument
 
     public void UpdateExamProperties(Properties properties)
     {
+        if (Equals(_exam.Properties.Title, properties.Title)
+            && Equals(_exam.Properties.Code, properties.Code)
+            && Equals(_exam.Properties.Instructions, properties.Instructions)
+            && _exam.Properties.Passmark == properties.Passmark
+            && _exam.Properties.TimeLimit == properties.TimeLimit
+            && _exam.Properties.HideAnswers == properties.HideAnswers)
+        {
+            return;
+        }
+
         PushUndo("Update properties");
         _exam.Properties = properties;
         Revalidate();
@@ -466,6 +494,9 @@ public sealed class CreatorDocument
         if (!_nodes.TryGetValue(sectionId, out var node) || node.Section == null)
             return;
 
+        if (node.Section.Title == name)
+            return;
+
         PushUndo("Rename section");
         node.Section.Title = name;
         Revalidate();
@@ -474,6 +505,9 @@ public sealed class CreatorDocument
     public void UpdateQuestionText(string questionId, string text)
     {
         if (!_nodes.TryGetValue(questionId, out var node) || node.Question == null)
+            return;
+
+        if (node.Question.Text == text)
             return;
 
         CoalesceEdit("Update question text", () => node.Question!.Text = text);
@@ -494,12 +528,18 @@ public sealed class CreatorDocument
         if (!_nodes.TryGetValue(questionId, out var node) || node.Question == null)
             return;
 
+        if (node.Question.Explanation == explanation)
+            return;
+
         CoalesceEdit("Update explanation", () => node.Question!.Explanation = explanation);
     }
 
     public void SetQuestionMultipleChoice(string questionId, bool isMultipleChoice)
     {
         if (!_nodes.TryGetValue(questionId, out var node) || node.Question == null)
+            return;
+
+        if (node.Question.IsMultipleChoice == isMultipleChoice)
             return;
 
         PushUndo("Toggle multiple choice");
@@ -535,6 +575,9 @@ public sealed class CreatorDocument
         if (option == null)
             return;
 
+        if (option.Text == text)
+            return;
+
         CoalesceEdit("Update option text", () => option.Text = text);
     }
 
@@ -545,6 +588,10 @@ public sealed class CreatorDocument
 
         var option = node.Question.Options.FirstOrDefault(o => o.Alphabet.ToString() == optionId);
         if (option == null)
+            return;
+
+        var isCurrentlyCorrect = node.Question.Answers.Contains(option.Alphabet);
+        if (isCurrentlyCorrect == correct)
             return;
 
         PushUndo("Set correct option");

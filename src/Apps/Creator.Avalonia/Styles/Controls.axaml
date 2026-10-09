@@ -225,6 +225,17 @@
     <Setter Property="MinHeight" Value="36"/>
   </Style>
 
+  <!-- Destructive menu commands, such as Delete in the outline. -->
+  <Style Selector="MenuItem.danger">
+    <Setter Property="Foreground" Value="{DynamicResource ValidationDotBrush}"/>
+  </Style>
+  <Style Selector="MenuItem.danger:pointerover /template/ ContentPresenter#PART_HeaderPresenter">
+    <Setter Property="Foreground" Value="{DynamicResource ValidationDotBrush}"/>
+  </Style>
+  <Style Selector="MenuItem.danger:disabled">
+    <Setter Property="Foreground" Value="{DynamicResource DisabledTextBrush}"/>
+  </Style>
+
   <!-- Outline: tinted row with an accent bar when selected. -->
   <Style Selector="TreeViewItem">
     <Setter Property="CornerRadius" Value="6"/>

@@ -17,13 +17,17 @@
         <MenuItem Header="{loc:Loc Menu_Save}" Command="{Binding SaveCommand}" HotKey="Ctrl+S" InputGesture="Ctrl+S"/>
         <MenuItem Header="{loc:Loc Menu_SaveAs}" Command="{Binding SaveAsCommand}" HotKey="Ctrl+Shift+S" InputGesture="Ctrl+Shift+S"/>
         <Separator/>
-        <MenuItem Header="{loc:Loc Menu_Import}" Command="{Binding ImportJsonCommand}"/>
-        <MenuItem Header="{loc:Loc Menu_ImportXml}" Command="{Binding ImportXmlCommand}"/>
-        <MenuItem Header="{loc:Loc Menu_ExportJson}" Command="{Binding ExportJsonCommand}"/>
-        <MenuItem Header="{loc:Loc Menu_ExportXml}" Command="{Binding ExportXmlCommand}"/>
-        <MenuItem Header="{loc:Loc Menu_ExportPdf}" Command="{Binding ExportPdfCommand}"/>
+        <MenuItem Header="{loc:Loc Menu_Import}">
+          <MenuItem Header="{loc:Loc Menu_ImportJson}" Command="{Binding ImportJsonCommand}"/>
+          <MenuItem Header="{loc:Loc Menu_ImportXml}" Command="{Binding ImportXmlCommand}"/>
+        </MenuItem>
+        <MenuItem Header="{loc:Loc Menu_Export}" IsEnabled="{Binding HasDocument}">
+          <MenuItem Header="{loc:Loc Menu_ExportJson}" Command="{Binding ExportJsonCommand}"/>
+          <MenuItem Header="{loc:Loc Menu_ExportXml}" Command="{Binding ExportXmlCommand}"/>
+          <MenuItem Header="{loc:Loc Menu_ExportPdf}" Command="{Binding ExportPdfCommand}"/>
+        </MenuItem>
         <Separator/>
-        <MenuItem Header="{loc:Loc Menu_TryExam}" Command="{Binding TryExamCommand}"/>
+        <MenuItem Header="{loc:Loc Menu_Close}" Command="{Binding CloseExamCommand}"/>
         <Separator/>
         <MenuItem x:Name="ExitItem" Header="{loc:Loc Menu_Exit}"/>
       </MenuItem>
