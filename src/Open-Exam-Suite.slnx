@@ -13,6 +13,7 @@
     <Project Path="Libraries/Core/Core.csproj" />
     <Project Path="Libraries/ExamIO/ExamIO.csproj" />
     <Project Path="Libraries/Logging/Logging.csproj" />
+    <Project Path="Libraries/Shared.Avalonia/Shared.Avalonia.csproj" />
     <Project Path="Libraries/Shared.WinForms/Shared.WinForms.csproj" />
     <Project Path="Libraries/Storage/Storage.csproj" />
   </Folder>
