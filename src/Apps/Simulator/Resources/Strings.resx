@@ -275,7 +275,7 @@
   <data name="Theme_Dark" xml:space="preserve"><value>Dark</value></data>
   <data name="Theme_Light" xml:space="preserve"><value>Light</value></data>
   <data name="Theme_System" xml:space="preserve"><value>Follow system</value></data>
-  <data name="Theme_Toggle" xml:space="preserve"><value>Change theme</value></data>
+  <data name="Theme_Toggle" xml:space="preserve"><value>Theme</value></data>
   <data name="Timer_Critical" xml:space="preserve"><value>Almost out</value></data>
   <data name="Timer_FiveMinutes" xml:space="preserve"><value>5 minutes remaining.</value></data>
   <data name="Timer_Low" xml:space="preserve"><value>Low</value></data>

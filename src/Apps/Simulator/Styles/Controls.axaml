@@ -122,19 +122,28 @@
   <Style Selector="Border.tag.flag">
     <Setter Property="Background" Value="{DynamicResource FlagBgBrush}"/>
   </Style>
-  <Style Selector="Border.tag.flag TextBlock, Border.tag.flag PathIcon">
+  <Style Selector="Border.tag.flag TextBlock">
+    <Setter Property="Foreground" Value="{DynamicResource FlagBrush}"/>
+  </Style>
+  <Style Selector="Border.tag.flag PathIcon">
     <Setter Property="Foreground" Value="{DynamicResource FlagBrush}"/>
   </Style>
   <Style Selector="Border.tag.correct">
     <Setter Property="Background" Value="{DynamicResource CorrectBgBrush}"/>
   </Style>
-  <Style Selector="Border.tag.correct TextBlock, Border.tag.correct PathIcon">
+  <Style Selector="Border.tag.correct TextBlock">
+    <Setter Property="Foreground" Value="{DynamicResource CorrectBrush}"/>
+  </Style>
+  <Style Selector="Border.tag.correct PathIcon">
     <Setter Property="Foreground" Value="{DynamicResource CorrectBrush}"/>
   </Style>
   <Style Selector="Border.tag.wrong">
     <Setter Property="Background" Value="{DynamicResource WrongBgBrush}"/>
   </Style>
-  <Style Selector="Border.tag.wrong TextBlock, Border.tag.wrong PathIcon">
+  <Style Selector="Border.tag.wrong TextBlock">
+    <Setter Property="Foreground" Value="{DynamicResource WrongBrush}"/>
+  </Style>
+  <Style Selector="Border.tag.wrong PathIcon">
     <Setter Property="Foreground" Value="{DynamicResource WrongBrush}"/>
   </Style>
 
@@ -152,13 +161,19 @@
   <Style Selector="Border.outcome.passed">
     <Setter Property="Background" Value="{DynamicResource CorrectBgBrush}"/>
   </Style>
-  <Style Selector="Border.outcome.passed TextBlock, Border.outcome.passed PathIcon">
+  <Style Selector="Border.outcome.passed TextBlock">
+    <Setter Property="Foreground" Value="{DynamicResource CorrectBrush}"/>
+  </Style>
+  <Style Selector="Border.outcome.passed PathIcon">
     <Setter Property="Foreground" Value="{DynamicResource CorrectBrush}"/>
   </Style>
   <Style Selector="Border.outcome.failed">
     <Setter Property="Background" Value="{DynamicResource WrongBgBrush}"/>
   </Style>
-  <Style Selector="Border.outcome.failed TextBlock, Border.outcome.failed PathIcon">
+  <Style Selector="Border.outcome.failed TextBlock">
+    <Setter Property="Foreground" Value="{DynamicResource WrongBrush}"/>
+  </Style>
+  <Style Selector="Border.outcome.failed PathIcon">
     <Setter Property="Foreground" Value="{DynamicResource WrongBrush}"/>
   </Style>
 
@@ -187,16 +202,28 @@
   <Style Selector="Border.banner.info">
     <Setter Property="Background" Value="{DynamicResource AccentSubtleBrush}"/>
   </Style>
-  <Style Selector="Border.banner.correct TextBlock, Border.banner.correct PathIcon">
+  <Style Selector="Border.banner.correct TextBlock">
     <Setter Property="Foreground" Value="{DynamicResource CorrectBrush}"/>
   </Style>
-  <Style Selector="Border.banner.warn TextBlock, Border.banner.warn PathIcon">
+  <Style Selector="Border.banner.correct PathIcon">
+    <Setter Property="Foreground" Value="{DynamicResource CorrectBrush}"/>
+  </Style>
+  <Style Selector="Border.banner.warn TextBlock">
     <Setter Property="Foreground" Value="{DynamicResource WarnBrush}"/>
   </Style>
-  <Style Selector="Border.banner.critical TextBlock, Border.banner.critical PathIcon">
+  <Style Selector="Border.banner.warn PathIcon">
+    <Setter Property="Foreground" Value="{DynamicResource WarnBrush}"/>
+  </Style>
+  <Style Selector="Border.banner.critical TextBlock">
     <Setter Property="Foreground" Value="{DynamicResource CriticalBrush}"/>
   </Style>
-  <Style Selector="Border.banner.info TextBlock, Border.banner.info PathIcon">
+  <Style Selector="Border.banner.critical PathIcon">
+    <Setter Property="Foreground" Value="{DynamicResource CriticalBrush}"/>
+  </Style>
+  <Style Selector="Border.banner.info TextBlock">
+    <Setter Property="Foreground" Value="{DynamicResource AccentStrongTextBrush}"/>
+  </Style>
+  <Style Selector="Border.banner.info PathIcon">
     <Setter Property="Foreground" Value="{DynamicResource AccentStrongTextBrush}"/>
   </Style>
 
@@ -233,13 +260,19 @@
   <Style Selector="Border.timer.low">
     <Setter Property="Background" Value="{DynamicResource WarnBgBrush}"/>
   </Style>
-  <Style Selector="Border.timer.low TextBlock, Border.timer.low PathIcon">
+  <Style Selector="Border.timer.low TextBlock">
+    <Setter Property="Foreground" Value="{DynamicResource WarnBrush}"/>
+  </Style>
+  <Style Selector="Border.timer.low PathIcon">
     <Setter Property="Foreground" Value="{DynamicResource WarnBrush}"/>
   </Style>
   <Style Selector="Border.timer.critical">
     <Setter Property="Background" Value="{DynamicResource CriticalSolidBrush}"/>
   </Style>
-  <Style Selector="Border.timer.critical TextBlock, Border.timer.critical PathIcon">
+  <Style Selector="Border.timer.critical TextBlock">
+    <Setter Property="Foreground" Value="{DynamicResource OnCriticalBrush}"/>
+  </Style>
+  <Style Selector="Border.timer.critical PathIcon">
     <Setter Property="Foreground" Value="{DynamicResource OnCriticalBrush}"/>
   </Style>
 

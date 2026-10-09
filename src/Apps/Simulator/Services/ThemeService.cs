@@ -27,7 +27,12 @@ public sealed class ThemeService
         _settings = settings;
     }
 
+    private bool _watching;
+
     public ThemeMode Mode { get; private set; } = ThemeMode.System;
+
+    /// <summary>Whether dark is on screen now, including when it comes from the operating system.</summary>
+    public bool IsDarkShown => Application.Current?.ActualThemeVariant == ThemeVariant.Dark;
 
     public event Action? Changed;
 
@@ -36,6 +41,16 @@ public sealed class ThemeService
         var stored = _settings.Get(SettingKey, AppSettingsType.Other)?.Value;
         Mode = Enum.TryParse<ThemeMode>(stored, ignoreCase: true, out var parsed) ? parsed : ThemeMode.System;
         Apply();
+        Watch();
+    }
+
+    private void Watch()
+    {
+        if (_watching || Application.Current is not { } app)
+            return;
+
+        _watching = true;
+        app.ActualThemeVariantChanged += (_, _) => Changed?.Invoke();
     }
 
     public void Set(ThemeMode mode)
@@ -44,13 +59,6 @@ public sealed class ThemeService
         _settings.Set(new AppSetting { Key = SettingKey, Value = mode.ToString() }, AppSettingsType.Other);
         Apply();
         Changed?.Invoke();
-    }
-
-    /// <summary>Flips between light and dark based on what is currently shown.</summary>
-    public void Toggle()
-    {
-        var showingDark = Application.Current?.ActualThemeVariant == ThemeVariant.Dark;
-        Set(showingDark ? ThemeMode.Light : ThemeMode.Dark);
     }
 
     private void Apply()

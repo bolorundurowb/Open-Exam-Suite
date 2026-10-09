@@ -157,6 +157,52 @@
     <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
   </ControlTheme>
 
+  <!-- Library view toggle segment. The two radios share one outline; the selected half is the
+       grey surface and the other stays white with a muted icon. A transparent 2px border becomes
+       the focus ring without moving the icon. -->
+  <ControlTheme x:Key="SegmentButton" TargetType="RadioButton">
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="Foreground" Value="{DynamicResource MutedBrush}"/>
+    <Setter Property="BorderBrush" Value="Transparent"/>
+    <Setter Property="BorderThickness" Value="2"/>
+    <Setter Property="Padding" Value="10,0"/>
+    <Setter Property="MinWidth" Value="40"/>
+    <Setter Property="MinHeight" Value="34"/>
+    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+    <Setter Property="VerticalContentAlignment" Value="Center"/>
+    <Setter Property="Cursor" Value="Hand"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border x:Name="Chrome" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}">
+          <ContentPresenter x:Name="PART_ContentPresenter" Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}" Foreground="{TemplateBinding Foreground}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+    <Style Selector="^:pointerover /template/ Border#Chrome">
+      <Setter Property="Background" Value="{DynamicResource HoverBrush}"/>
+    </Style>
+    <Style Selector="^:checked">
+      <Setter Property="Background" Value="{DynamicResource SurfaceAltBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+    </Style>
+    <Style Selector="^:checked:pointerover /template/ Border#Chrome">
+      <Setter Property="Background" Value="{DynamicResource SurfaceAltBrush}"/>
+    </Style>
+    <Style Selector="^:pressed /template/ Border#Chrome">
+      <Setter Property="Background" Value="{DynamicResource SurfaceAltBrush}"/>
+    </Style>
+    <Style Selector="^:focus-visible /template/ Border#Chrome">
+      <Setter Property="BorderBrush" Value="{DynamicResource FocusBrush}"/>
+    </Style>
+    <Style Selector="^:disabled">
+      <Setter Property="Foreground" Value="{DynamicResource DisabledTextBrush}"/>
+    </Style>
+  </ControlTheme>
+
   <!-- Question navigator cell and review chip: 34px, 6px radius, 12/600. Unanswered is outlined,
        answered is filled accent, flagged is amber with an amber outline, current gets a dark ring.
        Each state also has a glyph and an accessible name. -->

@@ -5,44 +5,64 @@
              xmlns:controls="using:OpenExamSuite.Simulator.Views.Controls"
              x:Class="OpenExamSuite.Simulator.Views.ResultsView">
   <ScrollViewer HorizontalScrollBarVisibility="Disabled">
-    <StackPanel MaxWidth="900" Margin="24,20,24,32" Spacing="18" HorizontalAlignment="Stretch">
+    <StackPanel MaxWidth="900" Margin="40,24,40,32" Spacing="16" HorizontalAlignment="Stretch">
 
       <!-- Result: text plus icon, never colour alone. -->
-      <Border Classes="card" Classes.passed="{Binding Passed}">
+      <Border Classes="card" CornerRadius="14" Padding="24">
         <StackPanel Spacing="14">
-          <StackPanel Orientation="Horizontal" Spacing="14">
-            <PathIcon Data="{StaticResource IconCheck}" IsVisible="{Binding Passed}" Width="48" Height="48" Foreground="{DynamicResource CorrectBrush}"/>
-            <PathIcon Data="{StaticResource IconClose}" IsVisible="{Binding !Passed}" Width="48" Height="48" Foreground="{DynamicResource WrongBrush}"/>
-            <TextBlock Text="{Binding ResultLabel}" Classes="display" VerticalAlignment="Center"
-                       AutomationProperties.HeadingLevel="1"/>
-          </StackPanel>
-
-          <WrapPanel>
-            <TextBlock Text="{Binding PercentText}" Classes="display mono" Margin="0,0,24,0"/>
-            <TextBlock Text="{Binding ScaledText}" Classes="title mono" VerticalAlignment="Bottom" Margin="0,0,0,8"/>
-          </WrapPanel>
+          <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14">
+            <Panel Width="52" Height="52" VerticalAlignment="Center">
+              <Border CornerRadius="26" Background="{DynamicResource CorrectBrush}" IsVisible="{Binding Passed}">
+                <PathIcon Data="{StaticResource IconCheck}" Width="26" Height="26" Foreground="{DynamicResource SurfaceBrush}"/>
+              </Border>
+              <Border CornerRadius="26" Background="{DynamicResource WrongBrush}" IsVisible="{Binding !Passed}">
+                <PathIcon Data="{StaticResource IconClose}" Width="26" Height="26" Foreground="{DynamicResource SurfaceBrush}"/>
+              </Border>
+            </Panel>
+            <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="4">
+              <TextBlock Text="{Binding ResultLabel}" Classes="result" Classes.correct="{Binding Passed}" Classes.wrong="{Binding !Passed}"
+                         AutomationProperties.HeadingLevel="1"/>
+              <TextBlock Classes="muted">
+                <Run Text="{Binding ExamTitle}"/>
+                <Run Text="{Binding ExamCode, StringFormat=' · {0}'}"/>
+              </TextBlock>
+            </StackPanel>
+            <StackPanel Grid.Column="2" VerticalAlignment="Center">
+              <TextBlock Text="{Binding PercentText}" Classes="display mono" TextAlignment="Right"/>
+              <TextBlock Text="{Binding ScaledText}" Classes="mono muted" TextAlignment="Right"/>
+            </StackPanel>
+          </Grid>
 
           <!-- One bar, pass mark marked. -->
-          <controls:ScoreBar Value="{Binding PercentScore}" Mark="{Binding PassMarkPercent}" BarHeight="18"
-                             TrackBrush="{DynamicResource SurfaceAltBrush}" FillBrush="{DynamicResource AccentBrush}"
-                             MarkBrush="{DynamicResource TextBrush}"
-                             AutomationProperties.Name="{Binding BarAutomationName}"/>
+          <Panel Margin="0,8,0,0">
+            <controls:ScoreBar Value="{Binding PercentScore}" Mark="{Binding PassMarkPercent}" BarHeight="14"
+                               TrackBrush="{DynamicResource SurfaceAltBrush}" FillBrush="{DynamicResource CorrectBrush}"
+                               MarkBrush="{DynamicResource TextBrush}" IsVisible="{Binding Passed}"
+                               AutomationProperties.Name="{Binding BarAutomationName}"/>
+            <controls:ScoreBar Value="{Binding PercentScore}" Mark="{Binding PassMarkPercent}" BarHeight="14"
+                               TrackBrush="{DynamicResource SurfaceAltBrush}" FillBrush="{DynamicResource WrongBrush}"
+                               MarkBrush="{DynamicResource TextBrush}" IsVisible="{Binding !Passed}"
+                               AutomationProperties.Name="{Binding BarAutomationName}"/>
+          </Panel>
           <StackPanel Orientation="Horizontal" Spacing="8">
             <Border Width="3" Height="16" Background="{DynamicResource TextBrush}" VerticalAlignment="Center"/>
-            <TextBlock Text="{Binding PassMarkText}" Classes="muted"/>
+            <TextBlock Text="{Binding PassMarkText}" FontSize="12" FontWeight="SemiBold"/>
           </StackPanel>
         </StackPanel>
       </Border>
 
       <!-- Key facts -->
-      <Border Classes="card">
+      <Border Classes="card" CornerRadius="10" Padding="14,12">
         <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
           <Grid.Styles>
             <Style Selector="TextBlock.k">
+              <Setter Property="FontSize" Value="12"/>
               <Setter Property="Foreground" Value="{DynamicResource MutedBrush}"/>
+              <Setter Property="VerticalAlignment" Value="Center"/>
               <Setter Property="Margin" Value="0,0,24,8"/>
             </Style>
             <Style Selector="TextBlock.v">
+              <Setter Property="FontWeight" Value="SemiBold"/>
               <Setter Property="Margin" Value="0,0,0,8"/>
             </Style>
           </Grid.Styles>
@@ -62,28 +82,32 @@
         </Grid>
       </Border>
 
-      <Border Classes="card" IsVisible="{Binding HasPrevious}">
+      <Border Classes="summary" IsVisible="{Binding HasPrevious}">
         <TextBlock Text="{Binding PreviousText}"/>
       </Border>
 
       <!-- Section breakdown; the weakest section is flagged with an icon and a label. -->
-      <Border Classes="card" IsVisible="{Binding HasSections}">
-        <StackPanel Spacing="12">
+      <Border Classes="card" CornerRadius="14" Padding="20" IsVisible="{Binding HasSections}">
+        <StackPanel Spacing="16">
           <TextBlock Text="{loc:Loc Results_Sections}" Classes="heading"/>
           <ItemsControl ItemsSource="{Binding Sections}">
             <ItemsControl.ItemTemplate>
               <DataTemplate DataType="vm:SectionRowViewModel">
-                <StackPanel Spacing="4" Margin="0,0,0,12" AutomationProperties.Name="{Binding AutomationName}">
-                  <WrapPanel>
-                    <TextBlock Text="{Binding Title}" FontWeight="SemiBold" Margin="0,0,16,0"/>
-                    <TextBlock Text="{Binding ScoreText}" Classes="mono muted"/>
-                    <StackPanel Orientation="Horizontal" Spacing="6" Margin="16,0,0,0" IsVisible="{Binding IsWeakest}">
-                      <PathIcon Data="{StaticResource IconWarning}" Foreground="{DynamicResource WarnBrush}" Width="18" Height="18"/>
-                      <TextBlock Text="{loc:Loc Results_Weakest}" Foreground="{DynamicResource WarnBrush}" FontWeight="SemiBold"/>
-                    </StackPanel>
-                  </WrapPanel>
-                  <controls:ScoreBar Value="{Binding Percent}" BarHeight="10"
-                                     TrackBrush="{DynamicResource SurfaceAltBrush}" FillBrush="{DynamicResource AccentBrush}"/>
+                <StackPanel Spacing="6" Margin="0,0,0,16" AutomationProperties.Name="{Binding AutomationName}">
+                  <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                    <TextBlock Text="{Binding Title}" Classes="small" FontWeight="SemiBold"/>
+                    <TextBlock Grid.Column="1" Text="{Binding ScoreText}" Classes="mono small"/>
+                  </Grid>
+                  <controls:ScoreBar Value="{Binding Percent}" BarHeight="8"
+                                     TrackBrush="{DynamicResource SurfaceAltBrush}" FillBrush="{DynamicResource AccentBrush}"
+                                     IsVisible="{Binding !IsWeakest}"/>
+                  <controls:ScoreBar Value="{Binding Percent}" BarHeight="8"
+                                     TrackBrush="{DynamicResource SurfaceAltBrush}" FillBrush="{DynamicResource WrongBrush}"
+                                     IsVisible="{Binding IsWeakest}"/>
+                  <StackPanel Orientation="Horizontal" Spacing="4" IsVisible="{Binding IsWeakest}">
+                    <PathIcon Data="{StaticResource IconWarning}" Foreground="{DynamicResource WarnBrush}" Width="14" Height="14"/>
+                    <TextBlock Text="{loc:Loc Results_Weakest}" Foreground="{DynamicResource WarnBrush}" FontSize="12" FontWeight="Bold"/>
+                  </StackPanel>
                 </StackPanel>
               </DataTemplate>
             </ItemsControl.ItemTemplate>
@@ -97,7 +121,7 @@
       <WrapPanel>
         <Button Theme="{StaticResource PrimaryButton}" Command="{Binding ReviewAnswersCommand}" Margin="0,0,10,10" Content="{loc:Loc Results_ReviewAnswers}"/>
         <Button Theme="{StaticResource SecondaryButton}" Command="{Binding ReviewMissedCommand}" IsVisible="{Binding HasMissedAnswers}" Margin="0,0,10,10" Content="{loc:Loc Results_ReviewMissed}"/>
-        <Button Theme="{StaticResource SecondaryButton}" Command="{Binding RetakeCommand}" Margin="0,0,10,10" Content="{loc:Loc Results_Retake}"/>
+        <Button Theme="{StaticResource AccentOutlineButton}" Command="{Binding RetakeCommand}" Margin="0,0,10,10" Content="{loc:Loc Results_Retake}"/>
         <Button Theme="{StaticResource SecondaryButton}" Command="{Binding BackToLibraryCommand}" Margin="0,0,24,10" Content="{loc:Loc Results_BackToLibrary}"/>
         <Button Theme="{StaticResource QuietButton}" Command="{Binding ExportPdfCommand}" Margin="0,0,10,10" Content="{loc:Loc Results_ExportPdf}"/>
         <Button Theme="{StaticResource QuietButton}" Command="{Binding PrintCommand}" Margin="0,0,0,10" Content="{loc:Loc Results_Print}"/>

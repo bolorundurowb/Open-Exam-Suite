@@ -5,10 +5,16 @@
              x:Class="OpenExamSuite.Simulator.Views.LibraryView"
              DragDrop.AllowDrop="True">
   <UserControl.Styles>
-    <Style Selector="Button.attempt.passed TextBlock.outcome, Button.attempt.passed PathIcon.outcome">
+    <Style Selector="Button.attempt.passed TextBlock.outcome">
       <Setter Property="Foreground" Value="{DynamicResource CorrectBrush}"/>
     </Style>
-    <Style Selector="Button.attempt.failed TextBlock.outcome, Button.attempt.failed PathIcon.outcome">
+    <Style Selector="Button.attempt.passed PathIcon.outcome">
+      <Setter Property="Foreground" Value="{DynamicResource CorrectBrush}"/>
+    </Style>
+    <Style Selector="Button.attempt.failed TextBlock.outcome">
+      <Setter Property="Foreground" Value="{DynamicResource WrongBrush}"/>
+    </Style>
+    <Style Selector="Button.attempt.failed PathIcon.outcome">
       <Setter Property="Foreground" Value="{DynamicResource WrongBrush}"/>
     </Style>
   </UserControl.Styles>
@@ -125,7 +131,12 @@
     <Grid Grid.Row="1" ColumnDefinitions="*,Auto" Margin="24,16,24,8">
       <WrapPanel>
         <TextBox Text="{Binding SearchText}" Watermark="{loc:Loc Library_Search}" MinWidth="220" Width="280" Margin="0,0,10,8"
-                 AutomationProperties.Name="{loc:Loc Library_Search}"/>
+                 AutomationProperties.Name="{loc:Loc Library_Search}">
+          <TextBox.InnerLeftContent>
+            <PathIcon Data="{StaticResource IconSearch}" Width="16" Height="16" Margin="10,0,0,0"
+                      Foreground="{DynamicResource MutedBrush}" IsHitTestVisible="False"/>
+          </TextBox.InnerLeftContent>
+        </TextBox>
         <ComboBox ItemsSource="{Binding FilterOptions}" SelectedItem="{Binding SelectedFilter}" MinWidth="160" Margin="0,0,10,8"
                   AutomationProperties.Name="{loc:Loc Library_Filter}">
           <ComboBox.ItemTemplate>
@@ -142,16 +153,22 @@
             </DataTemplate>
           </ComboBox.ItemTemplate>
         </ComboBox>
-        <StackPanel Orientation="Horizontal" Margin="0,0,10,8">
-          <Button Theme="{StaticResource IconButton}" Command="{Binding ShowGridCommand}"
-                  AutomationProperties.Name="{loc:Loc Library_GridView}" ToolTip.Tip="{loc:Loc Library_GridView}">
-            <PathIcon Data="{StaticResource IconGrid}"/>
-          </Button>
-          <Button Theme="{StaticResource IconButton}" Command="{Binding ShowListCommand}"
-                  AutomationProperties.Name="{loc:Loc Library_ListView}" ToolTip.Tip="{loc:Loc Library_ListView}">
-            <PathIcon Data="{StaticResource IconList}"/>
-          </Button>
-        </StackPanel>
+        <Border Height="36" Margin="0,0,10,8" VerticalAlignment="Top" ClipToBounds="True"
+                Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource DividerBrush}"
+                BorderThickness="1" CornerRadius="8">
+          <StackPanel Orientation="Horizontal">
+            <RadioButton Theme="{StaticResource SegmentButton}" GroupName="LibraryViewMode"
+                         IsChecked="{Binding IsGridView, Mode=TwoWay}"
+                         AutomationProperties.Name="{loc:Loc Library_GridView}" ToolTip.Tip="{loc:Loc Library_GridView}">
+              <PathIcon Data="{StaticResource IconGrid}" Width="16" Height="16"/>
+            </RadioButton>
+            <RadioButton Theme="{StaticResource SegmentButton}" GroupName="LibraryViewMode"
+                         IsChecked="{Binding IsListView, Mode=TwoWay}"
+                         AutomationProperties.Name="{loc:Loc Library_ListView}" ToolTip.Tip="{loc:Loc Library_ListView}">
+              <PathIcon Data="{StaticResource IconList}" Width="16" Height="16"/>
+            </RadioButton>
+          </StackPanel>
+        </Border>
       </WrapPanel>
       <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
         <Button Theme="{StaticResource SecondaryButton}" Command="{Binding NewExamCommand}" Margin="0,0,10,8"

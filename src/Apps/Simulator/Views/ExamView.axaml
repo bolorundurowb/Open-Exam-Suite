@@ -141,7 +141,7 @@
 
         <!-- Narrow windows: the navigator opens as an overlay. -->
         <Border IsVisible="{Binding ShowOverlayNavigator}" HorizontalAlignment="Right" Width="320"
-                Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource BorderStrongBrush}" BorderThickness="2,0,0,0">
+                Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource DividerBrush}" BorderThickness="1,0,0,0">
           <views:NavigatorPanel DataContext="{Binding Navigator}"/>
         </Border>
       </Panel>
