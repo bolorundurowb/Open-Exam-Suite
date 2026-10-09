@@ -1,27 +1,49 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net10.0-windows</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <OutputType>WinExe</OutputType>
-    <UseWindowsForms>true</UseWindowsForms>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
     <ApplicationIcon>SimulatorAppIcon.ico</ApplicationIcon>
     <AssemblyName>OpenExamSuite.Simulator</AssemblyName>
     <RootNamespace>OpenExamSuite.Simulator</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <BuiltInComInteropSupport>false</BuiltInComInteropSupport>
+    <AvaloniaUseCompiledBindingsByDefault>false</AvaloniaUseCompiledBindingsByDefault>
+    <NeutralLanguage>en</NeutralLanguage>
+    <InvariantGlobalization>false</InvariantGlobalization>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Avalonia" />
+    <PackageReference Include="Avalonia.Desktop" />
+    <PackageReference Include="Avalonia.Themes.Fluent" />
+    <PackageReference Include="CommunityToolkit.Mvvm" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
     <PackageReference Include="Microsoft.Extensions.Logging" />
-    <PackageReference Include="System.Data.SqlClient" />
-    <PackageReference Include="System.Windows.Forms.DataVisualization" />
+    <PackageReference Include="Microsoft.Win32.SystemEvents" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Libraries\Core\Core.csproj" />
     <ProjectReference Include="..\..\Libraries\ExamIO\ExamIO.csproj" />
     <ProjectReference Include="..\..\Libraries\Logging\Logging.csproj" />
-    <ProjectReference Include="..\..\Libraries\Shared.WinForms\Shared.WinForms.csproj" />
     <ProjectReference Include="..\..\Libraries\Storage\Storage.csproj" />
+    <ProjectReference Include="..\Simulator.Session\Simulator.Session.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="OpenExamSuite.Simulator.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="Assets\**" />
+    <AvaloniaResource Include="SimulatorAppIcon.ico" Link="Assets\SimulatorAppIcon.ico" />
+    <AvaloniaResource Include="..\..\..\CHANGELOG.md" Link="Assets\CHANGELOG.md" />
+    <AvaloniaResource Include="..\..\..\LICENSE" Link="Assets\LICENSE.txt" />
+  </ItemGroup>
+
+  <!-- Installed builds get {app}/Samples from the installer. Development runs read them from the output folder. -->
+  <ItemGroup Condition="'$(Configuration)' == 'Debug'">
+    <None Include="..\..\..\samples\*.oef" Link="Samples\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

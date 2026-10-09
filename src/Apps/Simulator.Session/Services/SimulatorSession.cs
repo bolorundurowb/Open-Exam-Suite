@@ -40,6 +40,9 @@ public sealed class SimulatorSession : ISimulatorSession, IDisposable
     private readonly IToastService _toastService;
     private readonly ILogger<SimulatorSession> _logger;
     private readonly TimeProvider _timeProvider;
+    private readonly Writer _writer;
+
+    private const string SamplesSeededKey = "Simulator.SamplesSeeded";
 
     private ISessionState _currentState = new LibraryState([], [], null, null, false);
     private AttemptState? _attemptState;
@@ -47,6 +50,7 @@ public sealed class SimulatorSession : ISimulatorSession, IDisposable
     private string _currentExamFilePath = string.Empty;
     private PreExamSettings? _preExamSettings;
     private SelectionResult? _missedQuestionSelection;
+    private ResultsState? _resultsBeforeReview;
     private DateTimeOffset _attemptStartTime;
     private TimeSpan _accumulatedPausedTime;
     private DateTimeOffset? _pauseStartTime;
@@ -72,7 +76,8 @@ public sealed class SimulatorSession : ISimulatorSession, IDisposable
         IPrintService printService,
         IToastService toastService,
         ILogger<SimulatorSession> logger,
-        TimeProvider? timeProvider = null)
+        TimeProvider? timeProvider = null,
+        Writer? writer = null)
     {
         _library = library;
         _settings = settings;
@@ -88,19 +93,27 @@ public sealed class SimulatorSession : ISimulatorSession, IDisposable
         _toastService = toastService;
         _logger = logger;
         _timeProvider = timeProvider ?? TimeProvider.System;
+        _writer = writer ?? new Writer();
     }
 
     public async Task InitializeAsync()
     {
         try
         {
-            var samplePaths = await _fileSystem.GetFilesAsync(_appPaths.BundledSamplesRoot, "*.oef");
-            foreach (var samplePath in samplePaths)
+            // Seed the samples on first launch only, so a sample the user removed stays removed.
+            if (_settings.Get(SamplesSeededKey, AppSettingsType.Other)?.Value != "1")
             {
-                _library.AddExam(
-                    ExamCatalog.Simulator,
-                    samplePath,
-                    Path.GetFileNameWithoutExtension(samplePath));
+                var samplePaths = await _fileSystem.GetFilesAsync(_appPaths.BundledSamplesRoot, "*.oef");
+                foreach (var samplePath in samplePaths)
+                {
+                    _library.AddExam(
+                        ExamCatalog.Simulator,
+                        samplePath,
+                        Path.GetFileNameWithoutExtension(samplePath));
+                }
+
+                if (samplePaths.Length > 0)
+                    _settings.Set(new AppSetting { Key = SamplesSeededKey, Value = "1" }, AppSettingsType.Other);
             }
         }
         catch (Exception ex)
@@ -110,6 +123,137 @@ public sealed class SimulatorSession : ISimulatorSession, IDisposable
         }
 
         await LoadLibraryAsync();
+    }
+
+    public Task RefreshLibraryAsync() => LoadLibraryAsync();
+
+    public async Task<LibraryActionResult> AddExamAsync(string filePath)
+    {
+        if (string.IsNullOrWhiteSpace(filePath) || !await _fileSystem.ExistsAsync(filePath))
+            return new LibraryActionResult(LibraryActionStatus.FileNotFound);
+
+        if (!IsOefPath(filePath))
+            return new LibraryActionResult(LibraryActionStatus.UnsupportedFormat);
+
+        var load = _examFileLoader.TryLoad(filePath);
+        if (!load.Success || load.Exam == null)
+            return new LibraryActionResult(LibraryActionStatus.CorruptFile);
+
+        var targetPath = filePath;
+        var alreadyThere = _library.GetExams(ExamCatalog.Simulator)
+            .Any(e => PathsEqual(e.FilePath, targetPath));
+        if (alreadyThere)
+            return new LibraryActionResult(LibraryActionStatus.AlreadyInLibrary, targetPath);
+
+        _library.AddExam(ExamCatalog.Simulator, targetPath, Path.GetFileNameWithoutExtension(targetPath));
+        await LoadLibraryAsync();
+        return new LibraryActionResult(LibraryActionStatus.Success, targetPath);
+    }
+
+    public async Task RemoveExamAsync(string filePath)
+    {
+        _library.RemoveExam(ExamCatalog.Simulator, filePath);
+        await LoadLibraryAsync();
+    }
+
+    public async Task<LibraryActionResult> DuplicateExamAsync(string filePath)
+    {
+        if (!await _fileSystem.ExistsAsync(filePath))
+            return new LibraryActionResult(LibraryActionStatus.FileNotFound);
+
+        var directory = Path.GetDirectoryName(filePath) ?? _appPaths.DocumentsDirectory;
+        var name = Path.GetFileNameWithoutExtension(filePath);
+        var extension = Path.GetExtension(filePath);
+
+        try
+        {
+            var copyPath = GetUniquePath(directory, $"{name} (copy)", extension);
+            await using (var source = await _fileSystem.OpenReadAsync(filePath))
+            await using (var target = await _fileSystem.OpenWriteAsync(copyPath))
+            {
+                await source.CopyToAsync(target);
+            }
+
+            _library.AddExam(ExamCatalog.Simulator, copyPath, Path.GetFileNameWithoutExtension(copyPath));
+            await LoadLibraryAsync();
+            return new LibraryActionResult(LibraryActionStatus.Success, copyPath);
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            _logger.LogWarning(ex, "Could not duplicate '{FilePath}'.", filePath);
+            return new LibraryActionResult(LibraryActionStatus.WriteFailed);
+        }
+    }
+
+    public async Task<LibraryActionResult> RelocateExamAsync(string missingFilePath, string newFilePath)
+    {
+        if (!IsOefPath(newFilePath))
+            return new LibraryActionResult(LibraryActionStatus.UnsupportedFormat);
+
+        var load = _examFileLoader.TryLoad(newFilePath);
+        if (load.Error == ExamFileLoadError.FileNotFound)
+            return new LibraryActionResult(LibraryActionStatus.FileNotFound);
+        if (!load.Success)
+            return new LibraryActionResult(LibraryActionStatus.CorruptFile);
+
+        _library.RemoveExam(ExamCatalog.Simulator, missingFilePath);
+        _library.AddExam(ExamCatalog.Simulator, newFilePath, Path.GetFileNameWithoutExtension(newFilePath));
+        await LoadLibraryAsync();
+        return new LibraryActionResult(LibraryActionStatus.Success, newFilePath);
+    }
+
+    public Task<ExamFileProperties?> GetExamPropertiesAsync(string filePath)
+    {
+        var info = new FileInfo(filePath);
+        if (!info.Exists)
+            return Task.FromResult<ExamFileProperties?>(null);
+
+        var load = _examFileLoader.TryLoad(filePath);
+        if (!load.Success || load.Exam == null)
+            return Task.FromResult<ExamFileProperties?>(null);
+
+        var exam = load.Exam;
+        var isLegacy = string.Equals(info.Extension, ".oef", StringComparison.OrdinalIgnoreCase)
+                       && _reader.FromOefFile(filePath).IsLegacy;
+
+        return Task.FromResult<ExamFileProperties?>(new ExamFileProperties(
+            filePath,
+            exam.Properties.Title,
+            exam.Properties.Code,
+            exam.Properties.Version,
+            info.Length,
+            info.LastWriteTime,
+            exam.NumberOfQuestions,
+            exam.Sections.Count,
+            exam.Properties.TimeLimit,
+            ToPercent(exam.Properties.Passmark),
+            exam.Properties.HideAnswers,
+            isLegacy));
+    }
+
+    private static bool IsOefPath(string filePath) =>
+        string.Equals(Path.GetExtension(filePath), ".oef", StringComparison.OrdinalIgnoreCase);
+
+    private static bool PathsEqual(string left, string right) =>
+        string.Equals(
+            Path.GetFullPath(left),
+            Path.GetFullPath(right),
+            OperatingSystem.IsWindows() || OperatingSystem.IsMacOS()
+                ? StringComparison.OrdinalIgnoreCase
+                : StringComparison.Ordinal);
+
+    private static string GetUniquePath(string directory, string baseName, string extension)
+    {
+        var invalid = Path.GetInvalidFileNameChars();
+        var safe = new string(baseName.Select(c => invalid.Contains(c) ? '_' : c).ToArray()).Trim();
+        if (safe.Length == 0)
+            safe = "Exam";
+
+        var candidate = Path.Combine(directory, safe + extension);
+        for (var i = 2; File.Exists(candidate); i++)
+            candidate = Path.Combine(directory, $"{safe} {i}{extension}");
+
+        return candidate;
     }
 
     private async Task LoadLibraryAsync()
@@ -122,6 +266,24 @@ public sealed class SimulatorSession : ISimulatorSession, IDisposable
 
         foreach (var entry in exams)
         {
+            if (!IsOefPath(entry.FilePath))
+            {
+                examCards.Add(new ExamCard(
+                    entry.FilePath,
+                    entry.Name,
+                    string.Empty,
+                    0,
+                    0,
+                    0,
+                    0,
+                    null,
+                    null,
+                    null,
+                    false,
+                    true));
+                continue;
+            }
+
             var loadResult = _examFileLoader.TryLoad(entry.FilePath);
             if (loadResult.Success && loadResult.Exam != null)
             {
@@ -136,7 +298,7 @@ public sealed class SimulatorSession : ISimulatorSession, IDisposable
                     exam.NumberOfQuestions,
                     exam.Sections.Count,
                     exam.Properties.TimeLimit,
-                    exam.Properties.Passmark,
+                    ToPercent(exam.Properties.Passmark),
                     lastAttempt?.TakenAt,
                     lastAttempt != null ? lastAttempt.Correct * 100 / lastAttempt.Total : null,
                     lastAttempt != null ? lastAttempt.Passed : null,
@@ -183,6 +345,9 @@ public sealed class SimulatorSession : ISimulatorSession, IDisposable
 
     public async Task<PreExamState> LoadExamAsync(string examFilePath)
     {
+        if (!IsOefPath(examFilePath))
+            throw new ExamLoadException(ExamFileLoadError.UnknownOrCorrupt, "Only .oef exam files can be opened.", unsupportedFormat: true);
+
         var loadResult = _examFileLoader.TryLoad(examFilePath);
         if (!loadResult.Success || loadResult.Exam == null)
         {
@@ -194,8 +359,8 @@ public sealed class SimulatorSession : ISimulatorSession, IDisposable
                 ExamFileLoadError.InvalidXml => "The XML file is invalid.",
                 _ => "The exam file is corrupt or in an unsupported format."
             };
-            await _prompts.ErrorAsync("Cannot Load Exam", errorMsg);
-            throw new InvalidOperationException(errorMsg);
+            // The host decides how to present the failure (localised), so no prompt is shown here.
+            throw new ExamLoadException(loadResult.Error, errorMsg);
         }
 
         _currentExam = loadResult.Exam;
@@ -231,7 +396,7 @@ public sealed class SimulatorSession : ISimulatorSession, IDisposable
             exam.NumberOfQuestions,
             exam.Sections.Count,
             exam.Properties.TimeLimit,
-            exam.Properties.Passmark,
+            ToPercent(exam.Properties.Passmark),
             exam.Properties.HideAnswers,
             sectionCounts);
     }
@@ -362,6 +527,11 @@ public sealed class SimulatorSession : ISimulatorSession, IDisposable
         StartTimer();
         return TransitionTo(_attemptState);
     }
+
+    /// <summary>
+    /// Pass marks are stored on the 0-1000 scaled-score scale. The UI-facing models use percent.
+    /// </summary>
+    private static double ToPercent(double scaledPassMark) => scaledPassMark / 10d;
 
     private static void ShuffleInPlace<T>(IList<T> items, Random random)
     {
@@ -502,7 +672,17 @@ public sealed class SimulatorSession : ISimulatorSession, IDisposable
             IsCriticalTimeWarning = isCriticalTime
         };
 
-        TransitionTo(_attemptState);
+        // The clock keeps running while the candidate reviews, but a tick must never drag the
+        // visible state back to the attempt view.
+        switch (_currentState)
+        {
+            case AttemptState:
+                TransitionTo(_attemptState);
+                break;
+            case ReviewAndSubmitState review:
+                TransitionTo(review with { Attempt = _attemptState });
+                break;
+        }
     }
 
     public async Task NavigateToQuestionAsync(int questionIndex)
@@ -725,7 +905,7 @@ public sealed class SimulatorSession : ISimulatorSession, IDisposable
             grading.NumberOfCorrectAnswers,
             (double)grading.NumberOfCorrectAnswers / _attemptState.Questions.Count * 100,
             normalizedScore,
-            _currentExam.Properties.Passmark,
+            ToPercent(_currentExam.Properties.Passmark),
             passed,
             grading.ResultSpread,
             lastAttempt != null ? lastAttempt.Correct * 100 / lastAttempt.Total : null,
@@ -838,7 +1018,7 @@ public sealed class SimulatorSession : ISimulatorSession, IDisposable
         }
     }
 
-    public async Task<AnswerReviewState> EnterAnswerReviewAsync()
+    public async Task<AnswerReviewState> EnterAnswerReviewAsync(AnswerReviewFilter filter = AnswerReviewFilter.All)
     {
         if (_currentState is not ResultsState resultsState)
             throw new InvalidOperationException("Not in results state.");
@@ -848,6 +1028,7 @@ public sealed class SimulatorSession : ISimulatorSession, IDisposable
         var answers = resultsState.Answers ?? new Dictionary<int, AnswerSelection>();
         var gradingDetails = resultsState.GradingDetails ?? [];
 
+        _resultsBeforeReview = resultsState;
         var reviewState = new AnswerReviewState(
             resultsState.Exam,
             resultsState.Settings,
@@ -855,10 +1036,18 @@ public sealed class SimulatorSession : ISimulatorSession, IDisposable
             sections,
             answers,
             gradingDetails,
-            AnswerReviewFilter.All,
+            filter,
             0);
 
         return TransitionTo(reviewState);
+    }
+
+    public Task ReturnToResultsAsync()
+    {
+        if (_currentState is AnswerReviewState && _resultsBeforeReview != null)
+            TransitionTo(_resultsBeforeReview);
+
+        return Task.CompletedTask;
     }
 
     public async Task NavigateReviewAsync(int direction)
@@ -909,20 +1098,71 @@ public sealed class SimulatorSession : ISimulatorSession, IDisposable
         _currentExam = null;
         _preExamSettings = null;
         _missedQuestionSelection = null;
+        _resultsBeforeReview = null;
         await LoadLibraryAsync();
     }
 
-    public async Task<byte[]> ExportResultsPdfAsync()
+    public Task<byte[]> ExportResultsPdfAsync()
     {
-        // This would use the Writer from ExamIO to generate PDF
-        // Placeholder implementation
-        return Array.Empty<byte>();
+        if (_currentState is not ResultsState results)
+            throw new InvalidOperationException("Results are only available after an attempt is submitted.");
+
+        using var stream = new MemoryStream();
+        var written = _writer.ToResultsPdf(BuildReport(results), stream, ResultsLabels);
+        if (!written.Success)
+            throw new IOException("The results report could not be generated.");
+
+        return Task.FromResult(stream.ToArray());
     }
 
     public async Task PrintResultsAsync()
     {
-        // Placeholder - would use IPrintService
-        await Task.CompletedTask;
+        if (_currentState is not ResultsState results)
+            return;
+
+        var bytes = await ExportResultsPdfAsync();
+        using var stream = new MemoryStream(bytes);
+        await _printService.PrintAsync(results.Exam.Properties.Title, stream);
+    }
+
+    /// <summary>
+    /// Captions used on the exported report. The host may replace these with localised text.
+    /// </summary>
+    public ResultsReportLabels ResultsLabels { get; set; } = new();
+
+    private static ResultsReport BuildReport(ResultsState results)
+    {
+        var details = results.GradingDetails ?? [];
+        var questions = details
+            .Select(d => new ResultsReportQuestion(
+                d.QuestionIndex + 1,
+                d.IsCorrect
+                    ? ResultsReportOutcome.Correct
+                    : d.IsAnswered ? ResultsReportOutcome.Wrong : ResultsReportOutcome.Unanswered,
+                d.Question.Text))
+            .ToList();
+
+        var limit = results.Settings.Mode == ExamMode.Exam
+            ? (results.Settings.TimerOverrideMinutes > 0
+                ? results.Settings.TimerOverrideMinutes
+                : results.Exam.Properties.TimeLimit)
+            : 0;
+
+        return new ResultsReport(
+            results.Exam.Properties.Title,
+            results.Exam.Properties.Code,
+            results.CandidateName,
+            results.CompletedAt,
+            results.ElapsedTime,
+            limit > 0 ? TimeSpan.FromMinutes(limit) : null,
+            results.TotalQuestions,
+            results.CorrectAnswers,
+            results.PercentScore,
+            results.ScaledScore,
+            (int)Math.Round(results.PassMarkPercent * 10),
+            results.Passed,
+            results.SectionBreakdown,
+            questions);
     }
 
     public async Task<PreExamState> PracticeMissedAgainAsync()

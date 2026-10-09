@@ -1,0 +1,16 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:loc="using:OpenExamSuite.Simulator.Localization"
+        x:Class="OpenExamSuite.Simulator.Views.Dialogs.DocumentDialog"
+        Width="760" Height="640" MinWidth="480" MinHeight="360"
+        WindowStartupLocation="CenterOwner" ShowInTaskbar="False">
+  <DockPanel>
+    <Border DockPanel.Dock="Bottom" Classes="bottombar">
+      <Button x:Name="CloseButton" Theme="{StaticResource PrimaryButton}" HorizontalAlignment="Right"
+              Content="{loc:Loc Dialog_Close}"/>
+    </Border>
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled" Padding="28,20">
+      <ContentControl x:Name="Host"/>
+    </ScrollViewer>
+  </DockPanel>
+</Window>

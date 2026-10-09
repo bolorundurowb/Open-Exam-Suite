@@ -14,6 +14,11 @@ namespace OpenExamSuite.Simulator.Session.Services;
 public interface ISimulatorSession
 {
     /// <summary>
+    /// Captions used when exporting the results PDF. Hosts supply localised text.
+    /// </summary>
+    ResultsReportLabels ResultsLabels { get; set; }
+
+    /// <summary>
     /// Current session state.
     /// </summary>
     ISessionState CurrentState { get; }
@@ -27,6 +32,36 @@ public interface ISimulatorSession
     /// Initializes the session at the Library state.
     /// </summary>
     Task InitializeAsync();
+
+    /// <summary>
+    /// Re-reads the library list and attempt history and publishes a Library state.
+    /// </summary>
+    Task RefreshLibraryAsync();
+
+    /// <summary>
+    /// Adds an <c>.oef</c> exam to the library. JSON and XML import belongs to Creator.
+    /// </summary>
+    Task<LibraryActionResult> AddExamAsync(string filePath);
+
+    /// <summary>
+    /// Removes an exam from the library. The file on disk is not touched.
+    /// </summary>
+    Task RemoveExamAsync(string filePath);
+
+    /// <summary>
+    /// Copies an exam file beside the original and adds the copy to the library.
+    /// </summary>
+    Task<LibraryActionResult> DuplicateExamAsync(string filePath);
+
+    /// <summary>
+    /// Points a library entry whose file went missing at a new location.
+    /// </summary>
+    Task<LibraryActionResult> RelocateExamAsync(string missingFilePath, string newFilePath);
+
+    /// <summary>
+    /// Reads file-level properties for an exam in the library.
+    /// </summary>
+    Task<ExamFileProperties?> GetExamPropertiesAsync(string filePath);
 
     /// <summary>
     /// Loads an exam and enters the pre-exam sheet state.
@@ -114,9 +149,14 @@ public interface ISimulatorSession
     Task HandleTimeUpAsync();
 
     /// <summary>
-    /// Enters answer review from results.
+    /// Enters answer review from results, optionally on a filter such as the missed questions.
     /// </summary>
-    Task<AnswerReviewState> EnterAnswerReviewAsync();
+    Task<AnswerReviewState> EnterAnswerReviewAsync(AnswerReviewFilter filter = AnswerReviewFilter.All);
+
+    /// <summary>
+    /// Returns from answer review to the results of the same attempt.
+    /// </summary>
+    Task ReturnToResultsAsync();
 
     /// <summary>
     /// Navigates within answer review.

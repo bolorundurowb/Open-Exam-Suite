@@ -1,0 +1,22 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <!-- 24x24 glyphs. Check, close, flag, pause, play, search, add, more, warning and schedule follow the
+       Material Design icon set (Apache-2.0). Meaning is always paired with a text label, never icon alone. -->
+  <StreamGeometry x:Key="IconCheck">M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z</StreamGeometry>
+  <StreamGeometry x:Key="IconClose">M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z</StreamGeometry>
+  <StreamGeometry x:Key="IconFlag">M14.4 6 14 4H5v17h2v-7h5.6l.4 2h7V6z</StreamGeometry>
+  <StreamGeometry x:Key="IconPause">M6 19h4V5H6v14zm8-14v14h4V5h-4z</StreamGeometry>
+  <StreamGeometry x:Key="IconPlay">M8 5v14l11-7z</StreamGeometry>
+  <StreamGeometry x:Key="IconSearch">M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z</StreamGeometry>
+  <StreamGeometry x:Key="IconAdd">M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z</StreamGeometry>
+  <StreamGeometry x:Key="IconMore">M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z</StreamGeometry>
+  <StreamGeometry x:Key="IconWarning">M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z</StreamGeometry>
+  <StreamGeometry x:Key="IconClock">M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z</StreamGeometry>
+  <StreamGeometry x:Key="IconChevronLeft">M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z</StreamGeometry>
+  <StreamGeometry x:Key="IconChevronRight">M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z</StreamGeometry>
+  <StreamGeometry x:Key="IconGrid">M3 3h8v8H3zm10 0h8v8h-8zM3 13h8v8H3zm10 0h8v8h-8z</StreamGeometry>
+  <StreamGeometry x:Key="IconList">M3 5h18v2H3zm0 6h18v2H3zm0 6h18v2H3z</StreamGeometry>
+  <StreamGeometry x:Key="IconTheme">M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 18V4a8 8 0 0 1 0 16z</StreamGeometry>
+  <StreamGeometry x:Key="IconDot">M12 6a6 6 0 1 0 0 12 6 6 0 0 0 0-12z</StreamGeometry>
+  <StreamGeometry x:Key="IconBook">M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z</StreamGeometry>
+</ResourceDictionary>

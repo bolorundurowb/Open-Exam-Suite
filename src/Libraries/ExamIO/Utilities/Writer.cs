@@ -19,7 +19,7 @@ public sealed class Writer
 {
     private static readonly object FontResolverLock = new();
     private static bool _fontResolverConfigured;
-    private const string PdfFontFamily = "Noto Sans";
+    private const string PdfFontFamily = "IBM Plex Sans";
 
     private readonly ILogger<Writer> _logger;
 
@@ -140,6 +140,114 @@ public sealed class Writer
         }
     }
 
+    public ExamWriteResult ToResultsPdf(ResultsReport report, string filePath, ResultsReportLabels? labels = null)
+    {
+        if (string.IsNullOrWhiteSpace(filePath))
+            throw new ArgumentException("Empty filepath", nameof(filePath));
+
+        try
+        {
+            using var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
+            return ToResultsPdf(report, stream, labels);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to write results PDF to '{FilePath}'.", filePath);
+            return new ExamWriteResult(false, ExamIoError.WriteFailed);
+        }
+    }
+
+    public ExamWriteResult ToResultsPdf(ResultsReport report, Stream stream, ResultsReportLabels? labels = null)
+    {
+        ArgumentNullException.ThrowIfNull(report);
+        ArgumentNullException.ThrowIfNull(stream);
+        labels ??= new ResultsReportLabels();
+
+        try
+        {
+            EnsurePdfFontsConfigured();
+            using var document = new PdfDocument();
+            document.Info.CreationDate = DateTime.Now;
+            document.Info.Creator = "Open Exam Suite";
+            document.Info.Subject = report.ExamCode;
+            document.Info.Title = $"{labels.Title}: {report.ExamTitle}";
+
+            var bodyFont = new XFont(PdfFontFamily, 11f, XFontStyleEx.Regular);
+            var headerFont = new XFont(PdfFontFamily, 13f, XFontStyleEx.Bold);
+            var titleFont = new XFont(PdfFontFamily, 18f, XFontStyleEx.Bold);
+            var layout = PdfLayout.Create(document);
+
+            layout.DrawParagraph(labels.Title, titleFont);
+            layout.DrawBlankLine(bodyFont);
+            layout.DrawLabelAndValue($"{labels.Exam}: ", report.ExamTitle, headerFont, bodyFont);
+            layout.DrawLabelAndValue($"{labels.Code}: ", report.ExamCode, headerFont, bodyFont);
+            layout.DrawLabelAndValue($"{labels.Candidate}: ", report.CandidateName, headerFont, bodyFont);
+            layout.DrawLabelAndValue($"{labels.Date}: ", report.CompletedAt.ToLocalTime().ToString("g"), headerFont, bodyFont);
+
+            var used = $"{(int)report.TimeUsed.TotalMinutes:00}:{report.TimeUsed.Seconds:00}";
+            if (report.TimeAllowed is { } allowed && allowed > TimeSpan.Zero)
+                used += $" / {(int)allowed.TotalMinutes:00}:{allowed.Seconds:00}";
+            layout.DrawLabelAndValue($"{labels.TimeUsed}: ", used, headerFont, bodyFont);
+            layout.DrawBlankLine(bodyFont);
+
+            layout.DrawLabelAndValue(
+                $"{labels.Result}: ",
+                report.Passed ? labels.Passed : labels.NotPassed,
+                headerFont,
+                bodyFont);
+            layout.DrawLabelAndValue(
+                $"{labels.Score}: ",
+                string.Format(
+                    System.Globalization.CultureInfo.CurrentCulture,
+                    "{0:0.#}% ({1} / 1000), {2} / {3}",
+                    report.PercentScore,
+                    report.ScaledScore,
+                    report.CorrectAnswers,
+                    report.TotalQuestions),
+                headerFont,
+                bodyFont);
+            layout.DrawLabelAndValue($"{labels.PassMark}: ", $"{report.PassMarkScaled} / 1000", headerFont, bodyFont);
+            layout.DrawBlankLine(bodyFont);
+
+            layout.DrawParagraph(labels.Sections, headerFont);
+            foreach (var section in report.Sections)
+            {
+                var percent = section.Total == 0 ? 0 : section.Correct * 100d / section.Total;
+                layout.DrawParagraph(
+                    string.Format(
+                        System.Globalization.CultureInfo.CurrentCulture,
+                        "{0}: {1} / {2} ({3:0.#}%)",
+                        section.SectionTitle,
+                        section.Correct,
+                        section.Total,
+                        percent),
+                    bodyFont);
+            }
+
+            layout.DrawBlankLine(bodyFont);
+            layout.DrawParagraph(labels.Questions, headerFont);
+            foreach (var question in report.Questions)
+            {
+                var outcome = question.Outcome switch
+                {
+                    ResultsReportOutcome.Correct => labels.Correct,
+                    ResultsReportOutcome.Wrong => labels.Wrong,
+                    _ => labels.Unanswered
+                };
+                var text = question.Text.Length > 120 ? question.Text[..120] + "…" : question.Text;
+                layout.DrawParagraph($"{question.Number}. [{outcome}] {text}", bodyFont);
+            }
+
+            document.Save(stream, false);
+            return new ExamWriteResult(true);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to write results PDF.");
+            return new ExamWriteResult(false, ExamIoError.WriteFailed);
+        }
+    }
+
     public ExamWriteResult ToJson(Exam exam, string filePath)
     {
         if (exam == null)
@@ -194,7 +302,7 @@ public sealed class Writer
             if (_fontResolverConfigured)
                 return;
 
-            GlobalFontSettings.FontResolver ??= new EmbeddedNotoSansFontResolver();
+            GlobalFontSettings.FontResolver ??= new EmbeddedPdfFontResolver();
             _fontResolverConfigured = true;
         }
     }

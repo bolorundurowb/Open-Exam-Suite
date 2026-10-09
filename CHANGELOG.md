@@ -1,6 +1,20 @@
-﻿# Changelog
+# Changelog
 
 All notable changes to this project will be documented in this file.
+
+## [Unreleased]
+### Simulator Section
+- Rebuilt the Simulator on Avalonia so it runs on Windows, macOS and Linux, with light and dark themes that follow the operating system and can be overridden from the top bar. The window title is always "Simulator".
+- New library home with grid and list cards, search, filter, sort, drag-and-drop of `.oef` files, JSON and XML import, sample exams on first launch, a recent attempts strip, and clear states for missing, corrupt and older-format files.
+- Added a pre-exam sheet, a question navigator with flagging, a pause cover that hides the question, 5-minute and 1-minute warnings that are also announced to screen readers, and a time-up countdown that submits automatically.
+- Added a review-and-submit screen that lists unanswered and flagged questions and asks "Submit anyway?" before submitting with questions unanswered.
+- Results now show Passed or Not passed with an icon, one score bar with the pass mark, the previous attempt and a section breakdown with the weakest section flagged, and can be exported to PDF or printed.
+- Added answer review with All, Wrong, Unanswered, Flagged and Correct filters and a "Practice these again" shortcut. Exams that hide answers withhold the correct answer and explanation.
+- Keyboard shortcuts: A-Z select an answer, Left and Right move, F flags, P pauses, Enter goes to the next question, Ctrl+Enter opens review.
+- Opening an `.oef` file while the Simulator is already running now opens it in the running window instead of being dropped.
+- Help now has About, License and Changelog. The changelog is shown once after each version change.
+- Fixed the sample exams path, a skipped question being counted as answered, Retake only closing the sheet, and the exam being readable while paused.
+- Pass marks are now shown as percentages instead of the stored 0 to 1000 scale.
 
 ## [4.0.5]
 ### General improvements

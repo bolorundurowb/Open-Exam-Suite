@@ -1,0 +1,107 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:loc="using:OpenExamSuite.Simulator.Localization"
+             xmlns:vm="using:OpenExamSuite.Simulator.ViewModels"
+             xmlns:controls="using:OpenExamSuite.Simulator.Views.Controls"
+             x:Class="OpenExamSuite.Simulator.Views.ResultsView">
+  <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+    <StackPanel MaxWidth="900" Margin="24,20,24,32" Spacing="18" HorizontalAlignment="Stretch">
+
+      <!-- Result: text plus icon, never colour alone. -->
+      <Border Classes="card" Classes.passed="{Binding Passed}">
+        <StackPanel Spacing="14">
+          <StackPanel Orientation="Horizontal" Spacing="14">
+            <PathIcon Data="{StaticResource IconCheck}" IsVisible="{Binding Passed}" Width="48" Height="48" Foreground="{DynamicResource CorrectBrush}"/>
+            <PathIcon Data="{StaticResource IconClose}" IsVisible="{Binding !Passed}" Width="48" Height="48" Foreground="{DynamicResource WrongBrush}"/>
+            <TextBlock Text="{Binding ResultLabel}" Classes="display" VerticalAlignment="Center"
+                       AutomationProperties.HeadingLevel="1"/>
+          </StackPanel>
+
+          <WrapPanel>
+            <TextBlock Text="{Binding PercentText}" Classes="display mono" Margin="0,0,24,0"/>
+            <TextBlock Text="{Binding ScaledText}" Classes="title mono" VerticalAlignment="Bottom" Margin="0,0,0,8"/>
+          </WrapPanel>
+
+          <!-- One bar, pass mark marked. -->
+          <controls:ScoreBar Value="{Binding PercentScore}" Mark="{Binding PassMarkPercent}" BarHeight="18"
+                             TrackBrush="{DynamicResource SurfaceAltBrush}" FillBrush="{DynamicResource AccentBrush}"
+                             MarkBrush="{DynamicResource TextBrush}"
+                             AutomationProperties.Name="{Binding BarAutomationName}"/>
+          <StackPanel Orientation="Horizontal" Spacing="8">
+            <Border Width="3" Height="16" Background="{DynamicResource TextBrush}" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding PassMarkText}" Classes="muted"/>
+          </StackPanel>
+        </StackPanel>
+      </Border>
+
+      <!-- Key facts -->
+      <Border Classes="card">
+        <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
+          <Grid.Styles>
+            <Style Selector="TextBlock.k">
+              <Setter Property="Foreground" Value="{DynamicResource MutedBrush}"/>
+              <Setter Property="Margin" Value="0,0,24,8"/>
+            </Style>
+            <Style Selector="TextBlock.v">
+              <Setter Property="Margin" Value="0,0,0,8"/>
+            </Style>
+          </Grid.Styles>
+          <TextBlock Grid.Row="0" Classes="k" Text="{loc:Loc Results_Candidate}"/>
+          <TextBlock Grid.Row="0" Grid.Column="1" Classes="v" Text="{Binding Candidate}"/>
+          <TextBlock Grid.Row="1" Classes="k" Text="{loc:Loc Results_Exam}"/>
+          <TextBlock Grid.Row="1" Grid.Column="1" Classes="v">
+            <Run Text="{Binding ExamTitle}"/>
+            <Run Text="{Binding ExamCode, StringFormat=' ({0})'}"/>
+          </TextBlock>
+          <TextBlock Grid.Row="2" Classes="k" Text="{loc:Loc Results_Date}"/>
+          <TextBlock Grid.Row="2" Grid.Column="1" Classes="v" Text="{Binding CompletedText}"/>
+          <TextBlock Grid.Row="3" Classes="k" Text="{loc:Loc Results_Time}"/>
+          <TextBlock Grid.Row="3" Grid.Column="1" Classes="v mono" Text="{Binding TimeText}"/>
+          <TextBlock Grid.Row="4" Classes="k" Text="{loc:Loc Results_Correct}"/>
+          <TextBlock Grid.Row="4" Grid.Column="1" Classes="v" Text="{Binding CorrectText}"/>
+        </Grid>
+      </Border>
+
+      <Border Classes="card" IsVisible="{Binding HasPrevious}">
+        <TextBlock Text="{Binding PreviousText}"/>
+      </Border>
+
+      <!-- Section breakdown; the weakest section is flagged with an icon and a label. -->
+      <Border Classes="card" IsVisible="{Binding HasSections}">
+        <StackPanel Spacing="12">
+          <TextBlock Text="{loc:Loc Results_Sections}" Classes="heading"/>
+          <ItemsControl ItemsSource="{Binding Sections}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate DataType="vm:SectionRowViewModel">
+                <StackPanel Spacing="4" Margin="0,0,0,12" AutomationProperties.Name="{Binding AutomationName}">
+                  <WrapPanel>
+                    <TextBlock Text="{Binding Title}" FontWeight="SemiBold" Margin="0,0,16,0"/>
+                    <TextBlock Text="{Binding ScoreText}" Classes="mono muted"/>
+                    <StackPanel Orientation="Horizontal" Spacing="6" Margin="16,0,0,0" IsVisible="{Binding IsWeakest}">
+                      <PathIcon Data="{StaticResource IconWarning}" Foreground="{DynamicResource WarnBrush}" Width="18" Height="18"/>
+                      <TextBlock Text="{loc:Loc Results_Weakest}" Foreground="{DynamicResource WarnBrush}" FontWeight="SemiBold"/>
+                    </StackPanel>
+                  </WrapPanel>
+                  <controls:ScoreBar Value="{Binding Percent}" BarHeight="10"
+                                     TrackBrush="{DynamicResource SurfaceAltBrush}" FillBrush="{DynamicResource AccentBrush}"/>
+                </StackPanel>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </StackPanel>
+      </Border>
+
+      <TextBlock Text="{loc:Loc Results_Saved}" Classes="caption"/>
+
+      <!-- Primary actions, then secondary. -->
+      <WrapPanel>
+        <Button Theme="{StaticResource PrimaryButton}" Command="{Binding ReviewAnswersCommand}" Margin="0,0,10,10" Content="{loc:Loc Results_ReviewAnswers}"/>
+        <Button Theme="{StaticResource SecondaryButton}" Command="{Binding ReviewMissedCommand}" IsVisible="{Binding HasMissedAnswers}" Margin="0,0,10,10" Content="{loc:Loc Results_ReviewMissed}"/>
+        <Button Theme="{StaticResource SecondaryButton}" Command="{Binding RetakeCommand}" Margin="0,0,10,10" Content="{loc:Loc Results_Retake}"/>
+        <Button Theme="{StaticResource SecondaryButton}" Command="{Binding BackToLibraryCommand}" Margin="0,0,24,10" Content="{loc:Loc Results_BackToLibrary}"/>
+        <Button Theme="{StaticResource QuietButton}" Command="{Binding ExportPdfCommand}" Margin="0,0,10,10" Content="{loc:Loc Results_ExportPdf}"/>
+        <Button Theme="{StaticResource QuietButton}" Command="{Binding PrintCommand}" Margin="0,0,0,10" Content="{loc:Loc Results_Print}"/>
+      </WrapPanel>
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

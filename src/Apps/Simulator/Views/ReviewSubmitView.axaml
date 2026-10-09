@@ -1,0 +1,133 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:loc="using:OpenExamSuite.Simulator.Localization"
+             xmlns:vm="using:OpenExamSuite.Simulator.ViewModels"
+             xmlns:views="using:OpenExamSuite.Simulator.Views"
+             x:Class="OpenExamSuite.Simulator.Views.ReviewSubmitView">
+  <UserControl.Resources>
+    <DataTemplate x:Key="ChipTemplate" DataType="vm:QuestionChipViewModel">
+      <Button Theme="{StaticResource NavCell}" Command="{Binding $parent[ItemsControl].DataContext.JumpCommand}"
+              CommandParameter="{Binding}" AutomationProperties.Name="{Binding AutomationName}"
+              MinWidth="52" Padding="8,0">
+        <TextBlock Text="{Binding Number}" Classes="mono"/>
+      </Button>
+    </DataTemplate>
+  </UserControl.Resources>
+
+  <DockPanel>
+    <TextBlock DockPanel.Dock="Top" Text="{Binding UrgentAnnouncement}" Width="1" Height="1" Opacity="0" IsHitTestVisible="False"
+               HorizontalAlignment="Left" AutomationProperties.LiveSetting="Assertive"/>
+    <Border DockPanel.Dock="Bottom" Classes="bottombar">
+      <WrapPanel HorizontalAlignment="Right">
+        <Button Theme="{StaticResource SecondaryButton}" Command="{Binding ToggleNavigatorCommand}" IsVisible="{Binding ShowNavigatorToggle}"
+                Margin="0,0,10,0" Content="{loc:Loc Exam_Questions}"/>
+        <Button Theme="{StaticResource SecondaryButton}" Command="{Binding BackCommand}" IsEnabled="{Binding CanGoBack}"
+                Margin="0,0,10,0" Content="{loc:Loc Review_Back}"/>
+        <Button Theme="{StaticResource PrimaryButton}" Command="{Binding SubmitCommand}" Content="{loc:Loc Review_Submit}"/>
+      </WrapPanel>
+    </Border>
+
+    <Grid ColumnDefinitions="*,Auto">
+      <Panel Grid.Column="0">
+      <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+        <StackPanel MaxWidth="900" Margin="24,20,24,24" Spacing="16" HorizontalAlignment="Stretch">
+
+          <!-- Time up: a notice, then automatic submission. -->
+          <Border Classes="banner critical" IsVisible="{Binding IsTimeUp}">
+            <StackPanel Orientation="Horizontal" Spacing="10">
+              <PathIcon Data="{StaticResource IconClock}"/>
+              <StackPanel>
+                <TextBlock Text="{loc:Loc Review_TimeUpTitle}" FontWeight="SemiBold"/>
+                <TextBlock Text="{Binding TimeUpText}" Classes="mono"/>
+              </StackPanel>
+            </StackPanel>
+          </Border>
+
+          <WrapPanel>
+            <TextBlock Text="{loc:Loc Review_Title}" Classes="title" Margin="0,0,24,8" VerticalAlignment="Center"/>
+            <Border Classes="timer" Classes.low="{Binding IsLowTime}" Classes.critical="{Binding IsCriticalTime}"
+                    IsVisible="{Binding ShowTimer}" VerticalAlignment="Center" Margin="0,0,0,8">
+              <StackPanel Orientation="Horizontal" Spacing="8">
+                <PathIcon Data="{StaticResource IconClock}"/>
+                <TextBlock Text="{Binding TimerText}" Classes="mono" FontSize="18" FontWeight="SemiBold"/>
+              </StackPanel>
+            </Border>
+          </WrapPanel>
+
+          <!-- Counts -->
+          <WrapPanel>
+            <Border Classes="card" Margin="0,0,12,12" MinWidth="170">
+              <StackPanel>
+                <TextBlock Text="{Binding AnsweredCount}" Classes="title mono"/>
+                <TextBlock Text="{loc:Loc Nav_Answered}" Classes="caption"/>
+              </StackPanel>
+            </Border>
+            <Border Classes="card" Margin="0,0,12,12" MinWidth="170">
+              <StackPanel>
+                <TextBlock Text="{Binding UnansweredCount}" Classes="title mono"/>
+                <TextBlock Text="{loc:Loc Nav_Unanswered}" Classes="caption"/>
+              </StackPanel>
+            </Border>
+            <Border Classes="card" Margin="0,0,12,12" MinWidth="170">
+              <StackPanel>
+                <TextBlock Text="{Binding FlaggedCount}" Classes="title mono"/>
+                <TextBlock Text="{loc:Loc Nav_Flagged}" Classes="caption"/>
+              </StackPanel>
+            </Border>
+          </WrapPanel>
+
+          <!-- Unanswered chips -->
+          <Border Classes="card" IsVisible="{Binding HasUnanswered}">
+            <StackPanel Spacing="10">
+              <TextBlock Text="{loc:Loc Review_UnansweredHeading}" Classes="heading"/>
+              <ItemsControl ItemsSource="{Binding UnansweredChips}" ItemTemplate="{StaticResource ChipTemplate}">
+                <ItemsControl.ItemsPanel>
+                  <ItemsPanelTemplate>
+                    <WrapPanel/>
+                  </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+              </ItemsControl>
+            </StackPanel>
+          </Border>
+
+          <!-- Flagged chips -->
+          <Border Classes="card" IsVisible="{Binding HasFlagged}">
+            <StackPanel Spacing="10">
+              <StackPanel Orientation="Horizontal" Spacing="8">
+                <PathIcon Data="{StaticResource IconFlag}" Foreground="{DynamicResource FlagBrush}"/>
+                <TextBlock Text="{loc:Loc Review_FlaggedHeading}" Classes="heading"/>
+              </StackPanel>
+              <ItemsControl ItemsSource="{Binding FlaggedChips}" ItemTemplate="{StaticResource ChipTemplate}">
+                <ItemsControl.ItemsPanel>
+                  <ItemsPanelTemplate>
+                    <WrapPanel/>
+                  </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+              </ItemsControl>
+            </StackPanel>
+          </Border>
+
+          <Border Classes="banner info" IsVisible="{Binding !HasUnanswered}">
+            <StackPanel Orientation="Horizontal" Spacing="10">
+              <PathIcon Data="{StaticResource IconCheck}"/>
+              <TextBlock Text="{loc:Loc Review_AllAnswered}"/>
+            </StackPanel>
+          </Border>
+        </StackPanel>
+      </ScrollViewer>
+
+        <!-- Narrow windows: the navigator opens over the summary. -->
+        <Border IsVisible="{Binding ShowOverlayNavigator}" HorizontalAlignment="Right" Width="320"
+                Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource BorderStrongBrush}" BorderThickness="2,0,0,0">
+          <views:NavigatorPanel DataContext="{Binding Navigator}"/>
+        </Border>
+      </Panel>
+
+      <!-- Wide windows: the full navigator stays beside the summary. -->
+      <Border Grid.Column="1" Width="300" IsVisible="{Binding ShowInlineNavigator}"
+              Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource DividerBrush}" BorderThickness="1,0,0,0">
+        <views:NavigatorPanel DataContext="{Binding Navigator}"/>
+      </Border>
+    </Grid>
+  </DockPanel>
+</UserControl>

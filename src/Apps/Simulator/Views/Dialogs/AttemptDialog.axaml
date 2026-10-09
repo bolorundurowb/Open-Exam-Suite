@@ -1,0 +1,36 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:loc="using:OpenExamSuite.Simulator.Localization"
+        x:Class="OpenExamSuite.Simulator.Views.Dialogs.AttemptDialog"
+        Width="520" SizeToContent="Height" CanResize="False"
+        WindowStartupLocation="CenterOwner" ShowInTaskbar="False">
+  <Window.Styles>
+    <Style Selector="PathIcon.pass">
+      <Setter Property="Foreground" Value="{DynamicResource CorrectBrush}"/>
+    </Style>
+    <Style Selector="PathIcon.fail">
+      <Setter Property="Foreground" Value="{DynamicResource WrongBrush}"/>
+    </Style>
+    <Style Selector="TextBlock.pass">
+      <Setter Property="Foreground" Value="{DynamicResource CorrectBrush}"/>
+    </Style>
+    <Style Selector="TextBlock.fail">
+      <Setter Property="Foreground" Value="{DynamicResource WrongBrush}"/>
+    </Style>
+  </Window.Styles>
+  <Border Padding="24">
+    <StackPanel Spacing="14">
+      <TextBlock x:Name="TitleText" Classes="heading"/>
+      <TextBlock x:Name="DateText" Classes="caption"/>
+      <StackPanel Orientation="Horizontal" Spacing="10">
+        <PathIcon x:Name="ResultIcon" Width="28" Height="28"/>
+        <TextBlock x:Name="ResultText" Classes="title" VerticalAlignment="Center"/>
+      </StackPanel>
+      <TextBlock x:Name="ScoreText" Classes="mono"/>
+      <TextBlock x:Name="TimeText"/>
+      <TextBlock Text="{loc:Loc Attempt_NoDetail}" Classes="caption"/>
+      <Button x:Name="CloseButton" Theme="{StaticResource PrimaryButton}" HorizontalAlignment="Right"
+              Content="{loc:Loc Dialog_Close}"/>
+    </StackPanel>
+  </Border>
+</Window>

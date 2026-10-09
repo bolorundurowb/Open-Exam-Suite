@@ -1,0 +1,29 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:loc="using:OpenExamSuite.Simulator.Localization"
+        x:Class="OpenExamSuite.Simulator.Views.Dialogs.AboutDialog"
+        Width="560" SizeToContent="Height" CanResize="False"
+        WindowStartupLocation="CenterOwner" ShowInTaskbar="False">
+  <Border Padding="28">
+    <StackPanel Spacing="14">
+      <StackPanel Orientation="Horizontal" Spacing="14">
+        <Image Source="avares://OpenExamSuite.Simulator/Assets/SimulatorAppIcon.png" Width="48" Height="48"/>
+        <StackPanel VerticalAlignment="Center">
+          <TextBlock x:Name="NameText" Classes="title"/>
+          <TextBlock x:Name="VersionText" Classes="caption"/>
+        </StackPanel>
+      </StackPanel>
+      <TextBlock x:Name="DescriptionText"/>
+      <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto">
+        <TextBlock Grid.Row="0" Text="{loc:Loc About_Web}" Classes="muted" Margin="0,0,16,0" VerticalAlignment="Center"/>
+        <Button Grid.Row="0" Grid.Column="1" x:Name="WebLink" Theme="{StaticResource QuietButton}" HorizontalAlignment="Left"/>
+        <TextBlock Grid.Row="1" Text="{loc:Loc About_Issues}" Classes="muted" Margin="0,0,16,0" VerticalAlignment="Center"/>
+        <Button Grid.Row="1" Grid.Column="1" x:Name="IssuesLink" Theme="{StaticResource QuietButton}" HorizontalAlignment="Left"/>
+        <TextBlock Grid.Row="2" Text="{loc:Loc About_Wiki}" Classes="muted" Margin="0,0,16,0" VerticalAlignment="Center"/>
+        <Button Grid.Row="2" Grid.Column="1" x:Name="WikiLink" Theme="{StaticResource QuietButton}" HorizontalAlignment="Left"/>
+      </Grid>
+      <Button x:Name="CloseButton" Theme="{StaticResource PrimaryButton}" HorizontalAlignment="Right"
+              Content="{loc:Loc Dialog_Close}"/>
+    </StackPanel>
+  </Border>
+</Window>

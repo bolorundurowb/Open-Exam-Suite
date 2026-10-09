@@ -1,0 +1,213 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:loc="using:OpenExamSuite.Simulator.Localization"
+             xmlns:vm="using:OpenExamSuite.Simulator.ViewModels"
+             x:Class="OpenExamSuite.Simulator.Views.LibraryView"
+             DragDrop.AllowDrop="True">
+  <UserControl.Resources>
+    <!-- One card layout for both views. The grid wraps fixed-width cards; the list stretches them. -->
+    <DataTemplate x:Key="ExamCardTemplate" DataType="vm:ExamCardViewModel">
+      <Border Classes="card" AutomationProperties.Name="{Binding AutomationName}" Margin="0,0,16,16">
+        <StackPanel Spacing="10">
+          <Grid ColumnDefinitions="*,Auto">
+            <StackPanel Spacing="2">
+              <TextBlock Text="{Binding Title}" Classes="heading"/>
+              <TextBlock Text="{Binding Code}" Classes="caption" IsVisible="{Binding HasCode}"/>
+            </StackPanel>
+            <Button Grid.Column="1" Theme="{StaticResource IconButton}" VerticalAlignment="Top"
+                    AutomationProperties.Name="{loc:Loc Library_MoreActions}" ToolTip.Tip="{loc:Loc Library_MoreActions}">
+              <PathIcon Data="{StaticResource IconMore}"/>
+              <Button.Flyout>
+                <MenuFlyout Placement="BottomEdgeAlignedRight">
+                  <MenuItem Header="{loc:Loc Library_Properties}" Command="{Binding PropertiesCommand}"/>
+                  <MenuItem Header="{loc:Loc Library_Duplicate}" Command="{Binding DuplicateCommand}"/>
+                  <MenuItem Header="{loc:Loc Library_ShowInFolder}" Command="{Binding ShowInFolderCommand}"/>
+                  <Separator/>
+                  <MenuItem Header="{loc:Loc Library_Remove}" Command="{Binding RemoveCommand}"/>
+                </MenuFlyout>
+              </Button.Flyout>
+            </Button>
+          </Grid>
+
+          <TextBlock Text="{Binding FactsText}" Classes="caption" IsVisible="{Binding IsAvailable}"/>
+
+          <!-- Last attempt: icon, label and score. Colour is never the only signal. -->
+          <StackPanel Orientation="Horizontal" Spacing="8" IsVisible="{Binding HasLastAttempt}">
+            <PathIcon Data="{StaticResource IconCheck}" IsVisible="{Binding LastPassed}" Foreground="{DynamicResource CorrectBrush}" Width="18" Height="18"/>
+            <PathIcon Data="{StaticResource IconClose}" IsVisible="{Binding LastFailed}" Foreground="{DynamicResource WrongBrush}" Width="18" Height="18"/>
+            <TextBlock Text="{Binding LastResultLabel}" FontWeight="SemiBold"/>
+            <TextBlock Text="{Binding LastAttemptText}" Classes="muted"/>
+          </StackPanel>
+          <TextBlock Text="{loc:Loc Library_NotAttempted}" Classes="caption" IsVisible="{Binding ShowNotAttempted}"/>
+
+          <!-- Missing-file and corrupt states. -->
+          <Border Classes="banner critical" IsVisible="{Binding NeedsAttention}">
+            <StackPanel Spacing="6">
+              <StackPanel Orientation="Horizontal" Spacing="8">
+                <PathIcon Data="{StaticResource IconWarning}"/>
+                <TextBlock Text="{Binding StatusText}" FontWeight="SemiBold"/>
+              </StackPanel>
+              <TextBlock Text="{Binding StatusHint}"/>
+              <TextBlock Text="{Binding FileName}" Classes="caption"/>
+            </StackPanel>
+          </Border>
+
+          <WrapPanel>
+            <Button Theme="{StaticResource PrimaryButton}" Command="{Binding PracticeCommand}" Margin="0,0,8,8"
+                    IsVisible="{Binding IsAvailable}" Content="{loc:Loc Library_Practice}"/>
+            <Button Theme="{StaticResource SecondaryButton}" Command="{Binding ExamCommand}" Margin="0,0,8,8"
+                    IsVisible="{Binding IsAvailable}" Content="{loc:Loc Library_Exam}"/>
+            <Button Theme="{StaticResource QuietButton}" Command="{Binding EditCommand}" Margin="0,0,8,8"
+                    IsVisible="{Binding CanEdit}" Content="{loc:Loc Library_Edit}"/>
+            <Button Theme="{StaticResource PrimaryButton}" Command="{Binding LocateCommand}" Margin="0,0,8,8"
+                    IsVisible="{Binding IsMissing}" Content="{loc:Loc Library_Locate}"/>
+            <Button Theme="{StaticResource SecondaryButton}" Command="{Binding RemoveCommand}" Margin="0,0,8,8"
+                    IsVisible="{Binding NeedsAttention}" Content="{loc:Loc Library_Remove}"/>
+          </WrapPanel>
+        </StackPanel>
+      </Border>
+    </DataTemplate>
+
+    <DataTemplate x:Key="AttemptTemplate" DataType="vm:AttemptItemViewModel">
+      <Button Theme="{StaticResource SecondaryButton}" Command="{Binding OpenCommand}" Margin="0,0,10,0"
+              AutomationProperties.Name="{Binding AutomationName}" HorizontalContentAlignment="Left">
+        <StackPanel Spacing="2">
+          <TextBlock Text="{Binding Title}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" MaxWidth="220"/>
+          <StackPanel Orientation="Horizontal" Spacing="6">
+            <PathIcon Data="{StaticResource IconCheck}" IsVisible="{Binding Passed}" Foreground="{DynamicResource CorrectBrush}" Width="16" Height="16"/>
+            <PathIcon Data="{StaticResource IconClose}" IsVisible="{Binding Failed}" Foreground="{DynamicResource WrongBrush}" Width="16" Height="16"/>
+            <TextBlock Text="{Binding ResultLabel}" FontSize="13"/>
+            <TextBlock Text="{Binding ScoreText}" Classes="mono" FontSize="13"/>
+          </StackPanel>
+          <TextBlock Text="{Binding DateText}" Classes="caption"/>
+        </StackPanel>
+      </Button>
+    </DataTemplate>
+  </UserControl.Resources>
+
+  <Grid RowDefinitions="Auto,Auto,*,Auto" Margin="24,16,24,16">
+
+    <!-- Search, filter, sort, view toggle, add and new. Wraps when the window or the text is long. -->
+    <WrapPanel Grid.Row="0" Margin="0,0,0,8">
+      <TextBox Text="{Binding SearchText}" Watermark="{loc:Loc Library_Search}" MinWidth="220" Width="280" Margin="0,0,10,8"
+               AutomationProperties.Name="{loc:Loc Library_Search}"/>
+      <ComboBox ItemsSource="{Binding FilterOptions}" SelectedItem="{Binding SelectedFilter}" MinWidth="160" Margin="0,0,10,8"
+                AutomationProperties.Name="{loc:Loc Library_Filter}">
+        <ComboBox.ItemTemplate>
+          <DataTemplate DataType="vm:FilterOption">
+            <TextBlock Text="{Binding Label}"/>
+          </DataTemplate>
+        </ComboBox.ItemTemplate>
+      </ComboBox>
+      <ComboBox ItemsSource="{Binding SortOptions}" SelectedItem="{Binding SelectedSort}" MinWidth="160" Margin="0,0,10,8"
+                AutomationProperties.Name="{loc:Loc Library_Sort}">
+        <ComboBox.ItemTemplate>
+          <DataTemplate DataType="vm:SortOption">
+            <TextBlock Text="{Binding Label}"/>
+          </DataTemplate>
+        </ComboBox.ItemTemplate>
+      </ComboBox>
+      <StackPanel Orientation="Horizontal" Margin="0,0,10,8">
+        <Button Theme="{StaticResource IconButton}" Command="{Binding ShowGridCommand}"
+                AutomationProperties.Name="{loc:Loc Library_GridView}" ToolTip.Tip="{loc:Loc Library_GridView}">
+          <PathIcon Data="{StaticResource IconGrid}"/>
+        </Button>
+        <Button Theme="{StaticResource IconButton}" Command="{Binding ShowListCommand}"
+                AutomationProperties.Name="{loc:Loc Library_ListView}" ToolTip.Tip="{loc:Loc Library_ListView}">
+          <PathIcon Data="{StaticResource IconList}"/>
+        </Button>
+      </StackPanel>
+      <Button Theme="{StaticResource SecondaryButton}" Command="{Binding NewExamCommand}" Margin="0,0,10,8"
+              IsVisible="{Binding CreatorAvailable}" Content="{loc:Loc Library_NewExam}"/>
+      <Button Theme="{StaticResource PrimaryButton}" Command="{Binding AddExamCommand}" Margin="0,0,0,8">
+        <StackPanel Orientation="Horizontal" Spacing="8">
+          <PathIcon Data="{StaticResource IconAdd}"/>
+          <TextBlock Text="{loc:Loc Library_AddExam}"/>
+        </StackPanel>
+      </Button>
+    </WrapPanel>
+
+    <!-- Welcome strip, first launch. -->
+    <Border Grid.Row="1" Classes="banner info" IsVisible="{Binding ShowWelcome}" Margin="0,0,0,16">
+      <Grid ColumnDefinitions="*,Auto">
+        <StackPanel Spacing="2">
+          <TextBlock Text="{loc:Loc Welcome_Title}" FontWeight="SemiBold"/>
+          <TextBlock Text="{loc:Loc Welcome_Message}"/>
+        </StackPanel>
+        <Button Grid.Column="1" Theme="{StaticResource QuietButton}" Command="{Binding DismissWelcomeCommand}"
+                Content="{loc:Loc Welcome_Dismiss}" VerticalAlignment="Center"/>
+      </Grid>
+    </Border>
+
+    <Panel Grid.Row="2">
+      <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+        <StackPanel>
+          <!-- Grid of cards. -->
+          <ItemsControl ItemsSource="{Binding Cards}" ItemTemplate="{StaticResource ExamCardTemplate}" IsVisible="{Binding IsGridView}">
+            <ItemsControl.ItemsPanel>
+              <ItemsPanelTemplate>
+                <WrapPanel/>
+              </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.Styles>
+              <Style Selector="WrapPanel > ContentPresenter">
+                <Setter Property="Width" Value="360"/>
+              </Style>
+            </ItemsControl.Styles>
+          </ItemsControl>
+          <!-- List of cards. -->
+          <ItemsControl ItemsSource="{Binding Cards}" ItemTemplate="{StaticResource ExamCardTemplate}" IsVisible="{Binding IsListView}"/>
+        </StackPanel>
+      </ScrollViewer>
+
+      <ProgressBar IsIndeterminate="True" VerticalAlignment="Top" IsVisible="{Binding IsLoading}"/>
+
+      <!-- Empty library. -->
+      <StackPanel IsVisible="{Binding IsEmpty}" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="14" MaxWidth="460">
+        <PathIcon Data="{StaticResource IconBook}" Width="72" Height="72" Foreground="{DynamicResource AccentTextBrush}" HorizontalAlignment="Center"/>
+        <TextBlock Text="{loc:Loc Library_EmptyTitle}" Classes="title" HorizontalAlignment="Center" TextAlignment="Center"/>
+        <TextBlock Text="{loc:Loc Library_EmptyMessage}" Classes="muted" HorizontalAlignment="Center" TextAlignment="Center"/>
+        <StackPanel Orientation="Horizontal" Spacing="10" HorizontalAlignment="Center">
+          <Button Theme="{StaticResource PrimaryButton}" Command="{Binding AddExamCommand}" Content="{loc:Loc Library_AddExam}"/>
+          <Button Theme="{StaticResource SecondaryButton}" Command="{Binding NewExamCommand}"
+                  IsVisible="{Binding CreatorAvailable}" Content="{loc:Loc Library_NewExam}"/>
+        </StackPanel>
+      </StackPanel>
+
+      <!-- Nothing matches the search or filter. -->
+      <StackPanel IsVisible="{Binding HasNoMatches}" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="12">
+        <TextBlock Text="{loc:Loc Library_NoMatches}" Classes="heading" TextAlignment="Center"/>
+        <Button Theme="{StaticResource SecondaryButton}" Command="{Binding ClearSearchCommand}"
+                Content="{loc:Loc Library_ClearSearch}" HorizontalAlignment="Center"/>
+      </StackPanel>
+
+      <!-- Drop overlay. -->
+      <Border x:Name="DropOverlay" IsVisible="False" Background="{DynamicResource AccentSubtleBrush}" Opacity="0.92"
+              BorderBrush="{DynamicResource AccentBrush}" BorderThickness="3" CornerRadius="14" IsHitTestVisible="False">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="8">
+          <PathIcon Data="{StaticResource IconAdd}" Width="48" Height="48" Foreground="{DynamicResource AccentTextBrush}"/>
+          <TextBlock Text="{loc:Loc Library_DropHint}" Classes="heading" Foreground="{DynamicResource AccentTextBrush}"/>
+        </StackPanel>
+      </Border>
+    </Panel>
+
+    <!-- Recent attempts strip. -->
+    <Border Grid.Row="3" Classes="card" Margin="0,8,0,0" IsVisible="{Binding HasRecent}">
+      <StackPanel Spacing="8">
+        <Button Theme="{StaticResource QuietButton}" Command="{Binding ToggleRecentCommand}" HorizontalAlignment="Left"
+                AutomationProperties.Name="{loc:Loc Library_RecentAttempts}">
+          <TextBlock Text="{loc:Loc Library_RecentAttempts}" FontWeight="SemiBold"/>
+        </Button>
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" IsVisible="{Binding IsRecentExpanded}">
+          <ItemsControl ItemsSource="{Binding RecentAttempts}" ItemTemplate="{StaticResource AttemptTemplate}">
+            <ItemsControl.ItemsPanel>
+              <ItemsPanelTemplate>
+                <StackPanel Orientation="Horizontal"/>
+              </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+          </ItemsControl>
+        </ScrollViewer>
+      </StackPanel>
+    </Border>
+  </Grid>
+</UserControl>

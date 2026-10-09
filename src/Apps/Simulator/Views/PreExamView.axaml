@@ -1,0 +1,135 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:loc="using:OpenExamSuite.Simulator.Localization"
+             xmlns:vm="using:OpenExamSuite.Simulator.ViewModels"
+             x:Class="OpenExamSuite.Simulator.Views.PreExamView">
+  <UserControl.KeyBindings>
+    <KeyBinding Gesture="Escape" Command="{Binding CancelCommand}"/>
+  </UserControl.KeyBindings>
+
+  <DockPanel>
+    <!-- Live summary and Start. Start stays disabled with an inline reason, never an error after the click. -->
+    <Border DockPanel.Dock="Bottom" Classes="bottombar">
+      <Grid ColumnDefinitions="*,Auto,Auto" MaxWidth="900">
+        <StackPanel VerticalAlignment="Center" Spacing="4">
+          <TextBlock Text="{Binding SummaryText}" FontWeight="SemiBold" Classes="mono"/>
+          <StackPanel Orientation="Horizontal" Spacing="8" IsVisible="{Binding HasReason}">
+            <PathIcon Data="{StaticResource IconWarning}" Foreground="{DynamicResource WarnBrush}" Width="18" Height="18"/>
+            <TextBlock Text="{Binding ReasonText}" Foreground="{DynamicResource WarnBrush}"
+                       AutomationProperties.LiveSetting="Polite"/>
+          </StackPanel>
+        </StackPanel>
+        <Button Grid.Column="1" Theme="{StaticResource SecondaryButton}" Command="{Binding CancelCommand}"
+                Content="{loc:Loc Dialog_Cancel}" Margin="0,0,10,0"/>
+        <Button Grid.Column="2" Theme="{StaticResource PrimaryButton}" Command="{Binding StartCommand}"
+                IsEnabled="{Binding CanStart}" Content="{Binding StartText}"/>
+      </Grid>
+    </Border>
+
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+      <StackPanel MaxWidth="900" Margin="24,20,24,24" Spacing="18">
+
+        <StackPanel Spacing="4">
+          <TextBlock Text="{Binding Title}" Classes="title"/>
+          <TextBlock Text="{Binding Code}" Classes="caption"/>
+        </StackPanel>
+
+        <Border Classes="card" IsVisible="{Binding HasInstructions}">
+          <StackPanel Spacing="6">
+            <TextBlock Text="{loc:Loc PreExam_Instructions}" Classes="heading"/>
+            <TextBlock Text="{Binding Instructions}"/>
+          </StackPanel>
+        </Border>
+
+        <!-- Mode -->
+        <Border Classes="card">
+          <StackPanel Spacing="10">
+            <TextBlock Text="{loc:Loc PreExam_Mode}" Classes="heading"/>
+            <RadioButton GroupName="Mode" IsChecked="{Binding IsPracticeSelected, Mode=TwoWay}" IsEnabled="{Binding PracticeAvailable}">
+              <StackPanel>
+                <TextBlock Text="{loc:Loc PreExam_Practice}" FontWeight="SemiBold"/>
+                <TextBlock Text="{loc:Loc PreExam_PracticeHelp}" Classes="caption"/>
+              </StackPanel>
+            </RadioButton>
+            <RadioButton GroupName="Mode" IsChecked="{Binding IsExamSelected, Mode=TwoWay}">
+              <StackPanel>
+                <TextBlock Text="{loc:Loc PreExam_Exam}" FontWeight="SemiBold"/>
+                <TextBlock Text="{loc:Loc PreExam_ExamHelp}" Classes="caption"/>
+              </StackPanel>
+            </RadioButton>
+            <Border Classes="banner info" IsVisible="{Binding HideAnswers}">
+              <StackPanel Orientation="Horizontal" Spacing="10">
+                <PathIcon Data="{StaticResource IconWarning}"/>
+                <TextBlock Text="{loc:Loc PreExam_PracticeHidden}"/>
+              </StackPanel>
+            </Border>
+          </StackPanel>
+        </Border>
+
+        <!-- Candidate -->
+        <Border Classes="card">
+          <StackPanel Spacing="8">
+            <TextBlock Text="{loc:Loc PreExam_Candidate}" Classes="heading"/>
+            <TextBox Text="{Binding CandidateName}" MaxWidth="420" HorizontalAlignment="Left"
+                     AutomationProperties.Name="{loc:Loc PreExam_Candidate}"/>
+          </StackPanel>
+        </Border>
+
+        <!-- Question set -->
+        <Border Classes="card">
+          <StackPanel Spacing="10">
+            <TextBlock Text="{loc:Loc PreExam_Questions}" Classes="heading"/>
+
+            <TextBlock Text="{Binding MissedText}" IsVisible="{Binding IsMissedSet}"/>
+
+            <StackPanel Spacing="10" IsVisible="{Binding !IsMissedSet}">
+              <RadioButton GroupName="Set" IsChecked="{Binding IsAllSelected, Mode=TwoWay}" Content="{loc:Loc PreExam_AllQuestions}"/>
+              <RadioButton GroupName="Set" IsChecked="{Binding IsSectionsSelected, Mode=TwoWay}" Content="{loc:Loc PreExam_SelectedSections}"/>
+              <StackPanel IsVisible="{Binding IsSectionsSelected}" Margin="28,0,0,0" Spacing="6">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                  <Button Theme="{StaticResource QuietButton}" Command="{Binding SelectAllSectionsCommand}" Content="{loc:Loc PreExam_SelectAll}"/>
+                  <Button Theme="{StaticResource QuietButton}" Command="{Binding ClearSectionsCommand}" Content="{loc:Loc PreExam_ClearAll}"/>
+                </StackPanel>
+                <ItemsControl ItemsSource="{Binding Sections}">
+                  <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="vm:SectionChoiceViewModel">
+                      <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay}" Content="{Binding Label}" MinHeight="36"/>
+                    </DataTemplate>
+                  </ItemsControl.ItemTemplate>
+                </ItemsControl>
+              </StackPanel>
+              <RadioButton GroupName="Set" IsChecked="{Binding IsRandomSelected, Mode=TwoWay}" Content="{loc:Loc PreExam_Random}"/>
+              <StackPanel IsVisible="{Binding IsRandomSelected}" Margin="28,0,0,0" Orientation="Horizontal" Spacing="10">
+                <NumericUpDown Value="{Binding RandomCount}" Minimum="1" Maximum="{Binding MaxRandom}" Increment="1"
+                               FormatString="0" MinWidth="140" AutomationProperties.Name="{loc:Loc PreExam_RandomCount}"/>
+                <TextBlock Text="{loc:Loc PreExam_RandomCount}" Classes="muted" VerticalAlignment="Center"/>
+              </StackPanel>
+            </StackPanel>
+          </StackPanel>
+        </Border>
+
+        <!-- Options -->
+        <Border Classes="card">
+          <StackPanel Spacing="8">
+            <TextBlock Text="{loc:Loc PreExam_Options}" Classes="heading"/>
+            <CheckBox IsChecked="{Binding ShuffleQuestions, Mode=TwoWay}" Content="{loc:Loc PreExam_ShuffleQuestions}" MinHeight="36"/>
+            <CheckBox IsChecked="{Binding ShuffleOptions, Mode=TwoWay}" Content="{loc:Loc PreExam_ShuffleOptions}" MinHeight="36"/>
+          </StackPanel>
+        </Border>
+
+        <!-- Timer, Exam mode only -->
+        <Border Classes="card" IsVisible="{Binding ShowTimerOptions}">
+          <StackPanel Spacing="8">
+            <TextBlock Text="{loc:Loc PreExam_Timer}" Classes="heading"/>
+            <TextBlock Text="{Binding DefaultTimeText}" Classes="muted"/>
+            <StackPanel Orientation="Horizontal" Spacing="10">
+              <NumericUpDown Value="{Binding TimerMinutes}" Minimum="1" Maximum="600" Increment="1" FormatString="0"
+                             MinWidth="140" AutomationProperties.Name="{loc:Loc PreExam_TimerOverride}"/>
+              <TextBlock Text="{loc:Loc PreExam_TimerOverride}" Classes="muted" VerticalAlignment="Center"/>
+            </StackPanel>
+          </StackPanel>
+        </Border>
+      </StackPanel>
+    </ScrollViewer>
+  </DockPanel>
+</UserControl>

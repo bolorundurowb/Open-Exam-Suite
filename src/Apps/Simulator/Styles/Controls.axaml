@@ -1,0 +1,176 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <!-- Type scale: display (result), title, heading, body (default), caption. IBM Plex Mono for the countdown and scores. -->
+  <Style Selector="Window">
+    <Setter Property="FontFamily" Value="avares://OpenExamSuite.Simulator/Assets/Fonts#IBM Plex Sans"/>
+    <Setter Property="FontSize" Value="15"/>
+    <Setter Property="Background" Value="{DynamicResource BgBrush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+  </Style>
+
+  <Style Selector="TextBlock">
+    <Setter Property="TextWrapping" Value="Wrap"/>
+  </Style>
+  <Style Selector="TextBlock.display">
+    <Setter Property="FontSize" Value="44"/>
+    <Setter Property="FontWeight" Value="Bold"/>
+  </Style>
+  <Style Selector="TextBlock.title">
+    <Setter Property="FontSize" Value="26"/>
+    <Setter Property="FontWeight" Value="SemiBold"/>
+  </Style>
+  <Style Selector="TextBlock.heading">
+    <Setter Property="FontSize" Value="18"/>
+    <Setter Property="FontWeight" Value="SemiBold"/>
+  </Style>
+  <Style Selector="TextBlock.caption">
+    <Setter Property="FontSize" Value="13"/>
+    <Setter Property="Foreground" Value="{DynamicResource MutedBrush}"/>
+  </Style>
+  <Style Selector="TextBlock.muted">
+    <Setter Property="Foreground" Value="{DynamicResource MutedBrush}"/>
+  </Style>
+  <Style Selector="TextBlock.mono">
+    <Setter Property="FontFamily" Value="avares://OpenExamSuite.Simulator/Assets/Fonts#IBM Plex Mono"/>
+  </Style>
+  <Style Selector="TextBlock.error">
+    <Setter Property="Foreground" Value="{DynamicResource WrongBrush}"/>
+  </Style>
+
+  <Style Selector="Border.card">
+    <Setter Property="Background" Value="{DynamicResource SurfaceBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource DividerBrush}"/>
+    <Setter Property="BorderThickness" Value="1"/>
+    <Setter Property="CornerRadius" Value="12"/>
+    <Setter Property="Padding" Value="16"/>
+  </Style>
+  <Style Selector="Border.bar">
+    <Setter Property="Background" Value="{DynamicResource SurfaceBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource DividerBrush}"/>
+    <Setter Property="BorderThickness" Value="0,0,0,1"/>
+    <Setter Property="Padding" Value="16,10"/>
+  </Style>
+  <Style Selector="Border.bottombar">
+    <Setter Property="Background" Value="{DynamicResource SurfaceBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource DividerBrush}"/>
+    <Setter Property="BorderThickness" Value="0,1,0,0"/>
+    <Setter Property="Padding" Value="16,10"/>
+  </Style>
+
+  <!-- Section / mode chip. -->
+  <Style Selector="Border.chip">
+    <Setter Property="Background" Value="{DynamicResource AccentSubtleBrush}"/>
+    <Setter Property="CornerRadius" Value="14"/>
+    <Setter Property="Padding" Value="12,4"/>
+  </Style>
+  <Style Selector="Border.chip > TextBlock">
+    <Setter Property="Foreground" Value="{DynamicResource AccentTextBrush}"/>
+    <Setter Property="FontWeight" Value="SemiBold"/>
+    <Setter Property="FontSize" Value="13"/>
+  </Style>
+
+  <!-- Status banners: icon + text + colour. -->
+  <Style Selector="Border.banner">
+    <Setter Property="CornerRadius" Value="10"/>
+    <Setter Property="Padding" Value="14,10"/>
+    <Setter Property="BorderThickness" Value="2"/>
+  </Style>
+  <Style Selector="Border.banner.warn">
+    <Setter Property="Background" Value="{DynamicResource WarnBgBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource WarnBrush}"/>
+  </Style>
+  <Style Selector="Border.banner.critical">
+    <Setter Property="Background" Value="{DynamicResource CriticalBgBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource CriticalBrush}"/>
+  </Style>
+  <Style Selector="Border.banner.correct">
+    <Setter Property="Background" Value="{DynamicResource CorrectBgBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource CorrectBrush}"/>
+  </Style>
+  <Style Selector="Border.banner.correct TextBlock">
+    <Setter Property="Foreground" Value="{DynamicResource CorrectBrush}"/>
+  </Style>
+  <Style Selector="Border.banner.correct PathIcon">
+    <Setter Property="Foreground" Value="{DynamicResource CorrectBrush}"/>
+  </Style>
+  <Style Selector="Border.banner.info">
+    <Setter Property="Background" Value="{DynamicResource AccentSubtleBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AccentBrush}"/>
+  </Style>
+  <Style Selector="Border.banner.warn TextBlock">
+    <Setter Property="Foreground" Value="{DynamicResource WarnBrush}"/>
+  </Style>
+  <Style Selector="Border.banner.warn PathIcon">
+    <Setter Property="Foreground" Value="{DynamicResource WarnBrush}"/>
+  </Style>
+  <Style Selector="Border.banner.critical TextBlock">
+    <Setter Property="Foreground" Value="{DynamicResource CriticalBrush}"/>
+  </Style>
+  <Style Selector="Border.banner.critical PathIcon">
+    <Setter Property="Foreground" Value="{DynamicResource CriticalBrush}"/>
+  </Style>
+  <Style Selector="Border.banner.info TextBlock">
+    <Setter Property="Foreground" Value="{DynamicResource AccentTextBrush}"/>
+  </Style>
+  <Style Selector="Border.banner.info PathIcon">
+    <Setter Property="Foreground" Value="{DynamicResource AccentTextBrush}"/>
+  </Style>
+
+  <!-- Countdown states: normal, low (5 min), critical (1 min). -->
+  <Style Selector="Border.timer">
+    <Setter Property="Background" Value="{DynamicResource SurfaceAltBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource BorderStrongBrush}"/>
+    <Setter Property="BorderThickness" Value="2"/>
+    <Setter Property="CornerRadius" Value="10"/>
+    <Setter Property="Padding" Value="12,4"/>
+  </Style>
+  <Style Selector="Border.timer.low">
+    <Setter Property="Background" Value="{DynamicResource WarnBgBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource WarnBrush}"/>
+  </Style>
+  <Style Selector="Border.timer.low TextBlock">
+    <Setter Property="Foreground" Value="{DynamicResource WarnBrush}"/>
+  </Style>
+  <Style Selector="Border.timer.low PathIcon">
+    <Setter Property="Foreground" Value="{DynamicResource WarnBrush}"/>
+  </Style>
+  <Style Selector="Border.timer.critical">
+    <Setter Property="Background" Value="{DynamicResource CriticalBgBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource CriticalBrush}"/>
+  </Style>
+  <Style Selector="Border.timer.critical TextBlock">
+    <Setter Property="Foreground" Value="{DynamicResource CriticalBrush}"/>
+  </Style>
+  <Style Selector="Border.timer.critical PathIcon">
+    <Setter Property="Foreground" Value="{DynamicResource CriticalBrush}"/>
+  </Style>
+
+  <Style Selector="Border.toast">
+    <Setter Property="Background" Value="{DynamicResource ToastBgBrush}"/>
+    <Setter Property="CornerRadius" Value="10"/>
+    <Setter Property="Padding" Value="16,12"/>
+    <Setter Property="Margin" Value="0,0,0,8"/>
+    <Setter Property="MaxWidth" Value="520"/>
+  </Style>
+  <Style Selector="Border.toast TextBlock">
+    <Setter Property="Foreground" Value="{DynamicResource ToastTextBrush}"/>
+  </Style>
+
+  <Style Selector="PathIcon">
+    <Setter Property="Width" Value="20"/>
+    <Setter Property="Height" Value="20"/>
+  </Style>
+  <Style Selector="Menu">
+    <Setter Property="Background" Value="{DynamicResource SurfaceBrush}"/>
+  </Style>
+  <Style Selector="TextBox">
+    <Setter Property="MinHeight" Value="40"/>
+  </Style>
+  <Style Selector="ComboBox">
+    <Setter Property="MinHeight" Value="40"/>
+  </Style>
+  <Style Selector="NumericUpDown">
+    <Setter Property="MinHeight" Value="40"/>
+  </Style>
+</Styles>

@@ -50,7 +50,7 @@ public static class Grader
             case null:
                 return false;
             case char[] answers:
-                return answers.SequenceEqual(question.Answers ?? []);
+                return answers.OrderBy(c => c).SequenceEqual((question.Answers ?? []).OrderBy(c => c));
             case char answer:
                 return answer == question.Answer;
             default:

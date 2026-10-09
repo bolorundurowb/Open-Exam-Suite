@@ -17,11 +17,14 @@ The project includes an **Exam Creator** for designing exams in the `oef` (Open 
     - Support for images in questions and multiple options.
     - Export exams to JSON or XML.
     - Full support for Undo/Redo, Copy/Cut/Paste operations.
-- **Exam Simulator:**
-    - Simulate timed exams with custom limits.
+- **Exam Simulator** (cross-platform Avalonia app for Windows, macOS and Linux, light and dark themes):
+    - A library of exams with search, filter, sort, drag-and-drop and sample exams on first launch.
+    - Practice mode (untimed, Check answer and explanations) and Exam mode (timed, with a pause cover and 5-minute and 1-minute warnings).
     - Filter questions by section or select a random set.
-    - Real-time answer checking and explanations.
-    - Result printing and progress tracking.
+    - Question navigator, flagging, and a review-and-submit screen that confirms unanswered questions.
+    - Results with the pass mark, section breakdown, answer review, retake, and PDF export or print.
+    - Keyboard-only operation: A-Z select, Left/Right move, F flag, P pause, Enter next, Ctrl+Enter review.
+    - Opening a `.oef` file while the Simulator is running shows it in the existing window.
 - **Compatibility:**
     - Built-in converter to upgrade older v1/v2 exam files to the modern v3 format.
 
@@ -40,7 +43,7 @@ This project has been modernised from .NET Framework 4.0 to **.NET 10**.
 
 ### Prerequisites
 - [.NET 10.0 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
-- Windows (WinForms-based applications)
+- Windows for the Creator (WinForms). The Simulator (Avalonia) also runs on macOS and Linux.
 
 ### Building from Source
 1. Clone the repository:
