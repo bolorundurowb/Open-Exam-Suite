@@ -3,7 +3,7 @@
         xmlns:loc="using:OpenExamSuite.Simulator.Localization"
         xmlns:svc="using:OpenExamSuite.Simulator.Services"
         x:Class="OpenExamSuite.Simulator.Views.MainWindow"
-        Title="Simulator"
+        Title="Open Exam Simulator"
         Icon="avares://OpenExamSuite.Simulator/Assets/SimulatorAppIcon.ico"
         Width="1180" Height="780" MinWidth="960" MinHeight="640"
         WindowStartupLocation="CenterScreen">

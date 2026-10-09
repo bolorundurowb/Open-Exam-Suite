@@ -14,7 +14,7 @@ public static class AppInfo
     public const string ChangelogVersionKey = "Simulator.LastChangelogVersion";
 
     /// <summary>The window title and product name, on every screen.</summary>
-    public const string ProductName = "Simulator";
+    public const string ProductName = "Open Exam Simulator";
 
     public static string Version =>
         typeof(AppInfo).Assembly.GetName().Version?.ToString() ?? "0.0.0";

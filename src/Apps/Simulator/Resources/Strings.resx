@@ -10,7 +10,7 @@
   <data name="Abandon_Title" xml:space="preserve"><value>Abandon this exam?</value></data>
   <data name="About_Description" xml:space="preserve"><value>Take practice tests and timed exams from .oef exam files.</value></data>
   <data name="About_Issues" xml:space="preserve"><value>Report an issue</value></data>
-  <data name="About_Title" xml:space="preserve"><value>About Simulator</value></data>
+  <data name="About_Title" xml:space="preserve"><value>About Open Exam Simulator</value></data>
   <data name="About_Version" xml:space="preserve"><value>Version {0}</value></data>
   <data name="About_Web" xml:space="preserve"><value>Website</value></data>
   <data name="About_Wiki" xml:space="preserve"><value>Documentation</value></data>
@@ -282,5 +282,5 @@
   <data name="Timer_OneMinute" xml:space="preserve"><value>1 minute remaining.</value></data>
   <data name="Welcome_Dismiss" xml:space="preserve"><value>Got it</value></data>
   <data name="Welcome_Message" xml:space="preserve"><value>We added a few sample exams so you can try Practice and Exam mode right away.</value></data>
-  <data name="Welcome_Title" xml:space="preserve"><value>Welcome to Simulator</value></data>
+  <data name="Welcome_Title" xml:space="preserve"><value>Welcome to Open Exam Simulator</value></data>
 </root>
