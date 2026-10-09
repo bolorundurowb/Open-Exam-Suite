@@ -20,6 +20,7 @@
     <Project Path="Tests/Core.Tests/Core.Tests.csproj" />
     <Project Path="Tests/Shared.Tests/Shared.Tests.csproj" />
     <Project Path="Tests/Simulator.Session.Tests/Simulator.Session.Tests.csproj" />
+    <Project Path="Tests/Simulator.Tests/Simulator.Tests.csproj" />
     <Project Path="Tests/Storage.Tests/Storage.Tests.csproj" />
   </Folder>
 </Solution>

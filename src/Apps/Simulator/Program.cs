@@ -1,77 +1,99 @@
-﻿using System.Reflection;
+using Avalonia;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using OpenExamSuite.Logging;
-using OpenExamSuite.Shared.Dialogs;
+using OpenExamSuite.Shared.Interfaces;
+using OpenExamSuite.Shared.Services;
 using OpenExamSuite.Shared.Utilities;
-using OpenExamSuite.Simulator.GUI;
-using OpenExamSuite.Storage.Enums;
+using OpenExamSuite.Simulator.Services;
+using OpenExamSuite.Simulator.Session.HostPorts;
+using OpenExamSuite.Simulator.Session.Services;
+using OpenExamSuite.Simulator.ViewModels;
 using OpenExamSuite.Storage.Interfaces;
-using OpenExamSuite.Storage.Models;
 using OpenExamSuite.Storage.Services;
 
 namespace OpenExamSuite.Simulator;
 
 public static class Program
 {
-    private const string ChangelogVersionKey = "Simulator.LastChangelogVersion";
-
-    /// <summary>
-    /// The main entry point for the application.
-    /// </summary>
     [STAThread]
-    public static void Main(string[] args)
+    public static int Main(string[] args)
     {
-        Application.EnableVisualStyles();
-        Application.SetCompatibleTextRenderingDefault(false);
-        using var mutex = new Mutex(false, "Global\\" + GetGuid());
-        if (!mutex.WaitOne(0, false))
+        var paths = ResolveExamPaths(args);
+
+        // A second Simulator hands its file to the running one and exits. It no longer shows a message and drops the path.
+        if (SingleInstanceCoordinator.TryForward(paths))
+            return 0;
+
+        var coordinator = new SingleInstanceCoordinator();
+        if (!coordinator.TryStart())
         {
-            MessageBox.Show(
-                "An instance of Open Exam Simulator is already running, select the add button include more exams.",
-                "OES Simulator", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-            return;
+            // Another process won the race to become the primary instance.
+            if (SingleInstanceCoordinator.TryForward(paths, timeoutMs: 2000))
+                return 0;
+
+            coordinator.Dispose();
+            coordinator = null;
         }
 
+        using var provider = ConfigureServices();
+        AppHost.Services = provider;
+        AppHost.StartupPaths = paths;
+        AppHost.Coordinator = coordinator;
+
+        try
+        {
+            return BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
+        }
+        finally
+        {
+            coordinator?.Dispose();
+        }
+    }
+
+    public static AppBuilder BuildAvaloniaApp() =>
+        AppBuilder.Configure<App>()
+            .UsePlatformDetect()
+            .LogToTrace();
+
+    internal static IReadOnlyList<string> ResolveExamPaths(IEnumerable<string> args) =>
+        args
+            .Where(MainWindowViewModel.IsSupportedPath)
+            .Select(a => Path.GetFullPath(a))
+            .ToList();
+
+    private static ServiceProvider ConfigureServices()
+    {
         var services = new ServiceCollection();
         services.AddLogging(builder => builder.AddProvider(new OesFileLoggerProvider()));
+
         services.AddSingleton<IAppSettingsService>(_ => new AppSettingsService());
         services.AddSingleton<IExamLibraryService>(_ => new ExamLibraryService());
         services.AddSingleton<Reader>();
+        services.AddSingleton<Writer>();
         services.AddSingleton<ExamFileLoader>();
-        using var provider = services.BuildServiceProvider();
-        var appSettings = provider.GetRequiredService<IAppSettingsService>();
-        var library = provider.GetRequiredService<IExamLibraryService>();
-        var reader = provider.GetRequiredService<Reader>();
+        services.AddSingleton<IExamComposer, ExamComposer>();
+        services.AddSingleton<IScorer, Scorer>();
+        services.AddSingleton(TimeProvider.System);
 
-        var mainForm = args.Length == 0
-            ? new HomeUi(library, reader)
-            : new HomeUi(library, reader, args[0]);
-        mainForm.Shown += (_, _) => ShowChangelogIfUpdated(appSettings);
+        // Host ports for the session layer.
+        services.AddSingleton<IAppPaths>(_ => new PlatformAppPaths());
+        services.AddSingleton<IFileSystem, PhysicalFileSystem>();
+        services.AddSingleton<IUriLauncher, ShellUriLauncher>();
+        services.AddSingleton<IPrintService, PdfPrintService>();
+        services.AddSingleton<MainWindowAccessor>();
+        services.AddSingleton<IUiDispatcher, AvaloniaUiDispatcher>();
+        services.AddSingleton<ToastService>();
+        services.AddSingleton<IToastService>(sp => sp.GetRequiredService<ToastService>());
+        services.AddSingleton<DialogService>();
+        services.AddSingleton<IPrompts, AvaloniaPrompts>();
+        services.AddSingleton(_ => new CreatorLocator());
+        services.AddSingleton<ThemeService>();
 
-        Application.Run(mainForm);
-    }
+        services.AddSingleton<ISimulatorSession, SimulatorSession>();
+        services.AddSingleton<ShellServices>();
+        services.AddSingleton<MainWindowViewModel>();
 
-    private static void ShowChangelogIfUpdated(IAppSettingsService appSettings)
-    {
-        var currentVersion = Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "0.0.0";
-        if (appSettings.Get(ChangelogVersionKey, AppSettingsType.Other)?.Value == currentVersion)
-            return;
-
-        using var changelog = new ChangelogUi();
-        changelog.ShowDialog();
-        appSettings.Set(new AppSetting { Key = ChangelogVersionKey, Value = currentVersion }, AppSettingsType.Other);
-    }
-
-    private static string GetGuid()
-    {
-        var assemblyGuid = Guid.Empty;
-        var assemblyObjects = System.Reflection.Assembly.GetEntryAssembly()
-            ?.GetCustomAttributes(typeof(System.Runtime.InteropServices.GuidAttribute), true);
-
-        if (assemblyObjects?.Length > 0)
-            assemblyGuid = new Guid(((System.Runtime.InteropServices.GuidAttribute)assemblyObjects[0]).Value);
-
-        return assemblyGuid.ToString();
+        return services.BuildServiceProvider();
     }
 }

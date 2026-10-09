@@ -32,6 +32,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <InternalsVisibleTo Include="OpenExamSuite.Simulator.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
     <AvaloniaResource Include="Assets\**" />
     <AvaloniaResource Include="SimulatorAppIcon.ico" Link="Assets\SimulatorAppIcon.ico" />
     <AvaloniaResource Include="..\..\..\CHANGELOG.md" Link="Assets\CHANGELOG.md" />
