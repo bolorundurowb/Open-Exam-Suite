@@ -6,7 +6,7 @@ namespace OpenExamSuite.Simulator.Engine.HostPorts;
 
 /// <summary>
 /// Default cross-platform implementation of <see cref="IAppPaths"/>.
-/// Hosts (WinForms, Avalonia, browser) may replace this with their own resolver.
+/// Hosts (Avalonia, or a future browser host) may replace this with their own resolver.
 /// </summary>
 public sealed class PlatformAppPaths : IAppPaths
 {
