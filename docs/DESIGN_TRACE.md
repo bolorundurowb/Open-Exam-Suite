@@ -140,8 +140,9 @@ The `Exam.Properties.HideAnswers` flag (author-set in Creator) governs four surf
 | `docs/DESIGN_BRIEF.md` | Source of truth for screens, flows, decisions |
 | `docs/Open Exam Suite.html` | Hi-fi artboards (copied from Downloads) |
 | `docs/DESIGN_TRACE.md` | This document – the trace |
-| `src/Apps/Simulator/…` | Simulator implementation (WinForms, to be migrated to Avalonia) |
-| `src/Apps/Creator/…` | Creator implementation (Avalonia; the legacy WinForms build lives in `src/Apps/Creator.WinForms/…`) |
+| `docs/BROWSER_HOST.md` | Browser host contracts and host ports |
+| `src/Apps/Simulator/` | Simulator implementation (Avalonia) |
+| `src/Apps/Creator/` | Creator implementation (Avalonia) |
 | `src/Libraries/Core/Models/Settings.cs` | `HideAnswers` property on `Exam.Properties` |
 | `src/Libraries/Core/Services/ExamEditor.cs` | Validation logic (non-blocking) |
 | `src/Libraries/ExamIO/Utilities/Writer.cs` | PDF export (honours `HideAnswers`) |

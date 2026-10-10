@@ -2,7 +2,7 @@
 
 ## 1. What we are designing
 
-Open Exam Suite is a free, open-source desktop app for creating and taking computer-based practice exams, a free alternative to Avanset's Visual CertExam Suite. It is being rebuilt from two Windows-only WinForms apps (Creator and Simulator) onto Avalonia UI. The new app runs on Windows, macOS and Linux.
+Open Exam Suite is a free, open-source desktop app for creating and taking computer-based practice exams, a free alternative to Avanset's Visual CertExam Suite. The apps now run on Avalonia on Windows, macOS, and Linux.
 
 Design a single desktop application with three modes:
 
