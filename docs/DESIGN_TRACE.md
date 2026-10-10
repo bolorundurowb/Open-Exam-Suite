@@ -1,7 +1,7 @@
 # Design Trace: Mapping Design Brief to Creator & Simulator
 
 **Status**: Complete  
-**Source**: `DESIGN_BRIEF.md` (sections 4–6) + `Open-Exam-Suite.html` (hi-fi artboards)  
+**Source**: `DESIGN_BRIEF.md` (sections 4–6) + `Open Exam Suite.html` (hi-fi artboards)  
 **Target Apps**: Creator (burgundy accent `#801638`→`#3B0A1A`), Simulator (teal accent `#017777`→`#013838`)
 
 ---
@@ -126,7 +126,7 @@ The `Exam.Properties.HideAnswers` flag (author-set in Creator) governs four surf
 
 ## 7. Exit Checklist (from Issue)
 
-- [x] Hi-fi HTML stored in repository as `Open-Exam-Suite.html`
+- [x] Hi-fi HTML stored in repository as `docs/Open Exam Suite.html`
 - [x] Every artboard mapped to a named session state or component; Author artboards recorded as Creator
 - [x] HideAnswers behaviour written for pre-exam sheet, Practice, review, and PDF export
 - [x] No second flow document contradicts the brief's screens or the product-name mapping above
@@ -137,9 +137,9 @@ The `Exam.Properties.HideAnswers` flag (author-set in Creator) governs four surf
 
 | File | Purpose |
 |------|---------|
-| `DESIGN_BRIEF.md` | Source of truth for screens, flows, decisions |
-| `Open-Exam-Suite.html` | Hi-fi artboards (copied from Downloads) |
-| `DESIGN_TRACE.md` | This document – the trace |
+| `docs/DESIGN_BRIEF.md` | Source of truth for screens, flows, decisions |
+| `docs/Open Exam Suite.html` | Hi-fi artboards (copied from Downloads) |
+| `docs/DESIGN_TRACE.md` | This document – the trace |
 | `src/Apps/Simulator/…` | Simulator implementation (WinForms, to be migrated to Avalonia) |
 | `src/Apps/Creator/…` | Creator implementation (WinForms, to be migrated to Avalonia) |
 | `src/Libraries/Core/Models/Settings.cs` | `HideAnswers` property on `Exam.Properties` |

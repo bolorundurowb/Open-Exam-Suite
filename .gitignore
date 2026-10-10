@@ -161,6 +161,7 @@ $RECYCLE.BIN/
 
 # Rider Files
 .idea/
+*.DotSettings.user
 
 # Visual Studio Files
 .vs/

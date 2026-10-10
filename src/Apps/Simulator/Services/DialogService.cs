@@ -2,6 +2,8 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Layout;
 using Avalonia.Media.Imaging;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using OpenExamSuite.Simulator.Localization;
 using OpenExamSuite.Simulator.Session.HostPorts;
 using OpenExamSuite.Simulator.Session.Models;
@@ -19,11 +21,13 @@ public sealed class DialogService
 {
     private readonly MainWindowAccessor _window;
     private readonly IUriLauncher _launcher;
+    private readonly ILogger<DialogService> _logger;
 
-    public DialogService(MainWindowAccessor window, IUriLauncher launcher)
+    public DialogService(MainWindowAccessor window, IUriLauncher launcher, ILogger<DialogService>? logger = null)
     {
         _window = window;
         _launcher = launcher;
+        _logger = logger ?? NullLogger<DialogService>.Instance;
     }
 
     /// <summary>Returns the index of the pressed button, or the cancel button's index on Escape. -1 when no window is available.</summary>
@@ -109,8 +113,9 @@ public sealed class DialogService
         {
             text = AppInfo.ReadAsset(assetName);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            _logger.LogWarning(ex, "Could not read the '{AssetName}' document.", assetName);
             text = Strings.Get("Dialog_DocumentMissing");
         }
 

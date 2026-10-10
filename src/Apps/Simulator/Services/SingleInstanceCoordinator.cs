@@ -1,5 +1,7 @@
 using System.IO.Pipes;
 using System.Text;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace OpenExamSuite.Simulator.Services;
 
@@ -14,12 +16,14 @@ public sealed class SingleInstanceCoordinator : IDisposable
     private const int MaxLineLength = 4096;
 
     private readonly string _pipeName;
+    private readonly ILogger<SingleInstanceCoordinator> _logger;
     private readonly CancellationTokenSource _cts = new();
     private Task? _loop;
 
-    public SingleInstanceCoordinator(string? pipeName = null)
+    public SingleInstanceCoordinator(string? pipeName = null, ILogger<SingleInstanceCoordinator>? logger = null)
     {
         _pipeName = pipeName ?? DefaultPipeName;
+        _logger = logger ?? NullLogger<SingleInstanceCoordinator>.Instance;
     }
 
     /// <summary>Raised on a background thread with the paths another launch asked to open. May be empty.</summary>
@@ -137,9 +141,10 @@ public sealed class SingleInstanceCoordinator : IDisposable
                 if (_cts.IsCancellationRequested)
                     break;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 // A misbehaving client must not take the listener down.
+                _logger.LogWarning(ex, "A single-instance pipe client failed; the listener will keep running.");
             }
             finally
             {
