@@ -5,26 +5,26 @@
     <Platform Name="x86" />
   </Configurations>
   <Folder Name="/Apps/">
+    <Project Path="Apps/Creator.WinForms/Creator.WinForms.csproj" />
     <Project Path="Apps/Creator/Creator.csproj" />
-    <Project Path="Apps/Creator.Avalonia/Creator.Avalonia.csproj" />
-    <Project Path="Apps/Creator.Session/Creator.Session.csproj" />
     <Project Path="Apps/Simulator/Simulator.csproj" />
-    <Project Path="Apps/Simulator.Session/Simulator.Session.csproj" />
   </Folder>
   <Folder Name="/Libraries/">
     <Project Path="Libraries/Core/Core.csproj" />
+    <Project Path="Libraries/Creator.Engine/Creator.Engine.csproj" />
     <Project Path="Libraries/ExamIO/ExamIO.csproj" />
     <Project Path="Libraries/Logging/Logging.csproj" />
     <Project Path="Libraries/Shared.Avalonia/Shared.Avalonia.csproj" />
     <Project Path="Libraries/Shared.WinForms/Shared.WinForms.csproj" />
+    <Project Path="Libraries/Simulator.Engine/Simulator.Engine.csproj" />
     <Project Path="Libraries/Storage/Storage.csproj" />
   </Folder>
   <Folder Name="/Tests/">
     <Project Path="Tests/App.Headless.Tests/App.Headless.Tests.csproj" />
     <Project Path="Tests/Core.Tests/Core.Tests.csproj" />
-    <Project Path="Tests/Creator.Session.Tests/Creator.Session.Tests.csproj" />
+    <Project Path="Tests/Creator.Engine.Tests/Creator.Engine.Tests.csproj" />
     <Project Path="Tests/Shared.Tests/Shared.Tests.csproj" />
-    <Project Path="Tests/Simulator.Session.Tests/Simulator.Session.Tests.csproj" />
+    <Project Path="Tests/Simulator.Engine.Tests/Simulator.Engine.Tests.csproj" />
     <Project Path="Tests/Simulator.Tests/Simulator.Tests.csproj" />
     <Project Path="Tests/Storage.Tests/Storage.Tests.csproj" />
   </Folder>

@@ -56,9 +56,9 @@ This project has been modernised from .NET Framework 4.0 to **.NET 10**.
    dotnet build
    ```
 3. Run the applications:
-   - **Creator (Avalonia):** `dotnet run --project src/Apps/Creator.Avalonia/Creator.Avalonia.csproj`
+   - **Creator (Avalonia):** `dotnet run --project src/Apps/Creator/Creator.csproj`
    - **Simulator (Avalonia):** `dotnet run --project src/Apps/Simulator/Simulator.csproj`
-   - **Creator (WinForms rollback):** `dotnet run --project src/Apps/Creator/Creator.csproj`
+   - **Creator (WinForms rollback):** `dotnet run --project src/Apps/Creator.WinForms/Creator.WinForms.csproj`
 
 ## Downloads
 

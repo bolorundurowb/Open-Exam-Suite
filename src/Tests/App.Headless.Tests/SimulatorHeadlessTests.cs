@@ -3,7 +3,7 @@ using Avalonia.Headless;
 using Microsoft.Extensions.DependencyInjection;
 using OmniAssert;
 using OpenExamSuite.Simulator.Services;
-using OpenExamSuite.Simulator.Session.States;
+using OpenExamSuite.Simulator.Engine.States;
 using OpenExamSuite.Simulator.ViewModels;
 using OpenExamSuite.Storage.Services;
 using Xunit;

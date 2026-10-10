@@ -2,7 +2,7 @@ using System.Collections.Immutable;
 using OmniAssert;
 using OpenExamSuite.Shared;
 using OpenExamSuite.Simulator.Models;
-using OpenExamSuite.Simulator.Session.Models;
+using OpenExamSuite.Simulator.Engine.Models;
 using Xunit;
 
 namespace OpenExamSuite.Simulator.Tests;

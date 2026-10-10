@@ -3,11 +3,12 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using OpenExamSuite.Simulator.Localization;
 using OpenExamSuite.Simulator.Services;
-using OpenExamSuite.Simulator.Session.Models;
-using OpenExamSuite.Simulator.Session.States;
+using OpenExamSuite.Simulator.Engine.Models;
+using OpenExamSuite.Simulator.Engine.States;
 using OpenExamSuite.Storage.Enums;
 using OpenExamSuite.Storage.Interfaces;
 using OpenExamSuite.Storage.Models;
+using OpenExamSuite.Shared.Avalonia.ViewModels;
 
 namespace OpenExamSuite.Simulator.ViewModels;
 

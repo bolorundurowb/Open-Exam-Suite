@@ -63,12 +63,12 @@ jobs:
         dotnet restore Tests/Core.Tests/Core.Tests.csproj
         dotnet restore Tests/Shared.Tests/Shared.Tests.csproj
         dotnet restore Tests/Storage.Tests/Storage.Tests.csproj
-        dotnet restore Tests/Simulator.Session.Tests/Simulator.Session.Tests.csproj
+        dotnet restore Tests/Simulator.Engine.Tests/Simulator.Engine.Tests.csproj
         dotnet restore Tests/Simulator.Tests/Simulator.Tests.csproj
-        dotnet restore Tests/Creator.Session.Tests/Creator.Session.Tests.csproj
+        dotnet restore Tests/Creator.Engine.Tests/Creator.Engine.Tests.csproj
         dotnet restore Tests/App.Headless.Tests/App.Headless.Tests.csproj
         dotnet restore Apps/Simulator/Simulator.csproj
-        dotnet restore Apps/Creator.Avalonia/Creator.Avalonia.csproj
+        dotnet restore Apps/Creator/Creator.csproj
       working-directory: ./src
 
     - name: Build portable projects and Avalonia apps
@@ -76,12 +76,12 @@ jobs:
         dotnet build --configuration Release --no-restore Tests/Core.Tests/Core.Tests.csproj
         dotnet build --configuration Release --no-restore Tests/Shared.Tests/Shared.Tests.csproj
         dotnet build --configuration Release --no-restore Tests/Storage.Tests/Storage.Tests.csproj
-        dotnet build --configuration Release --no-restore Tests/Simulator.Session.Tests/Simulator.Session.Tests.csproj
+        dotnet build --configuration Release --no-restore Tests/Simulator.Engine.Tests/Simulator.Engine.Tests.csproj
         dotnet build --configuration Release --no-restore Tests/Simulator.Tests/Simulator.Tests.csproj
-        dotnet build --configuration Release --no-restore Tests/Creator.Session.Tests/Creator.Session.Tests.csproj
+        dotnet build --configuration Release --no-restore Tests/Creator.Engine.Tests/Creator.Engine.Tests.csproj
         dotnet build --configuration Release --no-restore Tests/App.Headless.Tests/App.Headless.Tests.csproj
         dotnet build --configuration Release --no-restore Apps/Simulator/Simulator.csproj
-        dotnet build --configuration Release --no-restore Apps/Creator.Avalonia/Creator.Avalonia.csproj
+        dotnet build --configuration Release --no-restore Apps/Creator/Creator.csproj
       working-directory: ./src
 
     - name: Run portable and headless tests
@@ -89,8 +89,8 @@ jobs:
         dotnet test --configuration Release --no-build Tests/Core.Tests/Core.Tests.csproj /p:CollectCoverage=true
         dotnet test --configuration Release --no-build Tests/Shared.Tests/Shared.Tests.csproj /p:CollectCoverage=true
         dotnet test --configuration Release --no-build Tests/Storage.Tests/Storage.Tests.csproj /p:CollectCoverage=true
-        dotnet test --configuration Release --no-build Tests/Simulator.Session.Tests/Simulator.Session.Tests.csproj /p:CollectCoverage=true
+        dotnet test --configuration Release --no-build Tests/Simulator.Engine.Tests/Simulator.Engine.Tests.csproj /p:CollectCoverage=true
         dotnet test --configuration Release --no-build Tests/Simulator.Tests/Simulator.Tests.csproj /p:CollectCoverage=true
-        dotnet test --configuration Release --no-build Tests/Creator.Session.Tests/Creator.Session.Tests.csproj /p:CollectCoverage=true
+        dotnet test --configuration Release --no-build Tests/Creator.Engine.Tests/Creator.Engine.Tests.csproj /p:CollectCoverage=true
         dotnet test --configuration Release --no-build Tests/App.Headless.Tests/App.Headless.Tests.csproj /p:CollectCoverage=true
       working-directory: ./src

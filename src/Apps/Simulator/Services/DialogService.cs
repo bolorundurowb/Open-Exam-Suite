@@ -5,9 +5,9 @@ using Avalonia.Media.Imaging;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using OpenExamSuite.Simulator.Localization;
-using OpenExamSuite.Simulator.Session.HostPorts;
-using OpenExamSuite.Simulator.Session.Models;
-using OpenExamSuite.Simulator.Session.States;
+using OpenExamSuite.Simulator.Engine.HostPorts;
+using OpenExamSuite.Simulator.Engine.Models;
+using OpenExamSuite.Simulator.Engine.States;
 using OpenExamSuite.Simulator.Views.Dialogs;
 
 namespace OpenExamSuite.Simulator.Services;

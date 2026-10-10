@@ -1,4 +1,4 @@
-using OpenExamSuite.Simulator.Session.HostPorts;
+using OpenExamSuite.Simulator.Engine.HostPorts;
 
 namespace OpenExamSuite.Simulator.Services;
 

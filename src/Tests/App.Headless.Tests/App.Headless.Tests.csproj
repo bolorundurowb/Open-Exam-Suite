@@ -30,6 +30,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Apps\Simulator\Simulator.csproj" />
-    <ProjectReference Include="..\..\Apps\Creator.Avalonia\Creator.Avalonia.csproj" />
+    <ProjectReference Include="..\..\Apps\Creator\Creator.csproj" />
   </ItemGroup>
 </Project>

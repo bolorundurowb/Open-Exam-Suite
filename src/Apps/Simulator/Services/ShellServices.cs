@@ -1,8 +1,8 @@
 using Microsoft.Extensions.Logging;
 using OpenExamSuite.Simulator.Localization;
-using OpenExamSuite.Simulator.Session.HostPorts;
-using OpenExamSuite.Simulator.Session.Models;
-using OpenExamSuite.Simulator.Session.Services;
+using OpenExamSuite.Simulator.Engine.HostPorts;
+using OpenExamSuite.Simulator.Engine.Models;
+using OpenExamSuite.Simulator.Engine.Services;
 
 namespace OpenExamSuite.Simulator.Services;
 
