@@ -1,20 +1,26 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net10.0-windows</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <OutputType>WinExe</OutputType>
-    <UseWindowsForms>true</UseWindowsForms>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
     <ApplicationIcon>CreatorAppIcon.ico</ApplicationIcon>
-    <NoWarn>$(NoWarn);WFO1000</NoWarn>
     <AssemblyName>OpenExamSuite.Creator</AssemblyName>
     <RootNamespace>OpenExamSuite.Creator</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <BuiltInComInteropSupport>false</BuiltInComInteropSupport>
+    <AvaloniaUseCompiledBindingsByDefault>false</AvaloniaUseCompiledBindingsByDefault>
+    <NeutralLanguage>en</NeutralLanguage>
+    <InvariantGlobalization>false</InvariantGlobalization>
     <!-- XmlSerializer and protobuf-net reflection do not survive trimming or AOT. Lock both off. -->
     <PublishTrimmed>false</PublishTrimmed>
     <PublishAot>false</PublishAot>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Avalonia" />
+    <PackageReference Include="Avalonia.Desktop" />
+    <PackageReference Include="Avalonia.Themes.Fluent" />
+    <PackageReference Include="CommunityToolkit.Mvvm" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
     <PackageReference Include="Microsoft.Extensions.Logging" />
   </ItemGroup>
@@ -23,7 +29,23 @@
     <ProjectReference Include="..\..\Libraries\Core\Core.csproj" />
     <ProjectReference Include="..\..\Libraries\ExamIO\ExamIO.csproj" />
     <ProjectReference Include="..\..\Libraries\Logging\Logging.csproj" />
-    <ProjectReference Include="..\..\Libraries\Shared.WinForms\Shared.WinForms.csproj" />
     <ProjectReference Include="..\..\Libraries\Storage\Storage.csproj" />
+    <ProjectReference Include="..\..\Libraries\Creator.Engine\Creator.Engine.csproj" />
+    <ProjectReference Include="..\..\Libraries\Shared.Avalonia\Shared.Avalonia.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="OpenExamSuite.App.Headless.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="Assets\**" />
+    <AvaloniaResource Include="CreatorAppIcon.ico" Link="Assets\CreatorAppIcon.ico" />
+    <AvaloniaResource Include="..\..\..\CHANGELOG.md" Link="Assets\CHANGELOG.md" />
+    <AvaloniaResource Include="..\..\..\LICENSE" Link="Assets\LICENSE.txt" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)' == 'Debug'">
+    <None Include="..\..\..\samples\*.oef" Link="Samples\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

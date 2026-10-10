@@ -1,5 +1,5 @@
 using OpenExamSuite.Shared;
-using OpenExamSuite.Simulator.Session.Models;
+using OpenExamSuite.Simulator.Engine.Models;
 
 namespace OpenExamSuite.Simulator.Models;
 

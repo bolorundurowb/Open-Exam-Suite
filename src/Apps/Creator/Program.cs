@@ -1,57 +1,56 @@
-﻿using System.Reflection;
+using Avalonia;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using OpenExamSuite.Creator.GUI;
+using OpenExamSuite.Creator.Services;
+using OpenExamSuite.Creator.Engine.Services;
+using OpenExamSuite.Creator.ViewModels;
 using OpenExamSuite.Logging;
-using OpenExamSuite.Shared.Dialogs;
 using OpenExamSuite.Shared.Utilities;
-using OpenExamSuite.Storage.Enums;
 using OpenExamSuite.Storage.Interfaces;
-using OpenExamSuite.Storage.Models;
 using OpenExamSuite.Storage.Services;
 
 namespace OpenExamSuite.Creator;
 
 public static class Program
 {
-    private const string ChangelogVersionKey = "Creator.LastChangelogVersion";
-
-    /// <summary>
-    /// The main entry point for the application.
-    /// </summary>
     [STAThread]
-    public static void Main()
+    public static int Main(string[] args)
     {
-        Application.EnableVisualStyles();
-        Application.SetCompatibleTextRenderingDefault(false);
+        using var provider = ConfigureServices();
+        AppHost.Services = provider;
+        AppHost.StartupPaths = args
+            .Where(MainWindowViewModel.IsSupportedPath)
+            .Select(Path.GetFullPath)
+            .ToList();
 
+        return BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
+    }
+
+    public static AppBuilder BuildAvaloniaApp() =>
+        AppBuilder.Configure<App>()
+            .UsePlatformDetect()
+            .LogToTrace();
+
+    private static ServiceProvider ConfigureServices()
+    {
         var services = new ServiceCollection();
         services.AddLogging(builder => builder.AddProvider(new OesFileLoggerProvider()));
+
         services.AddSingleton<IAppSettingsService>(_ => new AppSettingsService());
         services.AddSingleton<IExamLibraryService>(_ => new ExamLibraryService());
         services.AddSingleton<Reader>();
         services.AddSingleton<Writer>();
-        services.AddSingleton<ExamFileLoader>();
-        using var provider = services.BuildServiceProvider();
-        var appSettings = provider.GetRequiredService<IAppSettingsService>();
-        var library = provider.GetRequiredService<IExamLibraryService>();
-        var writer = provider.GetRequiredService<Writer>();
-        var examFileLoader = provider.GetRequiredService<ExamFileLoader>();
+        services.AddSingleton<CreatorDocument>();
+        services.AddSingleton<RecentExamsService>();
 
-        var mainForm = new HomeUi(library, writer, examFileLoader);
-        mainForm.Shown += (_, _) => ShowChangelogIfUpdated(appSettings);
+        services.AddSingleton<ThemeService>();
+        services.AddSingleton<DialogService>();
+        services.AddSingleton<ToastService>();
+        services.AddSingleton(_ => new SimulatorLocator());
+        services.AddSingleton<IToastService>(sp => sp.GetRequiredService<ToastService>());
+        services.AddSingleton<ShellServices>();
+        services.AddSingleton<MainWindowViewModel>();
 
-        Application.Run(mainForm);
-    }
-
-    private static void ShowChangelogIfUpdated(IAppSettingsService appSettings)
-    {
-        var currentVersion = Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "0.0.0";
-        if (appSettings.Get(ChangelogVersionKey, AppSettingsType.Other)?.Value == currentVersion)
-            return;
-
-        using var changelog = new ChangelogUi();
-        changelog.ShowDialog();
-        appSettings.Set(new AppSetting { Key = ChangelogVersionKey, Value = currentVersion }, AppSettingsType.Other);
+        return services.BuildServiceProvider();
     }
 }

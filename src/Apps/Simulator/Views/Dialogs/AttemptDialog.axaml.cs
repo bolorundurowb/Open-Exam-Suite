@@ -4,7 +4,7 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using OpenExamSuite.Simulator.Localization;
 using OpenExamSuite.Simulator.Services;
-using OpenExamSuite.Simulator.Session.States;
+using OpenExamSuite.Simulator.Engine.States;
 
 namespace OpenExamSuite.Simulator.Views.Dialogs;
 

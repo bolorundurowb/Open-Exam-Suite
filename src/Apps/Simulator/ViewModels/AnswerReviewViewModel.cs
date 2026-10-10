@@ -2,10 +2,12 @@ using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Avalonia.Media.Imaging;
+using Microsoft.Extensions.Logging;
 using OpenExamSuite.Simulator.Localization;
 using OpenExamSuite.Simulator.Models;
 using OpenExamSuite.Simulator.Services;
-using OpenExamSuite.Simulator.Session.States;
+using OpenExamSuite.Simulator.Engine.States;
+using OpenExamSuite.Shared.Avalonia.ViewModels;
 
 namespace OpenExamSuite.Simulator.ViewModels;
 
@@ -234,8 +236,9 @@ public sealed partial class AnswerReviewViewModel : ViewModelBase, IDisposable
             using var stream = new MemoryStream(data);
             Image = new Bitmap(stream);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            _shell.Logger.LogWarning(ex, "Could not decode a review question image.");
             Image = null;
         }
     }

@@ -6,8 +6,8 @@ using OpenExamSuite.Shared.Interfaces;
 using OpenExamSuite.Shared.Services;
 using OpenExamSuite.Shared.Utilities;
 using OpenExamSuite.Simulator.Services;
-using OpenExamSuite.Simulator.Session.HostPorts;
-using OpenExamSuite.Simulator.Session.Services;
+using OpenExamSuite.Simulator.Engine.HostPorts;
+using OpenExamSuite.Simulator.Engine.Services;
 using OpenExamSuite.Simulator.ViewModels;
 using OpenExamSuite.Storage.Interfaces;
 using OpenExamSuite.Storage.Services;
@@ -25,7 +25,11 @@ public static class Program
         if (SingleInstanceCoordinator.TryForward(paths))
             return 0;
 
-        var coordinator = new SingleInstanceCoordinator();
+        using var provider = ConfigureServices();
+        AppHost.Services = provider;
+
+        var coordinator = new SingleInstanceCoordinator(
+            logger: provider.GetService<ILogger<SingleInstanceCoordinator>>());
         if (!coordinator.TryStart())
         {
             // Another process won the race to become the primary instance.
@@ -36,8 +40,6 @@ public static class Program
             coordinator = null;
         }
 
-        using var provider = ConfigureServices();
-        AppHost.Services = provider;
         AppHost.StartupPaths = paths;
         AppHost.Coordinator = coordinator;
 
@@ -93,7 +95,7 @@ public static class Program
         services.AddSingleton<IToastService>(sp => sp.GetRequiredService<ToastService>());
         services.AddSingleton<DialogService>();
         services.AddSingleton<IPrompts, AvaloniaPrompts>();
-        services.AddSingleton(_ => new CreatorLocator(applicationDirectory));
+        services.AddSingleton(sp => new CreatorLocator(applicationDirectory, sp.GetService<ILogger<CreatorLocator>>()));
         services.AddSingleton<ThemeService>();
 
         services.AddSingleton<ISimulatorSession, SimulatorSession>();

@@ -2,12 +2,14 @@ using System.Collections.ObjectModel;
 using Avalonia.Media.Imaging;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.Logging;
 using OpenExamSuite.Shared;
 using OpenExamSuite.Simulator.Localization;
 using OpenExamSuite.Simulator.Models;
 using OpenExamSuite.Simulator.Services;
-using OpenExamSuite.Simulator.Session.Models;
-using OpenExamSuite.Simulator.Session.States;
+using OpenExamSuite.Simulator.Engine.Models;
+using OpenExamSuite.Simulator.Engine.States;
+using OpenExamSuite.Shared.Avalonia.ViewModels;
 
 namespace OpenExamSuite.Simulator.ViewModels;
 
@@ -288,9 +290,10 @@ public sealed partial class ExamViewModel : ViewModelBase, IDisposable
             using var stream = new MemoryStream(data);
             Image = new Bitmap(stream);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
             // A corrupt image must not stop the question from showing.
+            _shell.Logger.LogWarning(ex, "Could not decode a question image.");
             Image = null;
         }
     }

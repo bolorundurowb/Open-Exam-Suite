@@ -1,4 +1,6 @@
 using System.Diagnostics;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace OpenExamSuite.Simulator.Services;
 
@@ -12,11 +14,13 @@ public sealed class CreatorLocator
 
     private readonly string _applicationDirectory;
     private readonly Lazy<string?> _executable;
+    private readonly ILogger<CreatorLocator> _logger;
 
-    public CreatorLocator(string? applicationDirectory = null)
+    public CreatorLocator(string? applicationDirectory = null, ILogger<CreatorLocator>? logger = null)
     {
         _applicationDirectory = applicationDirectory ?? AppContext.BaseDirectory;
         _executable = new Lazy<string?>(Resolve);
+        _logger = logger ?? NullLogger<CreatorLocator>.Instance;
     }
 
     public string? ExecutablePath => _executable.Value;
@@ -39,8 +43,9 @@ public sealed class CreatorLocator
             Process.Start(info);
             return true;
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            _logger.LogWarning(ex, "Could not start Creator at '{Executable}'.", executable);
             return false;
         }
     }

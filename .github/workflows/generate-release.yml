@@ -134,13 +134,13 @@ jobs:
         run: |
           dotnet publish src/Apps/Simulator/Simulator.csproj -c Release -r win-x64 --self-contained true -p:PublishTrimmed=false -p:PublishAot=false -o build/installer/staging/Simulator
           if ($LASTEXITCODE -ne 0) { throw "Simulator publish failed" }
-          dotnet publish src/Apps/Creator.Avalonia/Creator.Avalonia.csproj -c Release -r win-x64 --self-contained true -p:PublishTrimmed=false -p:PublishAot=false -o build/installer/staging/Creator
+          dotnet publish src/Apps/Creator/Creator.csproj -c Release -r win-x64 --self-contained true -p:PublishTrimmed=false -p:PublishAot=false -o build/installer/staging/Creator
           if ($LASTEXITCODE -ne 0) { throw "Avalonia Creator publish failed" }
 
       - name: Publish WinForms Creator and Avalonia Simulator (win-x64)
         shell: pwsh
         run: |
-          dotnet publish src/Apps/Creator/Creator.csproj -c Release -r win-x64 --self-contained true -p:PublishTrimmed=false -p:PublishAot=false -o build/installer/winforms-staging/Creator
+          dotnet publish src/Apps/Creator.WinForms/Creator.WinForms.csproj -c Release -r win-x64 --self-contained true -p:PublishTrimmed=false -p:PublishAot=false -o build/installer/winforms-staging/Creator
           if ($LASTEXITCODE -ne 0) { throw "WinForms Creator publish failed" }
           dotnet publish src/Apps/Simulator/Simulator.csproj -c Release -r win-x64 --self-contained true -p:PublishTrimmed=false -p:PublishAot=false -o build/installer/winforms-staging/Simulator
           if ($LASTEXITCODE -ne 0) { throw "Simulator publish failed" }
@@ -316,7 +316,7 @@ jobs:
           set -euo pipefail
           for rid in osx-arm64 osx-x64; do
             dotnet publish src/Apps/Simulator/Simulator.csproj -c Release -r "$rid" --self-contained true -p:PublishTrimmed=false -p:PublishAot=false -o "build/publish/$rid/Simulator"
-            dotnet publish src/Apps/Creator.Avalonia/Creator.Avalonia.csproj -c Release -r "$rid" --self-contained true -p:PublishTrimmed=false -p:PublishAot=false -o "build/publish/$rid/Creator"
+            dotnet publish src/Apps/Creator/Creator.csproj -c Release -r "$rid" --self-contained true -p:PublishTrimmed=false -p:PublishAot=false -o "build/publish/$rid/Creator"
           done
 
       - name: Assemble app bundles
@@ -468,7 +468,7 @@ jobs:
         run: |
           set -euo pipefail
           dotnet publish src/Apps/Simulator/Simulator.csproj -c Release -r linux-x64 --self-contained true -p:PublishTrimmed=false -p:PublishAot=false -o build/linux/Simulator
-          dotnet publish src/Apps/Creator.Avalonia/Creator.Avalonia.csproj -c Release -r linux-x64 --self-contained true -p:PublishTrimmed=false -p:PublishAot=false -o build/linux/Creator
+          dotnet publish src/Apps/Creator/Creator.csproj -c Release -r linux-x64 --self-contained true -p:PublishTrimmed=false -p:PublishAot=false -o build/linux/Creator
 
       - name: Stage samples beside the app folders
         shell: bash

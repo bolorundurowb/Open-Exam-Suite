@@ -2,7 +2,7 @@ using System.Globalization;
 using Avalonia.Controls;
 using Avalonia.Input;
 using OpenExamSuite.Simulator.Localization;
-using OpenExamSuite.Simulator.Session.Models;
+using OpenExamSuite.Simulator.Engine.Models;
 
 namespace OpenExamSuite.Simulator.Views.Dialogs;
 
