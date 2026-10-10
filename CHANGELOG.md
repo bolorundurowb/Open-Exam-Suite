@@ -2,13 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
-
 ## [v5.0.0-preview.2]
-### Removed
-- Removed the legacy WinForms Creator (`Creator.WinForms`) and `Shared.WinForms` projects. Creator and Simulator are now Avalonia-only across Windows, macOS, and Linux.
-- Removed the one-cycle WinForms rollback installer (`OpenExamSuite-{version}-WinForms-Setup-x64.exe`) and portable zip from the release workflow and packaging manifests.
-- Removed unused package pins (`WinForms.Markdown`, `System.Windows.Forms.DataVisualization`, and `System.Drawing.Common`).
+### General improvements
+- Removed the legacy WinForms Creator and `Shared.WinForms`. Creator and Simulator are now Avalonia-only on Windows, macOS, and Linux.
+- Documented the Simulator session layer and the typed file-result contracts for a future browser host in `docs/BROWSER_HOST.md`. That host supplies its own file picker, download, timer lifecycle, and report adapter, and is not part of this release.
+
+### Packaging
+- The one-cycle WinForms rollback installer (`OpenExamSuite-{version}-WinForms-Setup-x64.exe`) and matching portable zip are no longer published.
+- Removed unused package pins for `WinForms.Markdown`, `System.Windows.Forms.DataVisualization`, and `System.Drawing.Common`.
+- Trimming and native AOT stay off because `XmlSerializer` and protobuf-net reflection do not survive them.
 
 ## [v5.0.0-preview.1]
 ### Creator Section
