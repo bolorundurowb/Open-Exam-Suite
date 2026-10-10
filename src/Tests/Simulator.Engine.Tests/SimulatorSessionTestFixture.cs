@@ -28,6 +28,7 @@ public sealed class SimulatorSessionTestFixture : IDisposable
 {
     private readonly string _tempDirectory;
     private readonly List<string> _createdFiles = [];
+    private readonly List<SimulatorSession> _sessions = [];
 
     public SimulatorSessionTestFixture()
     {
@@ -64,7 +65,7 @@ public sealed class SimulatorSessionTestFixture : IDisposable
 
     public SimulatorSession CreateSession()
     {
-        return new SimulatorSession(
+        var session = new SimulatorSession(
             Library.Object,
             Settings.Object,
             Reader,
@@ -79,6 +80,23 @@ public sealed class SimulatorSessionTestFixture : IDisposable
             ToastService.Object,
             NullLogger<SimulatorSession>.Instance,
             TimeProvider);
+        _sessions.Add(session);
+        return session;
+    }
+
+    /// <summary>
+    /// Disposes sessions created by earlier tests. The fixture shares one <see cref="FakeTimeProvider"/>,
+    /// so a session left running would keep firing its timer during a later test's <c>Advance</c> and
+    /// could auto-submit through the shared mock.
+    /// </summary>
+    public void DisposeSessions()
+    {
+        foreach (var session in _sessions)
+        {
+            try { session.Dispose(); } catch { /* best effort */ }
+        }
+
+        _sessions.Clear();
     }
 
     public string SaveExam(Exam exam)
@@ -183,6 +201,8 @@ public sealed class SimulatorSessionTestFixture : IDisposable
 
     public void Dispose()
     {
+        DisposeSessions();
+
         foreach (var file in _createdFiles.Where(File.Exists))
         {
             try { File.Delete(file); } catch { /* best effort */ }

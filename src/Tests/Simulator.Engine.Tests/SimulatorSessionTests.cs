@@ -20,6 +20,7 @@ public class SimulatorSessionTests : IClassFixture<SimulatorSessionTestFixture>
     public SimulatorSessionTests(SimulatorSessionTestFixture fixture)
     {
         _fixture = fixture;
+        _fixture.DisposeSessions();
         _fixture.Library.Reset();
         _fixture.Settings.Reset();
         _fixture.AppPaths.Reset();
@@ -281,7 +282,9 @@ public class SimulatorSessionTests : IClassFixture<SimulatorSessionTestFixture>
         _fixture.TimeProvider.Advance(TimeSpan.FromSeconds(6));
 
         session.CurrentState.Kind.Must().Be(SessionStateKind.Results);
-        _fixture.Library.Verify(x => x.SaveAttempt(It.IsAny<ExamAttempt>()), Times.Once);
+        _fixture.Library.Verify(
+            x => x.SaveAttempt(It.Is<ExamAttempt>(attempt => attempt.ExamFilePath == examPath)),
+            Times.Once);
     }
 
     [Fact]

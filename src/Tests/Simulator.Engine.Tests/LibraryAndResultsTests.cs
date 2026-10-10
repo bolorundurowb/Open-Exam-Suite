@@ -23,6 +23,7 @@ public class LibraryAndResultsTests : IClassFixture<SimulatorSessionTestFixture>
     public LibraryAndResultsTests(SimulatorSessionTestFixture fixture)
     {
         _fixture = fixture;
+        _fixture.DisposeSessions();
         _fixture.Library.Reset();
         _fixture.Settings.Reset();
         _fixture.AppPaths.Reset();
