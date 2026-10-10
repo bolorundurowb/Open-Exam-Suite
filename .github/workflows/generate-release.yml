@@ -78,7 +78,7 @@ jobs:
               print(f"::error::Malformed version '{version}'. Expected SemVer-like format (e.g. 1.2.3, 1.2.3-preview.1)")
               sys.exit(1)
 
-          is_prerelease = "true" if re.search(r"-(alpha|beta|preview|rc)(?:[.-]|$)", version, re.IGNORECASE) else "false"
+          is_prerelease = "true" if re.search(r"-(alpha|beta|preview)(?:[.-]|$)", version, re.IGNORECASE) else "false"
           with open(Path.cwd() / ".version-output", "w", encoding="utf-8") as f:
               f.write(f"version={version}\n")
               f.write(f"tag_name={version}\n")
@@ -490,6 +490,26 @@ jobs:
           bash installer/linux/build-tarball.sh build/linux "$VERSION" build/artifacts
           bash installer/linux/build-deb.sh build/linux "$VERSION" build/artifacts amd64
 
+      - name: Sign Linux packages
+        id: signing
+        shell: bash
+        env:
+          GPG_KEY: ${{ secrets.LINUX_GPG_PRIVATE_KEY }}
+          GPG_PASSPHRASE: ${{ secrets.LINUX_GPG_PASSPHRASE }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${GPG_KEY:-}" ]]; then
+            echo "Linux GPG key is missing; packages stay unsigned."
+            exit 0
+          fi
+          export GNUPGHOME="$(mktemp -d)"
+          chmod 700 "$GNUPGHOME"
+          echo "$GPG_KEY" | gpg --batch --import
+          for f in build/artifacts/*.deb build/artifacts/*.tar.gz; do
+            gpg --batch --yes --pinentry-mode loopback --passphrase "${GPG_PASSPHRASE:-}" --armor --detach-sign "$f"
+          done
+          rm -rf "$GNUPGHOME"
+
       - name: Upload Linux packages
         uses: actions/upload-artifact@v4
         with:
@@ -542,15 +562,10 @@ jobs:
         shell: bash
         env:
           IS_PRERELEASE: ${{ needs.prepare.outputs.is_prerelease }}
-          WINDOWS_SIGNING: ${{ needs.package-windows.outputs.signing }}
-          MACOS_SIGNING: ${{ needs.package-macos.outputs.signing }}
         run: |
           set -euo pipefail
-          if [[ "$IS_PRERELEASE" == "true" || "$WINDOWS_SIGNING" != "signed" || "$MACOS_SIGNING" != "signed" ]]; then
-            echo "value=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "value=false" >> "$GITHUB_OUTPUT"
-          fi
+          # Only an -alpha, -beta or -preview version suffix makes a prerelease.
+          echo "value=${IS_PRERELEASE}" >> "$GITHUB_OUTPUT"
 
       - name: Write release notes
         env:
@@ -577,7 +592,11 @@ jobs:
             echo "\`OpenExamSuite-$VERSION-WinForms-Setup-x64.exe\` and \`OpenExamSuite-$VERSION-WinForms-Portable-x64.zip\` ship the WinForms Creator beside the Avalonia Simulator, for rollback only."
             echo
             if [[ "$PRERELEASE" == "true" ]]; then
-              echo "> **Preview:** this release is marked as a prerelease. Windows signing: \`$WINDOWS_SIGNING\`; macOS signing: \`$MACOS_SIGNING\`."
+              echo "> **Preview:** this is a prerelease build."
+              echo
+            fi
+            if [[ "$WINDOWS_SIGNING" != "signed" || "$MACOS_SIGNING" != "signed" ]]; then
+              echo "> **Unsigned:** Windows signing: \`$WINDOWS_SIGNING\`; macOS signing: \`$MACOS_SIGNING\`. Expect SmartScreen or Gatekeeper warnings."
               echo
             fi
             echo "### Changes"

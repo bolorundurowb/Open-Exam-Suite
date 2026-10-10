@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Template used by installer/macos/bundle.sh. The script substitutes the placeholders for the
+  app name, executable, bundle id, version and short version, and replaces the document-types
+  marker with the .oef registration. Only the Simulator bundle registers the type; Creator
+  leaves it empty.
+-->
+<plist version="1.0">
+<dict>
+    <key>CFBundleName</key>
+    <string>{{APP_NAME}}</string>
+    <key>CFBundleDisplayName</key>
+    <string>{{APP_NAME}}</string>
+    <key>CFBundleIdentifier</key>
+    <string>{{BUNDLE_ID}}</string>
+    <key>CFBundleVersion</key>
+    <string>{{SHORT_VERSION}}</string>
+    <key>CFBundleShortVersionString</key>
+    <string>{{SHORT_VERSION}}</string>
+    <key>CFBundleGetInfoString</key>
+    <string>{{VERSION}}</string>
+    <key>CFBundleExecutable</key>
+    <string>{{EXECUTABLE}}</string>
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+    <key>CFBundleInfoDictionaryVersion</key>
+    <string>6.0</string>
+    <key>LSMinimumSystemVersion</key>
+    <string>12.0</string>
+    <key>NSHighResolutionCapable</key>
+    <true/>
+    <key>NSPrincipalClass</key>
+    <string>NSApplication</string>
+{{DOCUMENT_TYPES}}
+</dict>
+</plist>

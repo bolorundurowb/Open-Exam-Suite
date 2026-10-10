@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Open Exam Suite Creator
+Comment=Create and edit Open Exam Suite exams
+Exec=/usr/bin/open-exam-suite-creator
+Icon=open-exam-suite-creator
+Terminal=false
+Categories=Education;

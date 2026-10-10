@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Open Exam Suite Simulator
+Comment=Take Open Exam Suite exams
+Exec=/usr/bin/open-exam-suite %F
+Icon=open-exam-suite
+Terminal=false
+Categories=Education;
+MimeType=application/x-open-exam-suite;
