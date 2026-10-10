@@ -5,7 +5,6 @@
     <Platform Name="x86" />
   </Configurations>
   <Folder Name="/Apps/">
-    <Project Path="Apps/Creator.WinForms/Creator.WinForms.csproj" />
     <Project Path="Apps/Creator/Creator.csproj" />
     <Project Path="Apps/Simulator/Simulator.csproj" />
   </Folder>
@@ -15,7 +14,6 @@
     <Project Path="Libraries/ExamIO/ExamIO.csproj" />
     <Project Path="Libraries/Logging/Logging.csproj" />
     <Project Path="Libraries/Shared.Avalonia/Shared.Avalonia.csproj" />
-    <Project Path="Libraries/Shared.WinForms/Shared.WinForms.csproj" />
     <Project Path="Libraries/Simulator.Engine/Simulator.Engine.csproj" />
     <Project Path="Libraries/Storage/Storage.csproj" />
   </Folder>

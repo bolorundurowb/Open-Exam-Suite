@@ -3,7 +3,7 @@ using System;
 namespace OpenExamSuite.Simulator.Engine.HostPorts;
 
 /// <summary>
-/// Platform-agnostic application paths. The host (WinForms, Avalonia, browser) implements this.
+/// Platform-agnostic application paths. The host (Avalonia, or a future browser host) implements this.
 /// </summary>
 public interface IAppPaths
 {
