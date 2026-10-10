@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using OpenExamSuite.Simulator.Localization;
 using OpenExamSuite.Simulator.Services;
+using OpenExamSuite.Simulator.Engine.Models;
 using OpenExamSuite.Simulator.Engine.States;
 using OpenExamSuite.Shared.Avalonia.ViewModels;
 
@@ -125,7 +126,7 @@ public sealed partial class ReviewSubmitViewModel : ViewModelBase
         SyncChips(FlaggedChips, flagged);
         Navigator.Update(attempt);
 
-        ShowTimer = attempt.Settings.Mode == Session.Models.ExamMode.Exam;
+        ShowTimer = attempt.Settings.Mode == ExamMode.Exam;
         TimerText = ResultsFormat.Duration(attempt.TimeRemaining);
         IsLowTime = attempt.IsLowTimeWarning;
         IsCriticalTime = attempt.IsCriticalTimeWarning;
