@@ -20,6 +20,7 @@
     <Project Path="Libraries/Storage/Storage.csproj" />
   </Folder>
   <Folder Name="/Tests/">
+    <Project Path="Tests/App.Headless.Tests/App.Headless.Tests.csproj" />
     <Project Path="Tests/Core.Tests/Core.Tests.csproj" />
     <Project Path="Tests/Creator.Session.Tests/Creator.Session.Tests.csproj" />
     <Project Path="Tests/Shared.Tests/Shared.Tests.csproj" />

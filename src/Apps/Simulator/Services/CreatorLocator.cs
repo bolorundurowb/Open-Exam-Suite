@@ -54,6 +54,10 @@ public sealed class CreatorLocator
         yield return Path.GetFullPath(Path.Combine(trimmed, "..", "Creator", name));
         // macOS bundle and flat layouts keep both executables in one folder.
         yield return Path.Combine(trimmed, name);
+        // macOS: Simulator and Creator are sibling .app bundles. From Contents/MacOS this
+        // resolves to <install>/Open Exam Suite Creator.app/Contents/MacOS/<name>.
+        yield return Path.GetFullPath(Path.Combine(
+            trimmed, "..", "..", "..", "Open Exam Suite Creator.app", "Contents", "MacOS", name));
     }
 
     private string? Resolve()

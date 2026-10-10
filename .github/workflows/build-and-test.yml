@@ -8,6 +8,7 @@ on:
 
 jobs:
   build-and-test:
+    name: Build and test (Windows)
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v4
@@ -36,8 +37,13 @@ jobs:
         directory: ./coverage/
         fail_ci_if_error: false
 
-  build-and-test-ubuntu:
-    runs-on: ubuntu-latest
+  build-and-test-unix:
+    name: Build and test (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest, macos-latest ]
     steps:
     - uses: actions/checkout@v4
 
@@ -46,6 +52,12 @@ jobs:
       with:
         dotnet-version: '10.x'
 
+    - name: Install Avalonia native libraries (Linux)
+      if: runner.os == 'Linux'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libfontconfig1 libx11-6 libice6 libsm6
+
     - name: Restore portable projects
       run: |
         dotnet restore Tests/Core.Tests/Core.Tests.csproj
@@ -53,22 +65,32 @@ jobs:
         dotnet restore Tests/Storage.Tests/Storage.Tests.csproj
         dotnet restore Tests/Simulator.Session.Tests/Simulator.Session.Tests.csproj
         dotnet restore Tests/Simulator.Tests/Simulator.Tests.csproj
+        dotnet restore Tests/Creator.Session.Tests/Creator.Session.Tests.csproj
+        dotnet restore Tests/App.Headless.Tests/App.Headless.Tests.csproj
+        dotnet restore Apps/Simulator/Simulator.csproj
+        dotnet restore Apps/Creator.Avalonia/Creator.Avalonia.csproj
       working-directory: ./src
 
-    - name: Build portable projects
+    - name: Build portable projects and Avalonia apps
       run: |
         dotnet build --configuration Release --no-restore Tests/Core.Tests/Core.Tests.csproj
         dotnet build --configuration Release --no-restore Tests/Shared.Tests/Shared.Tests.csproj
         dotnet build --configuration Release --no-restore Tests/Storage.Tests/Storage.Tests.csproj
         dotnet build --configuration Release --no-restore Tests/Simulator.Session.Tests/Simulator.Session.Tests.csproj
         dotnet build --configuration Release --no-restore Tests/Simulator.Tests/Simulator.Tests.csproj
+        dotnet build --configuration Release --no-restore Tests/Creator.Session.Tests/Creator.Session.Tests.csproj
+        dotnet build --configuration Release --no-restore Tests/App.Headless.Tests/App.Headless.Tests.csproj
+        dotnet build --configuration Release --no-restore Apps/Simulator/Simulator.csproj
+        dotnet build --configuration Release --no-restore Apps/Creator.Avalonia/Creator.Avalonia.csproj
       working-directory: ./src
 
-    - name: Run portable tests
+    - name: Run portable and headless tests
       run: |
         dotnet test --configuration Release --no-build Tests/Core.Tests/Core.Tests.csproj /p:CollectCoverage=true
         dotnet test --configuration Release --no-build Tests/Shared.Tests/Shared.Tests.csproj /p:CollectCoverage=true
         dotnet test --configuration Release --no-build Tests/Storage.Tests/Storage.Tests.csproj /p:CollectCoverage=true
         dotnet test --configuration Release --no-build Tests/Simulator.Session.Tests/Simulator.Session.Tests.csproj /p:CollectCoverage=true
         dotnet test --configuration Release --no-build Tests/Simulator.Tests/Simulator.Tests.csproj /p:CollectCoverage=true
+        dotnet test --configuration Release --no-build Tests/Creator.Session.Tests/Creator.Session.Tests.csproj /p:CollectCoverage=true
+        dotnet test --configuration Release --no-build Tests/App.Headless.Tests/App.Headless.Tests.csproj /p:CollectCoverage=true
       working-directory: ./src

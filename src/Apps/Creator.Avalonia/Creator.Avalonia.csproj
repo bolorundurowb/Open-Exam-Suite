@@ -3,7 +3,7 @@
     <TargetFramework>net10.0</TargetFramework>
     <OutputType>WinExe</OutputType>
     <ApplicationIcon>CreatorAppIcon.ico</ApplicationIcon>
-    <AssemblyName>OpenExamSuite.Creator.Avalonia</AssemblyName>
+    <AssemblyName>OpenExamSuite.Creator</AssemblyName>
     <RootNamespace>OpenExamSuite.Creator</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
@@ -11,6 +11,9 @@
     <AvaloniaUseCompiledBindingsByDefault>false</AvaloniaUseCompiledBindingsByDefault>
     <NeutralLanguage>en</NeutralLanguage>
     <InvariantGlobalization>false</InvariantGlobalization>
+    <!-- XmlSerializer and protobuf-net reflection do not survive trimming or AOT. Lock both off. -->
+    <PublishTrimmed>false</PublishTrimmed>
+    <PublishAot>false</PublishAot>
   </PropertyGroup>
 
   <ItemGroup>
@@ -29,6 +32,10 @@
     <ProjectReference Include="..\..\Libraries\Storage\Storage.csproj" />
     <ProjectReference Include="..\Creator.Session\Creator.Session.csproj" />
     <ProjectReference Include="..\..\Libraries\Shared.Avalonia\Shared.Avalonia.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="OpenExamSuite.App.Headless.Tests" />
   </ItemGroup>
 
   <ItemGroup>

@@ -29,6 +29,12 @@ All notable changes to this project will be documented in this file.
 - Fixed the sample exams path, a skipped question being counted as answered, Retake only closing the sheet, and the exam being readable while paused.
 - Pass marks are now shown as percentages instead of the stored 0 to 1000 scale.
 
+### Packaging
+- Cross-platform packages: the Windows installer now ships the Avalonia Simulator and Creator, macOS ships DMGs for Apple silicon and Intel, and Linux ships a tarball plus `open-exam-suite` and `open-exam-suite-creator` `.deb` packages that register the `.oef` file type with the Simulator.
+- The previous WinForms Creator is published beside the Avalonia build for one release cycle as `OpenExamSuite-{version}-WinForms-Setup-x64.exe` and a matching portable zip, so a regression can be rolled back with another file from the same release.
+- Trimming and native AOT stay off because `XmlSerializer` and protobuf-net reflection do not survive them.
+- Packages are marked as a prerelease when the version carries a prerelease identifier or when Windows signing or macOS notarization is skipped.
+
 ## [4.0.5]
 ### General improvements
 - Bundled the changelog into the product and display it on first startup after a version change. It is also available from the **Help > Changelog** menu in both the Creator and Simulator.

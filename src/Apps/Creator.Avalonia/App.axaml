@@ -33,15 +33,15 @@
         <ColorPaletteResources x:Key="Dark" Accent="#B03060" RegionColor="#141415" ErrorText="#FF8A80"/>
       </FluentTheme.Palettes>
     </FluentTheme>
-    <StyleInclude Source="avares://OpenExamSuite.Creator.Avalonia/Styles/Controls.axaml"/>
+    <StyleInclude Source="avares://OpenExamSuite.Creator/Styles/Controls.axaml"/>
   </Application.Styles>
 
   <Application.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
-        <ResourceInclude Source="avares://OpenExamSuite.Creator.Avalonia/Styles/Theme.axaml"/>
-        <ResourceInclude Source="avares://OpenExamSuite.Creator.Avalonia/Styles/Icons.axaml"/>
-        <ResourceInclude Source="avares://OpenExamSuite.Creator.Avalonia/Styles/ControlThemes.axaml"/>
+        <ResourceInclude Source="avares://OpenExamSuite.Creator/Styles/Theme.axaml"/>
+        <ResourceInclude Source="avares://OpenExamSuite.Creator/Styles/Icons.axaml"/>
+        <ResourceInclude Source="avares://OpenExamSuite.Creator/Styles/ControlThemes.axaml"/>
       </ResourceDictionary.MergedDictionaries>
       <FontFamily x:Key="ContentControlThemeFontFamily">avares://OpenExamSuite.Shared.Avalonia/Assets/Fonts#IBM Plex Sans</FontFamily>
     </ResourceDictionary>

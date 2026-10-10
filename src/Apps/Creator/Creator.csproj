@@ -9,6 +9,9 @@
     <NoWarn>$(NoWarn);WFO1000</NoWarn>
     <AssemblyName>OpenExamSuite.Creator</AssemblyName>
     <RootNamespace>OpenExamSuite.Creator</RootNamespace>
+    <!-- XmlSerializer and protobuf-net reflection do not survive trimming or AOT. Lock both off. -->
+    <PublishTrimmed>false</PublishTrimmed>
+    <PublishAot>false</PublishAot>
   </PropertyGroup>
 
   <ItemGroup>

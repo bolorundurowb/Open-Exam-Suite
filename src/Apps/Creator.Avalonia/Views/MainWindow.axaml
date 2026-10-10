@@ -4,7 +4,7 @@
         xmlns:svc="using:OpenExamSuite.Creator.Services"
         x:Class="OpenExamSuite.Creator.Views.MainWindow"
         Title="{Binding Title}"
-        Icon="avares://OpenExamSuite.Creator.Avalonia/Assets/CreatorAppIcon.ico"
+        Icon="avares://OpenExamSuite.Creator/Assets/CreatorAppIcon.ico"
         Width="1280" Height="820" MinWidth="960" MinHeight="640"
         WindowStartupLocation="CenterScreen">
   <Grid RowDefinitions="Auto,Auto,Auto,*">
