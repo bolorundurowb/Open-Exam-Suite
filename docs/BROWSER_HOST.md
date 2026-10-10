@@ -6,7 +6,7 @@ This document describes the host contracts required for a browser-based host of 
 > This phase establishes and documents the host-port contracts; it **does not** implement a browser host.
 > Desktop applications (Simulator and Creator) run on Avalonia across Windows, macOS, and Linux.
 
-The browser host supplies its own file picking, file downloads, timer lifecycle, storage, and report presentation by implementing the host-port interfaces defined in `OpenExamSuite.Simulator.Engine` and `OpenExamSuite.Creator.Engine`. All engine host ports remain completely free of UI framework types (including Avalonia).
+The browser host supplies its own file picker, download, timer lifecycle, and report adapter by implementing the host ports in `OpenExamSuite.Simulator.Engine`. Those ports stay free of Avalonia types. Creator file results live in `OpenExamSuite.Creator.Engine` and are also free of Avalonia types.
 
 ---
 
@@ -48,14 +48,12 @@ The browser host supplies its own file picking, file downloads, timer lifecycle,
 
 ## 6. Document and File Results
 
-The core file load and save contracts do not reference any UI framework:
-- **Simulator / File I/O:** `ExamReadResult` in `OpenExamSuite.ExamIO` exposes `Exam`, `Success`, `ExamIoError`, and `IsLegacy`.
-- **Creator Engine:** `DocumentLoadResult` and `DocumentSaveResult` in `OpenExamSuite.Creator.Engine.Models` expose document nodes, load state, and error information.
+The file-result types stay free of Avalonia, WinForms, and browser types:
 
-Neither model references Avalonia, WinForms, or browser-specific types.
+- `ExamReadResult` (`OpenExamSuite.Shared.Utilities`, `src/Libraries/ExamIO/ExamReadResult.cs`) carries `Exam`, `Success`, `ExamIoError`, and `IsLegacy`. `IsLegacy` means the `.oef` source was a legacy NRBF payload that has not been upgraded in place.
+- `DocumentLoadResult` (`OpenExamSuite.Creator.Engine.Models`) carries `Success`, `Error`, `IsLegacy`, and `FilePath`.
+- `DocumentSaveResult` in the same file carries `Success`, `Error`, `Detail`, and `FilePath`.
 
-## 7. Trimming and Native AOT Constraints
+## 7. Trimming and Native AOT
 
-Trimming (`PublishTrimmed`) and Native AOT (`PublishAot`) **must remain disabled** (`false`).
-- Legacy `.oef` loading, `XmlSerializer`, and `protobuf-net` serialization rely on dynamic code generation and reflection that do not survive .NET trimming or Ahead-of-Time compilation.
-- Future browser compilation (e.g. WebAssembly / Blazor WASM) must keep trimming and AOT disabled or configure explicit preserve directives so reflection structures remain intact.
+`PublishTrimmed` and `PublishAot` stay `false` on the Creator and Simulator app projects, and on every `dotnet publish` in the release workflow. `XmlSerializer` and protobuf-net reflection do not survive trimming or native AOT. A later browser plan must not turn them on.

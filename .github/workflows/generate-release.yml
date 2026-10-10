@@ -547,7 +547,6 @@ jobs:
             echo "- **macOS (Intel):** \`OpenExamSuite-$VERSION-macOS-x64.dmg\`"
             echo "- **Linux:** \`OpenExamSuite-$VERSION-Linux-x64.tar.gz\`, \`open-exam-suite_*_amd64.deb\`, \`open-exam-suite-creator_*_amd64.deb\`"
             echo
-
             if [[ "$PRERELEASE" == "true" ]]; then
               echo "> **Preview:** this is a prerelease build."
               echo
