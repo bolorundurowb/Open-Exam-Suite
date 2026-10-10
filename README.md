@@ -43,7 +43,7 @@ This project has been modernised from .NET Framework 4.0 to **.NET 10**.
 
 ### Prerequisites
 - [.NET 10.0 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
-- The Creator and Simulator are Avalonia apps and run on Windows, macOS, and Linux. A WinForms Creator build is published for one release cycle as a rollback.
+- The Creator and Simulator are Avalonia apps and run on Windows, macOS, and Linux.
 
 ### Building from Source
 1. Clone the repository:
@@ -56,9 +56,8 @@ This project has been modernised from .NET Framework 4.0 to **.NET 10**.
    dotnet build
    ```
 3. Run the applications:
-   - **Creator (Avalonia):** `dotnet run --project src/Apps/Creator/Creator.csproj`
-   - **Simulator (Avalonia):** `dotnet run --project src/Apps/Simulator/Simulator.csproj`
-   - **Creator (WinForms rollback):** `dotnet run --project src/Apps/Creator.WinForms/Creator.WinForms.csproj`
+   - **Creator:** `dotnet run --project src/Apps/Creator/Creator.csproj`
+   - **Simulator:** `dotnet run --project src/Apps/Simulator/Simulator.csproj`
 
 ## Downloads
 
@@ -72,8 +71,6 @@ Pre-built packages are attached to each [GitHub Release](https://github.com/bolo
 | Linux | `OpenExamSuite-{version}-Linux-x64.tar.gz`, `open-exam-suite_*_amd64.deb`, `open-exam-suite-creator_*_amd64.deb` |
 
 The Linux packages install the Simulator and samples under `/opt/open-exam-suite`, register the `.oef` file type, and add the `open-exam-suite` and `open-exam-suite-creator` commands. Install the Creator package only after the Simulator package.
-
-**WinForms rollback:** `OpenExamSuite-{version}-WinForms-Setup-x64.exe` and `OpenExamSuite-{version}-WinForms-Portable-x64.zip` ship the previous WinForms Creator beside the Avalonia Simulator. They are published for one release cycle so a regression can be rolled back with another file from the same release, and will be removed once the Avalonia Creator is proven.
 
 ## Contributing
 Feel free to create an [issue](https://github.com/bolorundurowb/Open-Exam-Suite/issues) for feature requests or bug reports. Contributions are welcome via Pull Requests.

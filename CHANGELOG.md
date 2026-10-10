@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+### Removed
+- Removed the legacy WinForms Creator (`Creator.WinForms`) and `Shared.WinForms` projects. Creator and Simulator are now Avalonia-only across Windows, macOS, and Linux.
+- Removed the one-cycle WinForms rollback installer (`OpenExamSuite-{version}-WinForms-Setup-x64.exe`) and portable zip from the release workflow and packaging manifests.
+- Removed unused package pins (`WinForms.Markdown`, `System.Windows.Forms.DataVisualization`, and `System.Drawing.Common`).
+
 ## [v5.0.0-preview.1]
 ### Creator Section
 - Rebuilt the Creator on Avalonia for cross-platform support across Windows, macOS, and Linux, with burgundy light and dark themes that follow the operating system and can be overridden from the top bar. The window title is always "Open Exam Creator".
