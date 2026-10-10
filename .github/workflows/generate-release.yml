@@ -75,10 +75,10 @@ jobs:
 
           semver_pattern = r"^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$"
           if not re.match(semver_pattern, version):
-              print(f"::error::Malformed version '{version}'. Expected SemVer-like format (e.g. 1.2.3, 1.2.3-alpha.1)")
+              print(f"::error::Malformed version '{version}'. Expected SemVer-like format (e.g. 1.2.3, 1.2.3-preview.1)")
               sys.exit(1)
 
-          is_prerelease = "true" if re.search(r"-(alpha|beta)(?:[.-]|$)", version, re.IGNORECASE) else "false"
+          is_prerelease = "true" if re.search(r"-(alpha|beta|preview|rc)(?:[.-]|$)", version, re.IGNORECASE) else "false"
           with open(Path.cwd() / ".version-output", "w", encoding="utf-8") as f:
               f.write(f"version={version}\n")
               f.write(f"tag_name={version}\n")
@@ -109,13 +109,15 @@ jobs:
           echo "No conflicting tag found for version ${TAG_NAME}; proceeding."
           echo "should_release=true" >> "$GITHUB_OUTPUT"
 
-  build_and_release:
-    name: Build installer and create release
+  package-windows:
+    name: Package Windows
     runs-on: windows-latest
     needs: prepare
     if: needs.prepare.outputs.should_release == 'true'
     env:
       POLYINSTALL_VERSION: v2.0.0
+    outputs:
+      signing: ${{ steps.signing.outputs.status }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -127,49 +129,73 @@ jobs:
         with:
           dotnet-version: '10.x'
 
-      - name: Publish Simulator (win-x64, self-contained)
-        run: >
-          dotnet publish src/Apps/Simulator/Simulator.csproj
-          -c Release -r win-x64 --self-contained true
-          -o build/installer/staging/Simulator
-
-      - name: Publish Creator (win-x64, self-contained)
-        run: >
-          dotnet publish src/Apps/Creator/Creator.csproj
-          -c Release -r win-x64 --self-contained true
-          -o build/installer/staging/Creator
-
-      - name: Stage samples
+      - name: Publish Avalonia Simulator and Creator (win-x64)
         shell: pwsh
         run: |
-          New-Item -ItemType Directory -Force -Path build/installer/staging/Samples | Out-Null
-          Copy-Item -Path samples/* -Destination build/installer/staging/Samples -Recurse -Force
+          dotnet publish src/Apps/Simulator/Simulator.csproj -c Release -r win-x64 --self-contained true -p:PublishTrimmed=false -p:PublishAot=false -o build/installer/staging/Simulator
+          if ($LASTEXITCODE -ne 0) { throw "Simulator publish failed" }
+          dotnet publish src/Apps/Creator.Avalonia/Creator.Avalonia.csproj -c Release -r win-x64 --self-contained true -p:PublishTrimmed=false -p:PublishAot=false -o build/installer/staging/Creator
+          if ($LASTEXITCODE -ne 0) { throw "Avalonia Creator publish failed" }
 
-      - name: Create portable zip package
-        id: portable
+      - name: Publish WinForms Creator and Avalonia Simulator (win-x64)
+        shell: pwsh
+        run: |
+          dotnet publish src/Apps/Creator/Creator.csproj -c Release -r win-x64 --self-contained true -p:PublishTrimmed=false -p:PublishAot=false -o build/installer/winforms-staging/Creator
+          if ($LASTEXITCODE -ne 0) { throw "WinForms Creator publish failed" }
+          dotnet publish src/Apps/Simulator/Simulator.csproj -c Release -r win-x64 --self-contained true -p:PublishTrimmed=false -p:PublishAot=false -o build/installer/winforms-staging/Simulator
+          if ($LASTEXITCODE -ne 0) { throw "Simulator publish failed" }
+
+      - name: Stage samples beside the app folders
+        shell: pwsh
+        run: |
+          foreach ($root in @("build/installer/staging", "build/installer/winforms-staging")) {
+            New-Item -ItemType Directory -Force -Path "$root/Samples" | Out-Null
+            Copy-Item -Path samples/* -Destination "$root/Samples" -Recurse -Force
+          }
+
+      - name: Verify staging layout
+        shell: bash
+        run: |
+          bash installer/verify-staging.sh build/installer/staging
+          bash installer/verify-staging.sh build/installer/winforms-staging
+
+      - name: Sign application binaries
+        id: signing
         shell: pwsh
         env:
-          VERSION: ${{ needs.prepare.outputs.version }}
+          CERT_BASE64: ${{ secrets.WINDOWS_CERTIFICATE_BASE64 }}
+          CERT_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}
         run: |
-          $portableDir = Join-Path $PWD "build\portable"
-          New-Item -ItemType Directory -Force -Path $portableDir | Out-Null
-
-          $zipName = "OpenExamSuite-$env:VERSION-Portable-x64.zip"
-          $zipPath = Join-Path $portableDir $zipName
-          if (Test-Path $zipPath) {
-            Remove-Item -Path $zipPath -Force
+          if ([string]::IsNullOrWhiteSpace($env:CERT_BASE64) -or [string]::IsNullOrWhiteSpace($env:CERT_PASSWORD)) {
+            Write-Warning "Windows signing secrets are missing; artifacts stay unsigned and the release is marked preview."
+            "status=unsigned" >> $env:GITHUB_OUTPUT
+            exit 0
           }
 
-          $stagingPath = Join-Path $PWD "build\installer\staging"
-          if (-not (Test-Path $stagingPath)) {
-            throw "Portable package source not found: $stagingPath"
-          }
+          $certPath = Join-Path $env:RUNNER_TEMP "signing.pfx"
+          [IO.File]::WriteAllBytes($certPath, [Convert]::FromBase64String($env:CERT_BASE64))
 
-          Compress-Archive -Path "$stagingPath\*" -DestinationPath $zipPath -CompressionLevel Optimal -Force
-          if (-not (Test-Path $zipPath)) {
-            throw "Failed to create portable zip package."
+          $files = @(
+            "build/installer/staging/Simulator/OpenExamSuite.Simulator.exe",
+            "build/installer/staging/Creator/OpenExamSuite.Creator.exe",
+            "build/installer/winforms-staging/Simulator/OpenExamSuite.Simulator.exe",
+            "build/installer/winforms-staging/Creator/OpenExamSuite.Creator.exe"
+          ) | Where-Object { Test-Path $_ }
+
+          if ($files.Count -eq 0) { throw "No application binaries found to sign." }
+
+          $signtool = (Get-Command signtool.exe -ErrorAction SilentlyContinue | Select-Object -First 1 -ExpandProperty Source)
+          if (-not $signtool) {
+            $signtool = Get-ChildItem "C:\Program Files (x86)\Windows Kits\10\bin\*\x64\signtool.exe" -ErrorAction SilentlyContinue |
+              Sort-Object FullName -Descending | Select-Object -First 1 -ExpandProperty FullName
           }
-          "portable_path=$zipPath" >> $env:GITHUB_OUTPUT
+          if (-not $signtool) { throw "signtool.exe was not found on this runner." }
+
+          & $signtool sign /f $certPath /p $env:CERT_PASSWORD /fd SHA256 /tr http://timestamp.digicert.com /td SHA256 @files
+          if ($LASTEXITCODE -ne 0) { throw "signtool failed to sign the application binaries" }
+
+          Remove-Item $certPath -Force
+          "status=signed" >> $env:GITHUB_OUTPUT
 
       - name: Setup PolyInstall
         uses: bolorundurowb/PolyInstall/.github/actions/setup-polyinstall@v2.0.0
@@ -177,57 +203,315 @@ jobs:
           version: ${{ env.POLYINSTALL_VERSION }}
           rid: win-x64
 
-      - name: Build installer with PolyInstall
+      - name: Build Avalonia installer
         shell: pwsh
         env:
           APP_VERSION: ${{ needs.prepare.outputs.version }}
         run: |
-          $basePath = $PWD.Path
-          $manifest = Join-Path $PWD "installer\open-exam-suite.polyinstall.yaml"
-          if (-not (Test-Path $manifest)) {
-            throw "PolyInstall manifest not found: $manifest"
-          }
+          $base = $PWD.Path
+          polyinstall validate installer/open-exam-suite.polyinstall.yaml --base $base
+          if ($LASTEXITCODE -ne 0) { throw "PolyInstall manifest validation failed" }
+          polyinstall build installer/open-exam-suite.polyinstall.yaml --base $base
+          if ($LASTEXITCODE -ne 0) { throw "PolyInstall build failed" }
 
-          polyinstall validate $manifest --base $basePath
-          if ($LASTEXITCODE -ne 0) {
-            throw "PolyInstall manifest validation failed with exit code $LASTEXITCODE"
-          }
+      - name: Build WinForms rollback installer
+        shell: pwsh
+        env:
+          APP_VERSION: ${{ needs.prepare.outputs.version }}
+        run: |
+          $base = $PWD.Path
+          polyinstall validate installer/open-exam-suite-winforms.polyinstall.yaml --base $base
+          if ($LASTEXITCODE -ne 0) { throw "WinForms PolyInstall manifest validation failed" }
+          polyinstall build installer/open-exam-suite-winforms.polyinstall.yaml --base $base
+          if ($LASTEXITCODE -ne 0) { throw "WinForms PolyInstall build failed" }
 
-          polyinstall build $manifest --base $basePath
-          if ($LASTEXITCODE -ne 0) {
-            throw "PolyInstall build failed with exit code $LASTEXITCODE"
-          }
+      - name: Sign installers
+        if: steps.signing.outputs.status == 'signed'
+        shell: pwsh
+        env:
+          VERSION: ${{ needs.prepare.outputs.version }}
+          CERT_BASE64: ${{ secrets.WINDOWS_CERTIFICATE_BASE64 }}
+          CERT_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}
+        run: |
+          $certPath = Join-Path $env:RUNNER_TEMP "signing.pfx"
+          [IO.File]::WriteAllBytes($certPath, [Convert]::FromBase64String($env:CERT_BASE64))
 
-      - name: Validate installer output
-        id: installer
+          $setups = @(
+            "installer/Output/OpenExamSuite-$env:VERSION-Setup-x64.exe",
+            "installer/Output-WinForms/OpenExamSuite-$env:VERSION-WinForms-Setup-x64.exe"
+          ) | Where-Object { Test-Path $_ }
+
+          if ($setups.Count -eq 0) { throw "No installer executables found to sign." }
+
+          $signtool = (Get-Command signtool.exe -ErrorAction SilentlyContinue | Select-Object -First 1 -ExpandProperty Source)
+          if (-not $signtool) {
+            $signtool = Get-ChildItem "C:\Program Files (x86)\Windows Kits\10\bin\*\x64\signtool.exe" -ErrorAction SilentlyContinue |
+              Sort-Object FullName -Descending | Select-Object -First 1 -ExpandProperty FullName
+          }
+          if (-not $signtool) { throw "signtool.exe was not found on this runner." }
+
+          & $signtool sign /f $certPath /p $env:CERT_PASSWORD /fd SHA256 /tr http://timestamp.digicert.com /td SHA256 @setups
+          if ($LASTEXITCODE -ne 0) { throw "signtool failed to sign the installers" }
+
+          Remove-Item $certPath -Force
+
+      - name: Create portable zip packages
         shell: pwsh
         env:
           VERSION: ${{ needs.prepare.outputs.version }}
         run: |
-          $expected = Join-Path $PWD "installer\Output\OpenExamSuite-$env:VERSION-Setup-x64.exe"
-          if (Test-Path $expected) {
-            "installer_path=$expected" >> $env:GITHUB_OUTPUT
-            exit 0
-          }
-          $fallback = Get-ChildItem -Path "installer/Output/*.exe" -File -ErrorAction SilentlyContinue | Select-Object -First 1
-          if (-not $fallback) {
-            throw "No installer executable found in installer/Output."
-          }
-          "installer_path=$($fallback.FullName)" >> $env:GITHUB_OUTPUT
+          New-Item -ItemType Directory -Force -Path build/portable | Out-Null
+          Compress-Archive -Path "build/installer/staging/*" -DestinationPath "build/portable/OpenExamSuite-$env:VERSION-Portable-x64.zip" -CompressionLevel Optimal -Force
+          Compress-Archive -Path "build/installer/winforms-staging/*" -DestinationPath "build/portable/OpenExamSuite-$env:VERSION-WinForms-Portable-x64.zip" -CompressionLevel Optimal -Force
 
-      - name: Upload installer artifact
+      - name: Upload Avalonia installer
         uses: actions/upload-artifact@v4
         with:
           name: OpenExamSuite-Installer-${{ needs.prepare.outputs.version }}
-          path: ${{ steps.installer.outputs.installer_path }}
+          path: installer/Output/*.exe
           if-no-files-found: error
 
-      - name: Upload portable zip artifact
+      - name: Upload Avalonia portable zip
         uses: actions/upload-artifact@v4
         with:
           name: OpenExamSuite-Portable-${{ needs.prepare.outputs.version }}
-          path: ${{ steps.portable.outputs.portable_path }}
+          path: build/portable/OpenExamSuite-${{ needs.prepare.outputs.version }}-Portable-x64.zip
           if-no-files-found: error
+
+      - name: Upload WinForms rollback installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: OpenExamSuite-WinForms-Installer-${{ needs.prepare.outputs.version }}
+          path: installer/Output-WinForms/*.exe
+          if-no-files-found: error
+
+      - name: Upload WinForms rollback portable zip
+        uses: actions/upload-artifact@v4
+        with:
+          name: OpenExamSuite-WinForms-Portable-${{ needs.prepare.outputs.version }}
+          path: build/portable/OpenExamSuite-${{ needs.prepare.outputs.version }}-WinForms-Portable-x64.zip
+          if-no-files-found: error
+
+  package-macos:
+    name: Package macOS
+    runs-on: macos-latest
+    needs: prepare
+    if: needs.prepare.outputs.should_release == 'true'
+    outputs:
+      signing: ${{ steps.finalize.outputs.status }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET 10 SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.x'
+
+      - name: Publish apps (osx-arm64 and osx-x64)
+        shell: bash
+        run: |
+          set -euo pipefail
+          for rid in osx-arm64 osx-x64; do
+            dotnet publish src/Apps/Simulator/Simulator.csproj -c Release -r "$rid" --self-contained true -p:PublishTrimmed=false -p:PublishAot=false -o "build/publish/$rid/Simulator"
+            dotnet publish src/Apps/Creator.Avalonia/Creator.Avalonia.csproj -c Release -r "$rid" --self-contained true -p:PublishTrimmed=false -p:PublishAot=false -o "build/publish/$rid/Creator"
+          done
+
+      - name: Assemble app bundles
+        shell: bash
+        env:
+          VERSION: ${{ needs.prepare.outputs.version }}
+        run: |
+          set -euo pipefail
+          for rid in osx-arm64 osx-x64; do
+            bash installer/macos/bundle.sh "build/publish/$rid/Simulator" "Open Exam Suite Simulator" OpenExamSuite.Simulator com.bolorundurowb.opexamsuite.simulator "$VERSION" "build/macos/$rid" --document-types --samples samples
+            bash installer/macos/bundle.sh "build/publish/$rid/Creator" "Open Exam Suite Creator" OpenExamSuite.Creator com.bolorundurowb.opexamsuite.creator "$VERSION" "build/macos/$rid"
+            bash installer/verify-staging.sh "build/macos/$rid/Open Exam Suite Simulator.app"
+          done
+
+      - name: Sign bundles
+        id: signing
+        shell: bash
+        env:
+          P12_BASE64: ${{ secrets.APPLE_CERTIFICATE_P12 }}
+          P12_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+          TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${P12_BASE64:-}" || -z "${P12_PASSWORD:-}" || -z "${TEAM_ID:-}" ]]; then
+            echo "Apple signing secrets are missing; bundles stay unsigned and the release is marked preview."
+            echo "status=unsigned" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          keychain="$RUNNER_TEMP/oea-signing.keychain-db"
+          keychain_password="$(openssl rand -hex 16)"
+          security create-keychain -p "$keychain_password" "$keychain"
+          security set-keychain-settings -lut 21600 "$keychain"
+          security unlock-keychain -p "$keychain_password" "$keychain"
+
+          cert_path="$RUNNER_TEMP/certificate.p12"
+          echo "$P12_BASE64" | base64 -D > "$cert_path"
+          security import "$cert_path" -k "$keychain" -P "$P12_PASSWORD" -T /usr/bin/codesign
+          security list-keychains -d user -s "$keychain" $(security list-keychains -d user | tr -d '"')
+          security set-key-partition-list -S apple-tool:,apple: -k "$keychain_password" "$keychain" >/dev/null
+
+          identity="$(security find-identity -v -p codesigning "$keychain" | awk '/Developer ID Application/ {print $2; exit}')"
+          if [[ -z "$identity" ]]; then
+            echo "No Developer ID Application identity found in the certificate."
+            echo "status=unsigned" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # Sign nested Mach-O files first, then the bundle. codesign --deep does not
+          # produce a notarization-ready signature for a self-contained .NET app.
+          sign_app() {
+            local app="$1"
+            local f
+            while IFS= read -r -d '' f; do
+              if file -b "$f" | grep -q 'Mach-O'; then
+                codesign --force --options runtime --timestamp --sign "$identity" "$f"
+              fi
+            done < <(find "$app/Contents" -type f -print0)
+            codesign --force --options runtime --timestamp \
+              --entitlements installer/macos/entitlements.plist \
+              --sign "$identity" "$app"
+          }
+
+          for rid in osx-arm64 osx-x64; do
+            sign_app "build/macos/$rid/Open Exam Suite Simulator.app"
+            sign_app "build/macos/$rid/Open Exam Suite Creator.app"
+          done
+
+          rm -f "$cert_path"
+          echo "status=signed" >> "$GITHUB_OUTPUT"
+
+      - name: Create DMGs
+        shell: bash
+        env:
+          VERSION: ${{ needs.prepare.outputs.version }}
+        run: |
+          set -euo pipefail
+          mkdir -p build/dmg
+          hdiutil create -volname "Open Exam Suite" -srcfolder "build/macos/osx-arm64" -ov -format UDZO "build/dmg/OpenExamSuite-$VERSION-macOS-arm64.dmg"
+          hdiutil create -volname "Open Exam Suite" -srcfolder "build/macos/osx-x64" -ov -format UDZO "build/dmg/OpenExamSuite-$VERSION-macOS-x64.dmg"
+
+      - name: Notarize and staple DMGs
+        id: notarize
+        if: steps.signing.outputs.status == 'signed'
+        shell: bash
+        env:
+          NOTARY_KEY_ID: ${{ secrets.APPLE_NOTARY_KEY_ID }}
+          NOTARY_ISSUER: ${{ secrets.APPLE_NOTARY_ISSUER_ID }}
+          NOTARY_KEY: ${{ secrets.APPLE_NOTARY_KEY }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${NOTARY_KEY_ID:-}" || -z "${NOTARY_ISSUER:-}" || -z "${NOTARY_KEY:-}" ]]; then
+            echo "Apple notary secrets are missing; DMGs stay unnotarized and the release is marked preview."
+            echo "status=skipped" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          key_path="$RUNNER_TEMP/notary_key.p8"
+          printf '%s\n' "$NOTARY_KEY" > "$key_path"
+
+          for dmg in build/dmg/*.dmg; do
+            xcrun notarytool submit "$dmg" --key "$key_path" --key-id "$NOTARY_KEY_ID" --issuer "$NOTARY_ISSUER" --wait
+            xcrun stapler staple "$dmg"
+          done
+
+          rm -f "$key_path"
+          echo "status=notarized" >> "$GITHUB_OUTPUT"
+
+      - name: Record macOS signing status
+        id: finalize
+        if: always() && steps.signing.outcome == 'success'
+        shell: bash
+        env:
+          CODESIGN: ${{ steps.signing.outputs.status }}
+          NOTARIZE: ${{ steps.notarize.outputs.status }}
+        run: |
+          set -euo pipefail
+          if [[ "$CODESIGN" == "signed" && "$NOTARIZE" == "notarized" ]]; then
+            echo "status=signed" >> "$GITHUB_OUTPUT"
+          else
+            echo "status=unsigned" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Upload DMGs
+        uses: actions/upload-artifact@v4
+        with:
+          name: OpenExamSuite-macOS-${{ needs.prepare.outputs.version }}
+          path: build/dmg/*.dmg
+          if-no-files-found: error
+
+  package-linux:
+    name: Package Linux
+    runs-on: ubuntu-latest
+    needs: prepare
+    if: needs.prepare.outputs.should_release == 'true'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET 10 SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.x'
+
+      - name: Publish apps (linux-x64)
+        shell: bash
+        run: |
+          set -euo pipefail
+          dotnet publish src/Apps/Simulator/Simulator.csproj -c Release -r linux-x64 --self-contained true -p:PublishTrimmed=false -p:PublishAot=false -o build/linux/Simulator
+          dotnet publish src/Apps/Creator.Avalonia/Creator.Avalonia.csproj -c Release -r linux-x64 --self-contained true -p:PublishTrimmed=false -p:PublishAot=false -o build/linux/Creator
+
+      - name: Stage samples beside the app folders
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p build/linux/Samples
+          cp -R samples/. build/linux/Samples/
+
+      - name: Verify staging layout
+        shell: bash
+        run: bash installer/verify-staging.sh build/linux
+
+      - name: Build tarball and debs
+        shell: bash
+        env:
+          VERSION: ${{ needs.prepare.outputs.version }}
+        run: |
+          set -euo pipefail
+          bash installer/linux/build-tarball.sh build/linux "$VERSION" build/artifacts
+          bash installer/linux/build-deb.sh build/linux "$VERSION" build/artifacts amd64
+
+      - name: Upload Linux packages
+        uses: actions/upload-artifact@v4
+        with:
+          name: OpenExamSuite-Linux-${{ needs.prepare.outputs.version }}
+          path: build/artifacts/*
+          if-no-files-found: error
+
+  release:
+    name: Create GitHub release
+    runs-on: ubuntu-latest
+    needs: [ prepare, package-windows, package-macos, package-linux ]
+    if: needs.prepare.outputs.should_release == 'true'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: dist
 
       - name: Create and push release tag
         id: create_tag
@@ -253,48 +537,71 @@ jobs:
           git push origin "${TAG_NAME}"
           echo "tag_created=true" >> "$GITHUB_OUTPUT"
 
-      - name: Create GitHub release (auto notes with fallback)
+      - name: Determine prerelease flag
+        id: prerelease
+        shell: bash
+        env:
+          IS_PRERELEASE: ${{ needs.prepare.outputs.is_prerelease }}
+          WINDOWS_SIGNING: ${{ needs.package-windows.outputs.signing }}
+          MACOS_SIGNING: ${{ needs.package-macos.outputs.signing }}
+        run: |
+          set -euo pipefail
+          if [[ "$IS_PRERELEASE" == "true" || "$WINDOWS_SIGNING" != "signed" || "$MACOS_SIGNING" != "signed" ]]; then
+            echo "value=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "value=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Write release notes
+        env:
+          TAG_NAME: ${{ needs.prepare.outputs.tag_name }}
+          VERSION: ${{ needs.prepare.outputs.version }}
+          PRERELEASE: ${{ steps.prerelease.outputs.value }}
+          WINDOWS_SIGNING: ${{ needs.package-windows.outputs.signing }}
+          MACOS_SIGNING: ${{ needs.package-macos.outputs.signing }}
+        run: |
+          set -euo pipefail
+          previous_tag="$(git tag --sort=-creatordate | grep -v -F "$TAG_NAME" | head -n 1 || true)"
+          range="${previous_tag:+$previous_tag..HEAD}"
+          range="${range:-HEAD}"
+          {
+            echo "## Open Exam Suite $TAG_NAME"
+            echo
+            echo "### Downloads"
+            echo "- **Windows:** \`OpenExamSuite-$VERSION-Setup-x64.exe\` (Avalonia Simulator and Creator)"
+            echo "- **macOS (Apple silicon):** \`OpenExamSuite-$VERSION-macOS-arm64.dmg\`"
+            echo "- **macOS (Intel):** \`OpenExamSuite-$VERSION-macOS-x64.dmg\`"
+            echo "- **Linux:** \`OpenExamSuite-$VERSION-Linux-x64.tar.gz\`, \`open-exam-suite_*_amd64.deb\`, \`open-exam-suite-creator_*_amd64.deb\`"
+            echo
+            echo "### WinForms rollback (one release cycle)"
+            echo "\`OpenExamSuite-$VERSION-WinForms-Setup-x64.exe\` and \`OpenExamSuite-$VERSION-WinForms-Portable-x64.zip\` ship the WinForms Creator beside the Avalonia Simulator, for rollback only."
+            echo
+            if [[ "$PRERELEASE" == "true" ]]; then
+              echo "> **Preview:** this release is marked as a prerelease. Windows signing: \`$WINDOWS_SIGNING\`; macOS signing: \`$MACOS_SIGNING\`."
+              echo
+            fi
+            echo "### Changes"
+            git log "$range" --pretty=format:"- %s (%h)" || true
+            echo
+          } > release-notes.md
+          cat release-notes.md
+
+      - name: Create GitHub release
         if: steps.create_tag.outputs.tag_created == 'true'
-        shell: pwsh
+        shell: bash
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAG_NAME: ${{ needs.prepare.outputs.tag_name }}
-          INSTALLER_PATH: ${{ steps.installer.outputs.installer_path }}
-          PORTABLE_PATH: ${{ steps.portable.outputs.portable_path }}
-          IS_PRERELEASE: ${{ needs.prepare.outputs.is_prerelease }}
+          PRERELEASE: ${{ steps.prerelease.outputs.value }}
         run: |
-          if (gh release view $env:TAG_NAME --repo $env:GITHUB_REPOSITORY *> $null) {
-            Write-Host "Release $env:TAG_NAME already exists. Skipping."
-            exit 0
-          }
-
-          $args = @("release", "create", $env:TAG_NAME, $env:INSTALLER_PATH, $env:PORTABLE_PATH, "--repo", $env:GITHUB_REPOSITORY, "--title", "Release $env:TAG_NAME", "--generate-notes")
-          if ($env:IS_PRERELEASE -eq "true") {
-            $args += "--prerelease"
-          }
-
-          & gh @args
-          if ($LASTEXITCODE -eq 0) {
-            Write-Host "Release created with GitHub auto-generated notes."
-            exit 0
-          }
-
-          Write-Warning "Auto-generated release notes failed. Falling back to commit-based notes."
-          $previousTag = git tag --sort=-creatordate | Where-Object { $_ -ne $env:TAG_NAME } | Select-Object -First 1
-          $range = if ($previousTag) { "$previousTag..HEAD" } else { "HEAD" }
-          $commits = git log $range --pretty=format:"- %s (%h)"
-          if ([string]::IsNullOrWhiteSpace($commits)) {
-            $commits = "- Maintenance release."
-          }
-          $notesPath = Join-Path $PWD "release-notes.md"
-          @"
-          Release $env:TAG_NAME
-
-          $commits
-          "@ | Set-Content -Path $notesPath -Encoding UTF8
-
-          $fallbackArgs = @("release", "create", $env:TAG_NAME, $env:INSTALLER_PATH, $env:PORTABLE_PATH, "--repo", $env:GITHUB_REPOSITORY, "--title", "Release $env:TAG_NAME", "--notes-file", $notesPath)
-          if ($env:IS_PRERELEASE -eq "true") {
-            $fallbackArgs += "--prerelease"
-          }
-          & gh @fallbackArgs
+          set -euo pipefail
+          mapfile -t files < <(find dist -type f | sort)
+          if [[ ${#files[@]} -eq 0 ]]; then
+            echo "::error::No release artifacts were downloaded."
+            exit 1
+          fi
+          args=(release create "$TAG_NAME" "${files[@]}" --repo "$GITHUB_REPOSITORY" --title "Release $TAG_NAME" --notes-file release-notes.md)
+          if [[ "$PRERELEASE" == "true" ]]; then
+            args+=(--prerelease)
+          fi
+          gh "${args[@]}"
