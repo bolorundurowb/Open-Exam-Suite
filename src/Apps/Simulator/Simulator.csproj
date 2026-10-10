@@ -11,6 +11,9 @@
     <AvaloniaUseCompiledBindingsByDefault>false</AvaloniaUseCompiledBindingsByDefault>
     <NeutralLanguage>en</NeutralLanguage>
     <InvariantGlobalization>false</InvariantGlobalization>
+    <!-- XmlSerializer and protobuf-net reflection do not survive trimming or AOT. Lock both off. -->
+    <PublishTrimmed>false</PublishTrimmed>
+    <PublishAot>false</PublishAot>
   </PropertyGroup>
 
   <ItemGroup>
@@ -34,6 +37,7 @@
 
   <ItemGroup>
     <InternalsVisibleTo Include="OpenExamSuite.Simulator.Tests" />
+    <InternalsVisibleTo Include="OpenExamSuite.App.Headless.Tests" />
   </ItemGroup>
 
   <ItemGroup>

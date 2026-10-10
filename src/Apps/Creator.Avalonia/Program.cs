@@ -46,7 +46,7 @@ public static class Program
         services.AddSingleton<ThemeService>();
         services.AddSingleton<DialogService>();
         services.AddSingleton<ToastService>();
-        services.AddSingleton<SimulatorLocator>();
+        services.AddSingleton(_ => new SimulatorLocator());
         services.AddSingleton<IToastService>(sp => sp.GetRequiredService<ToastService>());
         services.AddSingleton<ShellServices>();
         services.AddSingleton<MainWindowViewModel>();

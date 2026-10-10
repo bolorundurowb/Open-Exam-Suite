@@ -62,7 +62,13 @@ public static class Program
             .Select(a => Path.GetFullPath(a))
             .ToList();
 
-    private static ServiceProvider ConfigureServices()
+    private static ServiceProvider ConfigureServices() => ConfigureServices(null);
+
+    /// <summary>
+    /// Builds the service graph. <paramref name="applicationDirectory"/> overrides where the
+    /// Creator executable is looked for; production passes <c>null</c> to use the app directory.
+    /// </summary>
+    internal static ServiceProvider ConfigureServices(string? applicationDirectory)
     {
         var services = new ServiceCollection();
         services.AddLogging(builder => builder.AddProvider(new OesFileLoggerProvider()));
@@ -87,7 +93,7 @@ public static class Program
         services.AddSingleton<IToastService>(sp => sp.GetRequiredService<ToastService>());
         services.AddSingleton<DialogService>();
         services.AddSingleton<IPrompts, AvaloniaPrompts>();
-        services.AddSingleton(_ => new CreatorLocator());
+        services.AddSingleton(_ => new CreatorLocator(applicationDirectory));
         services.AddSingleton<ThemeService>();
 
         services.AddSingleton<ISimulatorSession, SimulatorSession>();
