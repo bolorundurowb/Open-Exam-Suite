@@ -91,6 +91,7 @@ DocProject/Help/html
 
 # Inno Setup compiler output (local builds)
 installer/Output/
+installer/Output-WinForms/
 
 # Click-Once directory
 publish/
