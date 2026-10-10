@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+
+## [v5.0.0-preview.2]
 ### Removed
 - Removed the legacy WinForms Creator (`Creator.WinForms`) and `Shared.WinForms` projects. Creator and Simulator are now Avalonia-only across Windows, macOS, and Linux.
 - Removed the one-cycle WinForms rollback installer (`OpenExamSuite-{version}-WinForms-Setup-x64.exe`) and portable zip from the release workflow and packaging manifests.

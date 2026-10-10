@@ -143,5 +143,5 @@ public sealed class DialogService
             .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?
             .InformationalVersion.Split('+')[0]
         ?? Assembly.GetExecutingAssembly().GetName().Version?.ToString(3)
-        ?? "5.0.0-preview.1";
+        ?? "5.0.0-preview.2";
 }
