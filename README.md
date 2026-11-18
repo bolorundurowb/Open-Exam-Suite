@@ -5,83 +5,60 @@
 [![License](https://img.shields.io/badge/license-GPLv3-orange.svg)](./LICENSE)
 [![.NET 10](https://img.shields.io/badge/.net-10.0-0066b6.svg)](https://dotnet.microsoft.com/download/dotnet/10.0)
 
+Open Exam Suite is an open-source desktop suite for creating and taking computer-based exams. It includes two apps:
 
-Open Exam Suite is an open-source alternative to Avanset's Visual CertExam Suite. It provides a platform for designing, creating, and simulating computer-based exams, offering a complete solution for anyone looking to build or take practice tests.
+- **Creator** — build exams, organize questions into sections, add images and answer options, and edit with undo and redo. Exams can be exported to JSON or XML.
+- **Simulator** — take exams in practice or timed exam mode, review answers and results, and print or export a results report as PDF.
 
-The project includes an **Exam Creator** for designing exams in the `oef` (Open Exam Format) and an **Exam Simulator** for conducting tests.
+Both apps run on Windows, macOS, and Linux. The codebase targets .NET 10 and uses Avalonia for its cross-platform desktop interface. Shared exam, storage, and app-engine libraries keep core behavior separate from the user interface. GitHub Actions builds and tests the solution across Windows, macOS, and Linux.
 
-## Key Features
+## Exam file compatibility
 
-- **Exam Creator:**
-    - Group questions into sections.
-    - Support for images in questions and multiple options.
-    - Export exams to JSON or XML.
-    - Full support for Undo/Redo, Copy/Cut/Paste operations.
-- **Exam Simulator** (cross-platform Avalonia app for Windows, macOS and Linux, light and dark themes):
-    - A library of exams with search, filter, sort, drag-and-drop and sample exams on first launch.
-    - Practice mode (untimed, Check answer and explanations) and Exam mode (timed, with a pause cover and 5-minute and 1-minute warnings).
-    - Filter questions by section or select a random set.
-    - Question navigator, flagging, and a review-and-submit screen that confirms unanswered questions.
-    - Results with the pass mark, section breakdown, answer review, retake, and PDF export or print.
-    - Keyboard-only operation: A-Z select, Left/Right move, F flag, P pause, Enter next, Ctrl+Enter review.
-    - Opening a `.oef` file while the Simulator is running shows it in the existing window.
-- **Compatibility:**
-    - Built-in converter to upgrade older v1/v2 exam files to the modern v3 format.
+Open Exam Suite uses the `.oef` format. It reads older v1 and v2 exam files and upgrades them to the current format when they are saved. JSON and XML export is also available from Creator.
 
-## Project Modernisation (2026)
+## Build and run
 
-This project has been modernised from .NET Framework 4.0 to **.NET 10**.
+Install the [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0), then run these commands from the repository root:
 
-- **Target Framework:** Upgraded all projects to `.net10.0-windows`.
-- **Project System:** Migrated to modern **SDK-style** project files.
-- **Project Structure:** Simplified the project structure.
-- **Dependency Management:** Converted to `PackageReference`.
-- **CI/CD:** Powered by **GitHub Actions**.
-- **.oef File Format:** Upgraded from deprecated `BinaryFormatter` to **Protobuf**. Legacy `.oef` files are read without modification (never written to) and upgraded to protobuf only when explicitly saved.
+```bash
+git clone https://github.com/bolorundurowb/Open-Exam-Suite.git
+cd Open-Exam-Suite/src
+dotnet restore
+dotnet build --configuration Release --no-restore
+```
 
-## 🛠️ Getting Started
+Run either app from the `src` directory:
 
-### Prerequisites
-- [.NET 10.0 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
-- The Creator and Simulator are Avalonia apps and run on Windows, macOS, and Linux.
+```bash
+dotnet run --project Apps/Creator/Creator.csproj
+dotnet run --project Apps/Simulator/Simulator.csproj
+```
 
-### Building from Source
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/bolorundurowb/Open-Exam-Suite.git
-   cd Open-Exam-Suite
-   ```
-2. Build the solution:
-   ```powershell
-   dotnet build
-   ```
-3. Run the applications:
-   - **Creator:** `dotnet run --project src/Apps/Creator/Creator.csproj`
-   - **Simulator:** `dotnet run --project src/Apps/Simulator/Simulator.csproj`
+Run the test suite from `src` with:
+
+```bash
+dotnet test --configuration Release
+```
 
 ## Downloads
 
-Pre-built packages are attached to each [GitHub Release](https://github.com/bolorundurowb/Open-Exam-Suite/releases) and mirrored on [SourceForge](https://sourceforge.net/projects/open-exam-suite).
+Pre-built releases are available on [GitHub Releases](https://github.com/bolorundurowb/Open-Exam-Suite/releases) and [SourceForge](https://sourceforge.net/projects/open-exam-suite/files/).
 
-| Platform | Download |
-|----------|----------|
-| Windows (x64) | `OpenExamSuite-{version}-Setup-x64.exe` installer; `OpenExamSuite-{version}-Portable-x64.zip` portable package |
-| macOS (Apple silicon) | `OpenExamSuite-{version}-macOS-arm64.dmg` |
-| macOS (Intel) | `OpenExamSuite-{version}-macOS-x64.dmg` |
-| Linux (x64) | `OpenExamSuite-{version}-Linux-x64.tar.gz` portable package; `open-exam-suite_*_amd64.deb` combined package |
+| Platform | Release files |
+| --- | --- |
+| Windows x64 | `OpenExamSuite-{version}-Setup-x64.exe` installer; `OpenExamSuite-{version}-Portable-x64.zip` portable package |
+| macOS Apple silicon | `OpenExamSuite-{version}-macOS-arm64.dmg` |
+| macOS Intel | `OpenExamSuite-{version}-macOS-x64.dmg` |
+| Linux x64 | `OpenExamSuite-{version}-Linux-x64.tar.gz` portable package; `open-exam-suite_{version}_amd64.deb` package |
 
-The Linux package installs the Simulator, Creator, and samples under `/opt/open-exam-suite`, registers the `.oef` file type, and adds the `open-exam-suite` and `open-exam-suite-creator` commands. macOS DMGs contain both applications; Apple silicon builds target arm64 and Intel builds target x64.
+The Windows installer and portable package include both apps and the sample exams. Each macOS DMG contains both apps. The Linux tarball includes the Simulator, Creator, and samples; the Debian package installs them under `/opt/open-exam-suite`, registers `.oef` files with the Simulator, and adds the `open-exam-suite` and `open-exam-suite-creator` commands.
 
 ## Contributing
-Feel free to create an [issue](https://github.com/bolorundurowb/Open-Exam-Suite/issues) for feature requests or bug reports. Contributions are welcome via Pull Requests.
 
-If this project has been of benefit to you, please give it a ⭐ on GitHub!
-
-## Changelog
-For a detailed history of changes, see the [CHANGELOG.md](./CHANGELOG.md) file.
+Bug reports and feature requests are welcome through [GitHub Issues](https://github.com/bolorundurowb/Open-Exam-Suite/issues). Contributions can be submitted as pull requests.
 
 ## License
-This project is licensed under the **GPLv3** license. See the [LICENSE](./LICENSE) file for details.
 
----
-Created and maintained by [bolorundurowb](https://github.com/bolorundurowb). Twitter: [@Mr_Bolorunduro](https://twitter.com/Mr_Bolorunduro).
+Open Exam Suite is licensed under [GPL-3.0](./LICENSE). See the [changelog](./CHANGELOG.md) for release history.
+
+Maintained by [bolorundurowb](https://github.com/bolorundurowb).
