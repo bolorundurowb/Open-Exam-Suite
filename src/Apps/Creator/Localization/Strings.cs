@@ -58,7 +58,6 @@ public static class Strings
         ["Validation_FewerThanTwoOptions"] = "Fewer than 2 options",
         ["Validation_EmptyQuestionText"] = "Empty question text",
         ["Validation_DuplicateSectionName"] = "Duplicate section name",
-        ["Outline_Exam"] = "Exam",
         ["Outline_Search"] = "Search outline",
         ["Outline_Expand"] = "Expand or collapse",
         ["Outline_Resize"] = "Resize outline",

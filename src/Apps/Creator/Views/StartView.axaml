@@ -34,7 +34,7 @@
       <Setter Property="CornerRadius" Value="10"/>
       <Setter Property="Padding" Value="16,12"/>
       <Setter Property="FontSize" Value="15"/>
-      <Setter Property="FontWeight" Value="SemiBold"/>
+      <Setter Property="FontWeight" Value="Medium"/>
       <Setter Property="BorderThickness" Value="0"/>
       <Setter Property="HorizontalAlignment" Value="Stretch"/>
       <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -54,14 +54,21 @@
       <Setter Property="CornerRadius" Value="10"/>
       <Setter Property="Padding" Value="16,12"/>
       <Setter Property="FontSize" Value="15"/>
-      <Setter Property="FontWeight" Value="SemiBold"/>
+      <Setter Property="FontWeight" Value="Medium"/>
       <Setter Property="BorderBrush" Value="{DynamicResource BrandBorderBrush}"/>
       <Setter Property="BorderThickness" Value="1"/>
       <Setter Property="HorizontalAlignment" Value="Stretch"/>
       <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
     </Style>
+    <!-- PathIcon ignores the button foreground and uses the theme text colour, which is near-black in light mode. -->
+    <Style Selector="Button.start-outline PathIcon">
+      <Setter Property="Foreground" Value="{DynamicResource BrandTextBrush}"/>
+    </Style>
     <Style Selector="Button.start-outline:pointerover /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="{DynamicResource BrandHoverBrush}"/>
+    </Style>
+    <Style Selector="Button.start-outline:pointerover PathIcon">
+      <Setter Property="Foreground" Value="{DynamicResource BrandTextBrush}"/>
     </Style>
     <Style Selector="Button.start-primary TextBlock.shortcut">
       <Setter Property="Foreground" Value="{DynamicResource BrandPrimaryMutedBrush}"/>
@@ -84,7 +91,7 @@
       <Setter Property="Background" Value="Transparent"/>
       <Setter Property="Foreground" Value="{DynamicResource LinkBrush}"/>
       <Setter Property="FontSize" Value="13"/>
-      <Setter Property="FontWeight" Value="SemiBold"/>
+      <Setter Property="FontWeight" Value="Medium"/>
       <Setter Property="BorderThickness" Value="0"/>
       <Setter Property="Padding" Value="4,2"/>
       <Setter Property="Cursor" Value="Hand"/>
