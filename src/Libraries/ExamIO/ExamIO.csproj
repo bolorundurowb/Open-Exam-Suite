@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
-    <PackageReference Include="PDFsharp" />
+    <PackageReference Include="TerraPDF" />
     <PackageReference Include="protobuf-net" />
     <PackageReference Include="System.Formats.Nrbf" />
   </ItemGroup>

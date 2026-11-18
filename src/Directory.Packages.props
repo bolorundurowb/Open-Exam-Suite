@@ -51,7 +51,7 @@
     <!-- Other -->
     <PackageVersion Include="CommunityToolkit.Mvvm" Version="8.4.2" />
     <PackageVersion Include="LiteDB" Version="5.0.21" />
-    <PackageVersion Include="PDFsharp" Version="6.2.4" />
+    <PackageVersion Include="TerraPDF" Version="2.4.0" />
     <PackageVersion Include="protobuf-net" Version="3.2.56" />
   </ItemGroup>
 </Project>
