@@ -39,7 +39,7 @@
     <!-- Top bar: product name, current screen, theme toggle. -->
     <Border Grid.Row="1" Classes="bar">
       <Grid ColumnDefinitions="Auto,Auto,*,Auto">
-        <TextBlock Text="{Binding ProductName}" FontSize="15" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,20,0"/>
+        <TextBlock Text="{Binding ProductName}" FontSize="16" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,20,0"/>
         <Border Grid.Column="1" Classes="chip" VerticalAlignment="Center">
           <StackPanel Orientation="Horizontal" Spacing="8">
             <Ellipse Width="8" Height="8" VerticalAlignment="Center"/>
