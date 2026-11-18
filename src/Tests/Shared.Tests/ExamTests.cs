@@ -161,6 +161,25 @@ public class ExamTests : IDisposable
     }
 
     [Fact]
+    public void ToPdf_ValidExam_WritesAPdf()
+    {
+        var path = Path.Combine(Environment.CurrentDirectory, "test.pdf");
+        try
+        {
+            var result = _writer.ToPdf(_exam, path);
+
+            result.Success.Must().BeTrue();
+            var header = System.Text.Encoding.ASCII.GetString(File.ReadAllBytes(path).AsSpan(0, 4));
+            header.Must().Be("%PDF");
+        }
+        finally
+        {
+            if (File.Exists(path))
+                File.Delete(path);
+        }
+    }
+
+    [Fact]
     public void ToJson_ValidExam_SerializesCorrectly()
     {
         var result = _writer.ToJson(_exam, _testJsonPath);
