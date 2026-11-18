@@ -124,10 +124,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup .NET 10 SDK
+      - name: Setup .NET 11 SDK
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '10.x'
+          dotnet-version: '11.x'
 
       - name: Publish Avalonia Simulator and Creator (win-x64)
         shell: pwsh
@@ -263,10 +263,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup .NET 10 SDK
+      - name: Setup .NET 11 SDK
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '10.x'
+          dotnet-version: '11.x'
 
       - name: Publish apps (osx-arm64 and osx-x64)
         shell: bash
@@ -416,10 +416,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup .NET 10 SDK
+      - name: Setup .NET 11 SDK
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '10.x'
+          dotnet-version: '11.x'
 
       - name: Publish apps (linux-x64)
         shell: bash

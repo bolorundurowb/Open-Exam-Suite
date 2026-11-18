@@ -89,7 +89,7 @@ DocProject/Help/*.hhp
 DocProject/Help/Html2
 DocProject/Help/html
 
-# Inno Setup compiler output (local builds)
+# Windows installer output (local builds)
 installer/Output/
 installer/Output-WinForms/
 

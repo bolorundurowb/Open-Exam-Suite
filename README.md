@@ -3,14 +3,14 @@
 [![Build, Test & Coverage](https://github.com/bolorundurowb/Open-Exam-Suite/actions/workflows/build-and-test.yml/badge.svg)](https://github.com/bolorundurowb/Open-Exam-Suite/actions/workflows/build-and-test.yml)
 [![SourceForge Downloads](https://img.shields.io/sourceforge/dm/open-exam-suite)](https://sourceforge.net/projects/open-exam-suite/files/)
 [![License](https://img.shields.io/badge/license-GPLv3-orange.svg)](./LICENSE)
-[![.NET 10](https://img.shields.io/badge/.net-10.0-0066b6.svg)](https://dotnet.microsoft.com/download/dotnet/10.0)
+[![.NET 11](https://img.shields.io/badge/.net-11.0-0066b6.svg)](https://dotnet.microsoft.com/download/dotnet/11.0)
 
 Open Exam Suite is an open-source desktop suite for creating and taking computer-based exams. It includes two apps:
 
 - **Creator** — build exams, organize questions into sections, add images and answer options, and edit with undo and redo. Exams can be exported to JSON or XML.
 - **Simulator** — take exams in practice or timed exam mode, review answers and results, and print or export a results report as PDF.
 
-Both apps run on Windows, macOS, and Linux. The codebase targets .NET 10 and uses Avalonia for its cross-platform desktop interface. Shared exam, storage, and app-engine libraries keep core behavior separate from the user interface. GitHub Actions builds and tests the solution across Windows, macOS, and Linux.
+Both apps run on Windows, macOS, and Linux. The codebase targets .NET 11 and uses Avalonia for its cross-platform desktop interface. Shared exam, storage, and app-engine libraries keep core behavior separate from the user interface. GitHub Actions builds and tests the solution across Windows, macOS, and Linux.
 
 ## Exam file compatibility
 
@@ -18,7 +18,7 @@ Open Exam Suite uses the `.oef` format. It reads older v1 and v2 exam files and 
 
 ## Build and run
 
-Install the [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0), then run these commands from the repository root:
+Install the [.NET 11 SDK](https://dotnet.microsoft.com/download/dotnet/11.0), then run these commands from the repository root:
 
 ```bash
 git clone https://github.com/bolorundurowb/Open-Exam-Suite.git

@@ -218,7 +218,7 @@
     <!-- Search, filter, sort and view stay on the left. New and Add sit on the right. -->
     <Grid Grid.Row="1" ColumnDefinitions="*,Auto" Margin="24,16,24,8">
       <WrapPanel>
-        <TextBox Text="{Binding SearchText}" Watermark="{loc:Loc Library_Search}" MinWidth="220" Width="280" Margin="0,0,10,8"
+        <TextBox Text="{Binding SearchText}" PlaceholderText="{loc:Loc Library_Search}" MinWidth="220" Width="280" Margin="0,0,10,8"
                  AutomationProperties.Name="{loc:Loc Library_Search}">
           <TextBox.InnerLeftContent>
             <PathIcon Data="{StaticResource IconSearch}" Width="16" Height="16" Margin="10,0,0,0"
