@@ -147,7 +147,7 @@
   <!-- Buttons -->
   <Style Selector="Button, ToggleButton">
     <Setter Property="CornerRadius" Value="8"/>
-    <Setter Property="FontWeight" Value="SemiBold"/>
+    <Setter Property="FontWeight" Value="Medium"/>
     <Setter Property="Padding" Value="14,7"/>
     <Setter Property="Background" Value="{DynamicResource PanelBrush}"/>
     <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>

@@ -1,7 +1,7 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-  <!-- Buttons from the style sheet: 8px radius, 600 weight. Primary is filled accent, Secondary is a
+  <!-- Buttons from the style sheet: 8px radius, Figtree Medium. Primary is filled accent, Secondary is a
        neutral outline, AccentOutline is the teal outline (Exam, Retake), Quiet is muted text.
        Disabled buttons use a grey fill and grey text rather than fading. Where a border is thin, the
        focus ring thickens it and the padding gives the extra pixel back so nothing shifts. -->
@@ -13,7 +13,7 @@
     <Setter Property="Padding" Value="16,7"/>
     <Setter Property="MinHeight" Value="40"/>
     <Setter Property="MinWidth" Value="40"/>
-    <Setter Property="FontWeight" Value="SemiBold"/>
+    <Setter Property="FontWeight" Value="Medium"/>
     <Setter Property="CornerRadius" Value="8"/>
     <Setter Property="HorizontalContentAlignment" Value="Center"/>
     <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -55,7 +55,7 @@
     <Setter Property="Padding" Value="17,8"/>
     <Setter Property="MinHeight" Value="40"/>
     <Setter Property="MinWidth" Value="40"/>
-    <Setter Property="FontWeight" Value="SemiBold"/>
+    <Setter Property="FontWeight" Value="Medium"/>
     <Setter Property="CornerRadius" Value="8"/>
     <Setter Property="HorizontalContentAlignment" Value="Center"/>
     <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -116,7 +116,7 @@
     <Setter Property="Padding" Value="12,7"/>
     <Setter Property="MinHeight" Value="40"/>
     <Setter Property="MinWidth" Value="40"/>
-    <Setter Property="FontWeight" Value="SemiBold"/>
+    <Setter Property="FontWeight" Value="Medium"/>
     <Setter Property="CornerRadius" Value="8"/>
     <Setter Property="HorizontalContentAlignment" Value="Center"/>
     <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -217,7 +217,7 @@
     <Setter Property="CornerRadius" Value="6"/>
     <Setter Property="Margin" Value="0,0,5,5"/>
     <Setter Property="FontSize" Value="12"/>
-    <Setter Property="FontWeight" Value="SemiBold"/>
+    <Setter Property="FontWeight" Value="Medium"/>
     <Setter Property="HorizontalContentAlignment" Value="Center"/>
     <Setter Property="VerticalContentAlignment" Value="Center"/>
     <Setter Property="Template">
@@ -410,7 +410,7 @@
     <Setter Property="MinHeight" Value="30"/>
     <Setter Property="Margin" Value="0,0,6,6"/>
     <Setter Property="FontSize" Value="12"/>
-    <Setter Property="FontWeight" Value="SemiBold"/>
+    <Setter Property="FontWeight" Value="Medium"/>
     <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
     <Setter Property="Background" Value="{DynamicResource SurfaceBrush}"/>
     <Setter Property="BorderBrush" Value="{DynamicResource DividerBrush}"/>
