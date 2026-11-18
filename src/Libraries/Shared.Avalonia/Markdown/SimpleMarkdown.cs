@@ -1,4 +1,4 @@
-namespace OpenExamSuite.Simulator.Services;
+namespace OpenExamSuite.Shared.Avalonia.Markdown;
 
 public enum MarkdownBlockKind
 {
@@ -14,8 +14,8 @@ public sealed record MarkdownBlock(MarkdownBlockKind Kind, string Text);
 public sealed record MarkdownRun(string Text, bool Bold = false, bool Code = false);
 
 /// <summary>
-/// A deliberately small Markdown reader for the bundled changelog: headings, bullets, paragraphs,
-/// <c>**bold**</c> and <c>`code`</c>. Nothing else in the app needs more than that.
+/// A small Markdown reader for the bundled changelog: headings, bullets, paragraphs,
+/// <c>**bold**</c> and <c>`code`</c>.
 /// </summary>
 public static class SimpleMarkdown
 {

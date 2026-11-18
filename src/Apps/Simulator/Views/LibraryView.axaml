@@ -65,8 +65,8 @@
                     HorizontalAlignment="Stretch" IsVisible="{Binding HasLastAttempt}">
               <Grid ColumnDefinitions="Auto,Auto,*" ColumnSpacing="8">
                 <Panel VerticalAlignment="Center">
-                  <PathIcon Data="{StaticResource IconCheck}" IsVisible="{Binding LastPassed}" Width="16" Height="16"/>
-                  <PathIcon Data="{StaticResource IconClose}" IsVisible="{Binding LastFailed}" Width="16" Height="16"/>
+                  <PathIcon Data="{StaticResource IconCheck}" IsVisible="{Binding LastPassed}" Width="12" Height="12"/>
+                  <PathIcon Data="{StaticResource IconClose}" IsVisible="{Binding LastFailed}" Width="12" Height="12"/>
                 </Panel>
                 <TextBlock Grid.Column="1" Text="{Binding LastResultLabel}" VerticalAlignment="Center"/>
                 <TextBlock Grid.Column="2" Text="{Binding LastAttemptText}" TextWrapping="Wrap" VerticalAlignment="Center"/>
@@ -80,7 +80,7 @@
             <Border Classes="banner critical" HorizontalAlignment="Stretch" IsVisible="{Binding NeedsAttention}">
               <StackPanel Spacing="6">
                 <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
-                  <PathIcon Data="{StaticResource IconWarning}" VerticalAlignment="Center"/>
+                  <PathIcon Data="{StaticResource IconWarning}" VerticalAlignment="Center" Height="14" Width="14"/>
                   <TextBlock Grid.Column="1" Text="{Binding StatusText}" FontWeight="SemiBold" TextWrapping="Wrap" VerticalAlignment="Center"/>
                 </Grid>
                 <TextBlock Text="{Binding StatusHint}" TextWrapping="Wrap"/>

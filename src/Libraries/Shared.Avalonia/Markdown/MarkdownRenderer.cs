@@ -2,9 +2,8 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Documents;
 using Avalonia.Media;
-using OpenExamSuite.Simulator.Services;
 
-namespace OpenExamSuite.Simulator.Views.Controls;
+namespace OpenExamSuite.Shared.Avalonia.Markdown;
 
 public static class MarkdownRenderer
 {

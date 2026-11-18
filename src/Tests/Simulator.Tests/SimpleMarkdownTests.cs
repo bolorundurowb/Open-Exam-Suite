@@ -1,6 +1,6 @@
 using System.Linq;
 using OmniAssert;
-using OpenExamSuite.Simulator.Services;
+using OpenExamSuite.Shared.Avalonia.Markdown;
 using Xunit;
 
 namespace OpenExamSuite.Simulator.Tests;
