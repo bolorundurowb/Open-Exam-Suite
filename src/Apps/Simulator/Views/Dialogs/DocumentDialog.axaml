@@ -6,7 +6,7 @@
         WindowStartupLocation="CenterOwner" ShowInTaskbar="False">
   <DockPanel>
     <Border DockPanel.Dock="Bottom" Classes="bottombar" Padding="28,12">
-      <Button x:Name="CloseButton" Theme="{StaticResource PrimaryButton}" HorizontalAlignment="Left"
+      <Button x:Name="CloseButton" Theme="{StaticResource PrimaryButton}" HorizontalAlignment="Right"
               VerticalAlignment="Center" Content="{loc:Loc Dialog_Close}"/>
     </Border>
     <ScrollViewer HorizontalScrollBarVisibility="Disabled" Padding="28,20">
