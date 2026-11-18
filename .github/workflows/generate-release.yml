@@ -567,6 +567,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAG_NAME: ${{ needs.prepare.outputs.tag_name }}
           PRERELEASE: ${{ steps.prerelease.outputs.value }}
+          VERSION: ${{ needs.prepare.outputs.version }}
         run: |
           set -euo pipefail
           mapfile -t files < <(find dist -type f | sort)
@@ -574,7 +575,7 @@ jobs:
             echo "::error::No release artifacts were downloaded."
             exit 1
           fi
-          args=(release create "$TAG_NAME" "${files[@]}" --repo "$GITHUB_REPOSITORY" --title "Release $TAG_NAME" --notes-file release-notes.md)
+          args=(release create "$TAG_NAME" "${files[@]}" --repo "$GITHUB_REPOSITORY" --title "v$VERSION" --notes-file release-notes.md)
           if [[ "$PRERELEASE" == "true" ]]; then
             args+=(--prerelease)
           fi
