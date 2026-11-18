@@ -14,16 +14,15 @@
 
     <!-- Outline -->
     <Border Grid.Column="0" Grid.Row="0" Background="{DynamicResource PanelBrush}">
-      <Grid RowDefinitions="Auto,Auto,Auto,*,Auto">
-        <TextBlock Grid.Row="0" Text="{loc:Loc Outline_Exam}" Classes="label" Margin="14,14,14,0"/>
-        <TextBox Grid.Row="1" Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}" Watermark="{loc:Loc Outline_Search}" Margin="12,10,12,8"
+      <Grid RowDefinitions="Auto,Auto,*,Auto">
+        <TextBox Grid.Row="0" Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}" Watermark="{loc:Loc Outline_Search}" Margin="12,14,12,8"
                  AutomationProperties.Name="{loc:Loc Outline_Search}">
           <TextBox.InnerLeftContent>
             <PathIcon Data="{StaticResource IconSearch}" Width="16" Height="16" Margin="10,0,0,0"
                       Foreground="{DynamicResource SecondaryTextBrush}" IsHitTestVisible="False"/>
           </TextBox.InnerLeftContent>
         </TextBox>
-        <Grid Grid.Row="2" ColumnDefinitions="*,*" ColumnSpacing="8" Margin="12,0,12,10">
+        <Grid Grid.Row="1" ColumnDefinitions="*,*" ColumnSpacing="8" Margin="12,0,12,10">
           <Button Grid.Column="0" Command="{Binding AddSectionCommand}"
                   HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
                   AutomationProperties.Name="{loc:Loc Outline_AddSection}">
@@ -43,7 +42,7 @@
             </StackPanel>
           </Button>
         </Grid>
-        <TreeView x:Name="OutlineTree" Grid.Row="3" ItemsSource="{Binding OutlineNodes}" SelectedItem="{Binding SelectedNode}" Margin="8,0">
+        <TreeView x:Name="OutlineTree" Grid.Row="2" ItemsSource="{Binding OutlineNodes}" SelectedItem="{Binding SelectedNode}" Margin="8,0">
           <TreeView.Styles>
             <Style Selector="TreeViewItem">
               <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
@@ -106,7 +105,7 @@
             </TreeDataTemplate>
           </TreeView.ItemTemplate>
         </TreeView>
-        <Border Grid.Row="4" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0,1,0,0" Padding="12,10">
+        <Border Grid.Row="3" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0,1,0,0" Padding="12,10">
           <TextBlock Text="{Binding OutlineSummary}" FontSize="12" Foreground="{DynamicResource SecondaryTextBrush}"
                      TextWrapping="Wrap"/>
         </Border>

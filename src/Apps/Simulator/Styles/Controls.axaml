@@ -5,7 +5,7 @@
        question 19/500, heading 16/600, body 14/400, small 13, caption 12. IBM Plex Mono for the
        countdown, codes and scores. -->
   <Style Selector="Window">
-    <Setter Property="FontFamily" Value="avares://OpenExamSuite.Shared.Avalonia/Assets/Fonts#IBM Plex Sans"/>
+    <Setter Property="FontFamily" Value="avares://OpenExamSuite.Shared.Avalonia/Assets/Fonts#Figtree"/>
     <Setter Property="FontSize" Value="14"/>
     <Setter Property="Background" Value="{DynamicResource BgBrush}"/>
     <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>

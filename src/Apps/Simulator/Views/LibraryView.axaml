@@ -2,6 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:loc="using:OpenExamSuite.Simulator.Localization"
              xmlns:vm="using:OpenExamSuite.Simulator.ViewModels"
+             xmlns:controls="using:OpenExamSuite.Simulator.Views.Controls"
              x:Class="OpenExamSuite.Simulator.Views.LibraryView"
              DragDrop.AllowDrop="True">
   <UserControl.Styles>
@@ -30,60 +31,64 @@
   </UserControl.Styles>
 
   <UserControl.Resources>
-    <!-- Grid view card. Every card is the same width; long titles wrap inside it. -->
+    <!-- Grid view card. The row gives every card the same width and height; long titles wrap inside it. -->
     <DataTemplate x:Key="ExamCardTemplate" DataType="vm:ExamCardViewModel">
-      <Border Classes="card" Width="360" HorizontalAlignment="Left"
-              AutomationProperties.Name="{Binding AutomationName}" Margin="0,0,16,16">
-        <StackPanel Spacing="12">
-          <Grid ColumnDefinitions="*,Auto">
-            <StackPanel Spacing="4">
-              <TextBlock Text="{Binding Title}" Classes="heading" LineHeight="20" TextWrapping="Wrap"/>
-              <TextBlock Text="{Binding Code}" Classes="caption mono" TextWrapping="Wrap" IsVisible="{Binding HasCode}"/>
-            </StackPanel>
-            <Button Grid.Column="1" Theme="{StaticResource IconButton}" VerticalAlignment="Top"
-                    AutomationProperties.Name="{loc:Loc Library_MoreActions}" ToolTip.Tip="{loc:Loc Library_MoreActions}">
-              <PathIcon Data="{StaticResource IconMore}"/>
-              <Button.Flyout>
-                <MenuFlyout Placement="BottomEdgeAlignedRight">
-                  <MenuItem Header="{loc:Loc Library_Properties}" Command="{Binding PropertiesCommand}"/>
-                  <MenuItem Header="{loc:Loc Library_Duplicate}" Command="{Binding DuplicateCommand}"/>
-                  <MenuItem Header="{loc:Loc Library_ShowInFolder}" Command="{Binding ShowInFolderCommand}"/>
-                  <Separator/>
-                  <MenuItem Header="{loc:Loc Library_Remove}" Command="{Binding RemoveCommand}"/>
-                </MenuFlyout>
-              </Button.Flyout>
-            </Button>
-          </Grid>
-
-          <TextBlock Text="{Binding FactsText}" Classes="small muted" TextWrapping="Wrap" IsVisible="{Binding IsAvailable}"/>
-
-          <!-- Last attempt: icon, label and score on a tinted strip. Colour is never the only signal. -->
-          <Border Classes="outcome" Classes.passed="{Binding LastPassed}" Classes.failed="{Binding LastFailed}"
-                  IsVisible="{Binding HasLastAttempt}">
-            <WrapPanel ItemSpacing="8" LineSpacing="4">
-              <PathIcon Data="{StaticResource IconCheck}" IsVisible="{Binding LastPassed}" Width="12" Height="12"/>
-              <PathIcon Data="{StaticResource IconClose}" IsVisible="{Binding LastFailed}" Width="12" Height="12"/>
-              <TextBlock Text="{Binding LastResultLabel}"/>
-              <TextBlock Text="{Binding LastAttemptText}" TextWrapping="Wrap"/>
-            </WrapPanel>
-          </Border>
-          <Border Classes="outcome" IsVisible="{Binding ShowNotAttempted}">
-            <TextBlock Text="{loc:Loc Library_NotAttempted}"/>
-          </Border>
-
-          <!-- Missing-file and corrupt states. -->
-          <Border Classes="banner critical" IsVisible="{Binding NeedsAttention}">
-            <StackPanel Spacing="6">
-              <StackPanel Orientation="Horizontal" Spacing="8">
-                <PathIcon Data="{StaticResource IconWarning}"/>
-                <TextBlock Text="{Binding StatusText}" FontWeight="SemiBold"/>
+      <Border Classes="card" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+              AutomationProperties.Name="{Binding AutomationName}">
+        <Grid RowDefinitions="*,Auto">
+          <StackPanel Grid.Row="0" Spacing="12">
+            <Grid ColumnDefinitions="*,Auto">
+              <StackPanel Spacing="4">
+                <TextBlock Text="{Binding Title}" Classes="heading" LineHeight="20" TextWrapping="Wrap"/>
+                <TextBlock Text="{Binding Code}" Classes="caption mono" TextWrapping="Wrap" IsVisible="{Binding HasCode}"/>
               </StackPanel>
-              <TextBlock Text="{Binding StatusHint}"/>
-              <TextBlock Text="{Binding FileName}" Classes="caption"/>
-            </StackPanel>
-          </Border>
+              <Button Grid.Column="1" Theme="{StaticResource IconButton}" VerticalAlignment="Top"
+                      AutomationProperties.Name="{loc:Loc Library_MoreActions}" ToolTip.Tip="{loc:Loc Library_MoreActions}">
+                <PathIcon Data="{StaticResource IconMore}"/>
+                <Button.Flyout>
+                  <MenuFlyout Placement="BottomEdgeAlignedRight">
+                    <MenuItem Header="{loc:Loc Library_Properties}" Command="{Binding PropertiesCommand}"/>
+                    <MenuItem Header="{loc:Loc Library_Duplicate}" Command="{Binding DuplicateCommand}"/>
+                    <MenuItem Header="{loc:Loc Library_ShowInFolder}" Command="{Binding ShowInFolderCommand}"/>
+                    <Separator/>
+                    <MenuItem Header="{loc:Loc Library_Remove}" Command="{Binding RemoveCommand}"/>
+                  </MenuFlyout>
+                </Button.Flyout>
+              </Button>
+            </Grid>
 
-          <WrapPanel>
+            <TextBlock Text="{Binding FactsText}" Classes="small muted" TextWrapping="Wrap" IsVisible="{Binding IsAvailable}"/>
+
+            <!-- Last attempt: icon, label and score on a tinted strip. Colour is never the only signal.
+                 The score takes the remaining width so a wrapped line fills the strip. -->
+            <Border Classes="outcome" Classes.passed="{Binding LastPassed}" Classes.failed="{Binding LastFailed}"
+                    HorizontalAlignment="Stretch" IsVisible="{Binding HasLastAttempt}">
+              <Grid ColumnDefinitions="Auto,Auto,*" ColumnSpacing="8">
+                <Panel VerticalAlignment="Center">
+                  <PathIcon Data="{StaticResource IconCheck}" IsVisible="{Binding LastPassed}" Width="16" Height="16"/>
+                  <PathIcon Data="{StaticResource IconClose}" IsVisible="{Binding LastFailed}" Width="16" Height="16"/>
+                </Panel>
+                <TextBlock Grid.Column="1" Text="{Binding LastResultLabel}" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="2" Text="{Binding LastAttemptText}" TextWrapping="Wrap" VerticalAlignment="Center"/>
+              </Grid>
+            </Border>
+            <Border Classes="outcome" HorizontalAlignment="Stretch" IsVisible="{Binding ShowNotAttempted}">
+              <TextBlock Text="{loc:Loc Library_NotAttempted}"/>
+            </Border>
+
+            <!-- Missing-file and corrupt states. -->
+            <Border Classes="banner critical" HorizontalAlignment="Stretch" IsVisible="{Binding NeedsAttention}">
+              <StackPanel Spacing="6">
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                  <PathIcon Data="{StaticResource IconWarning}" VerticalAlignment="Center"/>
+                  <TextBlock Grid.Column="1" Text="{Binding StatusText}" FontWeight="SemiBold" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                </Grid>
+                <TextBlock Text="{Binding StatusHint}" TextWrapping="Wrap"/>
+                <TextBlock Text="{Binding FileName}" Classes="caption" TextWrapping="Wrap"/>
+              </StackPanel>
+            </Border>
+          </StackPanel>
+          <WrapPanel Grid.Row="1" Margin="0,12,0,0">
             <Button Theme="{StaticResource PrimaryButton}" Command="{Binding PracticeCommand}" Margin="0,0,8,8"
                     IsVisible="{Binding IsAvailable}" Content="{loc:Loc Library_Practice}"/>
             <Button Theme="{StaticResource AccentOutlineButton}" Command="{Binding ExamCommand}" Margin="0,0,8,8"
@@ -95,7 +100,7 @@
             <Button Theme="{StaticResource QuietButton}" Command="{Binding RemoveCommand}" Margin="0,0,8,8"
                     IsVisible="{Binding NeedsAttention}" Content="{loc:Loc Library_Remove}"/>
           </WrapPanel>
-        </StackPanel>
+        </Grid>
       </Border>
     </DataTemplate>
 
@@ -258,7 +263,7 @@
                 IsVisible="{Binding CreatorAvailable}" Content="{loc:Loc Library_NewExam}"/>
         <Button Theme="{StaticResource PrimaryButton}" Command="{Binding AddExamCommand}" Margin="0,0,0,8">
           <StackPanel Orientation="Horizontal" Spacing="8">
-            <PathIcon Data="{StaticResource IconAdd}"/>
+            <PathIcon Data="{StaticResource IconAdd}" Foreground="{DynamicResource OnAccentBrush}"/>
             <TextBlock Text="{loc:Loc Library_AddExam}"/>
           </StackPanel>
         </Button>
@@ -270,11 +275,19 @@
         <Panel Grid.Column="0" Margin="24,0,8,16">
           <ScrollViewer HorizontalScrollBarVisibility="Disabled">
             <StackPanel>
-              <!-- Grid of equal-width cards. Item width includes the card's right margin. -->
+              <!-- Rows fill the width. Cards in a row share that width and the height of the tallest card. -->
               <ItemsControl ItemsSource="{Binding Cards}" ItemTemplate="{StaticResource ExamCardTemplate}" IsVisible="{Binding IsGridView}">
+                <ItemsControl.Styles>
+                  <Style Selector="ContentPresenter">
+                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                    <Setter Property="VerticalAlignment" Value="Stretch"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+                  </Style>
+                </ItemsControl.Styles>
                 <ItemsControl.ItemsPanel>
                   <ItemsPanelTemplate>
-                    <WrapPanel ItemWidth="376"/>
+                    <controls:FillingWrapPanel MinItemWidth="360" HorizontalSpacing="16" VerticalSpacing="16"/>
                   </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
               </ItemsControl>
