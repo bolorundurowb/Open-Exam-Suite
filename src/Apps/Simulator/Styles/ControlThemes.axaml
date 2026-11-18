@@ -97,7 +97,7 @@
     <Setter Property="Background" Value="Transparent"/>
     <Setter Property="Foreground" Value="{DynamicResource AccentTextBrush}"/>
     <Setter Property="BorderBrush" Value="{DynamicResource AccentTextBrush}"/>
-    <Setter Property="BorderThickness" Value="1.5"/>
+    <Setter Property="BorderThickness" Value="1.15"/>
     <Setter Property="Padding" Value="16.5,7.5"/>
     <Style Selector="^:pointerover /template/ Border#Chrome">
       <Setter Property="Background" Value="{DynamicResource AccentSubtleBrush}"/>
