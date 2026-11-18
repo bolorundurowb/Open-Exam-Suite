@@ -1,8 +1,9 @@
 using Avalonia;
 using Avalonia.Headless;
-using Xunit;
+using Xunit.Sdk;
+using Xunit.v3;
 
-[assembly: CollectionBehavior(DisableTestParallelization = true)]
+[assembly: Parallelization(Mode = ParallelMode.None)]
 
 namespace OpenExamSuite.App.Headless.Tests;
 

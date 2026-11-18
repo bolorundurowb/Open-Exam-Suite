@@ -11,10 +11,13 @@ namespace OpenExamSuite.App.Headless.Tests;
 public class CreatorDocumentDialogTests
 {
     [Fact]
-    public async Task License_And_Changelog_Show_The_Bundled_Documents()
+    public void License_And_Changelog_Show_The_Bundled_Documents()
     {
         using var session = HeadlessUnitTestSession.StartNew(typeof(CreatorHeadlessEntry));
-        await session.Dispatch(() =>
+        // Block the test thread instead of awaiting. An await resumes on the headless dispatcher,
+        // and disposing the session from that thread waits for itself.
+#pragma warning disable xUnit1031
+        session.Dispatch(() =>
         {
             var license = new LicenseDialog().FindControl<TextBlock>("DocumentText")!.Text;
             license.Must().Contain("GNU GENERAL PUBLIC LICENSE");
@@ -27,7 +30,8 @@ public class CreatorDocumentDialogTests
             changelog.Must().NotContain("# Changelog");
             changelog.Must().NotContain("**Help > Changelog**");
             changelog.Must().NotContain("Changelog not found.");
-        }, CancellationToken.None);
+        }, CancellationToken.None).GetAwaiter().GetResult();
+#pragma warning restore xUnit1031
     }
 
     private static string ReadRenderedText(Control? control)

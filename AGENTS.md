@@ -5,7 +5,7 @@
 - The solution is `src/Open-Exam-Suite.slnx`. Build and run commands from the `src/` directory.
 - The applications are `src/Apps/Creator` and `src/Apps/Simulator` and both use Avalonia on Windows, macOS, and Linux.
 - Keep reusable exam and application behavior in the portable libraries under `src/Libraries/`. Keep UI and platform-specific behavior in the app projects or behind the existing host-port abstractions.
-- All projects target .NET 10. Nullable reference types and implicit usings are enabled through `src/Directory.Build.props`.
+- All projects target .NET 11. Nullable reference types and implicit usings are enabled through `src/Directory.Build.props`.
 
 ## Dependencies and file formats
 

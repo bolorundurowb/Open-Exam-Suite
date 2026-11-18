@@ -14,6 +14,7 @@ public partial class WorkspaceView : UserControl
     private static readonly DataFormat<string> NodeFormat = DataFormat.Text;
 
     private Point? _pressPoint;
+    private PointerPressedEventArgs? _pressArgs;
     private OutlineNodeViewModel? _pressNode;
     private bool _dragging;
 
@@ -44,12 +45,14 @@ public partial class WorkspaceView : UserControl
 
         _pressNode = node;
         _pressPoint = e.GetPosition(this);
+        _pressArgs = e;
     }
 
     private void OnPointerReleased(object? sender, PointerReleasedEventArgs e)
     {
         _pressNode = null;
         _pressPoint = null;
+        _pressArgs = null;
     }
 
     private async void OnPointerMoved(object? sender, PointerEventArgs e)
@@ -65,14 +68,17 @@ public partial class WorkspaceView : UserControl
             return;
 
         var node = _pressNode;
+        var pressArgs = _pressArgs;
         _pressNode = null;
         _pressPoint = null;
+        _pressArgs = null;
         _dragging = true;
         try
         {
             var transfer = new DataTransfer();
             transfer.Add(DataTransferItem.Create(NodeFormat, NodePrefix + node.Id));
-            await DragDrop.DoDragDropAsync(e, transfer, DragDropEffects.Move);
+            if (pressArgs != null)
+                await DragDrop.DoDragDropAsync(pressArgs, transfer, DragDropEffects.Move);
         }
         finally
         {

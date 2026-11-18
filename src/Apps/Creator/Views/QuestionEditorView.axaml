@@ -35,7 +35,7 @@
               </Border>
               <CheckBox Grid.Column="1" IsChecked="{Binding IsCorrect}" VerticalAlignment="Center"
                         ToolTip.Tip="Correct option" AutomationProperties.Name="Correct option"/>
-              <TextBox Grid.Column="2" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" Watermark="Option text"/>
+              <TextBox Grid.Column="2" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Option text"/>
             </Grid>
           </Border>
         </DataTemplate>

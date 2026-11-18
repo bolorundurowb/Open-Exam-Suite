@@ -15,7 +15,7 @@
     <!-- Outline -->
     <Border Grid.Column="0" Grid.Row="0" Background="{DynamicResource PanelBrush}">
       <Grid RowDefinitions="Auto,Auto,*,Auto">
-        <TextBox Grid.Row="0" Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}" Watermark="{loc:Loc Outline_Search}" Margin="12,14,12,8"
+        <TextBox Grid.Row="0" Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="{loc:Loc Outline_Search}" Margin="12,14,12,8"
                  AutomationProperties.Name="{loc:Loc Outline_Search}">
           <TextBox.InnerLeftContent>
             <PathIcon Data="{StaticResource IconSearch}" Width="16" Height="16" Margin="10,0,0,0"
