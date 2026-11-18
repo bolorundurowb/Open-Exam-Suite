@@ -210,7 +210,6 @@ jobs:
         run: |
           $certPath = Join-Path $env:RUNNER_TEMP "signing.pfx"
           [IO.File]::WriteAllBytes($certPath, [Convert]::FromBase64String($env:CERT_BASE64))
-
           $setups = @(
             "installer/Output/OpenExamSuite-$env:VERSION-Setup-x64.exe"
           ) | Where-Object { Test-Path $_ }
@@ -440,7 +439,7 @@ jobs:
         shell: bash
         run: bash installer/verify-staging.sh build/linux
 
-      - name: Build tarball and debs
+      - name: Build Linux tarball and combined Debian package
         shell: bash
         env:
           VERSION: ${{ needs.prepare.outputs.version }}
@@ -542,10 +541,10 @@ jobs:
             echo "## Open Exam Suite $TAG_NAME"
             echo
             echo "### Downloads"
-            echo "- **Windows:** \`OpenExamSuite-$VERSION-Setup-x64.exe\` (Avalonia Simulator and Creator)"
+            echo "- **Windows (x64):** \`OpenExamSuite-$VERSION-Setup-x64.exe\` (installer) and \`OpenExamSuite-$VERSION-Portable-x64.zip\` (portable)"
             echo "- **macOS (Apple silicon):** \`OpenExamSuite-$VERSION-macOS-arm64.dmg\`"
             echo "- **macOS (Intel):** \`OpenExamSuite-$VERSION-macOS-x64.dmg\`"
-            echo "- **Linux:** \`OpenExamSuite-$VERSION-Linux-x64.tar.gz\`, \`open-exam-suite_*_amd64.deb\`, \`open-exam-suite-creator_*_amd64.deb\`"
+            echo "- **Linux (x64):** \`OpenExamSuite-$VERSION-Linux-x64.tar.gz\` (portable) and \`open-exam-suite_*_amd64.deb\` (combined package)"
             echo
             if [[ "$PRERELEASE" == "true" ]]; then
               echo "> **Preview:** this is a prerelease build."
