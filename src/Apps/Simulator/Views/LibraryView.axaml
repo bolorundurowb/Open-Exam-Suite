@@ -61,8 +61,8 @@
           <Border Classes="outcome" Classes.passed="{Binding LastPassed}" Classes.failed="{Binding LastFailed}"
                   IsVisible="{Binding HasLastAttempt}">
             <WrapPanel ItemSpacing="8" LineSpacing="4">
-              <PathIcon Data="{StaticResource IconCheck}" IsVisible="{Binding LastPassed}" Width="16" Height="16"/>
-              <PathIcon Data="{StaticResource IconClose}" IsVisible="{Binding LastFailed}" Width="16" Height="16"/>
+              <PathIcon Data="{StaticResource IconCheck}" IsVisible="{Binding LastPassed}" Width="12" Height="12"/>
+              <PathIcon Data="{StaticResource IconClose}" IsVisible="{Binding LastFailed}" Width="12" Height="12"/>
               <TextBlock Text="{Binding LastResultLabel}"/>
               <TextBlock Text="{Binding LastAttemptText}" TextWrapping="Wrap"/>
             </WrapPanel>
