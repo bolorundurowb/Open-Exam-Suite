@@ -65,12 +65,12 @@ Pre-built packages are attached to each [GitHub Release](https://github.com/bolo
 
 | Platform | Download |
 |----------|----------|
-| Windows | `OpenExamSuite-{version}-Setup-x64.exe` — Avalonia Simulator and Creator |
+| Windows (x64) | `OpenExamSuite-{version}-Setup-x64.exe` installer; `OpenExamSuite-{version}-Portable-x64.zip` portable package |
 | macOS (Apple silicon) | `OpenExamSuite-{version}-macOS-arm64.dmg` |
 | macOS (Intel) | `OpenExamSuite-{version}-macOS-x64.dmg` |
-| Linux | `OpenExamSuite-{version}-Linux-x64.tar.gz`, `open-exam-suite_*_amd64.deb`, `open-exam-suite-creator_*_amd64.deb` |
+| Linux (x64) | `OpenExamSuite-{version}-Linux-x64.tar.gz` portable package; `open-exam-suite_*_amd64.deb` combined package |
 
-The Linux packages install the Simulator and samples under `/opt/open-exam-suite`, register the `.oef` file type, and add the `open-exam-suite` and `open-exam-suite-creator` commands. Install the Creator package only after the Simulator package.
+The Linux package installs the Simulator, Creator, and samples under `/opt/open-exam-suite`, registers the `.oef` file type, and adds the `open-exam-suite` and `open-exam-suite-creator` commands. macOS DMGs contain both applications; Apple silicon builds target arm64 and Intel builds target x64.
 
 ## Contributing
 Feel free to create an [issue](https://github.com/bolorundurowb/Open-Exam-Suite/issues) for feature requests or bug reports. Contributions are welcome via Pull Requests.
