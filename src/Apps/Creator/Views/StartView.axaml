@@ -60,8 +60,15 @@
       <Setter Property="HorizontalAlignment" Value="Stretch"/>
       <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
     </Style>
+    <!-- PathIcon ignores the button foreground and uses the theme text colour, which is near-black in light mode. -->
+    <Style Selector="Button.start-outline PathIcon">
+      <Setter Property="Foreground" Value="{DynamicResource BrandTextBrush}"/>
+    </Style>
     <Style Selector="Button.start-outline:pointerover /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="{DynamicResource BrandHoverBrush}"/>
+    </Style>
+    <Style Selector="Button.start-outline:pointerover PathIcon">
+      <Setter Property="Foreground" Value="{DynamicResource BrandTextBrush}"/>
     </Style>
     <Style Selector="Button.start-primary TextBlock.shortcut">
       <Setter Property="Foreground" Value="{DynamicResource BrandPrimaryMutedBrush}"/>
