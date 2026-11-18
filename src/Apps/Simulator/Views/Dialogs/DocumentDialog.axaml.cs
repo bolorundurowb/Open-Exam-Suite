@@ -1,6 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Input;
-using OpenExamSuite.Simulator.Views.Controls;
+using OpenExamSuite.Shared.Avalonia.Markdown;
 
 namespace OpenExamSuite.Simulator.Views.Dialogs;
 

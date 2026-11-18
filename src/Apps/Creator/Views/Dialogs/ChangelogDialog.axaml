@@ -6,7 +6,7 @@
         WindowStartupLocation="CenterOwner">
   <Grid RowDefinitions="*,Auto" Margin="16">
     <ScrollViewer Grid.Row="0">
-      <TextBlock x:Name="DocumentText" TextWrapping="Wrap"/>
+      <ContentControl x:Name="DocumentHost"/>
     </ScrollViewer>
     <Button Grid.Row="1" Classes="accent" Content="Close" HorizontalAlignment="Right" Click="Close_Click" IsDefault="True" IsCancel="True" Margin="0,12,0,0"/>
   </Grid>

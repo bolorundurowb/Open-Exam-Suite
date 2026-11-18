@@ -1,4 +1,5 @@
 using Avalonia.Controls;
+using OpenExamSuite.Shared.Avalonia.Markdown;
 
 namespace OpenExamSuite.Creator.Views.Dialogs;
 
@@ -7,7 +8,7 @@ public partial class ChangelogDialog : Window
     public ChangelogDialog()
     {
         InitializeComponent();
-        DocumentText.Text = ReadChangelog();
+        DocumentHost.Content = MarkdownRenderer.Render(ReadChangelog());
     }
 
     private void Close_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e) => Close();
