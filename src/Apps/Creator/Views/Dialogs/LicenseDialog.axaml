@@ -2,12 +2,17 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         x:Class="OpenExamSuite.Creator.Views.Dialogs.LicenseDialog"
         Title="License"
-        Width="600" Height="500"
-        WindowStartupLocation="CenterOwner">
-  <Grid RowDefinitions="*,Auto" Margin="16">
-    <ScrollViewer Grid.Row="0">
-      <TextBlock x:Name="DocumentText" TextWrapping="Wrap"/>
+        Icon="avares://OpenExamSuite.Creator/Assets/CreatorAppIcon.ico"
+        Width="760" Height="640" MinWidth="480" MinHeight="360"
+        WindowStartupLocation="CenterOwner" ShowInTaskbar="False">
+  <DockPanel>
+    <Border DockPanel.Dock="Bottom" Classes="bottombar">
+      <Button Classes="accent" Content="Close" HorizontalAlignment="Right" VerticalAlignment="Center"
+              MinHeight="40" Padding="16,7" Click="Close_Click" IsDefault="True" IsCancel="True"/>
+    </Border>
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled" Padding="28,20">
+      <SelectableTextBlock x:Name="DocumentText" TextWrapping="Wrap" FontSize="13"
+                           FontFamily="avares://OpenExamSuite.Shared.Avalonia/Assets/Fonts#IBM Plex Mono"/>
     </ScrollViewer>
-    <Button Grid.Row="1" Classes="accent" Content="Close" HorizontalAlignment="Right" Click="Close_Click" IsDefault="True" IsCancel="True" Margin="0,12,0,0"/>
-  </Grid>
+  </DockPanel>
 </Window>
